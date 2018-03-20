@@ -1,0 +1,90 @@
+﻿@using C8.Lottery.Model;
+@{
+    Layout = null;
+}
+@{
+    var newsList = ViewBag.NewsList as List<News>;
+}
+
+
+    @if (newsList != null)
+    {
+        foreach (var newse in newsList)
+        {<div class="hjc_news_content">
+                @if (newse.ThumbStyle == 0)
+                {
+                    //无图
+                    <div class="hjc_news">
+                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="newstime">
+                            <span>@newse.ReleaseTimeStr</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                }
+                else if (newse.ThumbStyle == 1)
+                {
+                    //一张小图
+                    <div class="hjc_news_left">
+                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="newstime">
+                            <span>@newse.ReleaseTimeStr</span>
+                        </div>
+                    </div>
+
+                    <div class="hjc_news_right">
+                        @if (newse.ThumbList.Count > 0)
+                        {
+                            <img src="@newse.ThumbList[0]" alt="@newse.FullHead" />
+                        }
+                    </div>
+                }
+                else if (newse.ThumbStyle == 2)
+                {
+                    //一张大图
+                    <div class="hjc_news">
+                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="hjc_news_thumb">
+                            <ul class="col_1">
+                                @foreach (var thumb in newse.ThumbList)
+                                {
+                                    <li><img src="@thumb" alt="@newse.FullHead" /></li>
+                                }
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="newstime">
+                            <span>@newse.ReleaseTimeStr</span>
+                        </div>
+                    </div>
+                }
+                else if (newse.ThumbStyle == 3)
+                {
+                    <div class="hjc_news">
+                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="hjc_news_thumb">
+                            <ul class="col_3">
+                                @foreach (var thumb in newse.ThumbList)
+                                {
+                                    <li><img src="@thumb" alt="@newse.FullHead" /></li>
+                                }
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="newstime">
+                            <span>@newse.ReleaseTimeStr</span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="hjc_news">
+                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", "News", new {id = @newse.Id})</div>
+                        <div class="">
+                            <span>@newse.ReleaseTimeStr</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }

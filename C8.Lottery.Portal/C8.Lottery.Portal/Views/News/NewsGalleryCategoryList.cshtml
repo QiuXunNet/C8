@@ -1,0 +1,89 @@
+﻿@using C8.Lottery.Model
+<!-- 玄机图库样式 -->
+@{
+    Layout = null;
+}
+@{
+    var typeList = ViewBag.TypeList as List<GalleryType>;
+
+    IEnumerable<IGrouping<string, GalleryType>> dictType = null;
+
+    IEnumerable<string> letterList = null;
+
+    if (typeList != null)
+    {
+        dictType = typeList.GroupBy(x => x.QuickQuery);
+        letterList = dictType.Select(x => x.Key);
+    }
+
+}
+
+    <!--显示点击的是哪一个字母-->
+    <div id="showLetter" class="showLetter iconfont"><span>A</span></div>
+    <!--索引查询-->
+    <div class="letter">
+        <ul>
+            <li><a class="iconfont toSearch" href="javascript:;">&#xe901;</a></li>
+            @if (letterList != null)
+            {
+                foreach (var item in letterList)
+                {
+                    <li><a href="javascript:;">@item</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="gallery-recommend">
+        <ul>
+            @{
+                var recommendGalleryList = ViewBag.RecommendGalleryList as List<Gallery>;
+            }
+            @if (recommendGalleryList != null)
+            {
+                foreach (var gallery in recommendGalleryList)
+                {
+                    <li class="subscript-container">
+                        <div class="subscript">推荐</div>
+                        <a href="@Url.Content("~/Gallery/GalleryDetail/" + @gallery.Id)">
+                            <img src="@Url.Content(@gallery.Picture)" alt="" />
+                        </a>
+                    </li>
+                }
+            }
+            <div class="clearfix"></div>
+        </ul>
+    </div>
+    <div class="gallery-search">
+
+        <input id="searchinput" name="keyword" type="search" class="iconfont" placeholder="&#xe901;搜索" />
+
+    </div>
+    <div class="container">
+        <div class="gallery box">
+            @if (typeList != null)
+            {
+                foreach (var dict in dictType)
+                {
+                    if (dict.Any())
+                    {
+                        <div class="gallery-list">
+                            <span class="gallery-letter" id='@string.Format("{0}1", @dict.Key)'>@dict.Key</span>
+
+                            @foreach (var m in dict)
+                            {
+                                
+                                    <p data-id="@m.Id" data-pinyin="@m.SimpleSpelling" data-name="@m.Name">
+                                        <a href="@Url.Content("~/Gallery/GalleryDetail/" + @m.Id)" title="@m.Name">
+                                            <span>@m.LastIssue</span>
+                                            <span class="gallery-name">@m.Name</span>
+                                        </a>
+                                    </p>
+                            }
+                            <div class="clearfix"></div>
+                        </div>
+                    }
+
+                }
+            }
+        </div>
+    </div>

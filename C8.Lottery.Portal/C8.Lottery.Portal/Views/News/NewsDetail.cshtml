@@ -1,0 +1,212 @@
+﻿@model C8.Lottery.Model.News
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.FullHead</title>
+</head>
+<body>
+    <fieldset>
+        <legend>News</legend>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.TypeId)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.TypeId)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ParentId)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ParentId)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Category)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Category)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.FullHead)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.FullHead)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.FullHeadColor)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.FullHeadColor)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.BriefHead)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.BriefHead)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Thumb)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Thumb)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.AuthorName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.AuthorName)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.CompileName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CompileName)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.TagWord)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.TagWord)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Keyword)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Keyword)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.SourceName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SourceName)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.SourceAddress)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SourceAddress)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.NewsContent)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.NewsContent)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.PV)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.PV)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ReleaseTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ReleaseTime)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.SortCode)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SortCode)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.DeleteMark)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.DeleteMark)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.EnabledMark)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.EnabledMark)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.RecommendMark)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.RecommendMark)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Description)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Description)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.CreateDate)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreateDate)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.CreateUserId)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreateUserId)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.CreateUserName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreateUserName)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ModifyDate)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ModifyDate)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ModifyUserId)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ModifyUserId)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ModifyUserName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ModifyUserName)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

@@ -1,0 +1,184 @@
+﻿@using C8.Lottery.Model
+@model LotteryType
+
+@{
+    Layout = null;
+
+    int currentLotteryTypeId = ViewBag.CurrentLotteryType;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>@Model.SeoSubject</title>
+    <meta name="keywords" content="@Model.SeoKeyword">
+    <meta name="description" content="@Model.SeoDescription">
+    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
+    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+<header class="hjc_header">
+    <a href="javascript:history.go(-1)" class="hjc_back"></a>
+    <a href="javascript:;" class="hjc_logo">@Model.TypeName<span class="select_sign"></span></a>
+</header>
+
+    <div class="hjc_hdNav fixed" style="display:none">
+
+        <div class="hdNav_cai_expand">
+            <ul class="hdNav_cai">
+                @foreach (LotteryType entity in ViewBag.LotteryTypeList)
+                {
+                    if (entity.TypeName == "六合彩")
+                    {
+                        if (entity.Id == currentLotteryTypeId)
+                        {
+                            <li class="current" data-id="@entity.Id">
+                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
+
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li data-id="@entity.Id">
+                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
+
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        if (entity.Id == currentLotteryTypeId)
+                        {
+                            <li class="current" data-id="@entity.Id">
+                                @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
+
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li data-id="@entity.Id">
+                                @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
+
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
+
+    <div class="Plan_content top50">
+        <div class="Plan_CInfo">
+            <div class="CZ_hdtit">
+                <dl class="CZ_hdMain info_LHC">
+                    <dt><a href="javascript:;"><img src="/images/logo5.png"></a></dt>
+                    <dd>
+                        <div class="hdM_ddtit">
+                            <h3 class="hdM_ddtqi f-l">第<span>091</span>期</h3>
+                            <p class="hdM_ddtime f-r">下期开奖：<span>02:15</span></p>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA LHC_spAred">01</span>
+                            <span class="LHC_spA LHC_spAred">02</span>
+                            <span class="LHC_spA LHC_spAred">03</span>
+                            <span class="LHC_spA LHC_spAgreen">04</span>
+                            <span class="LHC_spA LHC_spAgreen">05</span>
+                            <span class="LHC_spA LHC_spAgreen">06</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA LHC_spAblue">07</span>
+                        </div>
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA">鸡</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">猪</span>
+                            <span class="LHC_spA">鼠</span>
+                            <span class="LHC_spA">牛</span>
+                            <span class="LHC_spA">虎</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA">兔</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="info_LHC_nav">
+        <ul class="hdNav_ul">
+            <li>
+                <a href="javascript:;">
+                    <i><img src="/images/icon_info_01.png"></i>
+                    <p>开奖</p>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i><img src="/images/icon_info_02.png"></i>
+                    <p>挂牌</p>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i><img src="/images/icon_info_03.png"></i>
+                    <p>跑狗</p>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i><img src="/images/icon_info_04.png"></i>
+                    <p>时间</p>
+                </a>
+            </li>
+        </ul>
+        <div style="clear:both;"></div>
+    </div>
+
+    <div class="info_LHC_category col4">
+        <dl>
+            <dt><p><span class="spec"></span>香港正版图库</p></dt>
+            <dd><a href="javascript:;">看圆解码</a></dd>
+            <dd><a href="javascript:;">幸运图彩</a></dd>
+            <dd><a href="javascript:;">精彩选图</a></dd>
+            <dd><a href="javascript:;">香港图库</a></dd>
+        </dl>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="info_LHC_category col3">
+        <dl>
+            <dt>
+                <p><span class="spec"></span>免费资料
+                </p>
+            </dt>
+
+            @foreach (NewsType item in ViewBag.NewsTypeList)
+            {
+                <dd>
+                    @Html.ActionLink(@item.TypeName, "Index", new { id = @item.Id })
+                </dd>
+            }
+            
+        </dl>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="mask" style="display:none;"></div>
+
+</body>
+
+</html>

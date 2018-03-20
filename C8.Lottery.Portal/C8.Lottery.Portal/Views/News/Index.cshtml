@@ -1,0 +1,271 @@
+﻿@using C8.Lottery.Model;
+@{
+    Layout = null;
+
+    int currentLotteryTypeId = ViewBag.CurrentLotteryType;
+    long currentNewsTypeId = ViewBag.CurrentNewsTypeId;
+}
+@model LotteryType
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>@Model.SeoSubject</title>
+    <meta name="keywords" content="@Model.SeoKeyword">
+    <meta name="description" content="@Model.SeoDescription">
+    <link rel="stylesheet" href="~/css/dropload.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css"/>
+    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/luo/dropload.js"></script>
+    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    @if (Model.TypeName == "六合彩")
+    {
+
+        <header class="hjc_header">
+            <a href="javascript:history.go(-1)" class="hjc_back"></a>
+            <a href="javascript:;" class="hjc_logo">@Model.TypeName</a>
+        </header>
+    }
+    else
+    {
+        <header class="hjc_header">
+            <a href="javascript:history.go(-1)" class="hjc_back"></a>
+            <a href="javascript:;" class="hjc_logo">@Model.TypeName<span class="select_sign"></span></a>
+        </header>
+
+        <div class="hjc_hdNav fixed" style="display: none">
+
+            <div class="hdNav_cai_expand">
+                <ul class="hdNav_cai">
+                    @foreach (LotteryType entity in ViewBag.LotteryTypeList)
+                    {
+                        if (entity.TypeName == "六合彩")
+                        {
+                            if (entity.Id == currentLotteryTypeId)
+                            {
+                                <li class="current" data-id="@entity.Id">
+                                    @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
+
+                                </li>
+                            }
+                            else
+                            {
+
+                                <li data-id="@entity.Id">
+                                    @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
+
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            if (entity.Id == currentLotteryTypeId)
+                            {
+                                <li class="current" data-id="@entity.Id">
+                                    @Html.ActionLink(@entity.TypeName, "Index", new {id = @entity.Id})
+
+                                </li>
+                            }
+                            else
+                            {
+
+                                <li data-id="@entity.Id">
+                                    @Html.ActionLink(@entity.TypeName, "Index", new {id = @entity.Id})
+
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+    }
+    <div class="Plan_content top50">
+        <div class="Plan_CInfo">
+            <div class="CZ_hdtit">
+                <dl class="CZ_hdMain">
+                    <dt><a href="javascript:;"><img src="~/images/logo2.png"></a></dt>
+                    <dd>
+                        <div class="hdM_ddtit">
+                            <h3 class="hdM_ddtqi f-l">第<span>091</span>期</h3>
+                            <p class="hdM_ddtime f-r">下期开奖：<span>02:15</span></p>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="hdM_ddcon">
+                            <span class="hdM_spssc">02</span>
+                            <span class="hdM_spssc">03</span>
+                            <span class="hdM_spssc">04</span>
+                            <span class="hdM_spssc">05</span>
+                            <span class="hdM_spssc">06</span>
+                            <span class="hdM_spssc">07</span>
+                            <span class="hdM_spliu" style="width:14px;">+</span>
+                            <span class="hdM_spssc hdM_spLan">01</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="info_hdnav LHC_info_YLZB_nav">
+        <div class="info_hdNav_cai_collect ">
+            <div class="info_hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
+            <ul class="info_hdNav_cai_lhs">
+
+            @foreach (NewsType item in ViewBag.NewsTypeList)
+            {
+                if (item.Id == currentNewsTypeId)
+                {
+                        <li class="current" data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
+                }
+                else
+                {
+                        <li data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
+                }
+            }
+            </ul>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="info_hdNav_cai_expand" style="display:none">
+            <div class="info_hdNav_cai_title">
+                <span>切换分类</span>
+                <span class="collect"><img src="/images/icon-collect.png" alt="" /></span>
+            </div>
+            <ul class="info_hdNav_cai">
+                @foreach (NewsType item in ViewBag.NewsTypeList)
+            {
+                if (item.Id == currentNewsTypeId)
+                {
+                  <li class="current" data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
+                }
+                else
+                {
+                  <li data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
+                }
+            }
+            </ul>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+@*<div class="info_hdnav">
+        <ul class="info_hdNL col4 f-l">
+            @foreach (NewsType item in ViewBag.NewsTypeList)
+            {
+                if (item.Id == currentNewsTypeId)
+                {
+                    <li class="current" id="tab_@item.Id" data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
+                }
+                else
+                {
+                    <li id="tab_@item.Id" data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
+                }
+            }
+            <div style="clear: both;"></div>
+        </ul>
+        <div style="clear:both;"></div>
+    </div>*@
+
+
+
+    <div class="hjc_news_tabContent">
+        @foreach (NewsType item in ViewBag.NewsTypeList)
+        {
+            string enable = item.Id == currentNewsTypeId ? "block" : "none";
+            if (item.TypeName == "玄机图库")
+            {
+                <div class="hjc_news_lhs padding0" id="gallery"  style="display: @enable;">
+                    @Html.Action("NewsGalleryCategoryList", new {ltype = currentLotteryTypeId, newsTypeId= currentNewsTypeId})
+                </div>
+            }
+            else
+            {
+            <div class="hjc_news_lhs newslist" style="display: @enable;" id="news_@item.Id" data-id="@item.Id">
+                @*@Html.Action("NewsList", new { pageIndex = 1, pageSize = 5, typeId = item.Id })*@
+            </div>
+            }
+        }
+    </div>
+    <div class="mask" style="display:none;"></div>
+
+    <script type="text/javascript">
+        var dropload;
+        $(function () {
+
+            var initElement = $(".info_hdNav_cai_lhs li.current");
+            initnews(initElement);
+
+            $(".info_hdNav_cai_lhs li,.hdNav_cai li").click(function () {
+
+                initnews($(this));
+            });
+        });
+
+        function initnews(clickElement) {
+            var id = clickElement.attr("data-id"),
+            pageIndex = clickElement.attr("data-pageindex") || 1,
+            pageSize = clickElement.attr("data-pagesize") || 5;
+
+            if (!id) return;
+
+            dropload = $("#news_"+id).dropload({
+                scrollArea: window,
+                domDown: {
+                    domClass: 'dropload-down',
+                    domRefresh: '<div class="dropload-refresh">↑上拉加载更多</div>',
+                    domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData: '<div class="dropload-noData">暂无数据</div>'
+                },
+                loadDownFn: function (me) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/News/NewsList',
+                        data: {
+                            typeId: id,
+                            pageIndex: pageIndex,
+                            pageSize: pageSize
+                        },
+                        dataType: 'html',
+                        success: function (data) {
+
+                            if (data && data.length > 0) {
+
+                                // 延迟0.1秒加载
+                                setTimeout(function () {
+                                    $("#news_" + id + " .dropload-down").before(data);
+                                    pageIndex++;
+                                    clickElement.attr("data-pageindex", pageIndex);
+                                    // 每次数据加载完，必须重置
+                                    dropload.resetload();
+                                }, 100);
+                            }
+                        },
+                        error: function (xhr, type) {
+
+                            $(document).dialog({
+                                type: 'notice',
+                                infoText: '服务器繁忙',
+                                autoClose: 1500
+                            });
+                            // 即使加载出错，也得重置
+                            dropload.resetload();
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+﻿@using C8.Lottery.Public
+@using C8.Lottery.Model
+
+@{
+    Layout = null;
+    string queryDate = ViewBag.queryDate;
+    
+    string desc = @ViewBag.currentDate + "开奖记录";
+    int lType = ViewBag.lType;
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>开奖记录-@ViewBag.lotteryTypeName</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/function.js"></script>
+</head>
+
+<body style="background: #F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="/Home/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">开奖记录</a>
+        
+         @if (lType >= 9)
+         {
+             string[] dateArr = queryDate.Split(',');
+             
+             <div class="Plan_QiHao">
+                 <p class="QiHao_tit">@ViewBag.currentDate</p>
+                 <div class="QiHao_text">
+                     <i class="QiHao_Ticon"></i>
+                     <ul class="QiHao_Nav" id="queryDate">
+
+                         @{
+                             foreach (string s in dateArr)
+                             {
+                                 <li>@s</li>
+                             }
+                         }
+
+                     </ul>
+                 </div>
+             </div>
+         }
+    </header>
+    
+    
+   
+
+         <div class="KJ_header">
+             <h3>@desc</h3>
+         </div>
+     
+
+    <div class="KJ_text">
+
+        @foreach (LotteryRecord record in ViewBag.list)
+        {
+            string[] numArr = record.Num.Split(',');
+            
+            <dl class="KJ_Tinfo">
+                
+                @if (lType == 10 || lType == 63 || lType == 65)
+                {
+                    <dt>@record.ShowIssue</dt>
+                }
+                else
+                {
+                    <dt>@ViewBag.date @record.ShowIssue</dt>
+                }
+
+                <dd>
+                    <div class="KJ_TH">
+                        
+                        @if (lType == 63 || lType == 64)
+                        {
+                            foreach (string s in numArr)
+                            {
+                                string clazz = "TH_sp TH_spPK TH_spPK" + s;
+                                <span class="@clazz">@s</span>
+                            }
+                        }
+                        else if (lType == 5)
+                        {
+                            int count6 = 0;
+
+                            foreach (string s in numArr)
+                            {
+                                count6++;
+                                
+                                string color = Util.GetColor(s);
+                                string cl = "";
+                                if (color == "red")
+                                {
+                                    cl = "TH_sp TH_spred";
+                                }
+                                else if (color == "green")
+                                {
+                                    cl = "TH_sp TH_spgreen";
+                                }
+                                else
+                                {
+                                    cl = "TH_sp TH_spblue";
+                                }
+
+                                <span class="@cl">@s</span>
+
+                                if (count6 == 6)
+                                {
+                                    <span class="TH_sp TH_spjia">+</span>
+                                }
+
+                            }
+
+                        }
+                        else
+                        {
+                            foreach (string s in numArr)
+                            {
+                                <span class="TH_sp TH_spHong">@s</span>
+                            }
+                        }
+
+                      
+
+                    </div>
+                    
+                    
+                   
+                    @if (lType == 5)
+                    {
+                        string[] shengxiaoArr = Util.ChangeOpenNumToShengxiao(record.Num).Split(',');
+                        int count8 = 0;
+
+
+                        <div class="KJ_TH">
+                            
+                            @foreach (string s in shengxiaoArr)
+                            {
+                                count8++;
+
+                                <span class="TH_sp">@s</span>
+
+                                if (count8 == 6)
+                                {
+                                    <span class="TH_sp TH_spjia">+</span>
+                                }
+                            }
+                        </div>
+
+                    }
+                   
+
+                </dd>
+            </dl>
+            
+        }
+
+
+
+
+    </div>
+
+
+
+</body>
+</html>

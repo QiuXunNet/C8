@@ -1,0 +1,287 @@
+﻿@using C8.Lottery.Model
+@{
+    Layout = null;
+
+    
+    
+}
+
+<!DOCTYPE html>
+
+
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>首页</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/yjp.js"></script>
+    <script type="text/javascript" src="/js/runTime3.js"></script>
+
+</head>
+
+<body>
+
+<header class="hjc_header" style="text-align:left;">
+    <a href="javascript:;" class="hjc_logo" style="margin-left: 10px;"><img src="/images/03.png"></a>
+    <div class="hjc_hdDZ">
+    	<a href="javascript:;">登录</a>
+    	<a href="javascript:;">注册</a>
+    </div>
+</header>
+
+<div class="hjc_hdNav">
+	<ul class="hdNav_ul">
+    	<li><a href="javascript:;">
+        	<i><img src="/images/33_1.png"></i>
+            <p>开奖</p>
+        </a></li>
+    	<li><a href="javascript:;">
+        	<i><img src="/images/33_6.png"></i>
+            <p>最新</p>
+        </a></li>
+    	<li><a href="javascript:;">
+        	<i><img src="/images/33_7.png"></i>
+            <p>积分</p>
+        </a></li>
+    	<li><a href="javascript:;">
+        	<i><img src="/images/33_8.png"></i>
+            <p>连中</p>
+        </a></li>
+    	<li><a href="javascript:;">
+        	<i><img src="/images/33_9.png"></i>
+            <p>粉丝</p>
+        </a></li>
+    	<li><a href="javascript:;">
+        	<i><img src="/images/33_10.png"></i>
+	            <p>高手</p>
+	        </a></li>
+	    <li><a href="javascript:;">
+	            <i><img src="/images/33_11.png"></i>
+	            <p>盈利</p>
+	        </a></li>
+	    <li><a href="javascript:;">
+	            <i><img src="/images/33_12.png"></i>
+	            <p>打赏</p>
+	        </a></li>
+	    <div style="clear:both;"></div>
+	</ul>
+    <ul class="hdNav_cai">
+        <li class="current"><a href="javascript:;">高频彩</a></li>
+        <li><a href="javascript:;">全国彩</a></li>
+        <div style="clear:bothl;"></div>
+    </ul>
+</div>
+
+
+    <div class="hjc_indexmain">
+        <ul class="ind_mainUl2">
+            <!--时时彩-->
+            
+            @foreach (LotteryRecord record in ViewBag.openList)
+            {
+                int lType = record.lType;
+
+                if (lType > 8 && lType != 10 && lType != 11 && lType != 53)
+                {
+                    string iconName = record.ShowIconName + ".png";
+                    string[] numArr = record.Num.Split(',');
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="javascript:;">
+                                <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
+                                <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                        <div class="UL2_bd">
+                            <div class="UL3_bdinfo1">
+                                <p lType="@record.lType">
+                                    <font>第<span>@record.Issue</span>期</font>
+                                    <font>下期开奖：
+                                        
+                                        @if (record.ShowOpenTime == "正在开奖")
+                                        {
+                                            <span>正在开奖</span>
+                                        }
+                                        else
+                                        {
+                                            string openTime = record.ShowOpenTime;
+                                            string[] timeArr = openTime.Split('&');
+
+                                            string hour = timeArr[0];
+                                            string min = timeArr[1];
+                                            string sec = timeArr[2];
+                                            
+                                            <span><t class="hour">@hour</t>:<t class="minute">@min</t>:<t class="second">@sec</t></span>
+                                        }
+
+                                    </font>
+                                </p>
+                            </div>
+                            <div class="UL3_bdinfo2">
+                                <div class="ball_wrap">
+                                    
+                                    
+                                        @if (lType >= 9 && lType <= 62)
+                                        {
+                                            foreach (string s in numArr)
+                                            {
+                                                if (s == "19" || s == "20")
+                                                {
+                                                    <span class="ball_spB ball_red">@s</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="ball_spB ball_blue">@s</span>
+                                                }
+
+                                            }
+                                        }
+                                        else if (lType == 65)
+                                        {
+                                            int a = int.Parse(numArr[0]);
+                                            int b = int.Parse(numArr[1]);
+                                            int c = int.Parse(numArr[2]);
+                                            int sum = a + b + c;
+                                            
+                                            <span class="ball_spB ball_blue">@numArr[0]</span>
+                                            <span class="ball_spB ball_blue">+</span>
+                                            <span class="ball_spB ball_blue">@numArr[1]</span>
+                                            <span class="ball_spB ball_blue">+</span>
+                                            <span class="ball_spB ball_blue">@numArr[2]</span>
+                                            <span class="ball_spB ball_blue">=</span>
+                                            <span class="ball_spB ball_blue">@sum</span>
+                                        }
+                                        else if (lType == 63 || lType == 64)
+                                        {
+                                            foreach (string s in numArr)
+                                            {
+                                                string clazz = "ball_spA No" + s;
+                                                <span class="@clazz">@s</span>
+                                            }
+                                        }
+
+                                    
+                                 
+                                </div>
+                                <div class="UL3_ZZKJ">
+                                    <p>正在开奖中...</p>
+                                </div>
+                            </div>
+                            <div class="UL3_bdinfo3">
+                                
+                                
+                                
+                            
+                                <a href="javascript:;" class="UL2_baif3a">计划</a>
+                                <a href="javascript:;" class="UL2_baif3a">双面</a>
+                                <a href="javascript:;" class="UL2_baif3a">长龙</a>
+                                <a href="javascript:;" class="UL2_baif3a">走势</a>
+                                <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
+                                <a href="javascript:;" class="UL2_baif3a">发帖</a>
+                                <a href="javascript:;" class="UL2_baif3a">排行</a>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        
+        </ul>
+        <ul class="ind_mainUl2" style="display:none;">
+            
+            
+            @foreach (LotteryRecord record in ViewBag.openList)
+            {
+                int lType = record.lType;
+
+                if (lType <= 8)
+                {
+                    string iconName = record.ShowIconName + ".png";
+                    string[] numArr = record.Num.Split(',');
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="javascript:;">
+                                <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
+                                <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+
+                        </div>
+                        <div class="UL2_bd">
+                            <div class="UL3_bdinfo1">
+                                <p lType="@record.lType">
+                                    <font>第<span>@record.Issue</span>期</font>
+                                    @*<font>下期开奖：<span>556:16</span></font>*@
+
+                                    <font>下期开奖：
+                                        
+                                        @if (record.ShowOpenTime == "正在开奖")
+                                        {
+                                            <span>正在开奖</span>
+                                        }
+                                        else
+                                        {
+                                            string openTime = record.ShowOpenTime;
+                                            string[] timeArr = openTime.Split('&');
+
+                                            string hour = timeArr[0];
+                                            string min = timeArr[1];
+                                            string sec = timeArr[2];
+                                            
+                                            <span><t class="hour">@hour</t>:<t class="minute">@min</t>:<t class="second">@sec</t></span>
+                                        }
+
+                                    </font>
+
+
+
+                                </p>
+                            </div>
+                            <div class="UL3_bdinfo2">
+                                <div class="ball_wrap">
+                                    
+                                    @foreach (string s in numArr)
+                                    {
+                                        <span class="ball_spB ball_blue">@s</span>
+                                    }
+
+                                </div>
+                                <div class="UL3_ZZKJ">
+                                    <p>正在开奖中...</p>
+                                </div>
+                            </div>
+                            <div class="UL3_bdinfo3">
+                                <a href="javascript:;" class="UL2_baif3a">计划</a>
+                                <a href="javascript:;" class="UL2_baif3a">双面</a>
+                                <a href="javascript:;" class="UL2_baif3a">长龙</a>
+                                <a href="javascript:;" class="UL2_baif3a">走势</a>
+                                <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
+                                <a href="javascript:;" class="UL2_baif3a">发帖</a>
+                                <a href="javascript:;" class="UL2_baif3a">排行</a>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+          
+        </ul>
+</div>
+
+<footer class="hjc_footer">
+	<div class="hjc_ftNav">
+    	<span>触屏版</span>|<a href="javascript:;">电脑版</a>
+    </div>
+    <div class="hjc_ftphone">永久域名：m.1369p.com</div>
+    <p class="hjc_ftcopy">© 2016 皇家直播1369p.me 版权所有</p>
+</footer>
+
+</body>
+</html>
+
