@@ -44,7 +44,7 @@
                 {
                     <li class="subscript-container">
                         <div class="subscript">推荐</div>
-                        <a href="@Url.Content("~/Gallery/GalleryDetail/" + @gallery.Id)">
+                        <a href="@Url.Content("~/News/Gallery/" + @gallery.Id)">
                             <img src="@Url.Content(@gallery.Picture)" alt="" />
                         </a>
                     </li>
@@ -73,7 +73,7 @@
                             {
                                 
                                     <p data-id="@m.Id" data-pinyin="@m.SimpleSpelling" data-name="@m.Name">
-                                        <a href="@Url.Content("~/Gallery/GalleryDetail/" + @m.Id)" title="@m.Name">
+                                        <a href="@Url.Content("~/News/Gallery/" + @m.Id)" title="@m.Name">
                                             <span>@m.LastIssue</span>
                                             <span class="gallery-name">@m.Name</span>
                                         </a>

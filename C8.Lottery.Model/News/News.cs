@@ -138,5 +138,25 @@ namespace C8.Lottery.Model
         public int ThumbStyle { get; set; }
 
         public List<string> ThumbList { get; set; }
+        /// <summary>
+        /// 完整期号
+        /// </summary>
+        public int LotteryNumber { get; set; }
+
+        /// <summary>
+        /// 当年期号
+        /// </summary>
+        public string Issue
+        {
+            get
+            {
+                string issue = LotteryNumber.ToString();
+                if (issue.Length > 4)
+                {
+                    issue = issue.Substring(4, issue.Length - 4);
+                }
+                return issue;
+            }
+        }
     }
 }

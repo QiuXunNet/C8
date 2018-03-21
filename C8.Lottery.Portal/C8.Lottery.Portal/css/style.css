@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
 /* CSS Document */
 
@@ -161,7 +161,6 @@ a:focus {
     width: 50px;
     height: 50px;
     background: url(../images/02.png) no-repeat center;
-    -ms-background-size: 60%;
     background-size: 60%;
 }
 
@@ -270,7 +269,6 @@ a:focus {
     text-align: center;
     margin: 0 3%;
     background: #f0f0f0;
-    -ms-border-radius: 5px;
     border-radius: 5px;
 }
 
@@ -6887,7 +6885,6 @@ a:focus {
     float: none;
 }
 
-
 .hjc_news_content .hjc_news_subject {
     line-height: 1.625rem;
     font-size: .9375rem;
@@ -6932,7 +6929,7 @@ a:focus {
     font-size: .8125rem;
 }
 
-.hjc_news_content .hjc_news_left .hjc_news_comment {
+.hjc_news_content .hjc_news_comment {
     float: right;
     background: #eee;
     border-radius: .5rem;
@@ -7003,11 +7000,8 @@ i.icon_star {
 }
 
 .GS_btn.open img {
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
+    -webkit-transform: rotate(180geg);
 }
 
 
@@ -7033,13 +7027,10 @@ i.icon_star {
     height: 2.1875rem;
     border-bottom: 1px solid #d9d9d9;
     margin-bottom: 4px;
-    background: #fff;
-    z-index: 1000;
 }
 
 .info_hdnav .info_hdNL {
     width: 100%;
-    background: #fff;
 }
 
 .info_hdnav .info_hdNL.col4 li {
@@ -7059,6 +7050,7 @@ i.icon_star {
     text-align: center;
     font-weight: 500;
 }
+
 .info_hdnav .info_hdNL li.current {
     background: url(../images/nav_selected_bg.png) no-repeat bottom;
     background-size: 2.1875rem;
@@ -7067,7 +7059,6 @@ i.icon_star {
 .info_hdnav .info_hdNL li.current a {
     color: #f13131;
 }
-
 
 .info_hdNav_cai_lhs_expand {
     background: #fff;
@@ -7078,10 +7069,12 @@ i.icon_star {
     position: absolute;
     right: 0;
 }
+
 .info_hdNav_cai_lhs_expand img {
     height: 35px;
     width: 49.5px;
 }
+
 .info_hdNav_cai_lhs {
     width: calc(100% - 49.5px);
     width: -webkit-calc(100% - 49.5px);
@@ -7106,7 +7099,7 @@ i.icon_star {
 }
 
 .info_hdNav_cai_lhs li.current {
-     background: url(../images/nav_selected_bg.png) no-repeat bottom;
+    background: url(../images/nav_selected_bg.png) no-repeat bottom;
     background-size: 2.1875rem;
 }
 
@@ -7117,10 +7110,10 @@ i.icon_star {
 .info_hdNav_cai_expand {
     background: #fff;
 }
+
 .info_hdNav_cai_expand .info_hdNav_cai_title {
     padding: .625rem .625rem 0 .625rem;
 }
-
 
 .info_hdNav_cai_title span {
     font-size: .8125rem;
@@ -7142,7 +7135,6 @@ i.icon_star {
     text-align: right;
     float: right;
 }
-
 
 .info_hdNav_cai {
     text-align: left;
@@ -7166,18 +7158,20 @@ i.icon_star {
     font-size: 14px;
     color: #333;
 }
+
 .info_hdNav_cai li.current {
     background: #f13131;
 }
+
 .info_hdNav_cai li.current a {
     color: #ffffff;
 }
-
 
 .info_hdNav_cai_collect {
     border-bottom: 1px solid #eee;
     background: #fff;
 }
+
 
 /**
  * 格子
@@ -7299,8 +7293,7 @@ i.icon_star {
 .gallery-search,
 .gallery-recommend {
     background: #f4f5f5;
-    padding:4px 0;
-    
+    padding: 4px 0;
 }
 
 .gallery-search from {
@@ -7313,7 +7306,6 @@ i.icon_star {
 }
 
 input[type=search] {
-    -ms-border-radius: 5px;
     border-radius: 5px;
     border: 1px solid #ebebeb;
     /*必须对默认的border:2px inset覆盖，要不然下面的样式也是白搭*/
@@ -7440,9 +7432,10 @@ input[type=search]::-webkit-search-cancel-button:after {
     white-space: nowrap;
 }
 
-/*.gallery-list p:nth-child(2n+1) {
+
+/* .gallery-list p:nth-child(2n+1) {
     border-right: 0;
-}*/
+} */
 
 .gallery-list p,
 .gallery-list span {
@@ -7495,7 +7488,7 @@ input[type=search]::-webkit-search-cancel-button:after {
 }
 
 .info_LHC_category dt p {
-    font-weight: 500;
+    font-weight: 590;
 }
 
 .info_LHC_category .spec {
@@ -7512,7 +7505,7 @@ input[type=search]::-webkit-search-cancel-button:after {
     font-size: 13px;
     line-height: 33px;
     text-align: center;
-    border-top: solid 1px #eee;
+    border-bottom: solid 1px #eee;
     border-right: solid 1px #eee;
 }
 
@@ -7522,6 +7515,18 @@ input[type=search]::-webkit-search-cancel-button:after {
 
 .info_LHC_category.col4 dd {
     width: 25%;
+}
+
+.info_LHC_category.col3 dd:nth-child(1) {
+    border-top: solid 1px #eee;
+}
+
+.info_LHC_category.col3 dd:nth-child(2) {
+    border-top: solid 1px #eee;
+}
+
+.info_LHC_category.col3 dd:nth-child(3) {
+    border-top: solid 1px #eee;
 }
 
 .info_LHC_category.col3 dd:nth-child(3n+1) {
@@ -7538,6 +7543,7 @@ input[type=search]::-webkit-search-cancel-button:after {
 .LHC_info_YLZB_nav {
     position: relative;
     top: 5px;
+    margin-bottom: 4px;
 }
 
 
@@ -7783,6 +7789,112 @@ footer {
 
 
 /*** 资讯 结束****/
+
+
+/*** 资讯详情 ***/
+
+.article {
+    padding: 0 10px;
+    margin-top: 50px;
+    background: #fff;
+}
+
+.article .article-title {
+    font-size: 25px;
+    line-height: 35px;
+    padding-top: 10px;
+}
+
+.article .article-tag {
+    margin-top: 5px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.article .article-tag .article-source {
+    color: #333;
+}
+
+.article .article-tag .article-time {
+    color: #999;
+    margin-left: 15px;
+}
+
+.article .article-body {
+    font-size: 16px;
+    padding-bottom: 10px;
+    line-height: 1.8;
+    font-family: 微软雅黑, Helvetica;
+    word-wrap: break-word;
+    color: #333;
+}
+
+.article-news-title {
+    margin: 0 -.625rem;
+    background: #f3f4f4;
+    text-align: left!important;
+    padding-left: 10px!important;
+    color: #999!important;
+    font-size: 15px;
+}
+
+.article-share {
+    margin: 0 -.625rem;
+    border-top: #eee 1px solid;
+    border-bottom: #eee 1px solid;
+    padding: 10px 10px 20px 10px;
+}
+
+.article-share dt {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.article-share dd {
+    width: 33.33333%;
+    box-sizing: border-box;
+    float: left;
+    text-align: center;
+    font-size: 13px;
+    line-height: 30px;
+}
+
+.article-share dd img {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.article-pager {
+    padding: 20px 0;
+}
+
+.article-pager .preview,
+.article-pager .nextview {
+    width: 50%;
+    box-sizing: border-box;
+    float: left;
+    font-size: 15px;
+    height: 19px;
+    line-height: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.raking {
+    margin-top: 5px;
+    background: #fff;
+}
+
+.raking .raking-title {
+    border-bottom: 1px #eee solid;
+    padding: 15px 10px;
+    font-size: 15px;
+}
+
+
+/*** 资讯详情 结束***/
 
 
 /*** 聊天室 开始****/
