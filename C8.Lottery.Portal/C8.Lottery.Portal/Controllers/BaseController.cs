@@ -46,7 +46,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list != null && list.Any()) return list;
 
-            string newsTypeSql = $"SELECT TOP 100 [Id],[TypeName],[ShowType] FROM [dbo].[NewsType] WHERE [lType]={ltype} AND [Layer]={layer} ORDER BY SortCode ";
+            string newsTypeSql = $"SELECT TOP 100 [Id],[TypeName],[ShowType],[lType] FROM [dbo].[NewsType] WHERE [lType]={ltype} AND [Layer]={layer} ORDER BY SortCode ";
             list = Util.ReaderToList<NewsType>(newsTypeSql) ?? new List<NewsType>();
 
             MemClientFactory.WriteCache(memKey, list);
@@ -72,6 +72,37 @@ namespace C8.Lottery.Portal.Controllers
             parameters[1].Value = fkId;
 
             return Util.ReaderToList<ResourceMapping>(thumbSql, parameters) ?? new List<ResourceMapping>();
+        }
+
+        /// <summary>
+        /// 查询当前分类的玄机图库
+        /// </summary>
+        /// <param name="newsId">新闻Id</param>
+        /// <param name="newsTitle">新闻标题</param>
+        /// <returns></returns>
+        protected IList<Gallery> GetGalleries(long newsId,string newsTitle)
+        {
+            string memKey = $"base_gallery_id_{newsId}";
+            var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);
+
+            if (list != null && list.Any()) return list;
+
+            string sql = @"select a.Id, a.FullHead as Name,right(ISNULL(a.LotteryNumber,''),3) as Issue, c.RPath as Picture 
+from News a
+left join ResourceMapping c on c.FkId=a.Id and c.[Type]=1
+where a.FullHead=@FullHead
+order by a.LotteryNumber desc";
+
+            var parameters = new[]
+            {
+                new SqlParameter("@FullHead",SqlDbType.NVarChar)
+            };
+            parameters[0].Value = newsTitle;
+
+            list = Util.ReaderToList<Gallery>(sql, parameters) ?? new List<Gallery>();
+
+            MemClientFactory.WriteCache(memKey, list);
+            return list;
         }
     }
 }

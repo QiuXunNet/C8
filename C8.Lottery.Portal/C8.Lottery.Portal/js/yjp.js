@@ -440,3 +440,22 @@ $(".zsB_cBTnav .cBTnav_a").click(function(){
 	//});
 	
 });
+
+
+/**评论 by LHS */
+/**
+ * 点击分享，显示分享模块
+ */
+function showShare() {
+    $(".Gues_share").show();
+}
+
+/**
+ * 隐藏分享模块
+ */
+function hideShare() {
+    $(".Gues_share").hide();
+}
+
+
+/**评论End by LHS */

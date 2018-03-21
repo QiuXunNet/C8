@@ -20,7 +20,13 @@ namespace C8.Lottery.Portal.Controllers
     /// </summary>
     public class NewsController : BaseController
     {
-        public ActionResult Index(int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">彩种Id</param>
+        /// <param name="ntype">栏目类型Id</param>
+        /// <returns></returns>
+        public ActionResult Index(int id,int ntype=0)
         {
             ViewBag.CurrentLotteryType = id;
             var lotteryTypeList = GetLotteryTypeList();
@@ -28,7 +34,14 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.LotteryTypeList = lotteryTypeList;
             //step2.查询当前彩种下的新闻栏目
             var list = GetNewsTypeList(id);
-            ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
+            if (ntype > 0)
+            {
+                ViewBag.CurrentNewsTypeId = ntype;
+            }
+            else
+            {
+                ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
+            }
             ViewBag.NewsTypeList = list;
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
@@ -139,9 +152,46 @@ WHERE rowNumber BETWEEN @Start AND @End";
             return PartialView("NewsGalleryCategoryList");
         }
 
+        public ActionResult LotteryTime()
+        {
+            return View();
+        }
+
         public ActionResult NewsDetail(int id)
         {
             var model = Util.GetEntityById<News>(id);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 玄机图库浏览页
+        /// </summary>
+        /// <param name="id">新闻Id</param>
+        /// <returns></returns>
+        public ActionResult Gallery(int id)
+        {
+            var news = Util.GetEntityById<News>(id);
+            var model = new Gallery()
+            {
+                Id = news.Id,
+                Issue = news.Issue,
+                Name = news.FullHead
+            };
+            //查询当前图库所有期信息
+            var galleryList = GetGalleries(news.Id, news.FullHead);
+            ViewBag.GalleryList = galleryList;
+            
+            //查询推荐图
+            string recGallerySql = @" SELECT TOP 10 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
+ join NewsType b on b.Id= a.TypeId
+ where  b.lType in
+ (select ltype from News a join NewsType b on b.Id=a.TypeId
+ where a.Id=" + id + @" )
+ and a.RecommendMark=1
+ order by ModifyDate";
+            var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
+            ViewBag.RecommendGalleryList = recGalleryList;
 
             return View(model);
         }

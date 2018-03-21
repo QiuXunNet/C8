@@ -139,7 +139,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:;">
+                <a href="@Url.Action("LotteryTime","News")">
                     <i><img src="/images/icon_info_04.png"></i>
                     <p>时间</p>
                 </a>
@@ -169,7 +169,7 @@
             @foreach (NewsType item in ViewBag.NewsTypeList)
             {
                 <dd>
-                    @Html.ActionLink(@item.TypeName, "Index", new { id = @item.Id })
+                    @Html.ActionLink(@item.TypeName, "Index", new { id = @item.LType, ntype = @item.Id })
                 </dd>
             }
             

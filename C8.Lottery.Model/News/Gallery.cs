@@ -13,6 +13,7 @@ namespace C8.Lottery.Model
     /// 日 期：2018年3月12日
     /// 描 述：玄机图库推荐图
     /// </summary>
+    [Serializable]
     public class Gallery
     {
         /// <summary>
