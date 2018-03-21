@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+ 
+    <script src="~/js/dialog.min.js"></script>
+    <script>
+        $(function () {
+            login();
+        });
+
+        function login() {
+            $("#btnlogin").click(function ()
+            {
+                var mobile = $("#mobile").val();
+                var password = $("#password").val();
+                if (mobile.length == 0) {
+                    $(".login_popup").dialog({
+                        type: 'notice',
+                        infoText: "手机号不能为空",
+                        autoClose: 1500
+                    });
+                    return false;
+                }
+                if (password.length == 0) {
+                    $(".login_popup").dialog({
+                        type: 'notice',
+                        infoText: "密码不能为空",
+                        autoClose: 1500
+                    });
+                    return false;
+                }
+                $.post('/Home/Logins', { mobile: mobile, password: password }, function (data) {
+                    if (data.Success != true) {
+                        alert(data.Msg);
+
+                    } else {
+                        location.href='/Home'//跳转地址
+                    }
+
+                });
+
+
+            })
+           
+
+        }
+
+
+    </script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo"><img src="~/images/03.png"></a>
+    </header>
+
+    <div class="DL_main">
+        <div class="DL_info1">
+            <ul class="DL_if1UL">
+                <li>
+                    <p class="DL_icon DL_icon1 f-l"></p>
+                    <div class="UL_kuai1">
+                        <input type="text" id="mobile" placeholder="输入手机号" class="DL_ipt1">
+                    </div>
+                </li>
+                <li>
+                    <p class="DL_icon DL_icon2 f-l"></p>
+                    <div class="UL_kuai1">
+                        <input type="password" id="password" placeholder="输入密码" class="DL_ipt1">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="DL_info2">
+            <input type="button" id="btnlogin" class="DL_if2btn" value="登录">
+            <a href="/Home/Register" class="DL_if2a" >新用户注册</a>
+        </div>
+        <div class="DL_info3">
+            <a href="javascript:;">忘记密码？</a>
+        </div>
+        <!--<div class="DL_info4">
+            客服热线：<a href="javascript:;">4009-9798-38</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;">在线客服</a>
+        </div>-->
+    </div>
+
+    <!--弹窗  手机号不能为空-->
+    <div  class="login_popup" style="display:none;">
+        <div class="login_tel">
+            <p class="tel_p">手机号不能为空</p>
+            <a href="javascript:;" class="tel_a">确定</a>
+        </div>
+    </div>
+
+</body>
+</html>

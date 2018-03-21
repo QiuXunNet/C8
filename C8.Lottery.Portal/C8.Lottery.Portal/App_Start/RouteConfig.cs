@@ -18,6 +18,12 @@ namespace C8.Lottery.Portal
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+               name: "GetCode",
+               url: "{controller}/{action}/{mobile}",
+               defaults: new { controller = "Home", action = "GetCode", mobile = UrlParameter.Optional }
+           );
         }
     }
 }
