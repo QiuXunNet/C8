@@ -66,14 +66,14 @@ namespace C8.Lottery.Portal.Controllers
                 Session["CodeTime"] = DateTime.Now;//存入时间一起存到Session里
                 // 短信内容+随机生成的6位短信验证码              
                 // 单个手机号发送短信
-                //if (SmsSender.SendMsgByTXY("", mobile, code)==0)
-                //{
-                //    result = true;// 成功    
-                //}
-                //else
-                //{
-                //    result = false;//失败    
-                //}
+                if (SmsSender.SendMsgByTXY("", mobile, code) == 0)
+                {
+                    result = true;// 成功    
+                }
+                else
+                {
+                    result = false;//失败    
+                }
 
                 return Json(true);
             }
