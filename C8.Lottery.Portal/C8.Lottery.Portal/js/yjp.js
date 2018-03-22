@@ -456,6 +456,14 @@ function showShare() {
 function hideShare() {
     $(".Gues_share").hide();
 }
+//弹窗消息
+function alertmsg(msg) {
+    $(document).dialog({
+        type: 'notice',
+        infoText: msg,
+        autoClose: 1500
+    });
+}
 
 
 /**评论End by LHS */

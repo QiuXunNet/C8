@@ -30,6 +30,8 @@ namespace C8.Lottery.Model
         private DateTime _subtime;
         private DateTime _lastlogintime;
         private int _state;
+        private int? _sex = 0;
+        private string _autograph;
         /// <summary>
         /// 用户ID
         /// </summary>
@@ -117,6 +119,22 @@ namespace C8.Lottery.Model
         {
             set { _state = value; }
             get { return _state; }
+        }
+        /// <summary>
+		/// 性别
+		/// </summary>
+		public int? Sex
+        {
+            set { _sex = value; }
+            get { return _sex; }
+        }
+        /// <summary>
+        /// 个性签名
+        /// </summary>
+        public string Autograph
+        {
+            set { _autograph = value; }
+            get { return _autograph; }
         }
 
     }
