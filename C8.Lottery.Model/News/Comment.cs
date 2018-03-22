@@ -13,7 +13,7 @@ namespace C8.Lottery.Model
     /// 日 期：2018年3月8日
     /// 描 述：新闻评论实体
     /// </summary>
-    public class Comments
+    public class Comment
     {
         /// <summary>
 		/// 评论ID
@@ -22,38 +22,52 @@ namespace C8.Lottery.Model
         /// <summary>
         /// 评论内容
         /// </summary>		
-        public string Comment { get; set; }
+        public string Content { get; set; }
         /// <summary>
         /// 上级评论ID
         /// </summary>		
-        public long ParentId { get; set; }
+        public long PId { get; set; }
         /// <summary>
         /// 新闻ID
         /// </summary>		
-        public string NewsId { get; set; }
+        public string ArticleId { get; set; }
         /// <summary>
         /// 点赞数量
         /// </summary>		
-        public int Likes { get; set; }
+        public int StarCount { get; set; }
         /// <summary>
         /// 评论人Id
         /// </summary>		
-        public string CommentUserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>		
-        public DateTime CreateTime { get; set; }
+        public DateTime SubTime { get; set; }
         /// <summary>
         /// 更改时间
         /// </summary>		
         public DateTime UpdateTime { get; set; }
         /// <summary>
-        /// 删除标识
-        /// </summary>		
-        public bool DeleteMark { get; set; }
+        /// 评论类型 1=计划 2=文章
+        /// </summary>
+        public int Type { get; set; }
         /// <summary>
-        /// 备注
-        /// </summary>		
-        public string Description { get; set; }
+        /// 是否删除
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// 当前用户是否点赞
+        /// </summary>
+        public int CurrentUserLikes { get; set; }
+
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        public string NickName { get; set; }
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string Avater { get; set; }
     }
 }

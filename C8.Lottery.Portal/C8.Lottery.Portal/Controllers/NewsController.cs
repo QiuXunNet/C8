@@ -26,7 +26,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="id">彩种Id</param>
         /// <param name="ntype">栏目类型Id</param>
         /// <returns></returns>
-        public ActionResult Index(int id,int ntype=0)
+        public ActionResult Index(int id, int ntype = 0)
         {
             ViewBag.CurrentLotteryType = id;
             var lotteryTypeList = GetLotteryTypeList();
@@ -48,7 +48,7 @@ namespace C8.Lottery.Portal.Controllers
 
             return View(model);
         }
-        
+
         /// <summary>
         /// 栏目列表
         /// </summary>
@@ -67,7 +67,7 @@ namespace C8.Lottery.Portal.Controllers
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-            return View("TypeList",model);
+            return View("TypeList", model);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
             //查询当前图库所有期信息
             var galleryList = GetGalleries(news.Id, news.FullHead);
             ViewBag.GalleryList = galleryList;
-            
+
             //查询推荐图
             string recGallerySql = @" SELECT TOP 10 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
  join NewsType b on b.Id= a.TypeId
@@ -261,6 +261,38 @@ WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
             ViewBag.RecommendGalleryList = recGalleryList;
 
             return View(model);
+        }
+
+        public PartialViewResult WonderfulComment(int id)
+        {
+            string sql =
+                @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes from Comment a
+  left join UserInfo b on b.Id = a.UserId
+  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+  where a.ArticleId = @ArticleId and a.IsDeleted = 0 
+  order by StarCount desc";
+            var parameters = new[]
+            {
+                new SqlParameter("@UserId",SqlDbType.BigInt),
+                new SqlParameter("@ResourceType",SqlDbType.BigInt),
+                new SqlParameter("@ArticleId",SqlDbType.BigInt),
+            };
+            var user = Session["UserInfo"] as UserInfo;
+            parameters[0].Value = user.Id;
+            parameters[1].Value = (int)ResourceTypeEnum.用户头像;
+            parameters[2].Value = id;
+
+            var list = Util.ReaderToList<Comment>(sql, parameters);
+            list.ForEach(x =>
+            {
+                if (string.IsNullOrEmpty(x.Avater))
+                {
+                    x.Avater = "~/images/default_avater.png";
+                }
+            });
+
+            ViewBag.ArticleId = id;
+            return PartialView(list);
         }
 
     }
