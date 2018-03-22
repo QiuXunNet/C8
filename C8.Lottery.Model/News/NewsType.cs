@@ -36,6 +36,11 @@ namespace C8.Lottery.Model
         /// 彩种分类ID
         /// </summary>		
         public long LType { get; set; }
+
+        /// <summary>
+        /// 彩种名称
+        /// </summary>
+        public string LTypeName { get; set; }
         /// <summary>
         /// 分类层级
         /// </summary>

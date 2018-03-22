@@ -27,6 +27,9 @@
     font-style: normal;
 }
 
+.icon-comment:before {
+    content: "\e902";
+}
 .icon-search:before {
     content: "\e901";
 }

@@ -11,24 +11,31 @@
     {
         foreach (var newse in newsList)
         {<div class="hjc_news_content">
-                @if (newse.ThumbStyle == 0)
-                {
-                    //无图
+            
+             @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
+             {
+                 //无图
+                <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
-                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="newstime">
+                            <span>万彩吧</span>
                             <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
-                }
-                else if (newse.ThumbStyle == 1)
-                {
-                    //一张小图
+                </a>
+             }
+             else if (newse.ThumbStyle == 1)
+             {
+                 //一张小图
+                <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news_left">
-                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="newstime">
+                            <span>万彩吧</span>
                             <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
 
@@ -38,12 +45,16 @@
                             <img src="@newse.ThumbList[0]" alt="@newse.FullHead" />
                         }
                     </div>
-                }
-                else if (newse.ThumbStyle == 2)
-                {
-                    //一张大图
+
+                </a>
+                    <div class="clearfix"></div>
+             }
+             else if (newse.ThumbStyle == 2)
+             {
+                 //一张大图
+                <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
-                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="hjc_news_thumb">
                             <ul class="col_1">
                                 @foreach (var thumb in newse.ThumbList)
@@ -54,14 +65,18 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="newstime">
+                            <span>万彩吧</span>
                             <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
-                }
-                else if (newse.ThumbStyle == 3)
-                {
+                </a>
+             }
+             else if (newse.ThumbStyle == 3)
+             {
+                <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
-                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", new { id = @newse.Id })</div>
+                        <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="hjc_news_thumb">
                             <ul class="col_3">
                                 @foreach (var thumb in newse.ThumbList)
@@ -72,19 +87,26 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="newstime">
+                            <span>万彩吧</span>
                             <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
-                }
-                else
-                {
+                </a>
+             }
+             else
+             {
+                <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
-                        <div class="hjc_news_subject">@Html.ActionLink(@newse.FullHead, "NewsDetail", "News", new {id = @newse.Id})</div>
+                        <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="">
+                            <span>万彩吧</span>
                             <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
-                }
-            </div>
+                </a>
+             }
+</div>
         }
     }

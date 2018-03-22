@@ -21,7 +21,7 @@ namespace C8.Lottery.Portal.Controllers
     public class NewsController : BaseController
     {
         /// <summary>
-        /// 
+        /// 新闻首页
         /// </summary>
         /// <param name="id">彩种Id</param>
         /// <param name="ntype">栏目类型Id</param>
@@ -49,6 +49,11 @@ namespace C8.Lottery.Portal.Controllers
             return View(model);
         }
         
+        /// <summary>
+        /// 栏目列表
+        /// </summary>
+        /// <param name="id">彩种Id</param>
+        /// <returns></returns>
         public ActionResult TypeList(int id)
         {
             ViewBag.CurrentLotteryType = id;
@@ -65,6 +70,13 @@ namespace C8.Lottery.Portal.Controllers
             return View("TypeList",model);
         }
 
+        /// <summary>
+        /// 文章列表
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet]
         public PartialViewResult NewsList(int typeId, int pageIndex = 1, int pageSize = 20)
         {
@@ -82,7 +94,7 @@ namespace C8.Lottery.Portal.Controllers
 
             string sql = @"SELECT * FROM ( 
 SELECT row_number() over(order by SortCode ASC, ReleaseTime DESC ) as rowNumber,
-[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle] 
+[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [PId]=Id) as CommentCount
 FROM [dbo].[News] 
 WHERE [TypeId]=@TypeId ) T
 WHERE rowNumber BETWEEN @Start AND @End";
@@ -109,7 +121,12 @@ WHERE rowNumber BETWEEN @Start AND @End";
         }
 
 
-
+        /// <summary>
+        /// 图库类型列表
+        /// </summary>
+        /// <param name="ltype">彩种Id</param>
+        /// <param name="newsTypeId">栏目Id</param>
+        /// <returns></returns>
         [ChildActionOnly]
         public PartialViewResult NewsGalleryCategoryList(long ltype, int newsTypeId)
         {
@@ -152,14 +169,64 @@ WHERE rowNumber BETWEEN @Start AND @End";
             return PartialView("NewsGalleryCategoryList");
         }
 
+        /// <summary>
+        /// 开奖时间
+        /// </summary>
+        /// <returns></returns>
         public ActionResult LotteryTime()
         {
             return View();
         }
 
+        /// <summary>
+        /// 新闻详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult NewsDetail(int id)
         {
             var model = Util.GetEntityById<News>(id);
+
+            #region 上一篇 下一篇
+            //查询上一篇
+            string sql = @"SELECT TOP 1
+[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
+FROM [dbo].[News] 
+WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
+ORDER BY Id DESC";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@TypeId",SqlDbType.BigInt),
+                new SqlParameter("@CurrentId",SqlDbType.Int),
+            };
+            parameters[0].Value = model.TypeId;
+            parameters[1].Value = id;
+            var preview = Util.ReaderToList<News>(sql, parameters);
+
+            if (preview != null && preview.Count > 0)
+            {
+                ViewBag.Preview = preview[0];
+            }
+
+            //查询下一篇
+            string nextsql = @"SELECT TOP 1
+[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
+FROM [dbo].[News] 
+WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
+            SqlParameter[] nextparameters =
+            {
+                new SqlParameter("@TypeId",SqlDbType.BigInt),
+                new SqlParameter("@CurrentId",SqlDbType.Int),
+            };
+            nextparameters[0].Value = model.TypeId;
+            nextparameters[1].Value = id;
+            var nextview = Util.ReaderToList<News>(nextsql, nextparameters);
+
+            if (nextview != null && nextview.Count > 0)
+            {
+                ViewBag.Nextview = nextview[0];
+            }
+            #endregion
 
             return View(model);
         }
