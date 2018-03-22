@@ -10,8 +10,9 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link href="~/css/dialog.css" rel="stylesheet" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
- 
     <script src="~/js/dialog.min.js"></script>
+    <script src="~/js/yjp.js"></script>
+  
     <script>
         $(function () {
             login();
@@ -23,24 +24,18 @@
                 var mobile = $("#mobile").val();
                 var password = $("#password").val();
                 if (mobile.length == 0) {
-                    $(".login_popup").dialog({
-                        type: 'notice',
-                        infoText: "手机号不能为空",
-                        autoClose: 1500
-                    });
+               
+                    alertmsg("手机号不能为空");
                     return false;
                 }
                 if (password.length == 0) {
-                    $(".login_popup").dialog({
-                        type: 'notice',
-                        infoText: "密码不能为空",
-                        autoClose: 1500
-                    });
+             
+                    alertmsg("密码不能为空");
                     return false;
                 }
                 $.post('/Home/Logins', { mobile: mobile, password: password }, function (data) {
                     if (data.Success != true) {
-                        alert(data.Msg);
+                        alertmsg(data.Msg);
 
                     } else {
                         location.href='/Home'//跳转地址
@@ -97,7 +92,7 @@
     <!--弹窗  手机号不能为空-->
     <div  class="login_popup" style="display:none;">
         <div class="login_tel">
-            <p class="tel_p">手机号不能为空</p>
+            <p class="tel_p"></p>
             <a href="javascript:;" class="tel_a">确定</a>
         </div>
     </div>

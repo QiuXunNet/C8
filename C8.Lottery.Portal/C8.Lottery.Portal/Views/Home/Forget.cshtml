@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Forget";
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>忘记密码</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script>
+        $(function () {
+
+
+            Validate();
+            setInterval('runTime();', 1000);
+            BindsendMsgClick();
+      
+
+
+        });
+
+        function runTime() {
+            var text = $('#sendMsg').text();
+            if (text.indexOf('s') != -1) {
+                text = text.substr(0, text.length - 1);
+
+                var sec = parseInt(text);
+
+                if (sec == 1) {
+                    $('#sendMsg').text('点击免费获取');
+                } else {
+                    $('#sendMsg').text((sec - 1) + 's');
+                }
+            }
+        }
+
+        function BindsendMsgClick() {
+            $('#sendMsg').click(function () {
+
+                //$(this).hide();
+                var text = $(this).text();
+
+                if (text == '点击免费获取') {
+
+
+                    var mobile = $('#mobile').val();
+
+                    if (mobile != '') {
+                        $(this).text('60s');
+
+                        $.post('/Home/GetCode', { mobile: mobile }, function (data) {
+                            if (data != true) {
+                                alert("验证码获取失败");
+                            } 
+                        });
+                    } else {
+                        alert('手机号不能为空');
+                    }
+                }
+
+
+            });
+        }
+        //验证
+        function Validate()
+        {
+            $("#btnNext").click(function () {
+              
+                var mobile = $("#mobile").val();
+                var vcode = $("#vcode").val();
+                if (mobile.length == 0) {
+                    alert("手机号不能为空");
+                    return false;
+                }
+                if (vcode.length == 0) {
+                    alert("验证码不能为空");
+                    return false;
+                }
+                if (mobile != '') {
+                    $.post('/Home/Validate', { mobile: mobile, vcode: vcode }, function (data) {
+
+                        if (data.Success != true) {
+                            alert(data.Msg);
+                        } else {
+                            location.href = "/Home/SetPassword"
+                        }
+
+                    });
+                }
+               
+
+            });
+        }
+
+
+    </script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">忘记密码</a>
+        <a href="javascript:;" class="hjc_backindex"></a>
+    </header>
+
+    <div class="DL_main">
+        <div class="DL_info1">
+            <ul class="DL_if1UL">
+                <li>
+                    <p class="DL_icon DL_icon1 f-l"></p>
+                    <div class="UL_kuai1">
+                        <input type="text" id="mobile" placeholder="输入手机号" class="DL_ipt1">
+                    </div>
+                </li>
+                <li>
+                    <p class="DL_icon DL_icon3 f-l"></p>
+                    <div class="UL_kuai1">
+                        <div class="DL_yzm f-l">
+                            <input type="text" id="vcode" placeholder="输入短信验证码" class="DL_ipt1">
+                        </div>
+                        <a href="javascript:;" id="sendMsg" class="DL_HQ f-r">点击免费获取</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="DL_info2">
+            <input type="button" id="btnNext"  class="DL_if2btn" value="下一步">
+        </div>
+        <!--<div class="DL_info4">
+            客服热线：<a href="javascript:;">4009-9798-38</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;">在线客服</a>
+        </div>-->
+    </div>
+
+</body>
+</html>
+

@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
   
     <script src="~/js/jquery-1.8.3.min.js"></script>
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <script src="~/js/dialog.min.js"></script>
+    <script src="~/js/yjp.js"></script>
     <script>
         $(function () {
            
@@ -56,11 +59,11 @@
 
                         $.post('/Home/GetCode', { mobile: mobile }, function (data) {
                             if (data != true) {
-                                alert(data);
+                                alertmsg("验证码获取失败");
                             }
                         });
                     } else {
-                        alert('手机号不能为空');
+                        alertmsg('手机号不能为空');
                     }
                 }
 
@@ -74,28 +77,28 @@
                 var password = $('#password').val();
                 var vcode = $('#vcode').val();
                 if (mobile.length == 0) {
-                    alert("手机号不能为空");
+                    alertmsg("手机号不能为空");
                     return false;
                 }
                 if (password.length == 0) {
-                    alert("密码不能为空");
+                    alertmsg("密码不能为空");
                     return false;
                 } else if (password.length < 6 || password.length > 12) {
-                    alert("密码长度为6-12位");
+                    alertmsg("密码长度为6-12位");
                     return false;
                 }
             
                 if (vcode.length == 0) {
-                    alert("验证码不能为空");
+                    alertmsg("验证码不能为空");
                     return false;
                 }
                 $.post('/Home/Create', { mobile: mobile, password: password, vcode: vcode }, function (data) {
 
                     if (data.Success!=true) {
-                        alert(data.Msg);
+                        alertmsg(data.Msg);
 
                     } else {
-                        alert(data.Msg);//跳转地址
+                        alertmsg(data.Msg);//跳转地址
                     }
                 
                 });
