@@ -448,7 +448,6 @@
     <Content Include="Views\Personal\SetAutograph.cshtml" />
     <Content Include="Views\Personal\SetSex.cshtml" />
     <Content Include="Views\Personal\Set.cshtml" />
-    <Content Include="Views\Home\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

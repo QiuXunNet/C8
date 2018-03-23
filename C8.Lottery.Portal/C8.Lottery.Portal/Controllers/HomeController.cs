@@ -324,12 +324,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
 
-        public ActionResult test(int id)
-        {
-            //List<int> list = GetByUppertwoID(id);
-            int num = GetNum(1);
-            return View();
-        }
+    
 
         /// <summary>
         /// 登录KCP
