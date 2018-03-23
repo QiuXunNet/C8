@@ -27,6 +27,18 @@
     font-style: normal;
 }
 
+
+.icon-like1:before {
+  content: "\e904";
+}
+
+.icon-like2:before {
+  content: "\e903";
+}
+
+.icon-comment:before {
+    content: "\e902";
+}
 .icon-search:before {
     content: "\e901";
 }

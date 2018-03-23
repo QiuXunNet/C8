@@ -39,15 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\CommentTypeEnum.cs" />
     <Compile Include="CoinRate.cs" />
     <Compile Include="Enum\ResourceTypeEnum.cs" />
     <Compile Include="Lottery.cs" />
-    <Compile Include="News\Comments.cs" />
+    <Compile Include="News\Comment.cs" />
     <Compile Include="LotteryType.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="LotteryRecord.cs" />
     <Compile Include="News\Gallery.cs" />
     <Compile Include="News\GalleryType.cs" />
+    <Compile Include="News\LikeRecord.cs" />
     <Compile Include="News\News.cs" />
     <Compile Include="News\NewsType.cs" />
     <Compile Include="Plan.cs" />

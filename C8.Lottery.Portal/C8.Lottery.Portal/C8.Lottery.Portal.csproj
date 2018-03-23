@@ -45,9 +45,9 @@
     </Reference>
     <Reference Include="Memcached.ClientLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42c0400964dcc297" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -129,6 +129,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="css\c8-icon.css" />
     <Content Include="css\dialog.css" />
+    <Content Include="css\fonts\c8.svg" />
     <Content Include="css\paper.css" />
     <Content Include="css\style.css" />
     <Content Include="Global.asax" />
@@ -416,6 +417,9 @@
     <Content Include="js\yjp.js" />
     <Content Include="js\zcircleMove.js" />
     <Content Include="js\opendate.json" />
+    <Content Include="css\fonts\c8.eot" />
+    <Content Include="css\fonts\c8.ttf" />
+    <Content Include="css\fonts\c8.woff" />
     <None Include="Scripts\jquery-1.8.0-vsdoc.js" />
     <Content Include="js\zepto.tap.min.js" />
     <Content Include="Scripts\jquery-1.8.0.js" />
@@ -437,6 +441,7 @@
     <Content Include="Views\News\Gallery.cshtml" />
     <Content Include="Views\Home\Forget.cshtml" />
     <Content Include="Views\Home\SetPassword.cshtml" />
+    <Content Include="Views\News\WonderfulComment.cshtml" />
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\ModifyPassword.cshtml" />
     <Content Include="Views\Personal\SetNickName.cshtml" />
@@ -447,7 +452,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="css\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

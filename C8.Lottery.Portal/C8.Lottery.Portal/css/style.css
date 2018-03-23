@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 /* CSS Document */
 
@@ -6871,7 +6871,7 @@ a:focus {
 .hjc_news_lhs .hjc_news_content {
     padding: .625rem .625rem;
     border-top: 1px solid #f3f4f4;
-    min-height: 6.25rem;
+    /*min-height: 6.25rem;*/
     margin: 0 -.625rem;
 }
 
@@ -6927,6 +6927,11 @@ a:focus {
 .hjc_news_content .newstime span {
     color: #999;
     font-size: .8125rem;
+    margin-right: 10px;
+}
+
+.hjc_news_content .newstime span i {
+    margin-left: 5px;
 }
 
 .hjc_news_content .hjc_news_comment {
@@ -7544,6 +7549,7 @@ input[type=search]::-webkit-search-cancel-button:after {
     position: relative;
     top: 5px;
     margin-bottom: 4px;
+    z-index: 1000;
 }
 
 

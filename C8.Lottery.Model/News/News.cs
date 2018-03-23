@@ -130,7 +130,7 @@ namespace C8.Lottery.Model
 
         public string ReleaseTimeStr
         {
-            get { return ReleaseTime.ToString("M-dd HH:mm"); }
+            get { return ReleaseTime.ToString("MM-dd HH:mm"); }
         }
         /// <summary>
         /// 缩率图样式 0=无图 1=1张小图 2=1张大图 3=大于1张小图 
@@ -158,5 +158,9 @@ namespace C8.Lottery.Model
                 return issue;
             }
         }
+        /// <summary>
+        /// 评论数量
+        /// </summary>
+        public int CommentCount { get; set; }
     }
 }

@@ -12,5 +12,6 @@ namespace C8.Lottery.Model.Enum
     public enum ResourceTypeEnum
     {
         新闻缩略图=1,
+        用户头像=2
     }
 }

@@ -1,212 +1,443 @@
-﻿@model C8.Lottery.Model.News
+﻿@using C8.Lottery.Model
+@model C8.Lottery.Model.News
 
 @{
     Layout = null;
 }
 
 <!DOCTYPE html>
-
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@Model.FullHead</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>@Model.FullHead -万彩吧</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
+    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
-<body>
-    <fieldset>
-        <legend>News</legend>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.TypeId)
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">双色球.预测推荐</a>
+        <a href="javascript:showShare();" class="SX_A">分享</a>
+    </header>
+
+    <section class="article">
+        <div class="article-title">@Model.FullHead</div>
+        <div class="article-tag">
+            <span class="article-source"><a href="http://c8.cn">万彩吧c8.cn</a></span>
+            <span class="article-time">@Model.ReleaseTimeStr</span>
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.TypeId)
+        <div class="article-body">
+            @Html.Raw(Model.NewsContent);
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ParentId)
+        <div class="article-share">
+            <dl>
+                <dt>分享文章</dt>
+                <dd>
+                    <a href="javascript:;">
+                        <p><img src="/images/63_1.png" alt="分享到微信好友" /></p>
+                        <p>微信好友</p>
+                    </a>
+
+                </dd>
+                <dd>
+                    <a href="javascript:;">
+                        <p><img src="/images/63_2.png" alt="分享到朋友圈" /></p>
+                        <p>朋友圈</p>
+                    </a>
+
+                </dd>
+                <dd>
+                    <a href="javascript:;">
+                        <p><img src="/images/63_3.png" alt="分享到QQ好友" /></p>
+                        <p>QQ好友</p>
+                    </a>
+
+                </dd>
+            </dl>
+            <div class="clearfix"></div>
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ParentId)
+        <div class="article-pager">
+            <div class="preview">
+                @if (ViewBag.Preview != null)
+                {
+                    var preview = ViewBag.Preview as News;
+
+                    <a href="/News/NewsDetail/@preview.Id">上一篇：@preview.FullHead</a>
+                }
+                else
+                {
+                    <a href="javascript:;">上一篇：</a>
+                }
+            </div>
+            <div class="nextview">
+                @if (ViewBag.Nextview != null)
+                {
+                    var nextview = ViewBag.Nextview as News;
+
+                    <a href="/News/NewsDetail/@nextview.Id">下一篇：@nextview.FullHead</a>
+                }
+                else
+                {
+                    <a href="javascript:;">下一篇：</a>
+                }
+            </div>
+            <div class="clearfix"></div>
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Category)
+    </section>
+
+    <div class="hjc_news_lhs">
+        <div class="hjc_news_title article-news-title">
+            <span class="hjc_news_title_info">推荐阅读</span>
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Category)
+        <div class="hjc_news_content">
+            <div class="hjc_news_left">
+                <div class="hjc_news_subject">第一桶金！大学生只买了5张彩票，就中了889万!</div>
+                <div class="">
+                    <span class="hjc_news_category">双色球</span>
+                    <span class="hjc_news_comment">30评</span>
+                </div>
+            </div>
+            <div class="hjc_news_right">
+                <img src="/images/news_03.jpg" alt="" />
+            </div>
+            <div class="clearfix"></div>
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.FullHead)
+        <div class="hjc_news_content">
+            <div class="hjc_news_left">
+                <div class="hjc_news_subject">大乐透第18013期网易彩票专家推荐号码全汇总。</div>
+                <div class="">
+                    <span class="hjc_news_category">大乐透</span>
+                    <span class="hjc_news_comment">30评</span>
+                </div>
+            </div>
+            <div class="hjc_news_right">
+                <img src="/images/news_03.jpg" alt="" />
+            </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.FullHead)
+        <div class="hjc_news_content">
+            <div class="hjc_news_left">
+                <div class="hjc_news_subject">全国彩票去年销售额首破4000亿,你贡献了多少钱?</div>
+                <div class="">
+                    <span class="hjc_news_category">福彩3D</span>
+                    <span class="hjc_news_comment">30评</span>
+                </div>
+            </div>
+            <div class="hjc_news_right">
+                <img src="/images/news_03.jpg" alt="" />
+            </div>
+            <div class="clearfix"></div>
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.FullHeadColor)
+    </div>
+
+
+    <div class="raking" style="background: #fff;">
+        <div class="raking-title">双色球竞猜红人</div>
+        <div class="Ranking_Cinfo">
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+                    <tr>
+                        <td width="10%" align="center" valign="middle"><img src="/images/44_1.png" class="Ranking_Btu"></td>
+                        <td width="15%" align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_5.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p class="Ysfont">
+                                <a href="javascript:;">茶之轨迹</a>
+                            </p>
+                        </td>
+                        <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle"><img src="/images/44_2.png" class="Ranking_Btu"></td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_6.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p class="Ysfont">
+                                <a href="javascript:;">linyuelong</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle"><img src="/images/44_3.png" class="Ranking_Btu"></td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p class="Ysfont">
+                                <a href="javascript:;">我很好那么你呢</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>4</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>5</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>6</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>7</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>8</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>9</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>10</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle">
+                            <p>11</p>
+                        </td>
+                        <td align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="javascript:;"><img src="/images/44_7.png"></a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p>
+                                <a href="javascript:;">卡桑德拉</a>
+                            </p>
+                        </td>
+                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.FullHeadColor)
+    </div>
+
+    @Html.Action("WonderfulComment", new { id = @Model.Id })
+
+    @*<div class="Gues_comment">
+            <div class="Gues_comTitle">
+                <h3>精彩评论</h3>
+                <a href="javascript:;">更多评论>></a>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="Gues_Cbox" id="Gues1">
+                <ul class="Gues_ul">
+                    <li>
+                        <dl class="Guse_CDL">
+                            <dt><a href="javascript:;"><img src="/images/57_2.png"></a></dt>
+                            <dd>
+                                <div class="CDL_DDTop">
+                                    <h3><a href="javascript:;">一只安静的哈士奇1</a></h3>
+                                    <p>2017-09-04 12:00</p>
+                                </div>
+                                <div class="CDL_DDFont">
+                                    <p>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</p>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="comp_Dlk4">
+                            <a href="javascript::" class="comp_DZ">
+                                <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="images/46_2.png" class="DZ_tu2"></i>
+                                <span>100</span>
+                            </a>
+                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <dl class="Guse_CDL">
+                            <dt><a href="javascript:;"><img src="/images/30.png"></a></dt>
+                            <dd>
+                                <div class="CDL_DDTop">
+                                    <h3><a href="javascript:;">一只安静的哈士奇2</a></h3>
+                                    <p>2017-09-04 12:00</p>
+                                </div>
+                                <div class="CDL_DDFont">
+                                    <p>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</p>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="comp_Dlk4">
+                            <a href="javascript::" class="comp_DZ">
+                                <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="images/46_2.png" class="DZ_tu2"></i>
+                                <span>100</span>
+                            </a>
+                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <dl class="Guse_CDL">
+                            <dt><a href="javascript:;"><img src="/images/36.png"></a></dt>
+                            <dd>
+                                <div class="CDL_DDTop">
+                                    <h3><a href="javascript:;">一只安静的哈士奇3</a></h3>
+                                    <p>2017-09-04 12:00</p>
+                                </div>
+                                <div class="CDL_DDFont">
+                                    <p>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</p>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="comp_Dlk4">
+                            <a href="javascript::" class="comp_DZ">
+                                <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
+                                <span>100</span>
+                            </a>
+                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
+                        </div>
+                    </li>
+                </ul>
+                <ol class="Gues_ol"></ol>
+            </div>
+        </div>*@
+
+    <div class="Gues_footer">
+        <div class="Gues_ftTB f-r">
+            <a href="javascript:;" class="ftTB_A">
+                <img src="/images/62_1.png">
+                <font>10025</font>
+            </a>
+            <a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.BriefHead)
+        <a href="javascript:;" class="Gues_ftFBPL">请输入您的评论</a>
+    </div>
+
+
+    <!--分享-->
+    <div class="Gues_share">
+        <div class="Share_info">
+            <div class="Share_ifTitle">
+                <h3>分享至</h3>
+            </div>
+            <ul class="Share_ifNav">
+                <li>
+                    <a href="javascript:;">
+                        <div class="Share_iNtu"><img src="/images/63_1.png"></div>
+                        <p>微信好友</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <div class="Share_iNtu"><img src="/images/63_2.png"></div>
+                        <p>朋友圈</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <div class="Share_iNtu"><img src="/images/63_3.png"></div>
+                        <p>QQ好友</p>
+                    </a>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+            <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.BriefHead)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Thumb)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Thumb)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.AuthorName)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.AuthorName)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.CompileName)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.CompileName)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.TagWord)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.TagWord)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Keyword)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Keyword)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.SourceName)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.SourceName)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.SourceAddress)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.SourceAddress)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.NewsContent)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.NewsContent)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.PV)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.PV)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ReleaseTime)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ReleaseTime)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.SortCode)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.SortCode)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.DeleteMark)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.DeleteMark)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.EnabledMark)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.EnabledMark)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.RecommendMark)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.RecommendMark)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Description)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Description)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.CreateDate)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.CreateDate)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.CreateUserId)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.CreateUserId)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.CreateUserName)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.CreateUserName)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ModifyDate)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ModifyDate)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ModifyUserId)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ModifyUserId)
-        </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ModifyUserName)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ModifyUserName)
-        </div>
-    </fieldset>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    </div>
+
 </body>
+
 </html>

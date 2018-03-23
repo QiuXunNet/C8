@@ -1,0 +1,74 @@
+﻿@using C8.Lottery.Model
+@model List<Comment>
+
+<div class="Gues_comment">
+    <div class="Gues_comTitle">
+        <h3>精彩评论</h3>
+        <a href="/News/CommentList/@ViewBag.ArticleId">更多评论>></a>
+        <div style="clear:both;"></div>
+    </div>
+    <div class="Gues_Cbox" id="Gues1">
+        @if (Model == null)
+        {
+            <div class="ZWSJ">
+                <img src="/images/49.png">
+            </div>
+        }
+        else
+        {
+            <ul class="Gues_ul">
+                @foreach (var comment in Model)
+                {
+                    <li>
+                        <dl class="Guse_CDL">
+                            
+                            <dt><a href="javascript:;"><img src="@Url.Content(comment.Avater)"></a></dt>
+                            <dd>
+                                <div class="CDL_DDTop">
+                                    <h3>
+                                        <a href="javascript:;">@comment.NickName</a>
+                                    </h3>
+                                    <p>@comment.SubTime.ToString("yyyy-MMMM-dd HH:mm")</p>
+                                </div>
+                                <div class="CDL_DDFont">
+                                    <p>@comment.Content</p>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="comp_Dlk4">
+                            <a href="javascript::" class="comp_DZ">
+                                @if (comment.CurrentUserLikes > 0)
+                                {
+                                    <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
+
+                                }
+                                else
+                                {
+                                    <i><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
+
+                                }
+                                @if (comment.StarCount > 0)
+                                {
+                                    <span>@comment.StarCount</span>
+                                }
+                            </a>
+                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<div class="Gues_footer">
+    <div class="Gues_ftTB f-r">
+        <a href="javascript:;" class="ftTB_A">
+            <img src="/images/62_1.png">
+            <font>10025</font>
+        </a>
+        <a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>
+    </div>
+    <a href="javascript:;" class="Gues_ftFBPL">请输入您的评论</a>
+</div>
+
