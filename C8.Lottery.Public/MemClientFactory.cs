@@ -95,5 +95,26 @@ namespace C8.Lottery.Public
                 return default(T);
             }
         }
+
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool DeleteCache(string key)
+        {
+            if (client == null)
+                client = GetCurrentMemClient();
+            try
+            {
+                return client.Delete(key);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
     }
 }

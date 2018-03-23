@@ -32,6 +32,9 @@ namespace C8.Lottery.Model
         private int _state;
         private int? _sex = 0;
         private string _autograph;
+        private string _headpath;//头像地址
+        private int? _pid = 0;
+
         /// <summary>
         /// 用户ID
         /// </summary>
@@ -136,7 +139,34 @@ namespace C8.Lottery.Model
             set { _autograph = value; }
             get { return _autograph; }
         }
+        /// <summary>
+        /// 头像地址
+        /// </summary>
+        public string Headpath
+        {
+            get
+            {
+                return _headpath;
+            }
 
+            set
+            {
+                _headpath = value;
+            }
+        }
+
+        public int? Pid
+        {
+            get
+            {
+                return _pid;
+            }
+
+            set
+            {
+                _pid = value;
+            }
+        }
     }
     #endregion Model
 }

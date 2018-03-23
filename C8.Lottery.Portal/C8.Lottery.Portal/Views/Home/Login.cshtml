@@ -15,6 +15,7 @@
   
     <script>
         $(function () {
+           
             login();
         });
 
@@ -38,7 +39,9 @@
                         alertmsg(data.Msg);
 
                     } else {
-                        location.href='/Home'//跳转地址
+                       
+                            location.href = '/Personal'//跳转地址
+                    
                     }
 
                 });
@@ -82,7 +85,7 @@
             <a href="/Home/Register" class="DL_if2a" >新用户注册</a>
         </div>
         <div class="DL_info3">
-            <a href="javascript:;">忘记密码？</a>
+            <a href="/Home/SetPassword">忘记密码？</a>
         </div>
         <!--<div class="DL_info4">
             客服热线：<a href="javascript:;">4009-9798-38</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;">在线客服</a>
