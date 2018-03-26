@@ -14,7 +14,7 @@ namespace C8.Lottery.Portal.Controllers
     public class CommentController : FilterController
     {
         /// <summary>
-        /// Id
+        /// 发表评论View
         /// </summary>
         /// <param name="id">文章/计划Id或评论Id</param>
         /// <param name="ctype">评论操作类型 1=一级评论 2=回复</param>
