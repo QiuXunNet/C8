@@ -79,13 +79,8 @@ namespace C8.Lottery.Portal.Controllers
        public void UpdateUser(UserInfo u)
         {
             string sessionId = Request["sessionId"];
-            MemClientFactory.WriteCache(sessionId, u, 30);
-          
+            MemClientFactory.WriteCache(sessionId, u, 30);   
            
         }
-
-
-       
-
     }
 }

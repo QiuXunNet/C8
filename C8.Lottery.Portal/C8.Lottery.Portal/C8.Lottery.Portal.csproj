@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\UserHelp.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AuthenticationAttribute.cs" />
     <Compile Include="Controllers\CommentController.cs" />
