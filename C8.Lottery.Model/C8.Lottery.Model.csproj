@@ -42,6 +42,7 @@
     <Compile Include="Enum\CommentTypeEnum.cs" />
     <Compile Include="CoinRate.cs" />
     <Compile Include="Enum\ResourceTypeEnum.cs" />
+    <Compile Include="Follow.cs" />
     <Compile Include="Lottery.cs" />
     <Compile Include="MakeMoneyTask.cs" />
     <Compile Include="News\Comment.cs" />

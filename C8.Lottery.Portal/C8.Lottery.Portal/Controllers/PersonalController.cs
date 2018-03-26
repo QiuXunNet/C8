@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 using System.Web.Security;
-
+using C8.Lottery.Portal.Models;
 namespace C8.Lottery.Portal.Controllers
 {
      public class PersonalController : FilterController
@@ -17,7 +17,29 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            UserInfo user = UserHelper.GetUser();
+            string usersql = @"select (select count(1)from Follow where UserId=u.Id and Status=1)as follow,(select count(1)from Follow where Followed_UserId=u.Id and Status=1)as fans, r.RPath as Headpath,u.* from UserInfo  u 
+                              left  JOIN (select RPath,FkId from ResourceMapping where Type = 2)  r 
+                              on u.Id=r.FkId  where u.Mobile=@Mobile ";
+          
+            ReturnMessageJson jsonmsg = new ReturnMessageJson();
+            try
+            {
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", user.Mobile) };
+                List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
+                if (list != null)
+                {
+                    user = list.FirstOrDefault(x => x.Mobile == user.Mobile);
+                }
+             
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View(user);
+
         }
         /// <summary>
         /// 修改密码 KCP
@@ -211,8 +233,21 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult Task()
         {
+            List<TaskModel> list = new List<TaskModel>();
             string strsql = "select * from MakeMoneyTask";
-            List<MakeMoneyTask> list = Util.ReaderToList<MakeMoneyTask>(strsql);
+            List<MakeMoneyTask> tasklist = Util.ReaderToList<MakeMoneyTask>(strsql);
+            foreach (var item in tasklist)
+            {
+                TaskModel tm = new TaskModel();
+                tm.Id = item.Id;
+                tm.TaskItem = item.TaskItem;
+                tm.Coin = item.Coin;
+                tm.Count = item.Count;
+                tm.SubTime = item.SubTime;
+                tm.CompletedCount = GetCompletedCount(item.Id);
+                list.Add(tm);
+            }
+         
             var model = list;
 
             return View(model);
@@ -233,7 +268,7 @@ namespace C8.Lottery.Portal.Controllers
                    new SqlParameter("@TaskId",taskid)
             };
             result = Convert.ToInt32(SqlHelper.ExecuteScalar(strsql, sp));
-            ViewData["xxx"] = 1222;
+          
             return result;
         }
 

@@ -1,4 +1,4 @@
-﻿@model  List<C8.Lottery.Model.MakeMoneyTask>
+﻿@model  List< C8.Lottery.Portal.Models.TaskModel>
 @{
     ViewBag.Title = "Task";
 }
@@ -17,7 +17,7 @@
 <body style="background:#F4F4F5;">
 
     <header class="hjc_header">
-        <a href="javascript:;" class="hjc_back"></a>
+        <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">赚钱任务</a>
         <a href="javascript:;" class="SX_A">规则</a>
     </header>
@@ -25,7 +25,7 @@
     <div class="Make_header">
         <div class="surePass">
             <div class="anyield">
-                <h3 class="any_Number">10</h3>
+                <h3 class="any_Number">@Model.Where(x=>x.CompletedCount>=x.Count).Sum(p=>p.Coin)</h3>
                 <p class="any_Receive">已领取</p>
                 <p class="any_Can">@Html.Raw("今日可领 "+Model.Sum(x=>x.Coin))金币</p>
             </div>
@@ -39,14 +39,17 @@
           
             @foreach (var item in Model)
             {
-
-             
-                   <li>
+           
+                <li>
                  
                     <i class="Mack_icon"></i>
-                    <h3>@item.TaskItem（0/@item.Count）</h3>
+                    <h3>@item.TaskItem（@item.CompletedCount/@item.Count）</h3>
                     <p>+@Html.Raw(item.Coin)金币</p>
                     <div style="clear:both;"></div>
+                    @if (item.CompletedCount >= item.Count)
+                    {
+                        <div class="Mack_YWC"><img src="~/images/68.png"></div>
+                    }
                 </li>
             }
             @*<li>
@@ -85,7 +88,11 @@
 
 
     <script>
-        $(function(){
+        $(function () {
+            var taskcount = $(".Make_cUl li").length;
+            var complete = $(".Make_cUl img").length;
+            var perc = complete / taskcount;
+         
             var findCanvas=$("#canvasThree");
             var percents=findCanvas.attr('nowData')/findCanvas.attr('amout');
 			 //percents=0.25;
@@ -93,7 +100,7 @@
             runCircle(
 			   {
 			    obj:'canvasThree',
-			    percent:0.8,
+			    percent: perc,
 				url:'../images/fire.png',   //飞机小图地址
 				imgWidth:30,
 				imgHeight:30,
