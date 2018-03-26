@@ -159,25 +159,6 @@
             <div style="clear: both;"></div>
         </div>
     </div>
-@*<div class="info_hdnav">
-        <ul class="info_hdNL col4 f-l">
-            @foreach (NewsType item in ViewBag.NewsTypeList)
-            {
-                if (item.Id == currentNewsTypeId)
-                {
-                    <li class="current" id="tab_@item.Id" data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
-                }
-                else
-                {
-                    <li id="tab_@item.Id" data-id="@item.Id" data-pageIndex="1" data-pageSize="5"><a href="javascript:;">@item.TypeName</a></li>
-                }
-            }
-            <div style="clear: both;"></div>
-        </ul>
-        <div style="clear:both;"></div>
-    </div>*@
-
-
 
     <div class="hjc_news_tabContent">
         @foreach (NewsType item in ViewBag.NewsTypeList)
@@ -192,7 +173,7 @@
             else
             {
             <div class="hjc_news_lhs newslist" style="display: @enable;" id="news_@item.Id" data-id="@item.Id">
-                @*@Html.Action("NewsList", new { pageIndex = 1, pageSize = 5, typeId = item.Id })*@
+                
             </div>
             }
         }

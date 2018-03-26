@@ -1,8 +1,5 @@
 ﻿@using C8.Lottery.Model;
 @{
-    Layout = null;
-}
-@{
     var newsList = ViewBag.NewsList as List<News>;
 }
 
@@ -10,7 +7,8 @@
     @if (newsList != null)
     {
         foreach (var newse in newsList)
-        {<div class="hjc_news_content">
+        {
+            <div class="hjc_news_content">
             
              @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
              {

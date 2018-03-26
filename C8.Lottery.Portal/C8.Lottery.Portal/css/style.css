@@ -8021,6 +8021,76 @@ footer {
 
 /*** 个人中心 结束****/
 
+/*** 暂无数据***/
+
+.notdata {
+    margin: 30px 0;
+    height: 120px;
+}
+
+.notdata img {
+    display: block;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.notdata .text {
+    margin: 10px;
+    font-size: 18px;
+    color: #999;
+    text-align: center;
+}
+
+
+/*** 暂无数据 结束 ***/
+
+/*** 精彩评论 **/
+.Gues_comTitle {
+    margin: 0 -10px;
+    padding: 0 10px;
+}
+.Gues_ftTB .ftTB_A font {
+    right: -10px;
+    width: 30px;
+    text-align: left;
+}
+
+.Gues_ul li {
+    margin: 0 -10px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.comp_replay {
+    font-size: 13px;
+    background: #eee;
+    height: 32px;
+    line-height: 32px;
+    margin: 10px 0;
+    color: #333;
+    text-align: center;
+    margin-left: 60px;
+}
+
+.CDL_DDFont .include {
+    color: #166cec;
+    padding-right: 10px;
+}
+
+.emoji_icon {
+    display: inline-block !important;
+}
+/*** 精彩评论 结束 **/
+
+/*** 发表评论**/
+.emoji-button {
+    border: 0;
+    background: url(/images/53_1.png) no-repeat;
+    background-size: 100%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+}
+/*** 发表评论 结束**/
 
 /**兼容小屏**/
 

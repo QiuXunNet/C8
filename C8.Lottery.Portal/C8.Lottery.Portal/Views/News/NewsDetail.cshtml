@@ -3,6 +3,9 @@
 
 @{
     Layout = null;
+    string newsTypeName = ViewBag.NewsTypeName;
+    LotteryType lottery = ViewBag.Lottery;
+    List<News> recArticle = ViewBag.RecommendArticle;
 }
 
 <!DOCTYPE html>
@@ -12,6 +15,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>@Model.FullHead -万彩吧</title>
+    <meta name="keywords" content="@lottery.SeoKeyword">
+    <meta name="description" content="@lottery.SeoDescription">
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
     <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
@@ -22,7 +27,7 @@
 
     <header class="hjc_header">
         <a href="javascript:;" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo">双色球.预测推荐</a>
+        <a href="javascript:;" class="hjc_logo">@(lottery.TypeName +"."+@newsTypeName)</a>
         <a href="javascript:showShare();" class="SX_A">分享</a>
     </header>
 
@@ -91,52 +96,118 @@
         </div>
     </section>
 
-    <div class="hjc_news_lhs">
-        <div class="hjc_news_title article-news-title">
-            <span class="hjc_news_title_info">推荐阅读</span>
-        </div>
-        <div class="hjc_news_content">
-            <div class="hjc_news_left">
-                <div class="hjc_news_subject">第一桶金！大学生只买了5张彩票，就中了889万!</div>
-                <div class="">
-                    <span class="hjc_news_category">双色球</span>
-                    <span class="hjc_news_comment">30评</span>
-                </div>
+    @if (recArticle != null && recArticle.Count > 0)
+    {
+        <div class="hjc_news_lhs">
+            <div class="hjc_news_title article-news-title">
+                <span class="hjc_news_title_info">推荐阅读</span>
             </div>
-            <div class="hjc_news_right">
-                <img src="/images/news_03.jpg" alt="" />
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="hjc_news_content">
-            <div class="hjc_news_left">
-                <div class="hjc_news_subject">大乐透第18013期网易彩票专家推荐号码全汇总。</div>
-                <div class="">
-                    <span class="hjc_news_category">大乐透</span>
-                    <span class="hjc_news_comment">30评</span>
-                </div>
-            </div>
-            <div class="hjc_news_right">
-                <img src="/images/news_03.jpg" alt="" />
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="hjc_news_content">
-            <div class="hjc_news_left">
-                <div class="hjc_news_subject">全国彩票去年销售额首破4000亿,你贡献了多少钱?</div>
-                <div class="">
-                    <span class="hjc_news_category">福彩3D</span>
-                    <span class="hjc_news_comment">30评</span>
-                </div>
-            </div>
-            <div class="hjc_news_right">
-                <img src="/images/news_03.jpg" alt="" />
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
 
+            @foreach (var article in recArticle)
+            {
+                <div class="hjc_news_content">
 
+                    @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
+                    {
+                        //无图
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                    else if (article.ThumbStyle == 1)
+                    {
+                        //一张小图
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news_left">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="hjc_news_right">
+                                @if (article.ThumbList.Count > 0)
+                                {
+                                    <img src="@article.ThumbList[0]" alt="@article.FullHead"/>
+                                }
+                            </div>
+
+                        </a>
+                        <div class="clearfix"></div>
+                    }
+                    else if (article.ThumbStyle == 2)
+                    {
+                        //一张大图
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="hjc_news_thumb">
+                                    <ul class="col_1">
+                                        @foreach (var thumb in article.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@article.FullHead"/></li>
+                                        }
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                    else if (article.ThumbStyle == 3)
+                    {
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="hjc_news_thumb">
+                                    <ul class="col_3">
+                                        @foreach (var thumb in article.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@article.FullHead"/></li>
+                                        }
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+
+        </div>
+
+    }
     <div class="raking" style="background: #fff;">
         <div class="raking-title">双色球竞猜红人</div>
         <div class="Ranking_Cinfo">
@@ -317,85 +388,10 @@
         </div>
     </div>
 
-    @Html.Action("WonderfulComment", new { id = @Model.Id })
+    @Html.Action("WonderfulComment", new { id = @Model.Id,type=2 })
 
-    @*<div class="Gues_comment">
-            <div class="Gues_comTitle">
-                <h3>精彩评论</h3>
-                <a href="javascript:;">更多评论>></a>
-                <div style="clear:both;"></div>
-            </div>
-            <div class="Gues_Cbox" id="Gues1">
-                <ul class="Gues_ul">
-                    <li>
-                        <dl class="Guse_CDL">
-                            <dt><a href="javascript:;"><img src="/images/57_2.png"></a></dt>
-                            <dd>
-                                <div class="CDL_DDTop">
-                                    <h3><a href="javascript:;">一只安静的哈士奇1</a></h3>
-                                    <p>2017-09-04 12:00</p>
-                                </div>
-                                <div class="CDL_DDFont">
-                                    <p>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</p>
-                                </div>
-                            </dd>
-                        </dl>
-                        <div class="comp_Dlk4">
-                            <a href="javascript::" class="comp_DZ">
-                                <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="images/46_2.png" class="DZ_tu2"></i>
-                                <span>100</span>
-                            </a>
-                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
-                        </div>
-                    </li>
-                    <li>
-                        <dl class="Guse_CDL">
-                            <dt><a href="javascript:;"><img src="/images/30.png"></a></dt>
-                            <dd>
-                                <div class="CDL_DDTop">
-                                    <h3><a href="javascript:;">一只安静的哈士奇2</a></h3>
-                                    <p>2017-09-04 12:00</p>
-                                </div>
-                                <div class="CDL_DDFont">
-                                    <p>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</p>
-                                </div>
-                            </dd>
-                        </dl>
-                        <div class="comp_Dlk4">
-                            <a href="javascript::" class="comp_DZ">
-                                <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="images/46_2.png" class="DZ_tu2"></i>
-                                <span>100</span>
-                            </a>
-                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
-                        </div>
-                    </li>
-                    <li>
-                        <dl class="Guse_CDL">
-                            <dt><a href="javascript:;"><img src="/images/36.png"></a></dt>
-                            <dd>
-                                <div class="CDL_DDTop">
-                                    <h3><a href="javascript:;">一只安静的哈士奇3</a></h3>
-                                    <p>2017-09-04 12:00</p>
-                                </div>
-                                <div class="CDL_DDFont">
-                                    <p>如果你无法简洁的表达你的想法，那只说明你还不够了解它。-- 阿尔伯特·爱因斯坦</p>
-                                </div>
-                            </dd>
-                        </dl>
-                        <div class="comp_Dlk4">
-                            <a href="javascript::" class="comp_DZ">
-                                <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
-                                <span>100</span>
-                            </a>
-                            <a href="javascript:;" class="comp_HF"><img src="/images/46_3.png"></a>
-                        </div>
-                    </li>
-                </ul>
-                <ol class="Gues_ol"></ol>
-            </div>
-        </div>*@
-
-    <div class="Gues_footer">
+    
+    @*<div class="Gues_footer">
         <div class="Gues_ftTB f-r">
             <a href="javascript:;" class="ftTB_A">
                 <img src="/images/62_1.png">
@@ -404,7 +400,7 @@
             <a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>
         </div>
         <a href="javascript:;" class="Gues_ftFBPL">请输入您的评论</a>
-    </div>
+    </div>*@
 
 
     <!--分享-->
