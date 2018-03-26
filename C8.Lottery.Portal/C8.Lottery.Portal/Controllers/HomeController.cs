@@ -83,6 +83,7 @@ namespace C8.Lottery.Portal.Controllers
             }
         }
 
+        
 
         /// <summary>
         /// 注册 KCP  
@@ -91,7 +92,7 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult Register(int ?id)
         {
-
+            
             ViewData["id"] = id == null ? 0 : id;
              return View();
 

@@ -21,20 +21,23 @@ namespace C8.Lottery.Portal.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-
-       
-
             string sessionId = Request["sessionId"];
             if (string.IsNullOrEmpty(sessionId))
             {
 
+                if (Request.IsAjaxRequest())
+                {
+
+                }
+                else
+                {
+
+                }
                 Response.Redirect("/Home/Login");
             }
             else
             {
                 UserInfo user= MemClientFactory.GetCache<UserInfo>(sessionId);
-
-
                 if (user == null)
                 {
                     Response.Redirect("/Home/Login");
@@ -43,6 +46,20 @@ namespace C8.Lottery.Portal.Controllers
                 MemClientFactory.WriteCache(sessionId, user, 30);
             }
            
+        }
+
+        /// <summary>
+        /// 判断是否ajax请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static bool IsAjaxRequest(this HttpRequestBase request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
+            return request["X-Requested-With"] == "XMLHttpRequest" || (request.Headers != null && request.Headers["X-Requested-With"] == "XMLHttpRequest");
         }
 
         /// <summary>

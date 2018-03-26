@@ -202,6 +202,38 @@ namespace C8.Lottery.Portal.Controllers
 
             Response.Redirect("/Home/Login");
         }
+
+        /// <summary>
+        /// 赚钱任务
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Task()
+        {
+            string strsql = "select * from MakeMoneyTask";
+            List<MakeMoneyTask> list = Util.ReaderToList<MakeMoneyTask>(strsql);
+            var model = list;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 获取任务完成数量
+        /// </summary>
+        /// <param name="taskid"></param>
+        /// <returns></returns>
+        public int GetCompletedCount(int taskid)
+        {
+            int result = 0;
+            UserInfo user = GetUser();
+            string strsql= "select CompletedCount from  UserTask where UserId =@UserId and TaskId=@TaskId ";
+            SqlParameter[] sp = new SqlParameter[] {
+                   new SqlParameter("@UserId",user.Id),
+                   new SqlParameter("@TaskId",taskid)
+            };
+            result = Convert.ToInt32(SqlHelper.ExecuteScalar(strsql, sp));
+            return result;
+        }
+
     }
 }
 
