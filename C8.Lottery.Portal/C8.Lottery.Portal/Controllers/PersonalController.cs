@@ -131,6 +131,8 @@ namespace C8.Lottery.Portal.Controllers
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
+              
+                
                
                 string strsql = string.Empty;
                 UserInfo user = GetUser();
@@ -231,6 +233,7 @@ namespace C8.Lottery.Portal.Controllers
                    new SqlParameter("@TaskId",taskid)
             };
             result = Convert.ToInt32(SqlHelper.ExecuteScalar(strsql, sp));
+            ViewData["xxx"] = 1222;
             return result;
         }
 
