@@ -43,6 +43,7 @@
     <Compile Include="CoinRate.cs" />
     <Compile Include="Enum\ResourceTypeEnum.cs" />
     <Compile Include="Lottery.cs" />
+    <Compile Include="MakeMoneyTask.cs" />
     <Compile Include="News\Comment.cs" />
     <Compile Include="LotteryType.cs" />
     <Compile Include="Class1.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceMapping.cs" />
     <Compile Include="UserInfo.cs" />
+    <Compile Include="UserTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C8.Lottery.Public\C8.Lottery.Public.csproj">

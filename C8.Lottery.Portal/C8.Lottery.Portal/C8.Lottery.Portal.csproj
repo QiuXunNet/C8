@@ -110,7 +110,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\UserHelp.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\AuthenticationAttribute.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -410,6 +412,7 @@
     <Content Include="js\function.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="css\dropload.css" />
+    <Content Include="js\jquery.js" />
     <Content Include="js\luo\dropload.js" />
     <Content Include="js\luo\dropload.min.js" />
     <Content Include="js\luo\jquery.emoji.min.js" />
@@ -457,8 +460,6 @@
     <Content Include="Views\News\CommentList.cshtml" />
     <Content Include="Views\Personal\SetSex.cshtml" />
     <Content Include="Views\Personal\Set.cshtml" />
-    <Content Include="Views\Comment\Index.cshtml" />
-    <Content Include="Views\News\CommentDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
