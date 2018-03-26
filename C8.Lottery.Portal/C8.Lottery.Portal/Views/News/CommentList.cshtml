@@ -65,13 +65,11 @@
                                 <a href="javascript::" class="comp_DZ">
                                     @if (comment.CurrentUserLikes > 0)
                                     {
-                                        <i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
-
+                                        <i class="on" data-id="@comment.Id" data-ctype="2" data-commenttype="@comment.Type"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
                                     }
                                     else
                                     {
-                                        <i><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
-
+                                        <i data-id="@comment.Id" data-ctype="1" data-commenttype="@comment.Type"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>
                                     }
                                     @if (comment.StarCount > 0)
                                     {
@@ -157,7 +155,7 @@
     var pageIndex = 1,
         pageSize = 20;
     $(function() {
-        
+
         //emojiParse();
         emojiParse("Gues1");
         var dropload = $("#Gues2").dropload({
@@ -196,7 +194,7 @@
                         }
 
                         dropload.resetload();
-                        
+
                         emojiParse("Gues2");
                     },
                     error: function(xhr, type) {
@@ -226,9 +224,13 @@
                 + '</dd>'
                 + '</dl>'
                 + '<div class="comp_Dlk4">'
-                + '<a href="javascript:;" class="comp_DZ">'
-                + '<i class="on"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>'
-                + '<span>' + (value.StarCount > 0 ? value.StarCount : '') + '</span>'
+                + '<a href="javascript:;" class="comp_DZ">';
+            if (value.CurrentUserLikes > 0) {
+                li += '<i class="on" data-id="' + value.Id + '" data-ctype="2" data-commenttype="' +value.Type+ '"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>';
+            } else {
+                li += '<i data-id="' + value.Id + '" data-ctype="1" data-commenttype="' +value.Type+ '"><img src="/images/46_1.png" class="DZ_tu1"><img src="/images/46_2.png" class="DZ_tu2"></i>';
+            }
+            li+= '<span>' + (value.StarCount > 0 ? value.StarCount : '') + '</span>'
                 + '</a>'
                 + '<a href="/Comment/Index/' + id + '?ctype=2&type=' + ctype + '" class="comp_HF"><img src="/images/46_3.png"></a>'
                 + '</div>'

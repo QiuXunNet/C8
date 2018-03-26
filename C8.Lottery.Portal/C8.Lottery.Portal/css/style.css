@@ -7522,24 +7522,25 @@ input[type=search]::-webkit-search-cancel-button:after {
     width: 25%;
 }
 
-.info_LHC_category.col3 dd:nth-child(1) {
-    border-top: solid 1px #eee;
-}
-
-.info_LHC_category.col3 dd:nth-child(2) {
-    border-top: solid 1px #eee;
-}
-
-.info_LHC_category.col3 dd:nth-child(3) {
-    border-top: solid 1px #eee;
-}
-
 .info_LHC_category.col3 dd:nth-child(3n+1) {
     border-right: 0;
 }
 
 .info_LHC_category.col4 dd:nth-child(4n+1) {
     border-right: 0;
+}
+
+.info_LHC_category.col3 dd:nth-child(2),
+.info_LHC_category.col3 dd:nth-child(3),
+.info_LHC_category.col3 dd:nth-child(4) {
+    border-top: solid 1px #eee;
+}
+
+.info_LHC_category.col4 dd:nth-child(2),
+.info_LHC_category.col4 dd:nth-child(3),
+.info_LHC_category.col4 dd:nth-child(4),
+.info_LHC_category.col4 dd:nth-child(5) {
+    border-top: solid 1px #eee;
 }
 
 
