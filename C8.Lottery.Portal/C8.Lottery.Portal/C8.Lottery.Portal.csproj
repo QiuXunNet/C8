@@ -40,6 +40,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\C8.Lottery.Public\bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Memcached.ClientLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42c0400964dcc297" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -450,7 +453,10 @@
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\ModifyPassword.cshtml" />
     <Content Include="Views\Personal\SetNickName.cshtml" />
+    <Content Include="Views\Personal\SetAutograph.cshtml" />
     <Content Include="Views\News\CommentList.cshtml" />
+    <Content Include="Views\Personal\SetSex.cshtml" />
+    <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
     <Content Include="Views\News\CommentDetail.cshtml" />
   </ItemGroup>

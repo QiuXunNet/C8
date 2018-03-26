@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Public;
 using System.Data.SqlClient;
-
+using Memcached.ClientLibrary;
 namespace C8.Lottery.Portal.Controllers
 {
     public class HomeController : Controller
@@ -89,23 +89,27 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <returns></returns>
 
-        public ActionResult Register()
+        public ActionResult Register(int ?id)
         {
 
+            ViewData["id"] = id == null ? 0 : id;
+             return View();
 
-            return View();
+            
         }
 
       
         [HttpPost]
         public ActionResult Create(FormCollection form)
         {
-            //UserInfo user = new UserInfo();
-            //user.UserName = reguser.Mobile;
-            //user.Mobile = reguser.Mobile;
-            //user.Password = reguser.Password;
+
+
+
+            int inviteid =Convert.ToInt32(form["inviteid"]);
+            
             string mobile = form["mobile"];
             string password = form["password"];
+
             string vcode = form["vcode"];
             string usersql = "select * from UserInfo where Mobile =@Mobile";
             
@@ -138,20 +142,47 @@ namespace C8.Lottery.Portal.Controllers
                         {
                             password = Tool.GetMD5(password);
                             string regsql = @"
-  insert into UserInfo(UserName, Name, Password, Mobile, Coin, Money, Integral, SubTime, LastLoginTime, State)
-  values(@UserName, @Name, @Password, @Mobile, 0,0, 0, getdate(), getdate(), 0)";
+  insert into UserInfo(UserName, Name, Password, Mobile, Coin, Money, Integral, SubTime, LastLoginTime, State,Pid)
+  values(@UserName, @Name, @Password, @Mobile, 0,0, 0, getdate(), getdate(), 0,@Pid);select @@identity ";
                             SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@UserName",mobile),
                      new SqlParameter("@Name",mobile),
                     new SqlParameter("@Password",password),
-                    new SqlParameter("@Mobile",mobile)
+                    new SqlParameter("@Mobile",mobile),
+                    new SqlParameter("@Pid",inviteid)
 
                  };
-                            int data = SqlHelper.ExecuteNonQuery(regsql, regsp);
+                            int data =Convert.ToInt32 (SqlHelper.ExecuteScalar(regsql, regsp));
                             if (data > 0)
                             {
+                             
+
                                 jsonmsg.Success = true;
                                 jsonmsg.Msg = "ok";
+                                Guid sessionId = Guid.NewGuid();
+                                Response.Cookies["sessionId"].Value = sessionId.ToString();
+                                UserInfo user =GetByid(data);                              
+                                MemClientFactory.WriteCache(sessionId.ToString(), user, 30);
+                                if (inviteid > 0)
+                                {
+                                    UserInfo invite = GetByid(inviteid);
+                                    if (invite != null)
+                                    {
+                                        int mynum = GetNum(3);
+                                        AddCoin(data, mynum);//受邀自己得3级奖励
+                                        AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
+                                        int upnum = GetNum(1);
+                                        AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
+                                        AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
+                                        UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
+                                        if (super != null)
+                                        {
+                                            int supernum = GetNum(2);
+                                            AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
+                                        }
+
+                                    }
+                                }
 
                             }
                             else
@@ -182,8 +213,119 @@ namespace C8.Lottery.Portal.Controllers
 
             return Json(jsonmsg);
         }
+        /// <summary>
+        /// 增加金币
+        /// </summary>
+        public void AddCoin(int id, int num)
+        {
+            try
+            {
+                string strsql = "update UserInfo set Coin=Coin+@num where Id =@Id";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@num", num),
+                    new SqlParameter("@Id", id),
+                };
+                SqlHelper.ExecuteNonQuery(strsql, sp);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 邀请获得金币记录 type:1邀请者  2受邀者
+        /// </summary>
+        public void AddCoinRecord(int type,int userId,int otherId, int amount)
+        {
+            try
+            {
+                string strsql = @"insert into CoinRecord(lType, UserId, OtherId, Type, Amount, SubTime)
+                                  values(0, @UserId, @OtherId, @Type, @Amount, getdate()) ";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId", userId),
+                    new SqlParameter("@OtherId", otherId),
+                    new SqlParameter("@Type", type),
+                    new SqlParameter("@Amount", amount),
+                };
+                SqlHelper.ExecuteNonQuery(strsql, sp);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 随机抽取金币 根据金币等级
+        /// </summary>
+        /// <returns></returns>
+        public int GetNum(int GradeId)
+        {
+            int Num = 0;
+            List<CoinRate> list = new List<CoinRate>();
+            List<int> listNum = new List<int>();
+            try
+            {
+                string strsql = "select * from CoinRate where GradeId = @GradeId";
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@GradeId", GradeId) };
+                list = Util.ReaderToList<CoinRate>(strsql, sp);
+                if (list != null)
+                {
+                    foreach (var item in list)
+                    {
+                        for (int i = 0; i < item.Rate; i++)
+                        {
+                            listNum.Add(item.Num);
+                        }
+                       
+                    }
+                }
+                Random rm = new Random();
+                int j = rm.Next(listNum.Count);
+                Num = listNum[j];
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Num;
+        }
           
-        
+
+        /// <summary>
+        /// 根据id获取用户信息
+        /// </summary>
+        /// <param name="Pid"></param>
+        /// <returns></returns>
+        public UserInfo GetByid(int id)
+        {
+            UserInfo user = new UserInfo();
+            try
+            {
+                string usersql = "select * from UserInfo where Id =@Id";
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Id", id) };
+                user = Util.ReaderToModel<UserInfo>(usersql, sp);
+               
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return user;   
+
+        }
+
+
+
+    
+
         /// <summary>
         /// 登录KCP
         /// </summary>
@@ -196,15 +338,22 @@ namespace C8.Lottery.Portal.Controllers
         [HttpPost]
         public ActionResult Logins(string mobile,string password)
         {
-               string usersql = "select * from UserInfo where Mobile =@Mobile";
-           
-                UserInfo user = new UserInfo();
+            //string usersql = "select * from UserInfo where Mobile =@Mobile";
+            string usersql = @"select r.RPath as Headpath,u.* from UserInfo  u 
+left  JOIN (select RPath,FkId from ResourceMapping where Type = 2)  r
+on u.Id=r.FkId where u.Mobile=@Mobile ";
+            UserInfo user = new UserInfo();
                 ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
 
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
-                user = Util.ReaderToModel<UserInfo>(usersql, sp);
+                List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
+                if (list != null)
+                {
+                    user = list.FirstOrDefault(x => x.Mobile == mobile);
+                }
+               
                 if (user != null)
                 {
                     if (Tool.GetMD5(password) != user.Password)
@@ -222,8 +371,12 @@ namespace C8.Lottery.Portal.Controllers
                         }
                         else
                         {
-                         
-                            Session["UserInfo"] = user;
+
+
+                            Guid sessionId = Guid.NewGuid();
+                            Response.Cookies["sessionId"].Value = sessionId.ToString();
+                            MemClientFactory.WriteCache(sessionId.ToString(), user, 30);
+                          
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
                             string editsql = "update UserInfo set LastLoginTime=getdate() where Mobile=@Mobile";//记录最后一次登录时间

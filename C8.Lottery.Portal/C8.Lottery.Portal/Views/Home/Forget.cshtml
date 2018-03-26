@@ -9,6 +9,10 @@
     <title>忘记密码</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
+
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <script src="~/js/dialog.min.js"></script>
+    <script src="~/js/yjp.js"></script>
     <script>
         $(function () {
 
@@ -52,11 +56,11 @@
 
                         $.post('/Home/GetCode', { mobile: mobile }, function (data) {
                             if (data != true) {
-                                alert("验证码获取失败");
+                                alertmsg("验证码获取失败");
                             } 
                         });
                     } else {
-                        alert('手机号不能为空');
+                        alertmsg('手机号不能为空');
                     }
                 }
 
@@ -71,11 +75,11 @@
                 var mobile = $("#mobile").val();
                 var vcode = $("#vcode").val();
                 if (mobile.length == 0) {
-                    alert("手机号不能为空");
+                    alertmsg("手机号不能为空");
                     return false;
                 }
                 if (vcode.length == 0) {
-                    alert("验证码不能为空");
+                    alertmsg("验证码不能为空");
                     return false;
                 }
                 if (mobile != '') {
@@ -103,7 +107,7 @@
     <header class="hjc_header">
         <a href="javascript:;" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">忘记密码</a>
-        <a href="javascript:;" class="hjc_backindex"></a>
+        <a href="/Home" class="hjc_backindex"></a>
     </header>
 
     <div class="DL_main">

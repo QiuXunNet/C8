@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Newtonsoft.Json;
+@{
     ViewBag.Title = "Register";
 }
 
@@ -15,10 +16,11 @@
     <script src="~/js/yjp.js"></script>
     <script>
         $(function () {
-           
+
+
             BindsendMsgClick();
 
-              
+
             setInterval('runTime();', 1000);
             reg();
 
@@ -41,7 +43,7 @@
         }
 
 
-     
+
 
         function BindsendMsgClick() {
             $('#sendMsg').click(function () {
@@ -76,6 +78,9 @@
                 var mobile = $('#mobile').val();
                 var password = $('#password').val();
                 var vcode = $('#vcode').val();
+                var vData=@Html.Raw(JsonConvert.SerializeObject(ViewData));
+                //var hid = $("#hid").val();
+                var inviteid = vData["id"];
                 if (mobile.length == 0) {
                     alertmsg("手机号不能为空");
                     return false;
@@ -87,28 +92,28 @@
                     alertmsg("密码长度为6-12位");
                     return false;
                 }
-            
+
                 if (vcode.length == 0) {
                     alertmsg("验证码不能为空");
                     return false;
                 }
-                $.post('/Home/Create', { mobile: mobile, password: password, vcode: vcode }, function (data) {
+                $.post('/Home/Create', { mobile: mobile, password: password, vcode: vcode, inviteid: inviteid }, function (data) {
 
                     if (data.Success!=true) {
                         alertmsg(data.Msg);
 
                     } else {
-                        alertmsg(data.Msg);//跳转地址
+                        location.href = '/Personal'//跳转地址
                     }
-                
+
                 });
 
 
             });
         }
 
-          
-        
+
+
 
 
     </script>

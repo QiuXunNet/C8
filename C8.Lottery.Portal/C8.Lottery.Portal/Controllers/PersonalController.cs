@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
+using System.Web.Security;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -35,9 +36,11 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult ModifyPWD(string oldpwd,string newpwd)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
-            if (Session["UserInfo"] != null)
+          
+            UserInfo user = GetUser();
+            if (user != null)
             {
-                UserInfo user = (UserInfo)Session["UserInfo"];
+              
                 oldpwd = Tool.GetMD5(oldpwd);
                 if (oldpwd != user.Password)
                 {
@@ -91,9 +94,115 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetNickName()
         {
-
-            return View();
+            var user = GetUser();
+          
+            return View(user);
         }
 
+        /// <summary>
+        /// 设置签名
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SetAutograph()
+        {
+            var user = GetUser();
+
+            return View(user);
+        }
+        /// <summary>
+        /// 设置性别
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SetSex()
+        {
+            var user = GetUser();
+
+            return View(user);
+        }
+
+        /// <summary>
+        /// 修改用户信息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="type">1、昵称 2、签名 3、性别</param>
+        /// <returns></returns>
+        public ActionResult EditUser(string value,int type)
+        {
+            ReturnMessageJson jsonmsg = new ReturnMessageJson();
+            try
+            {
+               
+                string strsql = string.Empty;
+                UserInfo user = GetUser();
+                if (type == 1)
+                {
+                    strsql = "  Name=@value ";
+                    user.Name = value;
+                }
+                else if (type == 2)
+                {
+                    strsql = "  Autograph=@value ";
+                    user.Autograph = value;
+                }
+                else if (type == 3)
+                {
+                    strsql = " Sex=@value ";
+                    user.Sex =Convert.ToInt32(value);
+                }
+                string usersql = "update  UserInfo set  " + strsql + "      where  Mobile=@Mobile";
+              
+                SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@value",value),
+                new SqlParameter("@Mobile",user.Mobile)
+                
+                };
+
+                int data = SqlHelper.ExecuteNonQuery(usersql, sp);
+                if (data > 0)
+                {
+                    UpdateUser(user);
+                    jsonmsg.Success = true;
+                    jsonmsg.Msg = "ok";
+                }
+                else
+                {
+                    jsonmsg.Success = false;
+                    jsonmsg.Msg = "fail";
+                }
+            }
+            catch (Exception e)
+            {
+                jsonmsg.Success = false;
+                jsonmsg.Msg = e.Message;
+                throw;
+            }
+            return Json(jsonmsg);
+           
+               
+         }
+
+
+        /// <summary>
+        /// 设置页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Set()
+        {
+            UserInfo user = GetUser();
+            return View(user);
+        }
+
+        /// <summary>
+        /// 注销方法,退出登录
+        /// </summary>
+        public void logOut()
+        {
+            string sessionId = Request["sessionId"];
+            MemClientFactory.DeleteCache(sessionId);
+
+            Response.Redirect("/Home/Login");
+        }
     }
 }
+
+
