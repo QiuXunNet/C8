@@ -22,25 +22,37 @@ namespace C8.Lottery.Portal.Controllers
             base.OnActionExecuting(filterContext);
 
             string sessionId = Request["sessionId"];
+            string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
+            bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
+
             if (string.IsNullOrEmpty(sessionId))
             {
-
-                if (Request.IsAjaxRequest())
+                if (isAjaxRequest)
                 {
-
-                }
-                else
+                    JsonResult json = new JsonResult();
+                    json.Data = new { Code = 401, Message = "未经授权" };
+                    filterContext.Result = json;
+                }else
                 {
-
+                    Response.Redirect("/Home/Login");
                 }
-                Response.Redirect("/Home/Login");
+              
             }
             else
             {
                 UserInfo user= MemClientFactory.GetCache<UserInfo>(sessionId);
                 if (user == null)
                 {
-                    Response.Redirect("/Home/Login");
+                    if (isAjaxRequest)
+                    {
+                        JsonResult json = new JsonResult();
+                        json.Data = new { Code = 401, Message = "未经授权" };
+                        filterContext.Result = json;
+                    }
+                    else
+                    {
+                        Response.Redirect("/Home/Login");
+                    }
                 }
 
                 MemClientFactory.WriteCache(sessionId, user, 30);
@@ -48,20 +60,7 @@ namespace C8.Lottery.Portal.Controllers
            
         }
 
-        /// <summary>
-        /// 判断是否ajax请求
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public static bool IsAjaxRequest(this HttpRequestBase request)
-        {
-            if (request == null)
-            {
-                throw new ArgumentNullException("request");
-            }
-            return request["X-Requested-With"] == "XMLHttpRequest" || (request.Headers != null && request.Headers["X-Requested-With"] == "XMLHttpRequest");
-        }
-
+      
         /// <summary>
         /// 获取缓存用户信息
         /// </summary>

@@ -26,6 +26,7 @@
             $("#btnsub").click(function () {
                 var name = $("#name").val();
                 $.post('/Personal/EditUser', { value: name, type: 1 }, function (data) {
+                 
                     if (data.Success != true) {
                         alertmsg(data.Msg);
                     } else {

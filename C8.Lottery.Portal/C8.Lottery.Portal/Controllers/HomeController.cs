@@ -101,6 +101,7 @@ namespace C8.Lottery.Portal.Controllers
 
       
         [HttpPost]
+      
         public ActionResult Create(FormCollection form)
         {
 
