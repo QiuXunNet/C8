@@ -185,7 +185,14 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <returns></returns>
         public ActionResult NewsDetail(int id)
         {
+            //获取新闻实体
             var model = Util.GetEntityById<News>(id);
+            //查询新闻栏目信息
+            var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
+            ViewBag.NewsTypeName = newstype.TypeName;
+            //获取彩种类型信息和SEO信息
+            var lotteryType = Util.GetEntityById<LotteryType>((int)newstype.LType);
+            ViewBag.Lottery = lotteryType;
 
             #region 上一篇 下一篇
             //查询上一篇
@@ -228,6 +235,28 @@ WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
             }
             #endregion
 
+            #region 查询推荐阅读
+            //查询推荐阅读
+            string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM[dbo].[Comment] WHERE [PId] = Id) as CommentCount
+FROM [dbo].[News]
+WHERE [TypeId] = @TypeId  AND RecommendMark=1
+ORDER BY ModifyDate DESC,SortCode ASC ";
+
+            var recommendArticleParameters = new[]
+            {
+                new SqlParameter("@TypeId",model.TypeId),
+            };
+
+            var list = Util.ReaderToList<News>(recommendArticlesql, recommendArticleParameters);
+            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
+            list.ForEach(x =>
+            {
+                x.ThumbList = GetResources(sourceType, x.Id)
+                                .Select(n => n.RPath).ToList();
+            });
+            ViewBag.RecommendArticle = list;
+            #endregion
+
             return View(model);
         }
 
@@ -263,24 +292,39 @@ WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
             return View(model);
         }
 
-        public PartialViewResult WonderfulComment(int id)
+        /// <summary>
+        /// 精彩评论
+        /// </summary>
+        /// <param name="id">文章Id或计划Id</param>
+        /// <param name="type">类型 1=计划 2=文章</param>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult WonderfulComment(int id, int type = 2)
         {
             string sql =
                 @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.ArticleId = @ArticleId and a.IsDeleted = 0 
+  where a.IsDeleted = 0 and a.ArticleId = @ArticleId and a.Type=@Type
   order by StarCount desc";
             var parameters = new[]
             {
                 new SqlParameter("@UserId",SqlDbType.BigInt),
                 new SqlParameter("@ResourceType",SqlDbType.BigInt),
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
+                new SqlParameter("@Type",SqlDbType.Int),
             };
+            long userId = 0;
+
             var user = Session["UserInfo"] as UserInfo;
-            parameters[0].Value = user.Id;
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+            parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
             parameters[2].Value = id;
+            parameters[3].Value = type;
 
             var list = Util.ReaderToList<Comment>(sql, parameters);
             list.ForEach(x =>
@@ -292,7 +336,297 @@ WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
             });
 
             ViewBag.ArticleId = id;
+            ViewBag.Type = type;//1=计划 2=文章
+
+            //查询新闻/计划 总评论数量
+            int commentTotalCount = 0;
+            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted = 0 and Type={type} and ArticleId={id}";
+            var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
+
+            if (obj != null)
+            {
+                commentTotalCount = Convert.ToInt32(obj);
+            }
+
+            ViewBag.CommentTotalCount = commentTotalCount;
+
             return PartialView(list);
+        }
+
+        /// <summary>
+        /// 评论列表页
+        /// </summary>
+        /// <param name="id">文章/计划 Id</param>
+        /// <param name="type">评论类型 1=计划 2=文章</param>
+        /// <returns></returns>
+        public ActionResult CommentList(int id,int type=2)
+        {
+            string sql =
+                @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+  from Comment a
+  left join UserInfo b on b.Id = a.UserId
+  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+  where a.ArticleId = @ArticleId and a.RefCommentId=0 and a.IsDeleted = 0  and a.Type=@Type
+  order by StarCount desc";
+            var parameters = new[]
+            {
+                new SqlParameter("@UserId",SqlDbType.BigInt),
+                new SqlParameter("@ResourceType",SqlDbType.Int),
+                new SqlParameter("@ArticleId",SqlDbType.BigInt),
+                new SqlParameter("@Type",SqlDbType.Int),
+            };
+            long userId = 0;
+
+            var user = Session["UserInfo"] as UserInfo;
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+            parameters[0].Value = userId;
+            parameters[1].Value = (int)ResourceTypeEnum.用户头像;
+            parameters[2].Value = id;
+            parameters[3].Value = type;
+
+            var list = Util.ReaderToList<Comment>(sql, parameters);
+            list.ForEach(x =>
+            {
+                if (string.IsNullOrEmpty(x.Avater))
+                {
+                    x.Avater = "~/images/default_avater.png";
+                }
+            });
+
+            ViewBag.ArticleId = id;
+            ViewBag.Type = type;//1=计划 2=文章
+
+            //查询新闻/文章 总评论数量
+            int commentTotalCount = 0;
+            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
+
+            if (obj != null)
+            {
+                commentTotalCount = Convert.ToInt32(obj);
+            }
+
+            ViewBag.CommentTotalCount = commentTotalCount;
+
+            return View(list);
+            //return Json(result);
+        }
+
+        /// <summary>
+        /// 最新评论
+        /// </summary>
+        /// <param name="id">文章或计划Id</param>
+        /// <param name="type">评论类型 1=计划 2=文章</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult LastComment(int id,int type=2, int pageIndex = 1, int pageSize = 10)
+        {
+
+            var result = new AjaxResult<PagedList<Comment>>();
+
+            string sql = @"SELECT * FROM ( 
+select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
+,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+from Comment a
+  left join UserInfo b on b.Id = a.UserId
+  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+  where a.ArticleId = @ArticleId and a.IsDeleted = 0 and a.RefCommentId=0 and a.Type=@Type 
+  ) T
+WHERE rowNumber BETWEEN @Start AND @End";
+            var parameters = new[]
+            {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@ArticleId",id),
+                new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
+                new SqlParameter("@End",pageSize * pageIndex),
+                new SqlParameter("@Type",type),
+            };
+
+            var list = Util.ReaderToList<Comment>(sql, parameters);
+
+
+            string countSql = $"select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            object obj = SqlHelper.ExecuteScalar(countSql);
+
+            var pager = new PagedList<Comment>();
+            pager.PageData = list;
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = obj != null ? Convert.ToInt32(obj) : 0;
+
+            result.Data = pager;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 评论详情
+        /// </summary>
+        /// <param name="id">评论Id</param>
+        /// <param name="type">类型 1=计划 2=文章</param>
+        /// <returns></returns>
+        public ActionResult CommentDetail(int id,int type =2)
+        {
+            string sql =
+               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+  from Comment a
+  left join UserInfo b on b.Id = a.UserId
+  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+  where a.Id = @Id and a.IsDeleted = 0 and a.Type=@Type
+  order by StarCount desc";
+            var parameters = new[]
+            {
+                new SqlParameter("@UserId",SqlDbType.BigInt),
+                new SqlParameter("@ResourceType",SqlDbType.Int),
+                new SqlParameter("@Id",SqlDbType.BigInt),
+                new SqlParameter("@Type",SqlDbType.Int),
+            };
+            long userId = 0;
+
+            var user = Session["UserInfo"] as UserInfo;
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+            parameters[0].Value = userId;
+            parameters[1].Value = (int)ResourceTypeEnum.用户头像;
+            parameters[2].Value = id;
+            parameters[3].Value = type;
+
+            var list = Util.ReaderToList<Comment>(sql, parameters);
+
+            if (!list.Any())
+            {
+                Response.Redirect("News/CommentList/" + id);
+                return View();
+            }
+
+            list.ForEach(x =>
+            {
+                if (string.IsNullOrEmpty(x.Avater))
+                {
+                    x.Avater = "~/images/default_avater.png";
+                }
+            });
+
+            var model = list.FirstOrDefault();
+
+            ViewBag.CommentId = id;
+            ViewBag.Type = type;//1=计划 2=文章
+
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// 查询评论的回复列表
+        /// </summary>
+        /// <param name="id">评论Id</param>
+        /// <param name="type">类型 1=计划 2=文章</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult LastReply(int id,int type=2, int pageIndex = 1, int pageSize = 10)
+        {
+
+            var result = new AjaxResult<PagedList<Comment>>();
+
+            string sql = @"SELECT * FROM ( 
+select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
+,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+from Comment a
+  left join UserInfo b on b.Id = a.UserId
+  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+  where a.RefCommentId = @RefCommentId and a.IsDeleted = 0 and a.Type=@Type
+  ) T
+WHERE rowNumber BETWEEN @Start AND @End";
+            var parameters = new[]
+            {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@RefCommentId",id),
+                new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
+                new SqlParameter("@End",pageSize * pageIndex),
+                new SqlParameter("@Type",type),
+            };
+
+            var list = Util.ReaderToList<Comment>(sql, parameters);
+
+            list.ForEach(x =>
+            {
+
+                if (string.IsNullOrEmpty(x.Avater))
+                {
+                    x.Avater = "/images/default_avater.png";
+                }
+                //查询是否有上级回复
+                // 2 40 42
+                if (x.PId > 0)
+                {
+                    x.ParentComment = GetComment(x.PId);
+                }
+
+            });
+
+
+            string countSql = "select count(1) from Comment where IsDeleted = 0 and RefCommentId=" + id;
+            object obj = SqlHelper.ExecuteScalar(countSql);
+
+            int totalCount = obj != null ? Convert.ToInt32(obj) : 0;
+            var pager = new PagedList<Comment>(pageIndex, pageSize, totalCount, list);
+
+            result.Data = pager;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 点赞
+        /// </summary>
+        /// <param name="id">评论Id</param>
+        /// <param name="type">类型 1=点赞 2=取消点赞</param>
+        /// <returns></returns>
+        public JsonResult ClickLike(int id,int type)
+        {
+            var result = new AjaxResult();
+
+            string sql = $"select Id from LikeRecord where CommentId={id} and UserId={0}";
+
+            if (type == 1)
+            {
+
+            }
+
+            return Json(result);
+        }
+
+        private Comment GetComment(long id)
+        {
+            string sql = @"select a.*,isnull(b.Name,'') as NickName
+ from Comment a
+left join UserInfo b on b.Id=a.UserId
+where  a.Id=@Id and a.IsDeleted = 0";
+            var parameters = new[]
+           {
+                new SqlParameter("@Id",id),
+            };
+
+            var list = Util.ReaderToList<Comment>(sql, parameters);
+
+
+            if (list.Any())
+            {
+                return list.FirstOrDefault();
+            }
+
+            return null;
         }
 
     }

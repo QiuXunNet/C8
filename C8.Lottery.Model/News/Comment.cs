@@ -43,6 +43,10 @@ namespace C8.Lottery.Model
         /// 创建时间
         /// </summary>		
         public DateTime SubTime { get; set; }
+
+        public string SubTimeStr {
+            get { return SubTime.ToString("yyyy-MM-dd HH:mm"); }
+        }
         /// <summary>
         /// 更改时间
         /// </summary>		
@@ -69,5 +73,19 @@ namespace C8.Lottery.Model
         /// 头像
         /// </summary>
         public string Avater { get; set; }
+        /// <summary>
+        /// 回复数量
+        /// </summary>
+        public int ReplayCount { get; set; }
+
+        /// <summary>
+        /// 关联评论Id ， 0=1级评论 other=关联的上级评论Id
+        /// </summary>
+        public int RefCommentId { get; set; }
+
+        /// <summary>
+        /// 关联评论对象
+        /// </summary>
+        public Comment ParentComment { get; set; }
     }
 }
