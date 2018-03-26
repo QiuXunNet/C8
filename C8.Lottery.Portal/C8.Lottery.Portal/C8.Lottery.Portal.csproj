@@ -110,7 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\UserHelp.cs" />
+    <Compile Include="App_Code\UserHelp.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AuthenticationAttribute.cs" />
     <Compile Include="Controllers\CommentController.cs" />
@@ -460,6 +460,8 @@
     <Content Include="Views\News\CommentList.cshtml" />
     <Content Include="Views\Personal\SetSex.cshtml" />
     <Content Include="Views\Personal\Set.cshtml" />
+    <Content Include="Views\Personal\Task.cshtml" />
+    <Content Include="Views\Comment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

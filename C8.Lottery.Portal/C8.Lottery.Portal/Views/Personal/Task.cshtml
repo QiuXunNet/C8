@@ -40,9 +40,9 @@
           
             @foreach (var item in Model)
             {
-               
-                @Html.Action("GetCompletedCount", new { taskid = item.Id });
-                <li>
+
+                ViewData["xxx"].ToString();
+                   <li>
                  
                     <i class="Mack_icon"></i>
                     <h3>@item.TaskItem（0/@item.Count）</h3>
