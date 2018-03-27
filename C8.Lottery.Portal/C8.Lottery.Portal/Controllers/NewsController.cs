@@ -318,7 +318,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             };
             long userId = 0;
 
-            var user = UserHelp.GetUser();
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -380,7 +380,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             };
             long userId = 0;
 
-            var user = UserHelp.GetUser();
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -493,7 +493,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             };
             long userId = 0;
 
-            var user = UserHelp.GetUser();
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -554,7 +554,7 @@ from Comment a
 WHERE rowNumber BETWEEN @Start AND @End";
             long userId = 0;
 
-            var user = UserHelp.GetUser();
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -611,7 +611,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         public JsonResult ClickLike(int id, int ctype, int type = 2)
         {
             var result = new AjaxResult();
-            long userId = UserHelp.GetUser().Id;
+            long userId = UserHelper.GetUser().Id;
             string sql = $"select [Id],[CommentId],[UserId],[Status],[Type] from [dbo].[LikeRecord] where [Type]={type} and CommentId={id} and UserId={userId}";
 
             var list = Util.ReaderToList<LikeRecord>(sql);
@@ -667,7 +667,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     }
                     catch (Exception ex)
                     {
-                        LogHelper.WriteLog($"点赞异常，用户：{UserHelp.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
+                        LogHelper.WriteLog($"点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
                         result = new AjaxResult(500, ex.Message);
                     }
                     #endregion
@@ -730,7 +730,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog($"取消点赞异常，用户：{UserHelp.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
+                LogHelper.WriteLog($"取消点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
                 result = new AjaxResult(500, ex.Message);
             }
             return result;
