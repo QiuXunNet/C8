@@ -461,6 +461,11 @@
     <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Personal\Task.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\Public\Tan.cshtml" />
+    <Content Include="Views\News\CommentDetail.cshtml" />
+    <Content Include="Views\Personal\Fans.cshtml" />
+    <Content Include="Views\Personal\Follow.cshtml" />
+    <Content Include="Views\Plan\Post.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
