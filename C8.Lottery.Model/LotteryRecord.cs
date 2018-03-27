@@ -93,7 +93,7 @@ namespace C8.Lottery.Model
                     result = sum + "," + danshuang + "," + daxiao + "," + longhu;
 
                 }
-                else if (lType == 3 || lType == 4)
+                else if (lType == 5)
                 {
                     result += Util.GetShengxiaoByDigit(int.Parse(arr[0])) + "," +
                               Util.GetShengxiaoByDigit(int.Parse(arr[1])) + "," +
@@ -103,7 +103,7 @@ namespace C8.Lottery.Model
                               Util.GetShengxiaoByDigit(int.Parse(arr[5])) + "," +
                               Util.GetShengxiaoByDigit(int.Parse(arr[6]));
                 }
-                else if (lType == 7 || lType == 8 || lType == 9)
+                else if (lType == 63 || lType == 64)
                 {
                     int guanyahe = int.Parse(arr[0]) + int.Parse(arr[1]);
                     string danshuang = guanyahe % 2 == 0 ? "双" : "单";
@@ -149,6 +149,42 @@ namespace C8.Lottery.Model
                     string longhu = a > b ? "龙" : "虎";
 
                     result = sum + "," + danshuang + "," + daxiao + "," + longhu;
+                }
+                else if (lType >= 51 && lType < 60)
+                {
+                    int sum = int.Parse(arr[0]) + int.Parse(arr[1]) + int.Parse(arr[2]) + int.Parse(arr[3]) +
+                              int.Parse(arr[4]) + int.Parse(arr[5]) + int.Parse(arr[6]) + int.Parse(arr[7]);
+
+
+                    string danshuang = sum % 2 == 0 ? "双" : "单";
+                    string daxiao = "";
+                    if (sum >= 85 && sum <= 132)
+                    {
+                        daxiao = "大";
+                    }
+                    else if (sum >= 36 && sum <= 83)
+                    {
+                        daxiao = "小";
+                    }
+                    else if (sum == 84)
+                    {
+                        daxiao = "和";
+                    }
+
+                    string weishu = sum.ToString();
+
+                    int wei = int.Parse(weishu.Substring(weishu.Length - 1, 1));
+
+                    string weidaxiao = wei >= 5 ? "尾大" : "尾小";
+
+
+                    int a = int.Parse(arr[0]);
+                    int b = int.Parse(arr[7]);
+
+                    string longhu = a > b ? "龙" : "虎";
+
+                    result = sum + "," + danshuang + "," + daxiao + "," + weidaxiao + "," + longhu;
+
                 }
 
                 return result;

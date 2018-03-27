@@ -340,7 +340,9 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             //查询新闻/计划 总评论数量
             int commentTotalCount = 0;
-            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted = 0 and Type={type} and ArticleId={id}";
+            string commentTotalCountSql = "select count(1) from Comment where IsDeleted = 0 and Type=" + type +
+                                          " and ArticleId=" + id;
+
             var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
 
             if (obj != null)
@@ -359,7 +361,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         /// <param name="id">文章/计划 Id</param>
         /// <param name="type">评论类型 1=计划 2=文章</param>
         /// <returns></returns>
-        public ActionResult CommentList(int id,int type=2)
+        public ActionResult CommentList(int id, int type = 2)
         {
             string sql =
                 @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
@@ -402,7 +404,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             //查询新闻/文章 总评论数量
             int commentTotalCount = 0;
-            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            string commentTotalCountSql = "select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
 
             if (obj != null)
@@ -425,7 +427,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult LastComment(int id,int type=2, int pageIndex = 1, int pageSize = 10)
+        public JsonResult LastComment(int id, int type = 2, int pageIndex = 1, int pageSize = 10)
         {
 
             var result = new AjaxResult<PagedList<Comment>>();
@@ -451,7 +453,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             var list = Util.ReaderToList<Comment>(sql, parameters);
 
 
-            string countSql = $"select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            string countSql = "select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             object obj = SqlHelper.ExecuteScalar(countSql);
 
             var pager = new PagedList<Comment>();
@@ -471,7 +473,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <param name="id">评论Id</param>
         /// <param name="type">类型 1=计划 2=文章</param>
         /// <returns></returns>
-        public ActionResult CommentDetail(int id,int type =2)
+        public ActionResult CommentDetail(int id, int type = 2)
         {
             string sql =
                @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
@@ -534,7 +536,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult LastReply(int id,int type=2, int pageIndex = 1, int pageSize = 10)
+        public JsonResult LastReply(int id, int type = 2, int pageIndex = 1, int pageSize = 10)
         {
 
             var result = new AjaxResult<PagedList<Comment>>();
@@ -593,11 +595,11 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <param name="id">评论Id</param>
         /// <param name="type">类型 1=点赞 2=取消点赞</param>
         /// <returns></returns>
-        public JsonResult ClickLike(int id,int type)
+        public JsonResult ClickLike(int id, int type)
         {
             var result = new AjaxResult();
 
-            string sql = $"select Id from LikeRecord where CommentId={id} and UserId={0}";
+            string sql = "select Id from LikeRecord where CommentId=" + id + " and UserId={0}";
 
             if (type == 1)
             {

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Public;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 namespace C8.Lottery.Portal.Controllers
 {
     public class AuthenticationAttribute:ActionFilterAttribute
