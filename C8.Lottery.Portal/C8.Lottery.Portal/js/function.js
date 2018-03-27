@@ -1,4 +1,5 @@
-﻿$(function() {
+﻿
+$(function () {
 
 
     /*右上角*/
@@ -13,7 +14,7 @@
 });
 
 function BindqueryDateLiClick() {
-    $('#queryDate li').bind('click', function() {
+    $('#queryDate li').bind('click', function() { 
         var date = $(this).html();
 
         $.post('/Record/OpenRecord', { date: date }, function (data) {

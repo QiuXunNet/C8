@@ -23,10 +23,89 @@ namespace C8.Lottery.Model
             {
                 string result = "";
 
-
                 //时时彩
-                if (lType >= 9 && lType < 51)
+                if (lType == 5)
                 {
+                    #region 六合
+
+                    if (Sort == 0)
+                    {
+                        result = "平码";
+                    }
+                    else if (Sort == 1)
+                    {
+                        result = "尾数";
+                    }
+                    else if (Sort == 2)
+                    {
+                        result = "特肖";
+                    }
+                    else if (Sort == 3)
+                    {
+                        result = "一肖";
+                    }
+                    else if (Sort == 4)
+                    {
+                        result = "特码大小";
+                    }
+                    else if (Sort == 5)
+                    {
+                        result = "特码单双";
+                    }
+                    else if (Sort == 6)
+                    {
+                        result = "特码20码";
+                    }
+                    else if (Sort == 7)
+                    {
+                        result = "五不中";
+                    }
+
+                    #endregion
+                }
+                else if ((lType >= 51 && lType < 60) || (lType == 2 || lType == 4 || lType == 8))
+                {
+                    #region 快乐十分
+
+                    if (Sort == 0)
+                    {
+                        result = "第一球";
+                    }
+                    else if (Sort == 1)
+                    {
+                        result = "第二球";
+                    }
+                    else if (Sort == 2)
+                    {
+                        result = "第三球";
+                    }
+                    else if (Sort == 3)
+                    {
+                        result = "第四球";
+                    }
+                    else if (Sort == 4)
+                    {
+                        result = "第五球";
+                    }
+                    else if (Sort == 5)
+                    {
+                        result = "第六球";
+                    }
+                    else if (Sort == 6)
+                    {
+                        result = "第七球";
+                    }
+                    else if (Sort == 7)
+                    {
+                        result = "第八球";
+                    }
+
+                    #endregion
+                }
+                else if (lType < 9 || (lType >= 9 && lType < 51) || lType == 65 || (lType >= 60 && lType < 63))
+                {
+                    #region 时时彩
+
                     if (Sort == 0)
                     {
                         result = "第一球";
@@ -51,9 +130,13 @@ namespace C8.Lottery.Model
                     {
                         result = "龙虎";
                     }
+
+                    #endregion
                 }
-                else if (lType == 7)
+                else if (lType == 63 || lType == 64)
                 {
+                    #region PK10
+
                     if (Sort == 0)
                     {
                         result = "冠军";
@@ -94,78 +177,12 @@ namespace C8.Lottery.Model
                     {
                         result = "第十名";
                     }
-                }
-                else if (lType == 13)
-                {
-                    if (Sort == 0)
-                    {
-                        result = "第一球";
-                    }
-                    else if (Sort == 1)
-                    {
-                        result = "第二球";
-                    }
-                    else if (Sort == 2)
-                    {
-                        result = "第三球";
-                    }
-                    else if (Sort == 3)
-                    {
-                        result = "第四球";
-                    }
-                    else if (Sort == 4)
-                    {
-                        result = "第五球";
-                    }
-                    else if (Sort == 5)
-                    {
-                        result = "第六球";
-                    }
-                    else if (Sort == 6)
-                    {
-                        result = "第七球";
-                    }
-                    else if (Sort == 7)
-                    {
-                        result = "第八球";
-                    }
-                }
-                else if (lType == 3)
-                {
-                    if (Sort == 0)
-                    {
-                        result = "平码";
-                    }
-                    else if (Sort == 1)
-                    {
-                        result = "尾数";
-                    }
-                    else if (Sort == 2)
-                    {
-                        result = "特肖";
-                    }
-                    else if (Sort == 3)
-                    {
-                        result = "一肖";
-                    }
-                    else if (Sort == 4)
-                    {
-                        result = "特码大小";
-                    }
-                    else if (Sort == 5)
-                    {
-                        result = "特码单双";
-                    }
-                    else if (Sort == 6)
-                    {
-                        result = "特码20码";
-                    }
-                    else if (Sort == 7)
-                    {
-                        result = "五不中";
-                    }
 
+
+                    #endregion
                 }
+               
+
 
                 return result;
             }

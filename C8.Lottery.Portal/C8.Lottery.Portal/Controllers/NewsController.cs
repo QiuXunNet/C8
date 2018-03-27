@@ -94,8 +94,8 @@ namespace C8.Lottery.Portal.Controllers
 
             string sql = @"SELECT * FROM ( 
 SELECT row_number() over(order by SortCode ASC, ReleaseTime DESC ) as rowNumber,
-[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [PId]=Id) as CommentCount
-FROM [dbo].[News] 
+[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
+FROM [dbo].[News] a
 WHERE [TypeId]=@TypeId ) T
 WHERE rowNumber BETWEEN @Start AND @End";
             SqlParameter[] parameters =
@@ -237,10 +237,12 @@ WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
 
             #region 查询推荐阅读
             //查询推荐阅读
-            string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM[dbo].[Comment] WHERE [PId] = Id) as CommentCount
-FROM [dbo].[News]
-WHERE [TypeId] = @TypeId  AND RecommendMark=1
+            string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
+(SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
+FROM [dbo].[News] a
+WHERE [TypeId] = @TypeId 
 ORDER BY ModifyDate DESC,SortCode ASC ";
+            //AND RecommendMark = 1
 
             var recommendArticleParameters = new[]
             {
@@ -302,7 +304,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         public PartialViewResult WonderfulComment(int id, int type = 2)
         {
             string sql =
-                @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes from Comment a
+                @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
   where a.IsDeleted = 0 and a.ArticleId = @ArticleId and a.Type=@Type
@@ -316,7 +318,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             };
             long userId = 0;
 
-            var user = Session["UserInfo"] as UserInfo;
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -340,7 +342,9 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             //查询新闻/计划 总评论数量
             int commentTotalCount = 0;
-            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted = 0 and Type={type} and ArticleId={id}";
+            string commentTotalCountSql = "select count(1) from Comment where IsDeleted = 0 and Type=" + type +
+                                          " and ArticleId=" + id;
+
             var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
 
             if (obj != null)
@@ -359,10 +363,10 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         /// <param name="id">文章/计划 Id</param>
         /// <param name="type">评论类型 1=计划 2=文章</param>
         /// <returns></returns>
-        public ActionResult CommentList(int id,int type=2)
+        public ActionResult CommentList(int id, int type = 2)
         {
             string sql =
-                @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+                @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
 ,(select count(1) from Comment where PId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
@@ -378,7 +382,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             };
             long userId = 0;
 
-            var user = Session["UserInfo"] as UserInfo;
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -402,7 +406,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             //查询新闻/文章 总评论数量
             int commentTotalCount = 0;
-            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            string commentTotalCountSql = "select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
 
             if (obj != null)
@@ -425,7 +429,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult LastComment(int id,int type=2, int pageIndex = 1, int pageSize = 10)
+        public JsonResult LastComment(int id, int type = 2, int pageIndex = 1, int pageSize = 10)
         {
 
             var result = new AjaxResult<PagedList<Comment>>();
@@ -451,7 +455,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             var list = Util.ReaderToList<Comment>(sql, parameters);
 
 
-            string countSql = $"select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            string countSql = "select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             object obj = SqlHelper.ExecuteScalar(countSql);
 
             var pager = new PagedList<Comment>();
@@ -471,10 +475,11 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <param name="id">评论Id</param>
         /// <param name="type">类型 1=计划 2=文章</param>
         /// <returns></returns>
-        public ActionResult CommentDetail(int id,int type =2)
+        public ActionResult CommentDetail(int id, int type = 2)
         {
             string sql =
-               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater
+,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
 ,(select count(1) from Comment where PId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
@@ -490,7 +495,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             };
             long userId = 0;
 
-            var user = Session["UserInfo"] as UserInfo;
+            var user = UserHelper.GetUser();
             if (user != null)
             {
                 userId = user.Id;
@@ -534,13 +539,14 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult LastReply(int id,int type=2, int pageIndex = 1, int pageSize = 10)
+        public JsonResult LastReply(int id, int type = 2, int pageIndex = 1, int pageSize = 10)
         {
 
             var result = new AjaxResult<PagedList<Comment>>();
 
             string sql = @"SELECT * FROM ( 
 select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
+,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
 ,(select count(1) from Comment where PId = a.Id ) as ReplayCount
 from Comment a
   left join UserInfo b on b.Id = a.UserId
@@ -548,8 +554,17 @@ from Comment a
   where a.RefCommentId = @RefCommentId and a.IsDeleted = 0 and a.Type=@Type
   ) T
 WHERE rowNumber BETWEEN @Start AND @End";
+            long userId = 0;
+
+            var user = UserHelper.GetUser();
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+
             var parameters = new[]
             {
+                new SqlParameter("@UserId",userId),
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@RefCommentId",id),
                 new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
@@ -587,24 +602,141 @@ WHERE rowNumber BETWEEN @Start AND @End";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
         /// <summary>
         /// 点赞
         /// </summary>
         /// <param name="id">评论Id</param>
-        /// <param name="type">类型 1=点赞 2=取消点赞</param>
+        /// <param name="ctype">操作类型 1=点赞 2=取消点赞</param>
+        /// <param name="type">类型 1=计划 2=文章</param>
         /// <returns></returns>
-        public JsonResult ClickLike(int id,int type)
+        [Authentication]
+        public JsonResult ClickLike(int id, int ctype, int type = 2)
         {
             var result = new AjaxResult();
+            long userId = UserHelper.GetUser().Id;
+            string sql = "select [Id],[CommentId],[UserId],[Status],[Type] from [dbo].[LikeRecord] where [Type]=" + type + " and CommentId=" + id + " and UserId=" + userId;
 
-            string sql = $"select Id from LikeRecord where CommentId={id} and UserId={0}";
+            var list = Util.ReaderToList<LikeRecord>(sql);
 
-            if (type == 1)
+            if (ctype == 1)
             {
+                if (list.Any())
+                {
+                    //已存在点赞记录
+                    var likeRecord = list.FirstOrDefault();
+                    if (likeRecord.Status == (int)LikeStatusEnum.Canceled)
+                    {
+                        //已存在的点赞记录为取消状态
+                        //修改点赞状态
+                        result = MoidfyLike(id, type, userId, (int)LikeStatusEnum.Clicked);
+                    }
+                    else
+                    {
+                        result = new AjaxResult(10000, "你已经点过赞");
+                    }
+                }
+                else
+                {
+                    #region 添加点赞
+                    try
+                    {
+                        //添加点赞
+                        //SqlHelper.ExecuteTransaction();
+                        string insert = @"INSERT INTO [dbo].[LikeRecord]
+           ([CommentId]
+           ,[UserId]
+           ,[CreateTime]
+           ,[Status]
+           ,[UpdateTime]
+           ,[Type])
+     VALUES
+           (@CommentId
+           ,@UserId
+           ,GETDATE()
+           ,1
+           ,GETDATE()
+           ,@Type);
+        UPDATE [dbo].[Comment] SET [StarCount]+=1 WHERE Id=@CommentId;";
 
+                        var insertParameters = new[]
+                        {
+                        new SqlParameter("@CommentId", id),
+                        new SqlParameter("@UserId", userId),
+                        new SqlParameter("@Type", type),
+                    };
+
+                        SqlHelper.ExecuteTransaction(insert, insertParameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        //LogHelper.WriteLog($"点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
+                        result = new AjaxResult(500, ex.Message);
+                    }
+                    #endregion
+
+                }
+            }
+            else if (ctype == 2)
+            {
+                //取消点赞
+                if (list.Any())
+                {
+                    result = MoidfyLike(id, type, userId, (int)LikeStatusEnum.Canceled);
+                }
+            }
+            else
+            {
+                result = new AjaxResult(400, "Bad Request");
             }
 
             return Json(result);
+        }
+
+        /// <summary>
+        /// 修改点赞
+        /// </summary>
+        /// <param name="id">评论Id</param>
+        /// <param name="type">评论类型</param>
+        /// <param name="userId">用户Id</param>
+        /// <param name="likeStatus">点赞操作类型 </param>
+        /// <returns></returns>
+        private static AjaxResult MoidfyLike(int id, int type, long userId, int likeStatus)
+        {
+            AjaxResult result = new AjaxResult();
+            try
+            {
+                //修改点赞
+                //SqlHelper.ExecuteTransaction();
+                string updateSql = @"
+        UPDATE [dbo].[LikeRecord] SET [Status]=@Status,[UpdateTime]=GETDATE() 
+        WHERE [CommentId]=@CommentId AND [UserId]=@UserId AND [Type]=@Type;";
+
+                if (likeStatus == 1)
+                {
+                    updateSql += "UPDATE [dbo].[Comment] SET [StarCount] +=1 WHERE [StarCount]>0 and Id=@CommentId;";
+                }
+                else
+                {
+                    updateSql += "UPDATE [dbo].[Comment] SET [StarCount] -=1 WHERE [StarCount]>0 and Id=@CommentId;";
+                }
+
+                var updateParameters = new[]
+                {
+                    new SqlParameter("@CommentId", id),
+                    new SqlParameter("@UserId", userId),
+                    new SqlParameter("@Type", type),
+                    new SqlParameter("@Status", likeStatus)
+                };
+
+                SqlHelper.ExecuteTransaction(updateSql, updateParameters);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog($"取消点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
+                result = new AjaxResult(500, ex.Message);
+            }
+            return result;
         }
 
         private Comment GetComment(long id)

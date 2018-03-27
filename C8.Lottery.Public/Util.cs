@@ -15,6 +15,90 @@ namespace C8.Lottery.Public
 {
     public class Util
     {
+        //获取玩法名称
+        public static string GetPlayName(int lType, string playName, string betNum, int index)
+        {
+            string result = "";
+
+            if ((lType >= 9 && lType < 51) || (lType >= 60 && lType < 66) || lType == 1 || lType == 3 || lType == 6 || lType == 7 || lType == 8)
+            {
+                if (playName == "龙虎" || playName.Contains("胆") || playName.Contains("杀"))
+                {
+                    result = "";            //
+                }
+                else if (betNum == "单" || betNum == "双")
+                {
+                    result = "单双";
+                }
+                else if (betNum == "大" || betNum == "小")
+                {
+                    result = "大小";
+                }
+                else if (betNum == "龙" || betNum == "虎")
+                {
+                    result = "龙虎";
+                }
+                else
+                {
+                    if (lType >= 60 && lType < 63)
+                    {
+                        result = "六码";
+                    }
+                    else
+                    {
+                        result = "五码";
+                    }
+
+                }
+            }
+            else if (lType >= 51 && lType < 60)             //快乐十分
+            {
+                if (betNum == "单" || betNum == "双")
+                {
+                    if (index == 0)
+                    {
+                        result = "单双";
+                    }
+                    else
+                    {
+                        result = "合单双";
+                    }
+                }
+                else if (betNum == "大" || betNum == "小")
+                {
+                    if (index == 1)
+                    {
+                        result = "大小";
+                    }
+                    else
+                    {
+                        result = "尾大小";
+                    }
+                }
+                else if (betNum == "龙" || betNum == "虎")
+                {
+                    result = "龙虎";
+                }
+                else if (betNum == "东" || betNum == "南" || betNum == "西" || betNum == "北")
+                {
+                    result = "东南西北";
+                }
+                else if (betNum == "中" || betNum == "发" || betNum == "白")
+                {
+                    result = "中发白";
+                }
+            }
+            else if (lType == 2 || lType == 4 || lType == 5)
+            {
+                result = "";
+            }
+
+
+
+            return result;
+        }
+
+
 
 
         public static string GetFirstIssue(int lType)
@@ -25,7 +109,7 @@ namespace C8.Lottery.Public
             {
                 result = "001";
             }
-            else if (lType >= 15 && lType < 51)
+            else if (lType >= 15 && lType < 63)
             {
                 result = "01";
             }
@@ -69,7 +153,7 @@ namespace C8.Lottery.Public
             {
                 result = "84";
             }
-            else if (lType == 38)
+            else if (lType == 38 || lType == 60 || lType == 62)
             {
                 result = "80";
             }
@@ -77,7 +161,7 @@ namespace C8.Lottery.Public
             {
                 result = "81";
             }
-            else if (lType == 48)
+            else if (lType == 48 || lType == 52 || lType == 54 || lType == 55 || lType == 58)
             {
                 result = "84";
             }
@@ -89,7 +173,7 @@ namespace C8.Lottery.Public
             {
                 result = "82";
             }
-            else if (lType == 40 || lType == 42 || lType == 43 || lType == 45)
+            else if (lType == 40 || lType == 42 || lType == 43 || lType == 45 || lType == 61)
             {
                 result = "78";
             }
@@ -100,6 +184,26 @@ namespace C8.Lottery.Public
             else if (lType == 49)
             {
                 result = "73";
+            }
+            else if (lType == 51)
+            {
+                result = "97";
+            }
+            else if (lType == 53)
+            {
+                result = "50";
+            }
+            else if (lType == 56)
+            {
+                result = "69";
+            }
+            else if (lType == 57)
+            {
+                result = "86";
+            }
+            else if (lType == 58)
+            {
+                result = "72";
             }
 
 
@@ -2017,7 +2121,7 @@ namespace C8.Lottery.Public
 
                 #endregion
             }
-            else if (lType <= 8 || lType == 39 || lType == 63 || lType == 65)      //期号依次递增的彩种
+            else if (lType <= 8 || lType == 39 || lType == 54 || lType == 63 || lType == 65)      //期号依次递增的彩种
             {
                 return GetPK10Issue(lType);
             }
@@ -15402,7 +15506,7 @@ namespace C8.Lottery.Public
                     {
                         issue = "77";
                     }
-                   
+
                 }
                 else if (hour == 20)
                 {
@@ -15459,7 +15563,7 @@ namespace C8.Lottery.Public
                     }
 
                 }
-               
+
 
 
                 #endregion
@@ -19268,7 +19372,7 @@ namespace C8.Lottery.Public
             }
             else if (lType == 57)
             {
-                #region 陕西快乐十分      8:40:00
+                #region 山西快乐十分      8:40:00
 
                 if (hour < 8)
                 {
@@ -19276,44 +19380,40 @@ namespace C8.Lottery.Public
                 }
                 else if (hour == 8)
                 {
-                    if (d < DateTime.Parse(date + " 8:40:00"))
+                    if (d < DateTime.Parse(date + " 8:50:00"))
                     {
                         issue = "01";
                     }
-                    else if (d >= DateTime.Parse(date + " 8:40:00") && d < DateTime.Parse(date + " 8:50:00"))
-                    {
-                        issue = "02";
-                    }
                     else if (d >= DateTime.Parse(date + " 8:50:00") && d < DateTime.Parse(date + " 9:0:0"))
                     {
-                        issue = "03";
+                        issue = "02";
                     }
                 }
                 else if (hour == 9)
                 {
                     if (d >= DateTime.Parse(date + " 9:0:0") && d < DateTime.Parse(date + " 9:10:00"))
                     {
-                        issue = "04";
+                        issue = "03";
                     }
                     else if (d >= DateTime.Parse(date + " 9:10:00") && d < DateTime.Parse(date + " 9:20:00"))
                     {
-                        issue = "05";
+                        issue = "04";
                     }
                     else if (d >= DateTime.Parse(date + " 9:20:00") && d < DateTime.Parse(date + " 9:30:00"))
                     {
-                        issue = "06";
+                        issue = "05";
                     }
                     else if (d >= DateTime.Parse(date + " 9:30:00") && d < DateTime.Parse(date + " 9:40:00"))
                     {
-                        issue = "07";
+                        issue = "06";
                     }
                     else if (d >= DateTime.Parse(date + " 9:40:00") && d < DateTime.Parse(date + " 9:50:00"))
                     {
-                        issue = "08";
+                        issue = "07";
                     }
                     else if (d >= DateTime.Parse(date + " 9:50:00") && d < DateTime.Parse(date + " 10:0:0"))
                     {
-                        issue = "09";
+                        issue = "08";
                     }
 
                 }
@@ -19321,27 +19421,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 10:0:0") && d < DateTime.Parse(date + " 10:10:00"))
                     {
-                        issue = "10";
+                        issue = "09";
                     }
                     else if (d >= DateTime.Parse(date + " 10:10:00") && d < DateTime.Parse(date + " 10:20:00"))
                     {
-                        issue = "11";
+                        issue = "10";
                     }
                     else if (d >= DateTime.Parse(date + " 10:20:00") && d < DateTime.Parse(date + " 10:30:00"))
                     {
-                        issue = "12";
+                        issue = "11";
                     }
                     else if (d >= DateTime.Parse(date + " 10:30:00") && d < DateTime.Parse(date + " 10:40:00"))
                     {
-                        issue = "13";
+                        issue = "12";
                     }
                     else if (d >= DateTime.Parse(date + " 10:40:00") && d < DateTime.Parse(date + " 10:50:00"))
                     {
-                        issue = "14";
+                        issue = "13";
                     }
                     else if (d >= DateTime.Parse(date + " 10:50:00") && d < DateTime.Parse(date + " 11:0:0"))
                     {
-                        issue = "15";
+                        issue = "14";
                     }
 
                 }
@@ -19349,27 +19449,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 11:0:0") && d < DateTime.Parse(date + " 11:10:00"))
                     {
-                        issue = "16";
+                        issue = "15";
                     }
                     else if (d >= DateTime.Parse(date + " 11:10:00") && d < DateTime.Parse(date + " 11:20:00"))
                     {
-                        issue = "17";
+                        issue = "16";
                     }
                     else if (d >= DateTime.Parse(date + " 11:20:00") && d < DateTime.Parse(date + " 11:30:00"))
                     {
-                        issue = "18";
+                        issue = "17";
                     }
                     else if (d >= DateTime.Parse(date + " 11:30:00") && d < DateTime.Parse(date + " 11:40:00"))
                     {
-                        issue = "19";
+                        issue = "18";
                     }
                     else if (d >= DateTime.Parse(date + " 11:40:00") && d < DateTime.Parse(date + " 11:50:00"))
                     {
-                        issue = "20";
+                        issue = "19";
                     }
                     else if (d >= DateTime.Parse(date + " 11:50:00") && d < DateTime.Parse(date + " 12:00:00"))
                     {
-                        issue = "21";
+                        issue = "20";
                     }
 
                 }
@@ -19377,27 +19477,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 12:0:0") && d < DateTime.Parse(date + " 12:10:00"))
                     {
-                        issue = "22";
+                        issue = "21";
                     }
                     else if (d >= DateTime.Parse(date + " 12:10:00") && d < DateTime.Parse(date + " 12:20:00"))
                     {
-                        issue = "23";
+                        issue = "22";
                     }
                     else if (d >= DateTime.Parse(date + " 12:20:00") && d < DateTime.Parse(date + " 12:30:00"))
                     {
-                        issue = "24";
+                        issue = "23";
                     }
                     else if (d >= DateTime.Parse(date + " 12:30:00") && d < DateTime.Parse(date + " 12:40:00"))
                     {
-                        issue = "25";
+                        issue = "24";
                     }
                     else if (d >= DateTime.Parse(date + " 12:40:00") && d < DateTime.Parse(date + " 12:50:00"))
                     {
-                        issue = "26";
+                        issue = "25";
                     }
                     else if (d >= DateTime.Parse(date + " 12:50:00") && d < DateTime.Parse(date + " 13:00:00"))
                     {
-                        issue = "27";
+                        issue = "26";
                     }
 
                 }
@@ -19405,27 +19505,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 13:0:0") && d < DateTime.Parse(date + " 13:10:00"))
                     {
-                        issue = "28";
+                        issue = "27";
                     }
                     else if (d >= DateTime.Parse(date + " 13:10:00") && d < DateTime.Parse(date + " 13:20:00"))
                     {
-                        issue = "29";
+                        issue = "28";
                     }
                     else if (d >= DateTime.Parse(date + " 13:20:00") && d < DateTime.Parse(date + " 13:30:00"))
                     {
-                        issue = "30";
+                        issue = "29";
                     }
                     else if (d >= DateTime.Parse(date + " 13:30:00") && d < DateTime.Parse(date + " 13:40:00"))
                     {
-                        issue = "31";
+                        issue = "30";
                     }
                     else if (d >= DateTime.Parse(date + " 13:40:00") && d < DateTime.Parse(date + " 13:50:00"))
                     {
-                        issue = "32";
+                        issue = "31";
                     }
                     else if (d >= DateTime.Parse(date + " 13:50:00") && d < DateTime.Parse(date + " 14:00:00"))
                     {
-                        issue = "33";
+                        issue = "32";
                     }
 
                 }
@@ -19433,27 +19533,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 14:0:0") && d < DateTime.Parse(date + " 14:10:00"))
                     {
-                        issue = "34";
+                        issue = "33";
                     }
                     else if (d >= DateTime.Parse(date + " 14:10:00") && d < DateTime.Parse(date + " 14:20:00"))
                     {
-                        issue = "35";
+                        issue = "34";
                     }
                     else if (d >= DateTime.Parse(date + " 14:20:00") && d < DateTime.Parse(date + " 14:30:00"))
                     {
-                        issue = "36";
+                        issue = "35";
                     }
                     else if (d >= DateTime.Parse(date + " 14:30:00") && d < DateTime.Parse(date + " 14:40:00"))
                     {
-                        issue = "37";
+                        issue = "36";
                     }
                     else if (d >= DateTime.Parse(date + " 14:40:00") && d < DateTime.Parse(date + " 14:50:00"))
                     {
-                        issue = "38";
+                        issue = "37";
                     }
                     else if (d >= DateTime.Parse(date + " 14:50:00") && d < DateTime.Parse(date + " 15:00:00"))
                     {
-                        issue = "39";
+                        issue = "38";
                     }
 
                 }
@@ -19461,27 +19561,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 15:0:0") && d < DateTime.Parse(date + " 15:10:00"))
                     {
-                        issue = "40";
+                        issue = "39";
                     }
                     else if (d >= DateTime.Parse(date + " 15:10:00") && d < DateTime.Parse(date + " 15:20:00"))
                     {
-                        issue = "41";
+                        issue = "40";
                     }
                     else if (d >= DateTime.Parse(date + " 15:20:00") && d < DateTime.Parse(date + " 15:30:00"))
                     {
-                        issue = "42";
+                        issue = "41";
                     }
                     else if (d >= DateTime.Parse(date + " 15:30:00") && d < DateTime.Parse(date + " 15:40:00"))
                     {
-                        issue = "43";
+                        issue = "42";
                     }
                     else if (d >= DateTime.Parse(date + " 15:40:00") && d < DateTime.Parse(date + " 15:50:00"))
                     {
-                        issue = "44";
+                        issue = "43";
                     }
                     else if (d >= DateTime.Parse(date + " 15:50:00") && d < DateTime.Parse(date + " 16:00:00"))
                     {
-                        issue = "45";
+                        issue = "44";
                     }
 
                 }
@@ -19489,27 +19589,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 16:0:0") && d < DateTime.Parse(date + " 16:10:00"))
                     {
-                        issue = "46";
+                        issue = "45";
                     }
                     else if (d >= DateTime.Parse(date + " 16:10:00") && d < DateTime.Parse(date + " 16:20:00"))
                     {
-                        issue = "47";
+                        issue = "46";
                     }
                     else if (d >= DateTime.Parse(date + " 16:20:00") && d < DateTime.Parse(date + " 16:30:00"))
                     {
-                        issue = "48";
+                        issue = "47";
                     }
                     else if (d >= DateTime.Parse(date + " 16:30:00") && d < DateTime.Parse(date + " 16:40:00"))
                     {
-                        issue = "49";
+                        issue = "48";
                     }
                     else if (d >= DateTime.Parse(date + " 16:40:00") && d < DateTime.Parse(date + " 16:50:00"))
                     {
-                        issue = "50";
+                        issue = "49";
                     }
                     else if (d >= DateTime.Parse(date + " 16:50:00") && d < DateTime.Parse(date + " 17:00:00"))
                     {
-                        issue = "51";
+                        issue = "50";
                     }
 
                 }
@@ -19517,27 +19617,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 17:0:0") && d < DateTime.Parse(date + " 17:10:00"))
                     {
-                        issue = "52";
+                        issue = "51";
                     }
                     else if (d >= DateTime.Parse(date + " 17:10:00") && d < DateTime.Parse(date + " 17:20:00"))
                     {
-                        issue = "53";
+                        issue = "52";
                     }
                     else if (d >= DateTime.Parse(date + " 17:20:00") && d < DateTime.Parse(date + " 17:30:00"))
                     {
-                        issue = "54";
+                        issue = "53";
                     }
                     else if (d >= DateTime.Parse(date + " 17:30:00") && d < DateTime.Parse(date + " 17:40:00"))
                     {
-                        issue = "55";
+                        issue = "54";
                     }
                     else if (d >= DateTime.Parse(date + " 17:40:00") && d < DateTime.Parse(date + " 17:50:00"))
                     {
-                        issue = "56";
+                        issue = "55";
                     }
                     else if (d >= DateTime.Parse(date + " 17:50:00") && d < DateTime.Parse(date + " 18:00:00"))
                     {
-                        issue = "57";
+                        issue = "56";
                     }
 
                 }
@@ -19545,27 +19645,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 18:0:0") && d < DateTime.Parse(date + " 18:10:00"))
                     {
-                        issue = "58";
+                        issue = "57";
                     }
                     else if (d >= DateTime.Parse(date + " 18:10:00") && d < DateTime.Parse(date + " 18:20:00"))
                     {
-                        issue = "59";
+                        issue = "58";
                     }
                     else if (d >= DateTime.Parse(date + " 18:20:00") && d < DateTime.Parse(date + " 18:30:00"))
                     {
-                        issue = "60";
+                        issue = "59";
                     }
                     else if (d >= DateTime.Parse(date + " 18:30:00") && d < DateTime.Parse(date + " 18:40:00"))
                     {
-                        issue = "61";
+                        issue = "60";
                     }
                     else if (d >= DateTime.Parse(date + " 18:40:00") && d < DateTime.Parse(date + " 18:50:00"))
                     {
-                        issue = "62";
+                        issue = "61";
                     }
                     else if (d >= DateTime.Parse(date + " 18:50:00") && d < DateTime.Parse(date + " 19:00:00"))
                     {
-                        issue = "63";
+                        issue = "62";
                     }
 
                 }
@@ -19573,27 +19673,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 19:0:0") && d < DateTime.Parse(date + " 19:10:00"))
                     {
-                        issue = "64";
+                        issue = "63";
                     }
                     else if (d >= DateTime.Parse(date + " 19:10:00") && d < DateTime.Parse(date + " 19:20:00"))
                     {
-                        issue = "65";
+                        issue = "64";
                     }
                     else if (d >= DateTime.Parse(date + " 19:20:00") && d < DateTime.Parse(date + " 19:30:00"))
                     {
-                        issue = "66";
+                        issue = "65";
                     }
                     else if (d >= DateTime.Parse(date + " 19:30:00") && d < DateTime.Parse(date + " 19:40:00"))
                     {
-                        issue = "67";
+                        issue = "66";
                     }
                     else if (d >= DateTime.Parse(date + " 19:40:00") && d < DateTime.Parse(date + " 19:50:00"))
                     {
-                        issue = "68";
+                        issue = "67";
                     }
                     else if (d >= DateTime.Parse(date + " 19:50:00") && d < DateTime.Parse(date + " 20:00:00"))
                     {
-                        issue = "69";
+                        issue = "68";
                     }
 
                 }
@@ -19601,27 +19701,27 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 20:0:0") && d < DateTime.Parse(date + " 20:10:00"))
                     {
-                        issue = "70";
+                        issue = "69";
                     }
                     else if (d >= DateTime.Parse(date + " 20:10:00") && d < DateTime.Parse(date + " 20:20:00"))
                     {
-                        issue = "71";
+                        issue = "70";
                     }
                     else if (d >= DateTime.Parse(date + " 20:20:00") && d < DateTime.Parse(date + " 20:30:00"))
                     {
-                        issue = "72";
+                        issue = "71";
                     }
                     else if (d >= DateTime.Parse(date + " 20:30:00") && d < DateTime.Parse(date + " 20:40:00"))
                     {
-                        issue = "73";
+                        issue = "72";
                     }
                     else if (d >= DateTime.Parse(date + " 20:40:00") && d < DateTime.Parse(date + " 20:50:00"))
                     {
-                        issue = "74";
+                        issue = "73";
                     }
                     else if (d >= DateTime.Parse(date + " 20:50:00") && d < DateTime.Parse(date + " 21:00:00"))
                     {
-                        issue = "75";
+                        issue = "74";
                     }
 
                 }
@@ -19629,21 +19729,25 @@ namespace C8.Lottery.Public
                 {
                     if (d >= DateTime.Parse(date + " 21:0:0") && d < DateTime.Parse(date + " 21:10:00"))
                     {
-                        issue = "76";
+                        issue = "75";
                     }
                     else if (d >= DateTime.Parse(date + " 21:10:00") && d < DateTime.Parse(date + " 21:20:00"))
                     {
-                        issue = "77";
+                        issue = "76";
                     }
                     else if (d >= DateTime.Parse(date + " 21:20:00") && d < DateTime.Parse(date + " 21:30:00"))
                     {
-                        issue = "78";
+                        issue = "77";
                     }
                     else if (d >= DateTime.Parse(date + " 21:30:00") && d < DateTime.Parse(date + " 21:40:00"))
                     {
-                        issue = "79";
+                        issue = "78";
                     }
                     else if (d >= DateTime.Parse(date + " 21:40:00") && d < DateTime.Parse(date + " 21:50:00"))
+                    {
+                        issue = "79";
+                    }
+                    else if (d >= DateTime.Parse(date + " 21:50:00") && d < DateTime.Parse(date + " 10:00:00"))
                     {
                         issue = "80";
                     }
@@ -21941,13 +22045,33 @@ namespace C8.Lottery.Public
         {
             int count = 0;
 
-            if (lType >= 9 && lType < 38)
+            if ((lType >= 9 && lType < 38) || (lType >= 60 && lType < 63))
             {
                 count = 6;
             }
-            if (lType >= 38 && lType < 51)
+            else if ((lType >= 38 && lType < 51) || lType == 65 || lType == 1 || lType == 6)
             {
-                count = 6;
+                count = 3;
+            }
+            else if (lType == 5 || (lType >= 51 && lType < 60))
+            {
+                count = 8;
+            }
+            else if (lType == 63 || lType == 64)
+            {
+                count = 10;
+            }
+            else if (lType == 3)
+            {
+                count = 4;
+            }
+            else if (lType == 7)
+            {
+                count = 5;
+            }
+            else if (lType == 2 || lType == 4 || lType == 8)
+            {
+                count = 7;
             }
 
             return count;
@@ -22057,54 +22181,57 @@ namespace C8.Lottery.Public
         {
             string result = "鸡";
 
-            if (digit == 10 || digit == 22 || digit == 34 || digit == 46)
+
+            if (digit == 11 || digit == 23 || digit == 35 || digit == 47)
             {
                 result = "鼠";
             }
-            else if (digit == 9 || digit == 21 || digit == 33 || digit == 45)
+            else if (digit == 10 || digit == 22 || digit == 34 || digit == 46)
             {
                 result = "牛";
             }
-            else if (digit == 8 || digit == 20 || digit == 32 || digit == 44)
+            else if (digit == 9 || digit == 21 || digit == 33 || digit == 45)
             {
                 result = "虎";
             }
-            else if (digit == 7 || digit == 19 || digit == 31 || digit == 43)
+            else if (digit == 8 || digit == 20 || digit == 32 || digit == 44)
             {
                 result = "兔";
             }
-            else if (digit == 6 || digit == 18 || digit == 30 || digit == 42)
+            else if (digit == 7 || digit == 19 || digit == 31 || digit == 43)
             {
                 result = "龙";
             }
-            else if (digit == 5 || digit == 17 || digit == 29 || digit == 41)
+            else if (digit == 6 || digit == 18 || digit == 30 || digit == 42)
             {
                 result = "蛇";
             }
-            else if (digit == 4 || digit == 16 || digit == 28 || digit == 40)
+            else if (digit == 5 || digit == 17 || digit == 29 || digit == 41)
             {
                 result = "马";
             }
-            else if (digit == 3 || digit == 15 || digit == 27 || digit == 39)
+            else if (digit == 4 || digit == 16 || digit == 28 || digit == 40)
             {
                 result = "羊";
             }
-            else if (digit == 2 || digit == 14 || digit == 26 || digit == 38)
+            else if (digit == 3 || digit == 15 || digit == 27 || digit == 39)
             {
                 result = "猴";
             }
-            else if (digit == 1 || digit == 13 || digit == 25 || digit == 37 || digit == 49)
+            else if (digit == 2 || digit == 14 || digit == 26 || digit == 38)
             {
                 result = "鸡";
             }
-            else if (digit == 12 || digit == 24 || digit == 36 || digit == 48)
+            else if (digit == 1 || digit == 13 || digit == 25 || digit == 37 || digit == 49)
             {
                 result = "狗";
             }
-            else if (digit == 11 || digit == 23 || digit == 35 || digit == 47)
+            else if (digit == 12 || digit == 24 || digit == 36 || digit == 48)
             {
                 result = "猪";
             }
+
+
 
             return result;
         }
@@ -23855,9 +23982,9 @@ namespace C8.Lottery.Public
 
                 #endregion
             }
-           
-            
-         
+
+
+
 
 
 
@@ -24268,7 +24395,7 @@ namespace C8.Lottery.Public
 
                 #endregion
             }
-            
+
             else if (lType == 63)
             {
                 #region 北京PK10
@@ -24300,7 +24427,7 @@ namespace C8.Lottery.Public
                 }
 
 
-                string result = GetRemainingTime(7);
+                string result = GetRemainingTime(lType);
 
                 if (result == "已封盘")
                 {
@@ -24455,8 +24582,8 @@ namespace C8.Lottery.Public
 
                 #endregion
             }
-            
-          
+
+
 
             showMinute = showMinute + 1;
 
@@ -24885,8 +25012,22 @@ namespace C8.Lottery.Public
             string num = arr[1];
             string time = DateTime.Now.ToString();
 
+
+            //特殊情况
+            if (lType == 54)
+            {
+                issue = issue.Substring(1);
+            }
+
+            if (lType >= 38 && lType < 63)
+            {
+                //20180324 051
+                int length = issue.Length;
+                issue = issue.Substring(0, length - 3) + issue.Substring(length - 2);
+            }
+
             //判断期号是否存在
-            string sql = "select count(*) from LotteryRecord where lType= " + lType + " and Issue ='" + issue + "'";
+            string sql = "select count(1) from LotteryRecord where lType= " + lType + " and Issue ='" + issue + "'";
             int count = (int)SqlHelper.ExecuteScalarForFenZhan(fenzhan, sql);
             if (count == 0)
             {

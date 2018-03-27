@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,11 +15,12 @@ namespace C8.Lottery.Portal.Controllers
         //
         // GET: /Plan/
 
+        //官方推荐
         public ActionResult Index(int id, int size = 10)
         {
+
             int lType = id;
             ViewBag.lType = lType;
-
 
             #region 官方推荐
 
@@ -50,6 +53,12 @@ namespace C8.Lottery.Portal.Controllers
 
                 ViewBag.min = timeArr[1];
                 ViewBag.sec = timeArr[2];
+
+                if (lType < 9)
+                {
+                    ViewBag.hour = timeArr[0];
+                }
+
             }
             else
             {
@@ -72,12 +81,10 @@ namespace C8.Lottery.Portal.Controllers
 
             #endregion
 
-
-
             return View();
         }
 
-        
+
         public ActionResult GetOpenRemainingTime(int lType)
         {
             string result = Util.GetOpenRemainingTime(lType);
@@ -104,6 +111,87 @@ namespace C8.Lottery.Portal.Controllers
 
             return Content(result);
         }
+
+
+        //发帖
+        public ActionResult Post(int id)
+        {
+            //彩种
+            int lType = id;
+            ViewBag.lType = id;
+
+            //彩种名字
+            string lotteryName = Util.GetLotteryTypeName(lType);
+            ViewBag.lotteryName = lotteryName;
+
+            //title
+            ViewBag.title = "发布计划-" + lotteryName;
+
+            //3.最后一期
+            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
+            ViewBag.lastIssueDesc = "第" + lr.Issue + "期开奖号码:";
+            ViewBag.lastNum = lr.Num;
+
+            //当前期号
+            string currentIssue = Util.GetCurrentIssue(lType);
+            //ViewBag.currentIssue = currentIssue;
+            ViewBag.issueDesc = "当前第<t id='currentIssue'>" + currentIssue + "</t>期";
+
+
+            return View();
+        }
+
+
+        //投注
+        public ActionResult Bet(int lType, string currentIssue, string betInfo)
+        {
+            string[] betInfoArr = betInfo.Split('$');
+
+            string playName = "";
+            string playName2 = "";            //单双  大小 五码
+            string betNum = "";
+            string s1 = "";
+
+
+            foreach (string s in betInfoArr)
+            {
+                string[] arr = s.Split('*');
+
+                playName = arr[0];
+                betNum = arr[1];
+
+                string[] betNumArr = betNum.Split('|');
+
+                for (int i = 0; i < betNumArr.Length; i++)
+                {
+                    s1 = betNumArr[i];
+
+                    if (!string.IsNullOrEmpty(s1))
+                    {
+                        playName2 = Util.GetPlayName(lType, playName, s1, i);
+
+                        string sql = "insert into BettingRecord(lType,Issue,PlayName,BetNum) values(" + lType +
+                                     ",@Issue,@PlayName,@BetNum)";
+
+                        SqlParameter[] pms =
+                        {
+                            new SqlParameter("@Issue", currentIssue),
+                            new SqlParameter("@PlayName", playName + playName2),
+                            new SqlParameter("@BetNum", s1),
+                        };
+
+                        SqlHelper.ExecuteNonQuery(sql, pms);
+                    }
+                }
+
+            }
+
+
+
+            return Content("ok");
+        }
+
 
     }
 }

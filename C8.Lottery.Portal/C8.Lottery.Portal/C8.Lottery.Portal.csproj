@@ -45,10 +45,6 @@
     </Reference>
     <Reference Include="Memcached.ClientLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42c0400964dcc297" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -408,6 +404,7 @@
     <Content Include="images\rq-num-bg.png" />
     <Content Include="images\star.png" />
     <Content Include="images\upbtn.png" />
+    <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
     <Content Include="js\fontSize.js" />
     <Content Include="js\function.js" />
@@ -420,6 +417,7 @@
     <Content Include="js\luo\jQuery.Form.js" />
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
+    <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
     <Content Include="js\runTime2.js" />
     <Content Include="js\runTime3.js" />
@@ -463,8 +461,6 @@
     <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Personal\Task.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
-    <Content Include="Views\Personal\Follow.cshtml" />
-    <Content Include="Views\Personal\Fans.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,7 +30,7 @@ namespace C8.Lottery.Portal.Controllers
             if (ctype == 2)
             {
                 //查询评论人名称
-                string sql = $"select a.*,b.Name as NickName from [Comment] a join UserInfo b on b.Id=a.UserId where a.Id={id}";
+                string sql = "select a.*,b.Name as NickName from [Comment] a join UserInfo b on b.Id=a.UserId where a.Id=" + id;
 
                 var list = Util.ReaderToList<Comment>(sql);
                 if (list == null || list.Count == 0)
@@ -100,7 +100,7 @@ namespace C8.Lottery.Portal.Controllers
                 var comment = Util.GetEntityById<Comment>(id);
                 if (comment == null)
                 {
-                    LogHelper.WriteLog($"发表回复失败，未知上级Id:{id}");
+                    LogHelper.WriteLog("发表回复失败，未知上级Id:" + id);
                     result = new AjaxResult(10002, "发表回复失败");
                     return Json(result);
                 }
@@ -141,7 +141,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog($"发表评论失败。异常消息：{ex.Message}，异常堆栈：{ex.StackTrace}");
+                //LogHelper.WriteLog("发表评论失败。异常消息：{ex.Message}，异常堆栈：{ex.StackTrace}");
                 result = new AjaxResult(10001, "服务器繁忙");
             }
 
