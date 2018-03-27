@@ -7,7 +7,7 @@ using System.Web;
 
 namespace C8.Lottery.Portal
 {
-    public  class UserHelp
+    public  class UserHelper
     {
         /// <summary>
         /// 获取缓存用户信息

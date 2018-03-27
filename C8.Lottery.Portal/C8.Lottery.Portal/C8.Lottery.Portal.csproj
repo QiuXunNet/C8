@@ -110,7 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\UserHelp.cs" />
+    <Compile Include="App_Code\UserHelper.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AuthenticationAttribute.cs" />
     <Compile Include="Controllers\CommentController.cs" />
@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
+    <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

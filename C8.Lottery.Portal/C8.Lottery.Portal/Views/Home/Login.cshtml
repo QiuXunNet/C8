@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Login";
 }
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -14,8 +13,7 @@
     <script src="~/js/yjp.js"></script>
   
     <script>
-        $(function () {
-           
+        $(function () {          
             login();
         });
 
@@ -38,10 +36,8 @@
                     if (data.Success != true) {
                         alertmsg(data.Msg);
 
-                    } else {
-                       
-                            location.href = '/Personal'//跳转地址
-                    
+                    } else {                       
+                            location.href = '/Personal'//跳转地址        
                     }
 
                 });
