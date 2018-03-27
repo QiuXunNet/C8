@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C8.Lottery.Portal", "C8.Lottery.Portal\C8.Lottery.Portal.csproj", "{1D7D9E23-C443-4E10-98F0-A3EE0EC2D581}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C8.Lottery.Public", "..\C8.Lottery.Public\C8.Lottery.Public.csproj", "{2AB81CC4-055B-4BBF-8F80-9CFF94878F12}"

@@ -733,7 +733,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog($"取消点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
+                //LogHelper.WriteLog($"取消点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
                 result = new AjaxResult(500, ex.Message);
             }
             return result;

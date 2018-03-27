@@ -12,7 +12,7 @@ namespace C8.Lottery.Portal.Controllers
 {
     public class BaseController : Controller
     {
-
+      
         /// <summary>
         /// 获取彩种分类
         /// </summary>
@@ -46,7 +46,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list != null && list.Any()) return list;
 
-            string newsTypeSql = "SELECT TOP 100 [Id],[TypeName],[ShowType],[lType] FROM [dbo].[NewsType] WHERE [lType]="+ltype+" AND [Layer]="+layer+" ORDER BY SortCode ";
+            string newsTypeSql = "SELECT TOP 100 [Id],[TypeName],[ShowType],[lType] FROM [dbo].[NewsType] WHERE [lType]=" + ltype + " AND [Layer]=" + layer + " ORDER BY SortCode ";
             list = Util.ReaderToList<NewsType>(newsTypeSql) ?? new List<NewsType>();
 
             MemClientFactory.WriteCache(memKey, list);
@@ -80,7 +80,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="newsId">新闻Id</param>
         /// <param name="newsTitle">新闻标题</param>
         /// <returns></returns>
-        protected IList<Gallery> GetGalleries(long newsId,string newsTitle)
+        protected IList<Gallery> GetGalleries(long newsId, string newsTitle)
         {
             string memKey = "base_gallery_id_" + newsId;
             var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);

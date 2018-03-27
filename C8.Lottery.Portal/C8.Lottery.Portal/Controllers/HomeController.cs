@@ -336,7 +336,6 @@ namespace C8.Lottery.Portal.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult Logins(string mobile,string password)
         {
