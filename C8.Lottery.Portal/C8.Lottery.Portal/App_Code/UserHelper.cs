@@ -7,17 +7,29 @@ using System.Web;
 
 namespace C8.Lottery.Portal
 {
-    public  class UserHelper
+    public static class UserHelper
     {
+
+        public static UserInfo LoginUser
+        {
+            get
+            {
+                string guid = HttpContext.Current.Request["UserId"];
+                object userId = CacheHelper.GetCache(guid);
+                int userId2 = Convert.ToInt32(userId);
+                return Util.GetEntityById<UserInfo>(userId2);
+            }
+        }
+
         /// <summary>
         /// 获取缓存用户信息
         /// </summary>
         /// <returns></returns>
         public static UserInfo GetUser()
         {
-           
-           
-            string sessionId = HttpContext.Current.Request["sessionId"];
+
+
+            string sessionId = HttpContext.Current.Request["UserId"];
             UserInfo user = MemClientFactory.GetCache<UserInfo>(sessionId);
             return user;
 

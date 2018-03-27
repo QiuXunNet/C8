@@ -30,7 +30,7 @@ namespace C8.Lottery.Public
         {
             get
             {
-                return ((this.PageIndex + 1) < this.TotalPages);
+                return this.PageIndex < this.TotalPages;
             }
         }
 
