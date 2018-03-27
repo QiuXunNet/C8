@@ -476,7 +476,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
         public ActionResult CommentDetail(int id, int type = 2)
         {
             string sql =
-               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater
+,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
 ,(select count(1) from Comment where PId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
@@ -543,6 +544,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
             string sql = @"SELECT * FROM ( 
 select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
+,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
 ,(select count(1) from Comment where PId = a.Id ) as ReplayCount
 from Comment a
   left join UserInfo b on b.Id = a.UserId
@@ -550,8 +552,17 @@ from Comment a
   where a.RefCommentId = @RefCommentId and a.IsDeleted = 0 and a.Type=@Type
   ) T
 WHERE rowNumber BETWEEN @Start AND @End";
+            long userId = 0;
+
+            var user = UserHelp.GetUser();
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+
             var parameters = new[]
             {
+                new SqlParameter("@UserId",userId),
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@RefCommentId",id),
                 new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
@@ -696,8 +707,16 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 //SqlHelper.ExecuteTransaction();
                 string updateSql = @"
         UPDATE [dbo].[LikeRecord] SET [Status]=@Status,[UpdateTime]=GETDATE() 
-        WHERE [CommentId]=@CommentId AND [UserId]=@UserId AND [Type]=@Type;
-        UPDATE [dbo].[Comment] SET [StarCount]-=1 WHERE [StarCount]>0 and Id=@CommentId;";
+        WHERE [CommentId]=@CommentId AND [UserId]=@UserId AND [Type]=@Type;";
+
+                if (likeStatus == 1)
+                {
+                    updateSql += "UPDATE [dbo].[Comment] SET [StarCount] +=1 WHERE [StarCount]>0 and Id=@CommentId;";
+                }
+                else
+                {
+                    updateSql += "UPDATE [dbo].[Comment] SET [StarCount] -=1 WHERE [StarCount]>0 and Id=@CommentId;";
+                }
 
                 var updateParameters = new[]
                 {

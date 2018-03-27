@@ -406,11 +406,11 @@ $(function () {
         $(".wrapper-container .Grades" + _index).show().siblings().hide();
     });
 
-    /**
-     * 点赞
-     */
-    $(".comp_DZ i").on("click", function () {
-        var _this = $(this),
+    //$("#Gues1 .comp_DZ i").click(function () {
+
+
+    $("#Gues1").on("click", ".comp_DZ", function () {
+        var _this = $(this).find("i"),
             id = _this.attr("data-id"),
             ctype = _this.attr("data-ctype"),
             type = _this.attr("data-commenttype"),
@@ -427,11 +427,50 @@ $(function () {
                         location.href = "/Home/Login";
                     } else if (result.Code === 100) {
                         if (ctype === "1") {
-                            _this.addClass("on");
+                            _this.addClass("on").attr("data-ctype","2");
                             likeCount += 1;
 
                         } else {
-                            _this.removeClass("on");
+                            _this.removeClass("on").attr("data-ctype", "1");
+                            likeCount -= 1;
+                        }
+                        likeElement.html(likeCount);
+
+                    } else {
+                        alertmsg(result.Message);
+                    }
+                } else {
+                    alertmsg("服务器繁忙");
+                }
+            });
+    });
+
+    /**
+     * 点赞
+     */
+    $("#Gues2").on("click", ".comp_DZ", function () {
+        var _this = $(this).find("i"),
+            id = _this.attr("data-id"),
+            ctype = _this.attr("data-ctype"),
+            type = _this.attr("data-commenttype"),
+            likeElement = _this.next(),
+            likeCount = parseInt(likeElement.html() || 0);
+        $.post("/News/ClickLike",
+            {
+                id: id,
+                ctype: ctype,
+                type: type
+            }, function (result) {
+                if (result) {
+                    if (result.Code === 401) {
+                        location.href = "/Home/Login";
+                    } else if (result.Code === 100) {
+                        if (ctype === "1") {
+                            _this.addClass("on").attr("data-ctype", "2");
+                            likeCount += 1;
+
+                        } else {
+                            _this.removeClass("on").attr("data-ctype", "1");
                             likeCount -= 1;
                         }
                         likeElement.html(likeCount);
@@ -486,7 +525,7 @@ function alertmsg(msg) {
 }
 
 
-$.extend({
+$.fn.extend({
 
     /**
      * 初始化输入区域Emoji
