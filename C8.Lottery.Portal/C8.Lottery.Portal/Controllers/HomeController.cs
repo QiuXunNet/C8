@@ -7,6 +7,8 @@ using C8.Lottery.Model;
 using C8.Lottery.Public;
 using System.Data.SqlClient;
 using Memcached.ClientLibrary;
+using C8.Lottery.Model.Enum;
+
 namespace C8.Lottery.Portal.Controllers
 {
     public class HomeController : Controller
@@ -342,14 +344,14 @@ namespace C8.Lottery.Portal.Controllers
         {
             //string usersql = "select * from UserInfo where Mobile =@Mobile";
             string usersql = @"select (select count(1)from Follow where UserId=u.Id and Status=1)as follow,(select count(1)from Follow where Followed_UserId=u.Id and Status=1)as fans, r.RPath as Headpath,u.* from UserInfo  u 
-                              left  JOIN (select RPath,FkId from ResourceMapping where Type = 2)  r 
+                              left  JOIN (select RPath,FkId from ResourceMapping where Type = @Type)  r 
                               on u.Id=r.FkId  where u.Mobile=@Mobile ";
             UserInfo user = new UserInfo();
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
 
-                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile),new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像) };
                 List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
                 if (list != null)
                 {

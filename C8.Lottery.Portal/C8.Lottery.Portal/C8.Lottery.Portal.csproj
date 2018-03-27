@@ -463,6 +463,8 @@
     <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Personal\Task.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\Personal\Follow.cshtml" />
+    <Content Include="Views\Personal\Fans.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
