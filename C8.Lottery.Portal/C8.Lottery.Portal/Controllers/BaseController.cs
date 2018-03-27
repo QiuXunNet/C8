@@ -41,12 +41,12 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         protected IList<NewsType> GetNewsTypeList(long ltype, int layer = 1)
         {
-            string memKey = $"base_news_type_{ltype}";
+            string memKey = "base_news_type_" + ltype;
             var list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
 
             if (list != null && list.Any()) return list;
 
-            string newsTypeSql = $"SELECT TOP 100 [Id],[TypeName],[ShowType],[lType] FROM [dbo].[NewsType] WHERE [lType]={ltype} AND [Layer]={layer} ORDER BY SortCode ";
+            string newsTypeSql = "SELECT TOP 100 [Id],[TypeName],[ShowType],[lType] FROM [dbo].[NewsType] WHERE [lType]="+ltype+" AND [Layer]="+layer+" ORDER BY SortCode ";
             list = Util.ReaderToList<NewsType>(newsTypeSql) ?? new List<NewsType>();
 
             MemClientFactory.WriteCache(memKey, list);
@@ -82,7 +82,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         protected IList<Gallery> GetGalleries(long newsId,string newsTitle)
         {
-            string memKey = $"base_gallery_id_{newsId}";
+            string memKey = "base_gallery_id_" + newsId;
             var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);
 
             if (list != null && list.Any()) return list;

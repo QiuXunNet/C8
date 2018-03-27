@@ -342,7 +342,9 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             //查询新闻/计划 总评论数量
             int commentTotalCount = 0;
-            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted = 0 and Type={type} and ArticleId={id}";
+            string commentTotalCountSql = "select count(1) from Comment where IsDeleted = 0 and Type=" + type +
+                                          " and ArticleId=" + id;
+
             var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
 
             if (obj != null)
@@ -404,7 +406,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             //查询新闻/文章 总评论数量
             int commentTotalCount = 0;
-            string commentTotalCountSql = $"select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            string commentTotalCountSql = "select count(1) from Comment where IsDeleted=0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             var obj = SqlHelper.ExecuteScalar(commentTotalCountSql);
 
             if (obj != null)
@@ -453,7 +455,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             var list = Util.ReaderToList<Comment>(sql, parameters);
 
 
-            string countSql = $"select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type={type} and ArticleId={id}";
+            string countSql = "select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             object obj = SqlHelper.ExecuteScalar(countSql);
 
             var pager = new PagedList<Comment>();
@@ -607,8 +609,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <param name="ctype">操作类型 1=点赞 2=取消点赞</param>
         /// <param name="type">类型 1=计划 2=文章</param>
         /// <returns></returns>
-        [Authentication]
-        public JsonResult ClickLike(int id, int ctype, int type = 2)
+        public JsonResult ClickLike(int id,int type)
         {
             var result = new AjaxResult();
             long userId = UserHelper.GetUser().Id;
@@ -616,45 +617,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
             var list = Util.ReaderToList<LikeRecord>(sql);
 
-            if (ctype == 1)
-            {
-                if (list.Any())
-                {
-                    //已存在点赞记录
-                    var likeRecord = list.FirstOrDefault();
-                    if (likeRecord.Status == (int)LikeStatusEnum.Canceled)
-                    {
-                        //已存在的点赞记录为取消状态
-                        //修改点赞状态
-                        result = MoidfyLike(id, type, userId, (int)LikeStatusEnum.Clicked);
-                    }
-                    else
-                    {
-                        result = new AjaxResult(10000, "你已经点过赞");
-                    }
-                }
-                else
-                {
-                    #region 添加点赞
-                    try
-                    {
-                        //添加点赞
-                        //SqlHelper.ExecuteTransaction();
-                        string insert = @"INSERT INTO [dbo].[LikeRecord]
-           ([CommentId]
-           ,[UserId]
-           ,[CreateTime]
-           ,[Status]
-           ,[UpdateTime]
-           ,[Type])
-     VALUES
-           (@CommentId
-           ,@UserId
-           ,GETDATE()
-           ,1
-           ,GETDATE()
-           ,@Type);
-        UPDATE [dbo].[Comment] SET [StarCount]+=1 WHERE Id=@CommentId;";
+            string sql = $"select Id from LikeRecord where CommentId={id} and UserId={0}";
 
                         var insertParameters = new[]
                         {

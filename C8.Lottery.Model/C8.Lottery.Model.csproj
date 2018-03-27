@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BettingRecord.cs" />
     <Compile Include="Enum\CommentTypeEnum.cs" />
     <Compile Include="CoinRate.cs" />
     <Compile Include="Enum\LikeStatusEnum.cs" />
