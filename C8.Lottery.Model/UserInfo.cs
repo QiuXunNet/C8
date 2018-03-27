@@ -32,7 +32,7 @@ namespace C8.Lottery.Model
         private int _state;
         private int? _sex = 0;
         private string _autograph;
-        private string _headpath;//头像地址
+        private string _headpath;//头像地址 type=2
         private int? _pid = 0;//受邀ID 
         private int follow;//关注
         private int fans;//粉丝

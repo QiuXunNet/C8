@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "Follow";
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>个人中心-我的关注</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/luo/dropload.min.js"></script>
+    <script src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script>
+        var pageIndex = 1,
+            pageSize = 10;
+        $(function () {
+
+            var dropload = $(".fans_Box").dropload({
+                scrollArea: window,
+                domDown: {
+                    domClass: 'dropload-down',
+                    domRefresh: '',
+                    domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData: '<div class="dropload-noData"><img src="/images/null.png" alt="暂无数据" />暂无数据</div>'
+                },
+                loadDownFn: function (me) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Personal/MyFollow',
+                        data: {
+                           
+                            pageIndex: pageIndex,
+                            pageSize: pageSize
+                        },
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.Data.TotalCount < 1) {
+                                me.noData();
+                            }
+                            if (res.IsSuccess && res.Data) {
+                                
+                                joinhtml(res.Data);
+                                console.log(res.Data);
+                                if (res.Data.HasNextPage) {
+                                    pageIndex++;
+                                } else {
+                                    me.lock();
+                                    $(".dropload-down").remove();
+                                }
+                            } else {
+                                alertmsg("服务器繁忙");
+                            }
+
+                            dropload.resetload();
+
+                          
+                        },
+                        error: function (xhr, type) {
+                            alertmsg("服务器繁忙");
+                            dropload.resetload();
+                        }
+                    });
+                }
+            });
+
+        });
+
+        function joinhtml(data)
+        {
+            var html = [];
+            $.each(data.PageData, function (index, value) {
+                console.log(value);
+                var dl = "<dl class='details_DL'><dt><a href='javascript:;'><img src='"+(value.Headpath.length<= 0 ? '/images/default_avater.png' : value.HeadPath)+"'></a></dt>"
+                         + "<dd>"
+                         + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.Followed_UserId + ")'> <p class='fans_Qxgz'>取消关注</p></div>"
+                         + "<div class='details_ddLeft'>"
+                         + "<h3><a href='javascript:;'>" + value.Nickname + "</a></h3>"
+                         + "<p>" + value.Autograph + "</p>"
+                         + "</div> </dd> </dl>";
+
+                html.push(dl);
+            });
+            $("#content").append(html.join(''));
+        }
+      
+        //取消or关注
+        function unorfollow(obj,follow_uid)
+        {
+
+            var text = $(obj).children("p").text();
+            if (text == "关注") {
+                $.post('/Personal/IFollow', { followed_userId: follow_uid }, function (data) {
+
+                    if (data.Success != true) {
+                        alertmsg(data.Msg);
+                    } else {
+
+                       
+                        $(obj).children("p").remove();
+                        $(obj).append("<p class='fans_Qxgz'>取消关注</p>");
+
+                    }
+                });
+
+            } else {
+
+
+                $(document).dialog({
+                    type: 'confirm',
+                    closeBtnShow: true,
+                    content: '确定不再关注此人?',
+                    onClickConfirmBtn: function () {
+                        $.post('/Personal/UnFollow', { followed_userId: follow_uid }, function (data) {
+
+                            if (data.Success != true) {
+                                alertmsg(data.Msg);
+                            } else {
+
+
+                                $(obj).children("p").remove();
+                                $(obj).append("<p class='fans_Gz'>关注</p>");
+
+                            }
+                        });
+                    }
+                });
+
+                //if (confirm("确定不再关注此人?")) {
+                //    $.post('/Personal/UnFollow', { followed_userId: follow_uid }, function (data) {
+
+                //        if (data.Success != true) {
+                //            alertmsg(data.Msg);
+                //        } else {
+
+                            
+                //            $(obj).children("p").remove();
+                //            $(obj).append("<p class='fans_Gz'>关注</p>");
+
+                //        }
+                //    });
+                //}
+            }
+          
+           
+        
+            
+        }
+
+    </script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="/Personal/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">我的关注</a>
+    </header>
+
+    <div class="fans_Box">
+        <div id="content">
+        
+        </div>
+        @*<dl class="details_DL">
+            <dt><a href="javascript:;"><img src="~/images/44_7.png"></a></dt>
+            <dd>
+                <div class="fans_ddRight f-r"><p class="fans_Qxgz">取消关注</p></div>
+                <div class="details_ddLeft">
+                    <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
+                    <p>生活只有彩票。</p>
+                </div>
+            </dd>
+        </dl>*@
+    </div>
+
+
+    
+
+</body>
+</html>

@@ -524,8 +524,7 @@ function alertmsg(msg) {
     });
 }
 
-
-$.fn.extend({
+$.extend({
 
     /**
      * 初始化输入区域Emoji
