@@ -375,10 +375,14 @@ namespace C8.Lottery.Portal.Controllers
                         {
 
 
-                            Guid sessionId = Guid.NewGuid();
-                            Response.Cookies["sessionId"].Value = sessionId.ToString();
-                            MemClientFactory.WriteCache(sessionId.ToString(), user, 30);
+                            string guid = Guid.NewGuid().ToString();
+                            Response.Cookies["UserId"].Value = guid;
+                            //Session[guid] = user.Id;
+
+                            //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
+                            CacheHelper.SetCache(guid, user.Id,DateTime.Now.AddMinutes(30));
                           
+
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
                             string editsql = "update UserInfo set LastLoginTime=getdate() where Mobile=@Mobile";//记录最后一次登录时间

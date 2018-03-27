@@ -316,13 +316,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = 0;
+            long userId = UserHelper.LoginUser.Id;
 
-            var user = UserHelper.GetUser();
-            if (user != null)
-            {
-                userId = user.Id;
-            }
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
             parameters[2].Value = id;
@@ -380,13 +375,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = 0;
-
-            var user = UserHelper.GetUser();
-            if (user != null)
-            {
-                userId = user.Id;
-            }
+            long userId = UserHelper.LoginUser.Id;
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
             parameters[2].Value = id;
@@ -493,13 +482,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 new SqlParameter("@Id",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = 0;
+            long userId = UserHelper.LoginUser.Id;
 
-            var user = UserHelper.GetUser();
-            if (user != null)
-            {
-                userId = user.Id;
-            }
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
             parameters[2].Value = id;
@@ -554,13 +538,7 @@ from Comment a
   where a.RefCommentId = @RefCommentId and a.IsDeleted = 0 and a.Type=@Type
   ) T
 WHERE rowNumber BETWEEN @Start AND @End";
-            long userId = 0;
-
-            var user = UserHelper.GetUser();
-            if (user != null)
-            {
-                userId = user.Id;
-            }
+            long userId = UserHelper.LoginUser.Id;
 
             var parameters = new[]
             {
@@ -614,7 +592,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         public JsonResult ClickLike(int id, int ctype, int type = 2)
         {
             var result = new AjaxResult();
-            long userId = UserHelper.GetUser().Id;
+            long userId = UserHelper.LoginUser.Id;
             string sql = "select [Id],[CommentId],[UserId],[Status],[Type] from [dbo].[LikeRecord] where [Type]=" + type + " and CommentId=" + id + " and UserId=" + userId;
 
             var list = Util.ReaderToList<LikeRecord>(sql);
@@ -733,7 +711,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog($"取消点赞异常，用户：{UserHelper.GetUser().Name},点赞类型：{type},Id:{id}。堆栈：{ex.StackTrace}");
+                LogHelper.WriteLog("取消点赞异常，用户：" + UserHelper.LoginUser.Name + ",点赞类型：" + type + ", Id:" + id + "。堆栈：" + ex.StackTrace);
                 result = new AjaxResult(500, ex.Message);
             }
             return result;
