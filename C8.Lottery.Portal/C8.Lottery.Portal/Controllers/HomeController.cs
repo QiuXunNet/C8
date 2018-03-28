@@ -338,20 +338,17 @@ namespace C8.Lottery.Portal.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult Logins(string mobile,string password)
         {
             //string usersql = "select * from UserInfo where Mobile =@Mobile";
-            string usersql = @"select (select count(1)from Follow where UserId=u.Id and Status=1)as follow,(select count(1)from Follow where Followed_UserId=u.Id and Status=1)as fans, r.RPath as Headpath,u.* from UserInfo  u 
-                              left  JOIN (select RPath,FkId from ResourceMapping where Type = @Type)  r 
-                              on u.Id=r.FkId  where u.Mobile=@Mobile ";
+            string usersql = @"select * from UserInfo where Mobile=@Mobile ";
             UserInfo user = new UserInfo();
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
 
-                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile),new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像) };
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
                 List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
                 if (list != null)
                 {
@@ -387,8 +384,9 @@ namespace C8.Lottery.Portal.Controllers
 
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
-                            string editsql = "update UserInfo set LastLoginTime=getdate() where Mobile=@Mobile";//记录最后一次登录时间
-                            SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
+                            string ip = Tool.GetIP();
+                            string editsql = "update UserInfo set LastLoginTime=getdate(),LastLoginIP=@LastLoginIP where Mobile=@Mobile";//记录最后一次登录时间
+                            SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile),new SqlParameter("@LastLoginIP",ip) };
                             SqlHelper.ExecuteNonQuery(editsql, editsp);
                         }
                        

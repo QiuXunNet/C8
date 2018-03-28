@@ -36,6 +36,8 @@ namespace C8.Lottery.Model
         private int? _pid = 0;//受邀ID 
         private int follow;//关注
         private int fans;//粉丝
+        private string _registerip;//注册IP
+        private string _lastloginip;//最后登录IP
 
         /// <summary>
         /// 用户ID
@@ -193,6 +195,32 @@ namespace C8.Lottery.Model
             set
             {
                 fans = value;
+            }
+        }
+
+        public string Registerip
+        {
+            get
+            {
+                return _registerip;
+            }
+
+            set
+            {
+                _registerip = value;
+            }
+        }
+
+        public string Lastloginip
+        {
+            get
+            {
+                return _lastloginip;
+            }
+
+            set
+            {
+                _lastloginip = value;
             }
         }
     }

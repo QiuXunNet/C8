@@ -20,27 +20,12 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Index()
         {
 
-            UserInfo user = UserHelper.LoginUser;
-            string usersql = @"select (select count(1)from Follow where UserId=u.Id and Status=1)as follow,(select count(1)from Follow where Followed_UserId=u.Id and Status=1)as fans, r.RPath as Headpath,u.* from UserInfo  u 
-                              left  JOIN (select RPath,FkId from ResourceMapping where Type = @Type)  r 
-                              on u.Id=r.FkId  where u.Mobile=@Mobile ";
+           
 
-            ReturnMessageJson jsonmsg = new ReturnMessageJson();
-            try
-            {
-                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", user.Mobile), new SqlParameter("@Type", (int)ResourceTypeEnum.用户头像) };
-                List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
-                if (list != null)
-                {
-                    user = list.FirstOrDefault(x => x.Mobile == user.Mobile);
-                }
+            int UserId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(UserId);
 
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
             return View(user);
 
         }
@@ -61,8 +46,9 @@ namespace C8.Lottery.Portal.Controllers
         public JsonResult ModifyPWD(string oldpwd,string newpwd)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
-
-            UserInfo user = GetUser();
+            int UserId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(UserId);
+          
             if (user != null)
             {
 
@@ -119,7 +105,8 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetNickName()
         {
-            var user = GetUser();
+            int UserId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(UserId);
 
             return View(user);
         }
@@ -130,7 +117,8 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetAutograph()
         {
-            var user = GetUser();
+            int UserId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(UserId);
 
             return View(user);
         }
@@ -140,7 +128,8 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetSex()
         {
-            var user = GetUser();
+            int UserId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(UserId);
 
             return View(user);
         }
@@ -160,7 +149,8 @@ namespace C8.Lottery.Portal.Controllers
 
 
                 string strsql = string.Empty;
-                UserInfo user = GetUser();
+                int UserId = UserHelper.GetByUserId();
+                UserInfo user = UserHelper.GetUser(UserId);
                 if (type == 1)
                 {
                     strsql = "  Name=@value ";
@@ -187,7 +177,7 @@ namespace C8.Lottery.Portal.Controllers
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
                 if (data > 0)
                 {
-                    UpdateUser(user);
+                   
                     jsonmsg.Success = true;
                     jsonmsg.Msg = "ok";
                 }
@@ -215,7 +205,8 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult Set()
         {
-            UserInfo user = GetUser();
+            int UserId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(UserId);
             return View(user);
         }
 
@@ -224,7 +215,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         public void logOut()
         {
-            string sessionId = Request["sessionId"];
+            string sessionId = Request["UserId"];
             MemClientFactory.DeleteCache(sessionId);
 
             Response.Redirect("/Home/Login");
@@ -264,10 +255,11 @@ namespace C8.Lottery.Portal.Controllers
         public int GetCompletedCount(int taskid)
         {
             int result = 0;
-            UserInfo user = GetUser();
+            int UserId = UserHelper.GetByUserId();
+       
             string strsql = "select CompletedCount from  UserTask where UserId =@UserId and TaskId=@TaskId ";
             SqlParameter[] sp = new SqlParameter[] {
-                   new SqlParameter("@UserId",user.Id),
+                   new SqlParameter("@UserId",UserId),
                    new SqlParameter("@TaskId",taskid)
             };
             result = Convert.ToInt32(SqlHelper.ExecuteScalar(strsql, sp));
@@ -293,7 +285,8 @@ namespace C8.Lottery.Portal.Controllers
             var result = new AjaxResult<PagedList<Follow>>();
             try
             {
-                UserInfo user = UserHelper.GetUser();
+                int UserId = UserHelper.GetByUserId();
+               
                 string strsql = @"select * from ( 
 select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,'') as NickName,ISNULL(b.Autograph,'')as Autograph ,isnull(c.RPath,'')as HeadPath from Follow as a 
  left join UserInfo b on b.Id = a.Followed_UserId
@@ -302,7 +295,7 @@ select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,''
 ) as d
 where RowNumber BETWEEN @Start AND @End ";
                 SqlParameter[] sp = new SqlParameter[] {
-                new SqlParameter("@UserId",user.Id),
+                new SqlParameter("@UserId",UserId),
                 new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
                 new SqlParameter("@End",pageSize * pageIndex),
@@ -310,7 +303,7 @@ where RowNumber BETWEEN @Start AND @End ";
 
             };
                 var list = Util.ReaderToList<Follow>(strsql, sp);
-                string countsql = $"select count(1) from Follow where UserId={user.Id}";
+                string countsql = $"select count(1) from Follow where UserId={UserId}";
                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
                 var pager = new PagedList<Follow>();
                 pager.PageData = list;
@@ -339,13 +332,14 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <returns></returns>
         public JsonResult UnFollow(long followed_userId)
         {
-            UserInfo user = UserHelper.GetUser();
+            int UserId = UserHelper.GetByUserId();
+
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
                 string strsql = "update Follow set Status=0,FollowTime=getdate() where UserId=@UserId  and Followed_UserId=@Followed_UserId";
                 SqlParameter[] sp = new SqlParameter[] {
-                new SqlParameter("@UserId",user.Id),
+                new SqlParameter("@UserId",UserId),
                 new SqlParameter("@Followed_UserId",followed_userId)
               };
                 int data = SqlHelper.ExecuteNonQuery(strsql, sp);
@@ -379,11 +373,11 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <returns></returns>
         public JsonResult IFollow(long followed_userId)
         {
-            UserInfo user = UserHelper.GetUser();
+            int UserId = UserHelper.GetByUserId();
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
-                string yzsql = $"select  count(1) from Follow where UserId={user.Id}  and Followed_UserId={followed_userId}";
+                string yzsql = $"select  count(1) from Follow where UserId={UserId}  and Followed_UserId={followed_userId}";
                 string strsql = "";
                 int count =Convert.ToInt32(SqlHelper.ExecuteScalar(yzsql));
                 if (count > 0)
@@ -395,7 +389,7 @@ where RowNumber BETWEEN @Start AND @End ";
                      strsql = "insert into Follow(UserId, Followed_UserId, Status,FollowTime)values(@UserId, @Followed_UserId, 1,getdate())";
                 }
                 SqlParameter[] sp = new SqlParameter[] {
-                new SqlParameter("@UserId",user.Id),
+                new SqlParameter("@UserId",UserId),
                 new SqlParameter("@Followed_UserId",followed_userId)
                 };
                 int data = SqlHelper.ExecuteNonQuery(strsql, sp);
@@ -440,7 +434,7 @@ where RowNumber BETWEEN @Start AND @End ";
             var result = new AjaxResult<PagedList<Follow>>();
             try
             {
-                UserInfo user = UserHelper.GetUser();
+                int UserId = UserHelper.GetByUserId();
                 string strsql = @"select * from ( 
 select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,'') as NickName,ISNULL(b.Autograph,'')as Autograph ,isnull(c.RPath,'')as HeadPath
 ,(select count(1) from Follow where UserId=@Followed_UserId and Followed_UserId=a.UserId and Status=1)as Isfollowed from Follow as a 
@@ -450,7 +444,7 @@ select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,''
 ) as d
 where RowNumber BETWEEN @Start AND @End ";
                 SqlParameter[] sp = new SqlParameter[] {
-                new SqlParameter("@Followed_UserId",user.Id),
+                new SqlParameter("@Followed_UserId",UserId),
                 new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
                 new SqlParameter("@End",pageSize * pageIndex),
@@ -458,7 +452,7 @@ where RowNumber BETWEEN @Start AND @End ";
 
             };
                 var list = Util.ReaderToList<Follow>(strsql, sp);
-                string countsql = $"select count(1) from Follow where Followed_UserId={user.Id}";
+                string countsql = $"select count(1) from Follow where Followed_UserId={UserId}";
                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
                 var pager = new PagedList<Follow>();
                 pager.PageData = list;

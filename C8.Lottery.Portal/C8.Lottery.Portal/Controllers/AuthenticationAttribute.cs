@@ -48,21 +48,7 @@ namespace C8.Lottery.Portal.Controllers
                     }
                 }
 
-                //UserInfo user = MemClientFactory.GetCache<UserInfo>(sessionId);
-                //if (user == null)
-                //{
-                //    if (isAjaxRequest)
-                //    {
-                //        JsonResult json = new JsonResult();
-                //        json.Data = new { Code = 401, Message = "未经授权" };
-                //        filterContext.Result = json;
-                //    }else
-                //    { 
-                //    filterContext.HttpContext.Response.Redirect("/Home/Login");
-                //    }
-                //}
-
-                //MemClientFactory.WriteCache(sessionId, user, 30);
+               
             }
 
             base.OnActionExecuting(filterContext);

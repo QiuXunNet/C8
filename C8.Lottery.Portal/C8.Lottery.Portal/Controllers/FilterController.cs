@@ -60,27 +60,5 @@ namespace C8.Lottery.Portal.Controllers
            
         }
 
-      
-        /// <summary>
-        /// 获取缓存用户信息
-        /// </summary>
-        /// <returns></returns>
-        public UserInfo GetUser()
-        {
-            string sessionId = Request["sessionId"];
-            UserInfo user = MemClientFactory.GetCache<UserInfo>(sessionId);
-            return user;
-             
-        }
-        /// <summary>
-        /// 更新缓存用户信息
-        /// </summary>
-        /// <returns></returns>
-       public void UpdateUser(UserInfo u)
-        {
-            string sessionId = Request["sessionId"];
-            MemClientFactory.WriteCache(sessionId, u, 30);   
-           
-        }
     }
 }
