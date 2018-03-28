@@ -480,7 +480,7 @@ where RowNumber BETWEEN @Start AND @End ";
         /// 邀请注册
         /// </summary>
         /// <returns></returns>
-         public ActionResult InvitationReg(InvitationRegModel model)
+         public ActionResult InvitationReg()
         {
             int UserId = UserHelper.GetByUserId();
             ViewData["uid"] = UserId;
@@ -492,9 +492,19 @@ where RowNumber BETWEEN @Start AND @End ";
                 new SqlParameter("@Pid",UserId),
                 new SqlParameter("@UserId",UserId)
             };
-            model= Util.ReaderToModel<InvitationRegModel>(strsql, sp);
 
+            InvitationRegModel  irmodel= Util.ReaderToModel<InvitationRegModel>(strsql, sp);
+            var model = irmodel;
             return View(model);
+        }
+
+        /// <summary>
+        /// 奖励规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RewardRules()
+        {
+            return View();
         }
     }
 }

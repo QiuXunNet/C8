@@ -616,6 +616,7 @@
     <Content Include="Views\Personal\Follow.cshtml" />
     <Content Include="Views\Plan\Post.cshtml" />
     <Content Include="Views\Personal\InvitationReg.cshtml" />
+    <Content Include="Views\Personal\RewardRules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
