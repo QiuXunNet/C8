@@ -120,6 +120,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\InvitationRegModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -290,6 +291,7 @@
     <Content Include="images\70_2.png" />
     <Content Include="images\bt-5.png" />
     <Content Include="images\bt-6.png" />
+    <Content Include="images\c8.png" />
     <Content Include="images\default_avater.png" />
     <Content Include="images\emoji\qq\1.gif" />
     <Content Include="images\emoji\qq\10.gif" />
@@ -465,6 +467,8 @@
     <Content Include="images\icon_info_02.png" />
     <Content Include="images\icon_info_03.png" />
     <Content Include="images\icon_info_04.png" />
+    <Content Include="images\invitation_illustration.png" />
+    <Content Include="images\invite.jpg" />
     <Content Include="images\loading.gif" />
     <Content Include="images\logo1.png" />
     <Content Include="images\logo10.png" />
@@ -553,6 +557,8 @@
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="css\dropload.css" />
     <Content Include="js\jquery.js" />
+    <Content Include="js\kcp\NativeShare.js" />
+    <Content Include="js\kcp\webpack.config.js" />
     <Content Include="js\luo\dropload.js" />
     <Content Include="js\luo\dropload.min.js" />
     <Content Include="js\luo\jquery.emoji.min.js" />
@@ -572,6 +578,7 @@
     <Content Include="css\fonts\c8.eot" />
     <Content Include="css\fonts\c8.ttf" />
     <Content Include="css\fonts\c8.woff" />
+    <None Include="Properties\PublishProfiles\w.pubxml" />
     <None Include="Scripts\jquery-1.8.0-vsdoc.js" />
     <Content Include="js\zepto.tap.min.js" />
     <Content Include="Scripts\jquery-1.8.0.js" />
@@ -608,9 +615,11 @@
     <Content Include="Views\Personal\Fans.cshtml" />
     <Content Include="Views\Personal\Follow.cshtml" />
     <Content Include="Views\Plan\Post.cshtml" />
+    <Content Include="Views\Personal\InvitationReg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="js\kcp\src\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
