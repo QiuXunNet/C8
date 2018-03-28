@@ -21,7 +21,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-            string sessionId = Request["sessionId"];
+            string sessionId = Request["UserId"];
             string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
             bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
 
@@ -40,8 +40,8 @@ namespace C8.Lottery.Portal.Controllers
             }
             else
             {
-                UserInfo user= MemClientFactory.GetCache<UserInfo>(sessionId);
-                if (user == null)
+                object userId = CacheHelper.GetCache(sessionId);
+                if (userId == null)
                 {
                     if (isAjaxRequest)
                     {
@@ -55,7 +55,7 @@ namespace C8.Lottery.Portal.Controllers
                     }
                 }
 
-                MemClientFactory.WriteCache(sessionId, user, 30);
+                //MemClientFactory.WriteCache(sessionId, user, 30);
             }
            
         }
