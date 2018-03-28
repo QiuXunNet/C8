@@ -30,7 +30,10 @@ namespace C8.Lottery.Portal.Controllers
             }
 
             ViewBag.openList = list;
-
+  
+            int userId = UserHelper.GetByUserId();
+            UserInfo user =UserHelper.GetUser(userId);
+            ViewData["user"] = user;
             return View();
         }
 
@@ -145,15 +148,17 @@ namespace C8.Lottery.Portal.Controllers
                         else
                         {
                             password = Tool.GetMD5(password);
+                            string ip = Tool.GetIP();
                             string regsql = @"
-  insert into UserInfo(UserName, Name, Password, Mobile, Coin, Money, Integral, SubTime, LastLoginTime, State,Pid)
-  values(@UserName, @Name, @Password, @Mobile, 0,0, 0, getdate(), getdate(), 0,@Pid);select @@identity ";
+  insert into UserInfo(UserName, Name, Password, Mobile, Coin, Money, Integral, SubTime, LastLoginTime, State,Pid,RegisterIP)
+  values(@UserName, @Name, @Password, @Mobile, 0,0, 0, getdate(), getdate(), 0,@Pid,@RegisterIP);select @@identity ";
                             SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@UserName",mobile),
                      new SqlParameter("@Name",mobile),
                     new SqlParameter("@Password",password),
                     new SqlParameter("@Mobile",mobile),
-                    new SqlParameter("@Pid",inviteid)
+                    new SqlParameter("@Pid",inviteid),
+                    new SqlParameter("@RegisterIP",ip)
 
                  };
                             int data =Convert.ToInt32 (SqlHelper.ExecuteScalar(regsql, regsp));
@@ -163,10 +168,9 @@ namespace C8.Lottery.Portal.Controllers
 
                                 jsonmsg.Success = true;
                                 jsonmsg.Msg = "ok";
-                                Guid sessionId = Guid.NewGuid();
-                                Response.Cookies["sessionId"].Value = sessionId.ToString();
-                                UserInfo user =GetByid(data);                              
-                                MemClientFactory.WriteCache(sessionId.ToString(), user, 30);
+                                string guid = Guid.NewGuid().ToString();
+                                Response.Cookies["UserId"].Value = guid;
+                                CacheHelper.SetCache(guid, data, DateTime.Now.AddMinutes(30));
                                 if (inviteid > 0)
                                 {
                                     UserInfo invite = GetByid(inviteid);

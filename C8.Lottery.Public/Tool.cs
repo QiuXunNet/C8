@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
+using C8.Lottery.Public;
 namespace C8.Lottery.Public
 {
    public class Tool
@@ -48,6 +49,7 @@ namespace C8.Lottery.Public
 
             return userIP;
         }
+    
 
     }
 

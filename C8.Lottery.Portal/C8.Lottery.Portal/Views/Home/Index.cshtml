@@ -28,10 +28,12 @@
 <header class="hjc_header" style="text-align:left;">
     <a href="javascript:;" class="hjc_logo" style="margin-left: 10px;"><img src="/images/03.png"></a>
     <div class="hjc_hdDZ">
-        @if (Request["sessionId"] != null)
+        @if (Request["UserId"] != null)
         {
-            string sessionId = Convert.ToString(Request["sessionId"]);
-            UserInfo user = MemClientFactory.GetCache<UserInfo>(sessionId);
+            string sessionId = Convert.ToString(Request["UserId"]);
+            int userId=Convert.ToInt32(CacheHelper.GetCache(sessionId));
+            UserInfo user = (UserInfo)ViewData["user"];
+
             if (user != null)
             {
                 <a href="/Personal/Index">Hi,@user.Name</a>
