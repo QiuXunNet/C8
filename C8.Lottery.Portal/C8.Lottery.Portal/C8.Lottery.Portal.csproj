@@ -560,6 +560,7 @@
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
     <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
+    <Content Include="js\public.js" />
     <Content Include="js\runTime2.js" />
     <Content Include="js\runTime3.js" />
     <Content Include="js\TouchSlide.1.1.js" />
@@ -577,7 +578,9 @@
     <Content Include="Scripts\jquery-1.8.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

@@ -17,6 +17,7 @@ $(function () {
 
 function BindconfirmBetCLick() {
     $('#confirmBet').click(function () {
+
         var betCount = parseInt($('.WF_ftTitle:visible span').html());
 
         if (betCount <= 0) {
