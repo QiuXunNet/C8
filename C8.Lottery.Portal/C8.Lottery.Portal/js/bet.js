@@ -5,6 +5,9 @@ var betInfo = '';
 var currentIssue = '';
 
 
+var c = 0;
+
+
 $(function () {
 
     lType = $('#lType').val();      //初始化彩种类型
