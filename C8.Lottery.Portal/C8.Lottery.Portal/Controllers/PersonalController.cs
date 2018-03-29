@@ -303,7 +303,7 @@ where RowNumber BETWEEN @Start AND @End ";
 
             };
                 var list = Util.ReaderToList<Follow>(strsql, sp);
-                string countsql = $"select count(1) from Follow where UserId={UserId}";
+                string countsql =string.Format("select count(1) from Follow where UserId={0}",UserId);
                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
                 var pager = new PagedList<Follow>();
                 pager.PageData = list;
@@ -377,7 +377,7 @@ where RowNumber BETWEEN @Start AND @End ";
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
-                string yzsql = $"select  count(1) from Follow where UserId={UserId}  and Followed_UserId={followed_userId}";
+                string yzsql = string.Format("select  count(1) from Follow where UserId={0}  and Followed_UserId={1}",UserId,followed_userId);
                 string strsql = "";
                 int count =Convert.ToInt32(SqlHelper.ExecuteScalar(yzsql));
                 if (count > 0)
@@ -452,7 +452,7 @@ where RowNumber BETWEEN @Start AND @End ";
 
             };
                 var list = Util.ReaderToList<Follow>(strsql, sp);
-                string countsql = $"select count(1) from Follow where Followed_UserId={UserId}";
+                string countsql =string.Format("select count(1) from Follow where Followed_UserId={0}",UserId);
                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
                 var pager = new PagedList<Follow>();
                 pager.PageData = list;
@@ -472,6 +472,39 @@ where RowNumber BETWEEN @Start AND @End ";
 
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+       
+
+        /// <summary>
+        /// 邀请注册
+        /// </summary>
+        /// <returns></returns>
+         public ActionResult InvitationReg()
+        {
+            int UserId = UserHelper.GetByUserId();
+            ViewData["uid"] = UserId;
+            string strsql = @" select Number,Coin from
+                              (select count(1) as Number from UserInfo where Pid = @Pid) t1,
+                              (select sum([Amount])as Coin from CoinRecord where [lType] = 0 and UserId = @UserId) t2";
+
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@Pid",UserId),
+                new SqlParameter("@UserId",UserId)
+            };
+
+            InvitationRegModel  irmodel= Util.ReaderToModel<InvitationRegModel>(strsql, sp);
+            var model = irmodel;
+            return View(model);
+        }
+
+        /// <summary>
+        /// 奖励规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RewardRules()
+        {
+            return View();
         }
 
         /// <summary>
