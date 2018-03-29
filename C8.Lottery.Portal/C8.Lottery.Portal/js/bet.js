@@ -5,7 +5,7 @@ var betInfo = '';
 var currentIssue = '';
 
 
-
+var e = 0;
 
 
 $(function () {
