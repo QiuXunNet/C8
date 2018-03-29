@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -116,6 +117,7 @@
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
+    <Compile Include="Controllers\TalkingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -620,6 +622,7 @@
     <Content Include="Views\Personal\UserCenter.cshtml" />
     <Content Include="Views\Personal\InvitationReg.cshtml" />
     <Content Include="Views\Personal\RewardRules.cshtml" />
+    <Content Include="Views\Talking\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
