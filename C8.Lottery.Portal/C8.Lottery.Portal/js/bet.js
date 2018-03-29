@@ -9,8 +9,6 @@ var a = 0;
 var b = 0;
 var z = 0;
 var z2 = 0;
-var m = 0;
-
 
 
 
