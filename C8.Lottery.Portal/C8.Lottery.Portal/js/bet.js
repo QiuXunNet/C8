@@ -15,7 +15,7 @@ $(function () {
     BindconfirmBetCLick();          //确认投注
 
 
-    e = e + 10;
+    e = e + 10 ;
 
 
 });
