@@ -2,9 +2,9 @@
 @{
     Layout = null;
 
-    var galleryList = ViewBag.GalleryList as List<Gallery>;
-    var currentId = galleryList.FirstOrDefault().Id;
-
+    List<Gallery> galleryList = ViewBag.GalleryList;
+    var currentId = galleryList.Any() ? galleryList.FirstOrDefault().Id : 0;
+    NewsType newsType = ViewBag.NewsType;
 }
 @model Gallery
 
@@ -15,7 +15,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>资讯-玄机图库</title>
+    <title>@Model.Name-玄机图库</title>
+    <meta name="keywords" content="@newsType.SeoKeyword">
+    <meta name="description" content="@newsType.SeoDescription">
     <script type="text/javascript" src="~/js/fontSize.js"></script>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
@@ -26,25 +28,25 @@
 <body style="background:#F4F4F5;">
 
     <header class="hjc_header">
-        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@Model.Name</a>
     </header>
 
     <div class="alllist">
         <div id="navbox" class="top-nav oh">
             <div class="nav-box">
-               
-            @foreach (var item in galleryList)
+
+                @foreach (var item in galleryList)
             {
                 if (item.Id == currentId)
                 {
-                    <div class="line on">第@(item.Issue)期</div>
+                        <div class="line on">第@(item.Issue)期</div>
+                    }
+                    else
+                    {
+                        <div class="line">第@(item.Issue)期</div>
+                    }
                 }
-                else
-                {
-                    <div class="line">第@(item.Issue)期</div>
-                }
-            }
             </div>
         </div>
         <div class="upbtn"></div>
@@ -57,31 +59,31 @@
     </div>
     <div class="listdetail oh">
         <div class="listtitle">白小姐高级会员版</div>
-    <div class="slick-track oh" id="slick">
-        @foreach (var item in galleryList)
-        {
-            <div class="slick-slide">
-                <img data-src="@item.Picture" alt="@item.Name" style="opacity: 1;"/>
-            </div>
-        }
-    <div style="clear: both;"></div>
-    </div>
+        <div class="slick-track oh" id="slick">
+            @foreach (var item in galleryList)
+            {
+                <div class="slick-slide">
+                    <img data-src="@item.Picture" alt="@item.Name" style="opacity: 1;" />
+                </div>
+            }
+            <div style="clear: both;"></div>
+        </div>
     </div>
 
     <div class="rec-gallery">
         <dl>
             <dt>其他推荐</dt>
-           @if (ViewBag.RecommendGalleryList != null)
-           {
-               foreach (var item in ViewBag.RecommendGalleryList as List<Gallery>)
-               {
+            @if (ViewBag.RecommendGalleryList != null)
+            {
+                foreach (var item in ViewBag.RecommendGalleryList as List<Gallery>)
+                {
 
-                <dd>
-                    <a href="@Url.Content("~/News/Gallery/" + @item.Id)">@item.Name</a>
-                </dd>
-               }
-           }
-           
+                    <dd>
+                        <a href="@Url.Content("~/News/Gallery/" + @item.Id)">@item.Name</a>
+                    </dd>
+                }
+            }
+
         </dl>
         <div style="clear: both;"></div>
     </div>

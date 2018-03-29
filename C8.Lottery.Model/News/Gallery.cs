@@ -34,6 +34,10 @@ namespace C8.Lottery.Model
         /// 图片
         /// </summary>
         public string Picture { get; set; }
-        
+        /// <summary>
+        /// 栏目Id
+        /// </summary>
+        public long TypeId { get; set; }
+
     }
 }

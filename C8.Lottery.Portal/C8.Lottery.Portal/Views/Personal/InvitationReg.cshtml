@@ -1,8 +1,9 @@
 ﻿@using Newtonsoft.Json;
+@model C8.Lottery.Portal.Models.InvitationRegModel
 @{
     ViewBag.Title = "InvitationReg";
 }
-
+<!doctype html>
 <html>
 
 <head>
@@ -32,7 +33,7 @@
                 <div class="invitation-text1">分享赚钱咯！当您邀请的好友注册并参与充值时</div>
                 <div class="invitation-text2">单次最高可获得100金币，奖励不封顶！同时获赠高手计划查看券</div>
                 <div class="invitation-text1">您邀请的好友再邀请用户注册时，您将在获得最高50金币奖励</div>
-                <div class="invitation-text2"><a href="邀请好友-奖励规则.html">奖励规则>></a></div>
+                <div class="invitation-text2"><a href="/Personal/RewardRules">奖励规则>></a></div>
                 <div class="invitation-share">
                     <dl>
                         <dd>
@@ -63,11 +64,11 @@
             <div class="invitation-statistics">
                 <div class="invitation-count-box">
                     已成功邀请
-                    <p><span>0</span>人</p>
+                    <p><span>@Model.Number</span>人</p>
                 </div>
                 <div class="invitation-commision-box">
                     累计奖励
-                    <p><span>0</span>金币 &nbsp;<span>0</span>查看券</p>
+                    <p><span>@Model.Coin</span>金币 &nbsp;<span>0</span>查看券</p>
                 </div>
                 <div class="clearfix"></div>
             </div>
