@@ -7,6 +7,7 @@ var currentIssue = '';
 
 var a = 0;
 var b = 0;
+var z = 0;
 
 
 $(function () {
