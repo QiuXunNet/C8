@@ -189,6 +189,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
+            var thumbList = GetResources((int) ResourceTypeEnum.新闻缩略图, model.Id);
+            if (thumbList.Any())
+                model.Thumb = thumbList.First().RPath;
+            
             //查询新闻栏目信息
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;

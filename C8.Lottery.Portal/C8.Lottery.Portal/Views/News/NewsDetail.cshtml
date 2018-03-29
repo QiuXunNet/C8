@@ -29,7 +29,7 @@
 
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo">@(lottery.TypeName +"."+ @newsType.TypeName)</a>
+        <a href="javascript:;" class="hjc_logo">@(lottery.TypeName + "." + @newsType.TypeName)</a>
         <a href="javascript:showShare();" class="SX_A">分享</a>
     </header>
 
@@ -46,21 +46,21 @@
             <dl>
                 <dt>分享文章</dt>
                 <dd>
-                    <a href="javascript:;">
+                    <a href="javascript:call('wechatFriend');">
                         <p><img src="/images/63_1.png" alt="分享到微信好友" /></p>
                         <p>微信好友</p>
                     </a>
 
                 </dd>
                 <dd>
-                    <a href="javascript:;">
+                    <a href="javascript:call('wechatTimeline');">
                         <p><img src="/images/63_2.png" alt="分享到朋友圈" /></p>
                         <p>朋友圈</p>
                     </a>
 
                 </dd>
                 <dd>
-                    <a href="javascript:;">
+                    <a href="javascript:call('qqFriend');">
                         <p><img src="/images/63_3.png" alt="分享到QQ好友" /></p>
                         <p>QQ好友</p>
                     </a>
@@ -75,11 +75,11 @@
                 {
                     var preview = ViewBag.Preview as News;
 
-                    <a href="/News/NewsDetail/@preview.Id">上一篇：@preview.FullHead</a>
+                <a href="/News/NewsDetail/@preview.Id">上一篇：@preview.FullHead</a>
                 }
                 else
                 {
-                    <a href="javascript:;">上一篇：</a>
+                <a href="javascript:;">上一篇：</a>
                 }
             </div>
             <div class="nextview">
@@ -87,11 +87,11 @@
                 {
                     var nextview = ViewBag.Nextview as News;
 
-                    <a href="/News/NewsDetail/@nextview.Id">下一篇：@nextview.FullHead</a>
+                <a href="/News/NewsDetail/@nextview.Id">下一篇：@nextview.FullHead</a>
                 }
                 else
                 {
-                    <a href="javascript:;">下一篇：</a>
+                <a href="javascript:;">下一篇：</a>
                 }
             </div>
             <div class="clearfix"></div>
@@ -107,104 +107,104 @@
 
             @foreach (var article in recArticle)
             {
-                <div class="hjc_news_content">
+            <div class="hjc_news_content">
 
-                    @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
+                @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
                     {
                         //无图
-                        <a href="/News/NewsDetail/@article.Id">
-                            <div class="hjc_news">
-                                <div class="hjc_news_subject">@article.FullHead</div>
-                                <div class="newstime">
-                                    <span>万彩吧</span>
-                                    <span>@article.ReleaseTimeStr</span>
-                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
-                                </div>
+                    <a href="/News/NewsDetail/@article.Id">
+                        <div class="hjc_news">
+                            <div class="hjc_news_subject">@article.FullHead</div>
+                            <div class="newstime">
+                                <span>万彩吧</span>
+                                <span>@article.ReleaseTimeStr</span>
+                                <span>@article.CommentCount<i class="icon-comment"></i></span>
                             </div>
-                        </a>
+                        </div>
+                    </a>
                     }
                     else if (article.ThumbStyle == 1)
                     {
                         //一张小图
-                        <a href="/News/NewsDetail/@article.Id">
-                            <div class="hjc_news_left">
-                                <div class="hjc_news_subject">@article.FullHead</div>
-                                <div class="newstime">
-                                    <span>万彩吧</span>
-                                    <span>@article.ReleaseTimeStr</span>
-                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
-                                </div>
+                    <a href="/News/NewsDetail/@article.Id">
+                        <div class="hjc_news_left">
+                            <div class="hjc_news_subject">@article.FullHead</div>
+                            <div class="newstime">
+                                <span>万彩吧</span>
+                                <span>@article.ReleaseTimeStr</span>
+                                <span>@article.CommentCount<i class="icon-comment"></i></span>
                             </div>
+                        </div>
 
-                            <div class="hjc_news_right">
-                                @if (article.ThumbList.Count > 0)
+                        <div class="hjc_news_right">
+                            @if (article.ThumbList.Count > 0)
                                 {
-                                    <img src="@article.ThumbList[0]" alt="@article.FullHead"/>
+                                <img src="@article.ThumbList[0]" alt="@article.FullHead" />
                                 }
-                            </div>
+                        </div>
 
-                        </a>
-                        <div class="clearfix"></div>
+                    </a>
+                    <div class="clearfix"></div>
                     }
                     else if (article.ThumbStyle == 2)
                     {
                         //一张大图
-                        <a href="/News/NewsDetail/@article.Id">
-                            <div class="hjc_news">
-                                <div class="hjc_news_subject">@article.FullHead</div>
-                                <div class="hjc_news_thumb">
-                                    <ul class="col_1">
-                                        @foreach (var thumb in article.ThumbList)
+                    <a href="/News/NewsDetail/@article.Id">
+                        <div class="hjc_news">
+                            <div class="hjc_news_subject">@article.FullHead</div>
+                            <div class="hjc_news_thumb">
+                                <ul class="col_1">
+                                    @foreach (var thumb in article.ThumbList)
                                         {
-                                            <li><img src="@thumb" alt="@article.FullHead"/></li>
+                                        <li><img src="@thumb" alt="@article.FullHead" /></li>
                                         }
-                                    </ul>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="newstime">
-                                    <span>万彩吧</span>
-                                    <span>@article.ReleaseTimeStr</span>
-                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
-                                </div>
+                                </ul>
+                                <div class="clearfix"></div>
                             </div>
-                        </a>
+                            <div class="newstime">
+                                <span>万彩吧</span>
+                                <span>@article.ReleaseTimeStr</span>
+                                <span>@article.CommentCount<i class="icon-comment"></i></span>
+                            </div>
+                        </div>
+                    </a>
                     }
                     else if (article.ThumbStyle == 3)
                     {
-                        <a href="/News/NewsDetail/@article.Id">
-                            <div class="hjc_news">
-                                <div class="hjc_news_subject">@article.FullHead</div>
-                                <div class="hjc_news_thumb">
-                                    <ul class="col_3">
-                                        @foreach (var thumb in article.ThumbList)
+                    <a href="/News/NewsDetail/@article.Id">
+                        <div class="hjc_news">
+                            <div class="hjc_news_subject">@article.FullHead</div>
+                            <div class="hjc_news_thumb">
+                                <ul class="col_3">
+                                    @foreach (var thumb in article.ThumbList)
                                         {
-                                            <li><img src="@thumb" alt="@article.FullHead"/></li>
+                                        <li><img src="@thumb" alt="@article.FullHead" /></li>
                                         }
-                                    </ul>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="newstime">
-                                    <span>万彩吧</span>
-                                    <span>@article.ReleaseTimeStr</span>
-                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
-                                </div>
+                                </ul>
+                                <div class="clearfix"></div>
                             </div>
-                        </a>
+                            <div class="newstime">
+                                <span>万彩吧</span>
+                                <span>@article.ReleaseTimeStr</span>
+                                <span>@article.CommentCount<i class="icon-comment"></i></span>
+                            </div>
+                        </div>
+                    </a>
                     }
                     else
                     {
-                        <a href="/News/NewsDetail/@article.Id">
-                            <div class="hjc_news">
-                                <div class="hjc_news_subject">@article.FullHead</div>
-                                <div class="">
-                                    <span>万彩吧</span>
-                                    <span>@article.ReleaseTimeStr</span>
-                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
-                                </div>
+                    <a href="/News/NewsDetail/@article.Id">
+                        <div class="hjc_news">
+                            <div class="hjc_news_subject">@article.FullHead</div>
+                            <div class="">
+                                <span>万彩吧</span>
+                                <span>@article.ReleaseTimeStr</span>
+                                <span>@article.CommentCount<i class="icon-comment"></i></span>
                             </div>
-                        </a>
+                        </div>
+                    </a>
                     }
-                </div>
+            </div>
             }
 
         </div>
@@ -390,19 +390,7 @@
         </div>
     </div>
 
-    @Html.Action("WonderfulComment", new { id = @Model.Id,type=2 })
-
-    
-    @*<div class="Gues_footer">
-        <div class="Gues_ftTB f-r">
-            <a href="javascript:;" class="ftTB_A">
-                <img src="/images/62_1.png">
-                <font>10025</font>
-            </a>
-            <a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>
-        </div>
-        <a href="javascript:;" class="Gues_ftFBPL">请输入您的评论</a>
-    </div>*@
+    @Html.Action("WonderfulComment", new { id = @Model.Id, type = 2 })
 
 
     <!--分享-->
@@ -413,19 +401,19 @@
             </div>
             <ul class="Share_ifNav">
                 <li>
-                    <a href="javascript:;">
+                    <a href="javascript:call('wechatFriend');">
                         <div class="Share_iNtu"><img src="/images/63_1.png"></div>
                         <p>微信好友</p>
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="javascript:call('wechatTimeline');">
                         <div class="Share_iNtu"><img src="/images/63_2.png"></div>
                         <p>朋友圈</p>
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="javascript:call('qqFriend');">
                         <div class="Share_iNtu"><img src="/images/63_3.png"></div>
                         <p>QQ好友</p>
                     </a>
@@ -436,11 +424,40 @@
         </div>
     </div>
 
-<script type="text/javascript">
-    $(function() {
-        $(".Gues_ul").parseEmoji();
-    });
-</script>
+    <script src="~/js/kcp/NativeShare.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".Gues_ul").parseEmoji();
+        });
+
+        var nativeShare = new NativeShare();
+
+        var shareData = {
+            title: '@Model.FullHead',
+            desc: '@Model.FullHead',
+            // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
+            link: 'http://' + location.host + '/News/NewsDetail/@Model.Id',
+            icon: '@Model.Thumb',
+            // 不要过于依赖以下两个回调，很多浏览器是不支持的
+            success: function () {
+                alert('success');
+            },
+            fail: function () {
+                alert('fail');
+            }
+        }
+        nativeShare.setShareData(shareData);
+
+        function call(command) {
+            try {
+                nativeShare.call(command);
+            } catch (err) {
+                // 如果不支持，你可以在这里做降级处理
+                alert(err.message);
+            }
+        }
+
+    </script>
 </body>
 
 </html>
