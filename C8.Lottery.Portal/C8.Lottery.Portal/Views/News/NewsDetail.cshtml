@@ -3,7 +3,7 @@
 
 @{
     Layout = null;
-    string newsTypeName = ViewBag.NewsTypeName;
+    NewsType newsType = ViewBag.NewsType;
     LotteryType lottery = ViewBag.Lottery;
     List<News> recArticle = ViewBag.RecommendArticle;
 }
@@ -15,8 +15,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>@Model.FullHead -万彩吧</title>
-    <meta name="keywords" content="@lottery.SeoKeyword">
-    <meta name="description" content="@lottery.SeoDescription">
+    <meta name="keywords" content="@newsType.SeoKeyword">
+    <meta name="description" content="@newsType.SeoDescription">
     <link href="~/css/jquery.emoji.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
@@ -28,8 +28,8 @@
 <body style="background:#F4F4F5;">
 
     <header class="hjc_header">
-        <a href="javascript:;" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo">@(lottery.TypeName +"."+@newsTypeName)</a>
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">@(lottery.TypeName +"."+ @newsType.TypeName)</a>
         <a href="javascript:showShare();" class="SX_A">分享</a>
     </header>
 

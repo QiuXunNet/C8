@@ -473,6 +473,16 @@ where RowNumber BETWEEN @Start AND @End ";
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 他人主页
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult UserCenter(int id)
+        {
+            return View();
+        }
     }
 }
 

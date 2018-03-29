@@ -36,11 +36,12 @@ namespace C8.Lottery.Portal.Controllers
             var list = GetNewsTypeList(id);
             if (ntype > 0)
             {
-                ViewBag.CurrentNewsTypeId = ntype;
+                ViewBag.CurrentNewsType = list.FirstOrDefault(x => x.Id == ntype);
             }
             else
             {
-                ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
+                var currentNewsType = list.FirstOrDefault();
+                ViewBag.CurrentNewsType = currentNewsType;
             }
             ViewBag.NewsTypeList = list;
 
@@ -130,7 +131,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
         [ChildActionOnly]
         public PartialViewResult NewsGalleryCategoryList(long ltype, int newsTypeId)
         {
-            string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, Max(a.LotteryNumber) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
+            //right(ISNULL(a.LotteryNumber,''),3)
+            string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, right(Max(a.LotteryNumber),3) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
  from News  a
  left join NewsType b on b.Id= a.TypeId
  where a.TypeId=@NewsTypeId and b.lType=@LType 
@@ -189,7 +191,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             var model = Util.GetEntityById<News>(id);
             //查询新闻栏目信息
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
-            ViewBag.NewsTypeName = newstype.TypeName;
+            ViewBag.NewsType = newstype;
             //获取彩种类型信息和SEO信息
             var lotteryType = Util.GetEntityById<LotteryType>((int)newstype.LType);
             ViewBag.Lottery = lotteryType;
@@ -274,8 +276,13 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             {
                 Id = news.Id,
                 Issue = news.Issue,
-                Name = news.FullHead
+                Name = news.FullHead,
+                TypeId = news.TypeId
             };
+
+            //查询新闻栏目信息
+            var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
+            ViewBag.NewsType = newstype;
             //查询当前图库所有期信息
             var galleryList = GetGalleries(news.Id, news.FullHead);
             ViewBag.GalleryList = galleryList;
@@ -316,7 +323,11 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
 
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;

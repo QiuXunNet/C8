@@ -577,7 +577,9 @@
     <Content Include="Scripts\jquery-1.8.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -607,6 +609,7 @@
     <Content Include="Views\Personal\Fans.cshtml" />
     <Content Include="Views\Personal\Follow.cshtml" />
     <Content Include="Views\Plan\Post.cshtml" />
+    <Content Include="Views\Personal\UserCenter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
