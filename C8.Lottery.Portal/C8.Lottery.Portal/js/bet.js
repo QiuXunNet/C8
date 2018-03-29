@@ -5,8 +5,9 @@ var betInfo = '';
 var currentIssue = '';
 
 
-var x = 0;
-var y = 0;
+var a = 0;
+var b = 0;
+
 
 $(function () {
 
@@ -14,11 +15,7 @@ $(function () {
 
     BindconfirmBetCLick();          //确认投注
 
-
-    e = e + 10;
-    e = e + 10;
-    e = e + 10;
-
+    var c = 0;
 
 });
 
