@@ -171,7 +171,7 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         playName2 = Util.GetPlayName(lType, playName, s1, i);
 
-                        string sql = "insert into BettingRecord(UserId,lType,Issue,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@PlayName,@BetNum,GETDATE())";
+                        string sql = "insert into BettingRecord(UserId,lType,Issue,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
 
                         SqlParameter[] pms =
                         {
