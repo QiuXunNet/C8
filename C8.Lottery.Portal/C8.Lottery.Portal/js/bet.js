@@ -6,7 +6,7 @@ var currentIssue = '';
 
 
 var x = 0;
-var g = 0;
+var y = 0;
 
 $(function () {
 
@@ -15,6 +15,7 @@ $(function () {
     BindconfirmBetCLick();          //确认投注
 
 
+    e = e + 10;
     e = e + 10;
     e = e + 10;
 
