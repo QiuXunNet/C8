@@ -1,0 +1,112 @@
+﻿@using C8.Lottery.Public
+@model List<C8.Lottery.Portal.Models.FansBangListModel>
+   @{ 
+       var banglist = ViewBag.FansBangList as List<C8.Lottery.Portal.Models.FansBangListModel>;
+       var typeId = ViewBag.typeId;
+      
+   }
+@if (banglist.Count >0 )
+{
+   
+
+
+
+        if (typeId != 4)
+        {
+
+       
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+                    @foreach (var item in banglist)
+                    {
+
+
+                        <tr>
+                            <td width="10%" align="center" valign="middle">
+                                @if (item.Rank > 3)
+                                {
+                                    @item.Rank;
+                                }
+                                else
+                                {
+
+
+                                    <img src="@Tool.GetRankImg(item.Rank)" class="Ranking_Btu">
+                                }
+
+                            </td>
+
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;">
+                                        <img src="@item.HeadPath">
+                                    </a>
+
+                                </div>
+                            </td>
+                            <td align="left" valign="middle"><p class="Ysfont"><a href="javascript:;">@item.Name</a></p></td>
+                            <td width="25%" align="center" valign="middle"><span class="Ds_money Fs_money">@item.Number</span></td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+        
+        }
+        else
+        {
+     
+
+            <table width="100%" border="0" class="Ranking_table2">
+                <tbody>
+                    <tr>
+                        @foreach (var item2 in banglist)
+                        {
+
+                            if (item2.Rank <= 3)
+                            {
+                                <td width="33%" align="center" valign="middle">
+                                    <div class="Ranking_Blogotu2">
+                                        <div class="Ranking_B2tu"><a href="javascript:;"><img src="@item2.HeadPath"></a></div>
+                                        <img src="@Tool.GetRankImg(item2.Rank)" class="Ranking_PHtu">
+                                    </div>
+                                    <h3 class="Ranking_name"><a href="javascript:;">@item2.Name</a></h3>
+                                    <span class="Ds_money2 Fs_money2">@item2.Number</span>
+                                </td>
+                            }
+
+                        }
+
+
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+                    @foreach (var item in banglist)
+                    {
+                        if (item.Rank > 3)
+                        {
+                            <tr>
+                                <td width="10%" align="center" valign="middle"><p>@item.Rank</p></td>
+                                <td width="15%" align="center" valign="middle"><div class="Ranking_Blogotu"><a href="javascript:;"><img src="@item.HeadPath"></a></div></td>
+                                <td align="left" valign="middle"><p><a href="javascript:;">@item.Name</a></p></td>
+                                <td width="25%" align="center" valign="middle"><span class="Ds_money Fs_money">@item.Number</span></td>
+                            </tr>
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+            
+
+      
+
+        }
+    
+}
