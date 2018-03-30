@@ -41,7 +41,7 @@
 	box-shadow: 4px 4px 12px #B0B0B0; 
 }*/
 #uppicBox, .imageBox{
-    overflow: hidden;
+    
     background: #000;
     position: fixed;
     top: 0;
@@ -52,7 +52,7 @@
     cursor: pointer;
 }
 #uppicBox, .bottom {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -87,8 +87,10 @@
   color: #2F2A2A;
   background: rgba(213, 211, 211, 0.7);
 }
-.Btnsty_peyton{ float: right;
+.Btnsty_peyton{ 
+
    width: 66px;
+   text-align:center;
   display: inline-block;
   margin-bottom: 10px;
   height: 57px;
@@ -96,12 +98,13 @@
   font-size: 20px;
   color: #FFFFFF;
   margin:0px 2px;
-  background-color: #f38e81;
   border-radius: 3px;
   text-decoration: none;
   cursor: pointer;
   box-shadow: 0px 0px 5px #B0B0B0;
-  border: 0px #fff solid;}
+  border: 0px #fff solid;
+
+}
 /*选择文件上传*/
 .new-contentarea {
 	width: 50px;
