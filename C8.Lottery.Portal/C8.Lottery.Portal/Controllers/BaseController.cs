@@ -46,7 +46,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list != null && list.Any()) return list;
 
-            string newsTypeSql = "SELECT TOP 100 [Id],[TypeName],[ShowType],[lType] FROM [dbo].[NewsType] WHERE [lType]=" + ltype + " AND [Layer]=" + layer + " ORDER BY SortCode ";
+            string newsTypeSql = "SELECT TOP 100 [Id],[TypeName],[ShowType],[lType],[SeoSubject],[SeoKeyword],[SeoDescription] FROM [dbo].[NewsType] WHERE [lType]=" + ltype + " AND [Layer]=" + layer + " ORDER BY SortCode ";
             list = Util.ReaderToList<NewsType>(newsTypeSql) ?? new List<NewsType>();
 
             MemClientFactory.WriteCache(memKey, list);
