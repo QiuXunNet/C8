@@ -43,8 +43,14 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\C8.Lottery.Public\bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\C8.Lottery.Public\bin\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Memcached.ClientLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42c0400964dcc297" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -120,6 +126,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
@@ -136,6 +143,7 @@
     <Content Include="css\jquery.mCustomScrollbar.min.css" />
     <Content Include="css\mescroll.min.css" />
     <Content Include="css\paper.css" />
+    <Content Include="css\head.css" />
     <Content Include="css\style.css" />
     <Content Include="Global.asax" />
     <Content Include="images\01.png" />
@@ -559,6 +567,7 @@
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="css\dropload.css" />
     <Content Include="js\jquery.js" />
+    <Content Include="js\kcp\cropbox.js" />
     <Content Include="js\kcp\NativeShare.js" />
     <Content Include="js\kcp\webpack.config.js" />
     <Content Include="js\luo\dropload.js" />
@@ -570,6 +579,7 @@
     <Content Include="js\luo\mescroll.min.js" />
     <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
+    <Content Include="js\public.js" />
     <Content Include="js\runTime2.js" />
     <Content Include="js\runTime3.js" />
     <Content Include="js\TouchSlide.1.1.js" />
@@ -612,7 +622,7 @@
     <Content Include="Views\Personal\SetAutograph.cshtml" />
     <Content Include="Views\News\CommentList.cshtml" />
     <Content Include="Views\Personal\SetSex.cshtml" />
-    <Content Include="Views\Personal\Set.cshtml" />
+    <Content Include="Views\Personal\Set11.cshtml" />
     <Content Include="Views\Personal\Task.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
     <Content Include="Views\Public\Tan.cshtml" />
@@ -624,6 +634,9 @@
     <Content Include="Views\Personal\InvitationReg.cshtml" />
     <Content Include="Views\Personal\RewardRules.cshtml" />
     <Content Include="Views\Personal\MyPlan.cshtml" />
+    <Content Include="Views\Personal\FansBang.cshtml" />
+    <Content Include="Views\Personal\FansBangList.cshtml" />
+    <Content Include="Views\Personal\Set.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using C8.Lottery.Portal.Models;
 using C8.Lottery.Model.Enum;
+using System.Security.Policy;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -508,6 +509,264 @@ where RowNumber BETWEEN @Start AND @End ";
         }
 
         /// <summary>
+        /// 粉丝榜
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult FansBang()
+        {
+ 
+            return View();
+        }
+
+
+
+        /// <summary>
+        /// 粉丝榜数据 只取前50条
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public PartialViewResult FansBangList(int typeId, int pageIndex = 1, int pageSize = 20)
+        {
+         
+            try
+            {
+
+                string strsql = string.Empty;
+                string countsql = string.Empty;
+                if (typeId == 1) //日榜
+                {
+                    strsql = @"  select  * from ( select top 50 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+where
+FollowTime>=convert(varchar(10),Getdate(),120) and FollowTime<convert(varchar(10),dateadd(d,1,Getdate()),120)
+group by Followed_UserId,Name,RPath
+)t
+WHERE Rank BETWEEN @Start AND @End";
+                 
+                }
+                else if (typeId == 2)//周榜
+                {
+                    strsql = @"select * from ( select  top 50 row_number() over(order by count(1) desc ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+
+where year(FollowTime)=year(getdate()) 
+group by datename(week,FollowTime), Followed_UserId,Name,RPath
+)t
+WHERE Rank BETWEEN @Start AND @End";
+               
+                }
+                else if (typeId == 3)//月榜
+                {
+                    strsql = @"select  * from ( select top 50 row_number() over( order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+
+where year(FollowTime)=year(getdate()) 
+
+group by month(FollowTime), Followed_UserId,Name,RPath
+
+)t
+WHERE Rank BETWEEN @Start AND @End";
+                   
+                }
+                else if (typeId == 4)//总榜
+                {
+                    strsql = @" select * from ( select top 50 row_number() over(order by count(1) desc) as Rank, 
+     count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+
+group  by Followed_UserId,Name,RPath
+)t
+WHERE Rank BETWEEN @Start AND @End";
+                 
+
+                }
+                SqlParameter[] sp = new SqlParameter[] {
+
+                new SqlParameter("@Start", (pageIndex - 1) * pageSize + 1),
+                new SqlParameter("@End", pageSize * pageIndex)
+            };
+                var list = Util.ReaderToList<FansBangListModel>(strsql, sp)??new List<FansBangListModel>();
+                ViewBag.FansBangList = list;
+                ViewBag.typeId = typeId;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
+
+            return PartialView("FansBangList");
+        }
+
+
+        public JsonResult MyRank(int typeId)
+        {
+            ReturnMessageJson jsonmsg = new ReturnMessageJson();
+            int userId = UserHelper.GetByUserId();
+            string strsql = string.Empty;
+            if (typeId == 1)
+            {
+                 strsql = @" select  * from ( select  row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+  from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+where
+FollowTime>=convert(varchar(10),Getdate(),120) and FollowTime<convert(varchar(10),dateadd(d,1,Getdate()),120)
+group by Followed_UserId,Name,RPath
+)t
+where t.Followed_UserId=@Followed_UserId";
+            }else if (typeId == 2)
+            {
+                strsql = @"select * from ( select   row_number() over(order by count(1) desc ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+
+where year(FollowTime)=year(getdate()) 
+group by datename(week,FollowTime), Followed_UserId,Name,RPath
+)t
+WHERE t.Followed_UserId=@Followed_UserId";
+
+            }else if (typeId == 3)
+            {
+                strsql = @" select  * from ( select  row_number() over( order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+
+where year(FollowTime)=year(getdate()) 
+
+group by month(FollowTime), Followed_UserId,Name,RPath
+
+)t
+WHERE t.Followed_UserId=@Followed_UserId";
+            }
+            else if (typeId == 4)
+            {
+                strsql = @" select * from ( select  row_number() over(order by count(1) desc) as Rank, 
+     count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+ from Follow f 
+ left join UserInfo u on f.Followed_UserId=u.id
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
+
+group  by Followed_UserId,Name,RPath
+)t
+WHERE t.Followed_UserId=@Followed_UserId";
+            }
+
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@Followed_UserId",userId)
+            };
+            try
+            {
+                FansBangListModel fansbang = Util.ReaderToModel<FansBangListModel>(strsql, sp);
+                
+               
+                jsonmsg.Success = true;
+                jsonmsg.data = fansbang;
+              
+            }
+            catch (Exception e)
+            {
+                jsonmsg.Success = false;
+                jsonmsg.Msg = e.Message;
+                throw;
+            }
+            return Json(jsonmsg);
+          
+        }
+
+
+        /// <summary>
+        /// 上传头像
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult ReplacePhotos(string img)
+        {
+            string error = "";
+
+            string url = Request.Url.GetLeftPart(UriPartial.Authority);
+            string FilePath= "/File/" + DateTime.Now.ToString("yyyyMM")+"/";
+            Phonto p = Tool.SaveImage(Server.MapPath(FilePath), img, ref error);
+            
+            int UserId = UserHelper.GetByUserId();
+            ReturnMessageJson msg = new ReturnMessageJson();
+            if (p!=null)
+            {
+                try
+                {
+                    string RPath = url + FilePath + p.ImgName + p.Extension;
+                    string strsql = string.Empty;
+                    string countsql = "select * from ResourceMapping where  FkId=@FkId and Type=@Type";
+                    SqlParameter[] countsp = new SqlParameter[] {
+                    new SqlParameter("@FkId",UserId),
+                    new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像)
+
+                };
+                    ResourceMapping rsmodel = Util.ReaderToModel<ResourceMapping>(countsql, countsp);
+                    if (rsmodel!=null)
+                    {
+                        strsql = @"update ResourceMapping set Extension=@Extension,RPath=@RPath,Title=@Title,CreateTime=getdate(),Type=@Type, RSize=@RSize
+                                  where Type =@Type and FkId = @FkId";
+                    }
+                    else
+                    {
+                        strsql = @"insert into ResourceMapping(Extension, RPath, Title, SortCode, CreateTime, Type, FkId, RSize) 
+                                   values(@Extension, @RPath, @Title, 1, getdate(), @Type, @FkId, @RSize)";
+                    }
+                    SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@FkId",UserId),
+                    new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像),
+                    new SqlParameter("@Extension",p.Extension),
+                    new SqlParameter("@RPath",RPath),
+                    new SqlParameter("@RSize",p.RSize),
+                    new SqlParameter("@Title",p.ImgName)
+
+                    };
+                   
+                    int data = SqlHelper.ExecuteNonQuery(strsql, sp);
+                    if (data > 0)
+                    {
+                        Uri uri = new Uri(rsmodel.RPath);
+                        string oldpath = uri.PathAndQuery;//旧头像地址
+                        Tool.DeleteFile(Server.MapPath(oldpath));
+                        msg.Success = true;
+                        p.RPath = RPath;
+                        msg.data = p;
+                    }
+                    else
+                    {
+                        msg.Msg = "上传头像失败";
+                        msg.Success = false;
+                       
+                    }
+                }
+                catch (Exception e)
+                {
+                    msg.Success = false;
+                    msg.Msg = e.Message;
+                    throw;
+                }
+              
+            }
+            return Json(msg);
+
+        }
+
+
+        /// <summary>
         /// 他人主页
         /// </summary>
         /// <param name="id">受访人用户Id</param>
@@ -813,6 +1072,7 @@ where a.[Type]=2 and a.Id=" + id;
 
             return "";
         }
+
     }
 }
 

@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "FansBang";
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>粉丝榜</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />  
+    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+    
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+    <script type="text/javascript" src="~/js/luo/dropload.min.js"></script>
+    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+
+  
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">粉丝榜</a>
+    </header>
+
+    <div class="guessing_header">
+        <ul class="C8_nav2 C8_bang">
+            <li class="current" data-id="1" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>日榜</p><span></span></a></li>
+            <li data-id="2" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>周榜</p><span></span></a></li>
+            <li data-id="3" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>月榜</p><span></span></a></li>
+            <li data-id="4" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>总榜</p><span></span></a></li>
+            <div style="clear:both;"></div>
+        </ul>
+    </div>
+
+    <div class="Ranking_content" >
+        <div id="bang_1" class="Ranking_Cinfo">
+         
+        </div>
+        <div id="bang_2" class="Ranking_Cinfo">
+        </div>
+        <div id="bang_3" class="Ranking_Cinfo">
+        </div>
+        <div id="bang_4" class="Ranking_Cinfo">
+        </div>
+         
+       
+   </div>
+
+
+    <div class="Ranking_footer">
+        <dl class="Rank_ftDL">
+            @*<dt><a href="javascript:;"><img src="~/images/44_7.png"></a></dt>
+            <dd>
+                <p class="Ds_money1 Fs_money1 f-r">20000</p>
+                <div class="Rank_ftL">
+                    <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
+                    <P>当前排名：<span id="myrank">126</span></P>
+                    <font>↓</font><span>下降10</span>
+                </div>
+            </dd>*@
+        </dl>
+    </div>
+
+    <script>
+        var dropload;
+        $(function () {
+
+            var initElement = $(".C8_bang li.current");
+         
+            initnews(initElement);
+            MyRank(initElement);
+
+            $(".C8_bang li").click(function () {
+
+                $(".Ranking_content").children("div").css('display', 'none')
+                var id = $(this).attr("data-id");
+            
+                $("#bang_" + id).css('display', 'block');
+                if ($(".dropload-down").length > 0) {
+                    $(".dropload-down").remove();
+                }
+                $(".Rank_ftDL").empty();
+                initnews($(this));
+                MyRank($(this));
+            });
+
+        });
+
+        function initnews(clickElement) {
+            var id = clickElement.attr("data-id"),
+            pageIndex = clickElement.attr("data-pageindex") || 1,
+            pageSize = clickElement.attr("data-pagesize") || 10;
+            
+            if (!id) return;
+
+            dropload = $("#bang_"+id).dropload({
+                scrollArea: window,
+                domDown: {
+                    domClass: 'dropload-down',
+                    domRefresh: '<div class="dropload-refresh">↑上拉加载更多</div>',
+                    domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData: '<div class="dropload-noData">暂无数据</div>'
+                },
+                loadDownFn: function (me) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Personal/FansBangList',
+                        data: {
+                            typeId: id,
+                            pageIndex: pageIndex,
+                            pageSize: pageSize
+                        },
+                        dataType: 'html',
+                        success: function (data) {
+
+                            if (data && data.length > 0) {
+
+                                // 延迟0.1秒加载
+                                setTimeout(function () {
+
+                                    $("#bang_"+id+ " .dropload-down").before(data)
+                                  
+                                    
+                                    pageIndex++;
+                                    clickElement.attr("data-pageindex", pageIndex);
+                                    // 每次数据加载完，必须重置
+                                    dropload.resetload();
+                                }, 100);
+                            }
+                        },
+                        error: function (xhr, type) {
+
+                            $(document).dialog({
+                                type: 'notice',
+                                infoText: '服务器繁忙',
+                                autoClose: 1500
+                            });
+                            // 即使加载出错，也得重置
+                            dropload.resetload();
+                        }
+                    });
+                }
+            });
+        }
+
+ 
+
+        function MyRank(clickElement)
+        {
+            var id = clickElement.attr("data-id");
+            if (!id) return;
+            $.post('/Personal/MyRank', { typeId: id }, function (data) {
+
+              
+                if (data.Success != true) {
+                    alertmsg(data.Msg);
+                } else {
+                    if (data.data != null) {
+                        $(".Rank_ftDL").html("<dt><a href='javascript:;'><img src='" + data.data.HeadPath + "'></a></dt> <dd> <p class='Ds_money1 Fs_money1 f-r'>" + data.data.Number + "</p> <div class='Rank_ftL'>"
++ "<h3><a href='javascript:;'>" + data.data.Name + "</a></h3>"
++ "<P>当前排名：<span id='myrank'>" + data.data.Rank + "</span></P> </div> </dd>'");
+
+                    }
+                }
+            });
+
+        }
+
+    </script>
+</body>
+</html>
