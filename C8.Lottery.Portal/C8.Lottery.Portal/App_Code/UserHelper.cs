@@ -36,6 +36,16 @@ namespace C8.Lottery.Portal
         }
 
         /// <summary>
+        /// 获取当前登录用户的完整信息，包含用户头像，粉丝等信息
+        /// </summary>
+        /// <returns></returns>
+        public static UserInfo GetUser()
+        {
+            int userId = GetByUserId();
+            return GetUser(userId);
+        }
+
+        /// <summary>
         /// 获取用户信息
         /// </summary>
         /// <returns></returns>

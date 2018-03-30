@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Web;
 
 using C8.Lottery.Public;
+using System.IO;
+using System.Drawing;
+
 namespace C8.Lottery.Public
 {
    public class Tool
@@ -31,6 +34,8 @@ namespace C8.Lottery.Public
             return byte2String;
         }
 
+       
+
         /// <summary>
         /// 获取IP
         /// </summary>
@@ -49,9 +54,130 @@ namespace C8.Lottery.Public
 
             return userIP;
         }
-    
+
+
+        /// <summary>
+        /// 获取排名前三图片
+        /// </summary>
+        /// <param name="rank"></param>
+        /// <returns></returns>
+        public static string GetRankImg(int rank)
+        {
+            string imgsrc = string.Empty;
+            switch (rank)
+            {
+                case 1:
+                    imgsrc = "/images/44_1.png";
+                    break;
+                case 2:
+                    imgsrc = "/images/44_2.png";
+                    break;
+                case 3:
+                    imgsrc = "/images/44_3.png";
+                    break;
+            }
+            return imgsrc;
+        }
+
+
+        #region 截取data:image/jpeg;base64,提取图片，并保存图片
+        /// <summary>
+        /// 截取data:image/jpeg;base64,提取图片，并保存图片
+        /// </summary>
+        /// <param name="file_name"></param>
+        /// <param name="img_string">base64的字符串</param>
+        /// <param name="error">错误的图片格式</param>
+        /// <returns>路径 + 图片的名称</returns>
+        public static Phonto SaveImage(string file_name, string img_string, ref string error)
+        {
+            //try
+            //{
+
+            string[] img_array = img_string.Split(',');
+            byte[] arr = Convert.FromBase64String(img_array[1]);
+            using (MemoryStream ms = new MemoryStream(arr))
+            {
+                Bitmap bmp = new Bitmap(ms);
+                if (!Directory.Exists(file_name))
+                    Directory.CreateDirectory(file_name);
+                if (img_array[0].ToLower() == "data:image/jpeg;base64")
+                {
+                    //bmp.Save(file_name + ".jpg");
+                    return SetImg(file_name,Guid.NewGuid().ToString().Replace('-', 'p').Substring(4), "jpg", arr);
+                }
+                else if (img_array[0].ToLower() == "data:image/png;base64")
+                {
+                    //bmp.Save(file_name + ".png");
+                    return SetImg(file_name, Guid.NewGuid().ToString().Replace('-', 'p').Substring(4), "png", arr);
+                }
+                else if (img_array[0].ToLower() == "data:image/gif;base64")
+                {
+                    //bmp.Save(file_name + ".gif");
+                    
+                    return SetImg(file_name, Guid.NewGuid().ToString().Replace('-', 'p').Substring(4), "gif", arr);
+                }
+                else
+                {
+                    error = "不支持该文件格式。";
+                    return new Phonto();
+                }
+            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    error = "生成图片发生错误。" + ex.ToString();
+            //    return "错";
+            //}
+        }
+        #endregion
+        #region 保存图片路径及设置名称
+        /// <summary>
+        /// 保存到文件路径 
+        /// </summary>
+        /// <param name="ImgName">保存的文件名称</param>
+        /// <param name="suffix">后缀名</param>
+        /// <param name="arr">base64</param>
+        /// <returns>图片的路径</returns>
+        public static Phonto SetImg(string path,string ImgName, string suffix, byte[] arr)
+        {
+
+            Phonto p = new Phonto();
+            System.IO.File.WriteAllBytes(path + ImgName + "." + suffix + "", arr);
+            p.Extension = "." + suffix;
+            p.RPath= path + ImgName + "." + suffix + "";
+            p.RSize = arr.Length;
+            p.ImgName = ImgName;
+            return p;
+        }
+        #endregion
+
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="path"></param>
+        public static void DeleteFile(string path)
+        {
+            
+                File.Delete(path);
+            
+        }
 
     }
+
+
+    public class Phonto
+    {
+        public string ImgName;
+        public string Extension;
+        public string RPath;
+        public int RSize;
+    }
+
+
+
+
+
 
 
 
@@ -62,6 +188,7 @@ namespace C8.Lottery.Public
     public class ReturnMessageJson
     {
         public bool Success;
+        public object data;
         public object Msg;
 
     }

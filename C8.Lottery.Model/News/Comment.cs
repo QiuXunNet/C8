@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using C8.Lottery.Public;
 
 namespace C8.Lottery.Model
 {
@@ -30,7 +31,7 @@ namespace C8.Lottery.Model
         /// <summary>
         /// 新闻ID
         /// </summary>		
-        public string ArticleId { get; set; }
+        public int ArticleId { get; set; }
         /// <summary>
         /// 点赞数量
         /// </summary>		
@@ -87,5 +88,12 @@ namespace C8.Lottery.Model
         /// 关联评论对象
         /// </summary>
         public Comment ParentComment { get; set; }
+
+        /// <summary>
+        /// 彩种类型名称
+        /// </summary>
+        public string LotteryTypeName { get; set; }
+        
+
     }
 }
