@@ -96,6 +96,7 @@
 
     <div id="uppicBox"  style="display: none; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" >
         <div class="imageBox">
+        
             <div class="thumbBox" ></div>
             <div class="spinner" style="display: none"></div>
         </div>
@@ -151,9 +152,9 @@
                     reader.onload = function (e) {
 
                         options.imgSrc = e.target.result;
-
+                        //$("#pic-img").attr("src", e.target.result);
                         cropper = $('.imageBox').cropbox(options);
-
+                        console.log(options);
                         getImg();
                         showMask()
 

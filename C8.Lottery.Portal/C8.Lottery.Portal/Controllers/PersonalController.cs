@@ -507,7 +507,7 @@ where RowNumber BETWEEN @Start AND @End ";
         {
             return View();
         }
-<<<<<<< HEAD
+
         /// <summary>
         /// 粉丝榜
         /// </summary>
@@ -765,7 +765,6 @@ WHERE t.Followed_UserId=@Followed_UserId";
 
         }
 
-=======
 
         /// <summary>
         /// 他人主页
@@ -776,7 +775,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
         {
             return View();
         }
->>>>>>> 1e8d2da24f668250ce302f2aea9164808bf8fcbc
+
     }
 }
 
