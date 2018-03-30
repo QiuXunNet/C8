@@ -25,9 +25,16 @@
     }
     else
     {
-        <title>@newsType.SeoSubject</title>
-        <meta name="keywords" content="@newsType.SeoKeyword">
-        <meta name="description" content="@newsType.SeoDescription">
+        if (newsType != null)
+        {
+            <title>@newsType.SeoSubject</title>
+            <meta name="keywords" content="@newsType.SeoKeyword">
+            <meta name="description" content="@newsType.SeoDescription">
+        }
+        else
+        {
+            <title>@Model.TypeName</title>
+        }
     }
     <link rel="stylesheet" href="~/css/dropload.css" />
     <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
@@ -109,7 +116,7 @@
         <div class="Plan_CInfo">
             <div class="CZ_hdtit">
                 <dl class="CZ_hdMain">
-                    <dt><a href="javascript:;"><img src="~/images/logo2.png"></a></dt>
+                    <dt><a href="javascript:;"><img src="~/images/@ViewBag.Icon"></a></dt>
                     <dd>
                         <div class="hdM_ddtit">
                             <h3 class="hdM_ddtqi f-l">第<span>091</span>期</h3>

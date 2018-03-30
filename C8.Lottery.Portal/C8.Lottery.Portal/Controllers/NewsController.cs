@@ -47,6 +47,8 @@ namespace C8.Lottery.Portal.Controllers
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
+            string icon = Util.GetLotteryIcon(id) + ".png";
+            ViewBag.Icon = icon;
             return View(model);
         }
 

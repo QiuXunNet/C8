@@ -6,8 +6,7 @@ using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Public;
 using System.Data.SqlClient;
-using Memcached.ClientLibrary;
-using C8.Lottery.Model.Enum;
+using C8.Lottery.Portal;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -30,10 +29,7 @@ namespace C8.Lottery.Portal.Controllers
             }
 
             ViewBag.openList = list;
-  
-            int userId = UserHelper.GetByUserId();
-            UserInfo user =UserHelper.GetUser(userId);
-            ViewData["user"] = user;
+            ViewBag.UserInfo = UserHelper.LoginUser;
             return View();
         }
 

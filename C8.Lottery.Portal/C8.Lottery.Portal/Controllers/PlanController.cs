@@ -191,7 +191,6 @@ namespace C8.Lottery.Portal.Controllers
 
             return Content("ok");
         }
-
-
+        
     }
 }

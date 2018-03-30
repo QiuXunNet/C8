@@ -134,6 +134,7 @@
     <Content Include="css\fonts\c8.svg" />
     <Content Include="css\jquery.emoji.css" />
     <Content Include="css\jquery.mCustomScrollbar.min.css" />
+    <Content Include="css\mescroll.min.css" />
     <Content Include="css\paper.css" />
     <Content Include="css\style.css" />
     <Content Include="Global.asax" />
@@ -293,6 +294,7 @@
     <Content Include="images\bt-6.png" />
     <Content Include="images\c8.png" />
     <Content Include="images\default_avater.png" />
+    <Content Include="images\default_usercenter_bg.png" />
     <Content Include="images\emoji\qq\1.gif" />
     <Content Include="images\emoji\qq\10.gif" />
     <Content Include="images\emoji\qq\11.gif" />
@@ -565,6 +567,7 @@
     <Content Include="js\luo\jQuery.Form.js" />
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
+    <Content Include="js\luo\mescroll.min.js" />
     <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
     <Content Include="js\runTime2.js" />
@@ -620,6 +623,7 @@
     <Content Include="Views\Personal\UserCenter.cshtml" />
     <Content Include="Views\Personal\InvitationReg.cshtml" />
     <Content Include="Views\Personal\RewardRules.cshtml" />
+    <Content Include="Views\Personal\MyPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

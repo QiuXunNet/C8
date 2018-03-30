@@ -6788,6 +6788,11 @@ a:focus {
     margin: 7.438px 2.26666666%;
 }
 
+.hdNav_cai.col2 li {
+    width: 44%;
+    margin: 7.438px 3%;
+}
+
 .hdNav_cai li a {
     color: #999;
 }
@@ -8232,6 +8237,32 @@ footer {
 
 
 /*** 邀请注册 结束**/
+/*** 个人中心-他人主页**/
+.usercenter-bg {
+    width: 100%;
+    height: 200px;
+    background: url(/images/default_usercenter_bg.png) no-repeat;
+    background-size: 100%!important;
+    -webkit-filter: blur(12px);
+    -moz-filter: blur(12px);
+    -o-filter: blur(12px);
+    -ms-filter: blur(12px);
+    filter: blur(12px);
+}
+.usercenter_head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, .2)
+}
+.Other_hdInfo3 {
+    margin-top: 5px;
+}
+.Other_text {
+    margin-top: 315px;
+}
+/*** 个人中心-他人主页**/
 /**兼容小屏**/
 
 @media screen and (max-width:320px) {
