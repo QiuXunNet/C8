@@ -1,4 +1,5 @@
 ﻿@using C8.Lottery.Model
+@using C8.Lottery.Public
 @model LotteryType
 
 @{
@@ -23,14 +24,16 @@
     <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="~/js/dialog.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script type="text/javascript" src="~/js/runTime2.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
 
-<header class="hjc_header">
-    <a href="javascript:history.go(-1)" class="hjc_back"></a>
-    <a href="javascript:;" class="hjc_logo">@Model.TypeName<span class="select_sign"></span></a>
-</header>
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1)" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">@Model.TypeName<span class="select_sign"></span></a>
+    </header>
 
     <div class="hjc_hdNav fixed" style="display:none">
 
@@ -88,30 +91,76 @@
                     <dt><a href="javascript:;"><img src="/images/logo5.png"></a></dt>
                     <dd>
                         <div class="hdM_ddtit">
-                            <h3 class="hdM_ddtqi f-l">第<span>091</span>期</h3>
-                            <p class="hdM_ddtime f-r">下期开奖：<span>02:15</span></p>
+                            <h3 class="hdM_ddtqi f-l">
+                                第<span>@ViewBag.lastIssue</span>期
+                            </h3>
+                            <p class="hdM_ddtime f-r">
+                                下期开奖：
+
+                                @if (ViewBag.time == "正在开奖")
+                                {
+                                    <span id="openTime">正在开奖</span>
+                                }
+                                else
+                                {
+                                    if (currentLotteryTypeId < 9)
+                                    {
+                                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                                    }
+                                    else
+                                    {
+                                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                                    }
+
+                                }
+                            </p>
+
                             <div style="clear:both;"></div>
                         </div>
-                        <div class="Forecast_LHC">
-                            <span class="LHC_spA LHC_spAred">01</span>
-                            <span class="LHC_spA LHC_spAred">02</span>
-                            <span class="LHC_spA LHC_spAred">03</span>
-                            <span class="LHC_spA LHC_spAgreen">04</span>
-                            <span class="LHC_spA LHC_spAgreen">05</span>
-                            <span class="LHC_spA LHC_spAgreen">06</span>
-                            <span class="LHC_spAjia">+</span>
-                            <span class="LHC_spA LHC_spAblue">07</span>
+
+                        <div class="hdM_ddcon">
+
+                            @{
+                                int countFor6 = 0;
+
+
+                                string num = ViewBag.lastNum;
+                                string[] numArr = num.Split(',');
+
+
+
+                                foreach (string s in numArr)
+                                {
+                                    countFor6++;
+
+                                    string color = Util.GetColor(s);
+                                    string cl = "";
+                                    if (color == "red")
+                                    {
+                                        cl = "hdM_spliu hdM_spliured";
+                                    }
+                                    else if (color == "green")
+                                    {
+                                        cl = "hdM_spliu hdM_spliugreen";
+                                    }
+                                    else
+                                    {
+                                        cl = "hdM_spliu hdM_spliublue";
+                                    }
+
+                                    <span class="@cl">@s</span>
+
+                                    if (countFor6 == 6)
+                                    {
+                                        <span class="Mif_jgC">+</span>
+                                    }
+
+                                }
+
+
+                            }
                         </div>
-                        <div class="Forecast_LHC">
-                            <span class="LHC_spA">鸡</span>
-                            <span class="LHC_spA">狗</span>
-                            <span class="LHC_spA">猪</span>
-                            <span class="LHC_spA">鼠</span>
-                            <span class="LHC_spA">牛</span>
-                            <span class="LHC_spA">虎</span>
-                            <span class="LHC_spAjia">+</span>
-                            <span class="LHC_spA">兔</span>
-                        </div>
+
                     </dd>
                 </dl>
             </div>
@@ -162,7 +211,8 @@
     <div class="info_LHC_category col3">
         <dl>
             <dt>
-                <p><span class="spec"></span>免费资料
+                <p>
+                    <span class="spec"></span>免费资料
                 </p>
             </dt>
 
@@ -172,7 +222,7 @@
                     @Html.ActionLink(@item.TypeName, "Index", new { id = @item.LType, ntype = @item.Id })
                 </dd>
             }
-            
+
         </dl>
         <div class="clearfix"></div>
     </div>

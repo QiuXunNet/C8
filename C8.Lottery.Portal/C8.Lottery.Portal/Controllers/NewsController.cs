@@ -70,6 +70,33 @@ namespace C8.Lottery.Portal.Controllers
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
+           string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
+            LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
+
+            ViewBag.lastIssue = lr.Issue;
+            ViewBag.lastNum = lr.Num;
+
+            //剩余时间
+            string time = Util.GetOpenRemainingTime(id);
+
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+
+                ViewBag.min = timeArr[1];
+                ViewBag.sec = timeArr[2];
+
+                if (id < 9)
+                {
+                    ViewBag.hour = timeArr[0];
+                }
+
+            }
+            else
+            {
+                ViewBag.time = "正在开奖";
+            }
+
             return View("TypeList", model);
         }
 
