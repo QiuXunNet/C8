@@ -112,6 +112,7 @@ namespace C8.Lottery.Portal.Controllers
 
             ViewBag.lastIssue = lr.Issue;
             ViewBag.lastNum = lr.Num;
+            ViewBag.showInfo = lr.ShowInfo;
 
             //剩余时间
             string time = Util.GetOpenRemainingTime(id);
