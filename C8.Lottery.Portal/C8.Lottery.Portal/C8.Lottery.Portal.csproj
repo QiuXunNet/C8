@@ -621,6 +621,7 @@
     <Content Include="Views\Personal\UserCenter.cshtml" />
     <Content Include="Views\Personal\InvitationReg.cshtml" />
     <Content Include="Views\Personal\RewardRules.cshtml" />
+    <Content Include="Views\Home\Plan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -544,6 +544,13 @@ namespace C8.Lottery.Portal.Controllers
             return Json(jsonmsg);
         }
 
-      
+
+
+        public ActionResult Plan()
+        {
+            return View();
+        }
+
+
     }
 }
