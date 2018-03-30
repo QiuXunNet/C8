@@ -514,7 +514,7 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <returns></returns>
         public ActionResult FansBang()
         {
- 
+
             return View();
         }
 
@@ -530,7 +530,7 @@ where RowNumber BETWEEN @Start AND @End ";
         [HttpGet]
         public PartialViewResult FansBangList(int typeId, int pageIndex = 1, int pageSize = 20)
         {
-         
+
             try
             {
 
@@ -547,7 +547,7 @@ FollowTime>=convert(varchar(10),Getdate(),120) and FollowTime<convert(varchar(10
 group by Followed_UserId,Name,RPath
 )t
 WHERE Rank BETWEEN @Start AND @End";
-                 
+
                 }
                 else if (typeId == 2)//周榜
                 {
@@ -560,7 +560,7 @@ where year(FollowTime)=year(getdate())
 group by datename(week,FollowTime), Followed_UserId,Name,RPath
 )t
 WHERE Rank BETWEEN @Start AND @End";
-               
+
                 }
                 else if (typeId == 3)//月榜
                 {
@@ -575,7 +575,7 @@ group by month(FollowTime), Followed_UserId,Name,RPath
 
 )t
 WHERE Rank BETWEEN @Start AND @End";
-                   
+
                 }
                 else if (typeId == 4)//总榜
                 {
@@ -588,7 +588,7 @@ WHERE Rank BETWEEN @Start AND @End";
 group  by Followed_UserId,Name,RPath
 )t
 WHERE Rank BETWEEN @Start AND @End";
-                 
+
 
                 }
                 SqlParameter[] sp = new SqlParameter[] {
@@ -596,7 +596,7 @@ WHERE Rank BETWEEN @Start AND @End";
                 new SqlParameter("@Start", (pageIndex - 1) * pageSize + 1),
                 new SqlParameter("@End", pageSize * pageIndex)
             };
-                var list = Util.ReaderToList<FansBangListModel>(strsql, sp)??new List<FansBangListModel>();
+                var list = Util.ReaderToList<FansBangListModel>(strsql, sp) ?? new List<FansBangListModel>();
                 ViewBag.FansBangList = list;
                 ViewBag.typeId = typeId;
             }
@@ -605,7 +605,7 @@ WHERE Rank BETWEEN @Start AND @End";
 
                 throw;
             }
-          
+
 
             return PartialView("FansBangList");
         }
@@ -618,7 +618,7 @@ WHERE Rank BETWEEN @Start AND @End";
             string strsql = string.Empty;
             if (typeId == 1)
             {
-                 strsql = @" select  * from ( select  row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+                strsql = @" select  * from ( select  row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
   from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
@@ -627,7 +627,8 @@ FollowTime>=convert(varchar(10),Getdate(),120) and FollowTime<convert(varchar(10
 group by Followed_UserId,Name,RPath
 )t
 where t.Followed_UserId=@Followed_UserId";
-            }else if (typeId == 2)
+            }
+            else if (typeId == 2)
             {
                 strsql = @"select * from ( select   row_number() over(order by count(1) desc ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
@@ -639,7 +640,8 @@ group by datename(week,FollowTime), Followed_UserId,Name,RPath
 )t
 WHERE t.Followed_UserId=@Followed_UserId";
 
-            }else if (typeId == 3)
+            }
+            else if (typeId == 3)
             {
                 strsql = @" select  * from ( select  row_number() over( order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
@@ -672,11 +674,11 @@ WHERE t.Followed_UserId=@Followed_UserId";
             try
             {
                 FansBangListModel fansbang = Util.ReaderToModel<FansBangListModel>(strsql, sp);
-                
-               
+
+
                 jsonmsg.Success = true;
                 jsonmsg.data = fansbang;
-              
+
             }
             catch (Exception e)
             {
@@ -685,7 +687,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
                 throw;
             }
             return Json(jsonmsg);
-          
+
         }
 
 
@@ -698,12 +700,12 @@ WHERE t.Followed_UserId=@Followed_UserId";
             string error = "";
 
             string url = Request.Url.GetLeftPart(UriPartial.Authority);
-            string FilePath= "/File/" + DateTime.Now.ToString("yyyyMM")+"/";
+            string FilePath = "/File/" + DateTime.Now.ToString("yyyyMM") + "/";
             Phonto p = Tool.SaveImage(Server.MapPath(FilePath), img, ref error);
-            
+
             int UserId = UserHelper.GetByUserId();
             ReturnMessageJson msg = new ReturnMessageJson();
-            if (p!=null)
+            if (p != null)
             {
                 try
                 {
@@ -716,7 +718,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
 
                 };
                     ResourceMapping rsmodel = Util.ReaderToModel<ResourceMapping>(countsql, countsp);
-                    if (rsmodel!=null)
+                    if (rsmodel != null)
                     {
                         strsql = @"update ResourceMapping set Extension=@Extension,RPath=@RPath,Title=@Title,CreateTime=getdate(),Type=@Type, RSize=@RSize
                                   where Type =@Type and FkId = @FkId";
@@ -735,7 +737,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
                     new SqlParameter("@Title",p.ImgName)
 
                     };
-                   
+
                     int data = SqlHelper.ExecuteNonQuery(strsql, sp);
                     if (data > 0)
                     {
@@ -750,7 +752,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
                     {
                         msg.Msg = "上传头像失败";
                         msg.Success = false;
-                       
+
                     }
                 }
                 catch (Exception e)
@@ -759,7 +761,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
                     msg.Msg = e.Message;
                     throw;
                 }
-              
+
             }
             return Json(msg);
 
@@ -836,12 +838,12 @@ WHERE t.Followed_UserId=@Followed_UserId";
 
                 if (winState > 0)
                 {
-                    if (winState == 1)
+                    if (winState == 2)
                     {
                         //未开奖
                         winStateWhere = " AND WinState=1";
                     }
-                    else if (winState == 2)
+                    else if (winState == 1)
                     {
                         //已开奖
                         winStateWhere = " AND WinState in(3,4)";
@@ -871,9 +873,9 @@ WHERE rowNumber BETWEEN @Start AND @End", ltypeWhere, winStateWhere);
 
                 pager.PageData = Util.ReaderToList<BettingRecord>(sql, sqlParameters);
 
-                string countSql = string.Format(@"SELECT count(1) FROM [dbo].[BettingRecord] 
+                string countSql = string.Format(@"SELECT count(1) FROM ( SELECT UserId FROM [dbo].[BettingRecord] 
 WHERE UserId = {0}{1}{2} 
-GROUP BY lType,Issue,UserId,WinState,SubTime", uid, ltypeWhere, winStateWhere);
+GROUP BY lType,Issue,UserId,WinState,SubTime ) tt", uid, ltypeWhere, winStateWhere);
                 object obj = SqlHelper.ExecuteScalar(countSql);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
 
@@ -1016,6 +1018,27 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 我的计划
+        /// </summary>
+        /// <param name="id">彩种Id</param>
+        /// <returns></returns>
+        public ActionResult MyPlan(int id = 0)
+        {
+            ViewBag.UserId = UserHelper.LoginUser.Id;
+            ViewBag.LType = id;
+
+            string sql = "SELECT lType as Id FROM [dbo].[BettingRecord] WHERE UserId=" + UserHelper.LoginUser.Id +
+                         " GROUP BY lType";
+            var list = Util.ReaderToList<LotteryType>(sql);
+
+            list.ForEach(x =>
+            {
+                x.TypeName = Util.GetLotteryTypeName((int) x.Id);
+            });
+            return View(list);
         }
 
         private Comment GetComment(long id)

@@ -2,7 +2,7 @@
 @model List<LotteryType>
 @{
     Layout = null;
-    int userId = ViewBag.UserId;
+    long userId = ViewBag.UserId;
     int ltype = ViewBag.LType;
 }
 
@@ -19,6 +19,7 @@
     <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
@@ -40,349 +41,19 @@
 
     <div class="details_box">
         <div class="details_info mescroll" id="mescroll0">
-            <div id="datalist0"></div>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <p>已开奖</p>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">双色球</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">福彩3D</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <p>已开奖</p>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">六合彩</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <p>已开奖</p>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">双色球</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">福彩3D</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <p>已开奖</p>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">六合彩</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <p>已开奖</p>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">双色球</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">福彩3D</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <p>已开奖</p>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3>
-                            <a href="javascript:;">六合彩</a>
-                        </h3>
-                        <p>20170903期 09-25 19:09</p>
-                    </div>
-                </dd>
-            </dl>
+            <div id="datalist0">
+                
+            </div>
         </div>
         <div class="details_info1 mescroll" id="mescroll1" style="display:none;">
-            <div id="datalist1"></div>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">福彩3D</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">六合彩</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">双色球</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">福彩3D</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">六合彩</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">双色球</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">福彩3D</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">六合彩</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>已开奖</p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">双色球</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
+            <div id="datalist1">
+                
+            </div>
         </div>
         <div class="details_info1 mescroll" id="mescroll2" style="display:none;">
-            <div id="datalist2"></div>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="/images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">双色球</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">福彩3D</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">六合彩</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">双色球</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">福彩3D</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">六合彩</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">双色球</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">福彩3D</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="images/logo5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight">
-                        <a href="javascript:;" class="det_bj">编辑</a>
-                        <h3 class="det_wkj">未开奖</h3>
-                    </div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">六合彩</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
+            <div id="datalist2">
+                
+            </div>
         </div>
     </div>
 
@@ -391,12 +62,13 @@
         <div class="shaiXuan_con">
             <ul class="SX_Ul">
                 <li class="current"><a href="/Personal/MyPlan">全部</a></li>
-
-                <li><a href="javascript:;">重庆时时彩</a></li>
-                <li><a href="javascript:;">广东11选5</a></li>
-                <li><a href="javascript:;">广东快乐十分</a></li>
-                <li><a href="javascript:;">福彩3D</a></li>
-                <li><a href="javascript:;">双色球</a></li>
+                @if (Model != null)
+                {
+                    foreach (var type in Model)
+                    {
+                        <li><a href="/Personal/MyPlan/@type.Id">@type.TypeName</a></li>
+                    }
+                }
             </ul>
             <div style="clear:both;"></div>
         </div>
@@ -409,7 +81,7 @@
             var mescrollArr = new Array(3);
             mescrollArr[0]=initMescroll("mescroll0", "datalist0");
 
-            $(".C8_Trzy li").click(function () {
+            $(".C8_nav3 li").click(function () {
                 var _this = $(this),
                     i = _this.attr("data-index");
 
@@ -419,7 +91,7 @@
                     $("#mescroll"+curNavIndex).hide();
                     mescrollArr[curNavIndex].hideTopBtn();
                     //显示对应的列表
-                    $("#mescroll"+i).show();
+                    $("#mescroll"+i).show().siblings().hide();
                     //取出菜单所对应的mescroll对象,如果未初始化则初始化
                     if(mescrollArr[i]==null){
                         mescrollArr[i]=initMescroll("mescroll"+i, "datalist"+i);
@@ -447,14 +119,14 @@
                     up: {
                         callback: getListData,
                         isBounce: false, //此处禁止ios回弹
-                        noMoreSize: 4,
+                        noMoreSize: 1,
                         empty: {
                             icon: "/images/null.png",
-                            tip: "暂无相关数据~",
-                            btntext: "去逛逛 >", //按钮,默认""
-                            btnClick: function() {
-                                alertmsg("去逛逛");
-                            }
+                            tip: "暂无计划~",
+                            //btntext: "去逛逛 >", //按钮,默认""
+                            //btnClick: function() {
+                            //    alertmsg("去逛逛");
+                            //}
                         },
                         clearEmptyId: clearEmptyId
                     }
@@ -480,26 +152,17 @@
 
             function getListDataFromNet(curNavIndex,pageIndex,pageSize,successCallback,errorCallback)
             {
-                var url;
-                if (curNavIndex == 0) {
-                    url = "/Personal/GetPlan";
-                } else if (curNavIndex == 1) {
-                    url = "/Personal/GetDenamic";
-                } else if (curNavIndex == 2) {
-                    url = "/Personal/GetVisitRecord";
-                } else {
-                    return;
-                }
                 $.ajax({
                     type: 'GET',
                     data: {
                         uid: @userId,
                         ltype:@ltype,
+                        winState:curNavIndex,
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
                     async:false,
-                    url: url,
+                    url: '/Personal/GetPlan',
                     dataType: 'json',
                     success: function(res){
 
@@ -509,10 +172,6 @@
 
                         } else {
                             alertmsg("服务器繁忙");
-                        }
-
-                        if (curNavIndex == 1) {
-                            $("#mescroll1").parseEmoji();
                         }
                     },
                     error: errorCallback
@@ -528,7 +187,7 @@
 
             $.each(data, function (index, item) {
                 var itemHtml = '<dl class="details_DL">'
-                    + '    <dt><a href="javascript:;"><img src="images/' + item.LogoIndex + '"></a></dt>'
+                    + '    <dt><a href="javascript:;"><img src="/images/' + item.LogoIndex + '.png"></a></dt>'
                     + '    <dd>'
                     + '    	<div class="details_ddRight">';
                 if (item.WinState == 1) {
