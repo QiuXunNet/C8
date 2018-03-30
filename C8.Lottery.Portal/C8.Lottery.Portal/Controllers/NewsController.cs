@@ -47,8 +47,45 @@ namespace C8.Lottery.Portal.Controllers
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-            string icon = Util.GetLotteryIcon(id) + ".png";
+
+            int lType = Util.GetlTypeById(id);
+            ViewBag.lType = lType;
+
+            //图标
+            string icon = Util.GetLotteryIcon(lType) + ".png";
             ViewBag.Icon = icon;
+
+            //3.最后一期
+            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
+
+            ViewBag.lastIssue = lr.Issue;
+            ViewBag.lastNum = lr.Num;
+
+            //剩余时间
+            string time = Util.GetOpenRemainingTime(lType);
+
+
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+
+                ViewBag.min = timeArr[1];
+                ViewBag.sec = timeArr[2];
+
+                if (lType < 9)
+                {
+                    ViewBag.hour = timeArr[0];
+                }
+
+            }
+            else
+            {
+                ViewBag.time = "正在开奖";
+            }
+
+
+
             return View(model);
         }
 

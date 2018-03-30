@@ -22040,6 +22040,47 @@ namespace C8.Lottery.Public
         }
 
 
+        public static int GetlTypeById(int id)
+        {
+            int lType = 0;
+
+            if (id == 10)
+            {
+                lType = 18;
+            }
+            else if (id == 11)
+            {
+                lType = 18;
+            }
+            else if (id == 12)
+            {
+                lType = 52;
+            }
+            else if (id == 13)
+            {
+                lType = 61;
+            }
+            else if (id == 14)
+            {
+                lType = 63;
+            }
+            else if (id == 15)
+            {
+                lType = 64;
+            }
+            else if (id == 16)
+            {
+                lType = 65;
+            }
+            else
+            {
+                lType = id;
+            }
+
+            return lType;
+        }
+
+
         //获取官方推荐玩法的个数
         public static int GetGFTJCount(int lType)
         {

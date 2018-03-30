@@ -633,14 +633,12 @@
     <Content Include="Views\Personal\UserCenter.cshtml" />
     <Content Include="Views\Personal\InvitationReg.cshtml" />
     <Content Include="Views\Personal\RewardRules.cshtml" />
-
     <Content Include="Views\Home\Plan.cshtml" />
-
     <Content Include="Views\Personal\MyPlan.cshtml" />
     <Content Include="Views\Personal\FansBang.cshtml" />
     <Content Include="Views\Personal\FansBangList.cshtml" />
     <Content Include="Views\Personal\Set.cshtml" />
-
+    <Content Include="Views\Home\Open.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
