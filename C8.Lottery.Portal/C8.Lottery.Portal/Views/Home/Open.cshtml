@@ -1,96 +1,41 @@
 ﻿@using C8.Lottery.Model
 @{
     Layout = null;
-    UserInfo user = ViewBag.UserInfo;
-
     List<LotteryRecord> list = ViewBag.openList;
     LotteryRecord record = null;
     int lType = 0;
 }
+
 <!DOCTYPE html>
 
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>首页</title>
+    <title>开奖</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
-    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/runTime3.js"></script>
-</head>
-<body>
-    <header class="hjc_header" style="text-align:left;">
-        <a href="javascript:;" class="hjc_logo" style="margin-left: 10px;"><img src="/images/03.png"></a>
-        <div class="hjc_hdDZ">
-            @if (user == null)
-            {
-                <a href="/Home/Login">登录</a>
-                <a href="/Home/Register">注册</a>
-            }
-            else
-            {
-                <a href="/Personal/Index">Hi,@user.Name</a>
-                <a href="/Personal/logOut">退出</a>
-            }
+    <style>
+        
+        .ind_mainUl2{display: none;}
 
-        </div>
+    </style>
+</head>
+
+<body>
+
+    <header class="hjc_header">
+        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">开奖</a>
     </header>
 
-    
     <div class="hjc_hdNav">
-        <ul class="hdNav_ul">
-            <li>
-                <a href="/Home/Open">
-                    <i><img src="/images/grids_icon_01.png"></i>
-                    <p>开奖</p>
-                </a>
-            </li>
-            <li>
-                <a href="c8_走势.html">
-                    <i><img src="/images/grids_icon_02.png"></i>
-                    <p>走势</p>
-                </a>
-            </li>
-            <li>
-                <a href="/Home/Plan">
-                    <i><img src="/images/grids_icon_03.png"></i>
-                    <p>计划</p>
-                </a>
-            </li>
-            <li>
-                <a href="榜-排行榜.html">
-                    <i><img src="/images/grids_icon_04.png"></i>
-                    <p>排行</p>
-                </a>
-            </li>
-            <li>
-                <a href="聊天室.html">
-                    <i><img src="/images/grids_icon_05.png"></i>
-                    <p>聊天</p>
-                </a>
-            </li>
-            <li>
-                <a href="榜-高手榜.html">
-                    <i><img src="/images/grids_icon_06.png"></i>
-                    <p>高手</p>
-                </a>
-            </li>
-            <li>
-                <a href="/News/Index/2">
-                    <i><img src="/images/grids_icon_07.png"></i>
-                    <p>资讯</p>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i><img src="/images/grids_icon_08.png"></i>
-                    <p>App</p>
-                </a>
-            </li>
-            <div style="clear:both;"></div>
-        </ul>
-        <div class="hdNav_cai_collect" style="display: block;">
+    
+
+        <!-- 新增类型选择 By LHS 2018-3-2 -->
+        <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
                 <li class="current"><a href="javascript:;">热门</a></li>
@@ -100,13 +45,13 @@
                 <li><a href="javascript:;">赛车</a></li>
                 <li><a href="javascript:;">快乐十分</a></li>
                 <li><a href="javascript:;">其他</a></li>
-                <div style="clear:both;"></div>
+                <div style="clear:bothl;"></div>
             </ul>
         </div>
-        <div class="hdNav_cai_expand" style="display: none;">
+        <div class="hdNav_cai_expand" style="display:none">
             <div class="hdNav_cai_title">
                 <span>切换分类</span>
-                <span class="collect"><img src="/images/icon-collect.png" alt=""></span>
+                <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
             </div>
             <ul class="hdNav_cai">
                 <li class="current"><a href="javascript:;">热门</a></li>
@@ -116,14 +61,13 @@
                 <li><a href="javascript:;">赛车</a></li>
                 <li><a href="javascript:;">快乐十分</a></li>
                 <li><a href="javascript:;">其他</a></li>
-                <div style="clear:both;"></div>
+                <div style="clear:bothl;"></div>
             </ul>
         </div>
-
     </div>
-    
 
-    <div class="hjc_indexmain" style="margin-top:265px;">
+
+    <div class="hjc_indexmain" style="margin-top:106px;">
         
          @*热门*@
         <ul class="ind_mainUl2" style="display: block;">
@@ -1033,10 +977,6 @@
 
         
     </div>
-    
-    
-    
-    
 
     <footer class="hjc_footer">
         <div class="hjc_ftNav">
@@ -1045,5 +985,7 @@
         <div class="hjc_ftphone">永久域名：m.1369p.com</div>
         <p class="hjc_ftcopy">© 2016 皇家直播1369p.me 版权所有</p>
     </footer>
+
 </body>
+
 </html>

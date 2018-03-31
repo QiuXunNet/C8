@@ -9,15 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>个人中心-设置</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/head.css" rel="stylesheet" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <link href="~/css/dialog.css" rel="stylesheet" />
     <script src="~/js/dialog.min.js"></script>
+    <script src="~/js/kcp/cropbox.js"></script>
     <script src="~/js/yjp.js"></script>
-    <script>
-
-      
-
-    </script>
+   
 </head>
 
 <body style="background:#F4F4F5;">
@@ -33,20 +31,27 @@
                 <li>
                     <a href="javascript:;">
                         <p class="UpUl_LpB f-l">头像</p>
+                      
                         <div class="UpUl_Rtu f-r">
-                            @if (string.IsNullOrEmpty(Model.Headpath))
-                            {
-                                <img src="~/images/default_avater.png">
-                            }
-                            else
-                            {
-                                <img src="@Model.Headpath">
-                            }
+                            <div class="new-contentarea tc">
+                                <input type="file" class="" name="upload-file" id="upload-file" />
 
+                                @if (string.IsNullOrEmpty(Model.Headpath))
+                                {
+                                    <img id="head" for="upload-file" src="~/images/default_avater.png">
+                                }
+                                else
+                                {
+                                    <img id="head" for="upload-file" src="@Model.Headpath">
+                                }
+                            </div>
+                       
+                             
 
-                        </div>
+                            </div>
                         <div style="clear:both;"></div>
                     </a>
+                    
                 </li>
                 <li>
                     <a href="/Personal/SetNickName">
@@ -88,8 +93,151 @@
             <input type="submit" class="Set_Upbtn" value="退出登录" />
         </div>
     </form>
-  
 
+    <div id="uppicBox"  style="display: none; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" >
+        <div class="imageBox">
+        
+            <div class="thumbBox" ></div>
+            <div class="spinner" style="display: none"></div>
+        </div>
+        <div class="bottom">
+
+            <span id="clsoe" class="Btnsty_peyton" onclick="hideMask();" >取消</span>
+            <span id="btnZoomIn" class="Btnsty_peyton">+</span>
+            <span id="btnZoomOut" class="Btnsty_peyton">-</span>
+
+            <span id="btnok" class="Btnsty_peyton">选取</span>
+            @*<input type="button" id="btnClose" onclick="hideMask();" value="取消" />
+
+          
+            <input type="button" id="btnZoomIn"  value="+" />
+            <input type="button" id="btnZoomOut"value="-" />
+
+            <input type="button" id="btnok" value="OK" />*@
+
+
+
+     </div>
+   </div>
+
+        <script>
+            $(window).load(function () {
+
+                //$('#btnCrop').click();$("#idName").css("cssText","background-color:red!important");
+
+
+
+                //$(".imageBox").css("cssText","background-position:88px 88px!important");$(".imageBox").css("cssText","background-size:222px 222px!important");
+
+                var options =
+
+                {
+
+                    thumbBox: '.thumbBox',
+
+                    spinner: '.spinner',
+
+                    imgSrc: ''
+
+                }
+
+                var cropper = $('.imageBox').cropbox(options);
+
+                var img = "";
+
+                $('#upload-file').on('change', function () {
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+
+                        options.imgSrc = e.target.result;
+                        //$("#pic-img").attr("src", e.target.result);
+                        cropper = $('.imageBox').cropbox(options);
+                        console.log(options);
+                        getImg();
+                        showMask()
+
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+
+                  //  this.files = [];
+
+                    //getImg();
+
+                })
+
+                $('#btnok').on('click', function () {
+
+                    img = cropper.getDataURL();
+                  
+                    $.post("/Personal/ReplacePhotos", { img: img }, function (result) {
+                        console.log(result.data.RPath);
+                        if (result.Success == true) {
+                            $("#head").attr('src', result.data.RPath);
+                            hideMask();
+                        } else {
+                            alertmsg(result.Msg);
+                        }
+                           // 
+                            // alert(result);
+                        });
+          
+
+                })
+
+                function getImg() {
+
+                    img = cropper.getDataURL();
+
+                    //$('.cropped').html('');
+
+                    //$('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+
+                    //$('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+
+                    //$('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+
+                }
+
+
+
+                $(".imageBox").on("mouseup", function () {
+
+                    getImg();
+
+                });
+
+
+
+
+
+                $('#btnZoomIn').on('click', function () {
+
+                    cropper.zoomIn();
+
+                })
+
+                $('#btnZoomOut').on('click', function () {
+
+                    cropper.zoomOut();
+
+                })
+
+            });
+
+            function showMask() {
+                $("#uppicBox").css("height", $(document).height());
+                $("#uppicBox").css("width", $(document).width());
+                $("#uppicBox").show();
+            }
+            //隐藏遮罩层  
+            function hideMask() {
+
+                $("#uppicBox").hide();
+            }
+        </script>
 
 
 

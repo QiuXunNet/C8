@@ -1,0 +1,280 @@
+﻿@using C8.Lottery.Public
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>c8_计划</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/yjp.js"></script>
+    <style>
+        
+        .list_mainUl2{ display: none;}
+
+    </style>
+</head>
+
+    <body style="background:#F4F4F5;">
+
+        <header class="hjc_header">
+            <a href="/Home/Index" class="hjc_back"></a>
+            <a href="javascript:;" class="hjc_logo">计划</a>
+        </header>
+
+        <div class="hjc_hdNav">
+
+            <div class="hdNav_cai_collect">
+                <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
+                <ul class="hdNav_cai_lhs">
+                    <li class="current"><a href="javascript:;">热门</a></li>
+                    <li><a href="javascript:;">快三</a></li>
+                    <li><a href="javascript:;">11选5</a></li>
+                    <li><a href="javascript:;">时时彩</a></li>
+                    <li><a href="javascript:;">赛车</a></li>
+                    <li><a href="javascript:;">快乐十分</a></li>
+                    <li><a href="javascript:;">其他</a></li>
+                    <div style="clear:bothl;"></div>
+                </ul>
+            </div>
+            <div class="hdNav_cai_expand" style="display:none">
+                <div class="hdNav_cai_title">
+                    <span>切换分类</span>
+                    <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
+                </div>
+                <ul class="hdNav_cai">
+                    <li class="current"><a href="javascript:;">热门</a></li>
+                    <li><a href="javascript:;">快三</a></li>
+                    <li><a href="javascript:;">11选5</a></li>
+                    <li><a href="javascript:;">时时彩</a></li>
+                    <li><a href="javascript:;">赛车</a></li>
+                    <li><a href="javascript:;">快乐十分</a></li>
+                    <li><a href="javascript:;">其他</a></li>
+                    <div style="clear:bothl;"></div>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="hjc_indexmain" style="margin-top:90px;">
+
+            @*热门*@
+            <ul class="list_mainUl2" style="display: block;">
+                
+                    @{
+                        int[] remen = {1, 3, 5, 9, 18, 47, 52, 63, 64};
+                        
+                    }
+
+                    @for (int i = 0; i < remen.Length; i++)
+                    {
+                        int j = remen[i];
+                        string logo = Util.GetLotteryIcon(j) + ".png";
+                    
+                        <li>
+                            <div class="UL2_hd">
+                                <a href="/Plan/Index/@j">
+                                    <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                    <div class="UL2_hdtit">
+                                        <h3>@Util.GetLotteryTypeName(j)</h3>
+                                    </div>
+                                    <span class="UL2_hdicon"></span>
+                                </a>
+                            </div>
+                        </li>
+                }
+
+
+
+            </ul>
+            
+            
+             @*快三*@
+            <ul class="list_mainUl2">
+                
+                
+                @for (int i = 38; i < 51; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+
+
+
+            </ul>
+            
+            
+            @*11选5*@
+            <ul class="list_mainUl2">
+                
+                
+                @for (int i = 15; i < 38; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+
+
+
+            </ul>
+            
+            @*时时彩*@
+            <ul class="list_mainUl2">
+                
+                
+                @for (int i = 9; i < 15; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+
+
+
+            </ul>
+            
+             @*赛车飞艇*@
+            <ul class="list_mainUl2">
+                
+                
+                @for (int i = 63; i < 66; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+
+
+
+            </ul>
+
+            
+            @*快乐十分*@
+            <ul class="list_mainUl2">
+                
+                
+                @for (int i = 51; i < 60; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+
+
+
+            </ul>
+            
+            @*其他*@
+            <ul class="list_mainUl2">
+                
+                
+                @for (int i = 1; i < 9; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+                
+                
+                
+                @for (int i = 60; i < 63; i++)
+                {
+                    string logo = Util.GetLotteryIcon(i) + ".png";
+                    
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@i">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(i)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                    
+                }
+
+
+
+            </ul>
+        </div>
+        <div class="mask" style="display:none;"></div>
+
+    </body>
+
+</html>

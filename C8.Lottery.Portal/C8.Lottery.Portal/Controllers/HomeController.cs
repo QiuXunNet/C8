@@ -6,8 +6,7 @@ using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Public;
 using System.Data.SqlClient;
-using Memcached.ClientLibrary;
-using C8.Lottery.Model.Enum;
+using C8.Lottery.Portal;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -30,10 +29,7 @@ namespace C8.Lottery.Portal.Controllers
             }
 
             ViewBag.openList = list;
-  
-            int userId = UserHelper.GetByUserId();
-            UserInfo user =UserHelper.GetUser(userId);
-            ViewData["user"] = user;
+            ViewBag.UserInfo = UserHelper.LoginUser;
             return View();
         }
 
@@ -544,6 +540,38 @@ namespace C8.Lottery.Portal.Controllers
             return Json(jsonmsg);
         }
 
-      
+    
+        
+        /// <summary>
+        /// 计划
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Plan()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 开奖
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Open()
+        {
+
+            string sql = "";
+
+            List<LotteryRecord> list = new List<LotteryRecord>();
+
+            for (int i = 0; i < 65; i++)
+            {
+                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Id desc";
+                list.Add(Util.ReaderToModel<LotteryRecord>(sql));
+            }
+
+            ViewBag.openList = list;
+            return View();
+        }
+
+
     }
 }

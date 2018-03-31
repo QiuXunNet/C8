@@ -10,7 +10,7 @@ using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class PlanController : Controller
+    public class PlanController : FilterController
     {
         //
         // GET: /Plan/
@@ -171,8 +171,7 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         playName2 = Util.GetPlayName(lType, playName, s1, i);
 
-                        string sql = "insert into BettingRecord(lType,Issue,PlayName,BetNum) values(" + lType +
-                                     ",@Issue,@PlayName,@BetNum)";
+                        string sql = "insert into BettingRecord(UserId,lType,Issue,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
 
                         SqlParameter[] pms =
                         {
@@ -191,7 +190,6 @@ namespace C8.Lottery.Portal.Controllers
 
             return Content("ok");
         }
-
-
+        
     }
 }

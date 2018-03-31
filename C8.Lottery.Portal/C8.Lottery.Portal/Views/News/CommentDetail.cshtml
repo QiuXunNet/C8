@@ -158,8 +158,7 @@
                     + '<div class="CDL_DDFont">';
                 var parentComment = value.ParentComment;
                 if (parentComment) {
-
-                    li+='<p><span>'+value.Content+'</span>//<a href="javascript:;" class="include">@@'+parentComment.NickName+'：</a>'+ parentComment.Content+'</p>'
+                    li += '<p><span>' + value.Content + '</span>//<a href="/Personal/UserCenter/'+parentComment.UserId+'" class="include">@@' + parentComment.NickName + '：</a>' + parentComment.Content + '</p>';
                 } else {
                     li += ' <p>' + value.Content + '</p>';
                 }
