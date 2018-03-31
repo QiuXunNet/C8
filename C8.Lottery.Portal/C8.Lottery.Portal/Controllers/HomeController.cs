@@ -7,6 +7,7 @@ using C8.Lottery.Model;
 using C8.Lottery.Public;
 using System.Data.SqlClient;
 using C8.Lottery.Portal;
+using CryptSharp;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -357,11 +358,13 @@ namespace C8.Lottery.Portal.Controllers
                
                 if (user != null)
                 {
-                    if (Tool.GetMD5(password) != user.Password)
+                  
+                    bool iscor= Crypter.CheckPassword(password, user.Password);        
+                    if (Tool.GetMD5(password) != user.Password && !iscor)
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "密码不正确";
-                      
+
                     }
                     else
                     {
@@ -372,7 +375,6 @@ namespace C8.Lottery.Portal.Controllers
                         }
                         else
                         {
-
 
                             string guid = Guid.NewGuid().ToString();
                             Response.Cookies["UserId"].Value = guid;

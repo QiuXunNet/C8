@@ -104,5 +104,7 @@ order by a.LotteryNumber desc";
             MemClientFactory.WriteCache(memKey, list);
             return list;
         }
+
+    
     }
 }

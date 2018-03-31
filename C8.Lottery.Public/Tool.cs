@@ -158,8 +158,12 @@ namespace C8.Lottery.Public
         /// <param name="path"></param>
         public static void DeleteFile(string path)
         {
-            
+
+            if (File.Exists(path))
+            {
                 File.Delete(path);
+            }
+                     
             
         }
 
