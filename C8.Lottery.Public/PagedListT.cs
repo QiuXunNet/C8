@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace C8.Lottery.Public
 {
-    public class PagedList<T> 
+    public class PagedList<T>
     {
         public PagedList()
         {
-            
+
         }
 
-        public PagedList(int pageIndex,int pageSize,int totalCount,List<T> pageData )
+        public PagedList(int pageIndex, int pageSize, int totalCount, List<T> pageData)
         {
             this.PageIndex = pageIndex;
             this.PageSize = pageSize;
@@ -25,6 +26,18 @@ namespace C8.Lottery.Public
 
         public List<T> PageData { get; set; }
         public object ExtraData { get; set; }
+
+        [JsonIgnore]
+        public int StartIndex
+        {
+            get { return (PageIndex - 1) * PageSize + 1; }
+        }
+
+        [JsonIgnore]
+        public int EndIndex
+        {
+            get { return PageIndex * PageSize; }
+        }
 
         public bool HasNextPage
         {

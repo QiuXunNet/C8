@@ -54,11 +54,26 @@ namespace C8.Lottery.Portal.Controllers
         {
             var result = new AjaxResult();
 
-            var user = Session["UserInfo"] as UserInfo;
+            #region 黑名单和禁言验证
 
+            string validateSql = @"select count(1) from [dbo].[UserState]
+	  where ([CommentBlack]=1 or ([CommentShut]=1 and GETDATE() between [CommentShutBegin] and [CommentShutEnd])) and UserId=" +
+                UserHelper.LoginUser.Id;
 
-            //TODO:脏字处理，编码处理，特殊字符串过滤
-            content = HttpUtility.HtmlEncode(content);
+            object obj = SqlHelper.ExecuteScalar(validateSql);
+
+            if (obj != null && Convert.ToInt32(obj) > 0)
+            {
+                return Json(new AjaxResult(10001, "你已被禁言或拉黑"));
+            }
+
+            #endregion
+
+            
+            //去Html标签
+            content = WebHelper.NoHtml(content);
+            //脏字过滤
+            content = WebHelper.FilterSensitiveWords(content);
 
             string sql = @"INSERT INTO [dbo].[Comment]
            ([PId]
@@ -88,7 +103,7 @@ namespace C8.Lottery.Portal.Controllers
                 parameters = new SqlParameter[]
                 {
                     new SqlParameter("@PID",pid),
-                    new SqlParameter("@UserId",user.Id),
+                    new SqlParameter("@UserId",UserHelper.LoginUser.Id),
                     new SqlParameter("@Content",content),
                     new SqlParameter("@Type",type),
                     new SqlParameter("@ArticleId",id),
@@ -122,7 +137,7 @@ namespace C8.Lottery.Portal.Controllers
                 parameters = new SqlParameter[]
                 {
                     new SqlParameter("@PID",id),
-                    new SqlParameter("@UserId",user.Id),
+                    new SqlParameter("@UserId",UserHelper.LoginUser.Id),
                     new SqlParameter("@Content",content),
                     new SqlParameter("@Type",type),
                     new SqlParameter("@ArticleId",comment.ArticleId),
