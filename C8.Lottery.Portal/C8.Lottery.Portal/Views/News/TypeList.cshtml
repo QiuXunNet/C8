@@ -156,10 +156,37 @@
                                     }
 
                                 }
+                                
+                                
+                                
+                              
 
 
                             }
+                            
+                            
+                            
+                               
+                        @{
+                              int countFor63 = 0;
+
+                                                        <div class="Mif_Hao" style="margin-top: 5px;">
+                                                            @foreach (string s in ViewBag.showInfo.Split(','))
+                                                            {
+                                                                countFor63++;
+                                                                <span class="Mif_jgC">@s</span>
+                                                                if (countFor63 == 6)
+                                                                {
+                                                                    <span class="Mif_jgC">+</span>
+                                                                }
+                                                            }
+                                                        </div>
+                        }
+                        
+
                         </div>
+                        
+                     
 
                     </dd>
                 </dl>
