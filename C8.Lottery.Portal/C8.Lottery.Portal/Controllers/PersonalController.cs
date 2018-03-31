@@ -854,10 +854,10 @@ WHERE t.Followed_UserId=@Followed_UserId";
                 if (ltype > 0) ltypeWhere = " AND lType=" + ltype;
 
                 string sql = string.Format(@"SELECT * FROM ( 
-	SELECT row_number() over(order by SubTime DESC ) as rowNumber,* FROM (
-		SELECT lType,Issue,UserId,WinState,SubTime FROM [dbo].[BettingRecord]
+	SELECT row_number() over(order by Issue DESC,lType ) as rowNumber,* FROM (
+		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState FROM [dbo].[BettingRecord]
 		WHERE UserId=@UserId{0}{1}
-GROUP BY lType,Issue,UserId,WinState,SubTime) t
+		) t
 	) tt
 WHERE rowNumber BETWEEN @Start AND @End", ltypeWhere, winStateWhere);
 
@@ -873,9 +873,8 @@ WHERE rowNumber BETWEEN @Start AND @End", ltypeWhere, winStateWhere);
 
                 pager.PageData = Util.ReaderToList<BettingRecord>(sql, sqlParameters);
 
-                string countSql = string.Format(@"SELECT count(1) FROM ( SELECT UserId FROM [dbo].[BettingRecord] 
-WHERE UserId = {0}{1}{2} 
-GROUP BY lType,Issue,UserId,WinState,SubTime ) tt", uid, ltypeWhere, winStateWhere);
+                string countSql = string.Format(@"SELECT count(1) FROM ( SELECT  distinct lType,Issue  FROM [dbo].[BettingRecord] 
+WHERE UserId = {0}{1}{2} ) tt", uid, ltypeWhere, winStateWhere);
                 object obj = SqlHelper.ExecuteScalar(countSql);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
 

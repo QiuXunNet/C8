@@ -193,13 +193,13 @@
                 if (item.WinState == 1) {
                     itemHtml += '        	<a href="javascript:;" class="det_bj">编辑</a>'
                         + '            <h3 class="det_wkj">未开奖</h3>';
-                } else if (item.WinState == 3 || item.WinState == 4) {
+                } else if (item.WinState == 2) {
                     itemHtml += '<p>已开奖</p>';
                 }
                 itemHtml += '        </div>'
                 + '        <div class="details_ddLeft">'
                 + '            <h3><a href="javascript:;">' + item.LotteryTypeName + '</a></h3>'
-                + '			 <p>第' + item.Issue + '期  ' + item.TimeStr + '</p>'
+                + '			 <p>第' + item.Issue + '期 </p>'
                 + '        </div>'
                 + '    </dd>'
                 + '</dl>';
