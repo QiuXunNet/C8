@@ -77,11 +77,11 @@
             var html = [];
             $.each(data.PageData, function (index, value) {
                 console.log(value);
-                var dl = "<dl class='details_DL'><dt><a href='javascript:;'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
+                var dl = "<dl class='details_DL'><dt><a href='javascript:;'><img src='"+(value.Headpath.length<= 0 ? '/images/default_avater.png' : value.HeadPath)+"'></a></dt>"
                          + "<dd>"
                          + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.UserId + ")'>" + (value.Isfollowed<=0?'<p class=\'fans_Gz\'>关注</p>':'<p class=\'fans_Ygz\'>已关注</p>') + "</div>"
                          + "<div class='details_ddLeft'>"
-                         + "<h3><a href='javascript:;'>" + value.Nickname + "</a></h3>"
+                         + "<h3><a href='/Personal/UserCenter/" + value.UserId + "'>" + value.Nickname + "</a></h3>"
                          + "<p>" + value.Autograph + "</p>"
                          + "</div> </dd> </dl>";
 
