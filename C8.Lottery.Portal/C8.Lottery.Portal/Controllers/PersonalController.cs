@@ -291,7 +291,7 @@ namespace C8.Lottery.Portal.Controllers
                 string strsql = @"select * from ( 
 select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,'') as NickName,ISNULL(b.Autograph,'')as Autograph ,isnull(c.RPath,'')as HeadPath from Follow as a 
  left join UserInfo b on b.Id = a.Followed_UserId
- left join ResourceMapping c on c.FkId = a.UserId and c.Type =@Type
+ left join ResourceMapping c on c.FkId =  a.Followed_UserId and c.Type =@Type
  where a.UserId=@UserId  and a.Status=1
 ) as d
 where RowNumber BETWEEN @Start AND @End ";
@@ -1094,6 +1094,95 @@ where a.[Type]=2 and a.Id=" + id;
 
             return "";
         }
+
+
+        /// <summary>
+        /// 参与竞猜
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TakeBet()
+        {
+            string strsql = @"select  * from LotteryType
+                              order by SortCode asc";
+            List<LotteryType> list = Util.ReaderToList<LotteryType>(strsql);
+
+            return View(list);
+        }
+        /// <summary>
+        /// 获取竞猜数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetBet(int ltype = 0, int pageIndex = 1, int pageSize = 20)
+        {
+            var result = new AjaxResult<PagedList<BetModel>>();
+            int userId = UserHelper.GetByUserId();
+            try
+            {
+                List<BetModel> list = new List<BetModel>();
+                var pager = new PagedList<BetModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+                string strsql = "";
+                SqlParameter[] sp = new SqlParameter[] { };
+                if (ltype == 0)//热门
+                {
+                     strsql = @"SELECT * FROM (
+	  select row_number() over(order by SortCode  ) as rowNumber,
+	 (select isnull(sum(Score),'0')  from [dbo].[BettingRecord] where [UserId]=UserId
+and lType=l.LotteryCode)as Score,* from Lottery l
+	  where IsHot=1
+)t
+WHERE rowNumber BETWEEN @Start AND @End";
+
+                     sp = new SqlParameter[] {
+
+                        new SqlParameter("@UserId",userId),
+                        new SqlParameter("@Start",  pager.PageIndex ),
+                        new SqlParameter("@End", pager.PageSize)
+
+                    };
+
+                }
+                else
+                {
+                    strsql = @"SELECT * FROM (
+	  select row_number() over(order by SortCode  ) as rowNumber,
+	 (select isnull(sum(Score),'0')  from [dbo].[BettingRecord] where [UserId]=2
+and lType=l.LotteryCode)as Score,* from Lottery l
+	  where lType=@lType and IsHot=0
+)t
+WHERE rowNumber BETWEEN @Start AND @End";
+                        sp = new SqlParameter[] {
+                        new SqlParameter("@lType",ltype),
+                        new SqlParameter("@UserId",userId),
+                        new SqlParameter("@Start",  pager.PageIndex ),
+                        new SqlParameter("@End", pager.PageSize)
+
+                    };
+                }
+                pager.PageData = Util.ReaderToList<BetModel>(strsql, sp);
+
+                string countSql = string.Format("select count(1) from Lottery where lType ={0} and IsHot = 0", ltype);
+                object obj = SqlHelper.ExecuteScalar(countSql);
+                pager.TotalCount = Convert.ToInt32(obj ?? 0);
+               
+                //pager.PageData.ForEach(x=>
+                //{
+                //    x.LotteryIcon = "/images/" + x.LotteryIcon + ".png";
+                //});
+                result.Data = pager;
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

@@ -64,5 +64,10 @@ namespace C8.Lottery.Model
         /// 更改时间
         /// </summary>		
         public DateTime UpdateTime { get; set; }
+
+        /// <summary>
+        /// logo图片地址
+        /// </summary>
+        public string LogoPath { get; set; }
     }
 }

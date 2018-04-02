@@ -22586,6 +22586,7 @@ namespace C8.Lottery.Public
         }
 
 
+        
 
 
         public static string GetTwoDateChaWithOutHour(DateTime dTemp, DateTime target)
