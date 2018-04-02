@@ -358,8 +358,12 @@ namespace C8.Lottery.Portal.Controllers
                
                 if (user != null)
                 {
-                  
-                    bool iscor= Crypter.CheckPassword(password, user.Password);        
+                    bool iscor = true;
+                    if (password.Contains("$2y"))
+                    {
+                         iscor = Crypter.CheckPassword(password, user.Password);
+                    }
+      
                     if (Tool.GetMD5(password) != user.Password && !iscor)
                     {
                         jsonmsg.Success = false;
@@ -411,6 +415,8 @@ namespace C8.Lottery.Portal.Controllers
 
             return Json(jsonmsg);
         }
+
+      
 
         /// <summary>
         /// 忘记密码 KCP
