@@ -71,8 +71,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lotteryName = lotteryName;
 
             //当前期号
-            //string currentIssue = Util.GetCurrentIssue(lType);
-            string currentIssue = "";
+            string currentIssue = Util.GetCurrentIssue(lType);
             ViewBag.currentIssue = currentIssue;
             ViewBag.msg = "查看" + currentIssue + "期" + lotteryName + "计划";
 
