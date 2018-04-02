@@ -41,6 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CryptSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CryptSharpOfficial.2.1.0.0\lib\CryptSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\C8.Lottery.Public\bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -127,6 +131,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
@@ -139,9 +144,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="css\c8-icon.css" />
-    <Content Include="css\Chat\chat.css" />
-    <Content Include="css\Chat\iconfont.css" />
-    <Content Include="css\Chat\iconfont.css.css" />
+    <Content Include="css\Chat\base.css" />
+    <Content Include="css\Chat\index.css" />
     <Content Include="css\dialog.css" />
     <Content Include="css\fonts\c8.svg" />
     <Content Include="css\jquery.emoji.css" />
@@ -309,6 +313,12 @@
     <Content Include="images\bt-5.png" />
     <Content Include="images\bt-6.png" />
     <Content Include="images\c8.png" />
+    <Content Include="images\Chat\back.png" />
+    <Content Include="images\Chat\chat_03.png" />
+    <Content Include="images\Chat\chat_06.png" />
+    <Content Include="images\Chat\chat_15.png" />
+    <Content Include="images\Chat\icon_03.png" />
+    <Content Include="images\Chat\icon_06.png" />
     <Content Include="images\default_avater.png" />
     <Content Include="images\default_usercenter_bg.png" />
     <Content Include="images\emoji\qq\1.gif" />
@@ -655,6 +665,7 @@
     <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
+    <Content Include="Views\Personal\TakeBet.cshtml" />
     <Content Include="Views\Personal\Notice.cshtml" />
   </ItemGroup>
   <ItemGroup>

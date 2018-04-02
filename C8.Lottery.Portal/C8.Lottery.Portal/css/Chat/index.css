@@ -1,0 +1,275 @@
+
+.layout{
+    min-width: 300px;
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+}
+.main{
+	width: 100%;
+	background: #eee;
+	border-bottom: 1px solid #ccc;
+	height: 800px;
+	position: absolute;
+	top:65px;
+	z-index: -1;
+	overflow-y: scroll;
+}
+
+.chat-thread{
+	margin:0 20px;
+}
+.chat-thread li{
+	position: relative;
+	overflow: hidden;
+}
+
+.headicon{
+	width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+
+.chat-thread li p{
+    background: #ffffff;
+    padding: 15px 20px;
+    font: 18px/20px 'Noto Sans', sans-serif;
+    border-radius: 10px;
+}
+.inform{
+	height: 50px;
+	line-height: 55px;
+	font-size: 14px;
+}
+.time{
+	color: #999999;
+}
+.adm{
+	width: 50px;
+    height: 25px;
+    font-size: 12px;
+    display: inline-block;
+    background: #f13131;
+    color: #fff;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+.chat_box{
+	position: relative;
+}
+
+.chat_t{
+    border-radius: 10px;
+    padding:10px;
+}
+.chat_tchat_t:before{
+    font-family: "icomoon";
+    font-size: 12px;
+    position: absolute;
+}
+.chat_img{
+	width: 150px;
+	height: 150px;
+	padding: 0;
+	
+}
+.chat_img img{
+	width: 150px;
+	height: 150px;
+	border-radius: 10px;
+}
+
+.chat-thread li.left .headicon{
+	float: left;
+}
+.chat-thread li.left .chat_box{
+	margin-left: 80px;
+}
+.chat-thread li.left .inform{
+	width: 100%;
+	text-align: left;
+}
+
+.chat-thread li.left .chat_t{
+	background: #fff;
+	float: left;
+	margin-right: 80px;
+}
+.chat-thread li.left .chat_t:before{
+	position: absolute;
+	content: "\e901";
+    left: -7px;
+    color: #fff;
+    font-family: "icomoon";
+}
+.chat-thread li.left .chat_img:before{
+	content: " ";
+}
+.chat-thread li.right .headicon{
+	float: right;
+}
+
+.chat-thread li.right .chat_box{
+	margin-right: 80px;
+}
+.chat-thread li.right .inform{
+	width: 100%;
+	text-align: right;
+}
+.chat-thread li.right .chat_t{
+	background: #f13131;
+	color: #fff;
+	float: right;
+	margin-left: 80px;
+}
+.chat-thread li.right .chat_t:before{
+	position: absolute;
+	content: "\e900";
+    right: -7px;
+    color: #f13131;
+    font-family: "icomoon";
+}
+.chat-thread li.right .chat_img:before{
+	content: " ";
+}
+.footerBox{
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+.re_footer{
+    height: 30px; 
+    width: 100%;
+    background: #fff;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+    position: relative;
+}
+
+.brow,.photo{
+    width: 25px;
+    height: 25px;
+    float: left;
+}
+.brow{
+	margin-left: 10px;
+}
+.photo{
+	margin-left: 10px;
+}
+.reply_box{
+    height: 25px;
+    border-radius: 5px;
+    background: #fff;
+    padding-left: 10px;
+    margin-left: 84px;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+}
+.reply{
+	height: 23px;
+	line-height: 23px;
+	background: #fff;
+}
+.ent{
+	height: 25px;
+    width: 40px;
+    float: left;
+    background: #eee;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 25px;
+    position: absolute;
+    right: 10px;
+    bottom: 13px;
+}
+.re_footer_dis .reply_box{
+    margin-right: 66px;
+    text-align: center;
+}
+.re_footer_dis .reply{
+	background: #eee;
+}
+.re_footer_dis .reply_box{
+    background: #eee;
+    border: 1px solid #ccc;
+}
+
+.deel{
+	position: absolute;
+	top:60px;
+}
+.chat-thread li.left .deel{
+	right: 0;
+}
+.chat-thread li.left .deel span{
+	margin-left: 5px;
+}
+.chat-thread li.left .deel span:first-child{
+	margin-left: 0;
+}
+
+.chat-thread li.right .deel{
+	left: 0;
+}
+.chat-thread li.right .deel span{
+	margin-left: 5px;
+}
+.chat-thread li.right .deel span:first-child{
+	margin-left: 0;
+}
+
+@media screen and (min-width: 320px) and (max-width: 380px){
+    .deel span{
+		font-size: 12px;
+	}
+}
+/**/
+.record{
+	margin-bottom: 10px;
+	background: #fff;
+	padding: 0 10px;
+}
+.re_time{
+	height: 30px;
+    line-height: 30px;
+    font-family: "SimHei";
+    font-size: 16px;
+}
+.re_notes li{
+	height: 40px;
+	line-height: 40px;
+	border-top: 1px solid #eee;
+	color: #666;
+}
+.re_notes li span{
+	float: right;
+}
+
+@media screen and (min-width: 320px) and (max-width: 380px){
+    .re_notes li{
+		font-size: 12px;
+	}
+}
+/*µ¯³ö¿ò*/
+.transparentBg{
+	background: #000;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    position: fixed;
+}
+.big_img{
+	position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 111;
+}
+.transparentBox{
+	display: none;
+}
+
+    
