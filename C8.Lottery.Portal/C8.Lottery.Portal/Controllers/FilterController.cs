@@ -7,10 +7,10 @@ using C8.Lottery.Public;
 using C8.Lottery.Model;
 namespace C8.Lottery.Portal.Controllers
 {
-    public class FilterController : Controller
+    public class FilterController : BaseController
     {
 
-       
+
         //
         // GET: /Filter/
         /// <summary>
@@ -32,11 +32,12 @@ namespace C8.Lottery.Portal.Controllers
                     JsonResult json = new JsonResult();
                     json.Data = new { Code = 401, Message = "未经授权" };
                     filterContext.Result = json;
-                }else
+                }
+                else
                 {
                     Response.Redirect("/Home/Login");
                 }
-              
+
             }
             else
             {
@@ -57,7 +58,7 @@ namespace C8.Lottery.Portal.Controllers
 
                 //MemClientFactory.WriteCache(sessionId, user, 30);
             }
-           
+
         }
 
     }

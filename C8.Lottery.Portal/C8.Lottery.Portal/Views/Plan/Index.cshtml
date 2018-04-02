@@ -8,13 +8,13 @@
     List<Plan> list = ViewBag.list2;
 
     string title = "计划-" + ViewBag.lotteryName;
+
+    List<Play> playList = ViewBag.PlayList;
     
 }
 
 <!DOCTYPE html>
 
-
-<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -60,13 +60,25 @@
 
         <div class="gaoshou">
             <div class="GS_box">
-                <ul class="GS_nav">
-                    <li class="current"><a href="javascript:;">第一球大小</a></li>
-                    <li><a href="javascript:;">第一球单双</a></li>
-                    <li><a href="javascript:;">第一球总和大小</a></li>
-                    <li><a href="javascript:;">第一球龙虎</a></li>
-                    <div style="clear:both;"></div>
-                </ul>
+                @if (playList != null && playList.Any())
+                {
+                    int i = 0;
+                    <ul class="GS_nav">
+                        @foreach (var play in playList)
+                        {
+                            if (i++ == 0)
+                            {
+                                <li class="current" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                            }
+                            else
+                            {
+
+                                <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                            }
+                        }
+                    </ul>
+                    <div style="clear: both;"></div>
+                }
             </div>
             <a href="javascript:;" class="GS_btn" style="display: none;"><img src="/images/50.png"></a>
         </div>

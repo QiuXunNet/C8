@@ -12,7 +12,7 @@ namespace C8.Lottery.Portal.Controllers
 {
     public class BaseController : Controller
     {
-      
+
         /// <summary>
         /// 获取彩种分类
         /// </summary>
@@ -105,6 +105,27 @@ order by a.LotteryNumber desc";
             return list;
         }
 
-    
+        /// <summary>
+        /// 获取彩种玩法
+        /// </summary>
+        /// <param name="ltype"></param>
+        /// <returns></returns>
+        protected IList<Play> GetPlayNames(int ltype)
+        {
+            string memKey = "base_play_name_" + ltype;
+
+            var list = MemClientFactory.GetCache<IList<Play>>(memKey);
+            if (list != null && list.Any()) return list;
+
+            string sql = "SELECT Id,lType,PlayName FROM IntegralRule WHERE ltype=" + ltype;
+            list = Util.ReaderToList<Play>(sql);
+            if (list != null)
+            {
+                MemClientFactory.WriteCache(memKey, list);
+                return list;
+            }
+
+            return new List<Play>();
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
+using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
@@ -78,6 +79,12 @@ namespace C8.Lottery.Portal.Controllers
             string icon = Util.GetLotteryIcon(lType) + ".png";
 
             ViewBag.icon = icon;
+
+            #endregion
+
+            #region 高手推荐
+            //查询玩法名称
+            ViewBag.PlayList = GetPlayNames(lType);
 
             #endregion
 
@@ -190,6 +197,138 @@ namespace C8.Lottery.Portal.Controllers
 
             return Content("ok");
         }
-        
+
+        /// <summary>
+        /// 获取专家列表
+        /// </summary>
+        /// <param name="playName">玩法名称</param>
+        /// <param name="type">类型 1=高手推荐 2=免费专家</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult ExpertList(string playName, int type = 1, int pageIndex = 1, int pageSize = 20)
+        {
+            var result = new AjaxResult<PagedList<Expert>>();
+
+            var pager = new PagedList<Expert>();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+
+            string sqlWhere = type == 1 ? ">=" : "<";
+
+            #region 分页查询专家排行数据行
+            string sql = string.Format(@"select * from (
+ select top 100 row_number() over(order by a.playTotalScore DESC ) as rowNumber,
+    a.*,b.ltypeTotalScore,c.MinIntegral,d.Name,e.RPath as avater 
+from (
+  select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [C8].[dbo].[BettingRecord]
+  where WinState>1
+  group by UserId, lType, PlayName
+ ) a
+  left join (
+   select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [C8].[dbo].[BettingRecord]
+   where WinState>1
+   group by UserId, lType
+  ) b on b.lType=a.lType
+  left join ( 
+	select lType, isnull( min(MinIntegral),0) as MinIntegral 
+	from [dbo].[LotteryCharge] group by lType
+  ) c on c.lType=a.lType
+  left join UserInfo d on d.Id=a.UserId
+  left join ResourceMapping e on e.FkId =a.UserId and e.[Type]=@ResourceType
+
+  where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName
+  ) tt
+  where tt.rowNumber between @Start and  @End", sqlWhere);
+
+            var sqlParameter = new[]
+            {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@PlayName",playName),
+                new SqlParameter("@Start",pager.StartIndex),
+                new SqlParameter("@End",pager.EndIndex),
+
+            };
+            pager.PageData = Util.ReaderToList<Expert>(sql, sqlParameter);
+
+            pager.PageData.ForEach(x =>
+            {
+
+            });
+
+            #endregion
+
+            #region 数据总行数
+            //查询分页总数量
+            string countSql = string.Format(@"select count(1) from (
+  select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [dbo].[BettingRecord]
+  where WinState>1
+  group by UserId, lType, PlayName
+ ) a
+  left join (
+   select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [dbo].[BettingRecord]
+   where WinState>1
+   group by UserId, lType
+  ) b on b.lType=a.lType
+  left join ( 
+	select lType, isnull( min(MinIntegral),0) as MinIntegral 
+	from [dbo].[LotteryCharge] group by lType
+  ) c on c.lType=a.lType
+
+  where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName", sqlWhere);
+
+            var countSqlParameter = new[]
+            {
+                new SqlParameter("@PlayName",playName)
+            };
+            object obj = SqlHelper.ExecuteScalar(countSql, countSqlParameter);
+            int totalCount = Convert.ToInt32(obj ?? 0);
+            pager.TotalCount = totalCount > 100 ? 100 : totalCount;
+            #endregion
+
+            return Json(result);
+
+        }
+
+        private void GetLastBettingRecord(int ltype, string playName, long userId, int filterRow = 10)
+        {
+            string sql = @"select top @Row * from dbo.BettingRecord
+  where lType=@lType and PlayName=@PlayName and UserId=@UserId and WinState>1
+  order by Issue desc";
+
+            var sqlParameter = new[]
+            {
+                new SqlParameter("@Row",filterRow),
+                new SqlParameter("@PlayName",playName),
+                new SqlParameter("@lType",ltype),
+                new SqlParameter("@UserId",userId),
+
+            };
+
+            var list = Util.ReaderToList<BettingRecord>(sql, sqlParameter) ?? new List<BettingRecord>();
+
+            var lastBettingRecord = list.FirstOrDefault();
+            //上期是否中奖
+            bool lastWin = lastBettingRecord != null && lastBettingRecord.WinState == 3;
+            int continuousWinCount = 0;
+            int winCount = 0;
+
+            //按期号顺序排序，并遍历
+            foreach (var record in list.OrderBy(x => x.Issue))
+            {
+                if (record.WinState == 3)
+                {
+                    winCount++;
+                    continuousWinCount++;
+                }
+                else
+                {
+                    continuousWinCount = 0;
+                }
+            }
+
+        }
+
     }
 }

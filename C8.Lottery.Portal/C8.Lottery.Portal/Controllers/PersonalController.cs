@@ -1035,9 +1035,88 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
             list.ForEach(x =>
             {
-                x.TypeName = Util.GetLotteryTypeName((int) x.Id);
+                x.TypeName = Util.GetLotteryTypeName((int)x.Id);
             });
             return View(list);
+        }
+
+        /// <summary>
+        /// 通知消息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Notice()
+        {
+            ViewBag.UserId = UserHelper.LoginUser.Id;
+            return View();
+        }
+
+        /// <summary>
+        /// 获取评论提醒
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetCommentNotice(int uid, int pageIndex = 1, int pageSize = 20)
+        {
+            //TODO:须修改
+            var result = new AjaxResult<PagedList<Comment>>();
+            try
+            {
+                var pager = new PagedList<Comment>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+                string sql = @"SELECT * FROM (
+	select row_number() over(order by a.SubTime DESC ) as rowNumber,
+	a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
+	from Comment a
+	left join UserInfo b on b.Id = a.UserId
+	left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+	where a.IsDeleted=0 and a.UserId=@UserId
+) tt
+WHERE rowNumber BETWEEN @Start AND @End";
+
+                if (uid == 0)
+                    uid = UserHelper.GetByUserId();
+
+                var sqlParameters = new[]
+                {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@UserId",uid),
+                new SqlParameter("@Start",pager.StartIndex),
+                new SqlParameter("@End",pager.EndIndex)
+            };
+
+                pager.PageData = Util.ReaderToList<Comment>(sql, sqlParameters);
+
+                pager.PageData.ForEach(x =>
+                {
+                    if (x.PId > 0)
+                    {
+                        x.ParentComment = GetComment(x.PId);
+                    }
+                    if (string.IsNullOrEmpty(x.Avater))
+                    {
+                        x.Avater = "/images/default_avater.png";
+                    }
+                    x.LotteryTypeName = GetLotteryTypeName(x.Type, x.ArticleId);
+                });
+
+                string countSql = "SELECT count(1) FROM Comment WHERE IsDeleted=0 AND UserId=" + uid;
+                object obj = SqlHelper.ExecuteScalar(countSql);
+                pager.TotalCount = Convert.ToInt32(obj ?? 0);
+
+                result.Data = pager;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(string.Format("异常消息：{0}，异常堆栈：{1}", ex.Message, ex.StackTrace));
+                result.Code = 500;
+                result.Message = ex.Message;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         private Comment GetComment(long id)
