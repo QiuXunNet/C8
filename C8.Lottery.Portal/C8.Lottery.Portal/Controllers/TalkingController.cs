@@ -48,12 +48,66 @@ namespace C8.Lottery.Portal.Controllers
                     ViewBag.UserId = 0;
                     ViewBag.UserName = "测试用户";
                     ViewBag.PhotoImg = "";
+                    ViewBag.IsAdmin = "1";
                 }
                 else
                 {
                     ViewBag.UserId = user.Id;
                     ViewBag.UserName = user.UserName;
                     ViewBag.PhotoImg = "";//user.;
+                    ViewBag.IsAdmin = false; //
+                }
+
+                switch (id)
+                {
+                    case 1:
+                        ViewBag.RommName = "综合";
+                        break;
+                    case 2:
+                        ViewBag.RommName = "答题";
+                        break;
+                    case 3:
+                        ViewBag.RommName = "双色球";
+                        break;
+                    case 4:
+                        ViewBag.RommName = "福彩3D";
+                        break;
+                    case 5:
+                        ViewBag.RommName = "排列三";
+                        break;
+                    case 6:
+                        ViewBag.RommName = "排列五";
+                        break;
+                    case 7:
+                        ViewBag.RommName = "六合彩";
+                        break;
+                    case 8:
+                        ViewBag.RommName = "十一选五";
+                        break;
+                    case 9:
+                        ViewBag.RommName = "快乐十分";
+                        break;
+                    case 10:
+                        ViewBag.RommName = "时时彩";
+                        break;
+                    case 11:
+                        ViewBag.RommName = "快三";
+                        break;
+                    case 12:
+                        ViewBag.RommName = "幸运飞艇";
+                        break;
+                    case 13:
+                        ViewBag.RommName = "北京赛车";
+                        break;
+                    case 14:
+                        ViewBag.RommName = "七星彩";
+                        break;
+                    case 15:
+                        ViewBag.RommName = "七乐彩";
+                        break;
+                    default:
+                        ViewBag.RommName = "";
+                        break;
                 }
             }
             catch (Exception)
@@ -238,7 +292,7 @@ namespace C8.Lottery.Portal.Controllers
             try
             {
                 var list = Util.ReaderToList<TalkNotes>(sql, sp);
-                list.ForEach(e => e.SendTimeStr = e.SendTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                list.ForEach(e => e.SendTimeStr = e.SendTime.ToString("HH:mm"));
                 return Json(new { Status = 1, DataList = list });
             }
             catch (Exception ex)

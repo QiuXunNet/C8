@@ -116,9 +116,9 @@
 
         <header class="topBarBox">
             <div class="topBar">
-                <a href="#" class="back"></a>
+                <a href="/Talking/Index" class="back"></a>
                 <h3>
-                    <p class="title">双色球聊天室</p>
+                    <p class="title">@Html.Raw(ViewBag.RommName + "聊天室")</p>
                     <div class="pepleOnlie"><span id="lineNumber">0</span>人在线</div>
                 </h3>
                 <div class="topMenu">
@@ -128,106 +128,43 @@
             </div>
         </header>
         <main class="main">
-            <ul class="chat-thread" id="ChatList">
-                <li class="left clearfix">
-                    <img src="images/chat_03.png" class="headicon">
-                    <div class="chat_box">
-                        <div class="inform">
-                            <span class="adm">管理员</span>
-                            <span class="nickname">哈士奇的小迷妹</span>
-                            <span class="time">12:00</span>
-                        </div>
-                        <div class="chat_t">走走走，带我一个</div>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <img src="images/chat_06.png" class="headicon">
-                    <div class="chat_box">
-                        <div class="inform">
-                            <span class="nickname">一只安静的哈士奇</span>
-                            <span class="time">12:00</span>
-                        </div>
-                        <div class="chat_t">老铁们，今晚出去喝一杯</div>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <img src="images/chat_06.png" class="headicon">
-                    <div class="chat_box">
-                        <div class="inform">
-                            <span class="nickname">哈士奇的小迷妹  </span>
-                            <span class="time">12:00</span>
-                        </div>
-                        <div class="chat_t"><a href="" class="redA">分享：哈士奇20171015双色球计划</a></div>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <img src="images/chat_06.png" class="headicon">
-                    <div class="chat_box">
-                        <div class="inform">
-                            <span class="nickname">一只安静的哈士奇</span>
-                            <span class="time">12:00</span>
-                        </div>
-                        <div class="chat_t">老铁们，今晚出去喝一杯</div>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <img src="images/chat_06.png" class="headicon">
-                    <div class="chat_box">
-                        <div class="inform">
-                            <span class="nickname">哈士奇的小迷妹</span>
-                            <span class="time">12:00</span>
-                        </div>
-                        <div class="chat_t chat_img">
-                            <img src="images/chat_15.png">
-                        </div>
-
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <img src="images/chat_06.png" class="headicon">
-                    <div class="chat_box">
-                        <div class="inform">
-                            <span class="nickname">哈士奇的小迷妹</span>
-                            <span class="time">12:00</span>
-                        </div>
-                        <div class="chat_t">
-                            走走走，带我一个
-                        </div>
-                    </div>
-                </li>
-
-            </ul>
+            <ul class="chat-thread" id="ChatList"></ul>
         </main>
         <footer class="footerBox">
             <div class="re_footer clearfix">
                 @*<img src="images/icon_03.png" class="brow">*@
 
                 <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
-                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden">
+                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
                     <i class="iconfont icon-tuxiang"></i>
                 </label>
-                <img src="images/icon_06.png" class="photo">
+                <img src="/images/chat/icon_06.png" class="photo">
                 <div class="reply_box"> <input type="text" name="" class="reply" id="MessageContent"> </div>
                 <input type="text" value="发送" class="ent" id="SendMessageBtn">
             </div>
         </footer>
-
     </div>
+    <div id="emojiDiv" style="position:absolute;background-color:#fff;bottom:51px;left:0px;height:150px;overflow-y: scroll;display: none;">
+        <ul>
+        </ul>
+        </div>
     <div class="transparentBox">
         <div class="transparentBg"></div>
         <div class="big_img">
-            <img id="BigImg" src="images/chat_15.png">
+            <img id="BigImg" src="images/chat_15.png" onclick="hideBigImg()">
         </div>
     </div>
 
     <script src="/Scripts/jquery-1.8.0.min.js"></script>
+
     <script src="/Scripts/jquery.signalR-2.2.3.min.js"></script>
     <!--这里要注意,这是虚拟目录,也就是你在OWIN Startup中注册的地址-->
     <script type="text/javascript" src="http://localhost:57792/signalr/hubs"></script>
 
     <script type="text/javascript">
         $(function () {
-            var winH = $(window).height()
+            var winH = $(window).height();
+            var winW = $(window).width();
             $('.transparentBox').height = winH
             $('.chat_img img').on("click", function () {
                 $('.transparentBox').show()
@@ -236,7 +173,46 @@
             });
 
             $(".main").height(winH - 65 - 51);
-        }); 
+
+            $("#emojiDiv").width(winW);
+
+            $("#emojiDiv").css({ "padding-left": (winW % 15) + "px" });
+
+            var lis = "";
+            for (var i = 1; i <= 91; i++) {
+                lis += ' <li data-index=' + i +'><img src="/images/emoji/qq/'+i+'.gif" /></li>';
+            }
+            $("#emojiDiv ul").append(lis);
+
+            $(".photo").click(function () {
+                if (!$("#emojiDiv").is(':visible')) {
+                    $("#emojiDiv").show().scrollTop(0);
+                } else {
+                    $("#emojiDiv").hide();
+                }
+                
+            });
+
+            $("#emojiDiv ul li").click(function () {
+                $("#emojiDiv").hide();
+                var i = $(this).attr("data-index");
+                var message = "[emoji_" + i + "]";
+                var guid = newGuid();
+                message = "[ico]" + message + "[" + guid + "]";
+
+                var obj = {};
+                obj.Content = message;
+                obj.SendPeople = userId;
+                obj.UserName = userName;
+                obj.PhotoImg = photoImg;
+                obj.RoomId = roomName;
+                obj.Type = 2;
+                obj.Guid = guid;
+                addMessage(obj);
+
+                chat.server.sendMessage(message);
+            })
+        });
 
         //      发送表情
         $("#chat-biaoqing").click(function () {
@@ -257,6 +233,7 @@
         var userName = "@ViewBag.UserName";
         var userId = "@ViewBag.UserId";
         var photoImg = "@ViewBag.PhotoImg";
+        var isAdmin = "@ViewBag.IsAdmin";
         var isTop = false;  //历史消息是否已经到顶
 
         $(function () {
@@ -274,8 +251,8 @@
                 $(result).each(function (data) {
                     insertMessage(this, 1);
                 });
-                var win = $(".main");
-                win.scrollTop(win[0].scrollHeight);
+                $('.main').scrollTop($('.main')[0].scrollHeight)
+                setTimeout("$('.main').scrollTop($('.main')[0].scrollHeight)", 100);
             };
 
             //加载在线人员
@@ -300,14 +277,12 @@
                 if (result == userId) {
                     $(".div-textarea").text("你已经被管理员禁言");
                     $(".div-textarea").attr("contenteditable", false);
-                }               
+                }
             }
 
             $("#SendMessageBtn").click(function () {
                 SendMessage();
             });
-
-
 
             //首次加载添加聊天记录
             addChatRecord(0);
@@ -345,8 +320,8 @@
                         insertMessage(this, 2);
                     });
                     if (source == 0) {
-                        var win = $(".main");
-                        win.scrollTop(win[0].scrollHeight);
+                        $('.main').scrollTop($('.main')[0].scrollHeight)
+                        setTimeout("$('.main').scrollTop($('.main')[0].scrollHeight)",200) ;
                     }
                 }
             });
@@ -369,7 +344,7 @@
             }
             if (data.Content.indexOf("[ico]") == 0) {
                 type = 2;
-                message = data.Content.substr(5, data.Content.length - 5 - 34);
+                message = "/images/emoji/qq/"+ data.Content.substr(12, data.Content.length - 12 - 34 - 1)+".gif";
                 guid = data.Content.substr(data.Content.length - 33, 32);
             }
 
@@ -377,7 +352,9 @@
             html += "    <img src='" + data.PhotoImg + "' class='headicon'>";
             html += "    <div class='chat_box'>";
             html += "        <div class='inform'>";
-            html += "            <span class='adm'>管理员</span>";
+            if (isAdmin == "1") {
+                html += "            <span class='adm'>管理员</span>";
+            }
             html += "            <span class='nickname'>" + data.UserName + "</span>";
             html += "            <span class='time'>" + data.SendTimeStr + "</span>";
             html += "        </div>";
@@ -386,10 +363,17 @@
                     html += "   <div class='chat_t'>" + message + "</div>";
                     break;
                 case 2:
+                    html += "    <div class='chat_t'><img src='" + message + "'></div>";
                     break;
                 case 3:
-                    html += "    <div class='chat_t chat_img'><img src='" + message + "' onclick='showBigImg(\"" + message + "\")'></div>";
+                    html += "    <div class='chat_t'><img src='" + message + "' onclick='showBigImg(\"" + message + "\")'></div>";
                     break;
+            }
+            if (isAdmin == "1"){
+                html += "<div class='deel'>";
+                html += "   <span class='red' onclick = 'delMessage(this)'>删除</span>";
+                html += "   <span class='gray' onclick = 'blacklisted(this)'>拉黑</span>";
+                html += "</div>";
             }
             html += "   </div>";
             html += "</li>";

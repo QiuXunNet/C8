@@ -1,7 +1,7 @@
 
-.layout{
+.layout {
     min-width: 300px;
-    max-width: 640px;
+    /*max-width: 640px;*/
     margin: 0 auto;
     position: relative;
 }
@@ -272,4 +272,27 @@
 	display: none;
 }
 
-    
+
+.btn-default-styles {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    float: left;
+    margin-left: 10px;
+}
+
+    .btn-default-styles i {
+        background-image: url(/images/chat/icon_03.png);
+        display: block;
+        width: 25px;
+        height: 25px;
+        background-size: 25px 25px;
+    }
+
+#emojiDiv ul li {
+    display: inline;
+    line-height: 30px;
+    height: auto;
+    word-break: break-all;
+    word-wrap: break-word;
+}

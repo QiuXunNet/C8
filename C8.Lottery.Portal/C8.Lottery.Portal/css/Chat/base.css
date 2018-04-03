@@ -1,4 +1,4 @@
-/*reset css  重置默认的一些样式  浏览器子自带的  目的是保持各种终端显示一致*/
+﻿/*reset css  重置默认的一些样式  浏览器子自带的  目的是保持各种终端显示一致*/
 /*所有的标签和伪类  before after*/
 @charset "UTF-8";
 p,div,span,img,a,ul,li,ol,h1,h2,h3,h4,h5,h6,dl,dt,dd{
@@ -166,3 +166,4 @@ input,textarea{
         margin-right: 5px;
     }
 }
+
