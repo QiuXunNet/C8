@@ -612,6 +612,7 @@
     <Content Include="css\fonts\c8.eot" />
     <Content Include="css\fonts\c8.ttf" />
     <Content Include="css\fonts\c8.woff" />
+    <None Include="Properties\PublishProfiles\C8.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\w.pubxml" />
     <None Include="Scripts\jquery-1.8.0-vsdoc.js" />
