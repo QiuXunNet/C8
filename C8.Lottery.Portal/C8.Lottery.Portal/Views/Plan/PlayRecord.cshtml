@@ -1,0 +1,392 @@
+﻿@using C8.Lottery.Model
+@model UserInfo
+
+@{
+    Layout = null;
+    bool followed = ViewBag.Followed;
+    bool isSub = ViewBag.IsSub;
+    int lType = ViewBag.lType;
+    List<Play> playList = ViewBag.PlayList;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>近期竞猜-@ViewBag.LTypeName</title>
+    <link href="~/css/jquery.emoji.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script src="~/js/luo/jquery.emoji.min.js"></script>
+    <script type="text/javascript" src="/js/yjp.js"></script>
+    <script type="text/javascript" src="/js/TouchSlide.1.1.js"></script>
+    <script type="text/javascript" src="~/js/runTime2.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">@(ViewBag.LTypeName)近期竞猜</a>
+    </header>
+
+    <div class="Forecast_Top">
+        <div class="Forecast_Theader">
+            <dl class="Forecast_ThdDl">
+                <dt><a href="/Personal/UserCenter/@Model.Id">
+                    @if (string.IsNullOrEmpty(Model.Headpath))
+                    {
+                        <img src="/images/default_avater.png" alt="" />
+                    }
+                    else
+                    {
+                        <img src="@Model.Headpath" alt="@Model.Headpath"/>
+                    }
+                </a></dt>
+                <dd>
+                    <div class="ThdDl_Top">
+                        <h3 class="ThdDl_name f-l"><a href="/Personal/UserCenter/@Model.Id">@Model.Name</a></h3>
+                        <a href="javascript:;" class="ThdDl_ds f-r">打赏</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="ThdDl_Bt">
+                        <div class="ThdDl_BtLeft f-l">
+                            <span>粉丝：</span><span>@Model.Fans</span>
+                            <a href="javascript:;">@(followed?"已关注":" 关注 ")</a>
+                        </div>
+                        <a href="javascript:;" class="ThdDl_BtRight f-r">查看总成绩</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="Gues_Thd">
+            <div class="Gues_ThdLeft f-l">
+                <h3>距离下期开奖
+                    @if (ViewBag.time == "正在开奖")
+                    {
+                        <span id="openTime">正在开奖</span>
+                    }
+                    else
+                    {
+                        if (lType < 9)
+                        {
+                            <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                        }
+                        else
+                        {
+                            <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                        }
+                    }
+                </h3>
+            </div>
+            <div class="Gues_ThdRight f-r">
+                @if (isSub)
+                {
+                    <span>已更新</span>
+                    <a href="javascript:;">查看预测号码</a>
+                }
+                else
+                {
+                    <span>未更新</span>
+                }
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="Gues_content">
+        <div class="Gues_Cnav">
+            @if (playList != null)
+            {
+                <ul class="SX_Ul">
+                    @foreach (var play in playList)
+                    {
+                        <li><a href="javascript:;">@play.PlayName</a></li>
+                    }
+                </ul>
+                <div style="clear: both;"></div>
+            }
+        </div>
+        <div class="Gues_Ctext">
+            <table width="100%" border="1" bordercolor="#ccc" class="Forecast_tableA">
+                <tr>
+                    <td align="center" valign="middle">
+                        <p class="Forecast_Ptit">20170913期</p>
+                        <p class="Forecast_Ptit">2017-09-15</p>
+                    </td>
+                    <td colspan="2" align="left" valign="middle">
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA LHC_spAred">01</span>
+                            <span class="LHC_spA LHC_spAgreen">02</span>
+                            <span class="LHC_spA LHC_spAblue">03</span>
+                            <span class="LHC_spA LHC_spAred">04</span>
+                            <span class="LHC_spA LHC_spAgreen">05</span>
+                            <span class="LHC_spA LHC_spAblue">06</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA LHC_spAred">07</span>
+                        </div>
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA">狗</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" align="center" valign="middle">
+                        <p>六肖中特</p>
+                    </td>
+                    <td align="center" valign="middle">
+                        <p>猪，牛，马，虎，龙，<span class="For_Red">兔</span></p>
+                    </td>
+                    <td width="25%" align="center" valign="middle"><p class="Forecast_Pred"><font class="P_TF">中</font><span>+5</span></p></td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center" valign="middle"><p class="Forecast_Pred">当前连中2期 额外奖励+2</p></td>
+                </tr>
+            </table>
+            <table width="100%" border="1" bordercolor="#ccc" class="Forecast_tableA">
+                <tr>
+                    <td align="center" valign="middle">
+                        <p class="Forecast_Ptit">20170913期</p>
+                        <p class="Forecast_Ptit">2017-09-15</p>
+                    </td>
+                    <td colspan="2" align="left" valign="middle">
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA LHC_spAred">01</span>
+                            <span class="LHC_spA LHC_spAgreen">02</span>
+                            <span class="LHC_spA LHC_spAblue">03</span>
+                            <span class="LHC_spA LHC_spAred">04</span>
+                            <span class="LHC_spA LHC_spAgreen">05</span>
+                            <span class="LHC_spA LHC_spAblue">06</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA LHC_spAred">07</span>
+                        </div>
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA">狗</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" align="center" valign="middle">
+                        <p>六肖中特</p>
+                    </td>
+                    <td align="center" valign="middle">
+                        <p>猪，牛，马，虎，龙，<span class="For_Red">兔</span></p>
+                    </td>
+                    <td width="25%" align="center" valign="middle"><p class="Forecast_Pred"><font class="P_TF">中</font><span>+5</span></p></td>
+                </tr>
+            </table>
+            <table width="100%" border="1" bordercolor="#ccc" class="Forecast_tableA">
+                <tr>
+                    <td align="center" valign="middle">
+                        <p class="Forecast_Ptit">20170913期</p>
+                        <p class="Forecast_Ptit">2017-09-15</p>
+                    </td>
+                    <td colspan="2" align="left" valign="middle">
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA LHC_spAred">01</span>
+                            <span class="LHC_spA LHC_spAgreen">02</span>
+                            <span class="LHC_spA LHC_spAblue">03</span>
+                            <span class="LHC_spA LHC_spAred">04</span>
+                            <span class="LHC_spA LHC_spAgreen">05</span>
+                            <span class="LHC_spA LHC_spAblue">06</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA LHC_spAred">07</span>
+                        </div>
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA">狗</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" align="center" valign="middle">
+                        <p>六肖中特</p>
+                    </td>
+                    <td align="center" valign="middle">
+                        <p>猪，牛，马，虎，龙，<span class="For_Red">兔</span></p>
+                    </td>
+                    <td width="25%" align="center" valign="middle"><p><font class="P_TF">不中</font><span>-5</span></p></td>
+                </tr>
+            </table>
+            <table width="100%" border="1" bordercolor="#ccc" class="Forecast_tableA">
+                <tr>
+                    <td align="center" valign="middle">
+                        <p class="Forecast_Ptit">20170913期</p>
+                        <p class="Forecast_Ptit">2017-09-15</p>
+                    </td>
+                    <td colspan="2" align="left" valign="middle">
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA LHC_spAred">01</span>
+                            <span class="LHC_spA LHC_spAgreen">02</span>
+                            <span class="LHC_spA LHC_spAblue">03</span>
+                            <span class="LHC_spA LHC_spAred">04</span>
+                            <span class="LHC_spA LHC_spAgreen">05</span>
+                            <span class="LHC_spA LHC_spAblue">06</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA LHC_spAred">07</span>
+                        </div>
+                        <div class="Forecast_LHC">
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spA">狗</span>
+                            <span class="LHC_spAjia">+</span>
+                            <span class="LHC_spA">狗</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" align="center" valign="middle">
+                        <p>六肖中特</p>
+                    </td>
+                    <td align="center" valign="middle">
+                        <p>猪，牛，马，虎，龙，<span class="For_Red">兔</span></p>
+                    </td>
+                    <td width="25%" align="center" valign="middle"><p class="Forecast_Pred"><font class="P_TF">中</font><span>+5</span></p></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    @Html.Action("WonderfulComment","News", new { id = @Model.Id, type = 1 })
+
+    <div class="Gues_expert">
+        <h3 class="Expert_title">已有<font>10025</font>人分享该专家</h3>
+        <ul class="Expert_nav">
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            <div style="clear:both;"></div>
+        </ul>
+    </div>
+    
+    <!--分享-->
+    <div class="Gues_share">
+        <div class="Share_info">
+            <div class="Share_ifTitle">
+                <h3>分享至</h3>
+            </div>
+            <ul class="Share_ifNav">
+                <li>
+                    <a href="javascript:call('wechatFriend');">
+                        <div class="Share_iNtu"><img src="/images/63_1.png"></div>
+                        <p>微信好友</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:call('wechatTimeline');">
+                        <div class="Share_iNtu"><img src="/images/63_2.png"></div>
+                        <p>朋友圈</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:call('qqFriend');">
+                        <div class="Share_iNtu"><img src="/images/63_3.png"></div>
+                        <p>QQ好友</p>
+                    </a>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+            <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
+        </div>
+    </div>
+
+    <script src="~/js/kcp/NativeShare.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".Gues_ul").parseEmoji();
+        });
+
+        var nativeShare = new NativeShare();
+
+        var shareData = {
+            title: '@ViewBag.LTypeName近期竞猜',
+            desc: '@ViewBag.LTypeName近期竞猜',
+            // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
+            link: 'http://' + location.host + '/Plan/PlanRecord/@Model.Id',
+            icon: '@Model.Headpath',
+            // 不要过于依赖以下两个回调，很多浏览器是不支持的
+            success: function () {
+                alert('success');
+            },
+            fail: function () {
+                alert('fail');
+            }
+        }
+        nativeShare.setShareData(shareData);
+
+        function call(command) {
+            try {
+                nativeShare.call(command);
+            } catch (err) {
+                // 如果不支持，你可以在这里做降级处理
+                alert(err.message);
+            }
+        }
+
+    </script>
+</body>
+</html>

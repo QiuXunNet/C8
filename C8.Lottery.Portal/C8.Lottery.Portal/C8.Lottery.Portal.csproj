@@ -580,6 +580,7 @@
     <Content Include="images\rq-cur-n.png" />
     <Content Include="images\rq-num-bg.png" />
     <Content Include="images\star.png" />
+    <Content Include="images\totop.png" />
     <Content Include="images\upbtn.png" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
@@ -671,6 +672,7 @@
     <Content Include="Views\Home\副本 Index.cshtml" />
     <Content Include="Views\Personal\TakeBet.cshtml" />
     <Content Include="Views\Personal\Notice.cshtml" />
+    <Content Include="Views\Plan\PlayRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

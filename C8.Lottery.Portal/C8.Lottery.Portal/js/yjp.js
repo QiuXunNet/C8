@@ -289,6 +289,8 @@ $(function () {
             $(".GS_box").show();
             $(".GS_btn").show();
         }
+        $("#curNavIndex").val(Trzy);
+        $(".GS_nav li:eq(0)").trigger("click");
         $(this).addClass("current").siblings().removeClass("current");
         $(".Plan_content .Plan_CInfo").eq(Trzy).show().siblings().hide();
     });
