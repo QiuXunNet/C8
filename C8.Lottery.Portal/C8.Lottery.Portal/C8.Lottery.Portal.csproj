@@ -131,6 +131,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AchievementModel.cs" />
+    <Compile Include="Models\ACHVModel.cs" />
     <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
@@ -661,6 +663,9 @@
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
     <Content Include="Views\Personal\TakeBet.cshtml" />
+    <Content Include="Views\Personal\MyAchievement.cshtml" />
+    <Content Include="Views\Personal\GetLottery.cshtml" />
+    <Content Include="Views\Personal\GetIntegralRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
