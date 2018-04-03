@@ -161,7 +161,7 @@ namespace C8.Lottery.SignalR
                     SendPeople = userId,
                     Content = message,
                     PhotoImg = photoImg,
-                    SendTimeStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    SendTimeStr = DateTime.Now.ToString("HH:mm")
                 };
                 Clients.Group(room).sendMessage(data);
             }

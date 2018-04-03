@@ -2,187 +2,228 @@
     Layout = null;
 }
 
+@*<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" type="text/css" href="/css/Chat/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="/css/Chat/chat.css">
+    </head>
+    <body>
+        <div class="chatContainer">
+            <div class="chatBtn">
+                <i class="iconfont icon-xiaoxi1"></i>
+            </div>
+            <div class="chat-message-num">10</div>
+            <div class="chatBox" ref="chatBox">
+                <div class="chatBox-head">
+                    <div class="chatBox-head-two" style="display: block;height: 40px;">
+                        <div style="display: inline-block;width: 8%;height: 50px;line-height:  40px;">&lt;</div>
+                        <div style="width:80%;height: 40px;/* line-height: 40px; */display:  inline-block;">
+                            <div style="width:100%;text-align:center;font-size:16px;height: 30px;line-height:  30px;">某某聊天室</div>
+                            <div style="width:100%;text-align:center;font-size: 10px;height: 10px;">在线人数 <span id="lineNumber"></span></div>
+                        </div>
+                        <div style="width: 8%;height: 40px;line-height: 40px;display:  inline-block;">关闭</div>
+                    </div>
+                </div>
+                <div class="chatBox-info" style="height: 690px;">
+                    <div class="chatBox-kuang" ref="chatBoxkuang" style="height: 690px; display: block;">
+                        <div class="chatBox-content" style="height: 644px;">
+                            <div class="chatBox-content-demo" id="chatBox-content-demo" style="height: 644px;">
+                            </div>
+                        </div>
+                        <div class="chatBox-send">
+                            <div class="div-textarea" contenteditable="true" style="width: 394px;"></div>
+                            <div>
+                                <button id="chat-biaoqing" class="btn-default-styles">
+                                    <i class="iconfont icon-biaoqing"></i>
+                                </button>
+                                <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
+                                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden">
+                                    <i class="iconfont icon-tuxiang"></i>
+                                </label>
+                                <button id="chat-fasong" class="btn-default-styles">
+                                    <i class="iconfont icon-fasong"></i>
+                                </button>
+                            </div>
+                            <div class="biaoqing-photo" style="display: none;">
+                                <ul>
+                                    <li><span class="emoji-picker-image" style="background-position: -9px -18px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -40px -18px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -71px -18px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -102px -18px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -133px -18px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -164px -18px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -9px -52px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -40px -52px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -71px -52px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -102px -52px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -133px -52px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -164px -52px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -9px -86px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -40px -86px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -71px -86px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -102px -86px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -133px -86px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -164px -86px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -9px -120px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -40px -120px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -71px -120px;"></span></li>
+                                    <li>
+                                        <span class="emoji-picker-image" style="background-position: -102px -120px;"></span>
+                                    </li>
+                                    <li>
+                                        <span class="emoji-picker-image" style="background-position: -133px -120px;"></span>
+                                    </li>
+                                    <li>
+                                        <span class="emoji-picker-image" style="background-position: -164px -120px;"></span>
+                                    </li>
+                                    <li><span class="emoji-picker-image" style="background-position: -9px -154px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -40px -154px;"></span></li>
+                                    <li><span class="emoji-picker-image" style="background-position: -71px -154px;"></span></li>
+                                    <li>
+                                        <span class="emoji-picker-image" style="background-position: -102px -154px;"></span>
+                                    </li>
+                                    <li>
+                                        <span class="emoji-picker-image" style="background-position: -133px -154px;"></span>
+                                    </li>
+                                    <li>
+                                        <span class="emoji-picker-image" style="background-position: -164px -154px;"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;height:100%;display:none;position:absolute;top:0px;left:0px;background-color:#000" id="BigImgDiv">
+            <img alt="" src="" id="BigImg" onclick="hideBigImg()"/>
+        </div>*@
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" href="/css/Chat/iconfont.css">
-    <link rel="stylesheet" type="text/css" href="/css/Chat/chat.css">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+    <title>首页</title>
+    <link rel="stylesheet" href="/css/Chat/base.css" />
+    <link rel="stylesheet" href="/css/Chat/index.css" />
 </head>
 <body>
-    <div class="chatContainer">
-        <div class="chatBtn">
-            <i class="iconfont icon-xiaoxi1"></i>
-        </div>
-        <div class="chat-message-num">10</div>
-        <div class="chatBox" ref="chatBox">
-            <div class="chatBox-head">
-                <div class="chatBox-head-two" style="display: block;height: 40px;">
-                    <div style="display: inline-block;width: 8%;height: 50px;line-height:  40px;">&lt;</div>
-                    <div style="width:80%;height: 40px;/* line-height: 40px; */display:  inline-block;">
-                        <div style="width:100%;text-align:center;font-size:16px;height: 30px;line-height:  30px;">某某聊天室</div>
-                        <div style="width:100%;text-align:center;font-size: 10px;height: 10px;">在线人数 <span id="lineNumber"></span></div>
-                    </div>
-                    <div style="width: 8%;height: 40px;line-height: 40px;display:  inline-block;">关闭</div>
+    <!--页面内容-->
+    <div class="layout">
+
+        <header class="topBarBox">
+            <div class="topBar">
+                <a href="/Talking/Index" class="back"></a>
+                <h3>
+                    <p class="title">@Html.Raw(ViewBag.RommName + "聊天室")</p>
+                    <div class="pepleOnlie"><span id="lineNumber">0</span>人在线</div>
+                </h3>
+                <div class="topMenu">
+                    <a href="#">分享</a>
+                    <a href="#">管理</a>
                 </div>
             </div>
-            <div class="chatBox-info" style="height: 690px;">
-                <div class="chatBox-kuang" ref="chatBoxkuang" style="height: 690px; display: block;">
-                    <div class="chatBox-content" style="height: 644px;">
-                        <div class="chatBox-content-demo" id="chatBox-content-demo" style="height: 644px;">
-                        </div>
-                    </div>
-                    <div class="chatBox-send">
-                        <div class="div-textarea" contenteditable="true" style="width: 394px;"></div>
-                        <div>
-                            <button id="chat-biaoqing" class="btn-default-styles">
-                                <i class="iconfont icon-biaoqing"></i>
-                            </button>
-                            <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
-                                <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden">
-                                <i class="iconfont icon-tuxiang"></i>
-                            </label>
-                            <button id="chat-fasong" class="btn-default-styles">
-                                <i class="iconfont icon-fasong"></i>
-                            </button>
-                        </div>
-                        <div class="biaoqing-photo" style="display: none;">
-                            <ul>
-                                <li><span class="emoji-picker-image" style="background-position: -9px -18px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -40px -18px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -71px -18px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -102px -18px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -133px -18px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -164px -18px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -9px -52px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -40px -52px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -71px -52px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -102px -52px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -133px -52px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -164px -52px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -9px -86px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -40px -86px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -71px -86px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -102px -86px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -133px -86px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -164px -86px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -9px -120px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -40px -120px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -71px -120px;"></span></li>
-                                <li>
-                                    <span class="emoji-picker-image" style="background-position: -102px -120px;"></span>
-                                </li>
-                                <li>
-                                    <span class="emoji-picker-image" style="background-position: -133px -120px;"></span>
-                                </li>
-                                <li>
-                                    <span class="emoji-picker-image" style="background-position: -164px -120px;"></span>
-                                </li>
-                                <li><span class="emoji-picker-image" style="background-position: -9px -154px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -40px -154px;"></span></li>
-                                <li><span class="emoji-picker-image" style="background-position: -71px -154px;"></span></li>
-                                <li>
-                                    <span class="emoji-picker-image" style="background-position: -102px -154px;"></span>
-                                </li>
-                                <li>
-                                    <span class="emoji-picker-image" style="background-position: -133px -154px;"></span>
-                                </li>
-                                <li>
-                                    <span class="emoji-picker-image" style="background-position: -164px -154px;"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        </header>
+        <main class="main">
+            <ul class="chat-thread" id="ChatList"></ul>
+        </main>
+        <footer class="footerBox">
+            <div class="re_footer clearfix">
+                @*<img src="images/icon_03.png" class="brow">*@
+
+                <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
+                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
+                    <i class="iconfont icon-tuxiang"></i>
+                </label>
+                <img src="/images/chat/icon_06.png" class="photo">
+                <div class="reply_box"> <input type="text" name="" class="reply" id="MessageContent"> </div>
+                <input type="text" value="发送" class="ent" id="SendMessageBtn">
             </div>
+        </footer>
+    </div>
+    <div id="emojiDiv" style="position:absolute;background-color:#fff;bottom:51px;left:0px;height:150px;overflow-y: scroll;display: none;">
+        <ul>
+        </ul>
+        </div>
+    <div class="transparentBox">
+        <div class="transparentBg"></div>
+        <div class="big_img">
+            <img id="BigImg" src="images/chat_15.png" onclick="hideBigImg()">
         </div>
     </div>
-    <div style="width:100%;height:100%;display:none;position:absolute;top:0px;left:0px;background-color:#000" id="BigImgDiv">
-        <img alt="" src="" id="BigImg" onclick="hideBigImg()"/>
-    </div>
+
     <script src="/Scripts/jquery-1.8.0.min.js"></script>
+
     <script src="/Scripts/jquery.signalR-2.2.3.min.js"></script>
     <!--这里要注意,这是虚拟目录,也就是你在OWIN Startup中注册的地址-->
     <script type="text/javascript" src="http://localhost:57792/signalr/hubs"></script>
+
     <script type="text/javascript">
         $(function () {
-            screenFuc();
-        });
+            var winH = $(window).height();
+            var winW = $(window).width();
+            $('.transparentBox').height = winH
+            $('.chat_img img').on("click", function () {
+                $('.transparentBox').show()
+            }).mouseleave(function () {
+                $('.transparentBox').hide()
+            });
 
-        function screenFuc() {
-            var topHeight = $(".chatBox-head").innerHeight();//聊天头部高度
-            //屏幕小于768px时候,布局change
-            var winWidth = $(window).innerWidth();
-            if (winWidth <= 768) {
-                var totalHeight = $(window).height(); //页面整体高度
-                $(".chatBox-info").css("height", totalHeight - topHeight);
-                var infoHeight = $(".chatBox-info").innerHeight();//聊天头部以下高度
-                //中间内容高度
-                $(".chatBox-content").css("height", infoHeight - 46);
-                $(".chatBox-content-demo").css("height", infoHeight - 46);
+            $(".main").height(winH - 65 - 51);
 
-                $(".chatBox-list").css("height", totalHeight - topHeight);
-                $(".chatBox-kuang").css("height", totalHeight - topHeight);
-                $(".div-textarea").css("width", winWidth - 106);
+            $("#emojiDiv").width(winW);
 
-                $("#BigImgDiv").css({ width: winWidth, height: totalHeight });
-                $("#BigImg").css({ maxWidth: winWidth, maxHeight: totalHeight });
-            } else {
-                $(".chatBox-info").css("height", 495);
-                $(".chatBox-content").css("height", 448);
-                $(".chatBox-content-demo").css("height", 448);
-                $(".chatBox-list").css("height", 495);
-                $(".chatBox-kuang").css("height", 495);
-                $(".div-textarea").css("width", 260);
+            $("#emojiDiv").css({ "padding-left": (winW % 15) + "px" });
+
+            var lis = "";
+            for (var i = 1; i <= 91; i++) {
+                lis += ' <li data-index=' + i +'><img src="/images/emoji/qq/'+i+'.gif" /></li>';
             }
-        }
-        (window.onresize = function () {
-            screenFuc();
-        })();
-        //未读信息数量为空时
-        var totalNum = $(".chat-message-num").html();
-        if (totalNum == "") {
-            $(".chat-message-num").css("padding", 0);
-        }
-        $(".message-num").each(function () {
-            var wdNum = $(this).html();
-            if (wdNum == "") {
-                $(this).css("padding", 0);
-            }
+            $("#emojiDiv ul").append(lis);
+
+            $(".photo").click(function () {
+                if (!$("#emojiDiv").is(':visible')) {
+                    $("#emojiDiv").show().scrollTop(0);
+                } else {
+                    $("#emojiDiv").hide();
+                }
+                
+            });
+
+            $("#emojiDiv ul li").click(function () {
+                $("#emojiDiv").hide();
+                var i = $(this).attr("data-index");
+                var message = "[emoji_" + i + "]";
+                var guid = newGuid();
+                message = "[ico]" + message + "[" + guid + "]";
+
+                var obj = {};
+                obj.Content = message;
+                obj.SendPeople = userId;
+                obj.UserName = userName;
+                obj.PhotoImg = photoImg;
+                obj.RoomId = roomName;
+                obj.Type = 2;
+                obj.Guid = guid;
+                addMessage(obj);
+
+                chat.server.sendMessage(message);
+            })
         });
 
         //      发送表情
         $("#chat-biaoqing").click(function () {
             $(".biaoqing-photo").toggle();
         });
-        //$(document).click(function () {
-        //    $(".biaoqing-photo").css("display", "none");
-        //});
-        //$("#chat-biaoqing").click(function (event) {
-        //    event.stopPropagation();//阻止事件
-        //});
+
 
         $(".emoji-picker-image").click(function () {
 
         });
 
-        //$(".emoji-picker-image").each(function () {
-        //    $(this).click(function () {
-        //        var bq = $(this).parent().html();
-        //        console.log(bq)
-        //        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        //            "<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +
-        //            "<div class=\"right\"> <div class=\"chat-message\"> " + bq + " </div> " +
-        //            "<div class=\"chat-avatars\"><img src=\"/images/icon01.png\" alt=\"头像\" /></div> </div> </div>");
-        //        //发送后关闭表情框
-        //        $(".biaoqing-photo").toggle();
-        //        //聊天框默认最底部
-        //        $(document).ready(function () {
-        //            $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-        //        });
-        //    })
-        //});
     </script>
 
     <!-- SignalR消息推送 -->
@@ -192,6 +233,7 @@
         var userName = "@ViewBag.UserName";
         var userId = "@ViewBag.UserId";
         var photoImg = "@ViewBag.PhotoImg";
+        var isAdmin = "@ViewBag.IsAdmin";
         var isTop = false;  //历史消息是否已经到顶
 
         $(function () {
@@ -205,16 +247,12 @@
 
             //显示消息（接受者）
             chat.client.sendMessage = function (result) {
-                
+
                 $(result).each(function (data) {
-                    insertMessage(this, 1);                   
+                    insertMessage(this, 1);
                 });
-                var win = $("#chatBox-content-demo");
-                win.scrollTop(win[0].scrollHeight);
-                //var win = $(".c-chatCont");
-                //win.scrollTop(win[0].scrollHeight);
-                /*message.show();
-                bind();*/
+                $('.main').scrollTop($('.main')[0].scrollHeight)
+                setTimeout("$('.main').scrollTop($('.main')[0].scrollHeight)", 100);
             };
 
             //加载在线人员
@@ -240,28 +278,25 @@
                     $(".div-textarea").text("你已经被管理员禁言");
                     $(".div-textarea").attr("contenteditable", false);
                 }
-                $("#" + guid).remove();
             }
 
-            $("#chat-fasong").click(function () {
+            $("#SendMessageBtn").click(function () {
                 SendMessage();
-            });  
-
-           
+            });
 
             //首次加载添加聊天记录
             addChatRecord(0);
 
             //滚动条滚动事件
-            $("#chatBox-content-demo").bind("scroll", function () {
-                var sTop = $("#chatBox-content-demo").scrollTop();
+            $(".main").bind("scroll", function () {
+                var sTop = $(".main").scrollTop();
                 var sTop = parseInt(sTop);
                 if (sTop == 0) {
                     addChatRecord(1);
-                    $("#chatBox-content-demo").scrollTop(1);
+                    $(".main").scrollTop(1);
                 }
             });
-          
+
         });
 
         //获取历史聊天记录
@@ -270,11 +305,11 @@
                 return;
             var roomId = roomName;
             var guid;
-            if ($("#chatBox-content-demo").children().length == 0) {
+            if ($("#ChatList").children().length == 0) {
                 guid = "";
             }
             else {
-                guid = $("#chatBox-content-demo").children().eq(0).attr("Id")
+                guid = $("#ChatList").children().eq(0).attr("Id")
             }
 
             $.post("/Talking/GetMessageList", { roomId: roomId, guid: guid }, function (data) {
@@ -283,12 +318,12 @@
                         isTop = true;
                     $(data.DataList).each(function () {
                         insertMessage(this, 2);
-                    }); 
+                    });
                     if (source == 0) {
-                        var win = $("#chatBox-content-demo");
-                        win.scrollTop(win[0].scrollHeight);
-                    }                   
-                }                          
+                        $('.main').scrollTop($('.main')[0].scrollHeight)
+                        setTimeout("$('.main').scrollTop($('.main')[0].scrollHeight)",200) ;
+                    }
+                }
             });
         }
 
@@ -309,70 +344,78 @@
             }
             if (data.Content.indexOf("[ico]") == 0) {
                 type = 2;
-                message = data.Content.substr(5, data.Content.length - 5 - 34);
+                message = "/images/emoji/qq/"+ data.Content.substr(12, data.Content.length - 12 - 34 - 1)+".gif";
                 guid = data.Content.substr(data.Content.length - 33, 32);
             }
 
-            if (userId == data.SendPeople) {
-                html += " <div class='clearfloat messageOption' id ='" + guid + "' data-UserId='" + data.SendPeople+"'>";
-                html += "       <div class='right'>";
-                html += "           <div class='chat-messageDiv'>";
-                html += "               <div class='chat-nameTime'>";
-                html += " <span><a href ='javascript:void(0)' onclick = 'delMessage(this)'>删除</a>&nbsp;<a href ='javascript:void(0)' onclick = 'blacklisted(this)'>拉黑</a></span> "
-                html += "                   <small class='chat-date'>" + data.SendTimeStr + "</small>";
-                html += "                   <span class='chat-nameSpan'>" + data.UserName + "</span>";
-                html += "               </div>";
-                switch (type) {
-                    case 1:
-                        html += "               <div class='chat-message'>" + message + "</div>";
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        html += "               <div class='chat-message'><img src='" + message + "' alt='' onclick='showBigImg(\"" + message + "\")'></div>";
-                        break;
-                }
-                html += "           </div>";
-                html += "           <div class='chat-avatars'><img src='" + data.PhotoImg + "' alt='头像'></div>";
-                html += "       </div>";
-                html += "   </div>";
-            } else {
-                html += " <div class='clearfloat messageOption' id ='" + guid + "' data-UserId='" + data.SendPeople +"'>";
-                html += "       <div class='left'>";
-                html += "           <div class='chat-avatars'><img src='" + data.PhotoImg + "' alt='头像'></div>";
-                html += "           <div class='chat-messageDiv'>";
-                html += "               <div class='chat-nameTime'>";
-                html += "                   <span class='chat-nameSpan'>" + data.UserName + "</span>";
-                html += "                   <small class='chat-date'>" + data.SendTimeStr + "</small>";
-                html += " <span><a href ='javascript:void(0)' onclick = 'delMessage(this)'>删除</a>&nbsp;<a href ='javascript:void(0)' onclick = 'blacklisted(this)'>拉黑</a></span> ";
-                html += "               </div>";
-                switch (type) {
-                    case 1:
-                        html += "               <div class='chat-message'>" + message + "</div>";
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        html += "               <div class='chat-message'><img src='" + message + "' alt='' onclick='showBigImg(\"" + message + "\")'></div>";
-                        break;
-                }
-                html += "           </div>";
-                html += "       </div>";
-                html += "   </div>";
+            html += "<li class='" + ((userId == data.SendPeople) ? "right" :"left")+" clearfix messageOption' id ='" + guid + "' data-UserId='" + data.SendPeople +"'>";
+            html += "    <img src='" + data.PhotoImg + "' class='headicon'>";
+            html += "    <div class='chat_box'>";
+            html += "        <div class='inform'>";
+            if (isAdmin == "1") {
+                html += "            <span class='adm'>管理员</span>";
             }
+            html += "            <span class='nickname'>" + data.UserName + "</span>";
+            html += "            <span class='time'>" + data.SendTimeStr + "</span>";
+            html += "        </div>";
+            switch (type) {
+                case 1:
+                    html += "   <div class='chat_t'>" + message + "</div>";
+                    break;
+                case 2:
+                    html += "    <div class='chat_t'><img src='" + message + "'></div>";
+                    break;
+                case 3:
+                    html += "    <div class='chat_t'><img src='" + message + "' onclick='showBigImg(\"" + message + "\")'></div>";
+                    break;
+            }
+            if (isAdmin == "1"){
+                html += "<div class='deel'>";
+                html += "   <span class='red' onclick = 'delMessage(this)'>删除</span>";
+                html += "   <span class='gray' onclick = 'blacklisted(this)'>拉黑</span>";
+                html += "</div>";
+            }
+            html += "   </div>";
+            html += "</li>";
+
+
+
+                //html += " <div class='clearfloat messageOption' id ='" + guid + "' data-UserId='" + data.SendPeople+"'>";
+                //html += "       <div class='right'>";
+                //html += "           <div class='chat-messageDiv'>";
+                //html += "               <div class='chat-nameTime'>";
+                //html += " <span><a href ='javascript:void(0)' onclick = 'delMessage(this)'>删除</a>&nbsp;<a href ='javascript:void(0)' onclick = 'blacklisted(this)'>拉黑</a></span> "
+                //html += "                   <small class='chat-date'>" + data.SendTimeStr + "</small>";
+                //html += "                   <span class='chat-nameSpan'>" + data.UserName + "</span>";
+                //html += "               </div>";
+                //switch (type) {
+                //    case 1:
+                //        html += "               <div class='chat-message'>" + message + "</div>";
+                //        break;
+                //    case 2:
+                //        break;
+                //    case 3:
+                //        html += "               <div class='chat-message'><img src='" + message + "' alt='' onclick='showBigImg(\"" + message + "\")'></div>";
+                //        break;
+                //}
+                //html += "           </div>";
+                //html += "           <div class='chat-avatars'><img src='" + data.PhotoImg + "' alt='头像'></div>";
+                //html += "       </div>";
+                //html += "   </div>";
+
             if (insertType == 1) {
-                $("#chatBox-content-demo").append(html);
+                $("#ChatList").append(html);
             }
             else {
-                $("#chatBox-content-demo").prepend(html);
-            }            
+                $("#ChatList").prepend(html);
+            }
         }
 
         //发送消息
         function SendMessage() {
-            var message = $(".div-textarea").text();
+            var message = $("#MessageContent").val();
             if ($.trim(message)) {
-                $(".div-textarea").text("");
+                $("#MessageContent").val("");
                 var guid = newGuid();
                 var message = "[text]" + message + "[" + guid + "]";
 
@@ -409,7 +452,7 @@
 
             var obj = {};
             obj.UserId = userId;
-            obj.RoomId = roomName;           
+            obj.RoomId = roomName;
 
             $.post("/Talking/AddBlackList", obj, function (data) { });
 
@@ -417,13 +460,13 @@
         }
 
         function showBigImg(url) {
-            $("#BigImgDiv").show();
+            $('.transparentBox').show()
             $("#BigImg").attr("src", url.substr(0, url.length-8)+".jpg");
         }
 
         function hideBigImg() {
-            $("#BigImgDiv").hide();
-        }      
+            $('.transparentBox').hide()
+        }
 
         function replaceAll(str) {
             for (var i = 0; i < str.length; i++) {
@@ -437,7 +480,7 @@
             var guid = "";
             for (var i = 1; i <= 32; i++) {
                 var n = Math.floor(Math.random() * 16.0).toString(16);
-                guid += n;                
+                guid += n;
             }
             return guid;
         }

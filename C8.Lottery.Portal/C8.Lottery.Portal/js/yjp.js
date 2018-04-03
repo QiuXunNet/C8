@@ -295,9 +295,9 @@ $(function () {
     });
 
     /*C8 弹窗 js*/
-    $(".C8_TcDl dd .C8_Qiu").click(function () {
-        $(this).toggleClass("current");
-    });
+    //$(".C8_TcDl dd .C8_Qiu").click(function () {
+    //    $(this).toggleClass("current");
+    //});
 
 
 

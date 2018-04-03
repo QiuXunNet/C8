@@ -21755,7 +21755,7 @@ namespace C8.Lottery.Public
 
             return result;
         }
-
+        
 
         public static string HandIssueSpecial(int lType, DateTime d, string date, string issue, string result)
         {
