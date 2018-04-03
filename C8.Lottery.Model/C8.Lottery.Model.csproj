@@ -50,6 +50,7 @@
     <Compile Include="Enum\LikeStatusEnum.cs" />
     <Compile Include="Enum\ResourceTypeEnum.cs" />
     <Compile Include="Follow.cs" />
+    <Compile Include="IntegralRule.cs" />
     <Compile Include="Lottery.cs" />
     <Compile Include="MakeMoneyTask.cs" />
     <Compile Include="News\Comment.cs" />

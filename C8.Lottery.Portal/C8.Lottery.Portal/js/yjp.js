@@ -58,7 +58,7 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
         var zhi = $(this).index();
         $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
-
+      
         $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
     });
 
@@ -67,8 +67,9 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
 
         var zhi = $(this).index();
+  
         $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-
+      
         //展开项添加选中
         $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
         $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
@@ -369,13 +370,14 @@ $(function () {
     };
 
     /**我的成绩 彩种切换 */
-    $("#lottery_type li").on('click', function () {
-        var _this = $(this);
-        var _index = _this.attr("data-type-id");
-        _this.addClass("current").siblings().removeClass("current");
+    //$("#lottery_type li").on('click', function () {
+    //    var _this = $(this);
+    //    var _index = _this.attr("data-type-id");
 
-        $(".wrapper-container .Grades" + _index).show().siblings().hide();
-    });
+    //    _this.addClass("current").siblings().removeClass("current");
+    //    alert(_index);
+    //    $(".wrapper-container .Grades_" + _index).show().siblings().hide();
+    //});
 
     //$("#Gues1 .comp_DZ i").click(function () {
 
