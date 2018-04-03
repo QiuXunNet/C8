@@ -1184,6 +1184,217 @@ WHERE rowNumber BETWEEN @Start AND @End";
         }
 
 
+        /// <summary>
+        /// 我的成绩
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyAchievement()
+        {
+           ACHVModel model =new ACHVModel();
+            try
+            {
+                string lotterytypesql = @"select  * from LotteryType
+                              order by SortCode asc";
+                List<LotteryType> LotteryTypelist = Util.ReaderToList<LotteryType>(lotterytypesql);//频道
+                string lotterysql = @"select * from Lottery
+                                where IsHot = 0";
+                List<C8.Lottery.Model.Lottery> LotteryList = Util.ReaderToList<C8.Lottery.Model.Lottery>(lotterysql);//采种
+
+                string lotteryhotsql = @"select * from Lottery
+                                where IsHot = 1";
+                List<C8.Lottery.Model.Lottery> HotLotteryTypeList = Util.ReaderToList<C8.Lottery.Model.Lottery>(lotteryhotsql);//热门采种
+
+                string IntegralRulesql = @"select * from IntegralRule";
+                List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
+                model.LotteryType = LotteryTypelist;
+                model.HotLottery = HotLotteryTypeList;
+                model.Lottery = LotteryList;
+                model.IntegralRule = IntegralRuleList;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+
+
+            return View(model);
+     
+        }
+
+        /// <summary>
+        /// 彩种
+        /// </summary>
+        /// <param name="ltype"></param>
+        /// <returns></returns>
+        public PartialViewResult GetLottery(int ltype)
+        {
+            try
+            {
+                string strsql = string.Format("select * from Lottery where lType={0} and IsHot=0", ltype);
+                List<C8.Lottery.Model.Lottery> list = Util.ReaderToList<C8.Lottery.Model.Lottery>(strsql);
+              
+                ViewBag.ltype = ltype;
+                ViewBag.LotteryList = list;
+     
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+ 
+
+            return PartialView("GetLottery");
+        }
+        
+        /// <summary>
+        /// 玩法
+        /// </summary>
+        /// <param name="ltype"></param>
+        /// <returns></returns>
+        public PartialViewResult GetIntegralRule(int ltype,int ishot)
+        {
+            
+            try
+            {
+                string strsql = string.Format("select * from IntegralRule where lType={0}", ltype);
+                List<IntegralRule> list = Util.ReaderToList<IntegralRule>(strsql);
+                ViewBag.ltype = ltype;
+                ViewBag.ishot = ishot;
+                ViewBag.IntegralRuleList = list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return PartialView("GetIntegralRule");
+
+        }
+
+
+        /// <summary>
+        /// 获取成绩
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        public JsonResult GetMyBet(int lType,string PlayName, int pageIndex = 1, int pageSize = 20)
+        {
+            string strsql = string.Empty;
+            string numsql = string.Empty;
+            string countsql = string.Empty;
+            var result = new AjaxResult<PagedList<AchievementModel>>();
+            int UserId = UserHelper.GetByUserId();
+          
+            var pager = new PagedList<AchievementModel>();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            if (PlayName == "全部")//全部
+            {
+                strsql = string.Format(@"select * from BettingRecord   where UserId ={0} and lType = {1}", UserId, lType);
+                numsql =string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber,  Num,l.SubTime,l.Issue from LotteryRecord l
+	  ,BettingRecord b
+	  where b.Issue=l.Issue and b.lType=l.lType
+	  and b.UserId={0} and b.lType={1}  and b.WinState in(3,4)
+	  group by l.Issue,Num,l.SubTime
+	  )t
+	  where   rowNumber BETWEEN {2} AND {3}  ", UserId,lType,pager.PageIndex,pager.PageSize);
+                countsql = string.Format(@"	  select count(distinct Issue)from BettingRecord  
+	     where UserId={0} and lType={1} and WinState in(3,4)",UserId,lType);
+            }
+            else
+            {
+                strsql = string.Format(@"
+                select * from BettingRecord   where UserId ={0} and lType = {1}  and PlayName = '{2}'", UserId, lType, PlayName);
+                numsql =string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber,  Num,l.SubTime,l.Issue from LotteryRecord l
+	  ,BettingRecord b
+	  where b.Issue=l.Issue and b.lType=l.lType
+	  and b.UserId={0} and b.lType={1} and b.PlayName='{2}'  and b.WinState in(3,4)
+	  group by l.Issue,Num,l.SubTime
+	  )t
+	  where   rowNumber BETWEEN {3} AND {4} ", UserId,lType,PlayName, pager.PageIndex, pager.PageSize);
+              countsql = string.Format(@"select count(distinct Issue)from BettingRecord  
+	     where UserId={0} and lType={1}   and PlayName='{2}' and WinState in(3,4)", UserId, lType,PlayName);
+
+            }
+
+            try
+            {
+                List<LotteryNum> listnum = Util.ReaderToList<LotteryNum>(numsql);//我对应的开奖数据
+                List<BettingRecord> listbet = Util.ReaderToList<BettingRecord>(strsql);
+                List<AchievementModel> list = new List<AchievementModel>();
+                if (listnum.Count > 0)
+                {
+                    foreach (var item in listnum)
+                    {
+                        AchievementModel model = new AchievementModel();
+                        LotteryNum l = new LotteryNum();
+                        l.Issue = item.Issue;
+                        l.Num = item.Num;
+                        l.SubTime =Convert.ToDateTime(item.SubTime).ToString("yyyy-MM-dd");
+                        model.LotteryNum = l;
+                        if (listbet.Count() > 0)
+                            model.BettingRecord = listbet.Where(x => x.Issue == item.Issue).ToList();
+                        list.Add(model);
+
+                    }
+                }
+                pager.PageData = list;
+
+                object obj = SqlHelper.ExecuteScalar(countsql);
+                pager.TotalCount = Convert.ToInt32(obj ?? 0);
+
+                result.Data = pager;
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+            }
+          
+
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 获取采种
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetLottery1(int ltype)
+        {
+            string strsql = string.Empty;
+            ReturnMessageJson msg = new ReturnMessageJson();
+            if (ltype == 0)//热门
+            {
+                strsql = "select * from Lottery where IsHot=1";
+            }
+            else
+            {
+                strsql =string.Format("select * from Lottery where lType={0} and IsHot=0",ltype);
+            }
+            try
+            {
+                List<C8.Lottery.Model.Lottery> list = Util.ReaderToList<C8.Lottery.Model.Lottery>(strsql);
+                msg.data = list;
+                msg.Success = true;
+            }
+            catch (Exception ex)
+            {
+             
+                msg.Success = false;
+                msg.Msg = ex.Message;
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
 
