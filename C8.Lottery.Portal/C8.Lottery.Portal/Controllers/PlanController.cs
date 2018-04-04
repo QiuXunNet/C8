@@ -127,11 +127,41 @@ namespace C8.Lottery.Portal.Controllers
             //title
             ViewBag.title = "发布计划-" + lotteryName;
 
+            //剩余时间
+            string time = Util.GetOpenRemainingTime(lType);
+
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+
+                ViewBag.min = timeArr[1];
+                ViewBag.sec = timeArr[2];
+
+                if (lType < 9)
+                {
+                    ViewBag.hour = timeArr[0];
+                }
+
+            }
+            else
+            {
+                ViewBag.time = "正在开奖";
+            }
+
+
+
             //3.最后一期
             string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
             ViewBag.lastIssueDesc = "第" + lr.Issue + "期开奖号码:";
             ViewBag.lastNum = lr.Num;
+
+
+
+            //3.最新5期
+            sql = "select top(5)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            ViewBag.lastFive = Util.ReaderToList<LotteryRecord>(sql);
+
 
             //当前期号
             string currentIssue = Util.GetCurrentIssue(lType);
@@ -189,6 +219,23 @@ namespace C8.Lottery.Portal.Controllers
 
 
             return Content("ok");
+        }
+
+
+        //发帖规则
+        public ActionResult Rule(int id)
+        {
+            string name = Util.GetLotteryTypeName(id);
+
+
+            ViewBag.lType = id;
+            ViewBag.title1 = "规则说明-" + name;
+            ViewBag.title2 = name + "规则说明";
+            ViewBag.title3 = "万彩" + name + "玩法规则说明:";
+            ViewBag.title4 =  name + "玩法积分规则:";
+
+
+            return View();
         }
         
     }

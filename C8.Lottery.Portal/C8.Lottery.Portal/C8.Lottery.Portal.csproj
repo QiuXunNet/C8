@@ -641,6 +641,7 @@
     <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
+    <Content Include="Views\Plan\Rule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
