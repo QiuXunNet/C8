@@ -21755,7 +21755,7 @@ namespace C8.Lottery.Public
 
             return result;
         }
-
+        
 
         public static string HandIssueSpecial(int lType, DateTime d, string date, string issue, string result)
         {
@@ -22586,6 +22586,7 @@ namespace C8.Lottery.Public
         }
 
 
+        
 
 
         public static string GetTwoDateChaWithOutHour(DateTime dTemp, DateTime target)
@@ -25178,6 +25179,8 @@ namespace C8.Lottery.Public
             return result2;
 
         }
+
+      
 
 
     }

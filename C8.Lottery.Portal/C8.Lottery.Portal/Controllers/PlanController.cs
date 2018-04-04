@@ -6,11 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
+using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class PlanController : FilterController
+    public class PlanController : BaseController
     {
         //
         // GET: /Plan/
@@ -78,6 +79,12 @@ namespace C8.Lottery.Portal.Controllers
             string icon = Util.GetLotteryIcon(lType) + ".png";
 
             ViewBag.icon = icon;
+
+            #endregion
+
+            #region 高手推荐
+            //查询玩法名称
+            ViewBag.PlayList = GetPlayNames(lType);
 
             #endregion
 
@@ -238,5 +245,227 @@ namespace C8.Lottery.Portal.Controllers
             return View();
         }
         
+
+        /// <summary>
+        /// 近期竞猜
+        /// </summary>
+        /// <param name="id">彩种Id</param>
+        /// <param name="uid">用户Id</param>
+        /// <returns></returns>
+        public ActionResult PlayRecord(int id, int uid)
+        {
+            var loginUserId = UserHelper.LoginUser.Id;
+            ViewBag.lType = id;
+            //step1.查询用户信息
+            var model = UserHelper.GetUser(uid);
+
+            //step2.查询是否关注过该用户
+            string sql = "select count(1) from [dbo].[Follow] where [Status]=1 and [UserId]=" + loginUserId +
+                         " and [Followed_UserId]=" + uid;
+
+            object obj = SqlHelper.ExecuteScalar(sql);
+
+            ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
+
+            #region step3.查询开奖时间
+            //step3.查询开奖时间
+            string time = Util.GetOpenRemainingTime(id);
+
+
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+
+                ViewBag.min = timeArr[1];
+                ViewBag.sec = timeArr[2];
+
+                if (id < 9)
+                {
+                    ViewBag.hour = timeArr[0];
+                }
+
+            }
+            else
+            {
+                ViewBag.time = "正在开奖";
+            }
+            #endregion
+
+            //step4.查询当前用户是否发帖
+            string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and WinState=1";
+            object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
+            ViewBag.IsSub = obj != null && Convert.ToInt32(objIsSub) > 0;
+
+            //step5.查询该彩种玩法列表
+            ViewBag.LTypeName = Util.GetLotteryTypeName(id);
+            ViewBag.PlayList = GetPlayNames(id);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 获取专家列表
+        /// </summary>
+        /// <param name="lType">彩种Id</param>
+        /// <param name="playName">玩法名称</param>
+        /// <param name="type">类型 1=高手推荐 2=免费专家</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult ExpertList(int lType, string playName, int type = 1, int pageIndex = 1, int pageSize = 20)
+        {
+            var result = new AjaxResult<PagedList<Expert>>();
+
+            var pager = new PagedList<Expert>();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+
+            string sqlWhere = type == 1 ? ">=" : "<";
+
+            #region 分页查询专家排行数据行
+            string sql = string.Format(@"select * from (
+ select top 100 row_number() over(order by a.playTotalScore DESC ) as rowNumber,
+    a.*,b.ltypeTotalScore,c.MinIntegral,d.Name,e.RPath as avater 
+from (
+  select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [C8].[dbo].[BettingRecord]
+  where WinState>1
+  group by UserId, lType, PlayName
+ ) a
+  left join (
+   select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [C8].[dbo].[BettingRecord]
+   where WinState>1
+   group by UserId, lType
+  ) b on b.lType=a.lType
+  left join ( 
+	select lType, isnull( min(MinIntegral),0) as MinIntegral 
+	from [dbo].[LotteryCharge] group by lType
+  ) c on c.lType=a.lType
+  left join UserInfo d on d.Id=a.UserId
+  left join ResourceMapping e on e.FkId =a.UserId and e.[Type]=@ResourceType
+
+  where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName and a.lType=@lType 
+  ) tt
+  where tt.rowNumber between @Start and  @End", sqlWhere);
+
+            var sqlParameter = new[]
+            {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@PlayName",playName),
+                new SqlParameter("@lType",lType),
+                new SqlParameter("@Start",pager.StartIndex),
+                new SqlParameter("@End",pager.EndIndex),
+
+            };
+            pager.PageData = Util.ReaderToList<Expert>(sql, sqlParameter);
+
+            pager.PageData.ForEach(x =>
+            {
+                GetLastBettingRecord(x);
+            });
+
+            #endregion
+
+            #region 数据总行数
+            //查询分页总数量
+            string countSql = string.Format(@"select count(1) from (
+  select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [dbo].[BettingRecord]
+  where WinState>1
+  group by UserId, lType, PlayName
+ ) a
+  left join (
+   select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [dbo].[BettingRecord]
+   where WinState>1
+   group by UserId, lType
+  ) b on b.lType=a.lType
+  left join ( 
+	select lType, isnull( min(MinIntegral),0) as MinIntegral 
+	from [dbo].[LotteryCharge] group by lType
+  ) c on c.lType=a.lType
+
+  where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName and a.lType=@lType", sqlWhere);
+
+            var countSqlParameter = new[]
+            {
+                new SqlParameter("@PlayName",playName),
+                new SqlParameter("@lType",lType),
+            };
+            object obj = SqlHelper.ExecuteScalar(countSql, countSqlParameter);
+            int totalCount = Convert.ToInt32(obj ?? 0);
+            pager.TotalCount = totalCount > 100 ? 100 : totalCount;
+            #endregion
+
+            result.Data = pager;
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        /// <summary>
+        /// 获取用户在某一玩法中奖率，最大连中，上期是否中奖
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="filterRow"></param>
+        private void GetLastBettingRecord(Expert model, int filterRow = 1000)
+        {
+            string sql = string.Format(@"select top {0} Issue,WinState from dbo.BettingRecord
+  where lType=@lType and PlayName=@PlayName and UserId=@UserId and WinState>1
+  order by Issue desc", filterRow);
+
+            var sqlParameter = new[]
+            {
+                new SqlParameter("@lType",model.lType),
+                new SqlParameter("@PlayName",model.PlayName),
+                new SqlParameter("@UserId",model.UserId),
+
+            };
+
+            var list = Util.ReaderToList<BettingRecord>(sql, sqlParameter) ?? new List<BettingRecord>();
+
+            //step1.上期是否中奖
+            var lastBettingRecord = list.FirstOrDefault();
+            model.LastWin = lastBettingRecord != null && lastBettingRecord.WinState == 3;
+
+            //step2.查询10中几
+            int winCount = 0;//10中几
+
+            //查询最后10期，并按顺序排序
+            var last10Record = list.Take(10).OrderBy(x => x.Issue);
+            int last10RecordLength = last10Record.Count();
+            if (last10RecordLength > 0)
+            {
+                foreach (var record in last10Record)
+                {
+                    if (record.WinState == 3)
+                        winCount++;
+                }
+                model.HitRate = winCount / last10RecordLength;
+                model.HitRateDesc = string.Format("{0}中{1}", last10RecordLength, winCount);
+            }
+
+            //step3.查询最大连中
+            int continuousWinCount = 0;//最大连中
+            int tempContinuousWinCount = 0;
+            //按期号顺序排序，并遍历
+            foreach (var record in list.OrderBy(x => x.Issue))
+            {
+                if (record.WinState == 3)
+                {
+                    tempContinuousWinCount++;
+                }
+                else
+                {
+                    //当期未中时，将当前最大连中赋值给continuousWinCount，并重置临时计算最大连中
+                    continuousWinCount = tempContinuousWinCount;
+                    tempContinuousWinCount = 0;
+                }
+            }
+            if (tempContinuousWinCount > continuousWinCount)
+                continuousWinCount = tempContinuousWinCount;
+
+            model.MaxWin = continuousWinCount;
+            
+        }
+
+
     }
 }

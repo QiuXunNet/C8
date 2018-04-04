@@ -110,6 +110,35 @@
                 }
 
             });
+            $(".hdNav_cai li").click(function () {
+                var _this = $(this),
+                    i = _this.attr("data-index");
+
+                if (curNavIndex != i) {
+                    _this.addClass("current").siblings().removeClass("current");
+                    //隐藏当前列表和回到顶部按钮
+                    $("#mescroll"+curNavIndex).hide();
+                    mescrollArr[curNavIndex].hideTopBtn();
+                    //显示对应的列表
+                    $("#mescroll"+i).show().siblings().hide();
+                    //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                    if(mescrollArr[i]==null){
+                        mescrollArr[i]=initMescroll("mescroll"+i, "datalist"+i);
+                    }else{
+                        //检查是否需要显示回到到顶按钮
+                        var curMescroll=mescrollArr[i];
+                        var curScrollTop=curMescroll.getScrollTop();
+                        if(curScrollTop>=curMescroll.optUp.toTop.offset){
+                            curMescroll.showTopBtn();
+                        }else{
+                            curMescroll.hideTopBtn();
+                        }
+                    }
+                    //更新标记
+                    curNavIndex=i;
+                }
+
+            });
 
             /*创建MeScroll对象*/
             function initMescroll(mescrollId,clearEmptyId){
@@ -193,13 +222,13 @@
                 if (item.WinState == 1) {
                     itemHtml += '        	<a href="javascript:;" class="det_bj">编辑</a>'
                         + '            <h3 class="det_wkj">未开奖</h3>';
-                } else if (item.WinState == 3 || item.WinState == 4) {
+                } else if (item.WinState == 2) {
                     itemHtml += '<p>已开奖</p>';
                 }
                 itemHtml += '        </div>'
                 + '        <div class="details_ddLeft">'
                 + '            <h3><a href="javascript:;">' + item.LotteryTypeName + '</a></h3>'
-                + '			 <p>第' + item.Issue + '期  ' + item.TimeStr + '</p>'
+                + '			 <p>第' + item.Issue + '期 </p>'
                 + '        </div>'
                 + '    </dd>'
                 + '</dl>';

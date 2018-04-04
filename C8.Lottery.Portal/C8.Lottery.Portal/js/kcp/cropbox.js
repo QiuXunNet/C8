@@ -67,7 +67,9 @@
             setBackground = function()
             {
                 var w =  parseInt(obj.image.width)*obj.ratio;
-                var h =  parseInt(obj.image.height)*obj.ratio;
+                var h = parseInt(obj.image.height) * obj.ratio;
+           
+      
 
                 var pw = (el.width() - w) / 2;
                 var ph = (el.height() - h) / 2;
@@ -77,7 +79,8 @@
 				*/
                 el.css({
                     'background-image': 'url(' + obj.image.src + ')',
-                    'background-size': w +'px ' + h + 'px',
+                    //'background-size': w + 'px ' + h + 'px',
+                    'background-size': w + 'px ' + h + 'px',
                     'background-position': pw + 'px ' + ph + 'px',
                     'background-repeat': 'no-repeat'});
             },

@@ -1,0 +1,65 @@
+﻿@using C8.Lottery.Model;
+@{
+    var IntegralRuleList = ViewBag.IntegralRuleList as List<IntegralRule>;
+    var ltype = ViewBag.ltype;
+    var ishot = ViewBag.ishot;
+}
+
+
+
+    <div class="Grades Grades_@ltype" style="display: none;">
+
+
+
+    <div class="Grades_TopNav">
+        <!--六合彩-->
+        <ul class="Grades_TNul" id="gul_@ltype">
+
+            @if (IntegralRuleList.Count > 0)
+               {
+                   string idx = "0" + ltype;
+                <li data-name="全部"  data-ltype="@ltype" data-idx="@idx" class="current"><a href="javascript:;">全部</a></li>
+                foreach (var item in IntegralRuleList)
+                {
+                    <li data-idx="@Convert.ToInt32(IntegralRuleList.IndexOf(item)+1)@ltype" data-ltype="@ltype" data-name="@item.PlayName"><a href="javascript:;">@item.PlayName</a></li>
+                }
+
+            }
+
+        </ul>
+    </div>
+    <div class="Grades_content" >
+        <!--六合彩-->
+        <div class="Grades_CBox">
+            <!--全部-->
+            <div class="Grades_CBInfo" >
+            @if (IntegralRuleList.Count > 0)
+                        {
+                            string mid = "mescroll_0"+ltype;
+                            string did = "datalist_0"+ltype;
+                  <div id="@mid" class="mescroll">
+                    <div id="@did" class="data-list"></div>
+
+
+                </div>
+
+                foreach (var item in IntegralRuleList)
+                {
+
+                    string mids = "mescroll_"+Convert.ToInt32(IntegralRuleList.IndexOf(item) + 1) + ltype;
+                    string dids = "datalist_"+Convert.ToInt32(IntegralRuleList.IndexOf(item) + 1) + ltype;
+
+                    <div id="@mids" class="mescroll">
+                        <div id="@dids" class="data-list"></div>
+
+
+                    </div>
+                }
+
+
+            }
+
+          </div>
+        </div>
+    </div>
+</div>

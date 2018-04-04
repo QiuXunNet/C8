@@ -1,0 +1,234 @@
+﻿@using C8.Lottery.Model
+@model List<LotteryType>
+@{
+    ViewBag.Title = "TakeBet";
+}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>个人中心-参与竞猜</title>
+    <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="/Personal/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">参与竞猜</a>
+    </header>
+
+    <!-- <div class="guessing_header">
+        <ul class="C8_nav C8_cyjc">
+            <li class="current"><a href="javascript:;"><p>高频彩</p><span></span></a></li>
+            <li><a href="javascript:;"><p>全国彩</p><span></span></a></li>
+            <div style="clear:both;"></div>
+        </ul>
+    </div> -->
+    <div class="hjc_hdNav">
+
+        <div class="hdNav_cai_collect">
+            <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
+            <ul class="hdNav_cai_lhs">
+                <li class="current" data-index="0"><a href="javascript:;">热门</a></li>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li data-index="@item.Icon"><a href="javascript:;">@item.TypeName</a></li>
+                    }
+                }
+            
+               
+                 <div style="clear:bothl;"></div>
+            </ul>
+        </div>
+        <div class="hdNav_cai_expand" style="display:none">
+            <div class="hdNav_cai_title">
+                <span>切换分类</span>
+                <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
+            </div>
+            <ul class="hdNav_cai">
+                <li class="current" data-index="0"><a href="javascript:;">热门</a></li>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li data-index="@item.Icon"><a href="javascript:;">@item.TypeName</a></li>
+                    }
+                }
+                <div style="clear:bothl;"></div>
+            </ul>
+        </div>
+    </div>
+
+    <div class="guessing_content hjc_indexmain" style="margin-top:90px;">
+        
+        <div id="mescroll_0" class="list_mainUl2 gues_info">
+            <div id="datalist_0">
+
+            </div>
+        </div>
+       @if (Model != null)
+       {
+           foreach (var item in Model)
+           {
+                   <div id="mescroll_@item.Icon" class="list_mainUl2 gues_info" style="display:none;">
+            <div id="datalist_@item.Icon">
+
+            </div>
+               </div>
+   
+           }
+       }
+
+
+     
+    </div>
+
+    <div class="mask" style="display:none;"></div>
+
+
+    <script type="text/javascript">
+        $(function () {
+            var curNavIndex = 0;
+            var mescrollArr = new Array(3);
+            mescrollArr[0] = initMescroll("mescroll_0", "datalist_0");
+
+            function pager(obj) {
+                var _this = $(obj),
+                i = _this.attr("data-index");
+
+                if (curNavIndex != i) {
+                    _this.addClass("current").siblings().removeClass("current");
+                    //隐藏当前列表和回到顶部按钮
+                    $("#mescroll_" + curNavIndex).hide();
+                    mescrollArr[curNavIndex].hideTopBtn();
+                    //显示对应的列表
+                    $("#mescroll_" + i).show().siblings().hide();
+                    //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                    if (mescrollArr[i] == null) {
+                        mescrollArr[i] = initMescroll("mescroll_" + i, "datalist_" + i);
+                    } else {
+                        //检查是否需要显示回到到顶按钮
+                        var curMescroll = mescrollArr[i];
+                        var curScrollTop = curMescroll.getScrollTop();
+                        if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                            curMescroll.showTopBtn();
+                        } else {
+                            curMescroll.hideTopBtn();
+                        }
+                    }
+                    //更新标记
+                    curNavIndex = i;
+                }
+            }
+
+            $(".hdNav_cai_lhs li").click(function () {
+            
+                pager($(this));
+            });
+
+            $(".hdNav_cai li").click(function () {
+     
+                pager($(this));
+            });
+
+
+            function initMescroll(mescrollId, clearEmptyId) {
+
+                var mescroll = new MeScroll(mescrollId, {
+                    //上拉加载的配置项
+                    up: {
+                        callback: getListData,
+                        isBounce: false, //此处禁止ios回弹
+                        noMoreSize: 1,
+                        empty: {
+                            icon: "/images/null.png",
+                            tip: "暂无计划~",
+                            //btntext: "去逛逛 >", //按钮,默认""
+                            //btnClick: function() {
+                            //    alertmsg("去逛逛");
+                            //}
+                        },
+                        clearEmptyId: clearEmptyId
+                    }
+                });
+                return mescroll;
+            }
+
+            /*加载列表数据 */
+            function getListData(page) {
+                page.size = 20;
+                console.log(page);
+                //联网加载数据
+                var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+                getListDataFromNet(dataIndex, page.num, page.size, function (pageData, hasNextPage) {
+                    //console.log("dataIndex=" + dataIndex + ", curNavIndex=" + curNavIndex + ", page.num=" + page.num + ", page.size=" + page.size + ", pageData.length=" + pageData.length);
+                    mescrollArr[dataIndex].endSuccess(pageData.length, hasNextPage);
+
+                    //设置列表数据
+                    buildHtml(pageData, dataIndex);
+                }, function () {
+                    //隐藏下拉刷新和上拉加载的状态;
+                    mescrollArr[dataIndex].endErr();
+                });
+            }
+
+
+            function getListDataFromNet(ltype,pageIndex,pageSize,successCallback,errorCallback)
+            {
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        ltype:ltype,           
+                        pageIndex: pageIndex,
+                        pageSize: pageSize
+                    },
+                    async:false,
+                    url: '/Personal/GetBet',
+                    dataType: 'json',
+                    success: function(res){
+
+                        if (res.IsSuccess && res.Data) {
+                            //回调
+                            successCallback(res.Data.PageData,res.Data.HasNextPage);
+
+                        } else {
+                            alertmsg("服务器繁忙");
+                        }
+                    },
+                    error: errorCallback
+                });
+            }
+
+
+        });
+
+        function buildHtml(data, curNavIndex) {
+            console.log(data);
+            var itemList = [];
+            var listDom = $("#datalist_" + curNavIndex);
+            $.each(data, function (index, item) {
+                console.log(item);
+                var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></a></dt>'
+                + '<dd><a href="javascript:;"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.LotteryName + '</h3>  <p>' + item.Score + '</p>   </div>'
+                + ' </a></dd> </dl>';
+                itemList.push(itemHtml);
+            });
+            var html = itemList.join('');
+            listDom.append(html);
+
+        }
+
+    </script>
+</body>
+
+</html>

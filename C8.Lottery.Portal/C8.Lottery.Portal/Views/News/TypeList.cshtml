@@ -118,7 +118,7 @@
                             <div style="clear:both;"></div>
                         </div>
 
-                        <div class="hdM_ddcon">
+                        <div class="Forecast_LHC">
 
                             @{
                                 int countFor6 = 0;
@@ -137,55 +137,41 @@
                                     string cl = "";
                                     if (color == "red")
                                     {
-                                        cl = "hdM_spliu hdM_spliured";
+                                        cl = "LHC_spA LHC_spAred";
                                     }
                                     else if (color == "green")
                                     {
-                                        cl = "hdM_spliu hdM_spliugreen";
+                                        cl = "LHC_spA LHC_spAgreen";
                                     }
                                     else
                                     {
-                                        cl = "hdM_spliu hdM_spliublue";
+                                        cl = "LHC_spA LHC_spAblue";
                                     }
 
                                     <span class="@cl">@s</span>
 
                                     if (countFor6 == 6)
                                     {
-                                        <span class="Mif_jgC">+</span>
+                                        <span class="LHC_spAjia">+</span>
                                     }
-
                                 }
-                                
-                                
-                                
-                              
-
-
                             }
-                            
-                            
-                            
-                               
-                        @{
-                              int countFor63 = 0;
-
-                                                        <div class="Mif_Hao" style="margin-top: 5px;">
-                                                            @foreach (string s in ViewBag.showInfo.Split(','))
-                                                            {
-                                                                countFor63++;
-                                                                <span class="Mif_jgC">@s</span>
-                                                                if (countFor63 == 6)
-                                                                {
-                                                                    <span class="Mif_jgC">+</span>
-                                                                }
-                                                            }
-                                                        </div>
-                        }
-                        
-
                         </div>
-                        
+                        @{
+                            int countFor63 = 0;
+
+                            <div class="Forecast_LHC" >
+                                @foreach (string s in ViewBag.showInfo.Split(','))
+                                {
+                                    countFor63++;
+                                    <span class="LHC_spA">@s</span>
+                                    if (countFor63 == 6)
+                                    {
+                                        <span class="LHC_spAjia">+</span>
+                                    }
+                                }
+                            </div>
+                        }
                      
 
                     </dd>
@@ -197,7 +183,7 @@
     <div class="info_LHC_nav">
         <ul class="hdNav_ul">
             <li>
-                <a href="javascript:;">
+                <a href="/Home/Open/@currentLotteryTypeId">
                     <i><img src="/images/icon_info_01.png"></i>
                     <p>开奖</p>
                 </a>
