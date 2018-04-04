@@ -290,6 +290,8 @@ $(function () {
             $(".GS_box").show();
             $(".GS_btn").show();
         }
+        $("#curNavIndex").val(Trzy);
+        $(".GS_nav li:eq(0)").trigger("click");
         $(this).addClass("current").siblings().removeClass("current");
         $(".Plan_content .Plan_CInfo").eq(Trzy).show().siblings().hide();
     });
@@ -507,6 +509,23 @@ function alertmsg(msg) {
         type: 'notice',
         infoText: msg,
         autoClose: 1500
+    });
+}
+
+function follow(userid,type) {
+    var url = type == 1 ? "/Personal/UnFollow" : "/Personal/IFollow";
+    $.post(url, { followed_userId: userid }, function (data) {
+
+        if (!data.Success) {
+            alertmsg(data.Msg);
+        } else {
+            if (type == 1) {
+                $("#follow").attr("data-type", "0").html(" 关注 ");
+            } else {
+
+                $("#follow").attr("data-type", "1").html("已关注");
+            }
+        }
     });
 }
 $.fn.extend({

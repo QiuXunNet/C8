@@ -1,0 +1,99 @@
+﻿@using C8.Lottery.Model
+@{
+    Layout = null;
+    BettingRecord lastBettingRecord = ViewBag.LastBettingRecord;
+    bool followed = ViewBag.Followed;
+    int lType = ViewBag.lType;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>最新预测-@ViewBag.LTypeName</title>
+    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="/js/yjp.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">@(ViewBag.LTypeName)最新预测</a>
+    </header>
+
+    <div class="Forecast_Top">
+        <div class="Forecast_Theader">
+            <dl class="Forecast_ThdDl">
+                <dt>
+                    <a href="/Personal/UserCenter/@Model.Id">
+                        @if (string.IsNullOrEmpty(Model.Headpath))
+                        {
+                            <img src="/images/default_avater.png" alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Headpath" alt="@Model.Headpath" />
+                        }
+                    </a>
+                </dt>
+                <dd>
+                    <div class="ThdDl_Top">
+                        <h3 class="ThdDl_name f-l">
+                            <a href="/Personal/UserCenter/@Model.Id">@Model.Name</a>
+                        </h3>
+                        <a href="javascript:;" class="ThdDl_ds f-r">打赏</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="ThdDl_Bt">
+                        <div class="ThdDl_BtLeft f-l">
+                            <span>粉丝：</span><span>@Model.Fans</span>
+                            @if (followed)
+                            {
+                                <a id="follow" href="javascript:follow(@Model.Id,1);">已关注</a>
+                            }
+                            else
+                            {
+                                <a id="follow" href="javascript:follow(@Model.Id,0);"> 关注 </a>
+                            }
+                        </div>
+                        <a href="/Plan/PlayRecord/@lType?uid=@Model.Id&type=1" class="ThdDl_BtRight f-r">查看总成绩</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="Forecast_content">
+        <table width="100%" border="1" bordercolor="#ccc" class="Forecast_tableA">
+            <tr>
+                <td align="center" valign="middle">
+                    <p class="Forecast_Ptit">@(lastBettingRecord.Issue)期</p>
+                    <p class="Forecast_Ptit">@lastBettingRecord.SubTime.ToString("yyyy-MM-dd")</p>
+                </td>
+                <td align="center" valign="middle">
+                    <p class="Forecast_Pred">@ViewBag.Time</p>
+                </td>
+            </tr>
+            @if (lastBettingRecord != null)
+            {
+                <tr>
+                    <td width="25%" align="center" valign="middle">
+                        <p>@lastBettingRecord.PlayName</p>
+                    </td>
+                    <td align="center" valign="middle">
+                        <p>@lastBettingRecord.BetNum</p>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</body>
+</html>

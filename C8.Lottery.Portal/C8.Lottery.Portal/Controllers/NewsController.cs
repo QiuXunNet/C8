@@ -164,7 +164,7 @@ namespace C8.Lottery.Portal.Controllers
 SELECT row_number() over(order by SortCode ASC, ReleaseTime DESC ) as rowNumber,
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
 FROM [dbo].[News] a
-WHERE [TypeId]=@TypeId ) T
+WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
 WHERE rowNumber BETWEEN @Start AND @End";
             SqlParameter[] parameters =
             {
@@ -202,7 +202,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, right(Max(a.LotteryNumber),3) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
  from News  a
  left join NewsType b on b.Id= a.TypeId
- where a.TypeId=@NewsTypeId and b.lType=@LType 
+ where a.TypeId=@NewsTypeId and b.lType=@LType and DeleteMark=0 and EnabledMark=1
  group by a.FullHead,a.QuickQuery
  order by a.QuickQuery";
             SqlParameter[] parameters =
@@ -221,7 +221,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             //查询推荐图
             string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
  left join NewsType b on b.Id= a.TypeId
- where a.RecommendMark=1 and b.lType=" + ltype + " order by ModifyDate";
+ where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
 
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
@@ -364,7 +364,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
  where  b.lType in
  (select ltype from News a join NewsType b on b.Id=a.TypeId
  where a.Id=" + id + @" )
- and a.RecommendMark=1
+ and a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1
  order by ModifyDate";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;
