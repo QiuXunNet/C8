@@ -18,6 +18,7 @@ namespace C8.Lottery.Portal.Models
     {
         public string SubTime { get; set; }
 
+        public int lType { get; set; }
         public string Issue { get; set; }
         public string Num { get; set; }
     }

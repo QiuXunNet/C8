@@ -1204,6 +1204,7 @@ where a.[Type]=2 and a.Id=" + id;
                 pager.PageSize = pageSize;
                 string strsql = "";
                 SqlParameter[] sp = new SqlParameter[] { };
+                string countsql = "";
                 if (ltype == 0)//热门
                 {
                      strsql = @"SELECT * FROM (
@@ -1213,12 +1214,13 @@ and lType=l.LotteryCode)as Score,* from Lottery l
 	  where IsHot=1
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
+                    countsql = string.Format(@"select count(1) from Lottery where  IsHot = 1");
 
                      sp = new SqlParameter[] {
 
                         new SqlParameter("@UserId",userId),
-                        new SqlParameter("@Start",  pager.PageIndex ),
-                        new SqlParameter("@End", pager.PageSize)
+                        new SqlParameter("@Start",  pager.StartIndex ),
+                        new SqlParameter("@End", pager.EndIndex)
 
                     };
 
@@ -1232,18 +1234,19 @@ and lType=l.LotteryCode)as Score,* from Lottery l
 	  where lType=@lType and IsHot=0
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
-                        sp = new SqlParameter[] {
+                    countsql = string.Format(@"select count(1) from Lottery where lType ={0}
+                    and IsHot = 0", ltype);
+                    sp = new SqlParameter[] {
                         new SqlParameter("@lType",ltype),
                         new SqlParameter("@UserId",userId),
-                        new SqlParameter("@Start",  pager.PageIndex ),
-                        new SqlParameter("@End", pager.PageSize)
+                        new SqlParameter("@Start",  pager.StartIndex ),
+                        new SqlParameter("@End", pager.EndIndex)
 
                     };
                 }
                 pager.PageData = Util.ReaderToList<BetModel>(strsql, sp);
 
-                string countSql = string.Format("select count(1) from Lottery where lType ={0} and IsHot = 0", ltype);
-                object obj = SqlHelper.ExecuteScalar(countSql);
+                object obj = SqlHelper.ExecuteScalar(countsql);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
                
                 //pager.PageData.ForEach(x=>
@@ -1362,6 +1365,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// </summary>
         /// <param name="lType"></param>
         /// <returns></returns>
+        [HttpGet]
         public JsonResult GetMyBet(int lType,string PlayName, int pageIndex = 1, int pageSize = 20)
         {
             string strsql = string.Empty;
@@ -1373,39 +1377,44 @@ WHERE rowNumber BETWEEN @Start AND @End";
             var pager = new PagedList<AchievementModel>();
             pager.PageIndex = pageIndex;
             pager.PageSize = pageSize;
+            SqlParameter[] sp = new SqlParameter[] { };
             if (PlayName == "全部")//全部
             {
                 strsql = string.Format(@"select * from BettingRecord   where UserId ={0} and lType = {1}", UserId, lType);
-                numsql =string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber,  Num,l.SubTime,l.Issue from LotteryRecord l
+                numsql =string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber, Num,l.SubTime,l.Issue from LotteryRecord l
 	  ,BettingRecord b
 	  where b.Issue=l.Issue and b.lType=l.lType
 	  and b.UserId={0} and b.lType={1}  and b.WinState in(3,4)
 	  group by l.Issue,Num,l.SubTime
 	  )t
-	  where   rowNumber BETWEEN {2} AND {3}  ", UserId,lType,pager.PageIndex,pager.PageSize);
+	  where   rowNumber BETWEEN {2} AND {3}  ", UserId,lType,pager.StartIndex, pager.EndIndex);
                 countsql = string.Format(@"	  select count(distinct Issue)from BettingRecord  
 	     where UserId={0} and lType={1} and WinState in(3,4)",UserId,lType);
             }
             else
             {
                 strsql = string.Format(@"
-                select * from BettingRecord   where UserId ={0} and lType = {1}  and PlayName = '{2}'", UserId, lType, PlayName);
+                select * from BettingRecord   where UserId ={0} and lType = {1}  and PlayName = @PlayName", UserId, lType);
                 numsql =string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber,  Num,l.SubTime,l.Issue from LotteryRecord l
 	  ,BettingRecord b
 	  where b.Issue=l.Issue and b.lType=l.lType
-	  and b.UserId={0} and b.lType={1} and b.PlayName='{2}'  and b.WinState in(3,4)
+	  and b.UserId={0} and b.lType={1} and b.PlayName=@PlayName  and b.WinState in(3,4)
 	  group by l.Issue,Num,l.SubTime
 	  )t
-	  where   rowNumber BETWEEN {3} AND {4} ", UserId,lType,PlayName, pager.PageIndex, pager.PageSize);
+	  where   rowNumber BETWEEN {2} AND {3} ", UserId,lType, pager.StartIndex, pager.EndIndex);
               countsql = string.Format(@"select count(distinct Issue)from BettingRecord  
-	     where UserId={0} and lType={1}   and PlayName='{2}' and WinState in(3,4)", UserId, lType,PlayName);
+	     where UserId={0} and lType={1}   and PlayName=@PlayName and WinState in(3,4)", UserId, lType);
+
+                sp = new SqlParameter[]{
+                    new SqlParameter("@PlayName",PlayName)
+                };
 
             }
 
             try
             {
-                List<LotteryNum> listnum = Util.ReaderToList<LotteryNum>(numsql);//我对应的开奖数据
-                List<BettingRecord> listbet = Util.ReaderToList<BettingRecord>(strsql);
+                List<LotteryNum> listnum = Util.ReaderToList<LotteryNum>(numsql,sp);//我对应的开奖数据
+                List<BettingRecord> listbet = Util.ReaderToList<BettingRecord>(strsql, sp);
                 List<AchievementModel> list = new List<AchievementModel>();
                 if (listnum.Count > 0)
                 {
@@ -1425,7 +1434,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 }
                 pager.PageData = list;
 
-                object obj = SqlHelper.ExecuteScalar(countsql);
+                object obj = SqlHelper.ExecuteScalar(countsql,sp);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
 
                 result.Data = pager;

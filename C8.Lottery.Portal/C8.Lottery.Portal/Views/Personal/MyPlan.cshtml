@@ -166,6 +166,7 @@
             /*加载列表数据 */
             function getListData(page){
                 //联网加载数据
+             
                 var dataIndex=curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
                 getListDataFromNet(dataIndex, page.num, page.size, function(pageData,hasNextPage){
                     console.log("dataIndex="+dataIndex+", curNavIndex="+curNavIndex+", page.num="+page.num+", page.size="+page.size+", pageData.length="+pageData.length);

@@ -71,21 +71,25 @@
 
     <div class="guessing_content hjc_indexmain" style="margin-top:90px;">
         
-        <div id="mescroll_0" class="list_mainUl2 gues_info">
-            <div id="datalist_0">
+        <div id="mescroll0" class="list_mainUl2 gues_info">
+            <div id="datalist0">
 
             </div>
         </div>
        @if (Model != null)
-       {
-           foreach (var item in Model)
-           {
-                   <div id="mescroll_@item.Icon" class="list_mainUl2 gues_info" style="display:none;">
-            <div id="datalist_@item.Icon">
+                   {
+                       foreach (var item in Model)
+                       {
+                           string mid = "mescroll" + item.Icon;
+                           string did = "datalist" + item.Icon;
+
+                       <div id="@mid" class="list_mainUl2 gues_info" style="display:none;">
+                        <div id="@did">
 
             </div>
                </div>
-   
+
+
            }
        }
 
@@ -99,23 +103,24 @@
     <script type="text/javascript">
         $(function () {
             var curNavIndex = 0;
-            var mescrollArr = new Array(3);
-            mescrollArr[0] = initMescroll("mescroll_0", "datalist_0");
+            var mescrollArr = new Array(17);
+            mescrollArr[0] = initMescroll("mescroll0", "datalist0");
 
             function pager(obj) {
                 var _this = $(obj),
                 i = _this.attr("data-index");
+                console.log(i);
 
                 if (curNavIndex != i) {
                     _this.addClass("current").siblings().removeClass("current");
                     //隐藏当前列表和回到顶部按钮
-                    $("#mescroll_" + curNavIndex).hide();
+                    $("#mescroll" + curNavIndex).hide();
                     mescrollArr[curNavIndex].hideTopBtn();
                     //显示对应的列表
-                    $("#mescroll_" + i).show().siblings().hide();
+                    $("#mescroll" + i).show().siblings().hide();
                     //取出菜单所对应的mescroll对象,如果未初始化则初始化
                     if (mescrollArr[i] == null) {
-                        mescrollArr[i] = initMescroll("mescroll_" + i, "datalist_" + i);
+                        mescrollArr[i] = initMescroll("mescroll" + i, "datalist" + i);
                     } else {
                         //检查是否需要显示回到到顶按钮
                         var curMescroll = mescrollArr[i];
@@ -158,6 +163,11 @@
                             //    alertmsg("去逛逛");
                             //}
                         },
+                        page: {
+                            num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+                            size: 20, //每页数据条数
+                            time: null //加载第一页数据服务器返回的时间; 防止用户翻页时,后台新增了数据从而导致下一页数据重复;
+                        },
                         clearEmptyId: clearEmptyId
                     }
                 });
@@ -166,8 +176,7 @@
 
             /*加载列表数据 */
             function getListData(page) {
-                page.size = 20;
-                console.log(page);
+             
                 //联网加载数据
                 var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
                 getListDataFromNet(dataIndex, page.num, page.size, function (pageData, hasNextPage) {
@@ -199,6 +208,7 @@
 
                         if (res.IsSuccess && res.Data) {
                             //回调
+                         
                             successCallback(res.Data.PageData,res.Data.HasNextPage);
 
                         } else {
@@ -215,11 +225,11 @@
         function buildHtml(data, curNavIndex) {
             console.log(data);
             var itemList = [];
-            var listDom = $("#datalist_" + curNavIndex);
+            var listDom = $("#datalist" + curNavIndex);
             $.each(data, function (index, item) {
                 console.log(item);
                 var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></a></dt>'
-                + '<dd><a href="javascript:;"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.LotteryName + '</h3>  <p>' + item.Score + '</p>   </div>'
+                + '<dd><a href="/Plan/Post/' + item.LType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.LotteryName + '</h3>  <p>' + item.Score + '</p>   </div>'
                 + ' </a></dd> </dl>';
                 itemList.push(itemHtml);
             });
