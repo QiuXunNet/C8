@@ -204,8 +204,9 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="id">彩种Id</param>
         /// <param name="uid">用户Id</param>
+        /// <param name="type">查看类型 0=具体玩法 1=全部玩法</param>
         /// <returns></returns>
-        public ActionResult PlayRecord(int id, int uid)
+        public ActionResult PlayRecord(int id, int uid, int type = 0)
         {
             var loginUserId = UserHelper.LoginUser.Id;
             ViewBag.lType = id;
@@ -251,7 +252,75 @@ namespace C8.Lottery.Portal.Controllers
 
             //step5.查询该彩种玩法列表
             ViewBag.LTypeName = Util.GetLotteryTypeName(id);
-            ViewBag.PlayList = GetPlayNames(id);
+            ViewBag.Type = type;
+            if (type == 0)
+            {
+                ViewBag.PlayList = GetPlayNames(id);
+            }
+
+            //step6.查询
+
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 最新预测
+        /// </summary>
+        /// <param name="id">彩种Id</param>
+        /// <param name="uid">用户Id</param>
+        /// <param name="playName">玩法名称</param>
+        /// <returns></returns>
+        public ActionResult LastPlay(int id, int uid, string playName)
+        {
+
+            string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", id, uid);
+            if (string.IsNullOrEmpty(playName))
+            {
+                Response.Redirect(redirectUrl, true);
+            }
+
+            var loginUserId = UserHelper.LoginUser.Id;
+            ViewBag.lType = id;
+            //step1.查询用户信息
+            var model = UserHelper.GetUser(uid);
+
+            //step2.查询是否关注过该用户
+            string sql = "select count(1) from [dbo].[Follow] where [Status]=1 and [UserId]=" + loginUserId +
+                         " and [Followed_UserId]=" + uid;
+
+            object obj = SqlHelper.ExecuteScalar(sql);
+
+            ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
+
+            //step3.查询最新发帖
+            string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
+                 and lType=@lType and WinState=1 and PlayName=@PlayName order by SubTime desc";
+            var lastBettingParameter = new[]
+            {
+                new SqlParameter("@UserId",uid),
+                new SqlParameter("@lType",id),
+                new SqlParameter("@PlayName",playName),
+            };
+            var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
+            var lastBettingRecord = records.FirstOrDefault();
+
+            if (lastBettingRecord == null)
+            {
+                Response.Redirect(redirectUrl, true);
+            }
+
+            ViewBag.LastBettingRecord = lastBettingRecord;
+
+            //step4.查询是否开奖
+            string time = Util.GetOpenRemainingTime(id);
+            if (time != "正在开奖")
+            {
+                time = "未开奖";
+            }
+            ViewBag.Time = time;
+            //step5.查询该彩种玩法列表
+            ViewBag.LTypeName = Util.GetLotteryTypeName(id);
 
             return View(model);
         }
@@ -416,7 +485,7 @@ from (
                 continuousWinCount = tempContinuousWinCount;
 
             model.MaxWin = continuousWinCount;
-            
+
         }
 
     }

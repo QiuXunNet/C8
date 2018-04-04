@@ -511,6 +511,23 @@ function alertmsg(msg) {
         autoClose: 1500
     });
 }
+
+function follow(userid,type) {
+    var url = type == 1 ? "/Personal/UnFollow" : "/Personal/IFollow";
+    $.post(url, { followed_userId: userid }, function (data) {
+
+        if (!data.Success) {
+            alertmsg(data.Msg);
+        } else {
+            if (type == 1) {
+                $("#follow").attr("data-type", "0").html(" 关注 ");
+            } else {
+
+                $("#follow").attr("data-type", "1").html("已关注");
+            }
+        }
+    });
+}
 $.fn.extend({
     /**
      * 初始化输入区域Emoji

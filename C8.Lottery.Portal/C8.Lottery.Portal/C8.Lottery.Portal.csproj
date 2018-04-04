@@ -678,6 +678,7 @@
     <Content Include="Views\Personal\GetLottery.cshtml" />
     <Content Include="Views\Personal\GetIntegralRule.cshtml" />
     <Content Include="Views\Plan\PlayRecord.cshtml" />
+    <Content Include="Views\Plan\LastPlay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

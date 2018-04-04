@@ -1427,7 +1427,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
                 object obj = SqlHelper.ExecuteScalar(countsql);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
-
+                
                 result.Data = pager;
             }
             catch (Exception ex)

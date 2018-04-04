@@ -31,6 +31,15 @@ td {
     padding: 0;
 }
 
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+    cursor: pointer;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
 body {
     font-size: 12px;
     font-family: "Microsoft Yahei", Heiti, arial, helvetica, sans-serif!important;
@@ -6963,7 +6972,7 @@ a:focus {
 .hjc_news_content .hjc_news_right img {
     width: 100%;
     height: 100%;
-    margin-top: .625rem;
+    /*margin-top: .625rem;*/
 }
 
 
@@ -7845,6 +7854,10 @@ footer {
     color: #333;
 }
 
+ .article .article-body img {
+     max-width: 100%;
+ }
+
 .article-news-title {
     margin: 0 -.625rem;
     background: #f3f4f4;
@@ -8261,6 +8274,10 @@ footer {
 }
 .Other_text {
     margin-top: 315px;
+}
+
+.Forecast_LHC .LHC_spB {
+    margin-right:5px;
 }
 /*** 个人中心-他人主页**/
 /**兼容小屏**/
