@@ -54,8 +54,8 @@ namespace C8.Lottery.Portal.Controllers
         /// 获取验证码KCP
         /// </summary>
         /// <returns></returns>
-       
-       [HttpPost]
+
+        [HttpPost]
         public ActionResult GetCode(string mobile)
         {
             try
@@ -85,38 +85,38 @@ namespace C8.Lottery.Portal.Controllers
             }
         }
 
-        
+
 
         /// <summary>
         /// 注册 KCP  
         /// </summary>
         /// <returns></returns>
 
-        public ActionResult Register(int ?id)
+        public ActionResult Register(int? id)
         {
-            
-            ViewData["id"] = id == null ? 0 : id;
-             return View();
 
-            
+            ViewData["id"] = id == null ? 0 : id;
+            return View();
+
+
         }
 
-      
+
         [HttpPost]
-      
+
         public ActionResult Create(FormCollection form)
         {
 
 
 
-            int inviteid =Convert.ToInt32(form["inviteid"]);
-            
+            int inviteid = Convert.ToInt32(form["inviteid"]);
+
             string mobile = form["mobile"];
             string password = form["password"];
 
             string vcode = form["vcode"];
             string usersql = "select * from UserInfo where Mobile =@Mobile";
-            
+
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
@@ -158,10 +158,10 @@ namespace C8.Lottery.Portal.Controllers
                     new SqlParameter("@RegisterIP",ip)
 
                  };
-                            int data =Convert.ToInt32 (SqlHelper.ExecuteScalar(regsql, regsp));
+                            int data = Convert.ToInt32(SqlHelper.ExecuteScalar(regsql, regsp));
                             if (data > 0)
                             {
-                             
+
 
                                 jsonmsg.Success = true;
                                 jsonmsg.Msg = "ok";
@@ -242,7 +242,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <summary>
         /// 邀请获得金币记录 type:1邀请者  2受邀者
         /// </summary>
-        public void AddCoinRecord(int type,int userId,int otherId, int amount)
+        public void AddCoinRecord(int type, int userId, int otherId, int amount)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace C8.Lottery.Portal.Controllers
                         {
                             listNum.Add(item.Num);
                         }
-                       
+
                     }
                 }
                 Random rm = new Random();
@@ -300,7 +300,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             return Num;
         }
-          
+
 
         /// <summary>
         /// 根据id获取用户信息
@@ -315,7 +315,7 @@ namespace C8.Lottery.Portal.Controllers
                 string usersql = "select * from UserInfo where Id =@Id";
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Id", id) };
                 user = Util.ReaderToModel<UserInfo>(usersql, sp);
-               
+
 
             }
             catch (Exception)
@@ -323,13 +323,13 @@ namespace C8.Lottery.Portal.Controllers
 
                 throw;
             }
-            return user;   
+            return user;
 
         }
 
 
 
-    
+
 
         /// <summary>
         /// 登录KCP
@@ -340,7 +340,7 @@ namespace C8.Lottery.Portal.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Logins(string mobile,string password)
+        public ActionResult Logins(string mobile, string password)
         {
             //string usersql = "select * from UserInfo where Mobile =@Mobile";
             string usersql = @"select * from UserInfo where Mobile=@Mobile ";
@@ -355,7 +355,7 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     user = list.FirstOrDefault(x => x.Mobile == mobile);
                 }
-               
+
                 if (user != null)
                 {
                     bool iscor = true;
@@ -385,33 +385,33 @@ namespace C8.Lottery.Portal.Controllers
                             //Session[guid] = user.Id;
 
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
-                            CacheHelper.SetCache(guid, user.Id,DateTime.Now.AddMinutes(30));
-                          
+                            CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMinutes(30));
+
 
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
                             string ip = Tool.GetIP();
                             string editsql = "update UserInfo set LastLoginTime=getdate(),LastLoginIP=@LastLoginIP where Mobile=@Mobile";//记录最后一次登录时间
-                            SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile),new SqlParameter("@LastLoginIP",ip) };
+                            SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile), new SqlParameter("@LastLoginIP", ip) };
                             SqlHelper.ExecuteNonQuery(editsql, editsp);
                         }
-                       
+
                     }
                 }
                 else
                 {
                     jsonmsg.Success = false;
                     jsonmsg.Msg = "手机号不存在";
-                 
+
                 }
             }
             catch (Exception e)
             {
                 jsonmsg.Success = false;
-                jsonmsg.Msg =e.Message;
+                jsonmsg.Msg = e.Message;
                 throw;
             }
-          
+
 
             return Json(jsonmsg);
         }
@@ -432,7 +432,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="mobile"></param>
         /// <returns></returns>
-        public ActionResult Validate(string mobile,string vcode)
+        public ActionResult Validate(string mobile, string vcode)
         {
             string usersql = "select * from UserInfo where Mobile =@Mobile";
 
@@ -474,7 +474,7 @@ namespace C8.Lottery.Portal.Controllers
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "请重新获取验证码";
                     }
-                 }
+                }
             }
             catch (Exception e)
             {
@@ -484,7 +484,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             return Json(jsonmsg);
 
-          }
+        }
 
 
 
@@ -496,13 +496,13 @@ namespace C8.Lottery.Portal.Controllers
         {
             if (Session["Mobile"] == null)
             {
-               return RedirectToAction("Forget");
+                return RedirectToAction("Forget");
             }
             else
             {
                 return View();
             }
-           
+
         }
         /// <summary>
         /// 
@@ -514,7 +514,7 @@ namespace C8.Lottery.Portal.Controllers
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             if (Session["Mobile"] != null)
             {
-              
+
                 try
                 {
                     string mobile = Session["Mobile"].ToString();
@@ -540,16 +540,16 @@ namespace C8.Lottery.Portal.Controllers
                 catch (Exception e)
                 {
                     jsonmsg.Success = false;
-                    jsonmsg.Msg =e.Message;
+                    jsonmsg.Msg = e.Message;
                     throw;
                 }
-               
+
             }
             return Json(jsonmsg);
         }
 
-    
-        
+
+
         /// <summary>
         /// 计划
         /// </summary>
@@ -579,6 +579,9 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.openList = list;
             return View();
         }
+
+       
+
 
 
     }

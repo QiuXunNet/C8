@@ -1,0 +1,2308 @@
+﻿@{
+    Layout = null;
+    int lType = ViewBag.lType;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.title1</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+<body>
+    
+    <header class="hjc_header">
+        <a href="/Plan/Post/@lType" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">@ViewBag.title2</a>
+    </header>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    @if (lType == 1)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">万彩福彩3D玩法规则说明:</h3>
+            <p class="Rule_font1">单双大小玩法：竞猜规则为三个球分别可选单双、大小的玩法</p>
+            <p class="Rule_font1">（一）第一球单双</p>
+            <p class="Rule_font2">单：1，3，5，7，9，</p>
+            <p class="Rule_font2">双：0，2，4，6，8，</p>
+            <p class="Rule_font1">（二）第一球大小</p>
+            <p class="Rule_font2">小：0，1，2，3，4，</p>
+            <p class="Rule_font2">大：5，6，7，8，9，</p>
+            <p class="Rule_font1">（三）第一球五码</p>
+            <p class="Rule_font2">从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖9，</p>
+            <p class="Rule_font1">（四）第二球单双</p>
+            <p class="Rule_font2">单：1，3，5，7，9，</p>
+            <p class="Rule_font2">双：0，2，4，6，8，</p>
+            <p class="Rule_font1">（五）第二球大小</p>
+            <p class="Rule_font2">小：0，1，2，3，4，</p>
+            <p class="Rule_font2">大：5，6，7，8，9，</p>
+            <p class="Rule_font1">（六）第二球五码</p>
+            <p class="Rule_font2">从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖</p>
+            <p class="Rule_font1">（七）第三球单双</p>
+            <p class="Rule_font2">单：1，3，5，7，9，</p>
+            <p class="Rule_font2">双：0，2，4，6，8，</p>
+            <p class="Rule_font1">（八）第三球大小</p>
+            <p class="Rule_font2">小：0，1，2，3，4，</p>
+            <p class="Rule_font2">大：5，6，7，8，9，</p>
+            <p class="Rule_font1">（九）第三球五码</p>
+            <p class="Rule_font2">从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖</p>
+            <p class="Rule_font1">（十）独胆</p>
+            <p class="Rule_font2">从10个开奖号码中选择1个号码，选中的号码被开奖号码包括即视为中奖</p>
+            <p class="Rule_font1">（十一）双胆玩法</p>
+            <p class="Rule_font2">双胆规则为用户从10个开奖号码中选中2个号码，选择当期看好的最有可能出现的两个号码，即选中的2个开奖号码均被开奖号码包含；</p>
+            <p class="Rule_font2">例如：选中双胆1、2两个号码，开奖号码为1、5、7，本次双胆则属正确（命中）；如选中双胆1、2两个号码，开奖号码为3、5、6.本次双胆则属错误（不命中）</p>
+            <p class="Rule_font1">（十二）杀一码</p>
+            <p class="Rule_font1">（十三）杀二码玩法</p>
+            <p class="Rule_font2">杀2码规则为用户从10个开奖号码中选中2个号码，即选中的2个开奖号码均不被开奖号码包含；</p>
+            <p class="Rule_font2">例如：选中杀码1、2两个号码，开奖号码为3、5、6，本次杀码则属正确（命中）；如选中杀码1、2两个号码，开奖号码为1、5、7，本次杀码则属错误（不命中）</p>
+            <p class="Rule_font1">（十四）三胆</p>
+            <p class="Rule_font2">从10个开奖号码中选择3个号码，选中的号码有一个或以上被开奖号码包括即视为中奖</p>
+            <p class="Rule_font1">（十五）六码组选</p>
+            <p class="Rule_font2">选择6个号码球，包括所有的开奖号码，视为中奖</p>
+            <p class="Rule_font1">（十六）七码组选</p>
+            <p class="Rule_font2">选择7个号码球，包括所有的开奖号码，视为中奖</p>
+            <br>
+            <h3 class="Rule_title">福彩3D玩法积分规则:</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col">福彩3D</th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">独胆</th>
+                    <td align="center" valign="middle">+28</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">杀一码</th>
+                    <td align="center" valign="middle">+4</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">双胆</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">杀二码</th>
+                    <td align="center" valign="middle">+7</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">三胆</th>
+                    <td align="center" valign="middle">+5</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">六码组选</th>
+                    <td align="center" valign="middle">+37</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">七码组选</th>
+                    <td align="center" valign="middle">+20</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+
+        </div>
+    }
+    else if (lType == 2)
+    {
+        <div class="Rule_box">
+        <h3 class="Rule_title">万彩双色球玩法规则说明:</h3>
+        <p class="Rule_font1">（一）红3胆</p>
+        <p class="Rule_font2">33个红球中，选择3个红球作为胆码，开奖号码红球中有一个或以上相同即视为中奖。</p>
+        <p class="Rule_font1">（二）杀3红</p>
+        <p class="Rule_font2">33个红球中，选择3个红球杀号，开奖号码红球中无此3个号码即视为中奖。</p>
+        <p class="Rule_font1">（三）蓝单双</p>
+        <p class="Rule_font2">16个蓝球中，</p>
+        <p class="Rule_font2">单数球号为单：1、3、5、7、9、11、13、15</p>
+        <p class="Rule_font2">双数球号为双：2、4、6、8、10、12、14</p>
+        <p class="Rule_font1">（四）蓝大小</p>
+        <p class="Rule_font2">16个蓝球中</p>
+        <p class="Rule_font2">1～8为小球：1、2、3、4、5、6、7、8</p>
+        <p class="Rule_font2">9～16为大球：9、10、11、12、13、14、15、16、</p>
+        <p class="Rule_font1">（五）蓝球8码</p>
+        <p class="Rule_font2">从16个蓝球中选择8个号码，与开奖号码蓝球相同视为中奖</p>
+        <p class="Rule_font1">（六）红2胆</p>
+        <p class="Rule_font2">33个红球中，选择2个红球作为胆码，开奖号码红球中有一个或以上相同即视为中奖。</p>
+        <p class="Rule_font1">（七）蓝5码</p>
+        <p class="Rule_font2">从16个蓝球中选择5个号码，与开奖号码蓝球相同即视为中奖</p>
+        <h3 class="Rule_title">双色球玩法积分规则:</h3>
+        <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+            <tr>
+                <th width="25%" align="center" valign="middle" scope="col">双色球</th>
+                <th width="25%" align="center" valign="middle" scope="col">中</th>
+                <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                <th width="25%" align="center" valign="middle" scope="col">备注</th>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">红3胆</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">杀3红</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">蓝单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">蓝大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">蓝球8码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">红2胆</th>
+                <td align="center" valign="middle">+6</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">蓝5码</th>
+                <td align="center" valign="middle">+22</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中2期</th>
+                <td align="center" valign="middle">+1</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中3期</th>
+                <td align="center" valign="middle">+2</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中4期</th>
+                <td align="center" valign="middle">+3</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">以此类推</th>
+                <td align="center" valign="middle">+(N-1)</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    }
+    else if (lType == 3)
+    {
+        <div class="Rule_box">
+        <h3 class="Rule_title">万彩七星彩玩法规则说明:</h3>
+        <p class="Rule_font1">玩法分类</p>
+        <p class="Rule_font1">（一）第一球  大小</p>
+        <p class="Rule_font1">（二）第一球  单双</p>
+        <p class="Rule_font1">（三）第一球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（四）第二球  大小</p>
+        <p class="Rule_font1">（五）第二球  单双</p>
+        <p class="Rule_font1">（六）第二期  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（七）第三球  大小</p>
+        <p class="Rule_font1">（八）第三球  单双 </p>
+        <p class="Rule_font1">（九）第三球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（十）第四球  大小 </p>
+        <p class="Rule_font1">（十一）第四球  单双 </p>
+        <p class="Rule_font1">（十二）第四球  五码</p>
+        <p class="Rule_font1">（九）第三球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（十三）第五球  大小</p>
+        <p class="Rule_font1">（十四）第五球  单双</p>
+        <p class="Rule_font1">（十五）第五球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（十六）第六球  大小</p>
+        <p class="Rule_font1">（十七）第六球  单双</p>
+        <p class="Rule_font1">（十八）第六球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（十九）第七球  大小</p>
+        <p class="Rule_font1">（二十）第七球  单双</p>
+        <p class="Rule_font1">（二十一）第七球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <br />
+        <h3 class="Rule_title">七星彩玩法积分规则:</h3>
+        <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+            <tr>
+                <th width="25%" align="center" valign="middle" scope="col">七星彩</th>
+                <th width="25%" align="center" valign="middle" scope="col">中</th>
+                <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                <th width="25%" align="center" valign="middle" scope="col">备注</th>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第六球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第六球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第六球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第七球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第七球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第七球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中2期</th>
+                <td align="center" valign="middle">+1</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中3期</th>
+                <td align="center" valign="middle">+2</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中4期</th>
+                <td align="center" valign="middle">+3</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">以此类推</th>
+                <td align="center" valign="middle">+(N-1)</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    }
+    else if (lType == 4)
+    {
+        <div class="Rule_box">
+        <h3 class="Rule_title">万彩大乐透玩法规则说明:</h3>
+        <p class="Rule_font1">玩法分类</p>
+        <p class="Rule_font1">（一）前区4码</p>
+        <p class="Rule_font2">前区35个号码中选择4个号码，只要开奖号码与前区号码有一个或多个一致即可</p>
+        <p class="Rule_font1">（二）前区5码</p>
+        <p class="Rule_font2">前区35个号码中选择5个号码，只要开奖号码与前区号码有一个或多个一致即可</p>
+        <p class="Rule_font1">（三）前区杀4码</p>
+        <p class="Rule_font2">前区35个号码中选择4个号码，只要开奖号码与前区号码均不同即可</p>
+        <p class="Rule_font1">（四）前区杀5码</p>
+        <p class="Rule_font2">前区35个号码中选择5个号码，只要开奖号码与前区号码均不同即可</p>
+        <p class="Rule_font1">（五）后区3码</p>
+        <p class="Rule_font2">后区12个号码中选择3个号码，只要开奖号码与后区号码有一个或多个一致即可</p>
+        <p class="Rule_font1">（六）后区2码</p>
+        <p class="Rule_font2">后区12个号码中选择2个号码，只要开奖号码与后区号码有一个或多个一致即可</p>
+        <p class="Rule_font1">（七）后区杀3码</p>
+        <p class="Rule_font2">后区12个号码中选择3个号码，只要开奖号码与后区号码均不同即可</p>
+        <p class="Rule_font1">（八）后区杀5码</p>
+        <p class="Rule_font2">后区12个号码中选择5个号码，只要开奖号码与后区号码均不同即可</p>
+        <br />
+        <h3 class="Rule_title">大乐透玩法积分规则:</h3>
+        <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+            <tr>
+                <th width="25%" align="center" valign="middle" scope="col">大乐透</th>
+                <th width="25%" align="center" valign="middle" scope="col">中</th>
+                <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                <th width="25%" align="center" valign="middle" scope="col">备注</th>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">前区4码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">前区5码</th>
+                <td align="center" valign="middle">+8</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">前区杀4码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">前区杀5码</th>
+                <td align="center" valign="middle">+13</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">后区3码</th>
+                <td align="center" valign="middle">+14</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">后区2码</th>
+                <td align="center" valign="middle">+24</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">后区杀3码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">后区杀5码</th>
+                <td align="center" valign="middle">+24</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中2期</th>
+                <td align="center" valign="middle">+1</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中3期</th>
+                <td align="center" valign="middle">+2</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中4期</th>
+                <td align="center" valign="middle">+3</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">以此类推</th>
+                <td align="center" valign="middle">+(N-1)</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    }
+    else if (lType == 5)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">万彩六合彩玩法规则说明:</h3>
+            <p class="Rule_font1">（一）特码单双</p>
+            <p class="Rule_font2">特码单双：特码为偶数叫特双，为奇数叫特单，49为和</p>
+            <p class="Rule_font1">（二）特码大小</p>
+            <p class="Rule_font2">特码大小：开出之特码大于或等于25为特码大，小于或等于24为特码小，49为和。</p>
+            <p class="Rule_font1">（三）特码尾大小</p>
+            <p class="Rule_font2">特尾小：开出之特码尾数0-4），</p>
+            <p class="Rule_font2">特尾大：开出之特码尾数（5-9），49号为和局。</p>
+            <p class="Rule_font1">（四）特码合数单双</p>
+            <p class="Rule_font2">指开出的特码的个位数加上十位数之和为奇数称合数单，之和为偶称合数双，其中号码49为和。</p>
+            <p class="Rule_font1">例如：</p>
+            <p class="Rule_font2">合数单：01为0+1=1，23为2+3=5；</p>
+            <p class="Rule_font2">合数双：28为2+8=10，39为3+9=12；49为和。</p>
+            <p class="Rule_font1">（五）特码波色</p>
+            <p class="Rule_font1">（六）平特一肖</p>
+            <p class="Rule_font2">指开出的7个开奖号码中含有投注所属生肖的一个或多个号码，即视为中奖。</p>
+            <p class="Rule_font1">（七）四肖中特</p>
+            <p class="Rule_font1">（八）六肖中特</p>
+            <p class="Rule_font2">玩家挑选6个生肖为一投注组合，投注类别可选择该投注组合为中或不中。当期开出特码符合所选生肖及投注类别，即视为中奖。号码49为和局。</p>
+            <p class="Rule_font1">（九）十码中特</p>
+            <p class="Rule_font2">从49个号码球选择10个号码，如开奖特别号码与之相同，则视为中奖，反之不中奖</p>
+            <p class="Rule_font1">（十）二十码中特</p>
+            <p class="Rule_font2">从49个号码球中选择20个号码，如开奖特别号码与之相同，则视为中奖，反之不中奖</p>
+            <p class="Rule_font1">（十一）五不中</p>
+            <p class="Rule_font2">所投注的每五个号码为一注，每注的五个号码中如果没有当期开奖的所有7个号码中的任意一个，则视为中奖；否则视为不中奖。</p>
+            <p class="Rule_font2">例如开奖号码是：6,7,8,9,10,11,12，若你投的是1,2,3,4,5则中奖，而投1,2,3,4,6则不中奖。</p>
+            <p class="Rule_font1">（十二）六不中</p>
+            <p class="Rule_font2">所投注的每六个号码为一注，每注的六个号码中如果没有当期开奖的所有7个号码中的任意一个，则视为中奖。</p>
+            <p class="Rule_font1">（十三）平5码</p>
+            <p class="Rule_font2">从49个号码球中选择5个号码，如有一个或多个号码与开奖号码平码一致则视为中奖。</p>
+            <br>
+            <h3 class="Rule_title">六合彩玩法积分规则:</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col">六合彩</th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">特码单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">特码大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">特尾大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">特合单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">特码波色</th>
+                    <td align="center" valign="middle">+20</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">平特一肖</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">四肖中特</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">六肖中特</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">十码中特</th>
+                    <td align="center" valign="middle">+40</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">二十码中特</th>
+                    <td align="center" valign="middle">+15</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">特码大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">五不中</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">六不中</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">平5码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+    else if (lType == 6)
+    {
+        <div class="Rule_box">
+        <h3 class="Rule_title">万彩排列三玩法规则说明:</h3>
+        <p class="Rule_font1">玩法分类</p>
+        <p class="Rule_font1">单双大小玩法：竞猜规则为三个球分别可选单双、大小的玩法</p>
+        <p class="Rule_font1">（一）第一球单双</p>
+        <p class="Rule_font2">单：1，3，5，7，9，</p>
+        <p class="Rule_font2">双：0，2，4，6，8，</p>
+        <p class="Rule_font1">（二）第一球大小</p>
+        <p class="Rule_font2">小：0，1，2，3，4，</p>
+        <p class="Rule_font2">大：5，6，7，8，9，</p>
+        <p class="Rule_font1">（三）第一球五码</p>
+        <p class="Rule_font2">从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖9，</p>
+        <p class="Rule_font1">（四）第二球单双</p>
+        <p class="Rule_font2">单：1，3，5，7，9，</p>
+        <p class="Rule_font2">双：0，2，4，6，8，</p>
+        <p class="Rule_font1">（五）第二球大小</p>
+        <p class="Rule_font2">小：0，1，2，3，4，</p>
+        <p class="Rule_font2">大：5，6，7，8，9，</p>
+        <p class="Rule_font1">（六）第二球五码</p>
+        <p class="Rule_font2">从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖</p>
+        <p class="Rule_font1">（七）第三球单双</p>
+        <p class="Rule_font2">单：1，3，5，7，9，</p>
+        <p class="Rule_font2">双：0，2，4，6，8，</p>
+        <p class="Rule_font1">（八）第三球大小</p>
+        <p class="Rule_font2">小：0，1，2，3，4，</p>
+        <p class="Rule_font2">大：5，6，7，8，9，</p>
+        <p class="Rule_font1">（九）第三球五码</p>
+        <p class="Rule_font2">从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖</p>
+        <p class="Rule_font1">（十）独胆</p>
+        <p class="Rule_font2">从10个开奖号码中选择1个号码，选中的号码被开奖号码包括即视为中奖</p>
+        <p class="Rule_font1">（十一）双胆玩法</p>
+        <p class="Rule_font2">双胆规则为用户从10个开奖号码中选中2个号码，选择当期看好的最有可能出现的两个号码，即选中的2个开奖号码均被开奖号码包含；</p>
+        <p class="Rule_font2">例如：选中双胆1、2两个号码，开奖号码为1、5、7，本次双胆则属正确（命中）；如选中双胆1、2两个号码，开奖号码为3、5、6.本次双胆则属错误（不命中）</p>
+        <p class="Rule_font1">（十二）杀一码</p>
+        <p class="Rule_font1">（十三）杀二码玩法</p>
+        <p class="Rule_font2">杀2码规则为用户从10个开奖号码中选中2个号码，即选中的2个开奖号码均不被开奖号码包含；</p>
+        <p class="Rule_font2">例如：选中杀码1、2两个号码，开奖号码为3、5、6，本次杀码则属正确（命中）；如选中杀码1、2两个号码，开奖号码为1、5、7，本次杀码则属错误（不命中）</p>
+        <p class="Rule_font1">（十四）三胆</p>
+        <p class="Rule_font2">从10个开奖号码中选择3个号码，选中的号码有一个或以上被开奖号码包括即视为中奖</p>
+        <p class="Rule_font1">（十五）六码组选</p>
+        <p class="Rule_font2">选择6个号码球，包括所有的开奖号码，视为中奖</p>
+        <p class="Rule_font1">（十六）七码组选</p>
+        <p class="Rule_font2">选择7个号码球，包括所有的开奖号码，视为中奖</p>
+        <br>
+        <h3 class="Rule_title">排列三玩法积分规则:</h3>
+        <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+            <tr>
+                <th width="25%" align="center" valign="middle" scope="col">排列三</th>
+                <th width="25%" align="center" valign="middle" scope="col">中</th>
+                <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                <th width="25%" align="center" valign="middle" scope="col">备注</th>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">独胆</th>
+                <td align="center" valign="middle">+28</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">杀一码</th>
+                <td align="center" valign="middle">+4</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">双胆</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">杀二码</th>
+                <td align="center" valign="middle">+7</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">三胆</th>
+                <td align="center" valign="middle">+5</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">六码组选</th>
+                <td align="center" valign="middle">+37</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">七码组选</th>
+                <td align="center" valign="middle">+20</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中2期</th>
+                <td align="center" valign="middle">+1</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中3期</th>
+                <td align="center" valign="middle">+2</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中4期</th>
+                <td align="center" valign="middle">+3</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">以此类推</th>
+                <td align="center" valign="middle">+(N-1)</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+        </table>
+
+    </div>
+    }
+    else if (lType == 7)
+    {
+        <div class="Rule_box">
+        <h3 class="Rule_title">万彩排列5玩法规则说明:</h3>
+        <p class="Rule_font1">玩法分类</p>
+        <p class="Rule_font1">（一）第一球  大小</p>
+        <p class="Rule_font2">（二）第一球  单双</p>
+        <p class="Rule_font1">（三）第一球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（四）第二球  大小</p>
+        <p class="Rule_font1">（五）第二球  单双</p>
+        <p class="Rule_font1">（六）第二球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（七）第三球  大小</p>
+        <p class="Rule_font1">（八）第三球  单双</p>
+        <p class="Rule_font1">（九）第三球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（十）第四球  大小 </p>
+        <p class="Rule_font1">（十一）第四球  单双</p>
+        <p class="Rule_font1">（十二）第四球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <p class="Rule_font1">（十三）第五球  大小</p>
+        <p class="Rule_font1">（十四）第五球  单双</p>
+        <p class="Rule_font1">（十五）第五球  五码</p>
+        <p class="Rule_font2">单：1，3，5，7，9</p>
+        <p class="Rule_font2">双：0，2，4，6，8</p>
+        <p class="Rule_font2">小：0，1，2，3，4</p>
+        <p class="Rule_font2">大：5，6，7，8，9</p>
+        <p class="Rule_font2">五码：从10个号码球任意选择5个，与对应位置开奖号码一致即视为中奖。</p>
+        <br />
+        <h3 class="Rule_title">排列5玩法积分规则:</h3>
+        <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+            <tr>
+                <th width="25%" align="center" valign="middle" scope="col">排列5</th>
+                <th width="25%" align="center" valign="middle" scope="col">中</th>
+                <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                <th width="25%" align="center" valign="middle" scope="col">备注</th>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球五码</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中2期</th>
+                <td align="center" valign="middle">+1</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中3期</th>
+                <td align="center" valign="middle">+2</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中4期</th>
+                <td align="center" valign="middle">+3</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">以此类推</th>
+                <td align="center" valign="middle">+(N-1)</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    }
+    else if (lType == 8)
+    {
+        <div class="Rule_box">
+        <h3 class="Rule_title">万彩七乐彩玩法规则说明:</h3>
+        <p class="Rule_font1">玩法分类</p>
+        <p class="Rule_font1">（一）第一球  单双</p>
+        <p class="Rule_font2">单双：略</p>
+        <p class="Rule_font1">（二）第一球  大小</p>
+        <p class="Rule_font2">大小：1-15为小，16-30为大。</p>
+        <p class="Rule_font1">（三）第二球  单双</p>
+        <p class="Rule_font1">（四）第二球  大小  规则同上</p>
+        <p class="Rule_font1">（五）第三球  单双</p>
+        <p class="Rule_font1">（六）第三球  大小  规则同上</p>
+        <p class="Rule_font1">（七）第四球  单双</p>
+        <p class="Rule_font1">（八）地四球  大小  规则同上</p>
+        <p class="Rule_font1">（九）第五球  单双</p>
+        <p class="Rule_font1">（十）第五球  大小  规则同上</p>
+        <p class="Rule_font1">（十一）第六球  单双</p>
+        <p class="Rule_font1">（十二）第六球  大小  规则同上</p>
+        <p class="Rule_font1">（十三）第七球  单双</p>
+        <p class="Rule_font1">（十四）第七球  大小  规则同上</p>
+        <p class="Rule_font1">（十五）独胆</p>
+        <p class="Rule_font2">从30开奖号码中选择1个号码，选中的号码被开奖号码包括即视为中奖。</p>
+        <p class="Rule_font1">（十六）双胆</p>
+        <p class="Rule_font2">从30个开奖号码中选择2个号码，选中的号码一个或以上被开奖号码包括即视为中奖。</p>
+        <p class="Rule_font1">（十七）三胆</p>
+        <p class="Rule_font2">从30个开奖号码中选择3个号码，选中的号码一个或以上被开奖号码包括即视为中奖。</p>
+        <p class="Rule_font1">（十八）杀3码</p>
+        <p class="Rule_font2">30个号码中选择3个号码，只要开奖号码均不同即可。</p>
+        <p class="Rule_font1">（十九）杀5码</p>
+        <p class="Rule_font2">30个号码中选择5个号码，只要开奖号码均不同即可。</p>
+        <br>
+        <h3 class="Rule_title">七乐彩玩法积分规则:</h3>
+        <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+            <tr>
+                <th width="25%" align="center" valign="middle" scope="col">七乐彩</th>
+                <th width="25%" align="center" valign="middle" scope="col">中</th>
+                <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                <th width="25%" align="center" valign="middle" scope="col">备注</th>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第一球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第二球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第三球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第四球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第五球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第六球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第六球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第七球单双</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">第七球大小</th>
+                <td align="center" valign="middle">+10</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">独胆</th>
+                <td align="center" valign="middle">+35</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">双胆</th>
+                <td align="center" valign="middle">+15</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">三胆</th>
+                <td align="center" valign="middle">+14</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">杀3码</th>
+                <td align="center" valign="middle">+14</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">杀5码</th>
+                <td align="center" valign="middle">+35</td>
+                <td align="center" valign="middle">-10</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中2期</th>
+                <td align="center" valign="middle">+1</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中3期</th>
+                <td align="center" valign="middle">+2</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">连中4期</th>
+                <td align="center" valign="middle">+3</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+            <tr>
+                <th align="center" valign="middle" scope="row">以此类推</th>
+                <td align="center" valign="middle">+(N-1)</td>
+                <td align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="middle">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    }
+    else if (lType >= 9 && lType < 15)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">@ViewBag.title3</h3>
+            <p class="Rule_font1">玩法分类</p>
+            <p class="Rule_font1">（一）第一球  单双</p>
+            <p class="Rule_font2">开出的球号为双数叫特双，如2，6；特码为单数叫特单，如1，3。</p>
+            <p class="Rule_font1">（二）第一球  大小</p>
+            <p class="Rule_font2">开出的球号大于或等于5为特码大，小于或等于4为特码小。</p>
+            <p class="Rule_font1">（三）第一球  五码</p>
+            <p class="Rule_font2">从0-9个数字选择5个号码，与开奖号码对应位置一致即视为中奖。</p>
+            <p class="Rule_font1">（四）第二球  单双</p>
+            <p class="Rule_font1">（五）第二球  大小</p>
+            <p class="Rule_font1">（六）第二球  五码</p>
+            <p class="Rule_font1">（七）第三球  单双</p>
+            <p class="Rule_font1">（八）第三球  大小</p>
+            <p class="Rule_font1">（九）第三球  五码</p>
+            <p class="Rule_font1">（十）第四球  单双</p>
+            <p class="Rule_font1">（十一）第四球  大小</p>
+            <p class="Rule_font1">（十二）第四球  五码</p>
+            <p class="Rule_font1">（十三）第五球  单双</p>
+            <p class="Rule_font1">（十四）第五球  大小</p>
+            <p class="Rule_font1">（十五）第五球  五码</p>
+            <p class="Rule_font1">（十六）总和    大小</p>
+            <p class="Rule_font2">第一球特至第五球特开出的球号数字总和值大于或等于23为总和大，小于或等于22为总和小。</p>
+            <p class="Rule_font1">（十七）总和    单双</p>
+            <p class="Rule_font2">第一球特至第五球特开出的球号数字总和值是双数为总和双，数字总和值是单数为总和单。</p>
+            <br />
+            <h3 class="Rule_title">重庆时时彩玩法积分规则:</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col">重庆时时彩</th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+    else if (lType >= 15 && lType < 38)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">@ViewBag.title3</h3>
+            <p class="Rule_font1">玩法分类</p>
+            <p class="Rule_font1">（一）第一球  单双</p>
+            <p class="Rule_font2">第一球开出的球号为双数，如2，6；为单数叫单，如1，3。</p>
+            <p class="Rule_font1">（二）第一球  大小</p>
+            <p class="Rule_font2">第一球开出的球号大于或等于6为大，小于或等于5为小。</p>
+            <p class="Rule_font1">（三）第一球  龙虎</p>
+            <p class="Rule_font2">龙虎和特殊玩法： 龙 > 虎 >（1为最小，11为最大）。</p>
+            <p class="Rule_font2">龙：开奖第一球（万位）的号码大于第五球（个位）的号码，如：第一球开出 6，第五球开出 2，第一球开出 8，第五球开出 6，第一球开出 5，第五球开出 1...开奖为龙，投注龙者视为中奖，其它视为不中奖。</p>
+            <p class="Rule_font2">虎：开奖第一球（万位）的号码小于第五球（个位）的号码，如：第一球开出 2，第五球开出 6、第一球开出 6，第五球开出 8、第一球开出 1，第五球开出5，开奖为虎，投注虎者视为中奖，其它视为不中奖。</p>
+            <p class="Rule_font1">（三）第二球  单双  规则同上</p>
+            <p class="Rule_font1">（四）第二球  大小  规则同上</p>
+            <p class="Rule_font1">（五）第三球  单双  规则同上</p>
+            <p class="Rule_font1">（六）第三球  大小  规则同上</p>
+            <p class="Rule_font1">（七）第四球  单双  规则同上</p>
+            <p class="Rule_font1">（八）第四球  大小  规则同上</p>
+            <p class="Rule_font1">（九）第五球  单双  规则同上</p>
+            <p class="Rule_font1">（十）第五球  大小  规则同上</p>
+            <p class="Rule_font1">（十一）总和    大小</p>
+            <p class="Rule_font2">根据相应单项投注的第一球特码至第五球特码开出的球号大于或等于31为大，小于或等于29为小。总和值等于30算打和</p>
+            <p class="Rule_font1">（十二）总和    单双</p>
+            <p class="Rule_font2">根据相应单项投注的第一球特码至第五球特码开出的球号数字和值是双数为总和双，数字总和值是单数为总和单。</p>
+            <br>
+            <h3 class="Rule_title">11选5玩法积分规则:</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col">11选5</th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+    else if ((lType >= 38 && lType < 51) || lType == 65)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">@ViewBag.title3</h3>
+            <p class="Rule_font1">玩法分类</p>
+            <p class="Rule_font1">（一）和值大小</p>
+            <p class="Rule_font2">大小:三个开奖号码总和值11~17 为大；总和值4~10 为小；若三个号码相同、则不算中奖。</p>
+            <p class="Rule_font1">（二）独胆</p>
+            <p class="Rule_font2">从1-6中，选择1个号码，三个开奖号码其中一个与所选号码相同时、即为中奖。</p>
+            <p class="Rule_font1">（三）双胆</p>
+            <p class="Rule_font2">从1-6中，选择2个号码，三个开奖号码其中一个与所选号码相同时、即视为中奖。</p>
+            <br>
+            <h3 class="Rule_title">@ViewBag.title4</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col"></th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">和值单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">和值大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">独胆</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">双胆</th>
+                    <td align="center" valign="middle">+5</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+    else if (lType >= 51 && lType < 60)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">@ViewBag.title3</h3>
+            <p class="Rule_font1">玩法分类</p>
+            <p class="Rule_font1">（一）第一球  单双</p>
+            <p class="Rule_font2">单、双：号码为双数叫双，如8，16；号码为单数叫单，如19，5。</p>
+            <p class="Rule_font1">（二）第一球  大小</p>
+            <p class="Rule_font2">大、小：开出号码小于或等于10为小，大于或等于11为大。</p>
+            <p class="Rule_font1">（三）第一球  合单双</p>
+            <p class="Rule_font1">（四）第一球  尾大小</p>
+            <p class="Rule_font2">尾大、尾小开出之尾数大于或等于5为尾大，小于或等于4为尾小。</p>
+            <p class="Rule_font1">（五）第一球  龙虎</p>
+            <p class="Rule_font2">“第一球”号码大于“第八球”号码视为“龙”中奖、反之小于视为“虎”中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font1">（六）第一球  东南西北</p>
+            <p class="Rule_font2">东：开出之号码为01，05，09，13，17</p>
+            <p class="Rule_font2">南：开出之号码为02，06，10，14，18</p>
+            <p class="Rule_font2">西：开出之号码为03，07，11，15，19</p>
+            <p class="Rule_font2">北：开出之号码为04，08，12，16，20</p>
+            <p class="Rule_font1">（七）第一球  中发白</p>
+            <p class="Rule_font2">中：开出之号码为01，02，03，04，05，06，07</p>
+            <p class="Rule_font2">发：开出之号码为08，09，10，11，12，13，14</p>
+            <p class="Rule_font2">白：开出之号码为15，16，17，18，19，20</p>
+            <p class="Rule_font1">（八）第二球  单双  规则同上</p>
+            <p class="Rule_font1">（九）第二球  大小  规则同上</p>
+            <p class="Rule_font1">（十）第二球  合单双  规则同上</p>
+            <p class="Rule_font1">（十一）第二球  尾大小  规则同上</p>
+            <p class="Rule_font1">（十二）第二球  龙虎  规则同上</p>
+            <p class="Rule_font1">（十三）第二球  东南西北  规则同上</p>
+            <p class="Rule_font1">（十四）第二球  中发白  规则同上</p>
+            <p class="Rule_font1">（十五）总和单双</p>
+            <p class="Rule_font2">所有8个开奖号码的数字总和值是单数为总和单，如数字总和值是31，51；所有8个开奖号码的数字总和值是双数为总和双，如数字总和是42，80；假如投注组合符合中奖结果，视为中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font1">（十六）总和大小</p>
+            <p class="Rule_font2">所有8个开奖号码的数字总和值85到132为总大；所有8个开奖号码的数字总和值36到83为总分小；所有8个开奖号 码的数字总和值为84打和；如开奖号码为01，20，02，08，17，09，11，数字总和是68，则总分小。假如投注组合符合中奖结果，视为中奖，其余情形视为不中奖，打和不计算结果。</p>
+            <p class="Rule_font1">（十七）总和尾大小</p>
+            <p class="Rule_font2">所有8个开奖号码的数字总和数值的个位数大于或等于5为总尾大，小于或等于4为总尾小；假如投注组合符合中奖结果，视为中奖，其余情形视为不中奖。</p>
+            <br />
+            <h3 class="Rule_title">快乐十分玩法积分规则:</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col">快乐十分</th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球合单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球尾大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球东南西北</th>
+                    <td align="center" valign="middle">+30</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球中发白</th>
+                    <td align="center" valign="middle">+21</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球合单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球尾大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球东南西北</th>
+                    <td align="center" valign="middle">+30</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球中发白</th>
+                    <td align="center" valign="middle">+21</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和尾大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+    else if (lType >= 60 && lType < 63)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">@ViewBag.title3</h3>
+            <p class="Rule_font1">玩法分类</p>
+            <p class="Rule_font1">（一）第一球  单双</p>
+            <p class="Rule_font1">（二）第一球  大小</p>
+            <p class="Rule_font2">1到12个球，1-6为小，7-12为大。</p>
+            <p class="Rule_font1">（三）第一球  龙虎</p>
+            <p class="Rule_font1">（四）第二球  单双</p>
+            <p class="Rule_font1">（五）第二球  大小 </p>
+            <p class="Rule_font1">（六）第二球  龙虎</p>
+            <p class="Rule_font1">（七）第三球  单双</p>
+            <p class="Rule_font1">（八）第三球  大小</p>
+            <p class="Rule_font1">（九）第四球  单双</p>
+            <p class="Rule_font1">（十）第四球  大小</p>
+            <p class="Rule_font1">（十一）第五球  单双</p>
+            <p class="Rule_font1">（十二）第五球  大小</p>
+            <br>
+            <h3 class="Rule_title">快乐12分玩法积分规则:</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col">快乐12分</th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+
+        </div>
+    }
+    else if (lType >= 63 && lType < 65)
+    {
+        <div class="Rule_box">
+            <h3 class="Rule_title">@ViewBag.title3</h3>
+            <p class="Rule_font1">玩法分类</p>
+            <p class="Rule_font1">（一）第一球  单双  </p>
+            <p class="Rule_font1">（二）第一球  大小</p>
+            <p class="Rule_font2">选中的号码球中1-5为小，6-10为大。</p>
+            <p class="Rule_font1">（三）第一球  五码</p>
+            <p class="Rule_font1">（四）第一球  龙虎</p>
+            <p class="Rule_font1">龙虎：</p>
+            <p class="Rule_font2">冠　军 龙/虎：“第一名”车号大于“第十名”车号视为【龙】中奖、反之小于视为【虎】中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font2">亚　军 龙/虎：“第二名”车号大于“第九名”车号视为【龙】中奖、反之小于视为【虎】中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font2">第三名 龙/虎：“第三名”车号大于“第八名”车号视为【龙】中奖、反之小于视为【虎】中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font2">第四名 龙/虎：“第四名”车号大于“第七名”车号视为【龙】中奖、反之小于视为【虎】中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font2">第五名 龙/虎：“第五名”车号大于“第六名”车号视为【龙】中奖、反之小于视为【虎】中奖，其余情形视为不中奖。</p>
+            <p class="Rule_font1">（五）第二球  单双 </p>
+            <p class="Rule_font1">（六）第二球  大小</p>
+            <p class="Rule_font1">（七）第二球  五码</p>
+            <p class="Rule_font1">（八）第二球  龙虎</p>
+            <p class="Rule_font1">（九）第三球  单双</p>
+            <p class="Rule_font1">（十）第三球  大小</p>
+            <p class="Rule_font1">（十一）第三球  五码</p>
+            <p class="Rule_font1">（十二）第三球  龙虎</p>
+            <p class="Rule_font1">（十三）第四球  单双</p>
+            <p class="Rule_font1">（十四）第四球  大小</p>
+            <p class="Rule_font1">（十五）第四球  五码</p>
+            <p class="Rule_font1">（十六）第四球  龙虎</p>
+            <p class="Rule_font1">（十七）第五球  单双</p>
+            <p class="Rule_font1">（十八）第五球  大小</p>
+            <p class="Rule_font1">（十九）第五球  五码 </p>
+            <p class="Rule_font1">（二十）第五球  龙虎</p>
+            <p class="Rule_font1">（二十一）第六球  单双 </p>
+            <p class="Rule_font1">（二十二）第六球  大小 </p>
+            <p class="Rule_font1">（二十三）第六球  五码</p>
+            <p class="Rule_font1">（二十四）第七球  单双</p>
+            <p class="Rule_font1">（二十五）第七球  大小</p>
+            <p class="Rule_font1">（二十六）第七球  五码</p>
+            <p class="Rule_font1">（二十七）第八球  单双</p>
+            <p class="Rule_font1">（二十八）第八球  大小</p>
+            <p class="Rule_font1">（二十九）第八球  五码</p>
+            <p class="Rule_font1">（三十）第九球  单双</p>
+            <p class="Rule_font1">（三十一）第九球  大小</p>
+            <p class="Rule_font1">（三十二）第九球  五码</p>
+            <p class="Rule_font1">（三十三）第十球  单双</p>
+            <p class="Rule_font1">（三十四）第十球  大小</p>
+            <p class="Rule_font1">（三十五）第十球  五码 </p>
+            <p class="Rule_font1">（三十六）冠亚单双</p>
+            <p class="Rule_font2">冠亚和单双 ：“冠亚和值”为单视为投注“单”的注单视为中奖，为双视为投注“双”的注单视为中奖，其余视为不中奖。</p>
+            <p class="Rule_font1">（三十七）冠亚大小</p>
+            <br>
+            <h3 class="Rule_title">@ViewBag.title4</h3>
+            <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
+                <tr>
+                    <th width="25%" align="center" valign="middle" scope="col"></th>
+                    <th width="25%" align="center" valign="middle" scope="col">中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">不中</th>
+                    <th width="25%" align="center" valign="middle" scope="col">备注</th>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第一球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第二球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第三球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第四球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第五球龙虎</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第六球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第六球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第六球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第七球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第七球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第七球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第八球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第八球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第八球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第九球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第九球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第九球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第十球单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第十球大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">第十球五码</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">冠亚单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">冠亚大小</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中2期</th>
+                    <td align="center" valign="middle">+1</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中3期</th>
+                    <td align="center" valign="middle">+2</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">连中4期</th>
+                    <td align="center" valign="middle">+3</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th align="center" valign="middle" scope="row">以此类推</th>
+                    <td align="center" valign="middle">+(N-1)</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                    <td align="center" valign="middle">&nbsp;</td>
+                </tr>
+            </table>
+
+        </div>
+    }
+
+</body>
+</html>
