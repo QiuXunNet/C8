@@ -795,5 +795,56 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         }
 
 
+        //查看最新一期计划
+        public ActionResult Look(int id)
+        {
+            int lType = id;
+            string currentIssue = DateTime.Now.Year + Util.GetCurrentIssue(lType);
+
+            //2.倒计时
+            string time = Util.GetOpenRemainingTime(lType);
+
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+
+                ViewBag.min = timeArr[1];
+                ViewBag.sec = timeArr[2];
+            }
+            else
+            {
+                ViewBag.time = "正在开奖";
+            }
+
+
+            ViewBag.currentIssue = currentIssue;
+            ViewBag.msg = currentIssue + "期" + Util.GetLotteryTypeName(lType) + "计划";
+
+
+
+            //1.最后一期开奖号码
+            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
+            ViewBag.lastIssue = lr.Issue;
+            ViewBag.lastNum = lr.Num;
+
+
+            //4.1获取数据
+            sql = "select top(" + Util.GetGFTJCount(lType) + ")* from [Plan] where lType = " + lType + " order by Issue desc";
+            ViewBag.list = Util.ReaderToList<Plan>(sql);
+
+            //彩种图标
+            string icon = Util.GetLotteryIcon(lType) + ".png";
+
+            ViewBag.icon = icon;
+
+
+            return View();
+
+
+        }
+
+
+
     }
 }
