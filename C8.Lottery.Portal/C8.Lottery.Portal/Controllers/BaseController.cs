@@ -12,6 +12,23 @@ namespace C8.Lottery.Portal.Controllers
 {
     public class BaseController : Controller
     {
+        /// <summary>
+        /// 获取站点配置
+        /// </summary>
+        /// <returns></returns>
+        protected SiteSetting GetSiteSetting()
+        {
+            var setting = MemClientFactory.GetCache<SiteSetting>("base_site_setting");
+            if (setting == null)
+            {
+                string sql = "select top 1 * from dbo.SiteSetting";
+                setting = Util.ReaderToList<SiteSetting>(sql).FirstOrDefault();
+                if (setting != null)
+                    MemClientFactory.WriteCache("base_site_setting", setting, 60 * 24);
+
+            }
+            return setting ?? new SiteSetting();
+        }
 
         /// <summary>
         /// 获取彩种分类
@@ -126,6 +143,49 @@ order by a.LotteryNumber desc";
             }
 
             return new List<Play>();
+        }
+
+        /// <summary>
+        /// 获取贴子点阅扣费配置表
+        /// </summary>
+        /// <returns></returns>
+        protected IList<LotteryCharge> GetLotteryCharge()
+        {
+            string memKey = "base_lottery_charge_settings";
+            var list = MemClientFactory.GetCache<IList<LotteryCharge>>(memKey);
+            if (list != null && list.Any()) return list;
+
+            string sql = "SELECT Id,lType,MinIntegral,MaxIntegral,Coin FROM dbo.LotteryCharge";
+            list = Util.ReaderToList<LotteryCharge>(sql);
+
+            if (list != null)
+            {
+                MemClientFactory.WriteCache(memKey, list);
+                return list;
+            }
+
+            return new List<LotteryCharge>();
+        }
+
+        /// <summary>
+        /// 获取分佣配置
+        /// </summary>
+        /// <returns></returns>
+        protected IList<CommissionSetting> GetCommissionSetting()
+        {
+            string memKey = "base_commission_settings";
+            var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
+            if (list == null)
+            {
+                string sql = "SELECT [Id],[lType],[UserRate],[Type] FROM [dbo].[FenChengSetting]";
+                list = Util.ReaderToList<CommissionSetting>(sql);
+                if (list != null)
+                {
+                    MemClientFactory.WriteCache(memKey, list, 60);
+                }
+            }
+
+            return list ?? new List<CommissionSetting>();
         }
     }
 }
