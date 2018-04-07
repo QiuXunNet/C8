@@ -32,16 +32,17 @@
         </header>
 
         <div class="Plan_header">
-	
+
             <dl class="Plan_hdCZ">
                 <dt><img src="/images/@ViewBag.icon"></dt>
                 <dd>
                     <div class="hdM_ddtit">
-                        <h3 class="hdM_ddtqi f-l">第<span>@ViewBag.lastIssue</span>期</h3>
+                        <h3 class="hdM_ddtqi f-l">第<span>@ViewBag.lastIssue</span>期
+                        </h3>
                         <p class="hdM_ddtime f-r">下期开奖：
-                    
+
                             @*<span id="openTime">@ViewBag.time</span>*@
-                    
+
                             @if (ViewBag.time == "正在开奖")
                             {
                                 <span id="openTime">正在开奖</span>
@@ -52,10 +53,10 @@
                             }
 
                         </p>
-                        <div style="clear:both;"></div>
+                        <div style="clear: both;"></div>
                     </div>
                     <div class="hdM_ddcon">
-                
+
                         @{
                             string num = ViewBag.lastNum;
                             string[] numArr = num.Split(',');
@@ -65,13 +66,14 @@
                                 <span class="hdM_spssc">@s</span>
                             }
                         }
-           
+
                     </div>
-                    <div class="hdM_ddZZKJ" style="display:none;">
+                    <div class="hdM_ddZZKJ" style="display: none;">
                         <p>正在开奖中...</p>
                     </div>
                 </dd>
             </dl>
+            <div class="clearfix"></div>
         </div>
 
         <div class="Plan_main">
