@@ -107,7 +107,7 @@ namespace C8.Lottery.Portal.Controllers
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-           string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
+            string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
             ViewBag.lastIssue = lr.Issue;
@@ -256,10 +256,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
-            var thumbList = GetResources((int) ResourceTypeEnum.新闻缩略图, model.Id);
+            var thumbList = GetResources((int)ResourceTypeEnum.新闻缩略图, model.Id);
             if (thumbList.Any())
                 model.Thumb = thumbList.First().RPath;
-            
+
             //查询新闻栏目信息
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
@@ -272,8 +272,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
             string sql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
-ORDER BY Id DESC";
+WHERE [TypeId]=@TypeId AND [Id] > @CurrentId 
+ORDER BY SortCode,Id";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -292,7 +292,8 @@ ORDER BY Id DESC";
             string nextsql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
+WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
+ORDER BY SortCode desc,Id DESC";
             SqlParameter[] nextparameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -355,7 +356,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
             //查询当前图库所有期信息
-            var galleryList = GetGalleries(news.Id, news.FullHead);
+            var galleryList = GetGalleries(news.Id, news.FullHead, (int)model.TypeId);
             ViewBag.GalleryList = galleryList;
 
             //查询推荐图
