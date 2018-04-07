@@ -97,7 +97,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="newsId">新闻Id</param>
         /// <param name="newsTitle">新闻标题</param>
         /// <returns></returns>
-        protected IList<Gallery> GetGalleries(long newsId, string newsTitle)
+        protected IList<Gallery> GetGalleries(long newsId, string newsTitle, int lType)
         {
             string memKey = "base_gallery_id_" + newsId;
             var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);
@@ -107,14 +107,16 @@ namespace C8.Lottery.Portal.Controllers
             string sql = @"select a.Id, a.FullHead as Name,right(ISNULL(a.LotteryNumber,''),3) as Issue, c.RPath as Picture 
 from News a
 left join ResourceMapping c on c.FkId=a.Id and c.[Type]=1
-where a.FullHead=@FullHead
+where a.FullHead=@FullHead and a.[TypeId]=@TypeId
 order by a.LotteryNumber desc";
 
             var parameters = new[]
             {
-                new SqlParameter("@FullHead",SqlDbType.NVarChar)
+                new SqlParameter("@FullHead",SqlDbType.NVarChar),
+                new SqlParameter("@TypeId",SqlDbType.Int)
             };
             parameters[0].Value = newsTitle;
+            parameters[1].Value = lType;
 
             list = Util.ReaderToList<Gallery>(sql, parameters) ?? new List<Gallery>();
 
