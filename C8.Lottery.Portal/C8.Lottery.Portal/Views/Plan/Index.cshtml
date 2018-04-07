@@ -30,7 +30,7 @@
 <body style="background:#F4F4F5;">
 
 
-    <input type="hidden" id="lType" value="@ViewBag.lType" />
+    <input type="hidden" id="lType" value="@lType" />
     <header class="hjc_header">
         <a href="/Home/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@title</a>
@@ -203,7 +203,7 @@
                                 @*查看计划*@
                                 <thead>
                                     <tr>
-                                        <th colspan="4" scope="col"><a href="#" class="Mif_titred">@ViewBag.msg</a></th>
+                                        <th colspan="4" scope="col"><a href="/Plan/Look/@lType" class="Mif_titred">@ViewBag.msg</a></th>
                                     </tr>
                                 </thead>
                             </table>

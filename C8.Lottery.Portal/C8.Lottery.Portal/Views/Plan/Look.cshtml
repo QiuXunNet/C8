@@ -4,6 +4,8 @@
 
     int count = 0;
 
+    int lType = ViewBag.lType;
+
 }
 
 <!DOCTYPE html>
@@ -21,7 +23,7 @@
     </head>
 
     <body style="background:#fff;">
-        <input type="hidden" id="lType" value="1" />
+        <input type="hidden" id="lType" value="@lType" />
 
         <header class="Header_header">
             <h3 class="Hh_title">@ViewBag.siteTitle</h3>
@@ -94,6 +96,7 @@
        
 
                 <div class="Mif_sykuai">
+                    
                     <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
 
                         @*开奖信息*@
@@ -124,12 +127,60 @@
 
                         @*预测号码*@
                         <tbody>
+                            
 
                             @foreach (Plan plan in ViewBag.list)
                             {
                                 count ++;
 
-                                if (count < 6)
+                                if (count == 6 &&    ( ( lType >= 9 && lType < 38 ) || (lType >= 60 && lType < 63))            )
+                                {
+                                    <tr>
+                                        <td align="center"><font>@plan.ShowSort</font></td>
+
+                                        <td colspan="3" align="center">
+                                            <font>@plan.Num</font>
+
+                                        </td>
+
+                                    </tr>
+                                }
+                                else if (lType == 2 || lType == 4 || lType == 8)
+                                {
+                                    numArr = plan.Num.Split('|');
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        <td width="40%" align="left">
+
+                                            <font class="Mif_red">@numArr[0]</font>
+
+
+                                        </td>
+                                        <td width="40%" align="left">
+
+                                            <font>@numArr[1]</font>
+
+
+                                        </td>
+                                       
+
+                                    </tr>
+                                }
+                                else if (lType == 5)
+                                {
+
+                                    <tr>
+                                        <td width="30%" align="center"><font>@plan.ShowSort</font></td>
+                                        <td width="70%" align="left">
+
+                                            <font class="Mif_red">@plan.Num</font>
+                                        </td>
+                                       
+
+                                    </tr>
+                                }
+                                else
                                 {
                                     numArr = plan.Num.Split('|');
 
@@ -150,18 +201,6 @@
                                         <td width="20%" align="left">
 
                                             <font>@numArr[2]</font>
-                                        </td>
-
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td align="center"><font>@plan.ShowSort</font></td>
-
-                                        <td colspan="3" align="center">
-                                            <font>@plan.Num</font>
-
                                         </td>
 
                                     </tr>

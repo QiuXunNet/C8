@@ -799,6 +799,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         public ActionResult Look(int id)
         {
             int lType = id;
+            ViewBag.lType = lType;
             string currentIssue = DateTime.Now.Year + Util.GetCurrentIssue(lType);
 
             //2.倒计时
