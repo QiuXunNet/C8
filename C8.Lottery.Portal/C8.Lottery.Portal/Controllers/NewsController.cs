@@ -105,6 +105,9 @@ namespace C8.Lottery.Portal.Controllers
             //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
             ViewBag.NewsTypeList = list;
 
+            int lType = Util.GetlTypeById(id);
+            ViewBag.lType = lType;
+
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
             string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
@@ -115,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.showInfo = lr.ShowInfo;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(id);
+            string time = Util.GetOpenRemainingTime(lType);
 
             if (time != "正在开奖")
             {

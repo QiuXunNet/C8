@@ -6,6 +6,8 @@
     Layout = null;
 
     int currentLotteryTypeId = ViewBag.CurrentLotteryType;
+
+    int lType = ViewBag.lType;
 }
 
 <!DOCTYPE html>
@@ -37,6 +39,7 @@
 
     <div class="hjc_hdNav fixed" style="display:none">
 
+        <input type="hidden" id="lType" value="@lType" />
         <div class="hdNav_cai_expand">
             <ul class="hdNav_cai">
                 @foreach (LotteryType entity in ViewBag.LotteryTypeList)
