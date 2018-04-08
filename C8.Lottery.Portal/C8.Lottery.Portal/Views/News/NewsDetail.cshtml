@@ -23,6 +23,8 @@
     <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
     <script src="~/js/luo/jquery.emoji.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script type="text/javascript" src="~/js/luo/picmax.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
@@ -39,7 +41,7 @@
             <span class="article-source"><a href="http://c8.cn">万彩吧c8.cn</a></span>
             <span class="article-time">@Model.ReleaseTimeStr</span>
         </div>
-        <div class="article-body">
+        <div id="article-body" class="article-body">
             @Html.Raw( HttpUtility.UrlDecode(Model.NewsContent))
         </div>
         <div class="article-share">
@@ -70,31 +72,22 @@
             <div class="clearfix"></div>
         </div>
         <div class="article-pager">
-            <div class="preview">
-                @if (ViewBag.Preview != null)
-                {
-                    var preview = ViewBag.Preview as News;
+            
+            @if (ViewBag.Preview != null)
+            {
+                var preview = ViewBag.Preview as News;
+                <div class="preview">
+                    <a href="/News/NewsDetail/@preview.Id" title="@preview.FullHead">上一篇：@preview.FullHead</a>
+                </div>
+            }
+            @if (ViewBag.Nextview != null)
+            {
+                var nextview = ViewBag.Nextview as News;
 
-                <a href="/News/NewsDetail/@preview.Id">上一篇：@preview.FullHead</a>
-                }
-                else
-                {
-                @*<a href="javascript:;">上一篇：</a>*@
-                }
-            </div>
-            <div class="nextview">
-                @if (ViewBag.Nextview != null)
-                {
-                    var nextview = ViewBag.Nextview as News;
-
-                <a href="/News/NewsDetail/@nextview.Id">下一篇：@nextview.FullHead</a>
-                }
-                else
-                {
-                @*<a href="javascript:;">下一篇：</a>*@
-                }
-            </div>
-            <div class="clearfix"></div>
+                <div class="nextview">
+                    <a href="/News/NewsDetail/@nextview.Id" title="@nextview.FullHead">下一篇：@nextview.FullHead</a>
+                </div>
+            }
         </div>
     </section>
 
@@ -210,7 +203,7 @@
         </div>
 
     }
-    <div class="raking" style="background: #fff;">
+    @*<div class="raking" style="background: #fff;">
         <div class="raking-title">双色球竞猜红人</div>
         <div class="Ranking_Cinfo">
             <table width="100%" border="0" class="Ranking_table1">
@@ -388,7 +381,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>*@
 
     @Html.Action("WonderfulComment", new { id = @Model.Id, type = 2 })
 

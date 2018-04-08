@@ -294,7 +294,7 @@
         @foreach (NewsType item in ViewBag.NewsTypeList)
         {
             string enable = item.Id == currentNewsTypeId ? "block" : "none";
-            if (item.TypeName == "玄机图库")
+            if (item.ShowType == 2)
             {
                 <div class="hjc_news_lhs padding0" id="gallery"  style="display: @enable;">
                     @Html.Action("NewsGalleryCategoryList", new {ltype = currentLotteryTypeId, newsTypeId= currentNewsTypeId})

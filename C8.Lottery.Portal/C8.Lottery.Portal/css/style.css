@@ -7058,6 +7058,15 @@ a {
     }
 
 
+.hjc_ftNav {
+    padding: 0 25px;
+}
+
+    .hjc_ftNav p {
+        font-size: 13px;
+        line-height: 21.5px;
+        color: #666;
+    }
 /**********首页 结束*******/
 
 
@@ -7983,12 +7992,12 @@ footer {
 
     .article-pager .preview,
     .article-pager .nextview {
-        width: 50%;
+        width: 100%;
         box-sizing: border-box;
-        float: left;
+        /*float: left;*/
         font-size: 15px;
-        height: 19px;
-        line-height: 19px;
+        height: 29px;
+        line-height: 29px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -8004,6 +8013,34 @@ footer {
         padding: 15px 10px;
         font-size: 15px;
     }
+
+/*详情图放大*/
+.picbox {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.max-pic {
+    display: block !important;
+    margin-bottom: .1rem !important;
+    cursor: pointer;
+}
+
+.layer_bg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    z-index: 99999;
+    display: none;
+}
+
 
 
 /*** 资讯详情 结束***/
@@ -8060,7 +8097,9 @@ footer {
 
 
 /*** 个人中心 开始****/
-
+.hjc_home {
+    background-image: url(../images/02.png);
+}
 
 /***参与竞猜**/
 
@@ -8386,11 +8425,11 @@ footer {
     float: left;
 }
 
-.Plan_hdCZ dt img {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
+    .Plan_hdCZ dt img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
 
 .Plan_hdCZ dd {
     margin-left: 55px;

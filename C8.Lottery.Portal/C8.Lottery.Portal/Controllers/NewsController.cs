@@ -101,7 +101,14 @@ namespace C8.Lottery.Portal.Controllers
             //step1.查询彩种分类列表
             ViewBag.LotteryTypeList = lotteryTypeList;
             //step2.查询当前彩种下的新闻栏目
-            var list = GetNewsTypeList(id);
+            var list = GetNewsTypeList(id)
+                .Select(x => x.TypeName != "看图解码"
+                    && x.TypeName != "幸运彩图"
+                    && x.TypeName != "精选彩图"
+                    && x.TypeName != "香港图库"
+                    && x.TypeName != "香港挂牌"
+                    && x.TypeName != "跑狗玄机"
+                    );
             //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
             ViewBag.NewsTypeList = list;
 
@@ -224,7 +231,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             //查询推荐图
             string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
  left join NewsType b on b.Id= a.TypeId
- where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate";
+ where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
 
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
@@ -368,8 +375,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
  where  b.lType in
  (select ltype from News a join NewsType b on b.Id=a.TypeId
  where a.Id=" + id + @" )
- and a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1
- order by ModifyDate";
+  and DeleteMark=0 and EnabledMark=1
+ order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;
 
