@@ -1201,36 +1201,12 @@ where a.[Type]=2 and a.Id=" + id;
                 var pager = new PagedList<BetModel>();
                 pager.PageIndex = pageIndex;
                 pager.PageSize = pageSize;
-                string strsql = "";
-                SqlParameter[] sp = new SqlParameter[] { };
-                string countsql = "";
-                if (ltype == 0)//热门
-                {
-                     strsql = @"SELECT * FROM (
-	  select row_number() over(order by SortCode  ) as rowNumber,
-	 (select isnull(sum(Score),'0')  from [dbo].[BettingRecord] where [UserId]=UserId
-and lType=l.LotteryCode)as Score,* from Lottery l
-	  where IsHot=1
-)t
-WHERE rowNumber BETWEEN @Start AND @End";
-                    countsql = string.Format(@"select count(1) from Lottery where  IsHot = 1");
-
-                     sp = new SqlParameter[] {
-
-                        new SqlParameter("@UserId",userId),
-                        new SqlParameter("@Start",  pager.StartIndex ),
-                        new SqlParameter("@End", pager.EndIndex)
-
-                    };
-
-                }
-                else
-                {
-                    strsql = @"SELECT * FROM (
-	  select row_number() over(order by SortCode  ) as rowNumber,
-	 (select isnull(sum(Score),'0')  from [dbo].[BettingRecord] where [UserId]=2
-and lType=l.LotteryCode)as Score,* from Lottery l
-	  where lType=@lType and IsHot=0
+                string strsql = @"SELECT * FROM(
+      select row_number() over(order by Position) as rowNumber,
+     (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
+and lType = l.lType) as Score,* from LotteryType2 l
+   
+      where PId = @PId and IsDelete = 0
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
                 string countsql = @"select count(1) from LotteryType2 where PId=@PId and IsDelete=0";
@@ -1247,11 +1223,11 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
                 object obj = SqlHelper.ExecuteScalar(countsql,sp);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
-               
-                //pager.PageData.ForEach(x=>
-                //{
-                //    x.LotteryIcon = "/images/" + x.LotteryIcon + ".png";
-                //});
+
+                pager.PageData.ForEach(x =>
+                {
+                    x.LotteryIcon =Util.GetLotteryIcon(x.lType);
+                });
                 result.Data = pager;
 
             }
@@ -1314,8 +1290,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             try
             {
-                string strsql = string.Format("select * from Lottery where lType={0} and IsHot=0", ltype);
-                List<C8.Lottery.Model.Lottery> list = Util.ReaderToList<C8.Lottery.Model.Lottery>(strsql);
+                string strsql = string.Format("select * from LotteryType2 where PId={0}", ltype);
+                List<C8.Lottery.Model.LotteryType2> list = Util.ReaderToList<C8.Lottery.Model.LotteryType2>(strsql);
               
                 ViewBag.ltype = ltype;
                 ViewBag.LotteryList = list;
@@ -1337,7 +1313,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// </summary>
         /// <param name="ltype"></param>
         /// <returns></returns>
-        public PartialViewResult GetIntegralRule(int ltype,int ishot)
+        public PartialViewResult GetIntegralRule(int ltype,int Pid)
         {
 
             try

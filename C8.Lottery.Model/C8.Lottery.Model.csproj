@@ -54,6 +54,8 @@
     <Compile Include="Follow.cs" />
     <Compile Include="IntegralRule.cs" />
     <Compile Include="Lottery.cs" />
+    <Compile Include="LotteryCharge.cs" />
+    <Compile Include="LotteryType2.cs" />
     <Compile Include="MakeMoneyTask.cs" />
     <Compile Include="News\Comment.cs" />
     <Compile Include="LotteryType.cs" />
