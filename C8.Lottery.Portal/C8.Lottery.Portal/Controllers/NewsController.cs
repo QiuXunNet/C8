@@ -105,9 +105,12 @@ namespace C8.Lottery.Portal.Controllers
             //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
             ViewBag.NewsTypeList = list;
 
+            int lType = Util.GetlTypeById(id);
+            ViewBag.lType = lType;
+
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-           string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
+            string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
             ViewBag.lastIssue = lr.Issue;
@@ -115,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.showInfo = lr.ShowInfo;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(id);
+            string time = Util.GetOpenRemainingTime(lType);
 
             if (time != "正在开奖")
             {
@@ -164,7 +167,7 @@ namespace C8.Lottery.Portal.Controllers
 SELECT row_number() over(order by SortCode ASC, ReleaseTime DESC ) as rowNumber,
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
 FROM [dbo].[News] a
-WHERE [TypeId]=@TypeId ) T
+WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
 WHERE rowNumber BETWEEN @Start AND @End";
             SqlParameter[] parameters =
             {
@@ -202,7 +205,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, right(Max(a.LotteryNumber),3) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
  from News  a
  left join NewsType b on b.Id= a.TypeId
- where a.TypeId=@NewsTypeId and b.lType=@LType 
+ where a.TypeId=@NewsTypeId and b.lType=@LType and DeleteMark=0 and EnabledMark=1
  group by a.FullHead,a.QuickQuery
  order by a.QuickQuery";
             SqlParameter[] parameters =
@@ -221,7 +224,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             //查询推荐图
             string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
  left join NewsType b on b.Id= a.TypeId
- where a.RecommendMark=1 and b.lType=" + ltype + " order by ModifyDate";
+ where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
 
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
@@ -256,10 +259,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
-            var thumbList = GetResources((int) ResourceTypeEnum.新闻缩略图, model.Id);
+            var thumbList = GetResources((int)ResourceTypeEnum.新闻缩略图, model.Id);
             if (thumbList.Any())
                 model.Thumb = thumbList.First().RPath;
-            
+
             //查询新闻栏目信息
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
@@ -272,8 +275,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
             string sql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
-ORDER BY Id DESC";
+WHERE [TypeId]=@TypeId AND [Id] > @CurrentId 
+ORDER BY SortCode,Id";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -292,7 +295,8 @@ ORDER BY Id DESC";
             string nextsql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
+WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
+ORDER BY SortCode desc,Id DESC";
             SqlParameter[] nextparameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -355,7 +359,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
             //查询当前图库所有期信息
-            var galleryList = GetGalleries(news.Id, news.FullHead);
+            var galleryList = GetGalleries(news.Id, news.FullHead, (int)model.TypeId);
             ViewBag.GalleryList = galleryList;
 
             //查询推荐图
@@ -364,7 +368,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
  where  b.lType in
  (select ltype from News a join NewsType b on b.Id=a.TypeId
  where a.Id=" + id + @" )
- and a.RecommendMark=1
+ and a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1
  order by ModifyDate";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;

@@ -58,7 +58,7 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
         var zhi = $(this).index();
         $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
-
+      
         $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
     });
 
@@ -67,8 +67,9 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
 
         var zhi = $(this).index();
+  
         $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-
+      
         //展开项添加选中
         $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
         $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
@@ -289,6 +290,8 @@ $(function () {
             $(".GS_box").show();
             $(".GS_btn").show();
         }
+        $("#curNavIndex").val(Trzy);
+        $(".GS_nav li:eq(0)").trigger("click");
         $(this).addClass("current").siblings().removeClass("current");
         $(".Plan_content .Plan_CInfo").eq(Trzy).show().siblings().hide();
     });
@@ -367,13 +370,14 @@ $(function () {
     };
 
     /**我的成绩 彩种切换 */
-    $("#lottery_type li").on('click', function () {
-        var _this = $(this);
-        var _index = _this.attr("data-type-id");
-        _this.addClass("current").siblings().removeClass("current");
+    //$("#lottery_type li").on('click', function () {
+    //    var _this = $(this);
+    //    var _index = _this.attr("data-type-id");
 
-        $(".wrapper-container .Grades" + _index).show().siblings().hide();
-    });
+    //    _this.addClass("current").siblings().removeClass("current");
+    //    alert(_index);
+    //    $(".wrapper-container .Grades_" + _index).show().siblings().hide();
+    //});
 
     //$("#Gues1 .comp_DZ i").click(function () {
 
@@ -505,6 +509,23 @@ function alertmsg(msg) {
         type: 'notice',
         infoText: msg,
         autoClose: 1500
+    });
+}
+
+function follow(userid,type) {
+    var url = type == 1 ? "/Personal/UnFollow" : "/Personal/IFollow";
+    $.post(url, { followed_userId: userid }, function (data) {
+
+        if (!data.Success) {
+            alertmsg(data.Msg);
+        } else {
+            if (type == 1) {
+                $("#follow").attr("data-type", "0").html(" 关注 ");
+            } else {
+
+                $("#follow").attr("data-type", "1").html("已关注");
+            }
+        }
     });
 }
 $.fn.extend({

@@ -12,6 +12,23 @@ namespace C8.Lottery.Portal.Controllers
 {
     public class BaseController : Controller
     {
+        /// <summary>
+        /// 获取站点配置
+        /// </summary>
+        /// <returns></returns>
+        protected SiteSetting GetSiteSetting()
+        {
+            var setting = MemClientFactory.GetCache<SiteSetting>("base_site_setting");
+            if (setting == null)
+            {
+                string sql = "select top 1 * from dbo.SiteSetting";
+                setting = Util.ReaderToList<SiteSetting>(sql).FirstOrDefault();
+                if (setting != null)
+                    MemClientFactory.WriteCache("base_site_setting", setting, 60 * 24);
+
+            }
+            return setting ?? new SiteSetting();
+        }
 
         /// <summary>
         /// 获取彩种分类
@@ -80,7 +97,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="newsId">新闻Id</param>
         /// <param name="newsTitle">新闻标题</param>
         /// <returns></returns>
-        protected IList<Gallery> GetGalleries(long newsId, string newsTitle)
+        protected IList<Gallery> GetGalleries(long newsId, string newsTitle, int lType)
         {
             string memKey = "base_gallery_id_" + newsId;
             var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);
@@ -90,14 +107,16 @@ namespace C8.Lottery.Portal.Controllers
             string sql = @"select a.Id, a.FullHead as Name,right(ISNULL(a.LotteryNumber,''),3) as Issue, c.RPath as Picture 
 from News a
 left join ResourceMapping c on c.FkId=a.Id and c.[Type]=1
-where a.FullHead=@FullHead
+where a.FullHead=@FullHead and a.[TypeId]=@TypeId
 order by a.LotteryNumber desc";
 
             var parameters = new[]
             {
-                new SqlParameter("@FullHead",SqlDbType.NVarChar)
+                new SqlParameter("@FullHead",SqlDbType.NVarChar),
+                new SqlParameter("@TypeId",SqlDbType.Int)
             };
             parameters[0].Value = newsTitle;
+            parameters[1].Value = lType;
 
             list = Util.ReaderToList<Gallery>(sql, parameters) ?? new List<Gallery>();
 
@@ -126,6 +145,49 @@ order by a.LotteryNumber desc";
             }
 
             return new List<Play>();
+        }
+
+        /// <summary>
+        /// 获取贴子点阅扣费配置表
+        /// </summary>
+        /// <returns></returns>
+        protected IList<LotteryCharge> GetLotteryCharge()
+        {
+            string memKey = "base_lottery_charge_settings";
+            var list = MemClientFactory.GetCache<IList<LotteryCharge>>(memKey);
+            if (list != null && list.Any()) return list;
+
+            string sql = "SELECT Id,lType,MinIntegral,MaxIntegral,Coin FROM dbo.LotteryCharge";
+            list = Util.ReaderToList<LotteryCharge>(sql);
+
+            if (list != null)
+            {
+                MemClientFactory.WriteCache(memKey, list);
+                return list;
+            }
+
+            return new List<LotteryCharge>();
+        }
+
+        /// <summary>
+        /// 获取分佣配置
+        /// </summary>
+        /// <returns></returns>
+        protected IList<CommissionSetting> GetCommissionSetting()
+        {
+            string memKey = "base_commission_settings";
+            var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
+            if (list == null)
+            {
+                string sql = "SELECT [Id],[lType],[UserRate],[Type] FROM [dbo].[FenChengSetting]";
+                list = Util.ReaderToList<CommissionSetting>(sql);
+                if (list != null)
+                {
+                    MemClientFactory.WriteCache(memKey, list, 60);
+                }
+            }
+
+            return list ?? new List<CommissionSetting>();
         }
     }
 }

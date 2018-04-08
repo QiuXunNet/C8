@@ -40,7 +40,7 @@
             <span class="article-time">@Model.ReleaseTimeStr</span>
         </div>
         <div class="article-body">
-            @Html.Raw(Model.NewsContent);
+            @Html.Raw( HttpUtility.UrlDecode(Model.NewsContent))
         </div>
         <div class="article-share">
             <dl>

@@ -56,5 +56,9 @@ namespace C8.Lottery.Model
         /// </summary>
         public int MaxWin { get; set; }
 
+        /// <summary>
+        /// 排名编号
+        /// </summary>
+        public int RowNumber { get; set; }
     }
 }

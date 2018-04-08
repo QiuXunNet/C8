@@ -131,6 +131,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AchievementModel.cs" />
+    <Compile Include="Models\ACHVModel.cs" />
     <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
@@ -580,6 +582,7 @@
     <Content Include="images\rq-cur-n.png" />
     <Content Include="images\rq-num-bg.png" />
     <Content Include="images\star.png" />
+    <Content Include="images\totop.png" />
     <Content Include="images\upbtn.png" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
@@ -671,9 +674,16 @@
     <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
+    <Content Include="Views\Plan\Rule.cshtml" />
     <Content Include="Views\Personal\TakeBet.cshtml" />
+    <Content Include="Views\Personal\MyAchievement.cshtml" />
     <Content Include="Views\Personal\Notice.cshtml" />
     <Content Include="Views\Talking\ManagementList.cshtml" />
+    <Content Include="Views\Personal\GetLottery.cshtml" />
+    <Content Include="Views\Personal\GetIntegralRule.cshtml" />
+    <Content Include="Views\Plan\PlayRecord.cshtml" />
+    <Content Include="Views\Plan\LastPlay.cshtml" />
+    <Content Include="Views\Plan\Look.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

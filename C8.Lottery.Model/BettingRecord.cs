@@ -16,7 +16,7 @@ namespace C8.Lottery.Model
         public string PlayName { get; set; }
         public string BetNum { get; set; }
         public int WinState { get; set; }
-
+        public int Score { get; set; }
         public int UserId { get; set; }
         [JsonIgnore]
         public DateTime SubTime { get; set; }

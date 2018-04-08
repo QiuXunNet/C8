@@ -1,0 +1,458 @@
+﻿@using C8.Lottery.Model
+@model UserInfo
+
+@{
+    Layout = null;
+    bool followed = ViewBag.Followed;
+    bool isSub = ViewBag.IsSub;
+    int lType = ViewBag.lType;
+    List<Play> playList = ViewBag.PlayList;
+    int type = ViewBag.Type;
+    int readCoin = ViewBag.ReadCoin ?? 0;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>近期竞猜-@ViewBag.LTypeName</title>
+    <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
+    <link href="~/css/jquery.emoji.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script src="~/js/luo/jquery.emoji.min.js"></script>
+    <script type="text/javascript" src="/js/yjp.js"></script>
+    <script type="text/javascript" src="/js/TouchSlide.1.1.js"></script>
+    @*<script type="text/javascript" src="~/js/runTime2.js"></script>*@
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">@(ViewBag.LTypeName)近期竞猜</a>
+    </header>
+
+    <div class="Forecast_Top">
+        <div class="Forecast_Theader">
+            <dl class="Forecast_ThdDl">
+                <dt>
+                    <a href="/Personal/UserCenter/@Model.Id">
+                        @if (string.IsNullOrEmpty(Model.Headpath))
+                        {
+                            <img src="/images/default_avater.png" alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Headpath" alt="@Model.Headpath" />
+                        }
+                    </a>
+                </dt>
+                <dd>
+                    <div class="ThdDl_Top">
+                        <h3 class="ThdDl_name f-l"><a href="/Personal/UserCenter/@Model.Id">@Model.Name</a></h3>
+                        <a href="javascript:;" class="ThdDl_ds f-r">打赏</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="ThdDl_Bt">
+                        <div class="ThdDl_BtLeft f-l">
+                            <span>粉丝：</span><span>@Model.Fans</span>
+                            <a href="/Personal/UserCenter/@Model.Id">@(followed ? "已关注" : " 关注 ")</a>
+                        </div>
+                        @if (type == 0)
+                        {
+                            <a href="/Plan/PlayRecord/@lType?uid=@Model.Id&type=1" class="ThdDl_BtRight f-r">查看总成绩</a>
+                        }
+                        <div style="clear:both;"></div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="Gues_Thd">
+            <div class="Gues_ThdLeft f-l">
+                <h3>
+                    距离下期开奖
+                    @if (ViewBag.time == "正在开奖")
+                    {
+                        <span id="openTime">正在开奖</span>
+                    }
+                    else
+                    {
+                        if (lType < 9)
+                        {
+                            <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                        }
+                        else
+                        {
+                            <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                        }
+                    }
+                </h3>
+            </div>
+            <div class="Gues_ThdRight f-r">
+                @if (isSub)
+                {
+                    <span>已更新</span>
+                    if (type == 0)
+                    {
+                        <a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>
+                    }
+                }
+                else
+                {
+                    <span>未更新</span>
+                }
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="Gues_content">
+        @if (type == 0)
+        {
+            <div class="Gues_Cnav">
+                @if (playList != null)
+                {
+                    <ul class="SX_Ul">
+                        @foreach (var play in playList)
+                    {
+                            <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                        }
+                    </ul>
+                    <div style="clear: both;"></div>
+                }
+            </div>
+        }
+        <div class="Gues_Ctext">
+
+        </div>
+    </div>
+
+
+    @Html.Action("WonderfulComment", "News", new { id = @Model.Id, type = 1 })
+
+    @*<div class="Gues_expert">
+            <h3 class="Expert_title">已有<font>10025</font>人分享该专家</h3>
+            <ul class="Expert_nav">
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            </ul>
+            <div style="clear:both;"></div>
+        </div>*@
+
+    <!--分享-->
+    <div class="Gues_share">
+        <div class="Share_info">
+            <div class="Share_ifTitle">
+                <h3>分享至</h3>
+            </div>
+            <ul class="Share_ifNav">
+                <li>
+                    <a href="javascript:call('wechatFriend');">
+                        <div class="Share_iNtu">
+                            <img src="/images/63_1.png">
+                        </div>
+                        <p>微信好友</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:call('wechatTimeline');">
+                        <div class="Share_iNtu">
+                            <img src="/images/63_2.png">
+                        </div>
+                        <p>朋友圈</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:call('qqFriend');">
+                        <div class="Share_iNtu">
+                            <img src="/images/63_3.png">
+                        </div>
+                        <p>QQ好友</p>
+                    </a>
+                </li>
+                <div style="clear: both;"></div>
+            </ul>
+            <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
+        </div>
+    </div>
+
+    <div class="C8_TCpopupA" style="margin-top: -80px;">
+        <div class="C8_Tcontent">
+            <p class="C8_Tcfont">@("查看此专家预测号码需要支付" + readCoin + "金币")</p>
+            <p class="C8_Tcfont">是否支付金币查看？</p>
+        </div>
+        <ul class="C8_Tbtn">
+            <li>
+                <a href="javascript:;">
+                    <img src="/images/69_1.png">
+                    <span>取消</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="/images/69_2.png">
+                    <span>确认</span>
+                </a>
+            </li>
+        </ul>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="mask"></div>
+
+    <script src="~/js/kcp/NativeShare.js"></script>
+    <script type="text/javascript">
+        var recordId = 0;
+        var readCoin=@readCoin;
+        $(function() {
+            $(".Gues_ul").parseEmoji();
+
+            if (@type == 0) {
+                $(".SX_Ul li").click(function() {
+                    var _this = $(this),
+                        playName = _this.attr("data-title") || "全部";
+                    getData(playName);
+
+                });
+
+                $(".SX_Ul li:eq(0)").trigger("click");
+                //查看预测号码
+                $("#viewBetting").click(function() {
+
+                });
+            } else {
+                getData("全部");
+            }
+        });
+
+        function getData(playName) {
+            var uid=@Model.Id;
+            $.ajax({
+                type: 'GET',
+                data: {
+                    lType: @lType,
+                    playName: playName,
+                    uid:uid
+                },
+                url: '/Plan/GetLastPlay',
+                dataType: 'json',
+                success: function (res) {
+
+                    if (res.IsSuccess && res.Data) {
+                        //回调
+                        buildHtml(res.Data.PageData);
+
+                        if (res.Data.ExtraData && res.Data.ExtraData.Id) {
+                            recordId=res.Data.ExtraData.Id;
+                        }
+
+                    } else {
+                        alertmsg("服务器繁忙");
+                    }
+                },
+                error: function(res, xhr) {
+                    alertmsg("服务器繁忙");
+                }
+            });
+        }
+
+        function buildHtml(pageData) {
+            var itemList = [];
+
+            if (!pageData || pageData.length<1) {
+                itemList.push('<div class="Plan_CInfo"><div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无竞猜~</p></div></div>');
+            }else{
+
+                $.each(pageData, function (index, item) {
+                    console.log(item);
+                    var kjhtml = '';
+                    var kjhtml1 = '';
+                    var num = item.LotteryNum.Num.split(',');
+                    var bethtml = '';
+                    var cl1 = "hdM_ddcon";
+                    if (item.BettingRecord.length > 0)
+                    {
+                        for (var j = 0; j < item.BettingRecord.length; j++)
+                        {
+                            var iswin = item.BettingRecord[j].WinState == 3 ? "中" : "未中";
+                            var cliswin = item.BettingRecord[j].WinState == 3 ? "Forecast_Pred" : "";
+                            var issym = item.BettingRecord[j].WinState == 3 ? "+" : "";
+                            bethtml += '<tr><td align="center" valign="middle" width="25%"><p>' + item.BettingRecord[j].PlayName + '</p> </td>'
+                                + ' <td align="center" valign="middle">  <p>' + item.BettingRecord[j].BetNum + '<span class="For_Red"></span></p> </td>'
+                                + '<td align="center" valign="middle" width="25%"> <p class="' + cliswin + '">    <font class="P_TF">' + iswin + '</font><span>' + issym + '' + item.BettingRecord[j].Score + '</span></p>  </td> </tr>'
+
+                        }
+                    }
+                    for (var i = 0; i < num.length; i++)
+                    {
+                        console.log(getcolor("06"));
+                        console.log(num[i]);
+                        var cl = "hdM_spssc";
+                        if (item.BettingRecord.ltype == 6)
+                        {
+                            var color = getcolor(num[i]);
+
+                            if (color == "red") {
+                                cl = "hdM_spliu hdM_spliured";
+                            }
+                            else if (color == "green") {
+                                cl = "hdM_spliu hdM_spliugreen";
+                            }
+                            else {
+                                cl = "hdM_spliu hdM_spliublue";
+                            }
+                        }
+
+                        kjhtml += '<span class="' + cl + '">' + num[i] + '</span>';
+
+                        kjhtml1 += '<span class="LHC_spB">' + num[i] + '</span>';
+                    }
+                    var itemHtml = '<table class="Forecast_tableA" width="100%" bordercolor="#ccc" border="1"> <tr>'
+                        + ' <td align="center" valign="middle"> <p class="Forecast_Ptit">' + item.LotteryNum.Issue + '期</p>'
+                        + '    <p class="Forecast_Ptit">' + item.LotteryNum.SubTime + '</p> </td>'
+                        + ' <td colspan="2" align="left" valign="middle">';
+                    if (item.lType == 5) {
+                        itemHtml += '<div class="hdM_ddcon">' + kjhtml + '</div>';
+                    }
+                    itemHtml += '<div class="Forecast_LHC">' + kjhtml1 + '</div>  </td></tr>'
+                        + bethtml + '   </table>';
+                    itemList.push(itemHtml);
+                });
+            }
+            var html = itemList.join('');
+
+            $(".Gues_Ctext").empty().html(html);
+        }
+
+
+        //获取六合彩球的颜色
+        function getcolor(haoma) {
+            var red = "01，02，07，08，12，13，18，19，23，24，29，30，34，35，40，45，46";
+            var blue = "03，04，09，10，14，15，20，25，26，31，36，37，41，42，47，48";
+            var green = "05，06，11，16，17，21，22，27，28，32，33，38，39，43，44，49";
+            if (red.indexOf(haoma) >= 0) {
+                return "red";
+            }else if(blue.indexOf(haoma)>=0){
+                return "blue";
+            }else {
+                return "green";
+            }
+
+        }
+
+        var nativeShare = new NativeShare();
+
+        var shareData = {
+            title: '@ViewBag.LTypeName近期竞猜',
+            desc: '@ViewBag.LTypeName近期竞猜',
+            // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
+            link: 'http://' + location.host + '/Plan/PlanRecord/@Model.Id',
+            icon: '@Model.Headpath',
+            // 不要过于依赖以下两个回调，很多浏览器是不支持的
+            success: function() {
+                alert('success');
+            },
+            fail: function() {
+                alert('fail');
+            }
+        }
+        nativeShare.setShareData(shareData);
+
+        function call(command) {
+            try {
+                nativeShare.call(command);
+            } catch (err) {
+                // 如果不支持，你可以在这里做降级处理
+                alert(err.message);
+            }
+        }
+
+        var playUtil = {
+            cancel:function() {
+                $(".C8_TCpopupA").hide();
+                $(".mask").hide();
+            },
+            confirm:function() {
+                var uid=@Model.Id;
+                var ltype=@lType;
+                var playName = $(".SX_Ul li.current").attr("data-title");
+
+                if (!playName || playName.length < 1) {
+                    alertmsg("查看失败");
+                    return;
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        lType:ltype,
+                        uid:uid,
+                        id:recordId,
+                        coin:readCoin
+                    },
+                    url: '/Plan/ViewPlan',
+                    dataType: 'json',
+                    success: function (res) {
+
+                        if (res.IsSuccess) {
+                            location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
+                        } else {
+                            alertmsg(res.Message);
+                        }
+                    },
+                    error: function(res, xhr) {
+                        alertmsg("服务器繁忙");
+                    }
+                });
+            },
+            view:function() {
+                $(".C8_TCpopupA").show();
+                $(".mask").show();
+            }
+        }
+
+    </script>
+</body>
+</html>
