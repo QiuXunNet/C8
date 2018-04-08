@@ -42,8 +42,8 @@
 }
 
 .emoji_content ul li {
-    /*width: 54px;
-    height: 54px;*/
+    width: 40px;
+    height: 40px;
     float: left;
     border: 1px solid #e3e3e3;
     margin-top: -1px;
@@ -55,12 +55,13 @@
     line-height: 54px;
     text-align: center;
     cursor: pointer;
+    margin: 6px;
 }
 
 .emoji_content ul li a img {
     vertical-align: middle;
-    max-width: 52px;
-    max-height: 52px;
+    max-width: 26px;
+    max-height: 26px;
 }
 
 .emoji_content .mCSB_scrollTools {

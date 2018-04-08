@@ -20,6 +20,7 @@ namespace C8.Lottery.Model
         private int _coin = 0;
         private DateTime _subtime;
         private int _count = 0;
+        private int _state = 1;
         /// <summary>
         /// 
         /// </summary>
@@ -59,6 +60,21 @@ namespace C8.Lottery.Model
         {
             set { _count = value; }
             get { return _count; }
+        }
+        /// <summary>
+        /// 任务状态 1-正常 2-禁用 3-删除
+        /// </summary>
+        public int State
+        {
+            get
+            {
+                return _state;
+            }
+
+            set
+            {
+                _state = value;
+            }
         }
         #endregion Model
 

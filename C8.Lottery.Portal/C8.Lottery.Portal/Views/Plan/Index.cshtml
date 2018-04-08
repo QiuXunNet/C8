@@ -84,7 +84,7 @@
     </div>
     <div class="Plan_content">
         @*官方推荐*@
-        <div class="Plan_CInfo">
+        <div class="Plan_CInfo mescroll">
             <div class="CZ_hdtit">
                 <dl class="CZ_hdMain">
                     <dt><a href="javascript:;"><img src="/images/@ViewBag.icon"></a></dt>
@@ -772,7 +772,6 @@
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
-                    async: false,
                     url: url,
                     dataType: 'json',
                     success: function (res) {

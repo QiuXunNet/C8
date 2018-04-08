@@ -229,7 +229,7 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Task()
         {
             List<TaskModel> list = new List<TaskModel>();
-            string strsql = "select * from MakeMoneyTask";
+            string strsql = "select * from MakeMoneyTask where State=1";
             List<MakeMoneyTask> tasklist = Util.ReaderToList<MakeMoneyTask>(strsql);
             foreach (var item in tasklist)
             {
@@ -1181,9 +1181,8 @@ where a.[Type]=2 and a.Id=" + id;
         /// <returns></returns>
         public ActionResult TakeBet()
         {
-            string strsql = @"select  * from LotteryType
-                              order by SortCode asc";
-            List<LotteryType> list = Util.ReaderToList<LotteryType>(strsql);
+            string strsql = @"select * from LotteryType2 where PId=0 and IsDelete=0 order by Position desc";
+            List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
 
             return View(list);
         }
@@ -1192,7 +1191,7 @@ where a.[Type]=2 and a.Id=" + id;
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetBet(int ltype = 0, int pageIndex = 1, int pageSize = 20)
+        public JsonResult GetBet(int PId = 0, int pageIndex = 1, int pageSize = 20)
         {
             var result = new AjaxResult<PagedList<BetModel>>();
             int userId = UserHelper.GetByUserId();
@@ -1202,57 +1201,33 @@ where a.[Type]=2 and a.Id=" + id;
                 var pager = new PagedList<BetModel>();
                 pager.PageIndex = pageIndex;
                 pager.PageSize = pageSize;
-                string strsql = "";
-                SqlParameter[] sp = new SqlParameter[] { };
-                string countsql = "";
-                if (ltype == 0)//热门
-                {
-                    strsql = @"SELECT * FROM (
-	  select row_number() over(order by SortCode  ) as rowNumber,
-	 (select isnull(sum(Score),'0')  from [dbo].[BettingRecord] where [UserId]=UserId
-and lType=l.LotteryCode)as Score,* from Lottery l
-	  where IsHot=1
+                string strsql = @"SELECT * FROM(
+      select row_number() over(order by Position) as rowNumber,
+     (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
+and lType = l.lType) as Score,* from LotteryType2 l
+   
+      where PId = @PId and IsDelete = 0
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
-                    countsql = string.Format(@"select count(1) from Lottery where  IsHot = 1");
-
-                    sp = new SqlParameter[] {
-
+                string countsql = @"select count(1) from LotteryType2 where PId=@PId and IsDelete=0";
+                SqlParameter[] sp = new SqlParameter[] 
+                {
+                        new SqlParameter("@PId",PId),
                         new SqlParameter("@UserId",userId),
                         new SqlParameter("@Start",  pager.StartIndex ),
                         new SqlParameter("@End", pager.EndIndex)
 
-                    };
-
-                }
-                else
-                {
-                    strsql = @"SELECT * FROM (
-	  select row_number() over(order by SortCode  ) as rowNumber,
-	 (select isnull(sum(Score),'0')  from [dbo].[BettingRecord] where [UserId]=2
-and lType=l.LotteryCode)as Score,* from Lottery l
-	  where lType=@lType and IsHot=0
-)t
-WHERE rowNumber BETWEEN @Start AND @End";
-                    countsql = string.Format(@"select count(1) from Lottery where lType ={0}
-                    and IsHot = 0", ltype);
-                    sp = new SqlParameter[] {
-                        new SqlParameter("@lType",ltype),
-                        new SqlParameter("@UserId",userId),
-                        new SqlParameter("@Start",  pager.StartIndex ),
-                        new SqlParameter("@End", pager.EndIndex)
-
-                    };
-                }
+                 };
+                
                 pager.PageData = Util.ReaderToList<BetModel>(strsql, sp);
 
-                object obj = SqlHelper.ExecuteScalar(countsql);
+                object obj = SqlHelper.ExecuteScalar(countsql,sp);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
 
-                //pager.PageData.ForEach(x=>
-                //{
-                //    x.LotteryIcon = "/images/" + x.LotteryIcon + ".png";
-                //});
+                pager.PageData.ForEach(x =>
+                {
+                    x.LotteryIcon =Util.GetLotteryIcon(x.lType);
+                });
                 result.Data = pager;
 
             }
@@ -1266,6 +1241,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
         }
 
 
+
+   
+
+
         /// <summary>
         /// 我的成绩
         /// </summary>
@@ -1275,22 +1254,17 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ACHVModel model = new ACHVModel();
             try
             {
-                string lotterytypesql = @"select  * from LotteryType
-                              order by SortCode asc";
-                List<LotteryType> LotteryTypelist = Util.ReaderToList<LotteryType>(lotterytypesql);//频道
-                string lotterysql = @"select * from Lottery
-                                where IsHot = 0";
-                List<C8.Lottery.Model.Lottery> LotteryList = Util.ReaderToList<C8.Lottery.Model.Lottery>(lotterysql);//采种
+                string lotterytypesql = @"select * from LotteryType2 where PId=0 and IsDelete=0 order by Position desc";
+                List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotteryhotsql = @"select * from Lottery
-                                where IsHot = 1";
-                List<C8.Lottery.Model.Lottery> HotLotteryTypeList = Util.ReaderToList<C8.Lottery.Model.Lottery>(lotteryhotsql);//热门采种
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0 and IsDelete=0 order by Position desc";
+                List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
                 List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
                 model.LotteryType = LotteryTypelist;
-                model.HotLottery = HotLotteryTypeList;
-                model.Lottery = LotteryList;
+                model.Lottery = Lotterylist;
+            
                 model.IntegralRule = IntegralRuleList;
 
 
@@ -1316,9 +1290,9 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             try
             {
-                string strsql = string.Format("select * from Lottery where lType={0} and IsHot=0", ltype);
-                List<C8.Lottery.Model.Lottery> list = Util.ReaderToList<C8.Lottery.Model.Lottery>(strsql);
-
+                string strsql = string.Format("select * from LotteryType2 where PId={0}", ltype);
+                List<C8.Lottery.Model.LotteryType2> list = Util.ReaderToList<C8.Lottery.Model.LotteryType2>(strsql);
+              
                 ViewBag.ltype = ltype;
                 ViewBag.LotteryList = list;
 
@@ -1339,7 +1313,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// </summary>
         /// <param name="ltype"></param>
         /// <returns></returns>
-        public PartialViewResult GetIntegralRule(int ltype, int ishot)
+        public PartialViewResult GetIntegralRule(int ltype,int Pid)
         {
 
             try
@@ -1347,7 +1321,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string strsql = string.Format("select * from IntegralRule where lType={0}", ltype);
                 List<IntegralRule> list = Util.ReaderToList<IntegralRule>(strsql);
                 ViewBag.ltype = ltype;
-                ViewBag.ishot = ishot;
+                ViewBag.Pid = Pid;
                 ViewBag.IntegralRuleList = list;
             }
             catch (Exception)
@@ -1464,7 +1438,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             else
             {
-                strsql = string.Format("select * from Lottery where lType={0} and IsHot=0", ltype);
+                strsql =string.Format("select * from Lottery where lType={0} and IsHot=0",ltype);
             }
             try
             {
@@ -1474,7 +1448,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             catch (Exception ex)
             {
-
+             
                 msg.Success = false;
                 msg.Msg = ex.Message;
                 throw;

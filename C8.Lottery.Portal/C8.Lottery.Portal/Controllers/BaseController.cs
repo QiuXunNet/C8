@@ -104,7 +104,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list != null && list.Any()) return list;
 
-            string sql = @"select a.Id, a.FullHead as Name,right(ISNULL(a.LotteryNumber,''),3) as Issue, c.RPath as Picture 
+            string sql = @"select a.Id, a.FullHead as Name,a.[TypeId],right(ISNULL(a.LotteryNumber,''),3) as Issue, c.RPath as Picture 
 from News a
 left join ResourceMapping c on c.FkId=a.Id and c.[Type]=1
 where a.FullHead=@FullHead and a.[TypeId]=@TypeId

@@ -101,7 +101,14 @@ namespace C8.Lottery.Portal.Controllers
             //step1.查询彩种分类列表
             ViewBag.LotteryTypeList = lotteryTypeList;
             //step2.查询当前彩种下的新闻栏目
-            var list = GetNewsTypeList(id);
+            var list = GetNewsTypeList(id)
+                .Select(x => x.TypeName != "看图解码"
+                    && x.TypeName != "幸运彩图"
+                    && x.TypeName != "精选彩图"
+                    && x.TypeName != "香港图库"
+                    && x.TypeName != "香港挂牌"
+                    && x.TypeName != "跑狗玄机"
+                    );
             //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
             ViewBag.NewsTypeList = list;
 
@@ -224,7 +231,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             //查询推荐图
             string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
  left join NewsType b on b.Id= a.TypeId
- where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate";
+ where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
 
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
@@ -368,8 +375,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
  where  b.lType in
  (select ltype from News a join NewsType b on b.Id=a.TypeId
  where a.Id=" + id + @" )
- and a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1
- order by ModifyDate";
+  and DeleteMark=0 and EnabledMark=1
+ order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;
 
@@ -389,7 +396,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.IsDeleted = 0 and a.ArticleId = @ArticleId and a.Type=@Type
+  where a.IsDeleted = 0 and a.RefCommentId=0  and a.ArticleId = @ArticleId and a.Type=@Type
   order by StarCount desc";
             var parameters = new[]
             {
@@ -461,7 +468,11 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
             parameters[2].Value = id;
@@ -568,7 +579,11 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 new SqlParameter("@Id",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
 
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
@@ -624,7 +639,11 @@ from Comment a
   where a.RefCommentId = @RefCommentId and a.IsDeleted = 0 and a.Type=@Type
   ) T
 WHERE rowNumber BETWEEN @Start AND @End";
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
 
             var parameters = new[]
             {

@@ -1,5 +1,5 @@
 ﻿@using C8.Lottery.Model
-@model List<LotteryType>
+@model List<LotteryType2>
 @{
     ViewBag.Title = "TakeBet";
 }
@@ -37,12 +37,21 @@
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-                <li class="current" data-index="0"><a href="javascript:;">热门</a></li>
+              
                 @if (Model != null)
                 {
                     foreach (var item in Model)
                     {
-                        <li data-index="@item.Icon"><a href="javascript:;">@item.TypeName</a></li>
+                        if (Model.IndexOf(item) == 0)
+                        {
+                            <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                        }
+                        else
+                        {
+                <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+
+                        }
+
                     }
                 }
             
@@ -56,12 +65,20 @@
                 <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
             </div>
             <ul class="hdNav_cai">
-                <li class="current" data-index="0"><a href="javascript:;">热门</a></li>
+             
                 @if (Model != null)
                 {
                     foreach (var item in Model)
                     {
-                        <li data-index="@item.Icon"><a href="javascript:;">@item.TypeName</a></li>
+                        if (Model.IndexOf(item) == 0)
+                        {
+                            <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                        }
+                        else
+                        {
+                            <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+
+                        }
                     }
                 }
                 <div style="clear:bothl;"></div>
@@ -71,19 +88,15 @@
 
     <div class="guessing_content hjc_indexmain" style="margin-top:90px;">
         
-        <div id="mescroll0" class="list_mainUl2 gues_info">
-            <div id="datalist0">
-
-            </div>
-        </div>
+    
        @if (Model != null)
                    {
                        foreach (var item in Model)
                        {
-                           string mid = "mescroll" + item.Icon;
-                           string did = "datalist" + item.Icon;
+                           string mid = "mescroll" + item.Id;
+                           string did = "datalist" + item.Id;
 
-                       <div id="@mid" class="list_mainUl2 gues_info" style="display:none;">
+                       <div id="@mid" class="list_mainUl2 gues_info" >
                         <div id="@did">
 
             </div>
@@ -102,9 +115,9 @@
 
     <script type="text/javascript">
         $(function () {
-            var curNavIndex = 0;
+            var curNavIndex = 1;
             var mescrollArr = new Array(17);
-            mescrollArr[0] = initMescroll("mescroll0", "datalist0");
+            mescrollArr[curNavIndex] = initMescroll("mescroll1", "datalist1");
 
             function pager(obj) {
                 var _this = $(obj),
@@ -197,7 +210,7 @@
                 $.ajax({
                     type: 'GET',
                     data: {
-                        ltype:ltype,           
+                        PId:ltype,           
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
@@ -229,7 +242,7 @@
             $.each(data, function (index, item) {
                 console.log(item);
                 var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></a></dt>'
-                + '<dd><a href="/Plan/Post/' + item.LType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.LotteryName + '</h3>  <p>' + item.Score + '</p>   </div>'
+                + '<dd><a href="/Plan/Post/' + item.lType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.Name + '</h3>  <p>' + item.Score + '</p>   </div>'
                 + ' </a></dd> </dl>';
                 itemList.push(itemHtml);
             });
