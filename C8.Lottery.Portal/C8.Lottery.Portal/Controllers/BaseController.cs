@@ -107,7 +107,7 @@ namespace C8.Lottery.Portal.Controllers
             string sql = @"select a.Id, a.FullHead as Name,a.[TypeId],right(ISNULL(a.LotteryNumber,''),3) as Issue, c.RPath as Picture 
 from News a
 left join ResourceMapping c on c.FkId=a.Id and c.[Type]=1
-where a.FullHead=@FullHead and a.[TypeId]=@TypeId
+where a.FullHead=@FullHead and a.[TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1  
 order by a.LotteryNumber desc";
 
             var parameters = new[]

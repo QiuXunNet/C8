@@ -651,6 +651,7 @@
     <Content Include="js\kcp\webpack.config.js" />
     <Content Include="js\luo\dropload.js" />
     <Content Include="js\luo\dropload.min.js" />
+    <Content Include="js\luo\hammer.min.js" />
     <Content Include="js\luo\jquery.emoji.min.js" />
     <Content Include="js\luo\jQuery.Form.js" />
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />

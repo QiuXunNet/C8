@@ -1036,9 +1036,13 @@ inav-warp {
     width: 50%;
     box-sizing: border-box;
     height: .4rem;
-    padding: .1rem 0 .1rem .1rem;
+    line-height: .4rem;
+    padding: 0 .1rem;
     border-bottom: 1px solid #eee;
     border-right: 1px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .rec-gallery dd:nth-child(2n+1) {
