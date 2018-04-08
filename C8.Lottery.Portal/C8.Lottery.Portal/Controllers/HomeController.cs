@@ -32,6 +32,11 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.openList = list;
             ViewBag.UserInfo = UserHelper.LoginUser;
             ViewBag.SiteSetting = GetSiteSetting();
+
+            //彩种大分类
+            sql = "select * from LotteryType2 where PId = 0 order by Position";
+            ViewBag.list = Util.ReaderToList<LotteryType2>(sql);
+
             return View();
         }
 
@@ -590,6 +595,10 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult Plan()
         {
+            string sql = "select * from LotteryType2 where PId = 0 order by Position";
+            ViewBag.list = Util.ReaderToList<LotteryType2>(sql);
+
+
             return View();
         }
 
@@ -611,6 +620,11 @@ namespace C8.Lottery.Portal.Controllers
             }
 
             ViewBag.openList = list;
+
+
+            sql = "select * from LotteryType2 where PId = 0 order by Position";
+            ViewBag.list = Util.ReaderToList<LotteryType2>(sql);
+
             return View();
         }
 
