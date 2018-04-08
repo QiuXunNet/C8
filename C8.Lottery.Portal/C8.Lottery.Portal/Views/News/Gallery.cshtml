@@ -15,7 +15,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>@Model.Name-玄机图库</title>
+    <title>@Model.Name-@newsType.TypeName</title>
     <meta name="keywords" content="@newsType.SeoKeyword">
     <meta name="description" content="@newsType.SeoDescription">
     <script type="text/javascript" src="~/js/fontSize.js"></script>
@@ -40,11 +40,11 @@
             {
                 if (item.Id == currentId)
                 {
-                <div class="line on">第@(item.Issue)期</div>
+                        <div class="line on">第@(item.Issue)期</div>
                     }
                     else
                     {
-                <div class="line">第@(item.Issue)期</div>
+                        <div class="line">第@(item.Issue)期</div>
                     }
                 }
             </div>
@@ -63,7 +63,7 @@
             @foreach (var item in galleryList)
             {
                 <div class="slick-slide">
-                    <img data-src="@item.Picture" alt="@item.Name" style="opacity: 1;" />
+                    <img data-src="@item.Picture" alt="@item.Name" data-type="@item.TypeId" style="opacity: 1;" />
                 </div>
             }
             <div style="clear: both;"></div>

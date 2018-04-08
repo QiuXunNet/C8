@@ -45,9 +45,9 @@ namespace C8.Lottery.Portal.Controllers
                 ViewBag.RommId = id;
                 if (user == null)
                 {
-                    ViewBag.UserId = 0;
+                    ViewBag.UserId = 9998;  
                     ViewBag.UserName = "测试用户";
-                    ViewBag.PhotoImg = "";
+                    ViewBag.PhotoImg = "/images/default_avater.png";
                     ViewBag.IsAdmin = true;
                 }
                 else
@@ -126,7 +126,7 @@ namespace C8.Lottery.Portal.Controllers
             {               
             }
 
-            return View();
+            return View("ChatRoomWS");
         }
 
         /// <summary>
@@ -268,18 +268,19 @@ namespace C8.Lottery.Portal.Controllers
 
             try
             {
-                string regsql = @"insert into TalkNotes (Content,SendPeople,UserName,PhotoImg,SendTime,RoomId,Type,Status,Guid)
-                                values (@Content,@SendPeople,@UserName,@PhotoImg,@SendTime,@RoomId,@Type,@Status,@Guid);";
+                string regsql = @"insert into TalkNotes (Content,UserId,UserName,PhotoImg,SendTime,RoomId,MsgTypeChild,Status,Guid,IsAdmin)
+                                values (@Content,@UserId,@UserName,@PhotoImg,@SendTime,@RoomId,@MsgTypeChild,@Status,@Guid,@IsAdmin);";
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@Content",model.Content),
-                    new SqlParameter("@SendPeople",model.SendPeople),
+                    new SqlParameter("@UserId",model.UserId),
                     new SqlParameter("@UserName",model.UserName),
                     new SqlParameter("@PhotoImg",model.PhotoImg??""),
                     new SqlParameter("@SendTime",model.SendTime),
                     new SqlParameter("@RoomId",model.RoomId),
-                    new SqlParameter("@Type",model.Type),
+                    new SqlParameter("@MsgTypeChild",model.MsgTypeChild),
                     new SqlParameter("@Status",model.Status),
-                    new SqlParameter("@Guid",model.Guid)
+                    new SqlParameter("@Guid",model.Guid),
+                    new SqlParameter("@IsAdmin",model.IsAdmin)
                  };
 
                 SqlHelper.ExecuteScalar(regsql, regsp);

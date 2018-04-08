@@ -655,6 +655,7 @@
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
     <Content Include="js\luo\mescroll.min.js" />
+    <Content Include="js\luo\picmax.js" />
     <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
     <Content Include="js\public.js" />
@@ -738,7 +739,6 @@
     <Content Include="Views\Plan\PlayRecord.cshtml" />
     <Content Include="Views\Plan\LastPlay.cshtml" />
     <Content Include="Views\Plan\Look.cshtml" />
-    <Content Include="Views\Personal\TaskRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

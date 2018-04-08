@@ -26,7 +26,7 @@ namespace C8.Lottery.Model
         /// <summary>
         /// 发送人
         /// </summary>
-        public int SendPeople { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// 发送人姓名
@@ -49,9 +49,9 @@ namespace C8.Lottery.Model
         public int RoomId { get; set; }
 
         /// <summary>
-        /// 记录类型  1:文字    2:表情    3:图片
+        /// 记录类型  21:文字    23:表情    22:图片
         /// </summary>
-        public int Type { get; set; }
+        public int MsgTypeChild { get; set; }
 
         /// <summary>
         /// 状态  0:删除  1:正常
@@ -62,6 +62,11 @@ namespace C8.Lottery.Model
         /// Guid 用于页面聊天记录命名和管理员删除
         /// </summary>
         public string Guid { get; set; }
+
+        /// <summary>
+        /// 是否是管理员
+        /// </summary>
+        public bool IsAdmin { get; set; }
 
         /// <summary>
         /// 格式化后的发送时间
