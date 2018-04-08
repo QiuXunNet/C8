@@ -1439,7 +1439,6 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
 
 
-
         /// <summary>
         /// 获取采种
         /// </summary>
@@ -1473,7 +1472,96 @@ WHERE rowNumber BETWEEN @Start AND @End";
         }
 
 
-        
+
+        /// <summary>
+        /// 交易记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TransactionRecord()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 交易记录数据
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult RecordList(int Type,int pageIndex, int pageSize)
+        {
+            var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
+            try
+            {
+             
+                var pager = new PagedList<ComeOutRecordModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+                string strstate = "";
+                int UserId = UserHelper.GetByUserId();
+
+                string strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and State in(@State)
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                if (Type == 1)//充值
+                {
+                    strstate = "1";
+                }
+                else if (Type == 2)//消费
+                {
+                    strstate = "3,5";
+
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,c.* from ComeOutRecord c
+inner join BettingRecord b
+on c.OrderId=b.Id
+ where c.UserId=@UserId and State in(@State)
+ )t
+ where   rowNumber BETWEEN @Start AND @End";
+
+                }
+                else if (Type == 3)//赚钱
+                {
+                    strstate = "4,6,7,8,9 ";
+                }
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and State in(@State)";
+
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@State",strstate),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+
+
+                };
+                List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
+                int count =Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                if (list != null)
+                {
+                    if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+                            x.UserName = UserHelper.GetUser(x.BUserId).UserName;
+                            x.LotteryIcon = Util.GetLotteryIcon(x.lType);
+                        });
+                    }
+                }
+                pager.PageData = list;
+                pager.TotalCount = count;
+
+                result.Data = pager;
+
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+            
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 

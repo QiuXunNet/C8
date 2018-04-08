@@ -102,13 +102,13 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.LotteryTypeList = lotteryTypeList;
             //step2.查询当前彩种下的新闻栏目
             var list = GetNewsTypeList(id)
-                .Select(x => x.TypeName != "看图解码"
+                .Where(x => x.TypeName != "看图解码"
                     && x.TypeName != "幸运彩图"
                     && x.TypeName != "精选彩图"
                     && x.TypeName != "香港图库"
                     && x.TypeName != "香港挂牌"
                     && x.TypeName != "跑狗玄机"
-                    );
+                    ).ToList();
             //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
             ViewBag.NewsTypeList = list;
 
@@ -374,8 +374,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
  join NewsType b on b.Id= a.TypeId
  where  b.lType in
  (select ltype from News a join NewsType b on b.Id=a.TypeId
- where a.Id=" + id + @" )
-  and DeleteMark=0 and EnabledMark=1
+ where a.Id=" + id + " ) and a.TypeId=" + model.TypeId
+ + @" and DeleteMark=0 and EnabledMark=1 
  order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;

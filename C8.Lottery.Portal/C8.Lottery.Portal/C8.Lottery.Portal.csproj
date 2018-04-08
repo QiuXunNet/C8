@@ -134,6 +134,7 @@
     <Compile Include="Models\AchievementModel.cs" />
     <Compile Include="Models\ACHVModel.cs" />
     <Compile Include="Models\BetModel.cs" />
+    <Compile Include="Models\ComeOutRecordModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
@@ -650,12 +651,14 @@
     <Content Include="js\kcp\webpack.config.js" />
     <Content Include="js\luo\dropload.js" />
     <Content Include="js\luo\dropload.min.js" />
+    <Content Include="js\luo\hammer.min.js" />
     <Content Include="js\luo\jquery.emoji.min.js" />
     <Content Include="js\luo\jQuery.Form.js" />
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
     <Content Include="js\luo\mescroll.min.js" />
     <Content Include="js\luo\picmax.js" />
+    <Content Include="js\luo\plan.js" />
     <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
     <Content Include="js\public.js" />
@@ -739,6 +742,9 @@
     <Content Include="Views\Plan\PlayRecord.cshtml" />
     <Content Include="Views\Plan\LastPlay.cshtml" />
     <Content Include="Views\Plan\Look.cshtml" />
+    <Content Include="Views\Plan\Tip.cshtml" />
+    <Content Include="Views\Personal\TransactionRecord.cshtml" />
+    <Content Include="Views\Personal\TaskRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
