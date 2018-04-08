@@ -20,7 +20,7 @@ namespace C8.Lottery.Model
         private int? _ltype;
         private string _name;
         private int? _position;
-        private bool _isdelete = false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -61,14 +61,7 @@ namespace C8.Lottery.Model
             set { _position = value; }
             get { return _position; }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsDelete
-        {
-            set { _isdelete = value; }
-            get { return _isdelete; }
-        }
+     
         #endregion Model
 
     }

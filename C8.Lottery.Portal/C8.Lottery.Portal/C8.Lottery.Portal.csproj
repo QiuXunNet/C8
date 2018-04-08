@@ -738,6 +738,7 @@
     <Content Include="Views\Plan\PlayRecord.cshtml" />
     <Content Include="Views\Plan\LastPlay.cshtml" />
     <Content Include="Views\Plan\Look.cshtml" />
+    <Content Include="Views\Personal\TaskRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

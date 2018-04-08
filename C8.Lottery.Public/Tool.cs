@@ -163,8 +163,7 @@ namespace C8.Lottery.Public
             {
                 File.Delete(path);
             }
-                     
-            
+   
         }
 
     }
