@@ -25,7 +25,7 @@ namespace C8.Lottery.Model
         /// <summary>
         /// 用户分成百分比
         /// </summary>
-        public decimal UserRate { get; set; }
+        public decimal Percentage { get; set; }
         /// <summary>
         /// 
         /// </summary>

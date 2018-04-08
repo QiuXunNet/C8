@@ -179,7 +179,7 @@ order by a.LotteryNumber desc";
             var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
             if (list == null)
             {
-                string sql = "SELECT [Id],[lType],[UserRate],[Type] FROM [dbo].[FenChengSetting]";
+                string sql = "SELECT [Id],[lType],[Percentage],[Type] FROM [dbo].[SharedRevenue] WHERE IsDeleted=0";
                 list = Util.ReaderToList<CommissionSetting>(sql);
                 if (list != null)
                 {
