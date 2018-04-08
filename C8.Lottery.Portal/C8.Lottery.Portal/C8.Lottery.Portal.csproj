@@ -684,6 +684,7 @@
     <Content Include="Views\Plan\PlayRecord.cshtml" />
     <Content Include="Views\Plan\LastPlay.cshtml" />
     <Content Include="Views\Plan\Look.cshtml" />
+    <Content Include="Views\Talking\ChatRoomWS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
