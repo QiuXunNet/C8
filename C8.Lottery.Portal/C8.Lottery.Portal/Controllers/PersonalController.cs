@@ -248,6 +248,18 @@ namespace C8.Lottery.Portal.Controllers
             return View(model);
         }
 
+
+
+        /// <summary>
+        /// 赚钱任务规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TaskRule()
+        {
+            return View();
+        }
+
+
         /// <summary>
         /// 获取任务完成数量
         /// </summary>
@@ -1181,7 +1193,7 @@ where a.[Type]=2 and a.Id=" + id;
         /// <returns></returns>
         public ActionResult TakeBet()
         {
-            string strsql = @"select * from LotteryType2 where PId=0 and IsDelete=0 order by Position desc";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position desc";
             List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
 
             return View(list);
@@ -1206,10 +1218,10 @@ where a.[Type]=2 and a.Id=" + id;
      (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
 and lType = l.lType) as Score,* from LotteryType2 l
    
-      where PId = @PId and IsDelete = 0
+      where PId = @PId 
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
-                string countsql = @"select count(1) from LotteryType2 where PId=@PId and IsDelete=0";
+                string countsql = @"select count(1) from LotteryType2 where PId=@PId ";
                 SqlParameter[] sp = new SqlParameter[] 
                 {
                         new SqlParameter("@PId",PId),
@@ -1254,10 +1266,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ACHVModel model = new ACHVModel();
             try
             {
-                string lotterytypesql = @"select * from LotteryType2 where PId=0 and IsDelete=0 order by Position desc";
+                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position desc";
                 List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0 and IsDelete=0 order by Position desc";
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position desc";
                 List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
@@ -1290,7 +1302,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             try
             {
-                string strsql = string.Format("select * from LotteryType2 where PId={0}", ltype);
+                string strsql = string.Format("select * from LotteryType2 where PId={0} ", ltype);
                 List<C8.Lottery.Model.LotteryType2> list = Util.ReaderToList<C8.Lottery.Model.LotteryType2>(strsql);
               
                 ViewBag.ltype = ltype;
@@ -1423,6 +1435,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+
+
 
         /// <summary>
         /// 获取采种
