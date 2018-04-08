@@ -796,6 +796,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
         //查看最新一期计划
+        [Authentication]
         public ActionResult Look(int id)
         {
             int lType = id;
