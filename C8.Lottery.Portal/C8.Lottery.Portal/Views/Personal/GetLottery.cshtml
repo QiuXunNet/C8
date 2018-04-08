@@ -1,26 +1,25 @@
 ﻿@{ 
-    var banglist = ViewBag.LotteryList as List<C8.Lottery.Model.Lottery>;
+    var banglist = ViewBag.LotteryList as List<C8.Lottery.Model.LotteryType2>;
     var ltype = ViewBag.ltype;
 }
 
 
 
- <ul id="ul_@ltype" data-index="@ltype" class="GS_nav" style="display: none;">
+
 @if (banglist.Count > 0) {
     foreach (var item in banglist)
         {
         int index = banglist.IndexOf(item);
         if (index == 0)
         {
-                <li data-type-id="@item.LotteryCode" class="current"><a href="javascript:;">@item.LotteryName</a></li>
+                <li data-cid="@ltype" data-type-id="@item.lType" class="current"><a href="javascript:;">@item.Name</a></li>
             }
             else
             {
-                <li data-type-id="@item.LotteryCode"><a href="javascript:;">@item.LotteryName</a></li>
+                <li data-cid="@ltype" data-type-id="@item.lType"><a href="javascript:;">@item.Name</a></li>
             }
 
         }
         }
        
-    </ul>
 

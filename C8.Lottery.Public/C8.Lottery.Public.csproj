@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\C8.Lottery.Portal\C8.Lottery.Portal\bin\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\C8.Lottery.Portal\C8.Lottery.Portal\bin\log4net.dll</HintPath>
+      <HintPath>bin\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Memcached.ClientLibrary">
       <HintPath>..\C8.Lottery.Portal\C8.Lottery.Portal\bin\Memcached.ClientLibrary.dll</HintPath>

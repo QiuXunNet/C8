@@ -7,9 +7,9 @@ namespace C8.Lottery.Portal.Models
 {
     public class ACHVModel
     {
-        public List<C8.Lottery.Model.Lottery> HotLottery { get; set; }//热门采种
-        public List<LotteryType> LotteryType { get; set; }//频道
-        public List<C8.Lottery.Model.Lottery> Lottery { get; set; }//小彩种
+     
+        public List<LotteryType2> LotteryType { get; set; }//频道
+        public List<C8.Lottery.Model.LotteryType2> Lottery { get; set; }//小彩种
 
         public List<IntegralRule> IntegralRule { get; set; }//玩法
     }
