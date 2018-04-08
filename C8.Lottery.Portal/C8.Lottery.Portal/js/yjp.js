@@ -170,7 +170,8 @@ $(function () {
     });
 
     /*个人中心-交易记录*/
-    //$(".C8_JIlU li").click(function() {
+    //$(".C8_JIlU li").click(function () {
+    //    alert(11111);
     //    $(this).addClass("current").siblings().removeClass("current");
     //    var bang = $(this).index();
     //    $(".details_box .details_info1").eq(bang).show().siblings().hide();
@@ -189,11 +190,11 @@ $(function () {
     });
 
     /*我的计划*/
-    //$(".C8_JIlU li").click(function() {
-    //    $(this).addClass("current").siblings().removeClass("current");
-    //    var bang = $(this).index();
-    //    $(".details_box .details_info1").eq(bang).show().siblings().hide();
-    //});
+    $(".C8_JIlU li").click(function() {
+        $(this).addClass("current").siblings().removeClass("current");
+        var bang = $(this).index();
+        $(".details_box .details_info1").eq(bang).show().siblings().hide();
+    });
 
     /*高手榜*/
     $(".GS_btn").click(function () {

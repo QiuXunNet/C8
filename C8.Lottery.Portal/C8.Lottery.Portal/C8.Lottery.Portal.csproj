@@ -134,6 +134,7 @@
     <Compile Include="Models\AchievementModel.cs" />
     <Compile Include="Models\ACHVModel.cs" />
     <Compile Include="Models\BetModel.cs" />
+    <Compile Include="Models\ComeOutRecordModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
@@ -742,6 +743,8 @@
     <Content Include="Views\Plan\LastPlay.cshtml" />
     <Content Include="Views\Plan\Look.cshtml" />
     <Content Include="Views\Plan\Tip.cshtml" />
+    <Content Include="Views\Personal\TransactionRecord.cshtml" />
+    <Content Include="Views\Personal\TaskRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AccessRecord.cs" />
     <Compile Include="BettingRecord.cs" />
+    <Compile Include="ComeOutRecord.cs" />
     <Compile Include="CommissionSetting.cs" />
     <Compile Include="Enum\CommentTypeEnum.cs" />
     <Compile Include="CoinRate.cs" />
