@@ -175,10 +175,12 @@ namespace C8.Lottery.Portal.Controllers
                                     {
                                         int mynum = GetNum(3);
                                         AddCoin(data, mynum);//受邀自己得3级奖励
-                                        AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
+                                        //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
+                                        AddComeOutRecord(data, inviteid.ToString(), 6, mynum);//受邀得奖记录
                                         int upnum = GetNum(1);
                                         AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
-                                        AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
+                                        //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
+                                        AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
                                         UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
                                         if (super != null)
                                         {
@@ -240,7 +242,7 @@ namespace C8.Lottery.Portal.Controllers
         }
 
         /// <summary>
-        /// 邀请获得金币记录 type:1邀请者  2受邀者
+        /// 邀请获得金币记录 type:1邀请者  2受邀者 (作废：已换表)
         /// </summary>
         public void AddCoinRecord(int type, int userId, int otherId, int amount)
         {
@@ -262,6 +264,37 @@ namespace C8.Lottery.Portal.Controllers
                 throw;
             }
         }
+
+
+        /// <summary>
+        /// 邀请获得金币记录
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="OrderId"></param>
+        /// <param name="Type">6=受邀奖励 7=邀请奖励</param>
+        /// <param name="Money"></param>
+        public void AddComeOutRecord(int UserId,string OrderId,int Type,int Money)
+        {
+            try
+            {
+                string strsql = @"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
+                                 values(@UserId, @OrderId, @Type, @Money, getdate())";
+                SqlParameter[] sp = new SqlParameter[]
+                {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@OrderId",OrderId),
+                    new SqlParameter("@Type",Type),
+                    new SqlParameter("@Money",Money)
+                };
+                SqlHelper.ExecuteNonQuery(strsql, sp);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         /// <summary>
         /// 随机抽取金币 根据金币等级

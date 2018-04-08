@@ -12,29 +12,26 @@ namespace C8.Lottery.Portal.Models
         /// </summary>
         public int Score { get; set; }
         /// <summary>
-        /// 彩种ID
+        /// 大类ID
         /// </summary>		
-        public long Id { get; set; }
+        public int  Id { get; set; }
         /// <summary>
         /// 彩种编码
         /// </summary>		
-        public int LotteryCode { get; set; }
+        public int PId { get; set; }
         /// <summary>
         /// 彩种名称
         /// </summary>		
-        public string LotteryName { get; set; }
+        public int lType { get; set; }
         /// <summary>
         /// 彩种分类Id
         /// </summary>		
-        public long LType { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// 彩种图标路径
         /// </summary>		
         public string LotteryIcon { get; set; }
-        /// <summary>
-        /// 排序编码
-        /// </summary>		
-        public int SortCode { get; set; }
+   
        
     }
 }

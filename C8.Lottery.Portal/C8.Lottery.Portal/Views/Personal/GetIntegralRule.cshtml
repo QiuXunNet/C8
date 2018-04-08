@@ -2,12 +2,12 @@
 @{
     var IntegralRuleList = ViewBag.IntegralRuleList as List<IntegralRule>;
     var ltype = ViewBag.ltype;
-    var ishot = ViewBag.ishot;
+    var Pid = ViewBag.Pid;
 }
 
 
 
-    <div class="Grades Grades_@ltype" style="display: none;">
+
 
 
 
@@ -16,12 +16,13 @@
         <ul class="Grades_TNul" id="gul_@ltype">
 
             @if (IntegralRuleList.Count > 0)
-               {
-                   string idx = "0" + ltype;
+            {
+                string idx = Pid.ToString() + ltype.ToString() + "0";
                 <li data-name="全部"  data-ltype="@ltype" data-idx="@idx" class="current"><a href="javascript:;">全部</a></li>
                 foreach (var item in IntegralRuleList)
                 {
-                    <li data-idx="@Convert.ToInt32(IntegralRuleList.IndexOf(item)+1)@ltype" data-ltype="@ltype" data-name="@item.PlayName"><a href="javascript:;">@item.PlayName</a></li>
+                    string idxs = Pid.ToString() + ltype.ToString() + item.Id.ToString();
+                    <li data-idx="@idxs" data-ltype="@ltype" data-name="@item.PlayName"><a href="javascript:;">@item.PlayName</a></li>
                 }
 
             }
@@ -34,25 +35,23 @@
             <!--全部-->
             <div class="Grades_CBInfo" >
             @if (IntegralRuleList.Count > 0)
-                {
+            {
+                string mid = Pid.ToString() + ltype.ToString() + "0";
 
-                            string mid = "mescroll_0"+ltype;
-                            string did = "datalist_0"+ltype;
-
-                  <div id="@mid" class="mescroll">
-                    <div id="@did" class="data-list"></div>
+                <div id="mescroll_@mid" class="mescroll">
+                    <div id="datalist_@mid" class="data-list"></div>
 
 
                 </div>
 
+
                 foreach (var item in IntegralRuleList)
                 {
 
-                    string mids = "mescroll_"+Convert.ToInt32(IntegralRuleList.IndexOf(item) + 1) + ltype;
-                    string dids = "datalist_"+Convert.ToInt32(IntegralRuleList.IndexOf(item) + 1) + ltype;
 
-                    <div id="@mids" class="mescroll">
-                        <div id="@dids" class="data-list"></div>
+                    string mids = Pid.ToString() + ltype.ToString() + item.Id.ToString();
+                    <div id="mescroll_@mids" class="mescroll">
+                        <div id="datalist_@mids" class="data-list"></div>
 
 
                     </div>
@@ -64,4 +63,3 @@
           </div>
         </div>
     </div>
-</div>
