@@ -48,13 +48,13 @@ namespace C8.Lottery.Portal.Controllers
                     ViewBag.UserId = 0;
                     ViewBag.UserName = "测试用户";
                     ViewBag.PhotoImg = "";
-                    ViewBag.IsAdmin = "1";
+                    ViewBag.IsAdmin = true;
                 }
                 else
                 {
                     ViewBag.UserId = user.Id;
                     ViewBag.UserName = user.UserName;
-                    ViewBag.PhotoImg = "";//user.;
+                    ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath)? "/images/default_avater.png": user.Headpath;//user.;
                     ViewBag.IsAdmin = false; //
                 }
 
@@ -109,11 +109,33 @@ namespace C8.Lottery.Portal.Controllers
                         ViewBag.RommName = "";
                         break;
                 }
+
+                //查询登录人在本房间是否被禁言
+                string sql = "select count(*) from TalkBlackList where RoomId = @RoomId and UserId = @UserId and (IsEverlasting =1 or EndTime > GETDATE())";
+
+                SqlParameter[] regsp = new SqlParameter[] {
+                    new SqlParameter("@RoomId",id),
+                    new SqlParameter("@UserId",ViewBag.UserId)
+                 };
+
+                var i = Convert.ToInt32(SqlHelper.ExecuteScalar(sql, regsp));
+
+                ViewBag.IsEverlasting = (i > 0)?1:0;
             }
             catch (Exception)
             {               
             }
 
+            return View();
+        }
+
+        /// <summary>
+        /// 处理记录页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ManagementList(int id)
+        {
+            ViewBag.RoomId = id;
             return View();
         }
 
@@ -306,13 +328,23 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public ActionResult DelMessage(string guid)
+        public ActionResult DelMessage(string guid,int userId,string userName)
         {
             string sql = @" update TalkNotes set Status = 0 where Guid=@Guid ";
 
             try
             {
                 int i = SqlHelper.ExecuteNonQuery(sql, new SqlParameter[] { new SqlParameter("@Guid", guid) });
+
+                var processingRecords = new ProcessingRecords()
+                {
+                    ProcessToId = userId,
+                    ProcessToName = userName,
+                    Type = 1
+                };
+
+                AddProcessingRecords(processingRecords);
+
                 if (i > 0)
                 {
                     return Json(new { status = 1 });
@@ -333,7 +365,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ActionResult AddBlackList(TalkBlackList model)
+        public ActionResult AddBlackList(TalkBlackList model,string userName)
         {         
             model.BanTime = DateTime.Now;
             model.IsEverlasting = true;
@@ -351,12 +383,109 @@ namespace C8.Lottery.Portal.Controllers
 
                 SqlHelper.ExecuteScalar(regsql, regsp);
 
+                var processingRecords = new ProcessingRecords()
+                {
+                    ProcessToId = model.UserId,
+                    ProcessToName = userName,
+                    Type = 2
+                };
+
+                AddProcessingRecords(processingRecords);
+
                 return Json(new { status = 1 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json(new { status = 0 });
             }
+        }
+
+        /// <summary>
+        /// 插入处理记录
+        /// </summary>
+        /// <param name="model"></param>
+        private void AddProcessingRecords(ProcessingRecords model)
+        {
+            int userId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(userId);
+
+            if (user == null)
+            {
+                user = new UserInfo()
+                {
+                    UserName = "测试用户",
+                    Id = 0
+                };
+            }           
+
+            model.ProcessDate = DateTime.Now;
+            model.ProcessTime = DateTime.Now;
+            model.ProcessId = (int)user.Id;
+            model.ProcessName = user.UserName;
+
+            try
+            {
+                string regsql = @"insert into ProcessingRecords (ProcessId,ProcessName,Type,ProcessToId,ProcessToName,ProcessDate,ProcessTime)
+                                values (@ProcessId,@ProcessName,@Type,@ProcessToId,@ProcessToName,@ProcessDate,@ProcessTime)";
+                SqlParameter[] regsp = new SqlParameter[] {
+                    new SqlParameter("@ProcessId",model.ProcessId),
+                    new SqlParameter("@ProcessName",model.ProcessName),
+                    new SqlParameter("@Type",model.Type),
+                    new SqlParameter("@ProcessToId",model.ProcessToId),
+                    new SqlParameter("@ProcessToName",model.ProcessToName),
+                    new SqlParameter("@ProcessDate",model.ProcessDate),
+                    new SqlParameter("@ProcessTime",model.ProcessTime)
+                 };
+
+                SqlHelper.ExecuteScalar(regsql, regsp);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult GetProcessingRecords(int id = 0)
+        {
+            try
+            {
+                string sql = "select top(20) * from ProcessingRecords {0} order by ProcessTime desc";
+
+                if (id == 0)
+                {
+                    sql = string.Format(sql, "");
+                }
+                else
+                {
+                    sql = string.Format(sql, " where Id <@Id ");
+                }
+
+                var list = Util.ReaderToList<ProcessingRecords>(sql, new SqlParameter[] { new SqlParameter("@Id", id) });
+
+                List<dynamic> dyList = new List<dynamic>();
+
+                list.ForEach(e =>
+                {
+                    dyList.Add(new
+                    {
+                        Id = e.Id,
+                        Date = e.ProcessDate.ToString("yyyy-MM-dd"),
+                        Message = "管理员对用户\"" + e.ProcessToName + "\"进行" + (e.Type == 1 ? "删除消息" : "拉黑") + "处理",
+                        Time = e.ProcessTime.ToString("HH:mm")
+                    });
+                });
+
+                return Json(new { Status = 1, DataList = dyList });
+            }
+            catch (Exception)
+            {
+                return Json(new { Status = 0, DataList = new { } });
+            }
+           
         }
 
         /// <summary>

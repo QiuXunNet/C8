@@ -616,6 +616,8 @@
     <Content Include="css\fonts\icomoon.svg" />
     <Content Include="css\fonts\icomoon.ttf" />
     <Content Include="css\fonts\icomoon.woff" />
+    <None Include="Properties\PublishProfiles\C8 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\C8 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\w.pubxml" />
     <None Include="Scripts\jquery-1.8.0-vsdoc.js" />
@@ -671,6 +673,7 @@
     <Content Include="Views\Home\副本 Index.cshtml" />
     <Content Include="Views\Personal\TakeBet.cshtml" />
     <Content Include="Views\Personal\Notice.cshtml" />
+    <Content Include="Views\Talking\ManagementList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

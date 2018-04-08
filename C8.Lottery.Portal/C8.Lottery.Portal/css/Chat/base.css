@@ -97,7 +97,7 @@ input,textarea{
     width: 100%;
 }
 .topBar{
-    height: 65px;
+    height: 50px;
     background: #f13131;
     width: 100%;
     position: relative;
@@ -109,7 +109,7 @@ input,textarea{
 }
 .topBar h3{
     text-align: center;
-    height: 65px;
+    height: 50px;
     font-weight: normal;
     font-size: 22px;
     background: #f13131;
@@ -118,7 +118,7 @@ input,textarea{
 .back{
     position: absolute;
     left: 20px;
-    top: 25px;
+    top: 18px;
     font-family: "icomoon";  
     font-size: 18px;
     color: #fff;
@@ -136,18 +136,18 @@ input,textarea{
 .topMenu a:first-child{
     margin-right: 10px;
 }
-.title{
-    padding-top: 10px;
-    height: 28px;
-    line-height: 28px;
+.title {
+    padding-top: 6px;
+    height: 25px;
+    line-height: 25px;
 }
 .topBar_record .title{
     padding-top: 0;
-    line-height: 65px;
-    height: 65px;
+    line-height: 50px;
+    height: 50px;
 }
 .pepleOnlie{
-    height: 20px;
+    height: 16px;
     font-size: 12px;
 }
 
