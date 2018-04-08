@@ -8186,6 +8186,8 @@ footer {
 
 .emoji_icon {
     display: inline-block !important;
+    width: 26.66667px;
+    height: 26.66667px;
 }
 /*** 精彩评论 结束 **/
 
