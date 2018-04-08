@@ -58,6 +58,7 @@
     <Compile Include="CacheHelper.cs" />
     <Compile Include="LogerFactory.cs" />
     <Compile Include="LogHelper.cs" />
+    <Compile Include="LuoUtil.cs" />
     <Compile Include="MemClientFactory.cs" />
     <Compile Include="PagedListT.cs" />
     <Compile Include="Pagination.cs" />

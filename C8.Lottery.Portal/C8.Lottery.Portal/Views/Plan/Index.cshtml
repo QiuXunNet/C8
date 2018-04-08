@@ -30,7 +30,7 @@
 <body style="background:#F4F4F5;">
 
 
-    <input type="hidden" id="lType" value="@ViewBag.lType" />
+    <input type="hidden" id="lType" value="@lType" />
     <header class="hjc_header">
         <a href="/Home/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@title</a>
@@ -84,7 +84,7 @@
     </div>
     <div class="Plan_content">
         @*官方推荐*@
-        <div class="Plan_CInfo">
+        <div class="Plan_CInfo mescroll">
             <div class="CZ_hdtit">
                 <dl class="CZ_hdMain">
                     <dt><a href="javascript:;"><img src="/images/@ViewBag.icon"></a></dt>
@@ -203,7 +203,7 @@
                                 @*查看计划*@
                                 <thead>
                                     <tr>
-                                        <th colspan="4" scope="col"><a href="#" class="Mif_titred">@ViewBag.msg</a></th>
+                                        <th colspan="4" scope="col"><a href="/Plan/Look/@lType" class="Mif_titred">@ViewBag.msg</a></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -661,11 +661,11 @@
                     empty: {
                         icon: "/images/null.png",
                         tip: "暂无高手推荐~",
-                        //btntext: "去看看免费专家 >", //按钮,默认""
-                        //btnClick: function () {
-                        //    $(".C8_nav5 li:eq(2)").trigger("click");
-                        //    alertmsg("点击免费专家切换");
-                        //}
+                        btntext: "去看看免费专家 >", //按钮,默认""
+                        btnClick: function () {
+                            $(".C8_nav5 li:eq(2)").trigger("click");
+                            //alertmsg("点击免费专家切换");
+                        }
                     },
                     clearEmptyId: "datalist0",
                     toTop: {
@@ -691,11 +691,11 @@
                         empty: {
                             icon: "/images/null.png",
                             tip: "暂无免费专家~",
-                            //btntext: "去看看高手推荐 >", //按钮,默认""
-                            //btnClick: function () {
-                            //    $(".C8_nav5 li:eq(1)").trigger("click");
-                            //    alertmsg("点击免费专家切换");
-                            //}
+                            btntext: "去看看高手推荐 >",
+                            btnClick: function () {
+                                $(".C8_nav5 li:eq(1)").trigger("click");
+                                //alertmsg("点击高手推荐切换");
+                            }
                         },
                         clearEmptyId: "datalist1",
                         toTop: {
@@ -772,7 +772,6 @@
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
-                    async: false,
                     url: url,
                     dataType: 'json',
                     success: function (res) {

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
+using C8.Lottery.Portal.Models;
 using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
@@ -239,12 +241,12 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.title1 = "规则说明-" + name;
             ViewBag.title2 = name + "规则说明";
             ViewBag.title3 = "万彩" + name + "玩法规则说明:";
-            ViewBag.title4 =  name + "玩法积分规则:";
+            ViewBag.title4 = name + "玩法积分规则:";
 
 
             return View();
         }
-        
+
 
         /// <summary>
         /// 近期竞猜
@@ -253,6 +255,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="uid">用户Id</param>
         /// <param name="type">查看类型 0=具体玩法 1=全部玩法</param>
         /// <returns></returns>
+        [Authentication]
         public ActionResult PlayRecord(int id, int uid, int type = 0)
         {
             var loginUserId = UserHelper.LoginUser.Id;
@@ -305,7 +308,16 @@ namespace C8.Lottery.Portal.Controllers
                 ViewBag.PlayList = GetPlayNames(id);
             }
 
-            //step6.查询
+            //step6.查询用户彩种积分，
+            int totalIntegral = LuoUtil.GetUserIntegral(uid, id);
+            //step7.根据用户该彩种积分，查询点阅所需金币
+            var setting = GetLotteryCharge().FirstOrDefault(
+                    x => x.MinIntegral <= totalIntegral
+                    && x.MaxIntegral > totalIntegral
+                    && x.LType == id
+                );
+
+            ViewBag.ReadCoin = setting != null ? setting.Coin : 0;
 
 
             return View(model);
@@ -318,56 +330,144 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="uid">用户Id</param>
         /// <param name="playName">玩法名称</param>
         /// <returns></returns>
+        [Authentication]
         public ActionResult LastPlay(int id, int uid, string playName)
         {
-
-            string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", id, uid);
-            if (string.IsNullOrEmpty(playName))
+            var user = UserHelper.LoginUser;
+            if (user.Id != uid)
             {
-                Response.Redirect(redirectUrl, true);
+                #region 校验,添加点阅记录，扣费，分佣
+
+                //step1:验证玩法名称是否为空
+                string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", id, uid);
+                if (string.IsNullOrEmpty(playName))
+                {
+                    Response.Redirect(redirectUrl, true);
+                }
+                //step2.查询最新发帖
+                string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
+                 and lType=@lType and WinState=1 and PlayName=@PlayName order by SubTime desc";
+                var lastBettingParameter = new[]
+                {
+                    new SqlParameter("@UserId", uid),
+                    new SqlParameter("@lType", id),
+                    new SqlParameter("@PlayName", playName),
+                };
+                var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
+                var lastBettingRecord = records.FirstOrDefault();
+
+                if (lastBettingRecord == null)
+                {
+                    Response.Redirect(redirectUrl, true);
+                }
+
+                ViewBag.LastBettingRecord = lastBettingRecord;
+
+                //step3:查询用户是否点阅过该帖子。若未点阅过，则校验金币是否充足
+                string readRecordSql = @"select count(1) from ComeOutRecord 
+where [Type]=@Type and UserId=@UserId and OrderId=@Id";
+
+                var readRecordParameter = new[]
+                {
+                    new SqlParameter("@Type", (int) TransactionTypeEnum.点阅),
+                    new SqlParameter("@UserId", user.Id),
+                    new SqlParameter("@Id", lastBettingRecord.Id),
+                };
+
+                object objReadRecord = SqlHelper.ExecuteScalar(readRecordSql, readRecordParameter);
+
+                //用户未点阅过该帖子
+                if (objReadRecord == null || Convert.ToInt32(objReadRecord) <= 0)
+                {
+                    //step3.1:查询点阅所需金币
+                    int totalIntegral = LuoUtil.GetUserIntegral(uid, id);
+                    var setting = GetLotteryCharge().FirstOrDefault(
+                        x => x.MinIntegral <= totalIntegral
+                             && x.MaxIntegral > totalIntegral
+                             && x.LType == id
+                        );
+
+                    int readCoin = 0; //点阅所需金币
+
+                    if (setting != null) readCoin = setting.Coin;
+
+                    StringBuilder executeSql = new StringBuilder();
+                    if (readCoin > 0)
+                    {
+                        //step3.2:校验用户金币是否充足
+                        if (user.Coin < readCoin)
+                        {
+                            //金币不足
+                            Response.Redirect(redirectUrl, true);
+                        }
+                        else
+                        {
+                            //1.扣除用户金币
+                            executeSql.AppendFormat("update UserInfo set Coin-={0} where Id={1};", readCoin, user.Id);
+                            //2.添加点阅记录
+                            executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
+     VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, lastBettingRecord.Id, (int)TransactionTypeEnum.点阅, readCoin);
+
+
+                            //3:查询用户分佣比例
+                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id);
+                            if (userRateSetting != null && userRateSetting.UserRate > 0)
+                            {
+                                int commission = (int)(userRateSetting.UserRate * readCoin / 100);
+                                executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
+     VALUES({0},{1},{2},{3}, 1, GETDATE());", uid, id, (int)TransactionTypeEnum.点阅佣金, commission);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //免费专家，仅记录点阅记录
+                        executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
+     VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, lastBettingRecord.Id, (int)TransactionTypeEnum.点阅, 0);
+                    }
+
+                    try
+                    {
+                        SqlHelper.ExecuteTransaction(executeSql.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+
+                        LogHelper.WriteLog(string.Format("查看最新帖子异常。帖子Id:{0}，查看人：{1}，异常消息:{2}，异常堆栈：{3}",
+                            lastBettingRecord.Id, user.Id, ex.Message, ex.StackTrace));
+
+                        Response.Redirect(redirectUrl, true);
+                    }
+
+
+                }
+
+                #endregion
             }
 
-            var loginUserId = UserHelper.LoginUser.Id;
+            #region View数据查询
             ViewBag.lType = id;
-            //step1.查询用户信息
+            //step4.查询发帖用户信息
             var model = UserHelper.GetUser(uid);
 
-            //step2.查询是否关注过该用户
-            string sql = "select count(1) from [dbo].[Follow] where [Status]=1 and [UserId]=" + loginUserId +
+            //step5.查询是否关注过该用户
+            string sql = "select count(1) from [dbo].[Follow] where [Status]=1 and [UserId]=" + user.Id +
                          " and [Followed_UserId]=" + uid;
-
             object obj = SqlHelper.ExecuteScalar(sql);
-
             ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
 
-            //step3.查询最新发帖
-            string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
-                 and lType=@lType and WinState=1 and PlayName=@PlayName order by SubTime desc";
-            var lastBettingParameter = new[]
-            {
-                new SqlParameter("@UserId",uid),
-                new SqlParameter("@lType",id),
-                new SqlParameter("@PlayName",playName),
-            };
-            var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
-            var lastBettingRecord = records.FirstOrDefault();
-
-            if (lastBettingRecord == null)
-            {
-                Response.Redirect(redirectUrl, true);
-            }
-
-            ViewBag.LastBettingRecord = lastBettingRecord;
-
-            //step4.查询是否开奖
+            //step6.查询是否开奖
             string time = Util.GetOpenRemainingTime(id);
             if (time != "正在开奖")
             {
                 time = "未开奖";
             }
             ViewBag.Time = time;
-            //step5.查询该彩种玩法列表
+
+            //step7.查询该彩种名称
             ViewBag.LTypeName = Util.GetLotteryTypeName(id);
+            #endregion
+
 
             return View(model);
         }
@@ -469,6 +569,165 @@ from (
 
         }
 
+
+
+        /// <summary>
+        /// 近期竞猜
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="lType"></param>
+        /// <param name="playName"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetLastPlay(int uid, int lType, string playName)
+        {
+            string strsql = string.Empty;
+            string numsql = string.Empty;
+            string countsql = string.Empty;
+            var result = new AjaxResult<PagedList<AchievementModel>>();
+
+            var pager = new PagedList<AchievementModel>();
+            pager.PageIndex = 1;
+            pager.PageSize = 10;
+            SqlParameter[] sp = new SqlParameter[] { };
+            if (playName == "全部")//全部
+            {
+                strsql = string.Format(@"select * from BettingRecord   where UserId ={0} and lType = {1}", uid, lType);
+                numsql = string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber, Num,l.SubTime,l.Issue from LotteryRecord l
+	  ,BettingRecord b
+	  where b.Issue=l.Issue and b.lType=l.lType
+	  and b.UserId={0} and b.lType={1}  and b.WinState in(3,4)
+	  group by l.Issue,Num,l.SubTime
+	  )t
+	  where   rowNumber BETWEEN {2} AND {3}  ", uid, lType, pager.StartIndex, pager.EndIndex);
+
+            }
+            else
+            {
+                strsql = string.Format(@"
+                select * from BettingRecord   where UserId ={0} and lType = {1}  and PlayName = @PlayName", uid, lType);
+                numsql = string.Format(@"SELECT * FROM (  select row_number() over(order by l.SubTime desc  ) as rowNumber,  Num,l.SubTime,l.Issue from LotteryRecord l
+	  ,BettingRecord b
+	  where b.Issue=l.Issue and b.lType=l.lType
+	  and b.UserId={0} and b.lType={1} and b.PlayName=@PlayName  and b.WinState in(3,4)
+	  group by l.Issue,Num,l.SubTime
+	  )t
+	  where   rowNumber BETWEEN {2} AND {3} ", uid, lType, pager.StartIndex, pager.EndIndex);
+
+                sp = new SqlParameter[]{
+                    new SqlParameter("@PlayName",playName)
+                };
+
+            }
+
+            try
+            {
+                List<LotteryNum> listnum = Util.ReaderToList<LotteryNum>(numsql, sp);//我对应的开奖数据
+                List<BettingRecord> listbet = Util.ReaderToList<BettingRecord>(strsql, sp);
+                List<AchievementModel> list = new List<AchievementModel>();
+                if (listnum.Count > 0)
+                {
+                    foreach (var item in listnum)
+                    {
+                        AchievementModel model = new AchievementModel();
+                        LotteryNum l = new LotteryNum();
+                        l.Issue = item.Issue;
+                        l.Num = item.Num;
+                        l.SubTime = Convert.ToDateTime(item.SubTime).ToString("yyyy-MM-dd");
+                        model.LotteryNum = l;
+                        if (listbet.Count() > 0)
+                            model.BettingRecord = listbet.Where(x => x.Issue == item.Issue).ToList();
+                        list.Add(model);
+
+                    }
+                }
+                pager.PageData = list;
+
+                //查询最新一期玩法
+                string playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
+                 and lType={1} and WinState=1 and PlayName=@PlayName order by SubTime desc", uid, lType);
+
+                var lastPlay = Util.ReaderToList<BettingRecord>(playSql, sp);
+
+                pager.ExtraData = lastPlay.FirstOrDefault();
+
+                result.Data = pager;
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+            }
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 查看用户帖子
+        /// </summary>
+        /// <param name="id">帖子Id</param>
+        /// <param name="ltype">彩种Id</param>
+        /// <param name="uid">用户Id</param>
+        /// <param name="coin">查看所需金币</param>
+        /// <returns></returns>
+        public JsonResult ViewPlan(int id, int ltype, int uid, int coin)
+        {
+            var result = new AjaxResult();
+
+            try
+            {
+                //step1.查询用户是否点阅过该帖子
+                string readRecordSql = @"select count(1) from ComeOutRecord 
+where [Type]=@Type and UserId=@UserId and OrderId=@Id";
+
+                var readRecordParameter = new[]
+                {
+                    new SqlParameter("@Type",(int)TransactionTypeEnum.点阅),
+                    new SqlParameter("@UserId",uid),
+                    new SqlParameter("@Id",id),
+                };
+
+                object objReadRecord = SqlHelper.ExecuteScalar(readRecordSql, readRecordParameter);
+
+                if (objReadRecord != null && Convert.ToInt32(objReadRecord) > 0)
+                {
+                    //已经点阅过，直接跳转
+                    return Json(result);
+                }
+
+                //step6.查询用户彩种积分，
+                //    string totalIntegralByLtypeSql = string.Format(@"select isnull(sum(score),0) 
+                //from dbo.BettingRecord where lType={0} and UserId={1} and WinState=1", id, uid);
+                //    object objTotalIntegral = SqlHelper.ExecuteScalar(totalIntegralByLtypeSql);
+                //    int totalIntegral = objTotalIntegral != null ? Convert.ToInt32(objTotalIntegral) : 0;
+                //    //step7.根据用户该彩种积分，查询点阅所需金币
+                //    var setting = GetLotteryCharge().FirstOrDefault(
+                //            x => x.MinIntegral <= totalIntegral
+                //            && x.MaxIntegral > totalIntegral
+                //            && x.LType == ltype
+                //        );
+
+                //step2.判断当前用户积分是否小于查看帖子所需金币
+                if (coin > UserHelper.LoginUser.Coin)
+                {
+                    result = new AjaxResult(401, "余额不足");
+                    return Json(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = "服务器繁忙";
+                LogHelper.WriteLog(string.Format("查询贴子权限异常。异常消息：{0},异常堆栈:{1}", ex.Message, ex.StackTrace));
+            }
+
+            return Json(result);
+
+
+        }
+
         /// <summary>
         /// 获取用户在某一玩法中奖率，最大连中，上期是否中奖
         /// </summary>
@@ -534,6 +793,58 @@ from (
             model.MaxWin = continuousWinCount;
 
         }
+
+
+        //查看最新一期计划
+        public ActionResult Look(int id)
+        {
+            int lType = id;
+            ViewBag.lType = lType;
+            string currentIssue = DateTime.Now.Year + Util.GetCurrentIssue(lType);
+
+            //2.倒计时
+            string time = Util.GetOpenRemainingTime(lType);
+
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+
+                ViewBag.min = timeArr[1];
+                ViewBag.sec = timeArr[2];
+            }
+            else
+            {
+                ViewBag.time = "正在开奖";
+            }
+
+
+            ViewBag.currentIssue = currentIssue;
+            ViewBag.msg = currentIssue + "期" + Util.GetLotteryTypeName(lType) + "计划";
+
+
+
+            //1.最后一期开奖号码
+            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
+            ViewBag.lastIssue = lr.Issue;
+            ViewBag.lastNum = lr.Num;
+
+
+            //4.1获取数据
+            sql = "select top(" + Util.GetGFTJCount(lType) + ")* from [Plan] where lType = " + lType + " order by Issue desc";
+            ViewBag.list = Util.ReaderToList<Plan>(sql);
+
+            //彩种图标
+            string icon = Util.GetLotteryIcon(lType) + ".png";
+
+            ViewBag.icon = icon;
+
+
+            return View();
+
+
+        }
+
 
 
     }

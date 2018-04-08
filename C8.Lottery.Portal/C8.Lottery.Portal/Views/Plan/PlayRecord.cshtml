@@ -8,6 +8,7 @@
     int lType = ViewBag.lType;
     List<Play> playList = ViewBag.PlayList;
     int type = ViewBag.Type;
+    int readCoin = ViewBag.ReadCoin ?? 0;
 }
 
 <!DOCTYPE html>
@@ -96,10 +97,10 @@
                 @if (isSub)
                 {
                     <span>已更新</span>
-                    if(type == 0)
-                     {
-                         <a id="viewBetting" href="javascript:;">查看预测号码</a>
-                     }
+                    if (type == 0)
+                    {
+                        <a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>
+                    }
                 }
                 else
                 {
@@ -110,76 +111,76 @@
         </div>
     </div>
 
-<div class="Gues_content">
-    @if (type == 0)
-    {
-        <div class="Gues_Cnav">
-            @if (playList != null)
-            {
-                <ul class="SX_Ul">
-                    @foreach (var play in playList)
+    <div class="Gues_content">
+        @if (type == 0)
+        {
+            <div class="Gues_Cnav">
+                @if (playList != null)
+                {
+                    <ul class="SX_Ul">
+                        @foreach (var play in playList)
                     {
-                        <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
-                    }
-                </ul>
-                <div style="clear: both;"></div>
-            }
-        </div>
-    }
-    <div class="Gues_Ctext">
+                            <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                        }
+                    </ul>
+                    <div style="clear: both;"></div>
+                }
+            </div>
+        }
+        <div class="Gues_Ctext">
 
+        </div>
     </div>
-</div>
 
 
     @Html.Action("WonderfulComment", "News", new { id = @Model.Id, type = 1 })
 
     @*<div class="Gues_expert">
-        <h3 class="Expert_title">已有<font>10025</font>人分享该专家</h3>
-        <ul class="Expert_nav">
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-        </ul>
-        <div style="clear:both;"></div>
-    </div>*@
+            <h3 class="Expert_title">已有<font>10025</font>人分享该专家</h3>
+            <ul class="Expert_nav">
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
+            </ul>
+            <div style="clear:both;"></div>
+        </div>*@
 
     <!--分享-->
     <div class="Gues_share">
@@ -190,30 +191,61 @@
             <ul class="Share_ifNav">
                 <li>
                     <a href="javascript:call('wechatFriend');">
-                        <div class="Share_iNtu"><img src="/images/63_1.png"></div>
+                        <div class="Share_iNtu">
+                            <img src="/images/63_1.png">
+                        </div>
                         <p>微信好友</p>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:call('wechatTimeline');">
-                        <div class="Share_iNtu"><img src="/images/63_2.png"></div>
+                        <div class="Share_iNtu">
+                            <img src="/images/63_2.png">
+                        </div>
                         <p>朋友圈</p>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:call('qqFriend');">
-                        <div class="Share_iNtu"><img src="/images/63_3.png"></div>
+                        <div class="Share_iNtu">
+                            <img src="/images/63_3.png">
+                        </div>
                         <p>QQ好友</p>
                     </a>
                 </li>
-                <div style="clear:both;"></div>
+                <div style="clear: both;"></div>
             </ul>
             <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
         </div>
     </div>
 
+    <div class="C8_TCpopupA" style="margin-top: -80px;">
+        <div class="C8_Tcontent">
+            <p class="C8_Tcfont">@("查看此专家预测号码需要支付" + readCoin + "金币")</p>
+            <p class="C8_Tcfont">是否支付金币查看？</p>
+        </div>
+        <ul class="C8_Tbtn">
+            <li>
+                <a href="javascript:;">
+                    <img src="/images/69_1.png">
+                    <span>取消</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="/images/69_2.png">
+                    <span>确认</span>
+                </a>
+            </li>
+        </ul>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="mask"></div>
+
     <script src="~/js/kcp/NativeShare.js"></script>
     <script type="text/javascript">
+        var recordId = 0;
+        var readCoin=@readCoin;
         $(function() {
             $(".Gues_ul").parseEmoji();
 
@@ -236,21 +268,25 @@
         });
 
         function getData(playName) {
+            var uid=@Model.Id;
             $.ajax({
                 type: 'GET',
                 data: {
                     lType: @lType,
                     playName: playName,
-                    pageIndex: 1,
-                    pageSize: 10
+                    uid:uid
                 },
-                url: '/Personal/GetMyBet',
+                url: '/Plan/GetLastPlay',
                 dataType: 'json',
                 success: function (res) {
 
                     if (res.IsSuccess && res.Data) {
                         //回调
                         buildHtml(res.Data.PageData);
+
+                        if (res.Data.ExtraData && res.Data.ExtraData.Id) {
+                            recordId=res.Data.ExtraData.Id;
+                        }
 
                     } else {
                         alertmsg("服务器繁忙");
@@ -284,8 +320,8 @@
                             var cliswin = item.BettingRecord[j].WinState == 3 ? "Forecast_Pred" : "";
                             var issym = item.BettingRecord[j].WinState == 3 ? "+" : "";
                             bethtml += '<tr><td align="center" valign="middle" width="25%"><p>' + item.BettingRecord[j].PlayName + '</p> </td>'
-                            + ' <td align="center" valign="middle">  <p>' + item.BettingRecord[j].BetNum + '<span class="For_Red"></span></p> </td>'
-                            + '<td align="center" valign="middle" width="25%"> <p class="' + cliswin + '">    <font class="P_TF">' + iswin + '</font><span>' + issym + '' + item.BettingRecord[j].Score + '</span></p>  </td> </tr>'
+                                + ' <td align="center" valign="middle">  <p>' + item.BettingRecord[j].BetNum + '<span class="For_Red"></span></p> </td>'
+                                + '<td align="center" valign="middle" width="25%"> <p class="' + cliswin + '">    <font class="P_TF">' + iswin + '</font><span>' + issym + '' + item.BettingRecord[j].Score + '</span></p>  </td> </tr>'
 
                         }
                     }
@@ -321,7 +357,7 @@
                         itemHtml += '<div class="hdM_ddcon">' + kjhtml + '</div>';
                     }
                     itemHtml += '<div class="Forecast_LHC">' + kjhtml1 + '</div>  </td></tr>'
-                    + bethtml + '   </table>';
+                        + bethtml + '   </table>';
                     itemList.push(itemHtml);
                 });
             }
@@ -374,7 +410,47 @@
         }
 
         var playUtil = {
-            
+            cancel:function() {
+                $(".C8_TCpopupA").hide();
+                $(".mask").hide();
+            },
+            confirm:function() {
+                var uid=@Model.Id;
+                var ltype=@lType;
+                var playName = $(".SX_Ul li.current").attr("data-title");
+
+                if (!playName || playName.length < 1) {
+                    alertmsg("查看失败");
+                    return;
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        lType:ltype,
+                        uid:uid,
+                        id:recordId,
+                        coin:readCoin
+                    },
+                    url: '/Plan/ViewPlan',
+                    dataType: 'json',
+                    success: function (res) {
+
+                        if (res.IsSuccess) {
+                            location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
+                        } else {
+                            alertmsg(res.Message);
+                        }
+                    },
+                    error: function(res, xhr) {
+                        alertmsg("服务器繁忙");
+                    }
+                });
+            },
+            view:function() {
+                $(".C8_TCpopupA").show();
+                $(".mask").show();
+            }
         }
 
     </script>

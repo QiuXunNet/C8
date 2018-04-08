@@ -105,9 +105,12 @@ namespace C8.Lottery.Portal.Controllers
             //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
             ViewBag.NewsTypeList = list;
 
+            int lType = Util.GetlTypeById(id);
+            ViewBag.lType = lType;
+
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-           string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
+            string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
             ViewBag.lastIssue = lr.Issue;
@@ -115,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.showInfo = lr.ShowInfo;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(id);
+            string time = Util.GetOpenRemainingTime(lType);
 
             if (time != "正在开奖")
             {
@@ -256,10 +259,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
-            var thumbList = GetResources((int) ResourceTypeEnum.新闻缩略图, model.Id);
+            var thumbList = GetResources((int)ResourceTypeEnum.新闻缩略图, model.Id);
             if (thumbList.Any())
                 model.Thumb = thumbList.First().RPath;
-            
+
             //查询新闻栏目信息
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
@@ -272,8 +275,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
             string sql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
-ORDER BY Id DESC";
+WHERE [TypeId]=@TypeId AND [Id] > @CurrentId 
+ORDER BY SortCode,Id";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -292,7 +295,8 @@ ORDER BY Id DESC";
             string nextsql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] > @CurrentId ";
+WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
+ORDER BY SortCode desc,Id DESC";
             SqlParameter[] nextparameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -355,7 +359,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
             //查询当前图库所有期信息
-            var galleryList = GetGalleries(news.Id, news.FullHead);
+            var galleryList = GetGalleries(news.Id, news.FullHead, (int)model.TypeId);
             ViewBag.GalleryList = galleryList;
 
             //查询推荐图
@@ -385,7 +389,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 @"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.IsDeleted = 0 and a.ArticleId = @ArticleId and a.Type=@Type
+  where a.IsDeleted = 0 and a.RefCommentId=0  and a.ArticleId = @ArticleId and a.Type=@Type
   order by StarCount desc";
             var parameters = new[]
             {
@@ -457,7 +461,11 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
             parameters[2].Value = id;
@@ -564,7 +572,11 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 new SqlParameter("@Id",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
 
             parameters[0].Value = userId;
             parameters[1].Value = (int)ResourceTypeEnum.用户头像;
@@ -620,7 +632,11 @@ from Comment a
   where a.RefCommentId = @RefCommentId and a.IsDeleted = 0 and a.Type=@Type
   ) T
 WHERE rowNumber BETWEEN @Start AND @End";
-            long userId = UserHelper.LoginUser.Id;
+            long userId = 0;
+            if (UserHelper.LoginUser != null)
+            {
+                userId = UserHelper.LoginUser.Id;
+            }
 
             var parameters = new[]
             {

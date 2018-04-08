@@ -11,7 +11,7 @@ using CryptSharp;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         //
         // GET: /Home/
@@ -31,6 +31,7 @@ namespace C8.Lottery.Portal.Controllers
 
             ViewBag.openList = list;
             ViewBag.UserInfo = UserHelper.LoginUser;
+            ViewBag.SiteSetting = GetSiteSetting();
             return View();
         }
 
@@ -394,9 +395,9 @@ namespace C8.Lottery.Portal.Controllers
                     bool iscor = true;
                     if (password.Contains("$2y"))
                     {
-                         iscor = Crypter.CheckPassword(password, user.Password);
+                        iscor = Crypter.CheckPassword(password, user.Password);
                     }
-      
+
                     if (Tool.GetMD5(password) != user.Password && !iscor)
                     {
                         jsonmsg.Success = false;
@@ -449,7 +450,7 @@ namespace C8.Lottery.Portal.Controllers
             return Json(jsonmsg);
         }
 
-      
+
 
         /// <summary>
         /// 忘记密码 KCP
@@ -613,7 +614,7 @@ namespace C8.Lottery.Portal.Controllers
             return View();
         }
 
-       
+
 
 
 
