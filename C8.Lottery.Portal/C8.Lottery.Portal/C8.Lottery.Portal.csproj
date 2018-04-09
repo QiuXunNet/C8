@@ -151,6 +151,7 @@
     <Content Include="css\Chat\index.css" />
     <Content Include="css\dialog.css" />
     <Content Include="css\fonts\c8.svg" />
+    <Content Include="css\head1.css" />
     <Content Include="css\jquery.emoji.css" />
     <Content Include="css\jquery.mCustomScrollbar.min.css" />
     <Content Include="css\mescroll.min.css" />
@@ -647,6 +648,9 @@
     <Content Include="css\dropload.css" />
     <Content Include="js\jquery.js" />
     <Content Include="js\kcp\cropbox.js" />
+    <Content Include="js\kcp\hammer.js" />
+    <Content Include="js\kcp\iscroll-zoom.js" />
+    <Content Include="js\kcp\jquery.photoClip.js" />
     <Content Include="js\kcp\NativeShare.js" />
     <Content Include="js\kcp\webpack.config.js" />
     <Content Include="js\luo\dropload.js" />
@@ -711,7 +715,7 @@
     <Content Include="Views\Personal\SetAutograph.cshtml" />
     <Content Include="Views\News\CommentList.cshtml" />
     <Content Include="Views\Personal\SetSex.cshtml" />
-    <Content Include="Views\Personal\Set11.cshtml" />
+    <Content Include="Views\Personal\Set.cshtml" />
     <Content Include="Views\Personal\Task.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
     <Content Include="Views\Public\Tan.cshtml" />
@@ -728,7 +732,7 @@
     <Content Include="Views\Personal\MyPlan.cshtml" />
     <Content Include="Views\Personal\FansBang.cshtml" />
     <Content Include="Views\Personal\FansBangList.cshtml" />
-    <Content Include="Views\Personal\Set.cshtml" />
+    <Content Include="Views\Personal\Set111.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
     <Content Include="Views\Plan\Rule.cshtml" />

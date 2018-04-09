@@ -9,352 +9,262 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>个人中心-交易记录</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-
+    <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
-  
+    <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
 
     <header class="hjc_header">
-        <a href="javascript:;" class="hjc_back"></a>
+        <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">交易记录</a>
     </header>
 
     <div class="guessing_header">
         <ul class="C8_nav3 C8_JIlU">
-            <li class="current"><a href="javascript:;"><p>充值记录</p><span></span></a></li>
-            <li><a href="javascript:;"><p>消费记录</p><span></span></a></li>
-            <li><a href="javascript:;"><p>赚钱记录</p><span></span></a></li>
+            <li data-index="1" class="current"><a href="javascript:;"><p>充值记录</p><span></span></a></li>
+            <li data-index="2"><a href="javascript:;"><p>消费记录</p><span></span></a></li>
+            <li data-index="3"><a href="javascript:;"><p>赚钱记录</p><span></span></a></li>
             <div style="clear:both;"></div>
         </ul>
     </div>
 
     <div class="details_box">
 
+
         <div class="details_info1">
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">微信充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">支付宝充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_3.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">银联充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">微信充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">支付宝充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_3.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">银联充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">微信充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">支付宝充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_3.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">银联充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">微信充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">支付宝充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/41_3.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10000</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">银联充值</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
+
+            <div id="mescroll1" class="mescroll">
+                <div id="dataList1" class="data-list">
+
+              
+
+                </div>
+
+            </div>
+
         </div>
+
+
+
         <div class="details_info1" style="display:none;">
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo9.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">点阅</span>-<span>2</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo10.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">打赏</span>-<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">习近平</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo11.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">点阅</span>-<span>2</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">胡锦涛</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo12.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">点阅</span>-<span>2</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo13.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">打赏</span>-<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">习近平</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo14.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">点阅</span>-<span>2</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">胡锦涛</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo15.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">点阅</span>-<span>2</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo16.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">打赏</span>-<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">习近平</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/logo17.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p><span class="sp_Dy">点阅</span>-<span>2</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">胡锦涛</a></h3>
-                        <p>20170903期 09-25  19:09</p>
-                    </div>
-                </dd>
-            </dl>
+            <div id="mescroll2" class="mescroll">
+                <div id="dataList2" class="data-list">
+
+              
+
+                </div>
+            </div>
+        
+        
         </div>
+
         <div class="details_info1" style="display:none;">
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">充值任务奖励</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">评论专家推荐</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_3.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">邀请成功注册</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_4.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">分享</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">新增粉丝</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_1.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>10</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">充值任务奖励</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_2.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">评论专家推荐</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_3.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">邀请成功注册</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_4.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">分享</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="details_DL">
-                <dt><a href="javascript:;"><img src="~/images/47_5.png"></a></dt>
-                <dd>
-                    <div class="details_ddRight"><p>+<span>1</span></p></div>
-                    <div class="details_ddLeft">
-                        <h3><a href="javascript:;">新增粉丝</a></h3>
-                        <p>2017-09-12  19:09:35</p>
-                    </div>
-                </dd>
-            </dl>
+
+            <div id="mescroll3" class="mescroll">
+                <div id="dataList3" class="data-list">
+            
+
+
+                </div>
+            </div>
+        
         </div>
         
+
+
 
      </div>
 
 
+    <script type="text/javascript">
+        $(function () {
+            var curNavIndex = 1;
+            var mescrollArr = new Array(3);
+            mescrollArr[curNavIndex] = initMescroll("mescroll1", "dataList1");
 
+            function pager(obj) {
+                var _this = $(obj),
+                i = _this.attr("data-index");
+            
+
+                if (curNavIndex != i) {
+                    _this.addClass("current").siblings().removeClass("current");
+                    //隐藏当前列表和回到顶部按钮
+                    $("#mescroll" + curNavIndex).hide();
+                    mescrollArr[curNavIndex].hideTopBtn();
+                    //显示对应的列表
+                    $("#mescroll" + i).show().siblings().hide();
+                    //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                    if (mescrollArr[i] == null) {
+                        mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
+                    } else {
+                        //检查是否需要显示回到到顶按钮
+                        var curMescroll = mescrollArr[i];
+                        var curScrollTop = curMescroll.getScrollTop();
+                        if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                            curMescroll.showTopBtn();
+                        } else {
+                            curMescroll.hideTopBtn();
+                        }
+                    }
+                    //更新标记
+                    curNavIndex = i;
+                }
+            }
+
+            $(".C8_JIlU li").click(function ()
+            {
+                pager($(this));
+            });
+
+
+            function initMescroll(mescrollId, clearEmptyId) {
+
+                var mescroll = new MeScroll(mescrollId, {
+                    //上拉加载的配置项
+                    up: {
+                        callback: getListData,
+                        isBounce: false, //此处禁止ios回弹
+                        noMoreSize: 1,
+                        empty: {
+                            icon: "/images/null.png",
+                            tip: "暂无计划~",
+                            //btntext: "去逛逛 >", //按钮,默认""
+                            //btnClick: function() {
+                            //    alertmsg("去逛逛");
+                            //}
+                        },
+                        page: {
+                            num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+                            size: 20, //每页数据条数
+                            time: null //加载第一页数据服务器返回的时间; 防止用户翻页时,后台新增了数据从而导致下一页数据重复;
+                        },
+                        clearEmptyId: clearEmptyId
+                    }
+                });
+                return mescroll;
+            }
+
+            /*加载列表数据 */
+            function getListData(page) {
+
+                //联网加载数据
+                var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+                getListDataFromNet(dataIndex, page.num, page.size, function (pageData, hasNextPage) {
+                    //console.log("dataIndex=" + dataIndex + ", curNavIndex=" + curNavIndex + ", page.num=" + page.num + ", page.size=" + page.size + ", pageData.length=" + pageData.length);
+                    mescrollArr[dataIndex].endSuccess(pageData.length, hasNextPage);
+
+                    //设置列表数据
+                    buildHtml(pageData, dataIndex);
+                }, function () {
+                    //隐藏下拉刷新和上拉加载的状态;
+                    mescrollArr[dataIndex].endErr();
+                });
+            }
+
+
+            function getListDataFromNet(Type, pageIndex, pageSize, successCallback, errorCallback)
+            {
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        Type: Type,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize
+                    },
+                    async:false,
+                    url: '/Personal/RecordList',
+                    dataType: 'json',
+                    success: function(res){
+
+                        if (res.IsSuccess && res.Data) {
+                            //回调
+
+                            successCallback(res.Data.PageData,res.Data.HasNextPage);
+
+                        } else {
+                            alertmsg("服务器繁忙");
+                        }
+                    },
+                    error: errorCallback
+                });
+            }
+
+
+        });
+
+        /* 获取日期时间格式*/
+        function getDateTime(dateStr, type) {
+            var date = eval('new ' + dateStr.substr(1, dateStr.length - 2));
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hh = date.getHours();
+            var mm = date.getMinutes();
+            var ss = date.getSeconds();
+            if (type == 2) {
+                return  month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+            } else {
+                return year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+            }
+          
+        }
+
+        function buildHtml(data, curNavIndex) {
+            console.log(data);
+            var itemList = [];
+            var listDom = $("#dataList" + curNavIndex);
+            $.each(data, function (index, item) {
+                var moneyhtml = '<p>+<span>' + item.Money + '</span></p></div>';
+                var timehtml = '<p>' + getDateTime(item.SubTime, curNavIndex) + '</p>';
+                var text = "";
+                if (curNavIndex == 2)
+                {
+                    text = item.UserName;
+                    moneyhtml = '<p><span class="sp_Dy">' + (item.Type==3?"点阅":"打赏" )+ '</span>-<span>' + item.Money + '</span></p></div>';
+                    timehtml = '<p>' + item.Issue +'期'+ getDateTime(item.SubTime, curNavIndex) + '</p>'
+                } else if (curNavIndex == 1)
+                {
+                    if (item.PayType == 1)
+                    {
+                        text = "微信充值";
+                    } else if (item.PayType == 2)
+                    {
+                        text = "支付宝充值";
+                    } else if (item.PayType == 3)
+                    {
+                        text = "银联充值";
+                    }
+                } else if (curNavIndex == 3)
+                {
+                    if (item.Type == 8)
+                    {
+                        text = "充值任务奖励";
+                    } else if (item.Type == 7)
+                    {
+                        text = "邀请成功注册奖励";
+                    }
+                }
+
+
+                var itemHtml = '<dl class="details_DL">'
+                       + '<dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt><dd>'
+                       +'<div class="details_ddRight">'+moneyhtml+'</div>'
+                       +'<div class="details_ddLeft">'
+                       + '<h3><a href="javascript:;">' + text + '</a></h3>'
+                       + timehtml + '</div> </dd></dl>'
+
+                itemList.push(itemHtml);
+            });
+            var html = itemList.join('');
+            listDom.append(html);
+
+        }
+
+    </script>
 </body>
 </html>
 

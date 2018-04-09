@@ -9,13 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>个人中心-设置</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-    <link href="~/css/head.css" rel="stylesheet" />
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <link href="~/css/head1.css" rel="stylesheet" />
+
     <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script src="~/js/dialog.min.js"></script>
     <link href="~/css/dialog.css" rel="stylesheet" />
     <script src="~/js/dialog.min.js"></script>
-    <script src="~/js/kcp/cropbox.js"></script>
     <script src="~/js/yjp.js"></script>
-   
+    <script>
+
+
+    </script>
 </head>
 
 <body style="background:#F4F4F5;">
@@ -29,29 +34,22 @@
         <div class="Set_Up">
             <ul class="Set_UpUl">
                 <li>
-                    <a href="javascript:;">
+                    <a id="logox" href="javascript:;">
                         <p class="UpUl_LpB f-l">头像</p>
-                      
                         <div class="UpUl_Rtu f-r">
-                            <div class="new-contentarea tc">
-                                <input type="file" class="" name="upload-file" id="upload-file" />
+                            @if (string.IsNullOrEmpty(Model.Headpath))
+                            {
+                                <img id="head" src="~/images/default_avater.png">
+                            }
+                            else
+                            {
+                                <img id="head" src="@Model.Headpath">
+                            }
 
-                                @if (string.IsNullOrEmpty(Model.Headpath))
-                                {
-                                    <img id="head" for="upload-file" src="~/images/default_avater.png">
-                                }
-                                else
-                                {
-                                    <img id="head" for="upload-file" src="@Model.Headpath">
-                                }
-                            </div>
-                       
-                             
 
-                            </div>
+                        </div>
                         <div style="clear:both;"></div>
                     </a>
-                    
                 </li>
                 <li>
                     <a href="/Personal/SetNickName">
@@ -93,157 +91,193 @@
             <input type="submit" class="Set_Upbtn" value="退出登录" />
         </div>
     </form>
+  
 
-    <div id="uppicBox"  style="display: none; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" >
-        <div class="imageBox" >
-     
-            <div class="thumbBox" ></div>
-            <div class="spinner" style="display: none"></div>
+
+    <article class="htmleaf-container">
+        <div id="clipArea"></div>
+        <div class="foot-use">
+            <div class="uploader1 blue">
+                <input type="button" name="file" class="button" value="打开">
+                <input id="file" type="file" onchange="javascript:setImagePreview();" accept="image/*" multiple />
+            </div>
+            <button id="clipBtn">截取</button>
         </div>
+        <div id="view"></div>
+    </article>
 
+    <script src="~/js/kcp/iscroll-zoom.js"></script>
+    <script src="~/js/kcp/hammer.js"></script>
+    <script src="~/js/kcp/jquery.photoClip.js"></script>
+    <script>
+var obUrl = ''
+//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+$("#clipArea").photoClip({
+	width: 199,
+	height: 166,
+	file: "#file",
+	view: "#view",
+	ok: "#clipBtn",
+	loadStart: function() {
+		console.log("照片读取中");
+	},
+	loadComplete: function() {
+		console.log("照片读取完成");
+	},
+	clipFinish: function (dataURL) {
+	    img = dataURL;
+	    $.post("/Personal/ReplacePhotos", { img: img }, function (result) {
+	        console.log(result.data.RPath);
+	        if (result.Success == true) {
+	            $("#head").attr('src', result.data.RPath);
+	            $(".htmleaf-container").hide();
+	        } else {
+	            alertmsg(result.Msg);
+	        }
+	       
+	    });
+	    console.log("====>" + dataURL);
 
-        <div class="bottom">
+	}
+});
+    </script>
+    <script>
+    $(function () {
+       
+    $("#logox").click(function ()
+    {
 
-            <span id="clsoe" class="Btnsty_peyton" onclick="hideMask();">取消</span>
-            <span id="btnZoomIn" class="Btnsty_peyton">放大</span>
-            <span id="btnZoomOut" class="Btnsty_peyton">缩小</span>
-
-            <span id="btnok" class="Btnsty_peyton">选取</span>
-            @*<input type="button" id="btnClose" onclick="hideMask();" value="取消" />
-
-
-            <input type="button" id="btnZoomIn"  value="+" />
-            <input type="button" id="btnZoomOut"value="-" />
-
-            <input type="button" id="btnok" value="OK" />*@
-
-
-
-        </div>
-   </div>
+        $(".htmleaf-container").show();
+    })
    
+});
+    </script>
+    <script type="text/javascript">
+$(function(){
+	jQuery.divselect = function(divselectid,inputselectid) {
+		var inputselect = $(inputselectid);
+		$(divselectid+" small").click(function(){
+			$("#divselect ul").toggle();
+			$(".mask").show();
+		});
+		$(divselectid+" ul li a").click(function(){
+			var txt = $(this).text();
+			$(divselectid+" small").html(txt);
+			var value = $(this).attr("selectid");
+			inputselect.val(value);
+			$(divselectid+" ul").hide();
+			$(".mask").hide();
+			$("#divselect small").css("color","#333")
+		});
+	};
+	$.divselect("#divselect","#inputselect");
+});
+    </script>
+    <script type="text/javascript">
+$(function(){
+	jQuery.divselectx = function(divselectxid,inputselectxid) {
+		var inputselectx = $(inputselectxid);
+		$(divselectxid+" small").click(function(){
+			$("#divselectx ul").toggle();
+			$(".mask").show();
+		});
+		$(divselectxid+" ul li a").click(function(){
+			var txt = $(this).text();
+			$(divselectxid+" small").html(txt);
+			var value = $(this).attr("selectidx");
+			inputselectx.val(value);
+			$(divselectxid+" ul").hide();
+			$(".mask").hide();
+			$("#divselectx small").css("color","#333")
+		});
+	};
+	$.divselectx("#divselectx","#inputselectx");
+});
+    </script>
+    <script type="text/javascript">
+$(function(){
+	jQuery.divselecty = function(divselectyid,inputselectyid) {
+		var inputselecty = $(inputselectyid);
+		$(divselectyid+" small").click(function(){
+			$("#divselecty ul").toggle();
+			$(".mask").show();
+		});
+		$(divselectyid+" ul li a").click(function(){
+			var txt = $(this).text();
+			$(divselectyid+" small").html(txt);
+			var value = $(this).attr("selectyid");
+			inputselecty.val(value);
+			$(divselectyid+" ul").hide();
+			$(".mask").hide();
+			$("#divselecty small").css("color","#333")
+		});
+	};
+	$.divselecty("#divselecty","#inputselecty");
+});
+    </script>
+    <script type="text/javascript">
+$(function(){
+   $(".mask").click(function(){
+	   $(".mask").hide();
+	   $(".all").hide();
+   })
+	$(".right input").blur(function () {
+		if ($.trim($(this).val()) == '') {
+			$(this).addClass("place").html();
+		}
+		else {
+			$(this).removeClass("place");
+		}
+	})
+});
+    </script>
+    <script>
 
-        <script>
-            $(window).load(function () {
+function getObjectURL(file) {
+	var url = null ;
+	if (window.createObjectURL!=undefined) { // basic
+		url = window.createObjectURL(file) ;
+	} else if (window.URL!=undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file) ;
+	} else if (window.webkitURL!=undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file) ;
+	}
+	return url ;
+}
+    </script>
+ 
+    <script type="text/javascript">
+function setImagePreview() {
+    var preview, img_txt, localImag, file_head = document.getElementById("file_head"),
 
-                //$('#btnCrop').click();$("#idName").css("cssText","background-color:red!important");
-
-
-
-                //$(".imageBox").css("cssText","background-position:88px 88px!important");$(".imageBox").css("cssText","background-size:222px 222px!important");
-
-                var options =
-
-                {
-
-                    thumbBox: '.thumbBox',
-
-                    spinner: '.spinner',
-
-                    imgSrc: ''
-
-                }
-
-                var cropper = $('.imageBox').cropbox(options);
-
-                var img = "";
-
-                $('#upload-file').on('change', function () {
-
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-
-                        options.imgSrc = e.target.result;
-                        //$("#pic-img").attr("src", e.target.result);
-                        cropper = $('.imageBox').cropbox(options);
-                        console.log(options);
-                        getImg();
-                        showMask()
-
-                    }
-
-                    reader.readAsDataURL(this.files[0]);
-
-                  //  this.files = [];
-
-                    //getImg();
-
-                })
-
-                $('#btnok').on('click', function () {
-
-                    img = cropper.getDataURL();
-                  
-                    $.post("/Personal/ReplacePhotos", { img: img }, function (result) {
-                        console.log(result.data.RPath);
-                        if (result.Success == true) {
-                            $("#head").attr('src', result.data.RPath);
-                            hideMask();
-                        } else {
-                            alertmsg(result.Msg);
-                        }
-                           // 
-                            // alert(result);
-                        });
-          
-
-                })
-
-                function getImg() {
-
-                    img = cropper.getDataURL();
-
-                    //$('.cropped').html('');
-
-                    //$('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
-
-                    //$('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
-
-                    //$('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
-
-                }
-
-
-
-                $(".imageBox").on("mouseup", function () {
-
-                    getImg();
-
-                });
-
-
-
-
-
-                $('#btnZoomIn').on('click', function () {
-
-                    cropper.zoomIn();
-
-                })
-
-                $('#btnZoomOut').on('click', function () {
-
-                    cropper.zoomOut();
-
-                })
-
-            });
-
-            function showMask() {
-                $("#uppicBox").css("height", $(document).height());
-                $("#uppicBox").css("width", $(document).width());
-                $("#uppicBox").show();
-            }
-            //隐藏遮罩层  
-            function hideMask() {
-
-                $("#uppicBox").hide();
-            }
-        </script>
-
-
-
+			picture = file_head.value;
+	if (!picture.match(/.jpg|.gif|.png|.bmp/i)) return alert("您上传的图片格式不正确，请重新选择！"),
+			!1;
+	if (preview = document.getElementById("preview"), file_head.files && file_head.files[0]) preview.style.display = "block",
+			preview.style.width = "63px",
+			preview.style.height = "63px",
+			preview.src = window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1 ? window.webkitURL.createObjectURL(file_head.files[0]) : window.URL.createObjectURL(file_head.files[0]);
+	else {
+		file_head.select(),
+				file_head.blur(),
+				img_txt = document.selection.createRange().text,
+				localImag = document.getElementById("localImag"),
+				localImag.style.width = "63px",
+				localImag.style.height = "63px";
+		try {
+			localImag.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)",
+					localImag.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = img_txt
+		} catch(f) {
+			return alert("您上传的图片格式不正确，请重新选择！"),
+					!1
+		}
+		preview.style.display = "none",
+				document.selection.empty()
+	}
+	return document.getElementById("DivUp").style.display = "block",
+			!0
+}
+    </script>
 </body>
 </html>
 
