@@ -324,7 +324,7 @@ ORDER BY SortCode desc,Id DESC";
             string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
 (SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
 FROM [dbo].[News] a
-WHERE [TypeId] = @TypeId 
+WHERE [TypeId] = @TypeId AND DeleteMark=0 AND EnabledMark=1
 ORDER BY ModifyDate DESC,SortCode ASC ";
             //AND RecommendMark = 1
 

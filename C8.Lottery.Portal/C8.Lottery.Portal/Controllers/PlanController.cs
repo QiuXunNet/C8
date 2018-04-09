@@ -410,10 +410,10 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
                             //3:查询用户分佣比例
-                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id);
-                            if (userRateSetting != null && userRateSetting.UserRate > 0)
+                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id && x.Type == (int)CommissionTypeEnum.点阅佣金);
+                            if (userRateSetting != null && userRateSetting.Percentage > 0)
                             {
-                                int commission = (int)(userRateSetting.UserRate * readCoin / 100);
+                                int commission = (int)(userRateSetting.Percentage * readCoin);
                                 executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", uid, id, (int)TransactionTypeEnum.点阅佣金, commission);
                             }
@@ -796,6 +796,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
         //查看最新一期计划
+        [Authentication]
         public ActionResult Look(int id)
         {
             int lType = id;
@@ -845,7 +846,19 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
         }
 
+        /// <summary>
+        /// 打赏页
+        /// </summary>
+        /// <param name="id">帖子Id</param>
+        /// <returns></returns>
+        public ActionResult Tip(int id)
+        {
+            //
+            //var model = 
 
+            //string sql ="SELECT TOP 10 "
+            return View();
+        }
 
     }
 }
