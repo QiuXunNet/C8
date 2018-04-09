@@ -123,7 +123,18 @@ namespace C8.Lottery.Public
         }
 
 
-       
+        /// <summary>
+        /// 货币保留后两位小数
+        /// </summary>
+        /// <param name="money"></param>
+        /// <returns></returns>
+        public static string Rmoney(decimal money)
+        {
+           return string.Format("{0:N}", money);
+        }
+
+
+
 
 
         #region 截取data:image/jpeg;base64,提取图片，并保存图片

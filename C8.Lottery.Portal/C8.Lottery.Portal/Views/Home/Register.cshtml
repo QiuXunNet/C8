@@ -77,12 +77,18 @@
             $('#btnreg').click(function(){
                 var mobile = $('#mobile').val();
                 var password = $('#password').val();
+                var name=$('#name').val();
                 var vcode = $('#vcode').val();
                 var vData=@Html.Raw(JsonConvert.SerializeObject(ViewData));
                 //var hid = $("#hid").val();
                 var inviteid = vData["id"];
                 if (mobile.length == 0) {
                     alertmsg("手机号不能为空");
+                    return false;
+                }
+                if(name.trim().length==0)
+                {
+                    alertmsg("昵称不能为空");
                     return false;
                 }
                 if (password.length == 0) {
@@ -97,7 +103,7 @@
                     alertmsg("验证码不能为空");
                     return false;
                 }
-                $.post('/Home/Create', { mobile: mobile, password: password, vcode: vcode, inviteid: inviteid }, function (data) {
+                $.post('/Home/Create', { mobile: mobile,name:name, password: password, vcode: vcode, inviteid: inviteid }, function (data) {
 
                     if (data.Success!=true) {
                         alertmsg(data.Msg);
@@ -136,6 +142,14 @@
                             <input type="text" id="mobile" placeholder="输入手机号" class="DL_ipt1">
                         </div>
                     </li>
+
+                    <li>
+                        <p class="DL_icon DL_icon1 f-l"></p>
+                        <div class="UL_kuai1">
+                            <input type="text" id="name" placeholder="输入昵称" class="DL_ipt1">
+                        </div>
+                    </li>
+
                     <li>
                         <p class="DL_icon DL_icon2 f-l"></p>
                         <div class="UL_kuai1">

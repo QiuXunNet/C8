@@ -136,6 +136,7 @@
     <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\ComeOutRecordModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\DrawMoneyModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
@@ -749,6 +750,7 @@
     <Content Include="Views\Plan\Tip.cshtml" />
     <Content Include="Views\Personal\TransactionRecord.cshtml" />
     <Content Include="Views\Personal\TaskRule.cshtml" />
+    <Content Include="Views\Personal\MyCommission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

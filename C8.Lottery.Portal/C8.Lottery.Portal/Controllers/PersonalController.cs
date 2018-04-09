@@ -1588,6 +1588,127 @@ on c.OrderId=b.Id
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 我的佣金
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyCommission()
+        {
+          
+            try
+            {
+                int UserId = UserHelper.GetByUserId();
+                string strsql = @"select MyYj,Txing,Txleiji from 
+ (select isnull(sum([Money]),0)as MyYj from ComeOutRecord where  [UserId]=@UserId and Type in(4,9))t1,
+ (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
+ (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId)
+                };
+                DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
+                ViewBag.MyYj =Tool.Rmoney(dr.MyYj);
+                ViewBag.Txing = Tool.Rmoney(dr.Txing);
+                ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txleiji);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 我的佣金数据
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonResult MyCommissionList(int Type, int pageIndex, int pageSize)
+        {
+            var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
+            try
+            {
+
+                var pager = new PagedList<ComeOutRecordModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+              
+                int UserId = UserHelper.GetByUserId();
+
+                string strsql = "";
+                string strstate = "";
+                if (Type == 1)//收入明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
+inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
+on c.OrderId=b.Id
+ where c.UserId=@UserId and c.Type in(4,9)
+ )t
+ where   rowNumber BETWEEN @Start AND @End";
+                    strstate = "4,9";
+
+                }
+                else if (Type == 2)//提现明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type=2
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                    strstate = "2";
+                }
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+
+
+                };
+
+                List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                if (list != null)
+                {
+                    if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/41.png";
+                        });
+                    }else if (Type == 1)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
+                        });
+                    }
+                }
+                pager.PageData = list;
+                pager.TotalCount = count;
+
+                result.Data = pager;
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 
