@@ -1,0 +1,8 @@
+/* CSS Document */
+.wrapper{ bottom:0;}
+
+.ul_dolist li{ padding:0 0.6rem; background:#fff; margin-bottom: 0.5rem; }
+.ul_dolist h3{ height: 2.4rem; line-height: 2.4rem; font-size:1.3rem; color:#333;  }
+.ul_dolist div{ display: -webkit-box; border-top:1px solid #eee; height:2.8rem; line-height: 2.8rem; font-size:1.1rem;  }
+.ul_dolist p{ -webkit-box-flex:1; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+.ul_dolist i{  width:4rem; display: block; text-align: right;}

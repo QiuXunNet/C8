@@ -1,0 +1,22 @@
+﻿/* CSS Document */
+*{font-family:微软雅黑;}
+html{font-size:62.5%;}
+body,p,h1,h2,h3,h4,h5,h6,dl,dd{margin:0; -webkit-user-select:none; -webkit-text-size-adjust:none;}
+h1,h2,h3,h4,h5,h6{ font-weight:normal;font-size:inherit;}
+i,em{font-style:normal;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block; }
+ol,ul{list-style:none;padding:0;margin:0;}
+a{text-decoration:none;outline:none;color:#000;}
+img{border:none;vertical-align:top;}
+td,th{padding:0;}
+table{border-collapse:collapse;}
+form{margin:0;display:inline}
+input{ margin:0;padding:0;outline:none;-webkit-appearance:none;}
+select{ margin:0;-webkit-appearance:none;}
+textarea{resize:none;overflow:auto;margin:0;padding:0;-webkit-appearance:none;}
+map,map area{outline:none;}
+
+.elps{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.clearfix{zoom:1;}
+.clearfix:after{content:"";display:block;clear:both;}
+.vCenter{justify-content:center;align-items:center;display:-webkit-box;display:-webkit-flex;}
