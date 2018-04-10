@@ -423,13 +423,13 @@ namespace C8.Lottery.Portal.Controllers
 
                 if (user != null)
                 {
-                    bool iscor = true;
+                    bool iscor = false;
                     if (user.Password.Contains("$2y"))
                     {
                         iscor = Crypter.CheckPassword(password, user.Password);
                     }
 
-                    if (Tool.GetMD5(password) != user.Password && !iscor)
+                    if (Tool.GetMD5(password) != user.Password && iscor==false)
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "密码不正确";
