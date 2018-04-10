@@ -155,7 +155,8 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == 1)
                 {
                     strsql = "  Name=@value ";
-                    user.Name = value;
+                    user.Name = value;      
+
                 }
                 else if (type == 2)
                 {
@@ -168,13 +169,34 @@ namespace C8.Lottery.Portal.Controllers
                     user.Sex = Convert.ToInt32(value);
                 }
                 string usersql = "update  UserInfo set  " + strsql + "      where  Mobile=@Mobile";
-
+             
+                string namesql = "select count(1) from UserInfo where Name=@value";
+              
                 SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@value",value),
                 new SqlParameter("@Mobile",user.Mobile)
 
                 };
-
+                if (type == 1)
+                {
+                    int count =Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
+                    if (count > 0)
+                    {
+                        jsonmsg.Success = false;
+                        jsonmsg.Msg = "该昵称已存在";
+                        return Json(jsonmsg);
+                    }else
+                    {
+                        bool iscz = Tool.CheckSensitiveWords(value);
+                        if (iscz==true)
+                        {
+                            jsonmsg.Success = false;
+                            jsonmsg.Msg = "该昵称包含敏感字符";
+                            return Json(jsonmsg);
+                        }
+                    }
+                }
+   
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
                 if (data > 0)
                 {

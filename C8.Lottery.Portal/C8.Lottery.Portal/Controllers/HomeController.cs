@@ -149,9 +149,8 @@ namespace C8.Lottery.Portal.Controllers
                     }
                     else
                     {
-                        string words = WebHelper.GetSensitiveWords();
-                        string[] zang = words.Split(',');
-                        if (zang.Contains(name))
+                        bool iscz = Tool.CheckSensitiveWords(name);
+                        if (iscz==true)
                         {
                             jsonmsg.Success = false;
                             jsonmsg.Msg = "该昵称包含敏感字符";
