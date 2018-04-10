@@ -1215,7 +1215,7 @@ where a.[Type]=2 and a.Id=" + id;
         /// <returns></returns>
         public ActionResult TakeBet()
         {
-            string strsql = @"select * from LotteryType2 where PId=0  order by Position desc";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
             List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
 
             return View(list);
@@ -1288,10 +1288,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ACHVModel model = new ACHVModel();
             try
             {
-                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position desc";
+                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position ";
                 List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position desc";
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position ";
                 List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
