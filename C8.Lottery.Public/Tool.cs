@@ -117,6 +117,12 @@ namespace C8.Lottery.Public
                 case 7:
                     imgsrc = "/images/47_3.png";
                     break;
+                case 4:
+                    imgsrc = "/images/47_7.png";
+                    break;
+                case 9:
+                    imgsrc = "/images/47_6.png";
+                    break;
               
             }
             return imgsrc;
