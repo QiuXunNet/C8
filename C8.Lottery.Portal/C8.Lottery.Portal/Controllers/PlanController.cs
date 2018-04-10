@@ -864,7 +864,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
                 string.Format(@"select Top 1 * from BettingRecord 
     where UserId={0} and lType={1}{2}
  order by SubTime DESC", uid, ltype,
-    string.IsNullOrWhiteSpace(playName) ? "" : " and PlayName=@PlayName");
+    string.IsNullOrWhiteSpace(playName) || playName == "全部" ? "" : " and PlayName=@PlayName");
 
             var bettingRecordParameter = new[]
             {
