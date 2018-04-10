@@ -224,7 +224,7 @@
                     + '    <dd>'
                     + '    	<div class="details_ddRight">';
                 if (item.WinState == 1) {
-                    itemHtml += '        	<a href="javascript:;" class="det_bj">编辑</a>'
+                    itemHtml += '        	<a href="/Plan/Post/'+item.lType+'" class="det_bj">编辑</a>'
                         + '            <h3 class="det_wkj">未开奖</h3>';
                 } else if (item.WinState == 2) {
                     itemHtml += '<p>已开奖</p>';

@@ -6827,6 +6827,20 @@ a {
 
 
 /**********首页 开始*******/
+.home_logo {
+    display: inline-block;
+    height: 30px;
+    margin: 10px auto 0;
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    margin-left: 10px;
+}
+.home_logo img {
+    display: block;
+    height: 100%;
+}
 
 .hjc_hdNav {
     /*position: absolute;*/

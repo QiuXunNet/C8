@@ -459,12 +459,12 @@
                 }
             },
             goLastPlay:function() {
-                var playName = $(".SX_Ul li.current").attr("data-title");
+                var playName = $(".SX_Ul li.current").attr("data-title")||"";
                 location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
             },
             giftCoin:function() {
 
-                var playName = $(".SX_Ul li.current").attr("data-title");
+                var playName = $(".SX_Ul li.current").attr("data-title")||"";
                 location.href = "/Plan/Tip?uid=" + uid + "&ltype=" + ltype + "&playName=" + playName;
             }
         }
