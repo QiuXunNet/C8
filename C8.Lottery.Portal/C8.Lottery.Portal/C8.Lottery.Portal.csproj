@@ -755,6 +755,7 @@
     <Content Include="Views\Personal\TransactionRecord.cshtml" />
     <Content Include="Views\Personal\TaskRule.cshtml" />
     <Content Include="Views\Personal\MyCommission.cshtml" />
+    <Content Include="Views\Talking\ChatRoomWS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
