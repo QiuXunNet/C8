@@ -20,7 +20,7 @@ namespace C8.Lottery.Portal.Controllers
     /// </summary>
     public class TalkingController : BaseController
     {
-        
+
         /// <summary>
         /// 聊天室列表业
         /// </summary>
@@ -45,7 +45,7 @@ namespace C8.Lottery.Portal.Controllers
                 ViewBag.RommId = id;
                 if (user == null)
                 {
-                    ViewBag.UserId = 9998;  
+                    ViewBag.UserId = 9998;
                     ViewBag.UserName = "测试用户";
                     ViewBag.PhotoImg = "/images/default_avater.png";
                     ViewBag.IsAdmin = true;
@@ -54,7 +54,7 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     ViewBag.UserId = user.Id;
                     ViewBag.UserName = user.UserName;
-                    ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath)? "/images/default_avater.png": user.Headpath;//user.;
+                    ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;//user.;
                     ViewBag.IsAdmin = false; //
                 }
 
@@ -111,19 +111,18 @@ namespace C8.Lottery.Portal.Controllers
                 }
 
                 //查询登录人在本房间是否被禁言
-                string sql = "select count(*) from TalkBlackList where RoomId = @RoomId and UserId = @UserId and (IsEverlasting =1 or EndTime > GETDATE())";
+                string sql = "select UserId from TalkBlackList where RoomId = @RoomId and (IsEverlasting =1 or EndTime > GETDATE())";
 
                 SqlParameter[] regsp = new SqlParameter[] {
-                    new SqlParameter("@RoomId",id),
-                    new SqlParameter("@UserId",ViewBag.UserId)
+                    new SqlParameter("@RoomId",id)
                  };
 
-                var i = Convert.ToInt32(SqlHelper.ExecuteScalar(sql, regsp));
-
-                ViewBag.IsEverlasting = (i > 0)?1:0;
+                var blackListStr = ","+string.Join(",", Util.ReaderToList<TalkBlackList>(sql, regsp).Select(e=>e.UserId))+",";
+                
+                ViewBag.BlackListStr = blackListStr;
             }
             catch (Exception)
-            {               
+            {
             }
 
             return View("ChatRoomWS");
@@ -160,24 +159,24 @@ namespace C8.Lottery.Portal.Controllers
 
                 byte[] arr = Convert.FromBase64String(img);
 
-                MemoryStream ms = new MemoryStream(arr);            
+                MemoryStream ms = new MemoryStream(arr);
                 Image image = Image.FromStream(ms);
-                image.Save(path+fileName+".jpg");
+                image.Save(path + fileName + ".jpg");
                 image.Dispose();
                 ms.Close();
 
-                MemoryStream ms2 = new MemoryStream(ConvertToThumbnail(arr,70,100,100));
+                MemoryStream ms2 = new MemoryStream(ConvertToThumbnail(arr, 70, 100, 100));
                 Image image2 = Image.FromStream(ms2);
                 image2.Save(path + fileName + "_Min.jpg");
                 image2.Dispose();
                 ms2.Close();
+
+                return Json(new { status=1,imgUrl= xPath + datePath + fileName + "_Min.jpg" } );
             }
             catch (Exception ex)
             {
-               // MessageBox.Show("Base64StringToImage 转换失败\nException：" + ex.Message);
+                return Json(new { status = 0});
             }
-
-            return Json(xPath + datePath + fileName + "_Min.jpg");
         }
 
         /// <summary>
@@ -261,10 +260,10 @@ namespace C8.Lottery.Portal.Controllers
         /// 添加聊天记录
         /// </summary>
         /// <param name="model"></param>
-        public void AddMessage(TalkNotes model)
+        public ActionResult AddMessage(TalkNotes model)
         {
             model.SendTime = DateTime.Now;
-            model.Status = 1;           
+            model.Status = 1;
 
             try
             {
@@ -284,10 +283,14 @@ namespace C8.Lottery.Portal.Controllers
                  };
 
                 SqlHelper.ExecuteScalar(regsql, regsp);
+
+                return Json(new { status = 1 });
+
             }
             catch (Exception ex)
-            {               
-            }            
+            {
+                return Json(new { status = 0 });
+            }
         }
 
         /// <summary>
@@ -301,7 +304,7 @@ namespace C8.Lottery.Portal.Controllers
                             where RoomId = @RoomId and Status = 1 {0}                            
                             order by id desc ";
 
-            SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@RoomId", roomId),new SqlParameter("@Guid",guid) };
+            SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@RoomId", roomId), new SqlParameter("@Guid", guid) };
 
             if (!string.IsNullOrEmpty(guid))
             {
@@ -329,7 +332,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public ActionResult DelMessage(string guid,int userId,string userName)
+        public ActionResult DelMessage(string guid, int userId, string userName)
         {
             string sql = @" update TalkNotes set Status = 0 where Guid=@Guid ";
 
@@ -366,8 +369,8 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ActionResult AddBlackList(TalkBlackList model,string userName)
-        {         
+        public ActionResult AddBlackList(TalkBlackList model, string userName)
+        {
             model.BanTime = DateTime.Now;
             model.IsEverlasting = true;
 
@@ -379,7 +382,7 @@ namespace C8.Lottery.Portal.Controllers
                     new SqlParameter("@UserId",model.UserId),
                     new SqlParameter("@RoomId",model.RoomId),
                     new SqlParameter("@BanTime",model.BanTime),
-                    new SqlParameter("@IsEverlasting",model.IsEverlasting)                  
+                    new SqlParameter("@IsEverlasting",model.IsEverlasting)
                  };
 
                 SqlHelper.ExecuteScalar(regsql, regsp);
@@ -417,7 +420,7 @@ namespace C8.Lottery.Portal.Controllers
                     UserName = "测试用户",
                     Id = 0
                 };
-            }           
+            }
 
             model.ProcessDate = DateTime.Now;
             model.ProcessTime = DateTime.Now;
@@ -486,7 +489,7 @@ namespace C8.Lottery.Portal.Controllers
             {
                 return Json(new { Status = 0, DataList = new { } });
             }
-           
+
         }
 
         /// <summary>
@@ -502,7 +505,7 @@ namespace C8.Lottery.Portal.Controllers
                 string sql = " select content from SensitiveWords ";
                 str = Convert.ToString(SqlHelper.ExecuteScalar(sql));
 
-                CacheHelper.AddCache("GetSensitiveWordsList", str,DateTime.Now.AddHours(2));
+                CacheHelper.AddCache("GetSensitiveWordsList", str, DateTime.Now.AddHours(2));
             }
             else
             {
