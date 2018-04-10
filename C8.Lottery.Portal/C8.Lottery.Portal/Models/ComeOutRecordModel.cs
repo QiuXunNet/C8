@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using C8.Lottery.Model;
-
 namespace C8.Lottery.Portal.Models
 {
-    public class ComeOutRecordModel : ComeOutRecord
+    public class ComeOutRecordModel:ComeOutRecord
     {
+      
+
+
         //针对消费记录
 
         /// <summary>

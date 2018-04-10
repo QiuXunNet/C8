@@ -499,7 +499,7 @@ where RowNumber BETWEEN @Start AND @End ";
             ViewData["uid"] = UserId;
             string strsql = @" select Number,Coin from
                               (select count(1) as Number from UserInfo where Pid = @Pid) t1,
-                              (select sum([Amount])as Coin from CoinRecord where [lType] = 0 and UserId = @UserId) t2";
+                              (select sum([Money])as Coin from ComeOutRecord  where [UserId]=@UserId and [Type]=7) t2";
 
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@Pid",UserId),
@@ -1485,6 +1485,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// 交易记录数据
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public JsonResult RecordList(int Type,int pageIndex, int pageSize)
         {
             var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
@@ -1497,22 +1498,27 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string strstate = "";
                 int UserId = UserHelper.GetByUserId();
 
-                string strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and State in(@State)
- )t
- where   rowNumber BETWEEN  @Start AND @End";
+                string strsql = "";
+                   
                 if (Type == 1)//充值
                 {
                     strstate = "1";
+
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type in(" + strstate+@")
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
                 }
                 else if (Type == 2)//消费
                 {
                     strstate = "3,5";
 
-                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,c.* from ComeOutRecord c
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
 inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
 on c.OrderId=b.Id
- where c.UserId=@UserId and State in(@State)
+ where c.UserId=@UserId and c.Type in(" + strstate + @")
  )t
  where   rowNumber BETWEEN @Start AND @End";
 
@@ -1520,12 +1526,15 @@ on c.OrderId=b.Id
                 else if (Type == 3)//赚钱
                 {
                     strstate = "4,6,7,8,9 ";
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type in(" + strstate + @")
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
                 }
-                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and State in(@State)";
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
 
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId),
-                    new SqlParameter("@State",strstate),
                     new SqlParameter("@Start",pager.StartIndex),
                     new SqlParameter("@End",pager.EndIndex)
 
@@ -1535,14 +1544,31 @@ on c.OrderId=b.Id
                 int count =Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
                 if (list != null)
                 {
-                    if (Type == 2)
+                    if (Type == 1)
                     {
                         list.ForEach(x =>
                         {
-                            x.UserName = UserHelper.GetUser(x.BUserId).UserName;
-                            x.LotteryIcon = Util.GetLotteryIcon(x.lType);
+
+                            x.LotteryIcon =Tool.GetPayImg(x.Type);
+                        });
+
+                    }
+                    else if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon ="/images/"+ Util.GetLotteryIcon(x.lType)+".png";
+                        });
+                    }else if (Type == 3)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = Tool.GetZqImg(x.Type);
                         });
                     }
+
                 }
                 pager.PageData = list;
                 pager.TotalCount = count;
@@ -1558,6 +1584,127 @@ on c.OrderId=b.Id
                 result.Message = ex.Message;
                 throw;
             
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 我的佣金
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyCommission()
+        {
+          
+            try
+            {
+                int UserId = UserHelper.GetByUserId();
+                string strsql = @"select MyYj,Txing,Txleiji from 
+ (select isnull(sum([Money]),0)as MyYj from ComeOutRecord where  [UserId]=@UserId and Type in(4,9))t1,
+ (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
+ (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId)
+                };
+                DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
+                ViewBag.MyYj =Tool.Rmoney(dr.MyYj);
+                ViewBag.Txing = Tool.Rmoney(dr.Txing);
+                ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txleiji);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 我的佣金数据
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonResult MyCommissionList(int Type, int pageIndex, int pageSize)
+        {
+            var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
+            try
+            {
+
+                var pager = new PagedList<ComeOutRecordModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+              
+                int UserId = UserHelper.GetByUserId();
+
+                string strsql = "";
+                string strstate = "";
+                if (Type == 1)//收入明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
+inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
+on c.OrderId=b.Id
+ where c.UserId=@UserId and c.Type in(4,9)
+ )t
+ where   rowNumber BETWEEN @Start AND @End";
+                    strstate = "4,9";
+
+                }
+                else if (Type == 2)//提现明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type=2
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                    strstate = "2";
+                }
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+
+
+                };
+
+                List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                if (list != null)
+                {
+                    if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/41.png";
+                        });
+                    }else if (Type == 1)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
+                        });
+                    }
+                }
+                pager.PageData = list;
+                pager.TotalCount = count;
+
+                result.Data = pager;
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -1626,6 +1626,14 @@ a {
         .DL_if1UL li .DL_icon3 {
             background-position: 0 -48px;
         }
+         .DL_if1UL li .DL_icon4 {
+            height: 16px;
+            width: 16px;
+            background: url(../images/13_1.png);
+        
+            margin-top: 12px;
+            background-repeat:no-repeat;
+        }
 
         .DL_if1UL li .UL_kuai1 {
             height: 40px;
@@ -8522,6 +8530,8 @@ footer {
         height: 280px;
     }
 }
+
+
 
 
 /**兼容小屏**/

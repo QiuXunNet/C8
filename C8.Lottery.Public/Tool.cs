@@ -79,6 +79,63 @@ namespace C8.Lottery.Public
             return imgsrc;
         }
 
+        /// <summary>
+        /// 获取充值图片
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPayImg(int paytype)
+        {
+            string imgsrc = string.Empty;
+            switch (paytype)
+            {
+                case 1:
+                    imgsrc = "/images/41_1.png";
+                    break;
+                case 2:
+                    imgsrc = "/images/41_2.png";
+                    break;
+                case 3:
+                    imgsrc = "/images/41_3.png";
+                    break;
+            }
+            return imgsrc;
+        }
+
+        /// <summary>
+        /// 赚钱图片
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        public static string GetZqImg(int Type)
+        {
+            string imgsrc = string.Empty;
+            switch (Type)
+            {
+                case 1:
+                    imgsrc = "/images/47_1.png";
+                    break;
+                case 7:
+                    imgsrc = "/images/47_3.png";
+                    break;
+              
+            }
+            return imgsrc;
+        }
+
+
+        /// <summary>
+        /// 货币保留后两位小数
+        /// </summary>
+        /// <param name="money"></param>
+        /// <returns></returns>
+        public static string Rmoney(decimal money)
+        {
+           return string.Format("{0:N}", money);
+        }
+
+
+
+
 
         #region 截取data:image/jpeg;base64,提取图片，并保存图片
         /// <summary>
