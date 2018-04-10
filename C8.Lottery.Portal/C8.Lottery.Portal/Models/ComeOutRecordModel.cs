@@ -40,4 +40,25 @@ namespace C8.Lottery.Portal.Models
 
 
     }
+
+
+    /// <summary>
+    /// 打赏记录Model
+    /// </summary>
+    public class TipRecordModel : ComeOutRecord
+    {
+        /// <summary>
+        /// 打赏人昵称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 打赏人头像
+        /// </summary>
+        public string Avater { get; set; }
+
+        public string SubTimeStr
+        {
+            get { return SubTime.ToString("yyyy-MM-dd HH:mm:ss"); }
+        }
+    }
 }
