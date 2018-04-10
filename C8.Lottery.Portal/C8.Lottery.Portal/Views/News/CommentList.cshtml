@@ -47,12 +47,11 @@
                     {
                         <li>
                             <dl class="Guse_CDL">
-
-                                <dt><a href="javascript:;"><img src="@Url.Content(comment.Avater)"></a></dt>
+                                <dt><a href="/Personal/UserCenter/@comment.UserId"><img src="@Url.Content(comment.Avater)"></a></dt>
                                 <dd>
                                     <div class="CDL_DDTop">
                                         <h3>
-                                            <a href="javascript:;">@comment.NickName</a>
+                                            <a href="/Personal/UserCenter/@comment.UserId">@comment.NickName</a>
                                         </h3>
                                         <p>@comment.SubTime.ToString("yyyy-MM-dd HH:mm")</p>
                                     </div>
@@ -154,7 +153,7 @@
         var pageIndex = 1,
             pageSize = 20;
         $(function() {
-            
+
             $("#Gues1").parseEmoji();
             var dropload = $("#Gues2").dropload({
                 scrollArea: window,
@@ -210,10 +209,10 @@
             $.each(data.PageData, function(index, value) {
                 var li = '<li>'
                     + '<dl class="Guse_CDL">'
-                    + '<dt><a href="javascript:;"><img src="' + (value.Avater.length <= 0 ? '/images/default_avater.png' : value.Avater) + '"></a></dt>'
+                    + '<dt><a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater.length <= 0 ? '/images/default_avater.png' : value.Avater) + '"></a></dt>'
                     + '<dd>'
                     + ' <div class="CDL_DDTop">'
-                    + '<h3><a href="javascript:;">' + value.NickName + '</a></h3>'
+                    + '<h3><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></h3>'
                     + '<p>' + value.SubTimeStr + '</p>'
                     + ' </div>'
                     + '<div class="CDL_DDFont">'
