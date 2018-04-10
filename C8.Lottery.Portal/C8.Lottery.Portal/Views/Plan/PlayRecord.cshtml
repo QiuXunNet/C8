@@ -55,7 +55,7 @@
                 <dd>
                     <div class="ThdDl_Top">
                         <h3 class="ThdDl_name f-l"><a href="/Personal/UserCenter/@Model.Id">@Model.Name</a></h3>
-                        <a href="javascript:;" class="ThdDl_ds f-r">打赏</a>
+                        <a href="javascript:playUtil.giftCoin();" class="ThdDl_ds f-r">打赏</a>
                         <div style="clear:both;"></div>
                     </div>
                     <div class="ThdDl_Bt">
@@ -219,20 +219,20 @@
         </div>
     </div>
 
-    <div class="C8_TCpopupA" style="margin-top: -80px;">
+    <div class="C8_TCpopupA" style="margin-top: -80px; display: none;">
         <div class="C8_Tcontent">
             <p class="C8_Tcfont">@("查看此专家预测号码需要支付" + readCoin + "金币")</p>
             <p class="C8_Tcfont">是否支付金币查看？</p>
         </div>
         <ul class="C8_Tbtn">
             <li>
-                <a href="javascript:;">
+                <a href="javascript:playUtil.cancel();">
                     <img src="/images/69_1.png">
                     <span>取消</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:;">
+                <a href="javascript:playUtil.confirm();">
                     <img src="/images/69_2.png">
                     <span>确认</span>
                 </a>
@@ -240,12 +240,14 @@
         </ul>
         <div style="clear: both;"></div>
     </div>
-    <div class="mask"></div>
+    <div class="mask" style="display: none;"></div>
 
     <script src="~/js/kcp/NativeShare.js"></script>
     <script type="text/javascript">
         var recordId = 0;
         var readCoin=@readCoin;
+        var ltype=@lType;
+        var uid=@Model.Id;
         $(function() {
             $(".Gues_ul").parseEmoji();
 
@@ -437,7 +439,7 @@
                     success: function (res) {
 
                         if (res.IsSuccess) {
-                            location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
+                            this.goLastPlay();
                         } else {
                             alertmsg(res.Message);
                         }
@@ -448,8 +450,22 @@
                 });
             },
             view:function() {
-                $(".C8_TCpopupA").show();
-                $(".mask").show();
+                if (readCoin > 0) {
+                    $(".C8_TCpopupA").show();
+                    $(".mask").show();
+                } else {
+                    //this.confirm();
+                    this.goLastPlay();
+                }
+            },
+            goLastPlay:function() {
+                var playName = $(".SX_Ul li.current").attr("data-title")||"";
+                location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
+            },
+            giftCoin:function() {
+
+                var playName = $(".SX_Ul li.current").attr("data-title")||"";
+                location.href = "/Plan/Tip?uid=" + uid + "&ltype=" + ltype + "&playName=" + playName;
             }
         }
 

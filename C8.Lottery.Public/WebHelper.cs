@@ -457,5 +457,23 @@ namespace C8.Lottery.Public
         }
 
         #endregion
+
+        #region 转数字
+
+        public static int ToInt32(this object obj)
+        {
+            if (obj == null) return 0;
+
+            try
+            {
+                return Convert.ToInt32(obj);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        #endregion
     }
 }

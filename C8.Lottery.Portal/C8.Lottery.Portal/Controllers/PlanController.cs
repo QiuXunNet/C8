@@ -410,10 +410,12 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
                             //3:查询用户分佣比例
-                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id);
-                            if (userRateSetting != null && userRateSetting.UserRate > 0)
+                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id && x.Type == (int)CommissionTypeEnum.点阅佣金);
+                            if (userRateSetting != null && userRateSetting.Percentage > 0)
                             {
-                                int commission = (int)(userRateSetting.UserRate * readCoin / 100);
+                                int commission = (int)(userRateSetting.Percentage * readCoin);
+                                executeSql.AppendFormat("update UserInfo set Coin+={0} where Id={1}", commission, uid);
+
                                 executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", uid, id, (int)TransactionTypeEnum.点阅佣金, commission);
                             }
@@ -583,7 +585,7 @@ from (
         {
             string strsql = string.Empty;
             string numsql = string.Empty;
-            string countsql = string.Empty;
+            string playSql = string.Empty;
             var result = new AjaxResult<PagedList<AchievementModel>>();
 
             var pager = new PagedList<AchievementModel>();
@@ -600,7 +602,8 @@ from (
 	  group by l.Issue,Num,l.SubTime
 	  )t
 	  where   rowNumber BETWEEN {2} AND {3}  ", uid, lType, pager.StartIndex, pager.EndIndex);
-
+                playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
+                 and lType={1} and WinState=1 order by SubTime desc", uid, lType);
             }
             else
             {
@@ -613,6 +616,8 @@ from (
 	  group by l.Issue,Num,l.SubTime
 	  )t
 	  where   rowNumber BETWEEN {2} AND {3} ", uid, lType, pager.StartIndex, pager.EndIndex);
+                playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
+                 and lType={1} and WinState=1 and PlayName=@PlayName order by SubTime desc", uid, lType);
 
                 sp = new SqlParameter[]{
                     new SqlParameter("@PlayName",playName)
@@ -644,9 +649,6 @@ from (
                 pager.PageData = list;
 
                 //查询最新一期玩法
-                string playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 and PlayName=@PlayName order by SubTime desc", uid, lType);
-
                 var lastPlay = Util.ReaderToList<BettingRecord>(playSql, sp);
 
                 pager.ExtraData = lastPlay.FirstOrDefault();
@@ -657,7 +659,6 @@ from (
             {
                 result.Code = 500;
                 result.Message = ex.Message;
-                throw;
             }
 
 
@@ -796,6 +797,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
         //查看最新一期计划
+        [Authentication]
         public ActionResult Look(int id)
         {
             int lType = id;
@@ -845,7 +847,135 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
         }
 
+        /// <summary>
+        /// 打赏页
+        /// </summary>
+        /// <param name="uid">帖子Id</param>
+        /// <param name="ltype">彩种Id</param>
+        /// <param name="playName">玩法Id</param>
+        /// <returns></returns>
+        [Authentication]
+        public ActionResult Tip(int uid, int ltype, string playName)
+        {
+            ViewBag.SiteSetting = GetSiteSetting();
+
+            //step1:查询帖子信息
+            string bettingRecordSql =
+                string.Format(@"select Top 1 * from BettingRecord 
+    where UserId={0} and lType={1}{2}
+ order by SubTime DESC", uid, ltype,
+    string.IsNullOrWhiteSpace(playName) || playName == "全部" ? "" : " and PlayName=@PlayName");
+
+            var bettingRecordParameter = new[]
+            {
+                new SqlParameter("@PlayName",playName),
+            };
+
+            var bettingRecordlist = Util.ReaderToList<BettingRecord>(bettingRecordSql, bettingRecordParameter);
 
 
+            var bettingRecord = bettingRecordlist.FirstOrDefault();
+
+            if (bettingRecord == null)
+            {
+                //用户在该彩种，没有发帖，无法打赏
+                string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", ltype, uid);
+                Response.Redirect(redirectUrl, true);
+            }
+
+            ViewBag.PlanId = bettingRecord.Id;
+
+            //step2:该用户在当前彩种收到的前50条打赏记录
+            string sql = @"select Top 50 a.Id,a.UserId,a.OrderId,a.[Type],a.[Money],a.[State],a.SubTime,c.Name,d.RPath as Avater 
+from ComeOutRecord a
+left join BettingRecord b on b.Id=a.OrderId 
+left join UserInfo c on c.Id=a.UserId
+left join ResourceMapping d on d.FkId=a.UserId and d.[Type]=@ResourceType
+where b.UserId=@UserId and a.[Type]=@RecordType and b.lType=@lType
+order by SubTime DESC";
+
+            var sqlParameter = new[]
+            {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@UserId",bettingRecord.UserId),
+                new SqlParameter("@RecordType",(int)TransactionTypeEnum.打赏),
+                new SqlParameter("@lType",ltype),
+            };
+
+            var list = Util.ReaderToList<TipRecordModel>(sql, sqlParameter);
+
+            //step3:查询该用户在当前彩种收到的打赏总金额
+            string sumSql = @"select isnull(sum(a.[Money]),0) from ComeOutRecord a
+left join BettingRecord b on b.Id=a.OrderId
+where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTypeEnum.打赏 + " and b.lType=" +
+                            bettingRecord.lType;
+            object sumObj = SqlHelper.ExecuteScalar(sumSql);
+
+            ViewBag.TotalTip = sumObj.ToInt32();
+
+            return View(list);
+        }
+
+        /// <summary>
+        /// 打赏金币
+        /// </summary>
+        /// <param name="id">帖子Id</param>
+        /// <param name="coin">金币数量</param>
+        /// <returns></returns>
+        [Authentication]
+        public JsonResult GiftCoin(int id, int coin)
+        {
+            var user = UserHelper.LoginUser;
+            #region 校验
+            //step1.验证金币输入是否正确
+            if (coin < 10)
+            {
+                return Json(new AjaxResult(400, "最低打赏10金币"));
+            }
+            //step2.验证帖子是否存在
+            var model = Util.GetEntityById<BettingRecord>(id);
+            if (model == null)
+                return Json(new AjaxResult(404, "该帖子不存在"));
+
+            //step3.验证用户金币是否充足
+            if (user.Coin < coin)
+            {
+                return Json(new AjaxResult(402, "余额不足"));
+            }
+            #endregion
+
+            try
+            {
+                StringBuilder sqlBuilder = new StringBuilder();
+                //step4.扣除打赏人账户金币
+                sqlBuilder.AppendFormat("UPDATE dbo.UserInfo SET Coin-={1} WHERE Id={0};", user.Id, coin);
+                //step5.添加打赏记录
+                sqlBuilder.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
+     VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏, coin);
+
+                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id && x.Type == (int)CommissionTypeEnum.打赏佣金);
+                if (userRateSetting != null && userRateSetting.Percentage > 0)
+                {
+                    int commission = (int)(userRateSetting.Percentage * coin);
+                    //step6.发放发帖人金币账户
+                    sqlBuilder.AppendFormat("UPDATE dbo.UserInfo SET Coin+={1} WHERE Id={0};", model.UserId, commission);
+                    //step7.添加打赏佣金记录
+                    sqlBuilder.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
+     VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏佣金, commission);
+                }
+
+                SqlHelper.ExecuteTransaction(sqlBuilder.ToString());
+
+                return Json(new AjaxResult(100, "打赏成功"));
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(string.Format("打赏异常，帖子Id:{0},打赏人Id:{1}。异常消息：{2},异常堆栈：{3}。"
+                    , id, user.Id, ex.Message, ex.StackTrace));
+                return Json(new AjaxResult(500, "服务器繁忙"));
+            }
+
+
+        }
     }
 }

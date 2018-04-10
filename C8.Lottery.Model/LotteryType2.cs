@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using C8.Lottery.Public;
 
 namespace C8.Lottery.Model
 {
@@ -20,7 +21,7 @@ namespace C8.Lottery.Model
         private int? _ltype;
         private string _name;
         private int? _position;
-        private bool _isdelete = false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -61,15 +62,34 @@ namespace C8.Lottery.Model
             set { _position = value; }
             get { return _position; }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsDelete
-        {
-            set { _isdelete = value; }
-            get { return _isdelete; }
-        }
+     
         #endregion Model
+
+
+
+        //------------扩展字段-------------------
+        public int[] SonIdArr
+        {
+            get
+            {
+                if (this.PId == 0)
+                {
+                    string sql = "select lType from LotteryType2 where PId = " + this.Id + " order by Position";
+                    List<LotteryType2> list = Util.ReaderToList<LotteryType2>(sql);
+                    int[] idArr = new int[list.Count];
+                    int count = 0;
+                    foreach (LotteryType2 lotteryType2 in list)
+                    {
+                        idArr[count] = (int)lotteryType2.lType;
+                        count ++;
+                    }
+
+                    return idArr;
+                }
+
+                return null;
+            }
+        }
 
     }
 }

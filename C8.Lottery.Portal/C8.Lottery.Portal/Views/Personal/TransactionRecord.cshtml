@@ -1,128 +1,94 @@
-﻿@using C8.Lottery.Model
-@model List<LotteryType2>
-@{
-    ViewBag.Title = "TakeBet";
+﻿@{
+    ViewBag.Title = "TransactionRecord";
 }
 
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>个人中心-参与竞猜</title>
-    <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
+    <title>个人中心-交易记录</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
 
-<body style="background:#F4F4F5;overflow:hidden;">
+<body style="background:#F4F4F5;">
 
     <header class="hjc_header">
         <a href="/Personal/Index" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo">参与竞猜</a>
+        <a href="javascript:;" class="hjc_logo">交易记录</a>
     </header>
 
-    <!-- <div class="guessing_header">
-        <ul class="C8_nav C8_cyjc">
-            <li class="current"><a href="javascript:;"><p>高频彩</p><span></span></a></li>
-            <li><a href="javascript:;"><p>全国彩</p><span></span></a></li>
+    <div class="guessing_header">
+        <ul class="C8_nav3 C8_JIlU">
+            <li data-index="1" class="current"><a href="javascript:;"><p>充值记录</p><span></span></a></li>
+            <li data-index="2"><a href="javascript:;"><p>消费记录</p><span></span></a></li>
+            <li data-index="3"><a href="javascript:;"><p>赚钱记录</p><span></span></a></li>
             <div style="clear:both;"></div>
         </ul>
-    </div> -->
-    <div class="hjc_hdNav">
+    </div>
 
-        <div class="hdNav_cai_collect">
-            <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
-            <ul class="hdNav_cai_lhs">
+    <div class="details_box">
+
+
+        <div class="details_info1">
+
+            <div id="mescroll1" class="mescroll">
+                <div id="dataList1" class="data-list">
+
               
-                @if (Model != null)
-                {
-                    foreach (var item in Model)
-                    {
-                        if (Model.IndexOf(item) == 0)
-                        {
-                            <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
-                        }
-                        else
-                        {
-                <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
 
-                        }
+                </div>
 
-                    }
-                }
-            
-               
-                 <div style="clear:bothl;"></div>
-            </ul>
-        </div>
-        <div class="hdNav_cai_expand" style="display:none">
-            <div class="hdNav_cai_title">
-                <span>切换分类</span>
-                <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
             </div>
-            <ul class="hdNav_cai">
-             
-                @if (Model != null)
-                {
-                    foreach (var item in Model)
-                    {
-                        if (Model.IndexOf(item) == 0)
-                        {
-                            <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
-                        }
-                        else
-                        {
-                            <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
 
-                        }
-                    }
-                }
-                <div style="clear:bothl;"></div>
-            </ul>
         </div>
-    </div>
 
-    <div class="guessing_content hjc_indexmain" style="margin-top:90px;height:100%">
+
+
+        <div class="details_info1" style="display:none;">
+            <div id="mescroll2" class="mescroll">
+                <div id="dataList2" class="data-list">
+
+              
+
+                </div>
+            </div>
         
-    
-       @if (Model != null)
-                   {
-                       foreach (var item in Model)
-                       {
-                           string mid = "mescroll" + item.Id;
-                           string did = "datalist" + item.Id;
+        
+        </div>
 
-                       <div id="@mid" class="list_mainUl2 gues_info mescroll" >
-                        <div id="@did" class="data-list">
+        <div class="details_info1" style="display:none;">
 
+            <div id="mescroll3" class="mescroll">
+                <div id="dataList3" class="data-list">
+            
+
+
+                </div>
             </div>
-               </div>
+        
+        </div>
+        
 
 
-           }
-       }
 
-
-     
-    </div>
-
-    <div class="mask" style="display:none;"></div>
+     </div>
 
 
     <script type="text/javascript">
         $(function () {
             var curNavIndex = 1;
-             var mescrollArr = new Array(17);
-             mescrollArr[curNavIndex] = initMescroll("mescroll1", "datalist1");
+            var mescrollArr = new Array(3);
+            mescrollArr[curNavIndex] = initMescroll("mescroll1", "dataList1");
 
             function pager(obj) {
                 var _this = $(obj),
                 i = _this.attr("data-index");
-                console.log(i);
+            
 
                 if (curNavIndex != i) {
                     _this.addClass("current").siblings().removeClass("current");
@@ -133,7 +99,7 @@
                     $("#mescroll" + i).show().siblings().hide();
                     //取出菜单所对应的mescroll对象,如果未初始化则初始化
                     if (mescrollArr[i] == null) {
-                        mescrollArr[i] = initMescroll("mescroll" + i, "datalist" + i);
+                        mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
                     } else {
                         //检查是否需要显示回到到顶按钮
                         var curMescroll = mescrollArr[i];
@@ -149,19 +115,9 @@
                 }
             }
 
-
-          
-
-
-            $(".hdNav_cai_lhs li").click(function () {
-            
-                
+            $(".C8_JIlU li").click(function ()
+            {
                 pager($(this));
-            });
-
-            $(".hdNav_cai li").click(function () {
-     
-               pager($(this));
             });
 
 
@@ -194,7 +150,7 @@
 
             /*加载列表数据 */
             function getListData(page) {
-             
+
                 //联网加载数据
                 var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
                 getListDataFromNet(dataIndex, page.num, page.size, function (pageData, hasNextPage) {
@@ -210,23 +166,23 @@
             }
 
 
-            function getListDataFromNet(ltype,pageIndex,pageSize,successCallback,errorCallback)
+            function getListDataFromNet(Type, pageIndex, pageSize, successCallback, errorCallback)
             {
                 $.ajax({
                     type: 'GET',
                     data: {
-                        PId:ltype,           
+                        Type: Type,
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
                     async:false,
-                    url: '/Personal/GetBet',
+                    url: '/Personal/RecordList',
                     dataType: 'json',
                     success: function(res){
 
                         if (res.IsSuccess && res.Data) {
                             //回调
-                         
+
                             successCallback(res.Data.PageData,res.Data.HasNextPage);
 
                         } else {
@@ -240,15 +196,67 @@
 
         });
 
-        function buildHtml(data, curNavIndex) {
+        /* 获取日期时间格式*/
+        function getDateTime(dateStr, type) {
+            var date = eval('new ' + dateStr.substr(1, dateStr.length - 2));
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hh = date.getHours();
+            var mm = date.getMinutes();
+            var ss = date.getSeconds();
+            if (type == 2) {
+                return  month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+            } else {
+                return year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+            }
           
+        }
+
+        function buildHtml(data, curNavIndex) {
+            console.log(data);
             var itemList = [];
-            var listDom = $("#datalist" + curNavIndex);
+            var listDom = $("#dataList" + curNavIndex);
             $.each(data, function (index, item) {
-            
-                var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></a></dt>'
-                + '<dd><a href="/Plan/Post/' + item.lType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.Name + '</h3>  <p>' + item.Score + '</p>   </div>'
-                + ' </a></dd> </dl>';
+                var moneyhtml = '<p>+<span>' + item.Money + '</span></p></div>';
+                var timehtml = '<p>' + getDateTime(item.SubTime, curNavIndex) + '</p>';
+                var text = "";
+                if (curNavIndex == 2)
+                {
+                    text = item.UserName;
+                    moneyhtml = '<p><span class="sp_Dy">' + (item.Type==3?"点阅":"打赏" )+ '</span>-<span>' + item.Money + '</span></p></div>';
+                    timehtml = '<p>' + item.Issue +'期'+ getDateTime(item.SubTime, curNavIndex) + '</p>'
+                } else if (curNavIndex == 1)
+                {
+                    if (item.PayType == 1)
+                    {
+                        text = "微信充值";
+                    } else if (item.PayType == 2)
+                    {
+                        text = "支付宝充值";
+                    } else if (item.PayType == 3)
+                    {
+                        text = "银联充值";
+                    }
+                } else if (curNavIndex == 3)
+                {
+                    if (item.Type == 8)
+                    {
+                        text = "充值任务奖励";
+                    } else if (item.Type == 7)
+                    {
+                        text = "邀请成功注册奖励";
+                    }
+                }
+
+
+                var itemHtml = '<dl class="details_DL">'
+                       + '<dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt><dd>'
+                       +'<div class="details_ddRight">'+moneyhtml+'</div>'
+                       +'<div class="details_ddLeft">'
+                       + '<h3><a href="javascript:;">' + text + '</a></h3>'
+                       + timehtml + '</div> </dd></dl>'
+
                 itemList.push(itemHtml);
             });
             var html = itemList.join('');
@@ -258,5 +266,5 @@
 
     </script>
 </body>
-
 </html>
+

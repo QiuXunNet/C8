@@ -62,6 +62,7 @@
         <header class="hjc_header">
             <a href="javascript:history.go(-1);" class="hjc_back"></a>
             <a href="javascript:;" class="hjc_logo">@Model.TypeName</a>
+            <a href="/Home/Index" class="hjc_home_right"></a>
         </header>
     }
     else
@@ -69,6 +70,7 @@
         <header class="hjc_header">
             <a href="javascript:history.go(-1);" class="hjc_back"></a>
             <a href="javascript:;" class="hjc_logo">@Model.TypeName<span class="select_sign"></span></a>
+            <a href="/Home/Index" class="hjc_home_right"></a>
         </header>
 
         <div class="hjc_hdNav fixed" style="display: none">
@@ -122,7 +124,7 @@
     }
     <div class="Plan_content top50">
         <div class="Plan_CInfo">
-            <div class="CZ_hdtit">
+            <div class="CZ_hdtit" onclick="location.href='/Record/OpenRecord/?lType=@currentLotteryTypeId'">
                 <dl class="CZ_hdMain">
                     <dt><a href="javascript:;"><img src="~/images/@ViewBag.Icon"></a></dt>
                     <dd>

@@ -1,0 +1,102 @@
+﻿@using C8.Lottery.Model
+@using C8.Lottery.Portal.Models
+@{
+    Layout = null;
+    SiteSetting site = ViewBag.SiteSetting;
+}
+@model List<TipRecordModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>打赏记录</title>
+    <meta name="keywords" content="@site.KeyWord">
+    <meta name="description" content="@site.Description">
+    <link rel="stylesheet" type="text/css" href="/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/dialog.min.js"></script>
+    <script type="text/javascript" src="/js/yjp.js"></script>
+    <script type="text/javascript" src="/js/luo/plan.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">打赏记录</a>
+    </header>
+
+    <div class="Enjoy_box">
+        <div class="Enjoy_top">
+            <div class="Recharge_info1">
+                <div class="Recharge_if1K2">
+                    <ul class="Recharge_UL">
+                        <li data-val="20" class="current"><a href="javascript:;">20金币</a></li>
+                        <li data-val="100"><a href="javascript:;">100金币</a></li>
+                        <li data-val="500"><a href="javascript:;">500金币</a></li>
+                        <li data-val="1000"><a href="javascript:;">1000金币</a></li>
+                    </ul>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="Recharge_if1K3">
+                    <p class="if1K3_Lp f-l">打赏金币：</p>
+                    <p class="if1K3_Rp f-r">金币</p>
+                    <div class="if1K3_text">
+                        <input type="hidden" id="planId" value="@ViewBag.PlanId" />
+                        <input id="coinVal" name="coinVal" type="number" placeholder="最低打赏10金币" value="20">
+                    </div>
+                </div>
+            </div>
+            <button id="btnGift" class="Set_btnMM">打赏</button>
+        </div>
+        <div class="Enjoy_content">
+            <div class="Enjoy_Ctitlt">
+                <h3><i></i><span>近期打赏记录</span></h3>
+            </div>
+            @if (Model != null)
+            {
+                <div class="details_info1">
+                    @foreach (var item in Model)
+                    {
+                        <dl class="details_DL">
+                            <dt>
+                                <a href="/Personal/UserCenter/@item.UserId">
+                                    @if (string.IsNullOrEmpty(item.Avater))
+                                    {
+                                        <img src="/images/default_avater.png" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.Avater" alt="" />
+                                    }
+                                </a>
+                            </dt>
+                            <dd>
+                                <div class="details_ddRight">
+                                    <p><span>@item.Money</span></p>
+                                </div>
+                                <div class="details_ddLeft">
+                                    <h3>
+                                        <a href="/Personal/UserCenter/@item.UserId">@item.Name</a>
+                                    </h3>
+                                    <p>@item.SubTimeStr</p>
+                                </div>
+                            </dd>
+                        </dl>
+
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="Enjoy_footer">
+        <h3>当前打赏总金币：<span>@ViewBag.TotalTip</span></h3>
+    </div>
+
+</body>
+</html>

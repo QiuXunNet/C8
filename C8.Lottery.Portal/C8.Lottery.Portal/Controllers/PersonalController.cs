@@ -248,6 +248,18 @@ namespace C8.Lottery.Portal.Controllers
             return View(model);
         }
 
+
+
+        /// <summary>
+        /// 赚钱任务规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TaskRule()
+        {
+            return View();
+        }
+
+
         /// <summary>
         /// 获取任务完成数量
         /// </summary>
@@ -487,7 +499,7 @@ where RowNumber BETWEEN @Start AND @End ";
             ViewData["uid"] = UserId;
             string strsql = @" select Number,Coin from
                               (select count(1) as Number from UserInfo where Pid = @Pid) t1,
-                              (select sum([Amount])as Coin from CoinRecord where [lType] = 0 and UserId = @UserId) t2";
+                              (select sum([Money])as Coin from ComeOutRecord  where [UserId]=@UserId and [Type]=7) t2";
 
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@Pid",UserId),
@@ -1181,7 +1193,7 @@ where a.[Type]=2 and a.Id=" + id;
         /// <returns></returns>
         public ActionResult TakeBet()
         {
-            string strsql = @"select * from LotteryType2 where PId=0 and IsDelete=0 order by Position desc";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position desc";
             List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
 
             return View(list);
@@ -1206,10 +1218,10 @@ where a.[Type]=2 and a.Id=" + id;
      (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
 and lType = l.lType) as Score,* from LotteryType2 l
    
-      where PId = @PId and IsDelete = 0
+      where PId = @PId 
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
-                string countsql = @"select count(1) from LotteryType2 where PId=@PId and IsDelete=0";
+                string countsql = @"select count(1) from LotteryType2 where PId=@PId ";
                 SqlParameter[] sp = new SqlParameter[] 
                 {
                         new SqlParameter("@PId",PId),
@@ -1254,10 +1266,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ACHVModel model = new ACHVModel();
             try
             {
-                string lotterytypesql = @"select * from LotteryType2 where PId=0 and IsDelete=0 order by Position desc";
+                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position desc";
                 List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0 and IsDelete=0 order by Position desc";
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position desc";
                 List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
@@ -1290,7 +1302,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         {
             try
             {
-                string strsql = string.Format("select * from LotteryType2 where PId={0}", ltype);
+                string strsql = string.Format("select * from LotteryType2 where PId={0} ", ltype);
                 List<C8.Lottery.Model.LotteryType2> list = Util.ReaderToList<C8.Lottery.Model.LotteryType2>(strsql);
               
                 ViewBag.ltype = ltype;
@@ -1424,6 +1436,9 @@ WHERE rowNumber BETWEEN @Start AND @End";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+
+
         /// <summary>
         /// 获取采种
         /// </summary>
@@ -1457,7 +1472,243 @@ WHERE rowNumber BETWEEN @Start AND @End";
         }
 
 
-        
+
+        /// <summary>
+        /// 交易记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TransactionRecord()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 交易记录数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult RecordList(int Type,int pageIndex, int pageSize)
+        {
+            var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
+            try
+            {
+             
+                var pager = new PagedList<ComeOutRecordModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+                string strstate = "";
+                int UserId = UserHelper.GetByUserId();
+
+                string strsql = "";
+                   
+                if (Type == 1)//充值
+                {
+                    strstate = "1";
+
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type in(" + strstate+@")
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                }
+                else if (Type == 2)//消费
+                {
+                    strstate = "3,5";
+
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
+inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
+on c.OrderId=b.Id
+ where c.UserId=@UserId and c.Type in(" + strstate + @")
+ )t
+ where   rowNumber BETWEEN @Start AND @End";
+
+                }
+                else if (Type == 3)//赚钱
+                {
+                    strstate = "4,6,7,8,9 ";
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type in(" + strstate + @")
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                }
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+
+
+                };
+                List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
+                int count =Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                if (list != null)
+                {
+                    if (Type == 1)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon =Tool.GetPayImg(x.Type);
+                        });
+
+                    }
+                    else if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon ="/images/"+ Util.GetLotteryIcon(x.lType)+".png";
+                        });
+                    }else if (Type == 3)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = Tool.GetZqImg(x.Type);
+                        });
+                    }
+
+                }
+                pager.PageData = list;
+                pager.TotalCount = count;
+
+                result.Data = pager;
+
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+            
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 我的佣金
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyCommission()
+        {
+          
+            try
+            {
+                int UserId = UserHelper.GetByUserId();
+                string strsql = @"select MyYj,Txing,Txleiji from 
+ (select isnull(sum([Money]),0)as MyYj from ComeOutRecord where  [UserId]=@UserId and Type in(4,9))t1,
+ (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
+ (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId)
+                };
+                DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
+                ViewBag.MyYj =Tool.Rmoney(dr.MyYj);
+                ViewBag.Txing = Tool.Rmoney(dr.Txing);
+                ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txleiji);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 我的佣金数据
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonResult MyCommissionList(int Type, int pageIndex, int pageSize)
+        {
+            var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
+            try
+            {
+
+                var pager = new PagedList<ComeOutRecordModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+              
+                int UserId = UserHelper.GetByUserId();
+
+                string strsql = "";
+                string strstate = "";
+                if (Type == 1)//收入明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
+inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
+on c.OrderId=b.Id
+ where c.UserId=@UserId and c.Type in(4,9)
+ )t
+ where   rowNumber BETWEEN @Start AND @End";
+                    strstate = "4,9";
+
+                }
+                else if (Type == 2)//提现明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type=2
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                    strstate = "2";
+                }
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+
+
+                };
+
+                List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                if (list != null)
+                {
+                    if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/41.png";
+                        });
+                    }else if (Type == 1)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
+                        });
+                    }
+                }
+                pager.PageData = list;
+                pager.TotalCount = count;
+
+                result.Data = pager;
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 

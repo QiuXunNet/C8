@@ -1626,6 +1626,14 @@ a {
         .DL_if1UL li .DL_icon3 {
             background-position: 0 -48px;
         }
+         .DL_if1UL li .DL_icon4 {
+            height: 16px;
+            width: 16px;
+            background: url(../images/13_1.png);
+        
+            margin-top: 12px;
+            background-repeat:no-repeat;
+        }
 
         .DL_if1UL li .UL_kuai1 {
             height: 40px;
@@ -6674,6 +6682,12 @@ a {
 }
 
 
+.position-right {
+    right: 0 !important;
+}
+.position-left {
+    right: 0 !important;
+}
 /***Mask**/
 
 .mask {
@@ -6813,9 +6827,23 @@ a {
 
 
 /**********首页 开始*******/
+.home_logo {
+    display: inline-block;
+    height: 30px;
+    margin: 10px auto 0;
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    margin-left: 10px;
+}
+.home_logo img {
+    display: block;
+    height: 100%;
+}
 
 .hjc_hdNav {
-    position: absolute;
+    /*position: absolute;*/
     border-bottom: .3125rem;
 }
 
@@ -6908,7 +6936,7 @@ a {
 
 .hdNav_cai_lhs_expand {
     height: auto;
-    position: absolute;
+    position: fixed;
     right: 0;
 }
 
@@ -8098,7 +8126,22 @@ footer {
 
 /*** 个人中心 开始****/
 .hjc_home {
-    background-image: url(../images/02.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background: url(../images/02.png) no-repeat center;
+    background-size: 50%;
+}
+.hjc_home_right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: url(../images/02.png) no-repeat center;
+    background-size: 50%;
 }
 
 /***参与竞猜**/
@@ -8221,6 +8264,11 @@ footer {
 .CDL_DDFont .include {
     color: #166cec;
     padding-right: 10px;
+}
+.CDL_DDFont p {
+    -moz-word-break: break-all;
+    -o-word-break: break-all;
+    word-break: break-all;
 }
 
 .emoji_icon {
@@ -8496,6 +8544,8 @@ footer {
         height: 280px;
     }
 }
+
+
 
 
 /**兼容小屏**/
