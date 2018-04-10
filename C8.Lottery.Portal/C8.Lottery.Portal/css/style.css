@@ -6823,7 +6823,7 @@ a {
 /**********首页 开始*******/
 
 .hjc_hdNav {
-    position: absolute;
+    /*position: absolute;*/
     border-bottom: .3125rem;
 }
 
@@ -6916,7 +6916,7 @@ a {
 
 .hdNav_cai_lhs_expand {
     height: auto;
-    position: absolute;
+    position: fixed;
     right: 0;
 }
 
