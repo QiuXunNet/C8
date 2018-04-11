@@ -5,6 +5,7 @@
 }
 @{
     var typeList = ViewBag.TypeList as List<GalleryType>;
+    var otherTypeList = ViewBag.OtherTypeList as List<GalleryType>;
 
     IEnumerable<IGrouping<string, GalleryType>> dictType = null;
 
@@ -28,8 +29,12 @@
             {
                 foreach (var item in letterList)
                 {
-                    <li><a href="javascript:;">@item</a></li>
+                    <li><a href="javascript:;" data-id="@item">@item</a></li>
                 }
+            }
+            @if (otherTypeList != null && otherTypeList.Count > 0)
+            {
+                <li><a href="javascript:;" data-id="other">#</a></li>
             }
         </ul>
     </div>
@@ -85,6 +90,23 @@
                     }
 
                 }
+            }
+
+            @if (otherTypeList != null && otherTypeList.Count>0 )
+            {
+                <div class="gallery-list">
+                    <span class="gallery-letter" id='other1'>#</span>
+                    @foreach (var m in otherTypeList)
+                    {
+                        <p data-id="@m.Id" data-pinyin="@m.SimpleSpelling" data-name="@m.Name">
+                            <a href="/News/Gallery/@m.Id" title="@m.Name">
+                                <span>@m.LastIssue</span>
+                                <span class="gallery-name">@m.Name</span>
+                            </a>
+                        </p>
+                    }
+                    <div class="clearfix"></div>
+                </div>
             }
         </div>
     </div>

@@ -137,9 +137,12 @@
     <Compile Include="Models\ComeOutRecordModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\DrawMoneyModel.cs" />
+    <Compile Include="Models\DynamicMessage.cs" />
+    <Compile Include="Models\DynamicRelatedInfo.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
+    <Compile Include="Models\SystemMessage.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -280,6 +283,8 @@
     <Content Include="images\47_3.png" />
     <Content Include="images\47_4.png" />
     <Content Include="images\47_5.png" />
+    <Content Include="images\47_6.png" />
+    <Content Include="images\47_7.png" />
     <Content Include="images\48.png" />
     <Content Include="images\49.png" />
     <Content Include="images\50.png" />
