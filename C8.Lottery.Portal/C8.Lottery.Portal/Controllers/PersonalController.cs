@@ -157,7 +157,8 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == 1)
                 {
                     strsql = "  Name=@value ";
-                    user.Name = value;
+                    user.Name = value;      
+
                 }
                 else if (type == 2)
                 {
@@ -170,13 +171,34 @@ namespace C8.Lottery.Portal.Controllers
                     user.Sex = Convert.ToInt32(value);
                 }
                 string usersql = "update  UserInfo set  " + strsql + "      where  Mobile=@Mobile";
-
+             
+                string namesql = "select count(1) from UserInfo where Name=@value";
+              
                 SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@value",value),
                 new SqlParameter("@Mobile",user.Mobile)
 
                 };
-
+                if (type == 1)
+                {
+                    int count =Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
+                    if (count > 0)
+                    {
+                        jsonmsg.Success = false;
+                        jsonmsg.Msg = "该昵称已存在";
+                        return Json(jsonmsg);
+                    }else
+                    {
+                        bool iscz = Tool.CheckSensitiveWords(value);
+                        if (iscz==true)
+                        {
+                            jsonmsg.Success = false;
+                            jsonmsg.Msg = "该昵称包含敏感字符";
+                            return Json(jsonmsg);
+                        }
+                    }
+                }
+   
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
                 if (data > 0)
                 {
@@ -1331,7 +1353,7 @@ where b.Id=" + id;
         /// <returns></returns>
         public ActionResult TakeBet()
         {
-            string strsql = @"select * from LotteryType2 where PId=0  order by Position desc";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
             List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
 
             return View(list);
@@ -1404,17 +1426,16 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ACHVModel model = new ACHVModel();
             try
             {
-                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position desc";
+                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position ";
                 List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position desc";
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position ";
                 List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
                 List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
                 model.LotteryType = LotteryTypelist;
-                model.Lottery = Lotterylist;
-
+                model.Lottery = Lotterylist;           
                 model.IntegralRule = IntegralRuleList;
 
 

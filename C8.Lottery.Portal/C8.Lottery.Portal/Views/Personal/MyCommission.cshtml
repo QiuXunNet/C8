@@ -146,8 +146,6 @@
             });
         }
 
-
-
         function getListDataFromNet(Type, pageIndex, pageSize, successCallback, errorCallback)
         {
 
@@ -185,7 +183,7 @@
         var listDom = $("#dataList");
 
         $.each(data, function (index, item) {
-            console.log("xxxx=>" + item.Money);
+          
             var moneyhtml = '<p>+<span>' + item.Money + '</span></p>';
             var timehtml = ' <p>' + item.UserName + getDateTime(item.SubTime, 1) + ' </p>';
             if (curNavIndex == 2) {
