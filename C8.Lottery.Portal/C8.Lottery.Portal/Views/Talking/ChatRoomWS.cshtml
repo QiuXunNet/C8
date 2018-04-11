@@ -23,128 +23,17 @@
                 <h1>@Html.Raw(ViewBag.RommName + "聊天室")</h1>
                 <p><span id="lineNumber">0</span>人在线</p>
             </div>
-            <a href="javascript:;" class="a_fx">分享</a>
-            @if (ViewBag.IsAdmin == true)
-            {
-                <a href="/Talking/ManagementList/@ViewBag.RommId" class="a_gl">管理</a>
-            }
+            @*<a href="javascript:;" class="a_fx">分享</a>*@
+            @*@if (ViewBag.IsAdmin == true)
+        {*@
+            <a href="/Talking/ManagementList/@ViewBag.RoomId" class="a_gl" style="width:auto;margin-right: 10px;">处理记录</a>
+            @* } *@
         </header>
         <!-- header End -->
 
         <article class="wrapper">
             <div class="main">
                 <div class="chat clearfix" id="ChatList">
-                    @*<div class="c_left">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main">
-                                    <a href="javascript:;" class="a_link">分享：哈士奇20171015双色球计划</a>
-                                </div>
-                                <div class="c_do"><i class="i_mv">删除</i> <i class="i_lh">拉黑</i></div>
-                            </div>
-                        </div>
-                        <!-- c_left 朋友记录 -->
-
-                        <div class="c_left">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3><i class="i_tag">管理员</i>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main">
-                                    走走走，带我一个
-                                </div>
-                                <div class="c_do"><i class="i_mv">删除</i> <i class="i_ylh">已拉黑</i></div>
-                            </div>
-                        </div>
-                        <!-- c_left 朋友记录 -->
-
-                        <div class="c_left bb">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main c_pic show">
-                                    <!-- 大图地址放入 data-pic中 -->
-                                    <img src="img/chat_pic.jpg" alt="" class="img_pic" data-pic="img/chat_pic.jpg" />
-                                </div>
-                            </div>
-                        </div>
-                        <!-- c_left 朋友记录 -->
-
-                        <div class="c_right">
-                            <div class="c_cnt">
-                                <h3>一只安静的哈士奇  <s>12:00</s></h3>
-                                <div class="c_main">
-                                    我一个人的心谁懂，求醉！！！我一个人的心谁懂，求醉！！！我一个人的心谁懂，求醉！！！
-                                </div>
-                            </div>
-                            <div class="c_profile">
-                                <img src="img/pic_profile_2.png" alt="" />
-                            </div>
-                        </div>
-                        <!-- c_right 个人记录 -->
-
-                        <div class="c_left">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3><i class="i_tag">管理员</i>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main">
-                                    走走走，带我一个
-                                </div>
-                                <div class="c_do"><i class="i_mv">删除</i> <i class="i_ylh">已拉黑</i></div>
-                            </div>
-                        </div>
-                        <!-- c_left 朋友记录 -->
-
-                        <div class="c_left">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main">
-                                    <a href="javascript:;" class="a_link">分享：哈士奇20171015双色球计划</a>
-                                </div>
-                                <div class="c_do"><i class="i_mv">删除</i> <i class="i_lh">拉黑</i></div>
-                            </div>
-                        </div>
-                        <!-- c_left 朋友记录 -->
-
-                        <div class="c_left">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main c_pic">
-                                    <img src="img/face/1.png" alt="" class="img_face" />
-                                </div>
-                                <div class="c_do"><i class="i_mv">删除</i> <i class="i_lh">拉黑</i></div>
-                            </div>
-                        </div>
-                        <!-- c_left 朋友记录 -->
-
-                        <div class="c_left bb">
-                            <div class="c_profile">
-                                <img src="img/pic_profile_1.png" alt="" />
-                            </div>
-                            <div class="c_cnt">
-                                <h3>哈士奇的小迷妹  <s>12:00</s></h3>
-                                <div class="c_main c_pic show">
-                                    <!-- 大图地址放入 data-pic中 -->
-                                    <img src="img/chat_pic.jpg" alt="" class="img_pic" data-pic="img/chat_pic.jpg" />
-                                </div>
-                            </div>
-                        </div>*@
-                    <!-- c_left 朋友记录 -->
-
                 </div>
                 <!-- chat -->
             </div>
@@ -155,7 +44,6 @@
 
             <div class="footer_chat">
                 <div>
-                    @*<a href="javascript:;" class="a_cmore"></a>*@
                     <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
                         <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
                         <i class="iconfont icon-tuxiang"></i>
@@ -295,21 +183,7 @@
                 var t = $(this).val();
                 $(this).val("").focus().val(t);
             });
-        }
-
-        function moveEnd(obj) {
-            obj.focus();
-            var len = obj.value.length;
-          //  alert(len);
-            if (document.selection) {
-                var sel = obj.createTextRange();
-                sel.moveStart('character', len); //设置开头的位置
-                sel.collapse();
-                sel.select();
-            } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
-                obj.selectionStart = obj.selectionEnd = len;
-            }
-        } 
+        }       
 
         //大图展示
         function showPic() {
@@ -333,13 +207,20 @@
     <!-- WebSocket消息推送 -->
     <script type="text/javascript">
         var ws;
-        var roomId = "@ViewBag.RommId";
+        var url;
+        var roomId = "@ViewBag.RoomId";
         var userName = "@ViewBag.UserName";
         var userId = "@ViewBag.UserId";
         var photoImg = "@ViewBag.PhotoImg";
         var isAdmin = "@ViewBag.IsAdmin";
         var isTop = false;  //历史消息是否已经到顶
         var blackListStr = "@ViewBag.BlackListStr"; //已被拉黑的人
+
+        var heartbeatT = setInterval("heartbeat()", 3000);//心跳包定时器
+        var isLink = true; //是否已经链接上
+        var heartbeatNum = 2; //可用心跳次数，如果次数为0，则发起一次重连。
+        var linkNum = 0; //用于记录重连次数
+
         if (blackListStr.length == 0) {
             blackListStr = ",";
         }
@@ -347,44 +228,17 @@
         $(function () {
             //首次加载添加聊天记录
             getChatRecord(0);
-            var url = "ws://119.147.139.131:8801/Handler1.ashx?userId=" + userId +
+            url = "ws://119.147.139.131:8801/Handler1.ashx?userId=" + userId +
                 "&roomId=" + roomId + "&userName=" + userName + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin
             ws = new WebSocket(url);
 
             //链接成功回调
             ws.onopen = function () {
-              //  alert(0);
-                //$('#msg').append('<p>已经连接</p>');
+                wsOnopen();
             }
             //收到消息回调
             ws.onmessage = function (evt) {
-                var msg = evt.data;
-                var data = eval("(" + msg+")");
-                if (data == undefined || data == null)
-                    return;
-                switch (data.MsgTypeChild) {
-                    case 11: //删除命令
-                        delMessage2(data);
-                        break;
-                    case 12: //拉黑命令
-                        blacklisted2(data);
-                        break;
-                    case 21: //文字消息
-                    case 22: //图片消息
-                    case 23: //表情包消息
-                        insertMessage(data, 1);                       
-                        if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
-                            addMessage(data);
-                        }
-                        $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
-                        setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
-                        break;
-                    case 31: //心跳包
-                        break;
-                    case 41: //获取在线人数
-                        $("#lineNumber").text(data.RoomManNum);
-                        break;
-                }
+                wsOnmessage(evt);
             }
             //链接失败回调
             ws.onerror = function (evt) {
@@ -392,7 +246,7 @@
             }
             //链接关闭回调
             ws.onclose = function () {
-              //  $('#msg').append('<p>已经关闭</p>');
+                wsOnclose()
             }
 
             $("#SendMessageBtn").click(function () {
@@ -420,11 +274,119 @@
             }
         });
 
+        function wsOnopen() {
+            if (isLink == false) {
+                alert("连接成功");
+            }
+
+            isLink = true;
+
+            //链接成功后初始化有效心跳数和链接次数
+            heartbeatNum = 2;
+            linkNum = 0;
+        }
+
+        function wsOnmessage(evt) {
+            var msg = evt.data;
+            var data = eval("(" + msg + ")");
+            if (data == undefined || data == null)
+                return;
+            switch (data.MsgTypeChild) {
+                case 11: //删除命令
+                    delMessage2(data);
+                    break;
+                case 12: //拉黑命令
+                    blacklisted2(data);
+                    break;
+                case 21: //文字消息
+                case 22: //图片消息
+                case 23: //表情包消息
+                    insertMessage(data, 1);
+                    if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
+                        addMessage(data);
+                    }
+                    $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
+                    setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
+                    break;
+                case 31: //心跳包
+                    //链接成功后初始化有效心跳数和链接次数
+                    heartbeatNum = 2;
+                    linkNum = 0;
+                    break;
+                case 41: //获取在线人数
+                    $("#lineNumber").text(data.RoomManNum);
+                    break;
+            }
+        }
+
+        function wsOnerror() {
+        }
+
+        function wsOnclose() {
+            isLink = false;
+            setTimeout("reconnection()", 2000);
+            alert("网络已中断,正在为您重连");
+        }
+
+
+        //重连
+        function reconnection() {
+            if (linkNum > 5) {
+                clearInterval(heartbeatT);
+                alert("您已失去链接,请重新进入聊天室")
+                return;
+            }
+
+            heartbeatNum = 2;            
+
+          //  window.clearInterval(t);
+            if (isLink == false) {
+                linkNum++;
+                ws = new WebSocket(url);
+
+                //链接成功回调
+                ws.onopen = function () {
+                    wsOnopen();
+                }
+                //收到消息回调
+                ws.onmessage = function (evt) {
+                    wsOnmessage(evt);
+                }
+                //链接失败回调
+                ws.onerror = function (evt) {
+                    // $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
+                }
+                //链接关闭回调
+                ws.onclose = function () {
+                    wsOnclose()
+                }
+            }            
+        }
+
+        //心跳包发送
+        function heartbeat() {            
+            if (heartbeatNum <= 0) {
+                isLink = false;
+                reconnection();                
+            }
+
+            var data = {};
+            data.MsgType = 3;
+            data.MsgTypeChild = 31;
+            var json = JSON.stringify(data);
+            if (ws.readyState == WebSocket.OPEN) {
+                ws.send(json);
+            }
+            heartbeatNum--;
+        }
+
+        //回调删除方法
         function delMessage2(data) {
             var guid = data.Guid;
             $("#" + guid).remove();
         }
 
+        //回调拉黑方法
         function blacklisted2(data) {
             blackListStr += data.BlackPeople + ","
             if (data.BlackPeople == userId) {
@@ -540,36 +502,6 @@
             }
             html += "</div>";
 
-            //html += "<li class='" + ((userId == data.UserId) ? "right" : "left") + " clearfix messageOption' id ='" + data.Guid + "' data-UserId='" + data.UserId +"'>";
-            //html += "    <img src='" + data.PhotoImg + "' class='headicon'>";
-            //html += "    <div class='chat_box'>";
-            //html += "        <div class='inform'>";
-            //if (data.IsAdmin) {
-            //    html += "        <span class='adm'>管理员</span>";
-            //}
-            //html += "            <span class='nickname'>" + data.UserName + "</span>";
-            //html += "            <span class='time'>" + data.SendTimeStr + "</span>";
-            //html += "        </div>";
-            //switch (data.MsgTypeChild) {
-            //    case 21:
-            //        html += "   <div class='chat_t'>" + data.Content + "</div>";
-            //        break;
-            //    case 23:
-            //        var message = "/images/emoji/Face/" + data.Content.substr(7, data.Content.length - 8) + ".png";
-            //        html += "    <div class='chat_t'><img style='width:30px;height:30px' src='" + message + "'></div>";
-            //        break;
-            //    case 22:
-            //        html += "    <div class='chat_t'><img src='" + data.Content + "' onclick='showBigImg(\"" + data.Content + "\")'></div>";
-            //        break;
-            //}
-            //if (isAdmin == "True"){
-            //    html += "<div class='deel'>";
-            //    html += "   <span class='red' onclick = 'delMessage(this)'>删除</span>";
-            //    html += "   <span class='gray' onclick = 'blacklisted(this)'>" + (isEverlasting == 1 ? "已拉黑" :"拉黑")+"</span>";
-            //    html += "</div>";
-            //}
-            //html += "   </div>";
-            //html += "</li>";
             html = unZipFace(html);
             if (insertType == 1) {
                 $("#ChatList").append(html);
@@ -616,6 +548,7 @@
             obj.guid = guid;
             obj.userId = userId;
             obj.userName = userName;
+            obj.roomId = roomId;
 
             $.post("/Talking/DelMessage", obj, function (data) { });
 

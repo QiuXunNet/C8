@@ -47,5 +47,10 @@ namespace C8.Lottery.Model
         /// ProcessTime
         /// </summary>
         public DateTime ProcessTime { get; set; }
+
+        /// <summary>
+        /// 所属房间
+        /// </summary>
+        public int RoomId { get; set; }
     }
 }

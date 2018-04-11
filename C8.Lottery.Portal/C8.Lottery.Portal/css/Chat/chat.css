@@ -42,13 +42,13 @@ body {
     }
 
 .c_profile {
-    width: 4.5rem;
+    width: 4rem;
     padding: 0 1.2rem 0 0.6rem;
 }
 
     .c_profile img {
         width: 100%;
-        border: 2px solid #b9456c;
+        /*border: 2px solid #b9456c;*/
         border-radius: 50%;
     }
 
@@ -66,6 +66,7 @@ body {
         .c_cnt h3 s {
             text-decoration: none;
             color: #999;
+            padding-left: 5px;
         }
 
         .c_cnt h3 .i_tag {
@@ -87,6 +88,7 @@ body {
         text-align: justify;
         color: #333;
         vertical-align: middle;
+        max-width: 75%;
     }
 
         .c_cnt .c_main:after {
@@ -124,7 +126,7 @@ body {
 
         .c_cnt .img_face,
         .c_cnt .c_pic .img_face {
-            width: 3rem;
+            width: 2.5rem;
             display: block;
             margin: 0.4rem 0;
             border-radius: 1.2rem;
@@ -237,7 +239,7 @@ body {
         color: #fff;
         display: block;
         margin: 0 auto;
-        background: #333;
+        background: #f13131;
         border-radius: 0.4rem;
     }
 
@@ -300,7 +302,7 @@ body {
     }
 
     .ul_face img {
-        width: 85%;
+        width: 60%;
         display: block;
         margin: 0 auto;
         border-radius: 50%;
