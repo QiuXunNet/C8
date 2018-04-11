@@ -53,6 +53,7 @@
     <Compile Include="Enum\LikeStatusEnum.cs" />
     <Compile Include="Enum\ResourceTypeEnum.cs" />
     <Compile Include="Enum\TransactionTypeEnum.cs" />
+    <Compile Include="Enum\UserInternalMessageTypeEnum.cs" />
     <Compile Include="Follow.cs" />
     <Compile Include="IntegralRule.cs" />
     <Compile Include="Lottery.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Talk\TalkNotes.cs" />
     <Compile Include="SiteSetting.cs" />
     <Compile Include="UserInfo.cs" />
+    <Compile Include="UserInternalMessage.cs" />
     <Compile Include="UserTask.cs" />
   </ItemGroup>
   <ItemGroup>

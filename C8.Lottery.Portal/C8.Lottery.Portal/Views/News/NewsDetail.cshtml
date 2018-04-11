@@ -33,7 +33,7 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@(lottery.TypeName + "." + @newsType.TypeName)</a>
-        <a href="javascript:showShare();" class="SX_A">分享</a>
+        @*<a href="javascript:showShare();" class="SX_A">分享</a>*@
     </header>
 
     <section class="article">
@@ -74,19 +74,20 @@
         </div>
         <div class="article-pager">
             
-            @if (ViewBag.Preview != null)
-            {
-                var preview = ViewBag.Preview as News;
-                <div class="preview">
-                    <a href="/News/NewsDetail/@preview.Id" title="@preview.FullHead">上一篇：@preview.FullHead</a>
-                </div>
-            }
             @if (ViewBag.Nextview != null)
             {
                 var nextview = ViewBag.Nextview as News;
 
                 <div class="nextview">
                     <a href="/News/NewsDetail/@nextview.Id" title="@nextview.FullHead">下一篇：@nextview.FullHead</a>
+                </div>
+            }
+
+            @if (ViewBag.Preview != null)
+            {
+                var preview = ViewBag.Preview as News;
+                <div class="preview">
+                    <a href="/News/NewsDetail/@preview.Id" title="@preview.FullHead">上一篇：@preview.FullHead</a>
                 </div>
             }
         </div>

@@ -225,7 +225,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
             var list = Util.ReaderToList<GalleryType>(sql, parameters) ?? new List<GalleryType>();
 
-            ViewBag.TypeList = list;
+            ViewBag.TypeList = list.Where(x => x.QuickQuery != "#").ToList();
+            ViewBag.OtherTypeList = list.Where(x => x.QuickQuery == "#").ToList();
             ViewBag.ltype = ltype;
 
             //查询推荐图
