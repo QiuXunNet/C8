@@ -498,16 +498,16 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult Validate(string mobile, string vcode)
         {
-            string usersql = "select * from UserInfo where Mobile =@Mobile";
+            string usersql = "select Count(1) from UserInfo where Mobile =@Mobile";
 
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
-                List<UserInfo> list = new List<UserInfo>();
+             
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
-                list = Util.ReaderToList<UserInfo>(usersql, sp);
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(usersql, sp));
 
-                if (list.Count < 0)
+                if (count <= 0)
                 {
                     jsonmsg.Msg = "该手机未注册、请先注册账号";
                     jsonmsg.Success = false;
@@ -600,6 +600,7 @@ namespace C8.Lottery.Portal.Controllers
                         jsonmsg.Msg = "fail";
 
                     }
+                    Session.Remove("Mobile");
                 }
                 catch (Exception e)
                 {

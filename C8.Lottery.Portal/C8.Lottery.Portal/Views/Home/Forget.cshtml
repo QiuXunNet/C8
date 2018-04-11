@@ -86,7 +86,7 @@
                     $.post('/Home/Validate', { mobile: mobile, vcode: vcode }, function (data) {
 
                         if (data.Success != true) {
-                            alert(data.Msg);
+                            alertmsg(data.Msg);
                         } else {
                             location.href = "/Home/SetPassword"
                         }

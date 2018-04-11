@@ -1297,8 +1297,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string IntegralRulesql = @"select * from IntegralRule";
                 List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
                 model.LotteryType = LotteryTypelist;
-                model.Lottery = Lotterylist;
-            
+                model.Lottery = Lotterylist;           
                 model.IntegralRule = IntegralRuleList;
 
 
