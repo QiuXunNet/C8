@@ -225,7 +225,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
             var list = Util.ReaderToList<GalleryType>(sql, parameters) ?? new List<GalleryType>();
 
-            ViewBag.TypeList = list;
+            ViewBag.TypeList = list.Where(x => x.QuickQuery != "#").ToList();
+            ViewBag.OtherTypeList = list.Where(x => x.QuickQuery == "#").ToList();
             ViewBag.ltype = ltype;
 
             //查询推荐图
@@ -324,7 +325,7 @@ ORDER BY SortCode desc,Id DESC";
             string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
 (SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
 FROM [dbo].[News] a
-WHERE [TypeId] = @TypeId 
+WHERE [TypeId] = @TypeId AND DeleteMark=0 AND EnabledMark=1
 ORDER BY ModifyDate DESC,SortCode ASC ";
             //AND RecommendMark = 1
 

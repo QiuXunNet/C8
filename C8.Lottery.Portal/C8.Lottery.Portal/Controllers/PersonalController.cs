@@ -21,11 +21,13 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Index()
         {
 
+            int userId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(userId);
 
-
-            int UserId = UserHelper.GetByUserId();
-            UserInfo user = UserHelper.GetUser(UserId);
-
+            //查询 未读消息提醒数量
+            string noticeCountSql = "select count(1) from dbo.UserInternalMessage where IsDeleted=0 and IsRead=0 and UserId=" + userId;
+            object noticeCount = SqlHelper.ExecuteScalar(noticeCountSql);
+            ViewBag.NoticeCount = noticeCount;
 
             return View(user);
 
@@ -155,7 +157,8 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == 1)
                 {
                     strsql = "  Name=@value ";
-                    user.Name = value;
+                    user.Name = value;      
+
                 }
                 else if (type == 2)
                 {
@@ -168,13 +171,34 @@ namespace C8.Lottery.Portal.Controllers
                     user.Sex = Convert.ToInt32(value);
                 }
                 string usersql = "update  UserInfo set  " + strsql + "      where  Mobile=@Mobile";
-
+             
+                string namesql = "select count(1) from UserInfo where Name=@value";
+              
                 SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@value",value),
                 new SqlParameter("@Mobile",user.Mobile)
 
                 };
-
+                if (type == 1)
+                {
+                    int count =Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
+                    if (count > 0)
+                    {
+                        jsonmsg.Success = false;
+                        jsonmsg.Msg = "该昵称已存在";
+                        return Json(jsonmsg);
+                    }else
+                    {
+                        bool iscz = Tool.CheckSensitiveWords(value);
+                        if (iscz==true)
+                        {
+                            jsonmsg.Success = false;
+                            jsonmsg.Msg = "该昵称包含敏感字符";
+                            return Json(jsonmsg);
+                        }
+                    }
+                }
+   
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
                 if (data > 0)
                 {
@@ -499,7 +523,7 @@ where RowNumber BETWEEN @Start AND @End ";
             ViewData["uid"] = UserId;
             string strsql = @" select Number,Coin from
                               (select count(1) as Number from UserInfo where Pid = @Pid) t1,
-                              (select sum([Amount])as Coin from CoinRecord where [lType] = 0 and UserId = @UserId) t2";
+                              (select sum([Money])as Coin from ComeOutRecord  where [UserId]=@UserId and [Type]=7) t2";
 
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@Pid",UserId),
@@ -951,7 +975,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     {
                         x.Avater = "/images/default_avater.png";
                     }
-                    x.LotteryTypeName = GetLotteryTypeName(x.Type, x.ArticleId);
+
+
+                    var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                    x.LotteryTypeName = info.TypeName;
                 });
 
                 string countSql = "SELECT count(1) FROM Comment WHERE IsDeleted=0 AND UserId=" + uid;
@@ -1058,7 +1085,18 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <returns></returns>
         public ActionResult Notice()
         {
-            ViewBag.UserId = UserHelper.LoginUser.Id;
+            long userId = UserHelper.LoginUser.Id;
+            ViewBag.UserId = userId;
+
+            //查询动态消息未读数量
+            string unreadDynamicCountSql = "select count(1) from dbo.UserInternalMessage where IsDeleted=0 and IsRead=0 and Type=2 and UserId=" + userId;
+            object dynamicCount = SqlHelper.ExecuteScalar(unreadDynamicCountSql);
+            ViewBag.DynamicCount = dynamicCount;
+
+            //查询系统消息未读数量
+            string unreadSysMessageCountSql = "select count(1) from dbo.UserInternalMessage where IsDeleted=0 and IsRead=0 and Type=1 and UserId=" + userId;
+            object sysMessageCount = SqlHelper.ExecuteScalar(unreadSysMessageCountSql);
+            ViewBag.SysMessageCount = sysMessageCount;
             return View();
         }
 
@@ -1072,20 +1110,23 @@ WHERE rowNumber BETWEEN @Start AND @End";
         [HttpGet]
         public JsonResult GetCommentNotice(int uid, int pageIndex = 1, int pageSize = 20)
         {
-            //TODO:须修改
-            var result = new AjaxResult<PagedList<Comment>>();
+            var result = new AjaxResult<PagedList<DynamicMessage>>();
             try
             {
-                var pager = new PagedList<Comment>();
+                var pager = new PagedList<DynamicMessage>();
                 pager.PageIndex = pageIndex;
                 pager.PageSize = pageSize;
+
+                #region 分页查询动态消息
                 string sql = @"SELECT * FROM (
-	select row_number() over(order by a.SubTime DESC ) as rowNumber,
-	a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
-	from Comment a
+    select row_number() over(order by m.SubTime DESC ) as rowNumber,m.*,a.PId,a.Content,
+	a.[Type] as CommentType,a.ArticleId,
+	a.UserId as FromUserId,b.Name as FromNickName,c.RPath as FromAvater 
+	from UserInternalMessage m
+	left join Comment a on a.Id=m.RefId
 	left join UserInfo b on b.Id = a.UserId
 	left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-	where a.IsDeleted=0 and a.UserId=@UserId
+	where m.IsDeleted=0 and m.UserId=@UserId and m.Type=2
 ) tt
 WHERE rowNumber BETWEEN @Start AND @End";
 
@@ -1100,22 +1141,137 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 new SqlParameter("@End",pager.EndIndex)
             };
 
-                pager.PageData = Util.ReaderToList<Comment>(sql, sqlParameters);
+                pager.PageData = Util.ReaderToList<DynamicMessage>(sql, sqlParameters);
+                #endregion
 
+                #region 其他处理
+                List<long> unreadList = new List<long>();
                 pager.PageData.ForEach(x =>
                 {
                     if (x.PId > 0)
                     {
-                        x.ParentComment = GetComment(x.PId);
+                        var comment = GetComment(x.PId);
+                        x.MyContent = comment.Content;
                     }
-                    if (string.IsNullOrEmpty(x.Avater))
+                    else
                     {
-                        x.Avater = "/images/default_avater.png";
-                    }
-                    x.LotteryTypeName = GetLotteryTypeName(x.Type, x.ArticleId);
-                });
 
+                        var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                        x.LotteryTypeName = info.TypeName ?? "";
+                        x.RefNickName = info.NickName;
+                    }
+                    if (string.IsNullOrEmpty(x.FromAvater))
+                    {
+                        x.FromAvater = "/images/default_avater.png";
+                    }
+
+                    if (x.IsRead == false)
+                    {
+                        unreadList.Add(x.Id);
+                    }
+                });
+                #endregion
+
+                #region 处理未读消息
+
+                if (unreadList.Count > 0)
+                {
+                    string executeSql = string.Format(@"
+update dbo.UserInternalMessage 
+set IsRead=1,ReadTime=GETDATE()
+where UserId={0} and Id in({1});
+select count(1) from UserInternalMessage 
+where [Type]=1 and IsDeleted=0 and IsRead=0 and UserId={0}"
+   , uid, string.Join(",", unreadList));
+
+                    object objUnreadCount = SqlHelper.ExecuteScalar(executeSql);
+                    pager.ExtraData = new { Unread = objUnreadCount.ToInt32() };
+                }
+                else
+                {
+                    pager.ExtraData = new { Unread = 0 };
+                }
+
+                #endregion
+
+                #region 查询动态总条数
                 string countSql = "SELECT count(1) FROM Comment WHERE IsDeleted=0 AND UserId=" + uid;
+                object obj = SqlHelper.ExecuteScalar(countSql);
+                pager.TotalCount = Convert.ToInt32(obj ?? 0);
+                #endregion
+
+                result.Data = pager;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(string.Format("异常消息：{0}，异常堆栈：{1}", ex.Message, ex.StackTrace));
+                result.Code = 500;
+                result.Message = ex.Message;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 获取系统消息
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetSysMessage(int uid, int pageIndex = 1, int pageSize = 20)
+        {
+            var result = new AjaxResult<PagedList<SystemMessage>>();
+            try
+            {
+                var pager = new PagedList<SystemMessage>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+                string sql = @"SELECT * FROM (
+	select row_number() over(order by a.SubTime DESC ) as rowNumber,
+	a.*,b.Title,b.Content,b.Link from UserInternalMessage a
+	left join InternalMessage b on b.Id=a.RefId and a.[Type]=1
+	where a.[Type]=1 and a.IsDeleted=0  and a.UserId=@UserId
+) tt
+WHERE rowNumber BETWEEN @Start AND @End";
+
+                if (uid == 0)
+                    uid = UserHelper.GetByUserId();
+
+                var sqlParameters = new[]
+                {
+                    new SqlParameter("@UserId",uid),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+                };
+
+                pager.PageData = Util.ReaderToList<SystemMessage>(sql, sqlParameters);
+
+                #region 未读消息处理
+                if (pager.PageData.Any(x => x.IsRead == false))
+                {
+                    //若存在未读消息，更新未读消息状态为已读
+                    var idList = pager.PageData.Where(x => x.IsRead == false).Select(x => x.Id);
+                    string executeSql = string.Format(@"
+update dbo.UserInternalMessage 
+set IsRead=1,ReadTime=GETDATE()
+where UserId={0} and Id in({1});
+select count(1) from UserInternalMessage 
+where [Type]=1 and IsDeleted=0 and IsRead=0 and UserId={0}"
+, uid, string.Join(",", idList));
+
+                    object objUnreadCount = SqlHelper.ExecuteScalar(executeSql);
+                    pager.ExtraData = new { Unread = objUnreadCount.ToInt32() };
+
+                }
+                else
+                {
+                    pager.ExtraData = new { Unread = 0 };
+                }
+                #endregion
+
+                string countSql = "select count(1) from UserInternalMessage where [Type]=1 and IsDeleted=0 and UserId=" + uid;
                 object obj = SqlHelper.ExecuteScalar(countSql);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
 
@@ -1159,31 +1315,35 @@ where  a.Id=@Id and a.IsDeleted = 0";
         /// <param name="type">类型 1=计划 2=文章</param>
         /// <param name="id">计划/文章 Id</param>
         /// <returns></returns>
-        private string GetLotteryTypeName(int type, int id)
+        private DynamicRelatedInfo GetLotteryTypeName(int type, int id)
         {
+            DynamicRelatedInfo info = null;
             if (type == 1)
             {
                 //查询计划所属彩种
-                var record = Util.GetEntityById<BettingRecord>(id);
-                if (record != null)
-                {
-                    return Util.GetLotteryTypeName(record.lType);
-                }
+                string sql = @"select b.Name as NickName,a.Id,1 as RelatedType,a.lType from BettingRecord a
+left join UserInfo b on b.Id=a.UserId
+where a.Id=" + id;
+                var list = Util.ReaderToList<DynamicRelatedInfo>(sql);
+                if (list.Any())
+                    info = list.First();
+
+                info.TypeName = Util.GetLotteryTypeName(info.LType);
+
             }
             else
             {
                 //查询文章的彩种类型
-                string sql = @"select d.TypeName,a.* from Comment a
-left join news b on b.Id=a.ArticleId
+                string sql = @"select b.Id,d.TypeName, 2 as RelatedType from  news b 
 left join NewsType c on c.Id=b.TypeId
 left join LotteryType d on d.Id= c.lType
-where a.[Type]=2 and a.Id=" + id;
-                var list = Util.ReaderToList<LotteryType>(sql);
+where b.Id=" + id;
+                var list = Util.ReaderToList<DynamicRelatedInfo>(sql);
                 if (list.Any())
-                    return list.First().TypeName;
+                    info = list.First();
             }
 
-            return "";
+            return info ?? new DynamicRelatedInfo();
         }
 
 
@@ -1193,7 +1353,7 @@ where a.[Type]=2 and a.Id=" + id;
         /// <returns></returns>
         public ActionResult TakeBet()
         {
-            string strsql = @"select * from LotteryType2 where PId=0  order by Position desc";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
             List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
 
             return View(list);
@@ -1222,7 +1382,7 @@ and lType = l.lType) as Score,* from LotteryType2 l
 )t
 WHERE rowNumber BETWEEN @Start AND @End";
                 string countsql = @"select count(1) from LotteryType2 where PId=@PId ";
-                SqlParameter[] sp = new SqlParameter[] 
+                SqlParameter[] sp = new SqlParameter[]
                 {
                         new SqlParameter("@PId",PId),
                         new SqlParameter("@UserId",userId),
@@ -1230,15 +1390,15 @@ WHERE rowNumber BETWEEN @Start AND @End";
                         new SqlParameter("@End", pager.EndIndex)
 
                  };
-                
+
                 pager.PageData = Util.ReaderToList<BetModel>(strsql, sp);
 
-                object obj = SqlHelper.ExecuteScalar(countsql,sp);
+                object obj = SqlHelper.ExecuteScalar(countsql, sp);
                 pager.TotalCount = Convert.ToInt32(obj ?? 0);
 
                 pager.PageData.ForEach(x =>
                 {
-                    x.LotteryIcon =Util.GetLotteryIcon(x.lType);
+                    x.LotteryIcon = Util.GetLotteryIcon(x.lType);
                 });
                 result.Data = pager;
 
@@ -1254,7 +1414,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
 
 
-   
+
 
 
         /// <summary>
@@ -1266,17 +1426,16 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ACHVModel model = new ACHVModel();
             try
             {
-                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position desc";
+                string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position ";
                 List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position desc";
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position ";
                 List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
                 List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
                 model.LotteryType = LotteryTypelist;
-                model.Lottery = Lotterylist;
-            
+                model.Lottery = Lotterylist;           
                 model.IntegralRule = IntegralRuleList;
 
 
@@ -1304,7 +1463,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             {
                 string strsql = string.Format("select * from LotteryType2 where PId={0} ", ltype);
                 List<C8.Lottery.Model.LotteryType2> list = Util.ReaderToList<C8.Lottery.Model.LotteryType2>(strsql);
-              
+
                 ViewBag.ltype = ltype;
                 ViewBag.LotteryList = list;
 
@@ -1325,7 +1484,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// </summary>
         /// <param name="ltype"></param>
         /// <returns></returns>
-        public PartialViewResult GetIntegralRule(int ltype,int Pid)
+        public PartialViewResult GetIntegralRule(int ltype, int Pid)
         {
 
             try
@@ -1453,7 +1612,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             else
             {
-                strsql =string.Format("select * from Lottery where lType={0} and IsHot=0",ltype);
+                strsql = string.Format("select * from Lottery where lType={0} and IsHot=0", ltype);
             }
             try
             {
@@ -1463,7 +1622,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             }
             catch (Exception ex)
             {
-             
+
                 msg.Success = false;
                 msg.Msg = ex.Message;
                 throw;
@@ -1485,34 +1644,40 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// 交易记录数据
         /// </summary>
         /// <returns></returns>
-        public JsonResult RecordList(int Type,int pageIndex, int pageSize)
+        [HttpGet]
+        public JsonResult RecordList(int Type, int pageIndex, int pageSize)
         {
             var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
             try
             {
-             
+
                 var pager = new PagedList<ComeOutRecordModel>();
                 pager.PageIndex = pageIndex;
                 pager.PageSize = pageSize;
                 string strstate = "";
                 int UserId = UserHelper.GetByUserId();
 
-                string strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and State in(@State)
- )t
- where   rowNumber BETWEEN  @Start AND @End";
+                string strsql = "";
+
                 if (Type == 1)//充值
                 {
                     strstate = "1";
+
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type in(" + strstate + @")
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
                 }
                 else if (Type == 2)//消费
                 {
                     strstate = "3,5";
 
-                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,c.* from ComeOutRecord c
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
 inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
 on c.OrderId=b.Id
- where c.UserId=@UserId and State in(@State)
+ where c.UserId=@UserId and c.Type in(" + strstate + @")
  )t
  where   rowNumber BETWEEN @Start AND @End";
 
@@ -1520,29 +1685,50 @@ on c.OrderId=b.Id
                 else if (Type == 3)//赚钱
                 {
                     strstate = "4,6,7,8,9 ";
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type in(" + strstate + @")
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
                 }
-                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and State in(@State)";
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
 
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId),
-                    new SqlParameter("@State",strstate),
                     new SqlParameter("@Start",pager.StartIndex),
                     new SqlParameter("@End",pager.EndIndex)
 
 
                 };
                 List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
-                int count =Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
                 if (list != null)
                 {
-                    if (Type == 2)
+                    if (Type == 1)
                     {
                         list.ForEach(x =>
                         {
-                            x.UserName = UserHelper.GetUser(x.BUserId).UserName;
-                            x.LotteryIcon = Util.GetLotteryIcon(x.lType);
+
+                            x.LotteryIcon = Tool.GetPayImg(x.Type);
+                        });
+
+                    }
+                    else if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
                         });
                     }
+                    else if (Type == 3)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = Tool.GetZqImg(x.Type);
+                        });
+                    }
+
                 }
                 pager.PageData = list;
                 pager.TotalCount = count;
@@ -1557,7 +1743,129 @@ on c.OrderId=b.Id
                 result.Code = 500;
                 result.Message = ex.Message;
                 throw;
-            
+
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 我的佣金
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyCommission()
+        {
+
+            try
+            {
+                int UserId = UserHelper.GetByUserId();
+                string strsql = @"select MyYj,Txing,Txleiji from 
+ (select isnull(sum([Money]),0)as MyYj from ComeOutRecord where  [UserId]=@UserId and Type in(4,9))t1,
+ (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
+ (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId)
+                };
+                DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
+                ViewBag.MyYj = Tool.Rmoney(dr.MyYj);
+                ViewBag.Txing = Tool.Rmoney(dr.Txing);
+                ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txleiji);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 我的佣金数据
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonResult MyCommissionList(int Type, int pageIndex, int pageSize)
+        {
+            var result = new AjaxResult<PagedList<ComeOutRecordModel>>();
+            try
+            {
+
+                var pager = new PagedList<ComeOutRecordModel>();
+                pager.PageIndex = pageIndex;
+                pager.PageSize = pageSize;
+
+                int UserId = UserHelper.GetByUserId();
+
+                string strsql = "";
+                string strstate = "";
+                if (Type == 1)//收入明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
+inner join BettingRecord b
+inner join UserInfo u
+on b.UserId=u.Id
+on c.OrderId=b.Id
+ where c.UserId=@UserId and c.Type in(4,9)
+ )t
+ where   rowNumber BETWEEN @Start AND @End";
+                    strstate = "4,9";
+
+                }
+                else if (Type == 2)//提现明细
+                {
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId =@UserId and Type=2
+ )t
+ where   rowNumber BETWEEN  @Start AND @End";
+                    strstate = "2";
+                }
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",UserId),
+                    new SqlParameter("@Start",pager.StartIndex),
+                    new SqlParameter("@End",pager.EndIndex)
+
+
+                };
+
+                List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                if (list != null)
+                {
+                    if (Type == 2)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/41.png";
+                        });
+                    }
+                    else if (Type == 1)
+                    {
+                        list.ForEach(x =>
+                        {
+
+                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
+                        });
+                    }
+                }
+                pager.PageData = list;
+                pager.TotalCount = count;
+
+                result.Data = pager;
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Code = 500;
+                result.Message = ex.Message;
+                throw;
+
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -1,0 +1,36 @@
+/* CSS Document */
+html { font-size: 62.5%; height: 100%;}
+body{ background:#eee; height: 100%; position: relative;}
+@media only screen and (min-width: 320px){html {font-size: 62.5%!important;}}
+@media only screen and (min-width: 360px){html {font-size: 72.5%!important;}}
+@media only screen and (min-width: 400px){html {font-size: 82.5%!important;}}
+@media only screen and (min-width: 480px){html {font-size: 94%!important;}}
+
+
+._container{ margin:0 auto;}
+
+.header{ height:50px; box-sizing:border-box; position:relative; background:#f13131;}
+.header h1{ height:100%; line-height:50px; text-align:center; font-weight:normal; color:#fff; font-size:1.6rem; }
+.header a{ width:50px; height:50px; line-height:50px; font-size:1.4rem; text-align:center; position:absolute; top:0; color:#666; -webkit-tap-highlight-color:rgba(0,0,0,0.1); color:#fff; font-size: 1.4rem; }
+    .header a.a_back {
+        width: 3rem;
+        left: 0;
+        background: url(../../images/Chat/icon_back.png) no-repeat center center/auto 1.6rem;
+    }
+/* header 样式 */
+
+.wrapper{ width:100%; top:50px; bottom:4.2rem; position:absolute; overflow-y:scroll; -webkit-overflow-scrolling:touch;}
+.main{ width:100%; word-break:break-all; overflow:hidden; box-sizing:border-box; position:absolute;}
+.wrapper::-webkit-scrollbar {width:0px; background:rgba(255,255,255);}
+/* wrapper */
+
+.footer{ width:100%; height: 4.2rem; overflow:hidden; position:absolute; bottom:0;}
+
+.model{ width:100%; height:100%; position:absolute; top:0; left:0; background:rgba(0,0,0,0.8); display:none; z-index:101;}
+
+
+
+
+
+
+

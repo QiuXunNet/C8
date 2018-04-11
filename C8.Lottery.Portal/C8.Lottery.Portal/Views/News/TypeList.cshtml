@@ -35,6 +35,7 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1)" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@Model.TypeName<span class="select_sign"></span></a>
+        <a href="/Home/Index" class="hjc_home_right"></a>
     </header>
 
     <div class="hjc_hdNav fixed" style="display:none">
@@ -186,7 +187,7 @@
     <div class="info_LHC_nav">
         <ul class="hdNav_ul">
             <li>
-                <a href="/Home/Open/@currentLotteryTypeId">
+                <a href="/Record/OpenRecord/?lType=@currentLotteryTypeId">
                     <i><img src="/images/icon_info_01.png"></i>
                     <p>开奖</p>
                 </a>

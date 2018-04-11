@@ -121,13 +121,18 @@ namespace C8.Lottery.Portal.Controllers
             string password = form["password"];
 
             string vcode = form["vcode"];
+            string name =  form["name"];
             string usersql = "select * from UserInfo where Mobile =@Mobile";
+
+            string namesql = "select count(1) from UserInfo where Name=@Name";
 
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
                 List<UserInfo> list = new List<UserInfo>();
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
+                SqlParameter[] namesp = new SqlParameter[] { new SqlParameter("@Name", name) };
+                int namecount= Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, namesp));
                 list = Util.ReaderToList<UserInfo>(usersql, sp);
 
                 if (list.Count > 0)
@@ -137,80 +142,100 @@ namespace C8.Lottery.Portal.Controllers
                 }
                 else
                 {
-                    if (Session["code"] != null && Session["CodeTime"] != null)
+                    if (namecount > 0)
                     {
-                        string code = Session["code"].ToString();
-                        DateTime time = (DateTime)Session["CodeTime"];
-
-                        if (vcode != code || time.AddSeconds(60) < DateTime.Now)
+                        jsonmsg.Success = false;
+                        jsonmsg.Msg = "该昵称已被注册";
+                    }
+                    else
+                    {
+                        bool iscz = Tool.CheckSensitiveWords(name);
+                        if (iscz==true)
                         {
                             jsonmsg.Success = false;
-                            jsonmsg.Msg = "短信验证码输入不正确";
-
+                            jsonmsg.Msg = "该昵称包含敏感字符";
                         }
                         else
                         {
-                            password = Tool.GetMD5(password);
-                            string ip = Tool.GetIP();
-                            string regsql = @"
+                            if (Session["code"] != null && Session["CodeTime"] != null)
+                            {
+                                string code = Session["code"].ToString();
+                                DateTime time = (DateTime)Session["CodeTime"];
+
+                                if (vcode != code || time.AddSeconds(60) < DateTime.Now)
+                                {
+                                    jsonmsg.Success = false;
+                                    jsonmsg.Msg = "短信验证码输入不正确";
+
+                                }
+                                else
+                                {
+                                    password = Tool.GetMD5(password);
+                                    string ip = Tool.GetIP();
+                                    string regsql = @"
   insert into UserInfo(UserName, Name, Password, Mobile, Coin, Money, Integral, SubTime, LastLoginTime, State,Pid,RegisterIP)
   values(@UserName, @Name, @Password, @Mobile, 0,0, 0, getdate(), getdate(), 0,@Pid,@RegisterIP);select @@identity ";
-                            SqlParameter[] regsp = new SqlParameter[] {
+                                    SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@UserName",mobile),
-                     new SqlParameter("@Name",mobile),
+                     new SqlParameter("@Name",name),
                     new SqlParameter("@Password",password),
                     new SqlParameter("@Mobile",mobile),
                     new SqlParameter("@Pid",inviteid),
                     new SqlParameter("@RegisterIP",ip)
 
                  };
-                            int data = Convert.ToInt32(SqlHelper.ExecuteScalar(regsql, regsp));
-                            if (data > 0)
-                            {
-
-
-                                jsonmsg.Success = true;
-                                jsonmsg.Msg = "ok";
-                                string guid = Guid.NewGuid().ToString();
-                                Response.Cookies["UserId"].Value = guid;
-                                CacheHelper.SetCache(guid, data, DateTime.Now.AddMinutes(30));
-                                if (inviteid > 0)
-                                {
-                                    UserInfo invite = GetByid(inviteid);
-                                    if (invite != null)
+                                    int data = Convert.ToInt32(SqlHelper.ExecuteScalar(regsql, regsp));
+                                    if (data > 0)
                                     {
-                                        int mynum = GetNum(3);
-                                        AddCoin(data, mynum);//受邀自己得3级奖励
-                                        //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
-                                        AddComeOutRecord(data, inviteid.ToString(), 6, mynum);//受邀得奖记录
-                                        int upnum = GetNum(1);
-                                        AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
-                                        //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
-                                        AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
-                                        UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
-                                        if (super != null)
+
+
+                                        jsonmsg.Success = true;
+                                        jsonmsg.Msg = "ok";
+                                        string guid = Guid.NewGuid().ToString();
+                                        Response.Cookies["UserId"].Value = guid;
+                                        CacheHelper.SetCache(guid, data, DateTime.Now.AddMinutes(30));
+                                        if (inviteid > 0)
                                         {
-                                            int supernum = GetNum(2);
-                                            AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
+                                            UserInfo invite = GetByid(inviteid);
+                                            if (invite != null)
+                                            {
+                                                int mynum = GetNum(3);
+                                                AddCoin(data, mynum);//受邀自己得3级奖励
+                                                                     //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
+                                                AddComeOutRecord(data, inviteid.ToString(), 6, mynum);//受邀得奖记录
+                                                int upnum = GetNum(1);
+                                                AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
+                                                                                           //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
+                                                AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
+                                                UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
+                                                if (super != null)
+                                                {
+                                                    int supernum = GetNum(2);
+                                                    AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
+                                                }
+
+                                            }
                                         }
 
                                     }
-                                }
+                                    else
+                                    {
+                                        jsonmsg.Success = false;
+                                        jsonmsg.Msg = "fail";
 
+                                    }
+
+                                }
                             }
                             else
                             {
                                 jsonmsg.Success = false;
-                                jsonmsg.Msg = "fail";
+                                jsonmsg.Msg = "请重新获取验证码";
 
                             }
-
                         }
-                    }
-                    else
-                    {
-                        jsonmsg.Success = false;
-                        jsonmsg.Msg = "请重新获取验证码";
+
+                        
 
                     }
 
@@ -397,13 +422,13 @@ namespace C8.Lottery.Portal.Controllers
 
                 if (user != null)
                 {
-                    bool iscor = true;
-                    if (password.Contains("$2y"))
+                    bool iscor = false;
+                    if (user.Password.Contains("$2y"))
                     {
                         iscor = Crypter.CheckPassword(password, user.Password);
                     }
 
-                    if (Tool.GetMD5(password) != user.Password && !iscor)
+                    if (Tool.GetMD5(password) != user.Password && iscor==false)
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "密码不正确";
@@ -473,16 +498,16 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult Validate(string mobile, string vcode)
         {
-            string usersql = "select * from UserInfo where Mobile =@Mobile";
+            string usersql = "select Count(1) from UserInfo where Mobile =@Mobile";
 
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
-                List<UserInfo> list = new List<UserInfo>();
+             
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
-                list = Util.ReaderToList<UserInfo>(usersql, sp);
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(usersql, sp));
 
-                if (list.Count < 0)
+                if (count <= 0)
                 {
                     jsonmsg.Msg = "该手机未注册、请先注册账号";
                     jsonmsg.Success = false;
@@ -575,6 +600,7 @@ namespace C8.Lottery.Portal.Controllers
                         jsonmsg.Msg = "fail";
 
                     }
+                    Session.Remove("Mobile");
                 }
                 catch (Exception e)
                 {

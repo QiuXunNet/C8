@@ -1626,6 +1626,14 @@ a {
         .DL_if1UL li .DL_icon3 {
             background-position: 0 -48px;
         }
+         .DL_if1UL li .DL_icon4 {
+            height: 16px;
+            width: 16px;
+            background: url(../images/13_1.png);
+        
+            margin-top: 12px;
+            background-repeat:no-repeat;
+        }
 
         .DL_if1UL li .UL_kuai1 {
             height: 40px;
@@ -6674,6 +6682,12 @@ a {
 }
 
 
+.position-right {
+    right: 0 !important;
+}
+.position-left {
+    right: 0 !important;
+}
 /***Mask**/
 
 .mask {
@@ -6813,9 +6827,23 @@ a {
 
 
 /**********首页 开始*******/
+.home_logo {
+    display: inline-block;
+    height: 30px;
+    margin: 10px auto 0;
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    margin-left: 10px;
+}
+.home_logo img {
+    display: block;
+    height: 100%;
+}
 
 .hjc_hdNav {
-    position: absolute;
+    /*position: absolute;*/
     border-bottom: .3125rem;
 }
 
@@ -6908,7 +6936,7 @@ a {
 
 .hdNav_cai_lhs_expand {
     height: auto;
-    position: absolute;
+    position: fixed;
     right: 0;
 }
 
@@ -8106,6 +8134,15 @@ footer {
     background: url(../images/02.png) no-repeat center;
     background-size: 50%;
 }
+.hjc_home_right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: url(../images/02.png) no-repeat center;
+    background-size: 50%;
+}
 
 /***参与竞猜**/
 
@@ -8227,6 +8264,11 @@ footer {
 .CDL_DDFont .include {
     color: #166cec;
     padding-right: 10px;
+}
+.CDL_DDFont p {
+    -moz-word-break: break-all;
+    -o-word-break: break-all;
+    word-break: break-all;
 }
 
 .emoji_icon {
@@ -8447,6 +8489,33 @@ footer {
     font-size: 14px;
 }
 /*** 查看计划页 **/
+
+
+/**** Added by LHS 2018-4-10 ****/
+.Gues_ftTB .ftTB_A:first-child {
+    margin-right: 10px;
+}
+.Gues_ftFBPL {
+    margin-right: 50px;
+}
+/*个人中心消息提醒角标*/
+.Per_listRight h3 .Per_xxicon {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    right: -22px;
+}
+/*系统消息未读数量角标*/
+.C8_nav li p i {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    right: -20px;
+}
+/**** Added by LHS 2018-4-10 END****/
+
+
+
 /**兼容小屏**/
 
 @media screen and (max-width:320px) {
@@ -8502,6 +8571,8 @@ footer {
         height: 280px;
     }
 }
+
+
 
 
 /**兼容小屏**/

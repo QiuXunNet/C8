@@ -95,5 +95,11 @@
         </table>
     </div>
 
+<script type="text/javascript">
+    function giftCoin() {
+
+        location.href = @("/Plan/Tip?uid="+@lastBettingRecord.UserId+"&ltype="+@lastBettingRecord.lType+"&playName="+@lastBettingRecord.PlayName);
+    }
+</script>
 </body>
 </html>

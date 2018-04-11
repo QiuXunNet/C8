@@ -39,19 +39,19 @@
         <div style="clear:both;"></div>
     </div>
 
-    <div class="details_box">
+    <div class="details_box mescroll-wrapper" style="height: calc(100% - 100px);">
         <div class="details_info mescroll" id="mescroll0">
-            <div id="datalist0">
+            <div id="datalist0" class="data-list">
                 
             </div>
         </div>
         <div class="details_info1 mescroll" id="mescroll1" style="display:none;">
-            <div id="datalist1">
+            <div id="datalist1" class="data-list">
                 
             </div>
         </div>
         <div class="details_info1 mescroll" id="mescroll2" style="display:none;">
-            <div id="datalist2">
+            <div id="datalist2" class="data-list">
                 
             </div>
         </div>
@@ -157,6 +157,9 @@
                             //    alertmsg("去逛逛");
                             //}
                         },
+                        page: {
+                            size:10
+                        },
                         clearEmptyId: clearEmptyId
                     }
                 });
@@ -164,9 +167,8 @@
             }
 
             /*加载列表数据 */
-            function getListData(page){
+            function getListData(page) {
                 //联网加载数据
-             
                 var dataIndex=curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
                 getListDataFromNet(dataIndex, page.num, page.size, function(pageData,hasNextPage){
                     console.log("dataIndex="+dataIndex+", curNavIndex="+curNavIndex+", page.num="+page.num+", page.size="+page.size+", pageData.length="+pageData.length);
@@ -191,7 +193,6 @@
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
-                    async:false,
                     url: '/Personal/GetPlan',
                     dataType: 'json',
                     success: function(res){
@@ -199,6 +200,8 @@
                         if (res.IsSuccess && res.Data) {
                             //回调
                             successCallback( res.Data.PageData,res.Data.HasNextPage);
+                            
+                            //alert($("#datalist0").height());
 
                         } else {
                             alertmsg("服务器繁忙");
@@ -221,7 +224,7 @@
                     + '    <dd>'
                     + '    	<div class="details_ddRight">';
                 if (item.WinState == 1) {
-                    itemHtml += '        	<a href="javascript:;" class="det_bj">编辑</a>'
+                    itemHtml += '        	<a href="/Plan/Post/'+item.lType+'" class="det_bj">编辑</a>'
                         + '            <h3 class="det_wkj">未开奖</h3>';
                 } else if (item.WinState == 2) {
                     itemHtml += '<p>已开奖</p>';

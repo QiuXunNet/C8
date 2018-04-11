@@ -58,7 +58,7 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
         var zhi = $(this).index();
         $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
-      
+
         $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
     });
 
@@ -67,9 +67,9 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
 
         var zhi = $(this).index();
-  
+
         $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-      
+
         //展开项添加选中
         $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
         $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
@@ -190,7 +190,7 @@ $(function () {
     });
 
     /*我的计划*/
-    $(".C8_JIlU li").click(function() {
+    $(".C8_JIlU li").click(function () {
         $(this).addClass("current").siblings().removeClass("current");
         var bang = $(this).index();
         $(".details_box .details_info1").eq(bang).show().siblings().hide();
@@ -320,7 +320,8 @@ $(function () {
     $('body').on('click', '.letter a', function () {
         var _this = $(this);
         var s = _this.html();
-        var anchor = s + '1';
+
+        var anchor = (_this.attr("data-id") || "") + '1';
         if (_this.hasClass("toSearch")) {
             anchor = "searchinput"
         }
@@ -513,7 +514,7 @@ function alertmsg(msg) {
     });
 }
 
-function follow(userid,type) {
+function follow(userid, type) {
     var url = type == 1 ? "/Personal/UnFollow" : "/Personal/IFollow";
     $.post(url, { followed_userId: userid }, function (data) {
 

@@ -26,11 +26,11 @@
                     <li>
                         <dl class="Guse_CDL">
 
-                            <dt><a href="javascript:;"><img src="@Url.Content(comment.Avater)"></a></dt>
+                            <dt><a href="/Personal/UserCenter/@comment.UserId"><img src="@Url.Content(comment.Avater)"></a></dt>
                             <dd>
                                 <div class="CDL_DDTop">
                                     <h3>
-                                        <a href="javascript:;">@comment.NickName</a>
+                                        <a href="/Personal/UserCenter/@comment.UserId">@comment.NickName</a>
                                     </h3>
                                     <p>@comment.SubTime.ToString("yyyy-MM-dd HH:mm")</p>
                                 </div>
@@ -71,7 +71,7 @@
             <img src="/images/62_1.png">
             <font>@ViewBag.CommentTotalCount</font>
         </a>
-        <a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>
+        @*<a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>*@
     </div>
     <a href="/Comment/Index/@ViewBag.ArticleId?ctype=1&type=@ViewBag.Type" class="Gues_ftFBPL">请输入您的评论</a>
 </div>

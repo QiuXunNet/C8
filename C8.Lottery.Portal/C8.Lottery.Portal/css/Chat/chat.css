@@ -1,0 +1,335 @@
+/* CSS Document */
+body {
+    background: #eeeeee;
+}
+
+.header .h_title {
+    color: #fff;
+    text-align: center;
+}
+
+    .header .h_title h1 {
+        height: 2.0rem;
+        line-height: 2.0rem;
+        font-size: 1.5rem;
+        padding-top: 0.2rem;
+    }
+
+    .header .h_title p {
+        font-size: 0.8rem;
+    }
+
+.header a.a_gl {
+    right: 0;
+}
+
+.header a.a_fx {
+    right: 3.8rem;
+}
+/* header */
+
+.c_left, .c_right {
+    display: -webkit-box;
+    width: 96%;
+    float: left;
+    margin: 0.8rem 0;
+}
+
+    .c_left:after, .c_right:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+.c_profile {
+    width: 4rem;
+    padding: 0 1.2rem 0 0.6rem;
+}
+
+    .c_profile img {
+        width: 100%;
+        /*border: 2px solid #b9456c;*/
+        border-radius: 50%;
+    }
+
+.c_cnt {
+    -webkit-box-flex: 1;
+    color: #333;
+}
+
+    .c_cnt h3 {
+        color: #555;
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+
+        .c_cnt h3 s {
+            text-decoration: none;
+            color: #999;
+            padding-left: 5px;
+        }
+
+        .c_cnt h3 .i_tag {
+            background: #f13131;
+            color: #fff;
+            padding: 0 0.3rem;
+            border-radius: 0.4rem;
+            margin-right: 0.4rem;
+        }
+
+    .c_cnt .c_main {
+        line-height: 1.6rem;
+        padding: 0.6rem 1.0rem;
+        background: #fff;
+        font-size: 1.2rem;
+        display: inline-block;
+        position: relative;
+        border-radius: 1.2rem;
+        text-align: justify;
+        color: #333;
+        vertical-align: middle;
+        max-width: 75%;
+    }
+
+        .c_cnt .c_main:after {
+            content: "";
+            width: 0.8rem;
+            height: 1.2rem;
+            position: absolute;
+            left: -0.6rem;
+            top: 0.4rem;
+            background: url(../../images/Chat/icon_tail_l.png) no-repeat center center/0.7rem auto;
+        }
+
+    .c_cnt .a_link {
+        color: #f13131;
+        text-decoration: underline;
+    }
+
+    .c_cnt .c_pic {
+        background: none;
+        padding: 0;
+        color: #000;
+    }
+
+        .c_cnt .c_pic:after {
+            background: none;
+        }
+
+        .c_cnt .c_pic .img_pic {
+            display: block;
+            margin: 0.4rem 0;
+            /*width: 60%;*/
+            max-width: 240px;
+            border-radius: 1.2rem;
+        }
+
+        .c_cnt .img_face,
+        .c_cnt .c_pic .img_face {
+            width: 2.5rem;
+            display: block;
+            margin: 0.4rem 0;
+            border-radius: 1.2rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+.c_do {
+    padding: 0.4rem 0;
+    display: inline-block;
+    font-size: 1.3rem;
+    vertical-align: middle;
+}
+
+    .c_do i {
+        margin: 0 0.2rem;
+    }
+
+        .c_do i.i_mv {
+            color: #D80003;
+        }
+
+        .c_do i.i_ylh {
+            color: #999;
+        }
+
+.c_right {
+    float: right;
+}
+
+    .c_right h3 {
+        text-align: right;
+    }
+
+    .c_right .c_cnt {
+        text-align: right;
+    }
+
+    .c_right .c_main {
+        background: #f13131;
+        color: #fff;
+    }
+
+        .c_right .c_main:after {
+            position: absolute;
+            left: auto;
+            right: -0.6rem;
+            background: url(../../images/Chat/icon_tail_r.png) no-repeat center center/0.7rem auto;
+        }
+
+    .c_right .c_pic {
+        background: none;
+        text-align: right;
+        color: #000;
+    }
+
+        .c_right .c_pic:after {
+            background: none;
+        }
+
+        .c_right .c_pic img {
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+    .c_right .img_pic {
+        float: right;
+    }
+/* chat */
+
+.footer {
+    height: auto;
+}
+
+.footer_chat {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    height: 4.2rem;
+    padding: 0.3rem 0;
+    background: #eee;
+    box-shadow: -2px 0 3px #999;
+}
+
+    .footer_chat > div:nth-of-type(1) {
+        width: 3.6rem;
+    }
+
+        .footer_chat > div:nth-of-type(1) .a_cmore {
+            width: 100%;
+            height: 3.2rem;
+            display: block;
+            background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
+        }
+
+    .footer_chat > div:nth-of-type(2) {
+        -webkit-box-flex: 1;
+    }
+
+    .footer_chat > div:nth-of-type(3) {
+        width: 5.5rem;
+    }
+
+    .footer_chat .a_send {
+        width: 3.8rem;
+        height: 2.8rem;
+        line-height: 2.8rem;
+        text-align: center;
+        font-size: 1.1rem;
+        color: #fff;
+        display: block;
+        margin: 0 auto;
+        background: #f13131;
+        border-radius: 0.4rem;
+    }
+
+    .footer_chat .msg {
+        height: 3.0rem;
+        background: #fff;
+        border-radius: 0.4rem;
+        display: -webkit-box;
+    }
+
+        .footer_chat .msg .txt_msg {
+            -webkit-box-flex: 1;
+            height: 3.0rem;
+            font-size: 1.3rem;
+            text-indent: 0.4rem;
+            color: #444;
+            display: block;
+            border: none;
+            background: none;
+        }
+
+        .footer_chat .msg .btn_face {
+            width: 2.8rem;
+            height: 2.8rem;
+            border: none;
+            cursor: pointer;
+            background: url(../../images/Chat/icon_face.png) no-repeat center center/2.0rem auto;
+            vertical-align: middle;
+        }
+
+            .footer_chat .msg .btn_face:hover {
+                opacity: 0.8;
+            }
+/* footer_chat */
+
+.footer_face {
+    background: #eee;
+    height: 0;
+}
+
+.face_wrapper {
+    height: 10rem;
+    overflow-y: scroll;
+}
+
+    .face_wrapper::-webkit-scrollbar {
+        width: 0px;
+        background: rgba(255,255,255);
+    }
+
+.ul_face {
+    margin-top: 0.6rem;
+}
+
+    .ul_face li {
+        width: 16.666%;
+        float: left;
+        margin-bottom: 0.4rem;
+        cursor: pointer;
+    }
+
+    .ul_face img {
+        width: 60%;
+        display: block;
+        margin: 0 auto;
+        border-radius: 50%;
+    }
+/* footer_face */
+
+#model_pic img {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+
+
+
+
+
+
+/**************************************/
+
+
+
+    .btn-default-styles i {
+        background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
+        width: 100%;
+        height: 3.2rem;
+        display: block;
+    }

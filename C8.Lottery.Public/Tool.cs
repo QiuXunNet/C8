@@ -79,6 +79,97 @@ namespace C8.Lottery.Public
             return imgsrc;
         }
 
+        /// <summary>
+        /// 获取充值图片
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPayImg(int paytype)
+        {
+            string imgsrc = string.Empty;
+            switch (paytype)
+            {
+                case 1:
+                    imgsrc = "/images/41_1.png";
+                    break;
+                case 2:
+                    imgsrc = "/images/41_2.png";
+                    break;
+                case 3:
+                    imgsrc = "/images/41_3.png";
+                    break;
+            }
+            return imgsrc;
+        }
+
+        /// <summary>
+        /// 验证是否包含敏感字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="excludeWordList"></param>
+        /// <returns></returns>
+       public static bool CheckSensitiveWords(string str)
+        {
+            string words = WebHelper.GetSensitiveWords();
+            string[] zang = words.Split(',');
+
+            if (str.Trim().Length <= 0 || zang == null || zang.Count() <= 0)
+            {
+                return false;
+            }
+            var contain = false;
+            foreach (var el in zang)
+            {
+                if (str.Contains(el))
+                {
+                    contain = true;
+                    break; ;
+                }
+            }
+            return contain;
+        }
+
+
+        /// <summary>
+        /// 赚钱图片
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        public static string GetZqImg(int Type)
+        {
+            string imgsrc = string.Empty;
+            switch (Type)
+            {
+                case 1:
+                    imgsrc = "/images/47_1.png";
+                    break;
+                case 7:
+                    imgsrc = "/images/47_3.png";
+                    break;
+                case 4:
+                    imgsrc = "/images/47_7.png";
+                    break;
+                case 9:
+                    imgsrc = "/images/47_6.png";
+                    break;
+              
+            }
+            return imgsrc;
+        }
+
+
+        /// <summary>
+        /// 货币保留后两位小数
+        /// </summary>
+        /// <param name="money"></param>
+        /// <returns></returns>
+        public static string Rmoney(decimal money)
+        {
+           return string.Format("{0:N}", money);
+        }
+
+
+
+
 
         #region 截取data:image/jpeg;base64,提取图片，并保存图片
         /// <summary>
@@ -158,12 +249,10 @@ namespace C8.Lottery.Public
         /// <param name="path"></param>
         public static void DeleteFile(string path)
         {
-
             if (File.Exists(path))
             {
                 File.Delete(path);
             }
-   
         }
 
     }
@@ -176,13 +265,6 @@ namespace C8.Lottery.Public
         public string RPath;
         public int RSize;
     }
-
-
-
-
-
-
-
 
 
     /// <summary>

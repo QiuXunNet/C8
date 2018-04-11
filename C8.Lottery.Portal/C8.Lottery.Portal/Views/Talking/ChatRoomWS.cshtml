@@ -1,229 +1,414 @@
 ﻿@{
     Layout = null;
 }
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
-    <title>首页</title>
-    <link rel="stylesheet" href="/css/Chat/base.css" />
-    <link rel="stylesheet" href="/css/Chat/index.css" />
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link rel="stylesheet" href="/css/Chat/libs/CSSRESET.css">
+    <link rel="stylesheet" href="/css/Chat/common.css">
+    <link rel="stylesheet" href="/css/Chat/chat.css">
+
+
 </head>
 <body>
-    <!--页面内容-->
-    <div class="layout">
+    <div class="_container clear">
 
-        <header class="topBarBox">
-            <div class="topBar">
-                <a href="/Talking/Index" class="back"></a>
-                <h3>
-                    <p class="title">@Html.Raw(ViewBag.RommName + "聊天室")</p>
-                    <div class="pepleOnlie"><span id="lineNumber">0</span>人在线</div>
-                </h3>
-                <div class="topMenu">
-                    <a href="#">分享</a>
-                    @if (ViewBag.IsAdmin == true)
-                    {
-                        <a href="/Talking/ManagementList/@ViewBag.RommId">管理</a>
-                    }
+        <header class="header">
+            <a href="/Talking/Index" class="a_back"></a>
+            <div class="h_title">
+                <h1>@Html.Raw(ViewBag.RommName + "聊天室")</h1>
+                <p><span id="lineNumber">0</span>人在线</p>
+            </div>
+            @*<a href="javascript:;" class="a_fx">分享</a>*@
+            @*@if (ViewBag.IsAdmin == true)
+        {*@
+            <a href="/Talking/ManagementList/@ViewBag.RoomId" class="a_gl" style="width:auto;margin-right: 10px;">处理记录</a>
+            @* } *@
+        </header>
+        <!-- header End -->
+
+        <article class="wrapper">
+            <div class="main">
+                <div class="chat clearfix" id="ChatList">
+                </div>
+                <!-- chat -->
+            </div>
+        </article>
+        <!-- wrapper End -->
+
+        <div class="footer">
+
+            <div class="footer_chat">
+                <div>
+                    <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
+                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
+                        <i class="iconfont icon-tuxiang"></i>
+                    </label>
+                </div>
+                <div>
+                    <div class="msg">
+                        <input type="text" name="" class="txt_msg" id="MessageContent" />
+                        <input type="button" id="btnEmoji" value="" class="btn_face" />
+                    </div>
+                </div>
+                <div><a href="javascript:;" class="a_send" id="SendMessageBtn">发送</a></div>
+            </div>
+
+            <div class="footer_face">
+                <div class="face_wrapper">
+                    <ul class="ul_face clearfix" id="faceUl"></ul>
                 </div>
             </div>
-        </header>
-        <main class="main">
-            <ul class="chat-thread" id="ChatList"></ul>
-        </main>
-        <footer class="footerBox">
-            <div class="re_footer clearfix">
-                <img src="/images/chat/icon_03.png" class="brow" style="display:none">
-                <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
-                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
-                    <i class="iconfont icon-tuxiang"></i>
-                </label>
-                <img src="/images/chat/icon_06.png" class="photo">
-                <div class="reply_box"> <input type="text" name="" class="reply" id="MessageContent"> </div>
-                <input type="button" value="发送" class="ent" id="SendMessageBtn">
-            </div>
-        </footer>
-    </div>
-    <div id="emojiDiv" style="position:absolute;background-color:#fff;bottom:51px;left:0px;height:150px;overflow-y: scroll;display: none;">
-        <ul></ul>
-    </div>
-    <div class="transparentBox">
-        <div class="transparentBg"></div>
-        <div class="big_img">
-            <img id="BigImg" src="images/chat_15.png" onclick="hideBigImg()">
         </div>
+        <!-- footer -->
+
+        <div class="model" id="model_pic">
+            <img src="" alt="" />
+        </div>
+        <!-- 图片遮罩层 -->
+
     </div>
-    <script src="/Scripts/jquery-1.8.0.min.js"></script>   
-
+    <script src="/Scripts/jquery-1.8.0.min.js"></script>
     <script type="text/javascript">
-        $(function () {
-            var winH = $(window).height();
-            var winW = $(window).width();
-            $('.transparentBox').height = winH
+        var faceObj = {
+            1: "am",
+            2: "baiy",
+            3: "bishi",
+            4: "bizui",
+            5: "piezui",
+            6: "cahan",
+            7: "ciya",
+            8: "dabing",
+            9: "daku",
+            10: "fadai",
+            11: "deyi",
+            12: "fanu",
+            13: "fendou",
+            14: "ganga",
+            15: "guzhang",
+            16: "dahaq",
+            17: "haixiu",
+            18: "daxiao",
+            19: "huaixiao",
+            20: "jie",
+            21: "jingkong",
+            22: "jingya",
+            23: "keai",
+            24: "kelian",
+            25: "koubi",
+            26: "kulou",
+            27: "ku",
+            28: "kuaikuliao",
+            29: "kun",
+            30: "lenghan",
+            31: "liuhan",
+            32: "liulei",
+            33: "nanguo",
+            34: "qiaoda",
+            35: "qinqin",
+            36: "qiudale",
+            37: "se",
+            38: "shui",
+            39: "tiaopi",
+            40: "touxiao",
+            41: "tu",
+            42: "weixiao",
+            43: "weiqu",
+            44: "xia",
+            45: "xu",
+            46: "yiwen",
+            47: "yinxian",
+            48: "youhengheng",
+            49: "yun",
+            50: "zaijian",
+            51: "zhemo",
+            52: "dama",
+            53: "zhuakuang",
+            54: "zuohengheng"
+        };
 
-            $(".main").height(winH - 50 - 51);
-
-            $("#emojiDiv").width(winW);
-
-            $("#emojiDiv").css({ "padding-left": (winW % 15) + "px" });
-
-            var lis = "";
-            for (var i = 1; i <= 91; i++) {
-                lis += ' <li data-index=' + i + '><img src="/images/emoji/qq/' + i + '.gif" /></li>';
+        //解压表情
+        function unZipFace(str) {
+            for (var i = 1; i <= 54; i++) {
+                var reger = new RegExp("#" + faceObj[i] + "#", "g");               
+                str = str.replace(reger, "<img class='img_face' src='/images/emoji/Face/" + i + ".png'/>");
             }
-            $("#emojiDiv ul").append(lis);
+            return str;
+        }
 
-            $(".photo").click(function () {
-                if (!$("#emojiDiv").is(':visible')) {
-                    $("#emojiDiv").show().scrollTop(0);
+
+        $(function () {
+
+            //初始化表情
+            faceInit();
+
+            //大图展示
+            showPic();
+
+            var imgs = "";
+            for (var i = 1; i <= 54; i++) {
+                imgs += "<li><img data-py='" + faceObj[i] + "' src='/images/emoji/Face/" + i + ".png' /></li>";
+            }
+
+            $("#faceUl").append(imgs);
+
+
+            $("#faceUl img").click(function () {
+                $("#MessageContent").val($("#MessageContent").val() + "#" + $(this).attr("data-py") + "#");                
+            });
+        });
+
+        //表情功能
+        function faceInit() {
+            //弹出和隐藏表情
+            $(".btn_face").on("click", function () {
+                if (!$(this).hasClass("active")) {
+                    $(this).addClass("active");
+                    $(".footer_face").css({ "height": "10.0rem", "transition": "height 0.5s" });
                 } else {
-                    $("#emojiDiv").hide();
+                    $(this).removeClass("active");
+                    $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
                 }
-
             });
 
-            $("#emojiDiv ul li").click(function () {
-                $("#emojiDiv").hide();
-                var i = $(this).attr("data-index");
-                var message = "[emoji_" + i + "]";
-                var guid = newGuid();
-                message = message;
+            //表情隐藏
+            $("#MessageContent").on("click", function () {
+                $(".btn_face").removeClass("active");
+                $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
 
-                var obj = {};
-                obj.Content = message;
-                obj.UserId = userId;
-                obj.UserName = userName;
-                obj.PhotoImg = photoImg;
-                obj.RoomId = roomId;
-                obj.MsgTypeChild = 23;
-                obj.Guid = guid;
-                obj.IsAdmin = isAdmin;
-                addMessage(obj);
+                var t = $(this).val();
+                $(this).val("").focus().val(t);
+            });
+        }       
 
-                var data = {};
-                data.MsgType = 2;
-                data.MsgTypeChild = 23;
-                data.Content = message;
-                data.Guid = guid;
-                var json = JSON.stringify(data);
-                if (ws.readyState == WebSocket.OPEN) {
-                    ws.send(json);
-                }
-            })
-        });
+        //大图展示
+        function showPic() {
+            //点击图片显示大图
+            $(document).on("click", '.img_pic', function () {
+                var $_this = $(this);
+                $("#model_pic img").attr("src", $_this.attr("data-pic"));
+                $("#model_pic").fadeIn();
+            });
+
+            //关闭显示大图
+            $("#model_pic").on("click", function () {
+                $("#model_pic").fadeOut(function () {
+                    $("#model_pic img").attr("src", $(this).attr(""));
+                });
+            });
+        }
     </script>
 
-    <!-- SignalR消息推送 -->
+
+    <!-- WebSocket消息推送 -->
     <script type="text/javascript">
         var ws;
-        var roomId = "@ViewBag.RommId";
+        var url;
+        var roomId = "@ViewBag.RoomId";
         var userName = "@ViewBag.UserName";
         var userId = "@ViewBag.UserId";
         var photoImg = "@ViewBag.PhotoImg";
         var isAdmin = "@ViewBag.IsAdmin";
         var isTop = false;  //历史消息是否已经到顶
-        var isEverlasting = @ViewBag.IsEverlasting; //是否被拉黑
+        var blackListStr = "@ViewBag.BlackListStr"; //已被拉黑的人
+
+        var heartbeatT = setInterval("heartbeat()", 3000);//心跳包定时器
+        var isLink = true; //是否已经链接上
+        var heartbeatNum = 2; //可用心跳次数，如果次数为0，则发起一次重连。
+        var linkNum = 0; //用于记录重连次数
+
+        if (blackListStr.length == 0) {
+            blackListStr = ",";
+        }
 
         $(function () {
             //首次加载添加聊天记录
             getChatRecord(0);
-            var url = "ws://40.125.208.179:8081/Handler1.ashx?userId=" + userId +
+            url = "ws://119.147.139.131:8801/Handler1.ashx?userId=" + userId +
                 "&roomId=" + roomId + "&userName=" + userName + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin
             ws = new WebSocket(url);
 
             //链接成功回调
             ws.onopen = function () {
-              //  alert(0);
-                //$('#msg').append('<p>已经连接</p>');
+                wsOnopen();
             }
             //收到消息回调
             ws.onmessage = function (evt) {
-                var msg = evt.data;
-                var data = eval("(" + msg+")");
-                if (data == undefined || data == null)
-                    return;
-                switch (data.MsgTypeChild) {
-                    case 11: //删除命令
-                        delMessage2(data);
-                        break;
-                    case 12: //拉黑命令
-                        blacklisted2(data);
-                        break;
-                    case 21: //文字消息
-                    case 22: //图片消息
-                    case 23: //表情包消息
-                        insertMessage(data, 1)
-                        $('.main').scrollTop($('.main')[0].scrollHeight);
-                        setTimeout("$('.main').scrollTop($('.main')[0].scrollHeight)", 100);
-                        break;
-                    case 31: //心跳包
-                        break;
-                    case 41: //获取在线人数
-                        $("#lineNumber").text(data.RoomManNum);
-                        break;
-                }
+                wsOnmessage(evt);
             }
             //链接失败回调
             ws.onerror = function (evt) {
-                $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
+               // $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
             }
             //链接关闭回调
             ws.onclose = function () {
-                $('#msg').append('<p>已经关闭</p>');
-            }         
-
-            ////加载在线人员
-            //chat.client.loadMemberList = function (num) {
-            //    $("#lineNumber").text(num);
-            //};
+                wsOnclose()
+            }
 
             $("#SendMessageBtn").click(function () {
                 sendMessage();
+
+                $(".btn_face").removeClass("active");
+                $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
             });
 
             //滚动条滚动事件
-            $(".main").bind("scroll", function () {
-                var sTop = $(".main").scrollTop();
+            $(".wrapper").bind("scroll", function () {
+                var sTop = $(".wrapper").scrollTop();
                 var sTop = parseInt(sTop);
                 if (sTop == 0) {
                     getChatRecord(1);
-                    $(".main").scrollTop(1);
+                    $(".wrapper").scrollTop(1);
                 }
             });
 
-            if (isEverlasting == 1) {
+            if (blackListStr.indexOf("," + userId+",")>-1) {
                 $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
-                $(".brow").show();
-                $("#chat-tuxiang").hide();
+                $("#inputImage").attr("disabled", "disabled");
                 $("#SendMessageBtn").unbind();
-                $(".photo").unbind();
+                $(".btn_face").unbind();
             }
         });
 
+        function wsOnopen() {
+            if (isLink == false) {
+                alert("连接成功");
+            }
+
+            isLink = true;
+
+            //链接成功后初始化有效心跳数和链接次数
+            heartbeatNum = 2;
+            linkNum = 0;
+        }
+
+        function wsOnmessage(evt) {
+            var msg = evt.data;
+            var data = eval("(" + msg + ")");
+            if (data == undefined || data == null)
+                return;
+            switch (data.MsgTypeChild) {
+                case 11: //删除命令
+                    delMessage2(data);
+                    break;
+                case 12: //拉黑命令
+                    blacklisted2(data);
+                    break;
+                case 21: //文字消息
+                case 22: //图片消息
+                case 23: //表情包消息
+                    insertMessage(data, 1);
+                    if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
+                        addMessage(data);
+                    }
+                    $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
+                    setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
+                    break;
+                case 31: //心跳包
+                    //链接成功后初始化有效心跳数和链接次数
+                    heartbeatNum = 2;
+                    linkNum = 0;
+                    break;
+                case 41: //获取在线人数
+                    $("#lineNumber").text(data.RoomManNum);
+                    break;
+            }
+        }
+
+        function wsOnerror() {
+        }
+
+        function wsOnclose() {
+            isLink = false;
+            setTimeout("reconnection()", 2000);
+            alert("网络已中断,正在为您重连");
+        }
+
+
+        //重连
+        function reconnection() {
+            if (linkNum > 5) {
+                clearInterval(heartbeatT);
+                alert("您已失去链接,请重新进入聊天室")
+                return;
+            }
+
+            heartbeatNum = 2;            
+
+          //  window.clearInterval(t);
+            if (isLink == false) {
+                linkNum++;
+                ws = new WebSocket(url);
+
+                //链接成功回调
+                ws.onopen = function () {
+                    wsOnopen();
+                }
+                //收到消息回调
+                ws.onmessage = function (evt) {
+                    wsOnmessage(evt);
+                }
+                //链接失败回调
+                ws.onerror = function (evt) {
+                    // $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
+                }
+                //链接关闭回调
+                ws.onclose = function () {
+                    wsOnclose()
+                }
+            }            
+        }
+
+        //心跳包发送
+        function heartbeat() {            
+            if (heartbeatNum <= 0) {
+                isLink = false;
+                reconnection();                
+            }
+
+            var data = {};
+            data.MsgType = 3;
+            data.MsgTypeChild = 31;
+            var json = JSON.stringify(data);
+            if (ws.readyState == WebSocket.OPEN) {
+                ws.send(json);
+            }
+            heartbeatNum--;
+        }
+
+        //回调删除方法
         function delMessage2(data) {
             var guid = data.Guid;
             $("#" + guid).remove();
         }
 
+        //回调拉黑方法
         function blacklisted2(data) {
+            blackListStr += data.BlackPeople + ","
             if (data.BlackPeople == userId) {
                 $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
-                $(".brow").show();
-                $("#chat-tuxiang").hide();
+                $("#inputImage").attr("disabled", "disabled");
                 $("#SendMessageBtn").unbind();
-                $(".photo").unbind();
-                $(".deel .gray").text("已拉黑");
-                isEverlasting = 1;
+                $(".btn_face").unbind();
+            }
+            if (isAdmin == "True") {
+                var lis = $(".messageOption");
+                $(lis).each(function () {
+                    if ($(this).attr("data-UserId") == data.BlackPeople) {
+                        $(this).find(".defriend").text("已拉黑").removeClass("i_lh").addClass("i_ylh").unbind()
+                    }
+                })
             }
         }
 
         //获取历史聊天记录
         function getChatRecord(source) {
             if (isTop == true)
-                return;          
+                return;
             var guid;
             if ($("#ChatList").children().length == 0) {
                 guid = "";
@@ -238,10 +423,10 @@
                         isTop = true;
                     $(data.DataList).each(function () {
                         insertMessage(this, 2);
-                    });
+                    });                   
                     if (source == 0) {
-                        $('.main').scrollTop($('.main')[0].scrollHeight)
-                        setTimeout("$('.main').scrollTop($('.main')[0].scrollHeight)",200) ;
+                        $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)
+                        setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 200);
                     }
                 }
             });
@@ -249,45 +434,83 @@
 
         //插入聊天信息
         function insertMessage(data, insertType) { //insertType添加方式： 1:聊天  2:加载历史记录
-            var html = "";
 
-            html += "<li class='" + ((userId == data.UserId) ? "right" : "left") + " clearfix messageOption' id ='" + data.Guid + "' data-UserId='" + data.UserId +"'>";
-            html += "    <img src='" + data.PhotoImg + "' class='headicon'>";
-            html += "    <div class='chat_box'>";
-            html += "        <div class='inform'>";
-            if (data.IsAdmin) {
-                html += "        <span class='adm'>管理员</span>";
-            }
-            html += "            <span class='nickname'>" + data.UserName + "</span>";
-            html += "            <span class='time'>" + data.SendTimeStr + "</span>";
-            html += "        </div>";
+            var html = "";
+            var photoHtml = "";
+            var msgHtml = "";
+            var contentHtml = "";
+
+
             switch (data.MsgTypeChild) {
                 case 21:
-                    html += "   <div class='chat_t'>" + data.Content + "</div>";
+                    contentHtml += "<div class='c_main'>" + data.Content + "</div>";
                     break;
                 case 23:
-                    var message = "/images/emoji/qq/" + data.Content.substr(7, data.Content.length - 8) + ".gif";
-                    html += "    <div class='chat_t'><img src='" + message + "'></div>";
+                    var message = "/images/emoji/Face/" + data.Content.substr(7, data.Content.length - 8) + ".png";
+                    contentHtml += "<div class='c_main c_pic'>";
+                    contentHtml += "   <img src='" + message + "' alt='' class='img_pic'/>";
+                    contentHtml += "</div >";
                     break;
                 case 22:
-                    html += "    <div class='chat_t'><img src='" + data.Content + "' onclick='showBigImg(\"" + data.Content + "\")'></div>";
+                    var bigImg = data.Content.substr(0, data.Content.length - 8) + ".jpg"
+                    contentHtml += "<div class='c_main c_pic'>";
+                    contentHtml += "   <img src='" + data.Content + "' alt='' class='img_pic' data-pic='" + bigImg+"'/>";
+                    contentHtml += "</div >";
                     break;
             }
-            if (isAdmin == "True"){
-                html += "<div class='deel'>";
-                html += "   <span class='red' onclick = 'delMessage(this)'>删除</span>";
-                html += "   <span class='gray' onclick = 'blacklisted(this)'>" + (isEverlasting == 1 ? "已拉黑" :"拉黑")+"</span>";
-                html += "</div>";
-            }
-            html += "   </div>";
-            html += "</li>";
 
+
+            photoHtml += "    <div class='c_profile'>";
+            photoHtml += "        <img src='" + data.PhotoImg + "' alt='' />";
+            photoHtml += "    </div>";
+
+            msgHtml += "    <div class='c_cnt'>";
+            msgHtml += "        <h3>";
+            if (data.IsAdmin) {
+                msgHtml += "            <i class='i_tag'>管理员</i>";
+            }
+            msgHtml += "<span class='nickname'>"+data.UserName+"</span><s>" + data.SendTimeStr + "</s>";
+            msgHtml += "        </h3>";
+            if (isAdmin == "True" && data.UserId == userId) {
+                msgHtml += "        <div class='c_do'>";
+                msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";             
+                msgHtml += "        </div > ";
+            }
+            msgHtml += contentHtml;
+            if (isAdmin == "True" && data.UserId != userId) {
+                msgHtml += "        <div class='c_do'>";
+                msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
+                if (blackListStr.indexOf("," + data.UserId + ",") > -1) {
+                    msgHtml += "        <i class='i_ylh defriend'>已拉黑</i>";
+                }
+                else {
+                    msgHtml += "        <i class='i_lh defriend' onclick = 'blacklisted(this)'>拉黑</i>";
+                }
+                msgHtml += "        </div > ";
+            }
+            msgHtml += "    </div>";
+
+
+            html += "<div class='messageOption " + ((userId == data.UserId) ? "c_right" : "c_left") + "' id ='" + data.Guid + "' data-UserId='" + data.UserId +"'>";
+            if (userId == data.UserId) {
+                html += msgHtml;
+                html += photoHtml;
+            }
+            else {
+                html += photoHtml;
+                html += msgHtml;
+            }
+            html += "</div>";
+
+            html = unZipFace(html);
             if (insertType == 1) {
                 $("#ChatList").append(html);
             }
             else {
                 $("#ChatList").prepend(html);
             }
+
+            
         }
 
         //发送消息
@@ -297,17 +520,6 @@
                 $("#MessageContent").val("");
                 var guid = newGuid();
                 var message = message;
-
-                var obj = {};
-                obj.Content = message;
-                obj.UserId = userId;
-                obj.UserName = userName;
-                obj.PhotoImg = photoImg;
-                obj.RoomId = roomId;
-                obj.MsgTypeChild = 21;
-                obj.Guid = guid;
-                obj.IsAdmin = isAdmin;
-                addMessage(obj);
 
                 var data = {};
                 data.MsgType = 2;
@@ -336,6 +548,7 @@
             obj.guid = guid;
             obj.userId = userId;
             obj.userName = userName;
+            obj.roomId = roomId;
 
             $.post("/Talking/DelMessage", obj, function (data) { });
 
@@ -351,10 +564,6 @@
 
         //拉入黑名单
         function blacklisted(a) {
-            //如果已经拉黑
-            if (isEverlasting == 1) {
-                return false;
-            }
 
             var userId = $(a).closest(".messageOption").attr("data-UserId");
             var userName = $(a).closest(".messageOption").find(".nickname").text();
@@ -374,15 +583,6 @@
             if (ws.readyState == WebSocket.OPEN) {
                 ws.send(json);
             }
-        }
-
-        function showBigImg(url) {
-            $('.transparentBox').show()
-            $("#BigImg").attr("src", url.substr(0, url.length-8)+".jpg");
-        }
-
-        function hideBigImg() {
-            $('.transparentBox').hide()
         }
 
         function replaceAll(str) {
@@ -454,28 +654,19 @@
             var newUrl = canvas.toDataURL('image/jpeg', 0.92);//base64 格式
             //console.log(canvas.toDataURL('image/jpeg', 0.92));
             $.post("/Talking/SaveImg", { img: newUrl.replace("data:image/jpeg;base64,", "") }, function (data) {
-                var guid = newGuid();
-                var message = data ;
+                if (data.status == 1) {
+                    var guid = newGuid();
+                    var message = data.imgUrl;
 
-                var obj = {};
-                obj.Content = message;
-                obj.UserId = userId;
-                obj.UserName = userName;
-                obj.PhotoImg = photoImg;
-                obj.RoomId = roomId;
-                obj.MsgTypeChild = 22;
-                obj.Guid = guid;
-                obj.IsAdmin = isAdmin;
-                addMessage(obj);
-
-                var data2 = {};
-                data2.MsgType = 2;
-                data2.MsgTypeChild = 22;
-                data2.Content = message;
-                data2.Guid = guid;
-                var json = JSON.stringify(data2);
-                if (ws.readyState == WebSocket.OPEN) {
-                    ws.send(json);
+                    var data2 = {};
+                    data2.MsgType = 2;
+                    data2.MsgTypeChild = 22;
+                    data2.Content = message;
+                    data2.Guid = guid;
+                    var json = JSON.stringify(data2);
+                    if (ws.readyState == WebSocket.OPEN) {
+                        ws.send(json);
+                    }
                 }
             });
         };
