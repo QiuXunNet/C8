@@ -154,6 +154,7 @@
     <Content Include="css\jquery.emoji.css" />
     <Content Include="css\jquery.mCustomScrollbar.min.css" />
     <Content Include="css\mescroll.min.css" />
+    <Content Include="css\mui.min.css" />
     <Content Include="css\paper.css" />
     <Content Include="css\head.css" />
     <Content Include="css\style.css" />
@@ -660,10 +661,12 @@
     <Content Include="js\luo\picmax.js" />
     <Content Include="js\luo\plan.js" />
     <Content Include="js\luo\play.js" />
+    <Content Include="js\mui.min.js" />
     <Content Include="js\opendate.js" />
     <Content Include="js\public.js" />
     <Content Include="js\runTime2.js" />
     <Content Include="js\runTime3.js" />
+    <Content Include="js\test.js" />
     <Content Include="js\TouchSlide.1.1.js" />
     <Content Include="js\view.js" />
     <Content Include="js\yjp-old.js" />
@@ -745,6 +748,7 @@
     <Content Include="Views\Plan\Tip.cshtml" />
     <Content Include="Views\Personal\TransactionRecord.cshtml" />
     <Content Include="Views\Personal\TaskRule.cshtml" />
+    <Content Include="Views\Plan\PlanData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

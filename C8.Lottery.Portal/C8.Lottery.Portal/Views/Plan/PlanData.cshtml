@@ -1,0 +1,428 @@
+﻿@using C8.Lottery.Model
+@using C8.Lottery.Public
+@{
+    Layout = null;
+
+    int lType = ViewBag.lType;
+
+    List<Plan> list = ViewBag.list2;
+
+    string title = "计划-" + ViewBag.lotteryName;
+
+    List<Play> playList = ViewBag.PlayList;
+
+    string[] numArr = null;
+
+}
+
+@{
+    Layout = null;
+}
+
+@foreach (LotteryRecord record in ViewBag.list)
+                                {
+                                    var data = list.Where(p => p.Issue == record.Issue).OrderBy(p => p.Sort);
+                                    int count2 = -1;   //标志时时彩Sort
+
+                                    <div class="Mif_sykuai">
+
+                                        <table width="100%" border="1" bordercolor="#d9d9d9" class="Mif_syTable">
+                                            @*开奖信息*@
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" width="20%">
+                                                        <div>
+                                                            @if (lType == 63 || lType == 65 || lType < 9)
+                                                            {
+                                                                <span class="Mif_titred"><font>@record.Issue</font>期</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="Mif_titred"><font>@record.Issue.Substring(4)</font>期</span>
+                                                            }
+
+                                                        </div>
+                                                        <div>
+                                                            <font>@record.SubTime.ToString("HH:mm")</font>
+                                                        </div>
+                                                    </th>
+                                                    <th colspan="3" scope="col" align="left">
+                                                        <div class="Mif_Hao">
+
+
+                                                            @if (lType == 5)
+                                                            {
+                                                                int countFor62 = 0;
+
+                                                                foreach (string s in record.Num.Split(','))
+                                                                {
+                                                                    countFor62++;
+
+
+                                                                    string color = Util.GetColor(s);
+                                                                    string cl = "";
+                                                                    if (color == "red")
+                                                                    {
+                                                                        cl = "Mif_jgC Mif_jgCred";
+                                                                    }
+                                                                    else if (color == "green")
+                                                                    {
+                                                                        cl = "Mif_jgC Mif_jgCgreen";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        cl = "Mif_jgC Mif_jgCblue";
+                                                                    }
+
+                                                                    <span class="@cl">@s</span>
+
+                                                                    if (countFor62 == 6)
+                                                                    {
+                                                                        <span class="Mif_jgC">+</span>
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (string s in record.Num.Split(','))
+                                                                {
+                                                                    if (lType == 63 || lType == 64)
+                                                                    {
+                                                                        string clazz = "Mif_jgA Mif_jgA" + s;
+                                                                        <span class="@clazz">@s</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="Mif_jgB">@s</span>
+                                                                    }
+                                                                }
+                                                            }
+
+
+                                                        </div>
+
+
+                                                        @if ((lType >= 9 && lType < 38) || (lType >= 51 && lType < 60) || (lType >= 63 && lType < 65))
+                                                        {
+                                                            <div class="Mif_Hao" style="margin-top: 5px;">
+                                                                @foreach (string s in record.ShowInfo.Split(','))
+                                                                {
+                                                                    <span class="Mif_sp">@s</span>
+                                                                }
+                                                            </div>
+
+                                                        }
+                                                        else if (lType == 5)
+                                                        {
+                                                            int countFor63 = 0;
+
+                                                            <div class="Mif_Hao" style="margin-top: 5px;">
+                                                                @foreach (string s in record.ShowInfo.Split(','))
+                                                                {
+                                                                    countFor63++;
+                                                                    <span class="Mif_jgC">@s</span>
+                                                                    if (countFor63 == 6)
+                                                                    {
+                                                                        <span class="Mif_jgC">+</span>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        }
+
+                                                    </th>
+                                                </tr>
+                                            </thead>
+
+                                            @*预测号码*@
+                                            <tbody>
+
+                                                @if (lType >= 51 && lType < 60)
+                                                {
+                                                    //快乐十分
+                                                    foreach (Plan plan in data)
+                                                    {
+                                                        count2++;
+                                                        numArr = plan.Num.Split('|');
+                                                        string result = plan.Result;
+                                                        if (!string.IsNullOrEmpty(result))
+                                                        {
+                                                            string[] resultArr = result.Split('|');
+
+                                                            <tr>
+                                                                <td width="15%" align="center"><font>@plan.ShowSort</font></td>
+
+                                                                <td width="50%" align="left">
+
+                                                                    @if (resultArr[0] == "中")
+                                                                    {
+                                                                        @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <font>@numArr[0]</font>
+                                                                    }
+                                                                </td>
+                                                                <td width="15%" align="left">
+
+                                                                    <font>@numArr[1]</font>
+                                                                    @if (resultArr[1] == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+                                                                <td width="20%" align="left">
+
+                                                                    <font>@numArr[2]</font>
+                                                                    @if (resultArr[2] == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td width="15%" align="center"><font>@plan.ShowSort</font></td>
+                                                                <td width="50%" align="left"><font>@numArr[0]</font></td>
+                                                                <td width="15%" align="left"><font>@numArr[1]</font></td>
+                                                                <td width="20%" align="left"><font>@numArr[2]</font></td>
+                                                            </tr>
+                                                        }
+
+                                                    }
+                                                }
+                                                else if (lType == 2 || lType == 4 || lType == 8)
+                                                {
+                                                    //双色球
+                                                    foreach (Plan plan in data)
+                                                    {
+                                                        count2++;
+                                                        numArr = plan.Num.Split('|');
+                                                        string result = plan.Result;
+                                                        if (!string.IsNullOrEmpty(result))
+                                                        {
+                                                            string[] resultArr = result.Split('|');
+
+
+
+
+
+                                                            <tr>
+                                                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+
+
+                                                                <td width="40%" align="left">
+
+                                                                    <font>@numArr[0]</font>
+                                                                    @if (resultArr[0] == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+                                                                <td width="40%" align="left">
+
+                                                                    <font>@numArr[1]</font>
+                                                                    @if (resultArr[1] == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                                                <td width="40%" align="left"><font>@numArr[0]</font></td>
+                                                                <td width="40%" align="left"><font>@numArr[1]</font></td>
+                                                            </tr>
+                                                        }
+
+                                                    }
+                                                }
+                                                else if (lType == 5)
+                                                {
+                                                    //六合彩
+                                                    foreach (Plan plan in data)
+                                                    {
+
+                                                        <tr>
+                                                            <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                                            <td width="50%" align="left">
+                                                                <font>@Html.Raw(Util.HandWinNumColorFor6(plan.Num, record.Num, plan.Sort))</font>
+                                                            </td>
+
+                                                            <td width="30%" align="center">
+                                                                @if (plan.Result == "中")
+                                                                {
+                                                                    <font class="Mif_red">(中)</font>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else if (lType == 63 || lType == 64)
+                                                {
+
+                                                    //北京赛车
+                                                    foreach (Plan plan in data)
+                                                    {
+                                                        count2++;
+                                                        numArr = plan.Num.Split('|');
+                                                        string result = plan.Result;
+                                                        if (!string.IsNullOrEmpty(result))
+                                                        {
+                                                            string[] resultArr = result.Split('|');
+                                                            <tr>
+                                                                <td width="20%" align="center">
+                                                                    @if (plan.ShowSort == "冠军" || plan.ShowSort == "亚军")
+                                                                    {
+                                                                        <font class="Mif_titred">@plan.ShowSort</font>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <font>@plan.ShowSort</font>
+                                                                    }
+                                                                </td>
+
+                                                                <td width="40%" align="left">
+                                                                    @if (resultArr[0] == "中")
+                                                                    {
+                                                                        @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <font>@numArr[0]</font>
+                                                                    }
+                                                                </td>
+                                                                <td width="20%" align="left">
+
+                                                                    <font>@numArr[1]</font>
+                                                                    @if (resultArr[1] == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+                                                                <td width="20%" align="left">
+
+                                                                    <font>@numArr[2]</font>
+                                                                    @if (resultArr[2] == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+
+                                                            </tr>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td width="20%" align="center">
+                                                                    @if (plan.ShowSort == "冠军" || plan.ShowSort == "亚军")
+                                                                    {
+                                                                        <font class="Mif_titred">@plan.ShowSort</font>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <font>@plan.ShowSort</font>
+                                                                    }
+                                                                </td>
+
+                                                                <td width="40%" align="left"><font>@numArr[0]</font></td>
+                                                                <td width="20%" align="left"><font>@numArr[1]</font></td>
+                                                                <td width="20%" align="left"><font>@numArr[2]</font></td>
+
+
+                                                            </tr>
+                                                        }
+
+                                                    }
+                                                }
+                                                else
+                                                {
+
+
+                                                    //重庆时时彩 11选5
+                                                    foreach (Plan plan in data)
+                                                    {
+                                                        count2++;
+
+
+                                                        if (count2 < 5)
+                                                        {
+                                                            numArr = plan.Num.Split('|');
+                                                            string result = plan.Result;
+                                                            if (!string.IsNullOrEmpty(result))
+                                                            {
+                                                                string[] resultArr = result.Split('|');
+
+                                                                <tr>
+                                                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                                                    <td width="40%" align="left">
+                                                                        @if (resultArr[0] == "中")
+                                                                        {
+                                                                            @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
+                                                                            <font class="Mif_red">(中)</font>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <font>@numArr[0]</font>
+                                                                        }
+                                                                    </td>
+                                                                    <td width="20%" align="left">
+                                                                        <font>@numArr[1]</font>
+                                                                        @if (resultArr[1] == "中")
+                                                                        {
+                                                                            <font class="Mif_red">(中)</font>
+                                                                        }
+                                                                    </td>
+                                                                    <td width="20%" align="left">
+                                                                        <font>@numArr[2]</font>
+                                                                        @if (resultArr[2] == "中")
+                                                                        {
+                                                                            <font class="Mif_red">(中)</font>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr>
+                                                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                                                    <td width="40%" align="left"><font>@numArr[0]</font></td>
+                                                                    <td width="20%" align="left"><font>@numArr[1]</font></td>
+                                                                    <td width="20%" align="left"><font>@numArr[2]</font></td>
+                                                                </tr>
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td align="center"><font>@plan.ShowSort</font></td>
+                                                                <td colspan="3" align="center">
+                                                                    <font>@plan.Num</font>
+                                                                    @if (plan.Result == "中")
+                                                                    {
+                                                                        <font class="Mif_red">(中)</font>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                }

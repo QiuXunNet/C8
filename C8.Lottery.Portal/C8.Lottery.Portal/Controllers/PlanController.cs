@@ -94,6 +94,41 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
+
+
+        //官方推荐数据
+        public ActionResult PlanData(int id, int pageIndex = 1, int pageSize = 10)
+        {
+
+            int lType = id;
+            ViewBag.lType = lType;
+
+
+            //1.获取数据
+            int count = Util.GetGFTJCount(lType);
+            int totalSize = (pageSize + 1) * count;
+
+
+            string sql = "select top " + totalSize + " temp.* from ( select row_number() over(order by Id desc) as rownumber,* from [Plan] where lType = " + lType + ")as temp where rownumber>" + ((pageIndex - 1) * totalSize);
+            ViewBag.list2 = Util.ReaderToList<Plan>(sql);        //计划列表
+
+
+
+            //2.取最新10期开奖号
+            string pageSql = "select top " + pageSize + " temp.* from ( select row_number() over(order by Id desc) as rownumber,* from LotteryRecord where lType = " + lType + ")as temp where rownumber>" + ((pageIndex - 1) * pageSize);
+            ViewBag.list = Util.ReaderToList<LotteryRecord>(pageSql);
+
+
+
+            return View();
+        }
+
+
+
+
+
+
+
         public ActionResult GetOpenRemainingTime(int lType)
         {
             string result = Util.GetOpenRemainingTime(lType);
