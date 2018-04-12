@@ -669,8 +669,8 @@ WHERE Rank BETWEEN @Start AND @End";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 where
-FollowTime>=convert(varchar(10),Getdate(),120) and FollowTime<convert(varchar(10),dateadd(d,1,Getdate()),120)
-group by Followed_UserId,Name,RPath
+   year(FollowTime)=year(getdate()) and day(FollowTime)=day(getdate())-1 
+  group by Followed_UserId,Name,RPath
 )t
 where t.Followed_UserId=@Followed_UserId";
             }
@@ -681,7 +681,7 @@ where t.Followed_UserId=@Followed_UserId";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 
-where year(FollowTime)=year(getdate()) 
+where year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
 group by datename(week,FollowTime), Followed_UserId,Name,RPath
 )t
 WHERE t.Followed_UserId=@Followed_UserId";
@@ -694,7 +694,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 
-where year(FollowTime)=year(getdate()) 
+where year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1 
 
 group by month(FollowTime), Followed_UserId,Name,RPath
 
