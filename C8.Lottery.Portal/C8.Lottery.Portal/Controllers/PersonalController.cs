@@ -824,8 +824,10 @@ WHERE t.Followed_UserId=@Followed_UserId";
             var loginUserId = UserHelper.LoginUser.Id;
 
             #region 添加访问记录
-            //TODO:添加访问记录
-            string visitSql = @"
+
+            if (loginUserId != id)
+            {
+                string visitSql = @"
       if exists
       (
         select 1 from [dbo].[AccessRecord] where UserId = @UserId and RespondentsUserId = @RespondentsUserId and Module=@Module and Datediff(day,AccessDate,GETDATE())=0
@@ -838,14 +840,16 @@ WHERE t.Followed_UserId=@Followed_UserId";
       insert into  [dbo].[AccessRecord] (UserId,RespondentsUserId,Module,AccessTime,AccessDate) values(@UserId,@RespondentsUserId,@Module,GETDATE(),GETDATE())
       end";
 
-            var sqlParameter = new[]
-            {
-                new SqlParameter("@UserId",loginUserId),
-                new SqlParameter("@RespondentsUserId",id),
-                new SqlParameter("@Module",1) //默认访问主页
-            };
+                var sqlParameter = new[]
+                {
+                    new SqlParameter("@UserId", loginUserId),
+                    new SqlParameter("@RespondentsUserId", id),
+                    new SqlParameter("@Module", 1) //默认访问主页
+                };
 
-            SqlHelper.ExecuteNonQuery(visitSql, sqlParameter);
+                SqlHelper.ExecuteNonQuery(visitSql, sqlParameter);
+            }
+
             #endregion
 
             //查询是否存在当前用户对受访人的已关注记录 Status=1:已关注
@@ -1027,7 +1031,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string sql = @"SELECT * FROM (
 	  select row_number() over(order by SubTime DESC ) as rowNumber,a.Id,a.UserId,a.Module,a.AccessTime,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater from  [dbo].[AccessRecord] a
 	  left join UserInfo b on b.Id=a.UserId
-	  left join ResourceMapping c on c.Id=a.UserId and c.[Type]=@ResourceType
+	  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
 	  where a.RespondentsUserId=@RespondentsUserId
 ) tt
 WHERE rowNumber BETWEEN @Start AND @End";
