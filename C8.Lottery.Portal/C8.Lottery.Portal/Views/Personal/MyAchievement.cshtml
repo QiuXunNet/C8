@@ -260,24 +260,41 @@
                         var issym = item.BettingRecord[j].WinState == 3 ? "+" : "";
                         var redwin = '';
                         var mynum = item.BettingRecord[j].BetNum;
-                        if (item.BettingRecord[j].WinState == 3) {
+                        if (item.BettingRecord[j].WinState == 3)
+                        {
                             var mynum = item.BettingRecord[j].BetNum;
                             var mynumsplit = item.BettingRecord[j].BetNum.split(',');
+                         
                             for (var x = 0; x < mynumsplit.length; x++)
                             {
                                 var z = getwanfa(item.BettingRecord[j].PlayName);
                                 
-                                if (z == -1) {
-                                    if (item.LotteryNum.Num.indexOf(mynumsplit[x]) >= 0)
+                                if (z == -1)
+                                {
+                                    var ltnum = item.LotteryNum.Num;
+                                    if (item.BettingRecord[j].PlayName == "平特一肖")
                                     {
-                                        
+                                        ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
+                                    }
+
+                                    if (ltnum.indexOf(mynumsplit[x]) >= 0)
+                                    {
+                                       
                                         mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
                                     }
                                 } else {
-                                    if (item.LotteryNum.Num.substring(z, 1) == mynumsplit[x])
+                                    var lonum = item.LotteryNum.Num.split(',');
+                              
+                                    if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特")
                                     {
-                                        
-                                        mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                        lonum[z] = getShengxiaoByDigit(lonum[z]);
+                                    }
+                                  
+                                    if (lonum[z] == mynumsplit[x])
+                                    {
+                                      
+                                       mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+
                                     }
                                 }
                              
@@ -294,7 +311,8 @@
                     var cl = "hdM_spssc";
                     //   console.log(item.BettingRecord[i].lType);
 
-                    if (ltype == 5) {
+                    if (ltype == 5)
+                    {
                         cl1 = "Forecast_LHC";
                         var color = getcolor(num[i]);
 
@@ -309,10 +327,12 @@
                         }
                         //   kjhtml1 += '<span class="LHC_spA">' + num[i] + '</span>'
 
-                        if (i == num.length - 2) {
+                        if (i == num.length - 2)
+                        {
                             kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '+</span>'
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span><span>+</span>'
-                        } else {
+                        } else
+                        {
                             kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '</span>'
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
                         }
@@ -410,7 +430,8 @@
                 i = 4;
             } else if (playName == "第六球五码" || playName == "第六名五码") {
                 i = 5;
-            } else if (playName == "第七球五码" || playName == "第七名五码") {
+            } else if (playName == "第七球五码" || playName == "第七名五码" || playName == "十码中特" || playName == "二十码中特" || playName == "四肖中特" || playName == "六肖中特")
+            {
                 i = 6;
             } else if (playName == "第八球五码" || playName == "第八名五码") {
                 i = 7;
