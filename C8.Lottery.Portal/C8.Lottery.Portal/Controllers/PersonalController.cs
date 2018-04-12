@@ -157,7 +157,7 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == 1)
                 {
                     strsql = "  Name=@value ";
-                    user.Name = value;      
+                    user.Name = value;
 
                 }
                 else if (type == 2)
@@ -171,9 +171,9 @@ namespace C8.Lottery.Portal.Controllers
                     user.Sex = Convert.ToInt32(value);
                 }
                 string usersql = "update  UserInfo set  " + strsql + "      where  Mobile=@Mobile";
-             
+
                 string namesql = "select count(1) from UserInfo where Name=@value";
-              
+
                 SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@value",value),
                 new SqlParameter("@Mobile",user.Mobile)
@@ -181,16 +181,17 @@ namespace C8.Lottery.Portal.Controllers
                 };
                 if (type == 1)
                 {
-                    int count =Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
+                    int count = Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
                     if (count > 0)
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "该昵称已存在";
                         return Json(jsonmsg);
-                    }else
+                    }
+                    else
                     {
                         bool iscz = Tool.CheckSensitiveWords(value);
-                        if (iscz==true)
+                        if (iscz == true)
                         {
                             jsonmsg.Success = false;
                             jsonmsg.Msg = "该昵称包含敏感字符";
@@ -198,7 +199,7 @@ namespace C8.Lottery.Portal.Controllers
                         }
                     }
                 }
-   
+
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
                 if (data > 0)
                 {
@@ -429,17 +430,26 @@ where RowNumber BETWEEN @Start AND @End ";
                 new SqlParameter("@UserId",UserId),
                 new SqlParameter("@Followed_UserId",followed_userId)
                 };
-                int data = SqlHelper.ExecuteNonQuery(strsql, sp);
-                if (data > 0)
+                if (UserId == followed_userId)
                 {
-                    jsonmsg.Msg = "ok";
-                    jsonmsg.Success = true;
+                    jsonmsg.Msg = "自己不能关注自己";
+                    jsonmsg.Success = false;
                 }
                 else
                 {
-                    jsonmsg.Msg = "fail";
-                    jsonmsg.Success = false;
+                    int data = SqlHelper.ExecuteNonQuery(strsql, sp);
+                    if (data > 0)
+                    {
+                        jsonmsg.Msg = "ok";
+                        jsonmsg.Success = true;
+                    }
+                    else
+                    {
+                        jsonmsg.Msg = "fail";
+                        jsonmsg.Success = false;
+                    }
                 }
+               
 
 
             }
@@ -814,8 +824,10 @@ WHERE t.Followed_UserId=@Followed_UserId";
             var loginUserId = UserHelper.LoginUser.Id;
 
             #region 添加访问记录
-            //TODO:添加访问记录
-            string visitSql = @"
+
+            if (loginUserId != id)
+            {
+                string visitSql = @"
       if exists
       (
         select 1 from [dbo].[AccessRecord] where UserId = @UserId and RespondentsUserId = @RespondentsUserId and Module=@Module and Datediff(day,AccessDate,GETDATE())=0
@@ -828,14 +840,16 @@ WHERE t.Followed_UserId=@Followed_UserId";
       insert into  [dbo].[AccessRecord] (UserId,RespondentsUserId,Module,AccessTime,AccessDate) values(@UserId,@RespondentsUserId,@Module,GETDATE(),GETDATE())
       end";
 
-            var sqlParameter = new[]
-            {
-                new SqlParameter("@UserId",loginUserId),
-                new SqlParameter("@RespondentsUserId",id),
-                new SqlParameter("@Module",1) //默认访问主页
-            };
+                var sqlParameter = new[]
+                {
+                    new SqlParameter("@UserId", loginUserId),
+                    new SqlParameter("@RespondentsUserId", id),
+                    new SqlParameter("@Module", 1) //默认访问主页
+                };
 
-            SqlHelper.ExecuteNonQuery(visitSql, sqlParameter);
+                SqlHelper.ExecuteNonQuery(visitSql, sqlParameter);
+            }
+
             #endregion
 
             //查询是否存在当前用户对受访人的已关注记录 Status=1:已关注
@@ -978,7 +992,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
 
                     var info = GetLotteryTypeName(x.Type, x.ArticleId);
-                    x.LotteryTypeName = info.TypeName;
+
+                    x.LotteryTypeName = info == null ? "" : info.TypeName;
                 });
 
                 string countSql = "SELECT count(1) FROM Comment WHERE IsDeleted=0 AND UserId=" + uid;
@@ -1016,7 +1031,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string sql = @"SELECT * FROM (
 	  select row_number() over(order by SubTime DESC ) as rowNumber,a.Id,a.UserId,a.Module,a.AccessTime,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater from  [dbo].[AccessRecord] a
 	  left join UserInfo b on b.Id=a.UserId
-	  left join ResourceMapping c on c.Id=a.UserId and c.[Type]=@ResourceType
+	  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
 	  where a.RespondentsUserId=@RespondentsUserId
 ) tt
 WHERE rowNumber BETWEEN @Start AND @End";
@@ -1435,7 +1450,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string IntegralRulesql = @"select * from IntegralRule";
                 List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
                 model.LotteryType = LotteryTypelist;
-                model.Lottery = Lotterylist;           
+                model.Lottery = Lotterylist;
                 model.IntegralRule = IntegralRuleList;
 
 
@@ -1870,6 +1885,16 @@ on c.OrderId=b.Id
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        /// <summary>
+        /// 佣金规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CommissionRules()
+        {
+            return View();
+        }
     }
 }
 
