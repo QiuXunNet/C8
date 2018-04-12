@@ -76,11 +76,11 @@
             $.each(data.PageData, function (index, value) {
                 console.log(value.Headpath);
 
-                var dl = "<dl class='details_DL'><dt><a href='/Personal/UserCenter/" + value.UserId + "'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
+                var dl = "<dl class='details_DL'><dt><a href='/Personal/UserCenter/" + value.Followed_UserId + "'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
                          + "<dd>"
                          + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.Followed_UserId + ")'> <p class='fans_Qxgz'>取消关注</p></div>"
                          + "<div class='details_ddLeft'>"
-                         + "<h3><a href='/Personal/UserCenter/" + value.UserId + "'>" + value.Nickname + "</a></h3>"
+                         + "<h3><a href='/Personal/UserCenter/" + value.Followed_UserId + "'>" + value.Nickname + "</a></h3>"
                          + "<p>" + value.Autograph + "</p>"
                          + "</div> </dd> </dl>";
 

@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class="guessing_content hjc_indexmain" style="margin-top:90px;height:100%">
+    <div class="guessing_content hjc_indexmain" style="margin-top:90px;">
         
     
        @if (Model != null)
@@ -116,7 +116,9 @@
     <script type="text/javascript">
         $(function () {
             var curNavIndex = 1;
-             var mescrollArr = new Array(17);
+            var mescrollArr = new Array(17);
+            var dh = $(document).height() - 200;
+            $(".guessing_content").height(dh);
              mescrollArr[curNavIndex] = initMescroll("mescroll1", "datalist1");
 
             function pager(obj) {
@@ -175,7 +177,7 @@
                         noMoreSize: 1,
                         empty: {
                             icon: "/images/null.png",
-                            tip: "暂无计划~",
+                            tip: "暂无相关数据~",
                             //btntext: "去逛逛 >", //按钮,默认""
                             //btnClick: function() {
                             //    alertmsg("去逛逛");

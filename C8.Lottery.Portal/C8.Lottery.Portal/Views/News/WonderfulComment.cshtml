@@ -58,6 +58,13 @@
                             </a>
                             <a href="/Comment/Index/@comment.Id?ctype=2&type=@ViewBag.Type" class="comp_HF"><img src="/images/46_3.png"></a>
                         </div>
+
+                        @if (comment.ReplayCount > 0)
+                        {
+                            <div class="comp_replay">
+                                <a href="/News/CommentDetail/@comment.Id">查看全部<span>@comment.ReplayCount</span>条回复>></a>
+                            </div>
+                        }
                     </li>
                 }
             </ul>

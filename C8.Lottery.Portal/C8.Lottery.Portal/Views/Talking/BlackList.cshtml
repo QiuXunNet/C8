@@ -121,7 +121,7 @@
                         html += "<li id="+this.Id+">";
                         html += "   <img src=" + (this.PhotoImg == null ? "/images/default_avater.png" : this.PhotoImg) + " />";
                         html += "   <span>" + this.UserName + "</span>";
-                        html += "   <input type='button' onclick = 'removeBlackList(this)' data-UserId=" + this.UserId + " data-RoomId=" + this .RoomId + " value='解禁' />";
+                        html += "   <input type='button' onclick = 'removeBlackList(this)' data-UserName ='" + this.UserName+"' data-UserId='" + this.UserId + "' data-RoomId='" + this .RoomId + "' value='解禁' />";
                         html += "</li>";
                     });
                     $(".ul_blacklist").append(html);
@@ -132,10 +132,12 @@
         function removeBlackList(t) {
             var userId = $(t).attr("data-UserId");
             var roomId = $(t).attr("data-RoomId");
+            var userName = $(t).attr("data-UserName");
 
             var obj = {};
             obj.userId = userId;
             obj.roomId = roomId;
+            obj.userName = userName;
 
             $.post("/Talking/RemoveBlackList", obj, function (data) {
                 if (data.Status == 1) {
