@@ -814,6 +814,9 @@ WHERE t.Followed_UserId=@Followed_UserId";
         {
             var loginUserId = UserHelper.LoginUser.Id;
 
+            bool showFollow = false;
+
+            ViewBag.Followed = false;
             #region 添加访问记录
 
             if (loginUserId != id)
@@ -839,17 +842,24 @@ WHERE t.Followed_UserId=@Followed_UserId";
                 };
 
                 SqlHelper.ExecuteNonQuery(visitSql, sqlParameter);
+
+                //查询是否存在当前用户对受访人的已关注记录 Status=1:已关注
+                string sql = "select count(1) from [dbo].[Follow] where [Status]=1 and [UserId]=" + loginUserId +
+                             " and [Followed_UserId]=" + id;
+
+                object obj = SqlHelper.ExecuteScalar(sql);
+
+                ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
+
+
+                showFollow = true;
+
             }
+            ViewBag.ShowFollow = showFollow;
 
             #endregion
 
-            //查询是否存在当前用户对受访人的已关注记录 Status=1:已关注
-            string sql = "select count(1) from [dbo].[Follow] where [Status]=1 and [UserId]=" + loginUserId +
-                         " and [Followed_UserId]=" + id;
 
-            object obj = SqlHelper.ExecuteScalar(sql);
-
-            ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
 
             var model = UserHelper.GetUser(id);
             return View(model);

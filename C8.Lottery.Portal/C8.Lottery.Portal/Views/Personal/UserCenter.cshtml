@@ -60,13 +60,17 @@
                         <img src="/images/37_1.png">
                     }
                 </span>
-                @if (followed)
+                
+                @if (ViewBag.ShowFollow)
                 {
-                    <a href="javascript:follow(@Model.Id);" data-type="1" class="Other_Gz" id="follow">已关注</a>
-                }
-                else
-                {
-                    <a href="javascript:follow(@Model.Id);" data-type="0" class="Other_Gz" id="follow">关注</a>
+                    if (followed)
+                     {
+                         <a href="javascript:follow(@Model.Id);" data-type="1" class="Other_Gz" id="follow">已关注</a>
+                     }
+                     else
+                     {
+                         <a href="javascript:follow(@Model.Id);" data-type="0" class="Other_Gz" id="follow">关注</a>
+                     }
                 }
             </div>
             <div class="Other_hdIf1Font">
@@ -260,7 +264,7 @@
                         + '<dd>';
                     if (item.WinState == 1) {
                         itemHtml += '<div class="Other_TIR"><p><strong class="sion_strH">未开奖</strong></p></div>';
-                    } else if (item.WinState == 3 || item.WinState == 4) {
+                    } else if (item.WinState == 2) {
                         itemHtml += '<div class="Other_TIR"><p>已开奖</p></div>';
                     }
                     itemHtml += '<div class="Other_TIddL">'

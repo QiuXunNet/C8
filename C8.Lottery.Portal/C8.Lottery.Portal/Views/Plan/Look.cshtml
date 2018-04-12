@@ -25,15 +25,12 @@
     <body style="background:#fff;">
         <input type="hidden" id="lType" value="@lType" />
 
-        <header class="Header_header">
-            <h3 class="Hh_title">@ViewBag.siteTitle</h3>
-            <a href="/Plan/SSC" class="Hh_back"></a>
-        
-        
-
+        <header class="hjc_header">
+            <h3 class="hjc_logo">@ViewBag.siteTitle</h3>
+            <a  href="javascript:history.go(-1);" class="hjc_back"></a>
         </header>
 
-        <div class="Plan_header">
+        <div class="Plan_header" style="margin-top: 50px;">
 
             <dl class="Plan_hdCZ">
                 <dt><img src="/images/@ViewBag.icon"></dt>
