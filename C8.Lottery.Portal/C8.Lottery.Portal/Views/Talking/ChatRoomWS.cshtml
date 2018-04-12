@@ -274,6 +274,7 @@
             }
         });
 
+        //成功连接方法
         function wsOnopen() {
             if (isLink == false) {
                 alert("连接成功");
@@ -286,6 +287,7 @@
             linkNum = 0;
         }
 
+        //收到信息推送方法
         function wsOnmessage(evt) {
             var msg = evt.data;
             var data = eval("(" + msg + ")");
@@ -297,6 +299,9 @@
                     break;
                 case 12: //拉黑命令
                     blacklisted2(data);
+                    break;
+                case 13: //全部删除
+                    delMessageAll2(data);
                     break;
                 case 21: //文字消息
                 case 22: //图片消息
@@ -319,9 +324,11 @@
             }
         }
 
+        //发送失败方法
         function wsOnerror() {
         }
 
+        //连接被关闭方法
         function wsOnclose() {
             isLink = false;
             setTimeout("reconnection()", 2000);
@@ -405,6 +412,16 @@
             }
         }
 
+        //回调删除全部方法
+        function delMessageAll2(data) {
+            var userId = data.BlackPeople;
+            $(".messageOption").each(function () {
+                if ($(this).attr("data-UserId") == userId) {
+                    $(this).remove();
+                }
+            });
+        }
+
         //获取历史聊天记录
         function getChatRecord(source) {
             if (isTop == true)
@@ -480,6 +497,7 @@
             if (isAdmin == "True" && data.UserId != userId) {
                 msgHtml += "        <div class='c_do'>";
                 msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
+                msgHtml += "            <i class='i_mv' onclick = 'delMessageAll(this)' > 全删</i>";
                 if (blackListStr.indexOf("," + data.UserId + ",") > -1) {
                     msgHtml += "        <i class='i_ylh defriend'>已拉黑</i>";
                 }
@@ -556,6 +574,28 @@
             data.MsgType = 1;
             data.MsgTypeChild = 11;
             data.Guid = guid;
+            var json = JSON.stringify(data);
+            if (ws.readyState == WebSocket.OPEN) {
+                ws.send(json);
+            }
+        }
+
+        function delMessageAll(a) {
+            var guid = $(a).closest(".messageOption").attr("id");
+            var userId = $(a).closest(".messageOption").attr("data-UserId");
+            var userName = $(a).closest(".messageOption").find(".nickname").text();
+
+            var obj = {};            
+            obj.userId = userId;
+            obj.userName = userName;
+            obj.roomId = roomId;
+
+            $.post("/Talking/DelMessageAll", obj, function (data) { });
+
+            var data = {};
+            data.MsgType = 1;
+            data.MsgTypeChild = 13;
+            data.BlackPeople = userId; //被删除人Id
             var json = JSON.stringify(data);
             if (ws.readyState == WebSocket.OPEN) {
                 ws.send(json);
@@ -654,7 +694,7 @@
             var newUrl = canvas.toDataURL('image/jpeg', 0.92);//base64 格式
             //console.log(canvas.toDataURL('image/jpeg', 0.92));
             $.post("/Talking/SaveImg", { img: newUrl.replace("data:image/jpeg;base64,", "") }, function (data) {
-                if (data.status == 1) {
+                if (data.Status == 1) {
                     var guid = newGuid();
                     var message = data.imgUrl;
 

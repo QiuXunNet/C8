@@ -15,22 +15,24 @@
     <!--页面内容-->
     <div class="layout">
         @*<header class="topBarBox">
-            <div class="topBar topBar_record">
-                <a href="/Talking/ChatRoom/@ViewBag.RoomId" class="a_back"></a>
-                <h3>
-                    <p class="title">处理记录</p>
-                </h3>
-                <a href="/Talking/BlackList/@ViewBag.RoomId" class="a_gl">拉黑列表</a>
-            </div>
-        </header>*@
+                <div class="topBar topBar_record">
+                    <a href="/Talking/ChatRoom/@ViewBag.RoomId" class="a_back"></a>
+                    <h3>
+                        <p class="title">处理记录</p>
+                    </h3>
+                    <a href="/Talking/BlackList/@ViewBag.RoomId" class="a_gl">拉黑列表</a>
+                </div>
+            </header>*@
 
         <header class="header">
             <a href="/Talking/ChatRoom/@ViewBag.RoomId" class="a_back"></a>
             <div class="h_title">
                 <h1>处理记录</h1>
             </div>
-            
-            <a href="/Talking/BlackList/@ViewBag.RoomId" class="a_gl" style="width:auto;margin-right: 10px; right: 0;">拉黑列表</a>
+            @if (ViewBag.IsAdmin == true)
+            {
+                <a href="/Talking/BlackList/@ViewBag.RoomId" class="a_gl" style="width:auto;margin-right: 10px; right: 0;">拉黑列表</a>
+            }
         </header>
         <main class="main" id="main">
         </main>
@@ -50,7 +52,7 @@
             //滚动条滚动事件
             $("#main").bind("scroll", function () {
                 if ($("#main")[0].scrollHeight - $("#main")[0].scrollTop == $("#main").height() && !isBottom) {
-                    getProcessingRecords();                  
+                    getProcessingRecords();
                 }
             });
         });
