@@ -30,6 +30,8 @@
             var dataname = "全部";
             var _ltype = index;
             $(".wrapper-container .Grades_" + index).show().siblings().hide();
+            var dh = $(document.body).height() - $(".gaoshou").height() - $(".Grades_TopNav").height()-70;
+            $(".Grades_CBInfo").height(dh);
 
             var curNavIndex = "110";
             var mescrollArr = new Array(length);
@@ -261,12 +263,24 @@
                         if (item.BettingRecord[j].WinState == 3) {
                             var mynum = item.BettingRecord[j].BetNum;
                             var mynumsplit = item.BettingRecord[j].BetNum.split(',');
-                            for (var x = 0; x < mynumsplit.length; x++) {
-
-                                if (item.LotteryNum.Num.indexOf(mynumsplit[x]) >= 0) {
-
-                                    mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                            for (var x = 0; x < mynumsplit.length; x++)
+                            {
+                                var z = getwanfa(item.BettingRecord[j].PlayName);
+                                
+                                if (z == -1) {
+                                    if (item.LotteryNum.Num.indexOf(mynumsplit[x]) >= 0)
+                                    {
+                                        
+                                        mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                    }
+                                } else {
+                                    if (item.LotteryNum.Num.substring(z, 1) == mynumsplit[x])
+                                    {
+                                        
+                                        mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                    }
                                 }
+                             
                             }
                         }
                         bethtml += '<tr><td align="center" valign="middle" width="25%"><p>' + item.BettingRecord[j].PlayName + '</p> </td>'
@@ -379,6 +393,35 @@
             return result;
         }
 
+        function getwanfa(playName)
+        {
+            var i=-1;
+            if (playName == "第一球五码" || playName == "冠军五码")
+            {
+                i = 0;
+            } else if (playName == "第二球五码" || playName == "第二名五码")
+            {
+                i = 1;
+            } else if (playName == "第三球五码" || playName == "第三名五码") {
+                i = 2;
+            } else if (playName == "第四球五码" || playName == "第四名五码") {
+                i = 3;
+            } else if (playName == "第五球五码" || playName == "第五名五码") {
+                i = 4;
+            } else if (playName == "第六球五码" || playName == "第六名五码") {
+                i = 5;
+            } else if (playName == "第七球五码" || playName == "第七名五码") {
+                i = 6;
+            } else if (playName == "第八球五码" || playName == "第八名五码") {
+                i = 7;
+            } else if (playName == "第九球五码" || playName == "第九名五码") {
+                i = 8;
+            } else if (playName == "第十球五码" || playName == "第十名五码") {
+                i = 9;
+            }
+            return i;
+        }
+
 
 
 
@@ -387,7 +430,7 @@
 </head>
 
 
-<body style="background:#F4F4F5;">
+<body style="background:#F4F4F5;overflow-y:hidden;">
 
     <header class="hjc_header">
         <a href="/Personal/Index" class="hjc_back"></a>
