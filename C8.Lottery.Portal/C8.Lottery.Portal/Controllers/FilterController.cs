@@ -20,11 +20,11 @@ namespace C8.Lottery.Portal.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-
-            string sessionId = Request["UserId"];
+            
+            string sessionId =Convert.ToString(Request.Cookies["UserId"].Value);
             string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
             bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
-
+         
             if (string.IsNullOrEmpty(sessionId))
             {
                 if (isAjaxRequest)
