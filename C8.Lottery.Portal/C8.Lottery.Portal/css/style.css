@@ -8153,8 +8153,9 @@ footer {
     height: 13px;
     background: url(../images/05.png) no-repeat;
     background-size: 8px;
-    position: absolute;
+    position: relative;
     right: 10px;
+    float: right;
 }
 
 

@@ -1178,13 +1178,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
                         var comment = GetComment(x.PId);
                         x.MyContent = comment.Content;
                     }
-                    else
-                    {
+                    var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                    x.LotteryTypeName = info.TypeName ?? "";
+                    x.RefNickName = info.NickName;
 
-                        var info = GetLotteryTypeName(x.Type, x.ArticleId);
-                        x.LotteryTypeName = info.TypeName ?? "";
-                        x.RefNickName = info.NickName;
-                    }
                     if (string.IsNullOrEmpty(x.FromAvater))
                     {
                         x.FromAvater = "/images/default_avater.png";
