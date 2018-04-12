@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
@@ -54,8 +55,8 @@ namespace C8.Lottery.Portal.Controllers
         {
             var result = new AjaxResult();
 
-            #region 黑名单和禁言验证
-
+            #region step1.黑名单和禁言验证
+            //step1.黑名单和禁言验证
             string validateSql = @"select count(1) from [dbo].[UserState]
 	  where ([CommentBlack]=1 or ([CommentShut]=1 and GETDATE() between [CommentShutBegin] and [CommentShutEnd])) and UserId=" +
                 UserHelper.LoginUser.Id;
@@ -69,119 +70,95 @@ namespace C8.Lottery.Portal.Controllers
 
             #endregion
 
-            
-            //去Html标签
-            content = WebHelper.NoHtml(content);
-            //脏字过滤
-            content = WebHelper.FilterSensitiveWords(content);
+            #region step2.评论/回复对象是否存在
 
-            string sql = @"INSERT INTO [dbo].[Comment]
-           ([PId]
-           ,[UserId]
-           ,[Content]
-           ,[SubTime]
-           ,[Type]
-           ,[ArticleId]
-           ,[StarCount]
-           ,[IsDeleted]
-           ,[RefCommentId])
-     VALUES
-           (@PId
-           ,@UserId
-           ,@Content
-           ,GETDATE()
-           ,@Type
-           ,@ArticleId
-           ,0
-           ,0
-           ,@RefCommentId)";
-            SqlParameter[] parameters = null;
+            long refId = 0;
+            long pid = 0;
+            long refCommentId = 0;
+
             if (ctype == 1)
             {
-                int pid = 0;
-                //发表评论
-                parameters = new SqlParameter[]
+                if (type == 1)
                 {
-                    new SqlParameter("@PID",pid),
-                    new SqlParameter("@UserId",UserHelper.LoginUser.Id),
-                    new SqlParameter("@Content",content),
-                    new SqlParameter("@Type",type),
-                    new SqlParameter("@ArticleId",id),
-                    new SqlParameter("@RefCommentId",pid),
-                };
-            }
-            else if (ctype == 2)
-            {
-                var comment = Util.GetEntityById<Comment>(id);
-                if (comment == null)
-                {
-                    LogHelper.WriteLog("发表回复失败，未知上级Id:" + id);
-                    result = new AjaxResult(10002, "发表回复失败");
-                    return Json(result);
+                    //查询计划
+                    var model = Util.GetEntityById<BettingRecord>(id);
+                    if (model == null) return Json(new AjaxResult(400, "计划已不存在或已删除"));
+
+                    refId = model.Id;
+                    //refCommentId=
                 }
+                else if (type == 2)
+                {
+                    //查询文章
+                    var model = Util.GetEntityById<News>(id);
+                    if (model == null) return Json(new AjaxResult(400, "资讯不存在或已删除"));
+                    refId = model.Id;
+                }
+            }
+            else
+            {
+                //查询评论
+                var model = Util.GetEntityById<Comment>(id);
+                if (model == null) return Json(new AjaxResult(400, "评论不存在或已删除"));
+                refId = model.Id;
+                pid = model.Id;
 
-                int refCommentId = 0;
-
-                if (comment.RefCommentId > 0)
+                if (model.RefCommentId > 0)
                 {
                     //第N级回复，则关联评论Id=上一级评论关联Id
-                    refCommentId = comment.RefCommentId;
+                    refCommentId = model.RefCommentId;
                 }
                 else
                 {
                     //第一级回复，则关联评论Id=上一级评论Id
-                    refCommentId = id;
+                    refCommentId = model.Id;
                 }
-
-                //发表回复
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@PID",id),
-                    new SqlParameter("@UserId",UserHelper.LoginUser.Id),
-                    new SqlParameter("@Content",content),
-                    new SqlParameter("@Type",type),
-                    new SqlParameter("@ArticleId",comment.ArticleId),
-                    new SqlParameter("@RefCommentId",refCommentId),
-                };
             }
+
+
+            #endregion
+
+            #region step3.评论内容过滤
+            //去Html标签
+            content = WebHelper.NoHtml(content);
+            //脏字过滤
+            content = WebHelper.FilterSensitiveWords(content);
+            #endregion
+            
 
             try
             {
+                #region step4.添加评论
+                string sql = @"INSERT INTO [dbo].[Comment]
+           ([PId],[UserId],[Content],[SubTime],[Type],[ArticleId]
+           ,[StarCount],[IsDeleted],[RefCommentId])
+     VALUES(@PId,@UserId,@Content,GETDATE()
+           ,@Type,@ArticleId,0,0,@RefCommentId);";
 
+                SqlParameter[] parameters ={
+                new SqlParameter("@PID",pid),
+                new SqlParameter("@UserId",UserHelper.LoginUser.Id),
+                new SqlParameter("@Content",content),
+                new SqlParameter("@Type",type),
+                new SqlParameter("@ArticleId",refId),
+                new SqlParameter("@RefCommentId",refCommentId),
+              };
                 int row = SqlHelper.ExecuteNonQuery(sql, parameters);
                 if (row <= 0)
                 {
                     result = new AjaxResult(10001, "服务器繁忙");
                 }
+
+                #endregion
             }
             catch (Exception ex)
             {
                 //LogHelper.WriteLog("发表评论失败。异常消息：{ex.Message}，异常堆栈：{ex.StackTrace}");
-                result = new AjaxResult(10001, "服务器繁忙");
+                result = new AjaxResult(500, "服务器繁忙");
             }
 
             return Json(result);
         }
-
-
-
-        ////
-        //// POST: /Comment/Create
-
-        //[HttpPost]
-        //public ActionResult Create(FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
 
 
     }

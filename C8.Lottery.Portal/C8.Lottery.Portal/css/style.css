@@ -8489,6 +8489,33 @@ footer {
     font-size: 14px;
 }
 /*** 查看计划页 **/
+
+
+/**** Added by LHS 2018-4-10 ****/
+.Gues_ftTB .ftTB_A:first-child {
+    margin-right: 10px;
+}
+.Gues_ftFBPL {
+    margin-right: 50px;
+}
+/*个人中心消息提醒角标*/
+.Per_listRight h3 .Per_xxicon {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    right: -22px;
+}
+/*系统消息未读数量角标*/
+.C8_nav li p i {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    right: -20px;
+}
+/**** Added by LHS 2018-4-10 END****/
+
+
+
 /**兼容小屏**/
 
 @media screen and (max-width:320px) {

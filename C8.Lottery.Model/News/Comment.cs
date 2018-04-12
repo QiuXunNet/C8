@@ -39,7 +39,7 @@ namespace C8.Lottery.Model
         /// <summary>
         /// 评论人Id
         /// </summary>		
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>		

@@ -1,6 +1,8 @@
 ﻿
 @{
     Layout = null;
+    int dynamicCount = ViewBag.DynamicCount ?? 0;
+    int sysMessageCount = ViewBag.SysMessageCount ?? 0;
 }
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@
     <title>个人中心-消息提醒</title>
     <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
     <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
-    <link rel="stylesheet"  href="~/css/jquery.emoji.css"/>
+    <link rel="stylesheet" href="~/css/jquery.emoji.css" />
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <script type="text/javascript" src="~/js/jquery.js"></script>
     <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
@@ -30,218 +32,49 @@
 
     <div class="guessing_header">
         <ul class="C8_nav C8_JIlU">
-            <li class="current"><a href="javascript:;">
-                <p>评论<i>2</i>
-                </p><span></span></a></li>
-            <li><a href="javascript:;">
-                <p>系统消息<i>1</i>
-                </p><span></span></a></li>
+            <li class="current" id="liNav0">
+                <a href="javascript:;">
+                    <p>
+                        评论
+                        @if (dynamicCount > 0 && dynamicCount < 100)
+                        {
+                            <i>@dynamicCount</i>
+                        }
+                        else if (dynamicCount >= 100)
+                        {
+                            <i>99</i>
+                        }
+                    </p><span></span>
+                </a>
+            </li>
+            <li id="liNav1">
+                <a href="javascript:;">
+                    <p>
+                        系统消息
+                        @if (sysMessageCount > 0 && sysMessageCount < 100)
+                        {
+                            <i>@sysMessageCount</i>
+                        }
+                        else if (sysMessageCount >= 100)
+                        {
+                            <i>99</i>
+                        }
+                    </p><span></span>
+                </a>
+            </li>
         </ul>
         <div style="clear:both;"></div>
     </div>
 
-    <div class="details_box">
+    <div class="details_box" style="height: 100%; overflow: auto;">
         <div class="details_info1 mescroll" id="mescroll0">
             <div id="datalist0" class="data-list">
-                
+
             </div>
-            @*<div class="TID_Info">
-                <div class="TID_Ifk1">
-                    <div class="Ifk1_left f-l"><a href="javascript:;"><img src="images/57_2.png"></a>
-                    </div>
-                    <div class="Ifk1_right">
-                        <h3><a href="javascript:;" class="f-r">回复</a><a href="javascript:;">巧巧还好吗</a>
-                        </h3>
-                        <p>2017-09-04 12:00</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk2">
-                    <div class="TID_Ifk2A">
-                        <p>大师预测的挺准的，感谢！</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk3">
-                    <P><font>他发布于</font><span>双色球</span><span>计划</span></P>
-                </div>
-            </div>
-            <div class="TID_Info">
-                <div class="TID_Ifk1">
-                    <div class="Ifk1_left f-l"><a href="javascript:;"><img src="images/57_2.png"></a>
-                    </div>
-                    <div class="Ifk1_right">
-                        <h3><a href="javascript:;" class="f-r">回复</a><a href="javascript:;">巧巧还好吗</a>
-                        </h3>
-                        <p>2017-09-04 12:00</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk2">
-                    <div class="TID_Ifk2A">
-                        <p>我都两期中蓝了，怎么不给加精呢？</p>
-                    </div>
-                    <div class="TID_Ifk2B">
-                        <p>一只安静的哈士奇：我和你一样，这种情况只是被人设置拦截了吧!</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk3">
-                    <P><font>一只安静的哈士奇发布于</font><span>双色球</span><span>计划</span></P>
-                </div>
-            </div>
-            <div class="TID_Info">
-                <div class="TID_Ifk1">
-                    <div class="Ifk1_left f-l"><a href="javascript:;"><img src="images/57_2.png"></a>
-                    </div>
-                    <div class="Ifk1_right">
-                        <h3><a href="javascript:;" class="f-r">回复</a><a href="javascript:;">巧巧还好吗</a>
-                        </h3>
-                        <p>2017-09-04 12:00</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk2">
-                    <div class="TID_Ifk2A">
-                        <p>我都两期中蓝了，怎么不给加精呢？</p>
-                    </div>
-                    <div class="TID_Ifk2B">
-                        <p>一只安静的哈士奇：我和你一样，这种情况只是被人设置拦截了吧!</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk3">
-                    <P><font>一只安静的哈士奇发布于</font><span>双色球</span><span>计划</span></P>
-                </div>
-            </div>
-            <div class="TID_Info">
-                <div class="TID_Ifk1">
-                    <div class="Ifk1_left f-l"><a href="javascript:;"><img src="images/57_2.png"></a>
-                    </div>
-                    <div class="Ifk1_right">
-                        <h3><a href="javascript:;" class="f-r">回复</a><a href="javascript:;">巧巧还好吗</a>
-                        </h3>
-                        <p>2017-09-04 12:00</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk2">
-                    <div class="TID_Ifk2A">
-                        <p>我都两期中蓝了，怎么不给加精呢？</p>
-                    </div>
-                    <div class="TID_Ifk2B">
-                        <p>一只安静的哈士奇：我和你一样，这种情况只是被人设置拦截了吧!</p>
-                    </div>
-                </div>
-                <div class="TID_Ifk3">
-                    <P><font>一只安静的哈士奇发布于</font><span>双色球</span><span>计划</span></P>
-                </div>
-            </div>*@
         </div>
         <div id="mescroll1" class="details_info1 mescroll" style="display: none;">
             <div id="datalist1" class="data-list">
 
-                <div class="TID_Info">
-                    <div class="TID_Ifk1">
-                        <div class="Ifk1_left f-l">
-                            <a href="javascript:;"><img src="images/58.png"></a>
-                        </div>
-                        <div class="Ifk1_right">
-                            <h3>
-                                <a href="javascript:;">系统消息</a>
-                            </h3>
-                            <p>2017-09-04 12:00</p>
-                        </div>
-                    </div>
-                    <div class="TID_Ifk2">
-                        <div class="TID_Ifk2A">
-                            <p>尊敬的用户，您已达到竞猜积分超过1000，恭喜成为收费专家。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="TID_Info">
-                    <div class="TID_Ifk1">
-                        <div class="Ifk1_left f-l">
-                            <a href="javascript:;"><img src="images/58.png"></a>
-                        </div>
-                        <div class="Ifk1_right">
-                            <h3>
-                                <a href="javascript:;">系统消息</a>
-                            </h3>
-                            <p>2017-09-04 12:00</p>
-                        </div>
-                    </div>
-                    <div class="TID_Ifk2">
-                        <div class="TID_Ifk2A">
-                            <p>尊敬的用户，您已达到竞猜积分超过1000，恭喜成为收费专家。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="TID_Info">
-                    <div class="TID_Ifk1">
-                        <div class="Ifk1_left f-l">
-                            <a href="javascript:;"><img src="images/58.png"></a>
-                        </div>
-                        <div class="Ifk1_right">
-                            <h3>
-                                <a href="javascript:;">系统消息</a>
-                            </h3>
-                            <p>2017-09-04 12:00</p>
-                        </div>
-                    </div>
-                    <div class="TID_Ifk2">
-                        <div class="TID_Ifk2A">
-                            <p>尊敬的用户，您已达到竞猜积分超过1000，恭喜成为收费专家。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="TID_Info">
-                    <div class="TID_Ifk1">
-                        <div class="Ifk1_left f-l">
-                            <a href="javascript:;"><img src="images/58.png"></a>
-                        </div>
-                        <div class="Ifk1_right">
-                            <h3>
-                                <a href="javascript:;">系统消息</a>
-                            </h3>
-                            <p>2017-09-04 12:00</p>
-                        </div>
-                    </div>
-                    <div class="TID_Ifk2">
-                        <div class="TID_Ifk2A">
-                            <p>尊敬的用户，您已达到竞猜积分超过1000，恭喜成为收费专家。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="TID_Info">
-                    <div class="TID_Ifk1">
-                        <div class="Ifk1_left f-l">
-                            <a href="javascript:;"><img src="images/58.png"></a>
-                        </div>
-                        <div class="Ifk1_right">
-                            <h3>
-                                <a href="javascript:;">系统消息</a>
-                            </h3>
-                            <p>2017-09-04 12:00</p>
-                        </div>
-                    </div>
-                    <div class="TID_Ifk2">
-                        <div class="TID_Ifk2A">
-                            <p>尊敬的用户，您已达到竞猜积分超过1000，恭喜成为收费专家。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="TID_Info">
-                    <div class="TID_Ifk1">
-                        <div class="Ifk1_left f-l">
-                            <a href="javascript:;"><img src="images/58.png"></a>
-                        </div>
-                        <div class="Ifk1_right">
-                            <h3>
-                                <a href="javascript:;">系统消息</a>
-                            </h3>
-                            <p>2017-09-04 12:00</p>
-                        </div>
-                    </div>
-                    <div class="TID_Ifk2">
-                        <div class="TID_Ifk2A">
-                            <p>尊敬的用户，您已达到竞猜积分超过1000，恭喜成为收费专家。</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -255,7 +88,7 @@
 
             $(".C8_JIlU li").click(function () {
                 var _this = $(this),
-                    i = _this.attr("data-index");
+                    i = $(".C8_JIlU li").index(_this);
 
                 if (curNavIndex != i) {
                     _this.addClass("current").siblings().removeClass("current");
@@ -310,12 +143,14 @@
             function getListData(page){
                 //联网加载数据
                 var dataIndex=curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
-                getListDataFromNet(dataIndex, page.num, page.size, function(pageData,hasNextPage){
+                getListDataFromNet(dataIndex, page.num, page.size, function(data,hasNextPage) {
+                    var pageData = data.PageData;
+                    var extraData = data.ExtraData;
                     console.log("dataIndex="+dataIndex+", curNavIndex="+curNavIndex+", page.num="+page.num+", page.size="+page.size+", pageData.length="+pageData.length);
                     mescrollArr[dataIndex].endSuccess(pageData.length, hasNextPage);
 
                     //设置列表数据
-                    buildHtml(pageData, dataIndex);
+                    buildHtml(pageData, dataIndex,extraData);
                 }, function(){
                     //隐藏下拉刷新和上拉加载的状态;
                     mescrollArr[dataIndex].endErr();
@@ -329,8 +164,7 @@
                     url = "/Personal/GetCommentNotice";
                 } else if (curNavIndex == 1) {
                     //查询系统消息
-                    url = "/Notice/Last";
-                    return;
+                    url = "/Personal/GetSysMessage";
                 } else {
                     return;
                 }
@@ -348,8 +182,9 @@
 
                         if (res.IsSuccess && res.Data) {
                             //回调
-                            successCallback( res.Data.PageData,res.Data.HasNextPage);
-                            
+
+                            successCallback( res.Data,res.Data.HasNextPage);
+
                             if (curNavIndex == 0) {
                                 $("#mescroll0").parseEmoji();
                             }
@@ -363,17 +198,23 @@
 
         });
 
-        function buildHtml(data, curNavIndex) {
-
+        function buildHtml(data, curNavIndex,extraData) {
+            //设置未读消息
+            if (extraData ==null || extraData.Unread <= 0) {
+                $("#liNav" + curNavIndex + " i").remove();
+            } else {
+                $("#liNav" + curNavIndex + " i").html(extraData.Unread);
+            }
             var itemList = [];
             var listDom=$("#datalist"+curNavIndex);
             if (curNavIndex == 0) {
+
                 $.each(data, function (index, item) {
                     var itemHtml = '<div class="TID_Info">'
                         + '<div class="TID_Ifk1">'
-                        + '	<div class="Ifk1_left f-l"><a href="javascript:;"><img src="' + item.Avater + '"></a></div>'
+                        + '	<div class="Ifk1_left f-l"><a href="javascript:;"><img src="' + item.FromAvater + '"></a></div>'
                         + '	<div class="Ifk1_right">'
-                        + '		<h3><a href="javascript:;">' + item.NickName + '</a></h3>'
+                        + '		<h3><a href="javascript:;">' + item.FromNickName + '</a></h3>'
                         + '		<p>' + item.SubTimeStr + '</p>'
                         + '	</div>'
                         + '</div>'
@@ -382,15 +223,15 @@
                         + '		<p>' + item.Content + '</p>'
                         + '	</div>';
 
-                    var parentComment = item.ParentComment;
-                    var denamicType = item.Type == 1 ? "计划" : "资讯";
-                    if (parentComment) {
+                    var parentComment = item.MyContent;
+                    var denamicType = item.CommentType == 1 ? "计划" : "资讯";
+                    if (parentComment!=null && parentComment.length>0) {
                         itemHtml += '	<div class="TID_Ifk2B">'
-                            + '		<p>' + parentComment.NickName + '：' + parentComment.Content + '</p>'
+                            + '		<p>我的评论：' + parentComment + '</p>'
                             + '	</div>'
                             + '</div>'
                             + '<div class="TID_Ifk3">'
-                            + '	<P><font>' + parentComment.NickName + '发布于</font><span>' + item.LotteryTypeName + '</span><span>' + denamicType + '</span></P>'
+                            + '	<P><font>发布于</font><span>' + item.LotteryTypeName + '</span><span>' + denamicType + '</span></P>'
                             + '</div>'
                             + '</div>';
                     } else {
@@ -406,7 +247,28 @@
             } else if (curNavIndex == 1) {
                 $.each(data, function (index, item) {
                     //拼接系统消息
-                    var itemHtml = '';
+                    var itemHtml = '<div class="TID_Info">'
+                        + '    <div class="TID_Ifk1">'
+                        + '        <div class="Ifk1_left f-l">'
+                        + '            <a href="javascript:;"><img src="/images/58.png"></a>'
+                        + '        </div>'
+                        + '        <div class="Ifk1_right">'
+                        + '            <h3>';
+                    if (item.Link && item.Link.length > 0) {
+                        itemHtml += '                <a href="' + item.Link + '">' + item.Title + '</a>';
+                    } else {
+                        itemHtml += '                <a href="javascript:;">' + item.Title + '</a>';
+                    }
+                    itemHtml+='            </h3>'
+                    +'            <p>'+ item.SubTimeStr+'</p>'
+                    +'        </div>'
+                    +'    </div>'
+                    +'    <div class="TID_Ifk2">'
+                    +'        <div class="TID_Ifk2A">'
+                    +'            <p>'+item.Content+'</p>'
+                    +'        </div>'
+                    +'    </div>'
+                    +'</div>';
                     itemList.push(itemHtml);
                 });
             }

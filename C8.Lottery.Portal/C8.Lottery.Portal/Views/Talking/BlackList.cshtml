@@ -1,0 +1,149 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link rel="stylesheet" href="/css/Chat/libs/CSSRESET.css">
+    <link rel="stylesheet" href="/css/Chat/common.css">
+    <link rel="stylesheet" href="/css/Chat/chat.css">
+    <style type="text/css">
+        .ul_blacklist li {
+            display: -webkit-box;
+            border-bottom: 1px solid #eee;
+            height: 4rem;
+            line-height: 4rem;
+            font-size: 1.1rem;
+        }
+
+            .ul_blacklist li img {
+                width: 3rem;
+                border-radius: 50%;
+                margin: 0.5rem 1rem 0.5rem 0.5rem;
+            }
+
+            .ul_blacklist li span {
+                width: 67%;
+                height: 4rem;
+                display: -webkit-box;
+            }
+
+            .ul_blacklist li input {
+                width: 4.8rem;
+                height: 2.4rem;
+                line-height: 2.4rem;
+                text-align: center;
+                font-size: 1.1rem;
+                color: #999999;
+                margin: 0 auto;
+                background: #fff;
+                border-radius: 0.4rem;
+                border: 1px solid #999;
+            }
+    </style>
+</head>
+<body>
+    <div class="_container clear">
+        <header class="header">
+            <a href="/Talking/ManagementList/@ViewBag.RoomId" class="a_back"></a>
+            <h1>拉黑列表</h1>
+        </header>
+
+        <article class="wrapper" style="background-color: #fff;">
+            <dv class="main">
+                <ul class="ul_blacklist">
+                    @*<li>
+
+                        <img src="/img/pic_profile_1.png" />
+
+                        <span>兜风单车</span>
+
+                        <input type="button" value="解禁" />
+
+                    </li>
+                    <li>
+                        <img src="/img/pic_profile_1.png" />
+
+                        <span>兜风单车</span>
+
+                        <input type="button" value="解禁" />
+                    </li>
+                    <li>
+                        <img src="/img/pic_profile_1.png" />
+
+                        <span>兜风单车</span>
+
+                        <input type="button" value="解禁" />
+                    </li>*@
+                </ul>
+        </article>
+    </div>
+    <script src="/Scripts/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript">
+        var isBottom = false;
+
+        $(function () {
+            var winH = $(window).height();
+
+            $(".wrapper").height(winH - 50);
+
+            getBlackList();
+
+            //滚动条滚动事件
+            $(".wrapper").bind("scroll", function () {
+                if ($(".wrapper")[0].scrollHeight - $(".wrapper")[0].scrollTop == $(".wrapper").height() && !isBottom) {
+                    getBlackList();
+                }
+            });
+        });
+
+        //获取处理记录
+        function getBlackList() {
+            var id = 0;
+            var lis = $(".ul_blacklist").find("li");
+
+            if (lis.length > 0) {
+                id = lis.last().attr("id");
+            }
+
+            $.post("/Talking/GetBlackList", {id: id,roomId:@ViewBag.RoomId}, function (data) {
+                if (data.Status == 1 && data.DataList.length > 0) {
+                    if (data.DataList.length < 20)
+                        isBottom = true;
+
+                    var html = "";
+                    $(data.DataList).each(function () {
+                        html += "<li id="+this.Id+">";
+                        html += "   <img src=" + (this.PhotoImg == null ? "/images/default_avater.png" : this.PhotoImg) + " />";
+                        html += "   <span>" + this.UserName + "</span>";
+                        html += "   <input type='button' onclick = 'removeBlackList(this)' data-UserId=" + this.UserId + " data-RoomId=" + this .RoomId + " value='解禁' />";
+                        html += "</li>";
+                    });
+                    $(".ul_blacklist").append(html);
+                }
+            });
+        }
+
+        function removeBlackList(t) {
+            var userId = $(t).attr("data-UserId");
+            var roomId = $(t).attr("data-RoomId");
+
+            var obj = {};
+            obj.userId = userId;
+            obj.roomId = roomId;
+
+            $.post("/Talking/RemoveBlackList", obj, function (data) {
+                if (data.Status == 1) {
+                    alert("解黑成功");
+                    $(t).closest("li").remove();
+                }
+            })
+        }
+    </script>
+</body>
+</html>

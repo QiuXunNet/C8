@@ -7,19 +7,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
     <title>首页</title>
+    <link rel="stylesheet" href="/css/Chat/common.css">
     <link rel="stylesheet" href="/css/Chat/base.css" />
     <link rel="stylesheet" href="/css/Chat/index.css" />
 </head>
 <body>
     <!--页面内容-->
     <div class="layout">
-        <header class="topBarBox">
+        @*<header class="topBarBox">
             <div class="topBar topBar_record">
-                <a href="/Talking/ChatRoom/@ViewBag.RoomId" class="back"></a>
+                <a href="/Talking/ChatRoom/@ViewBag.RoomId" class="a_back"></a>
                 <h3>
                     <p class="title">处理记录</p>
                 </h3>
+                <a href="/Talking/BlackList/@ViewBag.RoomId" class="a_gl">拉黑列表</a>
             </div>
+        </header>*@
+
+        <header class="header">
+            <a href="/Talking/ChatRoom/@ViewBag.RoomId" class="a_back"></a>
+            <div class="h_title">
+                <h1>处理记录</h1>
+            </div>
+            
+            <a href="/Talking/BlackList/@ViewBag.RoomId" class="a_gl" style="width:auto;margin-right: 10px; right: 0;">拉黑列表</a>
         </header>
         <main class="main" id="main">
         </main>
@@ -53,7 +64,7 @@
                 id = lis.last().attr("id");
             }
 
-            $.post("/Talking/GetProcessingRecords", { id: id }, function (data) {
+            $.post("/Talking/GetProcessingRecords", { id: id,roomId:@ViewBag.RoomId}, function (data) {
                 if (data.Status == 1 && data.DataList.length > 0) {
                     if (data.DataList.length < 20)
                         isBottom = true;
