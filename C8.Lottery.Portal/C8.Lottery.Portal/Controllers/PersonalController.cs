@@ -157,7 +157,7 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == 1)
                 {
                     strsql = "  Name=@value ";
-                    user.Name = value;      
+                    user.Name = value;
 
                 }
                 else if (type == 2)
@@ -171,9 +171,9 @@ namespace C8.Lottery.Portal.Controllers
                     user.Sex = Convert.ToInt32(value);
                 }
                 string usersql = "update  UserInfo set  " + strsql + "      where  Mobile=@Mobile";
-             
+
                 string namesql = "select count(1) from UserInfo where Name=@value";
-              
+
                 SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@value",value),
                 new SqlParameter("@Mobile",user.Mobile)
@@ -181,16 +181,17 @@ namespace C8.Lottery.Portal.Controllers
                 };
                 if (type == 1)
                 {
-                    int count =Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
+                    int count = Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, sp));
                     if (count > 0)
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "该昵称已存在";
                         return Json(jsonmsg);
-                    }else
+                    }
+                    else
                     {
                         bool iscz = Tool.CheckSensitiveWords(value);
-                        if (iscz==true)
+                        if (iscz == true)
                         {
                             jsonmsg.Success = false;
                             jsonmsg.Msg = "该昵称包含敏感字符";
@@ -198,7 +199,7 @@ namespace C8.Lottery.Portal.Controllers
                         }
                     }
                 }
-   
+
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
                 if (data > 0)
                 {
@@ -978,7 +979,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
 
                     var info = GetLotteryTypeName(x.Type, x.ArticleId);
-                    x.LotteryTypeName = info.TypeName;
+
+                    x.LotteryTypeName = info == null ? "" : info.TypeName;
                 });
 
                 string countSql = "SELECT count(1) FROM Comment WHERE IsDeleted=0 AND UserId=" + uid;
@@ -1435,7 +1437,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string IntegralRulesql = @"select * from IntegralRule";
                 List<IntegralRule> IntegralRuleList = Util.ReaderToList<IntegralRule>(IntegralRulesql);//玩法
                 model.LotteryType = LotteryTypelist;
-                model.Lottery = Lotterylist;           
+                model.Lottery = Lotterylist;
                 model.IntegralRule = IntegralRuleList;
 
 
