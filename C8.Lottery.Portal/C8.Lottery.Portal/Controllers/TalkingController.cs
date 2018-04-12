@@ -134,6 +134,18 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult ManagementList(int id)
         {
+            int userId = UserHelper.GetByUserId();
+            UserInfo user = UserHelper.GetUser(userId);
+
+            if (user == null)
+            {
+                ViewBag.IsAdmin = true;
+            }
+            else
+            {
+                ViewBag.IsAdmin = false; //
+            }
+
             ViewBag.RoomId = id;
             return View();
         }
@@ -183,11 +195,11 @@ namespace C8.Lottery.Portal.Controllers
                 image2.Dispose();
                 ms2.Close();
 
-                return Json(new { status=1,imgUrl= xPath + datePath + fileName + "_Min.jpg" } );
+                return Json(new { Status=1,imgUrl= xPath + datePath + fileName + "_Min.jpg" } );
             }
             catch (Exception ex)
             {
-                return Json(new { status = 0});
+                return Json(new { Status = 0});
             }
         }
 
@@ -296,12 +308,12 @@ namespace C8.Lottery.Portal.Controllers
 
                 SqlHelper.ExecuteScalar(regsql, regsp);
 
-                return Json(new { status = 1 });
+                return Json(new { Status = 1 });
 
             }
             catch (Exception ex)
             {
-                return Json(new { status = 0 });
+                return Json(new { Status = 0 });
             }
         }
 
@@ -342,7 +354,6 @@ namespace C8.Lottery.Portal.Controllers
         /// <summary>
         /// 管理员删除消息
         /// </summary>
-        /// <param name="guid"></param>
         /// <returns></returns>
         public ActionResult DelMessage(string guid, int userId, string userName,int roomId)
         {
@@ -364,11 +375,48 @@ namespace C8.Lottery.Portal.Controllers
 
                 if (i > 0)
                 {
-                    return Json(new { status = 1 });
+                    return Json(new { Status = 1 });
                 }
                 else
                 {
-                    return Json(new { status = 0 });
+                    return Json(new { Status = 0 });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { status = 0 });
+            }
+        }
+
+        /// <summary>
+        /// 管理员删除某人全部消息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DelMessageAll(int userId, string userName, int roomId)
+        {
+            string sql = @" update TalkNotes set Status = 0 where RoomId = @RoomId and UserId = @UserId   ";
+
+            try
+            {
+                int i = SqlHelper.ExecuteNonQuery(sql, new SqlParameter[] { new SqlParameter("@RoomId", roomId), new SqlParameter("@UserId", userId) });
+
+                var processingRecords = new ProcessingRecords()
+                {
+                    ProcessToId = userId,
+                    ProcessToName = userName,
+                    Type = 1,
+                    RoomId = roomId
+                };
+
+                AddProcessingRecords(processingRecords);
+
+                if (i > 0)
+                {
+                    return Json(new { Status = 1 });
+                }
+                else
+                {
+                    return Json(new { Status = 0 });
                 }
             }
             catch (Exception)
@@ -411,11 +459,11 @@ namespace C8.Lottery.Portal.Controllers
 
                 AddProcessingRecords(processingRecords);
 
-                return Json(new { status = 1 });
+                return Json(new { Status = 1 });
             }
             catch (Exception ex)
             {
-                return Json(new { status = 0 });
+                return Json(new { Status = 0 });
             }
         }
 

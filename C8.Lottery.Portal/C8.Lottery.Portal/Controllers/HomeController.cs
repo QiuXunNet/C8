@@ -193,7 +193,8 @@ namespace C8.Lottery.Portal.Controllers
                                         jsonmsg.Msg = "ok";
                                         string guid = Guid.NewGuid().ToString();
                                         Response.Cookies["UserId"].Value = guid;
-                                        CacheHelper.SetCache(guid, data, DateTime.Now.AddMinutes(30));
+                                        Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
+                                        CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
                                         if (inviteid > 0)
                                         {
                                             UserInfo invite = GetByid(inviteid);
@@ -207,6 +208,7 @@ namespace C8.Lottery.Portal.Controllers
                                                 AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
                                                                                            //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
                                                 AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
+                                                AddUserTask(inviteid,105);
                                                 UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
                                                 if (super != null)
                                                 {
@@ -233,10 +235,7 @@ namespace C8.Lottery.Portal.Controllers
                                 jsonmsg.Msg = "请重新获取验证码";
 
                             }
-                        }
-
-                        
-
+                        }              
                     }
 
 
@@ -262,20 +261,34 @@ namespace C8.Lottery.Portal.Controllers
             string strsqlup = "update UserTask set CompletedCount=CompletedCount+1 where UserId=@UserId and TaskId=@TaskId";
             string strsqlins = "insert into UserTask(UserId, TaskId, CompletedCount)values(@UserId, @TaskId, 1)";
             string strtasksql = "select * from MakeMoneyTask   where Code = 105";//邀请成功注册任务
+           
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@UserId",UserId),
                 new SqlParameter("@TaskId",TaskCode)
 
             };
-
             try
-            {
-                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+            { 
                 UserTask task = Util.ReaderToModel<UserTask>(countsql, sp);
-                if (count > 0)
+                if (task!=null)
                 {
-                    SqlHelper.ExecuteNonQuery(strsqlup, sp);
+                   int update= SqlHelper.ExecuteNonQuery(strsqlup, sp);
+                    if (update > 0)
+                    {
+                        UserTask task1 = Util.ReaderToModel<UserTask>(string.Format("select * from UserTask where UserId={0} and TaskId={1}",UserId,TaskCode));
+                        MakeMoneyTask mtask = Util.ReaderToModel<MakeMoneyTask>(strtasksql);
+                        if (task1.CompletedCount == mtask.Count)
+                        {
+                            string strsqlinstask =string.Format(@"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
+                                   values({0}, {1}, 8, {2}, getdate())",UserId,TaskCode,mtask.Coin);
+                            SqlHelper.ExecuteNonQuery(strsqlinstask);
 
+                        }
+                    }
+                }
+                else
+                {
+                    SqlHelper.ExecuteNonQuery(strsqlins, sp);
                 }
             }
             catch (Exception)
@@ -375,14 +388,16 @@ namespace C8.Lottery.Portal.Controllers
         public int GetNum(int GradeId)
         {
             int Num = 0;
-            List<CoinRate> list = new List<CoinRate>();
+       
             List<int> listNum = new List<int>();
             try
             {
                 string strsql = "select * from CoinRate where GradeId = @GradeId";
-                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@GradeId", GradeId) };
-                list = Util.ReaderToList<CoinRate>(strsql, sp);
-                if (list != null)
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@GradeId", GradeId)
+                };
+                List<CoinRate> list = Util.ReaderToList<CoinRate>(strsql, sp);
+                if (list.Count>0)
                 {
                     foreach (var item in list)
                     {

@@ -430,17 +430,26 @@ where RowNumber BETWEEN @Start AND @End ";
                 new SqlParameter("@UserId",UserId),
                 new SqlParameter("@Followed_UserId",followed_userId)
                 };
-                int data = SqlHelper.ExecuteNonQuery(strsql, sp);
-                if (data > 0)
+                if (UserId == followed_userId)
                 {
-                    jsonmsg.Msg = "ok";
-                    jsonmsg.Success = true;
+                    jsonmsg.Msg = "自己不能关注自己";
+                    jsonmsg.Success = false;
                 }
                 else
                 {
-                    jsonmsg.Msg = "fail";
-                    jsonmsg.Success = false;
+                    int data = SqlHelper.ExecuteNonQuery(strsql, sp);
+                    if (data > 0)
+                    {
+                        jsonmsg.Msg = "ok";
+                        jsonmsg.Success = true;
+                    }
+                    else
+                    {
+                        jsonmsg.Msg = "fail";
+                        jsonmsg.Success = false;
+                    }
                 }
+               
 
 
             }
