@@ -1876,6 +1876,16 @@ on c.OrderId=b.Id
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        /// <summary>
+        /// 佣金规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CommissionRules()
+        {
+            return View();
+        }
     }
 }
 

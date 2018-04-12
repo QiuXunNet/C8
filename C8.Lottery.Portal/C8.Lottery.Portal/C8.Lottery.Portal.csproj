@@ -764,9 +764,6 @@
     <Content Include="Views\Personal\TaskRule.cshtml" />
     <Content Include="Views\Personal\MyCommission.cshtml" />
     <Content Include="Views\Talking\ChatRoomWS.cshtml" />
-    <Content Include="Views\Talking\BlackList.cshtml" />
-    <Content Include="Views\Plan\PlanData.cshtml" />
-    <Content Include="Views\Shared\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
