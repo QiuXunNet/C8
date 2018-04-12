@@ -18,14 +18,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>@title</title>
-    <link rel="stylesheet" type="text/css" href="~/css/mescroll.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/css/mescroll.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/dialog.css" />
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
-    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="/js/luo/mescroll.min.js"></script>
+    <script type="text/javascript" src="/js/dialog.min.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/runTime2.js"></script>
+    
+    <script type="text/javascript" src="/js/plan_scroll1.js"></script>
+    
+    <style>
+        .mscroll {
+            top: 200px; bottom: 0; background: #fff;
+        }
+
+    </style>
+
 </head>
 <body style="background:#F4F4F5;">
 
@@ -39,11 +51,11 @@
             <div class="QiHao_text">
                 <i class="QiHao_Ticon"></i>
                 <ul class="QiHao_Nav">
-                    <li>近10期</li>
-                    <li>近20期</li>
-                    <li>近30期</li>
-                    <li>近50期</li>
-                    <li>近100期</li>
+                    <li v="10">近10期</li>
+                    <li v="20">近20期</li>
+                    <li v="30">近30期</li>
+                    <li v="50">近50期</li>
+                    <li v="100">近100期</li>
                 </ul>
             </div>
         </div>
@@ -82,542 +94,147 @@
         </div>
         <a href="javascript:;" class="GS_btn" style="display: none;"><img src="/images/50.png"></a>
     </div>
-    <div class="Plan_content">
+    <div class="Plan_content" style="position: fixed; width: 100%;">
         @*官方推荐*@
         <div class="Plan_CInfo mescroll">
-            <div class="CZ_hdtit">
-                <dl class="CZ_hdMain">
-                    <dt><a href="javascript:;"><img src="/images/@ViewBag.icon"></a></dt>
-                    <dd>
-                        <div class="hdM_ddtit">
-                            <h3 class="hdM_ddtqi f-l">
-                                第<span>@ViewBag.lastIssue</span>期
-                            </h3>
-                            <p class="hdM_ddtime f-r">
-                                下期开奖：
+            
+            <div class="Plan_CIfBox">
+                <div class="CZ_hdtit">
+                    <dl class="CZ_hdMain">
+                        <dt><a href="javascript:;"><img src="/images/@ViewBag.icon"></a></dt>
+                        <dd>
+                            <div class="hdM_ddtit">
+                                <h3 class="hdM_ddtqi f-l">
+                                    第<span>@ViewBag.lastIssue</span>期
+                                </h3>
+                                <p class="hdM_ddtime f-r">
+                                    下期开奖：
 
-                                @if (ViewBag.time == "正在开奖")
-                                {
-                                    <span id="openTime">正在开奖</span>
-                                }
-                                else
-                                {
-                                    if (lType < 9)
+                                    @if (ViewBag.time == "正在开奖")
                                     {
-                                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                                        <span id="openTime">正在开奖</span>
                                     }
                                     else
                                     {
-                                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                    }
-
-                                }
-                            </p>
-                            <div style="clear: both;"></div>
-                        </div>
-                        <div class="hdM_ddcon">
-
-                            @{
-                                int countFor6 = 0;
-
-
-                                string num = ViewBag.lastNum;
-                                string[] numArr = num.Split(',');
-
-
-                                if (lType == 5)
-                                {
-                                    foreach (string s in numArr)
-                                    {
-                                        countFor6++;
-
-                                        string color = Util.GetColor(s);
-                                        string cl = "";
-                                        if (color == "red")
+                                        if (lType < 9)
                                         {
-                                            cl = "hdM_spliu hdM_spliured";
-                                        }
-                                        else if (color == "green")
-                                        {
-                                            cl = "hdM_spliu hdM_spliugreen";
+                                            <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
                                         }
                                         else
                                         {
-                                            cl = "hdM_spliu hdM_spliublue";
-                                        }
-
-                                        <span class="@cl">@s</span>
-
-                                        if (countFor6 == 6)
-                                        {
-                                            <span class="Mif_jgC">+</span>
+                                            <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
                                         }
 
                                     }
-                                }
-                                else
-                                {
-                                    foreach (string s in numArr)
+                                </p>
+                                <div style="clear: both;"></div>
+                            </div>
+                            <div class="hdM_ddcon">
+
+                                @{
+                                    int countFor6 = 0;
+
+
+                                    string num = ViewBag.lastNum;
+                                    string[] numArr = num.Split(',');
+
+
+                                    if (lType == 5)
                                     {
-                                        if (lType == 63 || lType == 64)
+                                        foreach (string s in numArr)
                                         {
-                                            string clazz = "hdM_spPK hdM_spPK" + s;
-                                            <span class="@clazz">@s</span>
-                                        }
+                                            countFor6++;
 
-                                        else
-                                        {
-                                            <span class="hdM_spssc">@s</span>
-                                        }
+                                            string color = Util.GetColor(s);
+                                            string cl = "";
+                                            if (color == "red")
+                                            {
+                                                cl = "hdM_spliu hdM_spliured";
+                                            }
+                                            else if (color == "green")
+                                            {
+                                                cl = "hdM_spliu hdM_spliugreen";
+                                            }
+                                            else
+                                            {
+                                                cl = "hdM_spliu hdM_spliublue";
+                                            }
 
+                                            <span class="@cl">@s</span>
+
+                                            if (countFor6 == 6)
+                                            {
+                                                <span class="Mif_jgC">+</span>
+                                            }
+
+                                        }
                                     }
+                                    else
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            if (lType == 63 || lType == 64)
+                                            {
+                                                string clazz = "hdM_spPK hdM_spPK" + s;
+                                                <span class="@clazz">@s</span>
+                                            }
+
+                                            else
+                                            {
+                                                <span class="hdM_spssc">@s</span>
+                                            }
+
+                                        }
+                                    }
+
+
                                 }
-
-
-                            }
-                        </div>
-                        <div class="hdM_ddZZKJ" style="display: none;">
-                            <p>正在开奖中...</p>
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-            <div class="CZ_hdnav" style="display: none;">
-                <ul class="CZ_hdNL f-l">
-                    <li class="current"><a href="javascript:;">计划</a></li>
-                    <li><a href="javascript:;">双面</a></li>
-                    <li><a href="javascript:;">长龙</a></li>
-                    <li><a href="javascript:;">走势</a></li>
-                    <li><a href="javascript:;">技巧</a></li>
+                            </div>
+                            <div class="hdM_ddZZKJ" style="display: none;">
+                                <p>正在开奖中...</p>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="CZ_hdnav" style="display: none;">
+                    <ul class="CZ_hdNL f-l">
+                        <li class="current"><a href="javascript:;">计划</a></li>
+                        <li><a href="javascript:;">双面</a></li>
+                        <li><a href="javascript:;">长龙</a></li>
+                        <li><a href="javascript:;">走势</a></li>
+                        <li><a href="javascript:;">技巧</a></li>
+                        <div style="clear: both;"></div>
+                    </ul>
                     <div style="clear: both;"></div>
-                </ul>
-                <div style="clear: both;"></div>
-            </div>
-            <div class="CZ_main mt0">
-                <!--计划列表-->
-                <div class="CZ_Minfo">
-                    <div class="Mif_sy">
+                </div>
 
-                        <div class="Mif_sykuai">
-                            <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
-                                @*查看计划*@
-                                <thead>
-                                    <tr>
-                                        <th colspan="4" scope="col"><a href="/Plan/Look/@lType" class="Mif_titred">@ViewBag.msg</a></th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-
-
-                        @foreach (LotteryRecord record in ViewBag.list)
-                        {
-                            var data = list.Where(p => p.Issue == record.Issue).OrderBy(p => p.Sort);
-                            int count2 = -1;   //标志时时彩Sort
+                <div class="CZ_main mt0">
+                    <!--计划列表-->
+                    <div class="CZ_Minfo">
+                        <div class="Mif_sy">
+                            
 
                             <div class="Mif_sykuai">
-
-                                <table width="100%" border="1" bordercolor="#d9d9d9" class="Mif_syTable">
-                                    @*开奖信息*@
+                                <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
+                                    @*查看计划*@
                                     <thead>
                                         <tr>
-                                            <th scope="col" width="20%">
-                                                <div>
-                                                    @if (lType == 63 || lType == 65 || lType < 9)
-                                                    {
-                                                        <span class="Mif_titred"><font>@record.Issue</font>期</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="Mif_titred"><font>@record.Issue.Substring(4)</font>期</span>
-                                                    }
-
-                                                </div>
-                                                <div>
-                                                    <font>@record.SubTime.ToString("HH:mm")</font>
-                                                </div>
-                                            </th>
-                                            <th colspan="3" scope="col" align="left">
-                                                <div class="Mif_Hao">
-
-
-                                                    @if (lType == 5)
-                                                    {
-                                                        int countFor62 = 0;
-
-                                                        foreach (string s in record.Num.Split(','))
-                                                        {
-                                                            countFor62++;
-
-
-                                                            string color = Util.GetColor(s);
-                                                            string cl = "";
-                                                            if (color == "red")
-                                                            {
-                                                                cl = "Mif_jgC Mif_jgCred";
-                                                            }
-                                                            else if (color == "green")
-                                                            {
-                                                                cl = "Mif_jgC Mif_jgCgreen";
-                                                            }
-                                                            else
-                                                            {
-                                                                cl = "Mif_jgC Mif_jgCblue";
-                                                            }
-
-                                                            <span class="@cl">@s</span>
-
-                                                            if (countFor62 == 6)
-                                                            {
-                                                                <span class="Mif_jgC">+</span>
-                                                            }
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        foreach (string s in record.Num.Split(','))
-                                                        {
-                                                            if (lType == 63 || lType == 64)
-                                                            {
-                                                                string clazz = "Mif_jgA Mif_jgA" + s;
-                                                                <span class="@clazz">@s</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="Mif_jgB">@s</span>
-                                                            }
-                                                        }
-                                                    }
-
-
-                                                </div>
-
-
-                                                @if ((lType >= 9 && lType < 38) || (lType >= 51 && lType < 60) || (lType >= 63 && lType < 65))
-                                                {
-                                                    <div class="Mif_Hao" style="margin-top: 5px;">
-                                                        @foreach (string s in record.ShowInfo.Split(','))
-                                                        {
-                                                            <span class="Mif_sp">@s</span>
-                                                        }
-                                                    </div>
-
-                                                }
-                                                else if (lType == 5)
-                                                {
-                                                    int countFor63 = 0;
-
-                                                    <div class="Mif_Hao" style="margin-top: 5px;">
-                                                        @foreach (string s in record.ShowInfo.Split(','))
-                                                        {
-                                                            countFor63++;
-                                                            <span class="Mif_jgC">@s</span>
-                                                            if (countFor63 == 6)
-                                                            {
-                                                                <span class="Mif_jgC">+</span>
-                                                            }
-                                                        }
-                                                    </div>
-                                                }
-
-                                            </th>
+                                            <th colspan="4" scope="col"><a href="/Plan/Look/@lType" class="Mif_titred">@ViewBag.msg</a></th>
                                         </tr>
                                     </thead>
-
-                                    @*预测号码*@
-                                    <tbody>
-
-                                        @if (lType >= 51 && lType < 60)
-                                        {
-                                            //快乐十分
-                                            foreach (Plan plan in data)
-                                            {
-                                                count2++;
-                                                numArr = plan.Num.Split('|');
-                                                string result = plan.Result;
-                                                if (!string.IsNullOrEmpty(result))
-                                                {
-                                                    string[] resultArr = result.Split('|');
-
-                                                    <tr>
-                                                        <td width="15%" align="center"><font>@plan.ShowSort</font></td>
-
-                                                        <td width="50%" align="left">
-
-                                                            @if (resultArr[0] == "中")
-                                                            {
-                                                                @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                            else
-                                                            {
-                                                                <font>@numArr[0]</font>
-                                                            }
-                                                        </td>
-                                                        <td width="15%" align="left">
-
-                                                            <font>@numArr[1]</font>
-                                                            @if (resultArr[1] == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-                                                        <td width="20%" align="left">
-
-                                                            <font>@numArr[2]</font>
-                                                            @if (resultArr[2] == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td width="15%" align="center"><font>@plan.ShowSort</font></td>
-                                                        <td width="50%" align="left"><font>@numArr[0]</font></td>
-                                                        <td width="15%" align="left"><font>@numArr[1]</font></td>
-                                                        <td width="20%" align="left"><font>@numArr[2]</font></td>
-                                                    </tr>
-                                                }
-
-                                            }
-                                        }
-                                        else if (lType == 2 || lType == 4 || lType == 8)
-                                        {
-                                            //双色球
-                                            foreach (Plan plan in data)
-                                            {
-                                                count2++;
-                                                numArr = plan.Num.Split('|');
-                                                string result = plan.Result;
-                                                if (!string.IsNullOrEmpty(result))
-                                                {
-                                                    string[] resultArr = result.Split('|');
-
-
-
-
-
-                                                    <tr>
-                                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-
-
-                                                        <td width="40%" align="left">
-
-                                                            <font>@numArr[0]</font>
-                                                            @if (resultArr[0] == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-                                                        <td width="40%" align="left">
-
-                                                            <font>@numArr[1]</font>
-                                                            @if (resultArr[1] == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                                        <td width="40%" align="left"><font>@numArr[0]</font></td>
-                                                        <td width="40%" align="left"><font>@numArr[1]</font></td>
-                                                    </tr>
-                                                }
-
-                                            }
-                                        }
-                                        else if (lType == 5)
-                                        {
-                                            //六合彩
-                                            foreach (Plan plan in data)
-                                            {
-
-                                                <tr>
-                                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                                    <td width="50%" align="left">
-                                                        <font>@Html.Raw(Util.HandWinNumColorFor6(plan.Num, record.Num, plan.Sort))</font>
-                                                    </td>
-
-                                                    <td width="30%" align="center">
-                                                        @if (plan.Result == "中")
-                                                        {
-                                                            <font class="Mif_red">(中)</font>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                        else if (lType == 63 || lType == 64)
-                                        {
-
-                                            //北京赛车
-                                            foreach (Plan plan in data)
-                                            {
-                                                count2++;
-                                                numArr = plan.Num.Split('|');
-                                                string result = plan.Result;
-                                                if (!string.IsNullOrEmpty(result))
-                                                {
-                                                    string[] resultArr = result.Split('|');
-                                                    <tr>
-                                                        <td width="20%" align="center">
-                                                            @if (plan.ShowSort == "冠军" || plan.ShowSort == "亚军")
-                                                            {
-                                                                <font class="Mif_titred">@plan.ShowSort</font>
-                                                            }
-                                                            else
-                                                            {
-                                                                <font>@plan.ShowSort</font>
-                                                            }
-                                                        </td>
-
-                                                        <td width="40%" align="left">
-                                                            @if (resultArr[0] == "中")
-                                                            {
-                                                                @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                            else
-                                                            {
-                                                                <font>@numArr[0]</font>
-                                                            }
-                                                        </td>
-                                                        <td width="20%" align="left">
-
-                                                            <font>@numArr[1]</font>
-                                                            @if (resultArr[1] == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-                                                        <td width="20%" align="left">
-
-                                                            <font>@numArr[2]</font>
-                                                            @if (resultArr[2] == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-
-                                                    </tr>
-
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td width="20%" align="center">
-                                                            @if (plan.ShowSort == "冠军" || plan.ShowSort == "亚军")
-                                                            {
-                                                                <font class="Mif_titred">@plan.ShowSort</font>
-                                                            }
-                                                            else
-                                                            {
-                                                                <font>@plan.ShowSort</font>
-                                                            }
-                                                        </td>
-
-                                                        <td width="40%" align="left"><font>@numArr[0]</font></td>
-                                                        <td width="20%" align="left"><font>@numArr[1]</font></td>
-                                                        <td width="20%" align="left"><font>@numArr[2]</font></td>
-
-
-                                                    </tr>
-                                                }
-
-                                            }
-                                        }
-                                        else
-                                        {
-
-
-                                            //重庆时时彩 11选5
-                                            foreach (Plan plan in data)
-                                            {
-                                                count2++;
-
-
-                                                if (count2 < 5)
-                                                {
-                                                    numArr = plan.Num.Split('|');
-                                                    string result = plan.Result;
-                                                    if (!string.IsNullOrEmpty(result))
-                                                    {
-                                                        string[] resultArr = result.Split('|');
-
-                                                        <tr>
-                                                            <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                                            <td width="40%" align="left">
-                                                                @if (resultArr[0] == "中")
-                                                                {
-                                                                    @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
-                                                                    <font class="Mif_red">(中)</font>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <font>@numArr[0]</font>
-                                                                }
-                                                            </td>
-                                                            <td width="20%" align="left">
-                                                                <font>@numArr[1]</font>
-                                                                @if (resultArr[1] == "中")
-                                                                {
-                                                                    <font class="Mif_red">(中)</font>
-                                                                }
-                                                            </td>
-                                                            <td width="20%" align="left">
-                                                                <font>@numArr[2]</font>
-                                                                @if (resultArr[2] == "中")
-                                                                {
-                                                                    <font class="Mif_red">(中)</font>
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <tr>
-                                                            <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                                            <td width="40%" align="left"><font>@numArr[0]</font></td>
-                                                            <td width="20%" align="left"><font>@numArr[1]</font></td>
-                                                            <td width="20%" align="left"><font>@numArr[2]</font></td>
-                                                        </tr>
-                                                    }
-
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td align="center"><font>@plan.ShowSort</font></td>
-                                                        <td colspan="3" align="center">
-                                                            <font>@plan.Num</font>
-                                                            @if (plan.Result == "中")
-                                                            {
-                                                                <font class="Mif_red">(中)</font>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-
-
-                                            }
-                                        }
-
-
-
-                                    </tbody>
-
                                 </table>
                             </div>
+                            
+                            <div id="mescroll5" class="mescroll mscroll">
+                                
+                                <div id="planList">
+                                    
 
-                        }
+                                </div>
 
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -625,7 +242,7 @@
 
 
         @*高手推荐*@
-        <div id="mescroll0" class="Plan_CInfo mescroll" style="display: none;">
+        <div id="mescroll0" class="Plan_CInfo mescroll mscroll" style="display: none;">
 
             <div id="datalist0" class="Plan_CIfBox data-list">
 
@@ -634,7 +251,7 @@
 
 
         @*免费专家*@
-        <div id="mescroll1" class="Plan_CInfo mescroll" style="display: none;">
+        <div id="mescroll1" class="Plan_CInfo mescroll mscroll" style="display: none;">
             <div id="datalist1" class="Plan_CIfBox data-list">
 
             </div>
@@ -646,6 +263,7 @@
 
 
     <script type="text/javascript">
+        
 
         var curNavIndex = 0;
         var playType = 0;
@@ -816,26 +434,26 @@
                 }
 
                 itemHtml += '</div>'
-                + '            <div class="KL_font">'
-                + '                <h3 class="KL_fh3On">'
-                + '                    <a href="/Plan/PlayRecord/'+item.lType+'?uid='+item.UserId+'">'+item.Name+'</a>'
-                + '                </h3>'
-                //+ '                <p>1000次查看</p>'
-                + '            </div>'
-                + '        </div>'
-                + '        <div class="CIFB_KR">'
-                + '            <div class="KR_L f-l">'
-                + '                <h3>'+item.HitRateDesc+'</h3>'
-                + '                <p>最大连中'+item.MaxWin+'期</p>'
-                + '            </div>'
-                + '            <div class="KR_R">'
-                + '                <h3>'
-                + '                    <span>'+item.PlayTotalScore+'</span></i>'
-                + '                </h3>'
-                + '                <p>上期'+(item.LastWin?"中":"未中")+'</p>'
-                + '            </div>'
-                + '        </div>'
-                + '    </div>';
+                    + '            <div class="KL_font">'
+                    + '                <h3 class="KL_fh3On">'
+                    + '                    <a href="/Plan/PlayRecord/'+item.lType+'?uid='+item.UserId+'">'+item.Name+'</a>'
+                    + '                </h3>'
+                    //+ '                <p>1000次查看</p>'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="CIFB_KR">'
+                    + '            <div class="KR_L f-l">'
+                    + '                <h3>'+item.HitRateDesc+'</h3>'
+                    + '                <p>最大连中'+item.MaxWin+'期</p>'
+                    + '            </div>'
+                    + '            <div class="KR_R">'
+                    + '                <h3>'
+                    + '                    <span>'+item.PlayTotalScore+'</span></i>'
+                    + '                </h3>'
+                    + '                <p>上期'+(item.LastWin?"中":"未中")+'</p>'
+                    + '            </div>'
+                    + '        </div>'
+                    + '    </div>';
 
                 itemList.push(itemHtml);
             });

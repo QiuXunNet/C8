@@ -71,6 +71,7 @@
     <Compile Include="News\NewsType.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="Play.cs" />
+    <Compile Include="Talk\BlackListView.cs" />
     <Compile Include="Talk\ProcessingRecords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceMapping.cs" />
