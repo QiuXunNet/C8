@@ -53,7 +53,7 @@ namespace C8.Lottery.Portal.Controllers
                 else
                 {
                     ViewBag.UserId = user.Id;
-                    ViewBag.UserName = user.UserName;
+                    ViewBag.UserName = user.Name;
                     ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;//user.;
                     ViewBag.IsAdmin = false; //
                 }
@@ -284,6 +284,7 @@ namespace C8.Lottery.Portal.Controllers
         /// 添加聊天记录
         /// </summary>
         /// <param name="model"></param>
+        [ValidateInput(false)]
         public ActionResult AddMessage(TalkNotes model)
         {
             model.SendTime = DateTime.Now;
@@ -332,7 +333,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (!string.IsNullOrEmpty(guid))
             {
-                sql = string.Format(sql, " and id<(select id from TalkNotes where RoomId = @RoomId and Status = 1 and Guid = @Guid) ");
+                sql = string.Format(sql, " and id<(select top(1) id from TalkNotes where RoomId = @RoomId and Status = 1 and Guid = @Guid) ");
             }
             else
             {
@@ -538,11 +539,25 @@ namespace C8.Lottery.Portal.Controllers
 
                 list.ForEach(e =>
                 {
+                    var msg = "";
+                    switch (e.Type)
+                    {
+                        case 1:
+                            msg = "删除消息";
+                            break;
+                        case 2:
+                            msg = "拉黑";
+                            break;
+                        case 3:
+                            msg = "解除拉黑";
+                            break;
+                    }
+
                     dyList.Add(new
                     {
                         Id = e.Id,
                         Date = e.ProcessDate.ToString("yyyy-MM-dd"),
-                        Message = "管理员对用户\"" + e.ProcessToName + "\"进行" + (e.Type == 1 ? "删除消息" : "拉黑") + "处理",
+                        Message = "管理员对用户\"" + e.ProcessToName + "\"进行" + msg + "处理",
                         Time = e.ProcessTime.ToString("HH:mm")
                     });
                 });
@@ -596,13 +611,23 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="userId"></param>
         /// <param name="roomId"></param>
         /// <returns></returns>
-        public ActionResult RemoveBlackList(int userId, int roomId)
+        public ActionResult RemoveBlackList(int userId, int roomId,string userName)
         {
             string sql = "delete TalkBlackList where UserId = @UserId and RoomId = @RoomId";
 
             try
             {
                 SqlHelper.ExecuteScalar(sql, new SqlParameter[] { new SqlParameter("@UserId",userId),new SqlParameter("@RoomId",roomId)});
+
+                var processingRecords = new ProcessingRecords()
+                {
+                    ProcessToId = userId,
+                    ProcessToName = userName,
+                    Type = 3,
+                    RoomId = roomId
+                };
+
+                AddProcessingRecords(processingRecords);
 
                 return Json(new { Status = 1});
             }
