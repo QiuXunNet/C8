@@ -491,11 +491,12 @@
                         </ul>
 
                     }
-
+                
                 }
+
             }
-
-
+          
+            <div style="clear:both;"></div> 
         </div>
         <a href="javascript:;" class="GS_btn"><img src="~/images/50.png"></a>
     </div>
@@ -518,7 +519,7 @@
 
                         @Html.Action("GetIntegralRule", "Personal", new { ltype = Convert.ToInt32(item.lType), Pid = item.PId })
 
-
+                      
                     </div>
                 }
                 else
@@ -526,7 +527,7 @@
                     <div class="Grades Grades_@name" style="display:none">
                         @Html.Action("GetIntegralRule", "Personal", new { ltype = Convert.ToInt32(item.lType), Pid = item.PId })
 
-
+                    
                     </div>
 
                 }

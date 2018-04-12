@@ -13,7 +13,7 @@ namespace C8.Lottery.Portal.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
 
-            string sessionId = filterContext.HttpContext.Request["UserId"];
+            string sessionId =Convert.ToString(filterContext.HttpContext.Request.Cookies["UserId"].Value);
             string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
             bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
 
