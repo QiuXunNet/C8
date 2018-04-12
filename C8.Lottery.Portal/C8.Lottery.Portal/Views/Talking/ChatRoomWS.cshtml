@@ -180,8 +180,8 @@
                 $(".btn_face").removeClass("active");
                 $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
 
-                var t = $(this).val();
-                $(this).val("").focus().val(t);
+                //var t = $(this).val();
+                //$(this).val("").focus().val(t);
             });
         }       
 
@@ -460,7 +460,7 @@
 
             switch (data.MsgTypeChild) {
                 case 21:
-                    contentHtml += "<div class='c_main'>" + data.Content + "</div>";
+                    contentHtml += "<div class='c_main'>" + data.Content.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</div>";
                     break;
                 case 23:
                     var message = "/images/emoji/Face/" + data.Content.substr(7, data.Content.length - 8) + ".png";
@@ -486,7 +486,7 @@
             if (data.IsAdmin) {
                 msgHtml += "            <i class='i_tag'>管理员</i>";
             }
-            msgHtml += "<span class='nickname'>"+data.UserName+"</span><s>" + data.SendTimeStr + "</s>";
+            msgHtml += "<span class='nickname' style='color: #999;'>"+data.UserName+"</span><s>" + data.SendTimeStr + "</s>";
             msgHtml += "        </h3>";
             if (isAdmin == "True" && data.UserId == userId) {
                 msgHtml += "        <div class='c_do'>";
@@ -623,13 +623,6 @@
             if (ws.readyState == WebSocket.OPEN) {
                 ws.send(json);
             }
-        }
-
-        function replaceAll(str) {
-            for (var i = 0; i < str.length; i++) {
-                str = str.replace(" ", "&nbsp;").replace(/\n|\r|(\r\n)/, "</br>");
-            }
-            return str;
         }
 
         //生成32位GUID

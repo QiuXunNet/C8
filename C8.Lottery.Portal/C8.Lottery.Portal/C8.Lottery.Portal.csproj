@@ -675,10 +675,13 @@
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
     <Content Include="js\luo\mescroll.min.js" />
+    <Content Include="js\luo\plan.index.expert.js" />
+    <Content Include="js\luo\notice.js" />
     <Content Include="js\luo\picmax.js" />
     <Content Include="js\luo\plan.js" />
     <Content Include="js\luo\play.js" />
     <Content Include="js\opendate.js" />
+    <Content Include="js\plan_scroll1.js" />
     <Content Include="js\public.js" />
     <Content Include="js\runTime2.js" />
     <Content Include="js\runTime3.js" />
@@ -762,6 +765,8 @@
     <Content Include="Views\Personal\MyCommission.cshtml" />
     <Content Include="Views\Talking\ChatRoomWS.cshtml" />
     <Content Include="Views\Personal\CommissionRules.cshtml" />
+    <Content Include="Views\Talking\BlackList.cshtml" />
+    <Content Include="Views\Shared\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

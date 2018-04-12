@@ -5,9 +5,7 @@
     long userId = ViewBag.UserId;
     int ltype = ViewBag.LType;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -21,15 +19,12 @@
     <script type="text/javascript" src="~/js/dialog.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
-
-<body style="background:#F4F4F5;">
-
+<body style="background:#F4F4F5; overflow-y: hidden;">
     <header class="hjc_header">
-        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">我的计划</a>
         <a href="javascript:;" class="SX_A SX_pop">筛选</a>
     </header>
-
     <div class="guessing_header">
         <ul class="C8_nav3 C8_JIlU">
             <li class="current" data-index="0"><a href="javascript:;"><p>全部</p><span></span></a></li>
@@ -38,45 +33,59 @@
         </ul>
         <div style="clear:both;"></div>
     </div>
-
-    <div class="details_box mescroll-wrapper" style="height: calc(100% - 100px);">
+    <div class="details_box" style="margin-top: 100px;">
         <div class="details_info mescroll" id="mescroll0">
             <div id="datalist0" class="data-list">
-                
+
             </div>
         </div>
         <div class="details_info1 mescroll" id="mescroll1" style="display:none;">
             <div id="datalist1" class="data-list">
-                
+
             </div>
         </div>
         <div class="details_info1 mescroll" id="mescroll2" style="display:none;">
             <div id="datalist2" class="data-list">
-                
+
             </div>
         </div>
     </div>
-
     <div class="ShaiXuan">
         <div class="shaiXuan_yy"></div>
         <div class="shaiXuan_con">
             <ul class="SX_Ul">
-                <li class="current"><a href="/Personal/MyPlan">全部</a></li>
+                @if (ltype > 0)
+                {
+                    <li><a href="/Personal/MyPlan">全部</a></li>
+                }
+                else
+                {
+                    <li class="current"><a href="/Personal/MyPlan">全部</a></li>
+                }
                 @if (Model != null)
                 {
                     foreach (var type in Model)
                     {
-                        <li><a href="/Personal/MyPlan/@type.Id">@type.TypeName</a></li>
+                        if (type.Id == ltype)
+                        {
+                            <li class="current"><a href="/Personal/MyPlan/@type.Id">@type.TypeName</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/Personal/MyPlan/@type.Id">@type.TypeName</a></li>
+                        }
                     }
                 }
             </ul>
             <div style="clear:both;"></div>
         </div>
     </div>
-
     <script type="text/javascript">
 
         $(function () {
+            var dh = $(document).height() -200;
+            $(".details_box").height(dh);
+
             var curNavIndex = 0;
             var mescrollArr = new Array(3);
             mescrollArr[0]=initMescroll("mescroll0", "datalist0");
@@ -200,7 +209,7 @@
                         if (res.IsSuccess && res.Data) {
                             //回调
                             successCallback( res.Data.PageData,res.Data.HasNextPage);
-                            
+
                             //alert($("#datalist0").height());
 
                         } else {
