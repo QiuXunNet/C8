@@ -684,7 +684,7 @@
     <Content Include="js\public.js" />
     <Content Include="js\runTime2.js" />
     <Content Include="js\runTime3.js" />
-    <Content Include="js\test.js" />
+    <Content Include="js\plan_scroll1.js" />
     <Content Include="js\TouchSlide.1.1.js" />
     <Content Include="js\view.js" />
     <Content Include="js\yjp-old.js" />

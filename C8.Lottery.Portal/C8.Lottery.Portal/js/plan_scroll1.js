@@ -26,7 +26,7 @@ $(function () {
 
 
     //
-    BindQiHao_NavLiClick();
+    BindQiHao_NavLiClick();         //选择期数
 
 
 });

@@ -930,14 +930,15 @@ $(function () {
             }
 
             _currentNum.html(selectedResult);
-            module.hide();
-            qiu = qiuClone;
+            
 
             var quantity = calc(); //计算各个彩种注数
             if (typeof (quantity) != 'undefined') {
                 $(".WanFa_footer .WF_ftTitle span").html(quantity);
             }
 
+            module.hide();
+            qiu = qiuClone;
             $(".mask").hide();
             // $(document).dialog({
             //     type: 'notice',
