@@ -251,6 +251,47 @@ namespace C8.Lottery.Portal.Controllers
 
             return Json(jsonmsg);
         }
+
+
+        /// <summary>
+        /// 增加邀请成功注册任务记录
+        /// </summary>
+        public void AddUserTask(int UserId,int TaskCode)
+        {
+            string countsql = "select * from UserTask where UserId=@UserId and TaskId=@TaskId ";
+            string strsqlup = "update UserTask set CompletedCount=CompletedCount+1 where UserId=@UserId and TaskId=@TaskId";
+            string strsqlins = "insert into UserTask(UserId, TaskId, CompletedCount)values(@UserId, @TaskId, 1)";
+            string strtasksql = "select * from MakeMoneyTask   where Code = 105";//邀请成功注册任务
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@UserId",UserId),
+                new SqlParameter("@TaskId",TaskCode)
+
+            };
+
+            try
+            {
+                int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                UserTask task = Util.ReaderToModel<UserTask>(countsql, sp);
+                if (count > 0)
+                {
+                    SqlHelper.ExecuteNonQuery(strsqlup, sp);
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
+
+            
+
+
+
+        }
+
+
         /// <summary>
         /// 增加金币
         /// </summary>
@@ -447,9 +488,9 @@ namespace C8.Lottery.Portal.Controllers
                             string guid = Guid.NewGuid().ToString();
                             Response.Cookies["UserId"].Value = guid;
                             //Session[guid] = user.Id;
-
+                            Response.Cookies["UserId"].Expires= DateTime.Now.AddMonths(1);
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
-                            CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMinutes(30));
+                            CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
 
 
                             jsonmsg.Success = true;
@@ -613,8 +654,7 @@ namespace C8.Lottery.Portal.Controllers
             return Json(jsonmsg);
         }
 
-
-
+      
         /// <summary>
         /// 计划
         /// </summary>
