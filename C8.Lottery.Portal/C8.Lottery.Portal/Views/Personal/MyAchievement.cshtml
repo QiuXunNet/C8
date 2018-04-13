@@ -282,7 +282,8 @@
                                        
                                         mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
                                     }
-                                } else {
+                                } else
+                                {
                                     var lonum = item.LotteryNum.Num.split(',');
                               
                                     if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特")
@@ -292,6 +293,7 @@
                                   
                                     if (lonum[z] == mynumsplit[x])
                                     {
+                                        console.log("中了")
                                       
                                        mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
 
@@ -301,7 +303,7 @@
                             }
                         }
                         bethtml += '<tr><td align="center" valign="middle" width="25%"><p>' + item.BettingRecord[j].PlayName + '</p> </td>'
-                        + ' <td align="center" valign="middle">  <p>' + mynum + '<span class="For_Red"></span></p> </td>'
+                        + ' <td align="center" valign="middle"  width="25%">  <p style="word-break:break-all; ">' + mynum + '<span class="For_Red"></span></p> </td>'
                         + '<td align="center" valign="middle" width="25%"> <p class="' + cliswin + '">    <font class="P_TF">' + iswin + '</font><span>' + issym + '' + item.BettingRecord[j].Score + '</span></p>  </td> </tr>'
                     }
                 }

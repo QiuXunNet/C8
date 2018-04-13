@@ -224,7 +224,7 @@
                 if (curNavIndex == 2)
                 {
                     text = item.UserName;
-                    moneyhtml = '<p><span class="sp_Dy">' + (item.Type==3?"点阅":"打赏" )+ '</span>-<span>' + item.Money + '</span></p></div>';
+                    moneyhtml = '<p><span>' + (item.Type==3?"点阅":"打赏" )+ '</span>-<span>' + item.Money + '</span></p></div>';
                     timehtml = '<p>' + item.Issue +'期'+ getDateTime(item.SubTime, curNavIndex) + '</p>'
                 } else if (curNavIndex == 1)
                 {
@@ -254,7 +254,7 @@
                        + '<dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt><dd>'
                        +'<div class="details_ddRight">'+moneyhtml+'</div>'
                        +'<div class="details_ddLeft">'
-                       + '<h3><a href="javascript:;">' + text + '</a></h3>'
+                       + '<h3><a href="javascript:;"><b>' + text + '</b></a></h3>'
                        + timehtml + '</div> </dd></dl>'
 
                 itemList.push(itemHtml);

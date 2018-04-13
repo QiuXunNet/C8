@@ -1451,7 +1451,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 string lotterytypesql = @"select * from LotteryType2 where PId=0  order by Position ";
                 List<LotteryType2> LotteryTypelist = Util.ReaderToList<LotteryType2>(lotterytypesql);//频道
 
-                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position ";
+                string lotterysql = @"select * from [dbo].[LotteryType2] where PId<>0  order by Position,PId ";
                 List<LotteryType2> Lotterylist = Util.ReaderToList<LotteryType2>(lotterysql);//采种
 
                 string IntegralRulesql = @"select * from IntegralRule";
