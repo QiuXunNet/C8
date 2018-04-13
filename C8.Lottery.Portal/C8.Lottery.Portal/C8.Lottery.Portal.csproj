@@ -123,6 +123,7 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
@@ -768,6 +769,11 @@
     <Content Include="Views\Personal\CommissionRules.cshtml" />
     <Content Include="Views\Talking\BlackList.cshtml" />
     <Content Include="Views\Shared\Footer.cshtml" />
+    <Content Include="Views\List\Index.cshtml" />
+    <Content Include="Views\List\New.cshtml" />
+    <Content Include="Views\List\Expert.cshtml" />
+    <Content Include="Views\Plan\PlanData.cshtml" />
+    <Content Include="Views\List\ExpertData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
