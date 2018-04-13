@@ -75,7 +75,7 @@
                                         <span>@comment.StarCount</span>
                                     }
                                 </a>
-                                <a href="/Comment/Index/@ViewBag.ArticleId?ctype=2&type=@ViewBag.Type" class="comp_HF"><img src="/images/46_3.png"></a>
+                                <a href="/Comment/Index/@comment.Id?ctype=2&type=@ViewBag.Type" class="comp_HF"><img src="/images/46_3.png"></a>
                             </div>
 
                             @if (comment.ReplayCount > 0)
@@ -229,7 +229,7 @@
                 }
                 li+= '<span>' + (value.StarCount > 0 ? value.StarCount : '') + '</span>'
                     + '</a>'
-                    + '<a href="/Comment/Index/' + id + '?ctype=2&type=' + ctype + '" class="comp_HF"><img src="/images/46_3.png"></a>'
+                    + '<a href="/Comment/Index/' + value.Id + '?ctype=2&type=' + ctype + '" class="comp_HF"><img src="/images/46_3.png"></a>'
                     + '</div>'
                     + (value.ReplayCount > 0 ? '<div class="comp_replay"><a href="/News/CommentDetail/' + value.Id + '">查看全部<span>' + value.ReplayCount + '</span>条回复>></a></div>' : '')
                     + '</li>';

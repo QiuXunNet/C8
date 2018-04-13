@@ -35,34 +35,87 @@ namespace C8.Lottery.Portal.Controllers
             //step2.查询具体彩种
             string lotteryListSql = @"select * from LotteryType2 where PId>0  order by Position ";
             var lotteryList = Util.ReaderToList<LotteryType2>(lotteryListSql).GroupBy(x => x.PId);
-            ViewBag.LotteryList = lotteryList;
+            ViewBag.LotteryList = lotteryList.OrderBy(x => x.Key);
 
-            //step3.查询高手榜列表
-
-
+            //step3.查询当前彩种信息
+            var model = Util.GetEntityById<LotteryType2>(id);
 
             //step2.查询当前
-            return View();
+            return View(model);
         }
 
         /// <summary>
         /// 榜单数据
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="lType"></param>
         /// <returns></returns>
         [Authentication]
-        public ActionResult ExpertData(int lType)
+        public ActionResult ExpertData(int id)
         {
-            //查询日榜
+            int lType = id;
+            long userId = UserHelper.LoginUser.Id;
+            //step1.查询日榜
             var dailyList = GetSuperiorListDay(lType, DateTime.Today);
             ViewBag.DailyList = dailyList;
 
-            //查询周榜
+            var userDailyInfo = GetUserRankingInfo(lType, "day");
 
-            //查询月榜
+            if (dailyList != null && dailyList.Count > 0)
+            {
+                var userRankInfo = dailyList.FirstOrDefault(x => x.UserId == userId);
 
-            //查询总榜
+                if (userRankInfo != null)
+                {
+                    userDailyInfo.Rank = userRankInfo.Rank;
+                }
+            }
+            ViewBag.UserDailyInfo = userDailyInfo;
+
+            //step2.查询周榜
+            var weekList = GetSuperiorListWeek(lType);
+            ViewBag.WeekList = weekList;
+
+            var userWeekInfo = GetUserRankingInfo(lType, "week");
+            if (weekList != null && weekList.Count > 0)
+            {
+                var userWeekRank = weekList.FirstOrDefault(x => x.UserId == userId);
+                if (userWeekRank != null)
+                {
+                    userWeekInfo.Rank = userWeekRank.Rank;
+                }
+            }
+            ViewBag.UserWeekInfo = userWeekInfo;
+
+            //step3.查询月榜
+            var monthList = GetSuperiorListMonth(lType);
+            ViewBag.MonthList = monthList;
+
+            var userMonthInfo = GetUserRankingInfo(lType, "month");
+            if (monthList != null && monthList.Count > 0)
+            {
+                var userMonthRank = monthList.FirstOrDefault(x => x.UserId == userId);
+                if (userMonthRank != null)
+                {
+                    userMonthInfo.Rank = userMonthRank.Rank;
+                }
+            }
+            ViewBag.UserMonthInfo = userMonthInfo;
+
+            //step4.查询总榜
+            var totalList = GetSuperiorListAll(lType);
+            ViewBag.TotalList = totalList;
+
+            var userTotalInfo = GetUserRankingInfo(lType, "all");
+            if (totalList != null && totalList.Count > 0)
+            {
+                var userTotalRank = totalList.FirstOrDefault(x => x.UserId == userId);
+                if (userTotalRank != null)
+                {
+                    userTotalInfo.Rank = userTotalRank.Rank;
+                }
+            }
+            ViewBag.UserTotalInfo = userTotalInfo;
+
             return View();
         }
 
@@ -109,14 +162,17 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list == null || list.Count < 1)
             {
-                string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
-  FROM dbo.SuperiorRecord a
-  left join UserInfo b on b.Id=a.UserId
-  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
-  WHERE a.lType=@lType AND a.[Date]<@Date";
+                string sql = @"
+  select row_number() over(order by Score DESC ) as [Rank], * from (
+      SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
+      FROM dbo.SuperiorRecord a
+      left join UserInfo b on b.Id=a.UserId
+      left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
+      WHERE a.lType=@lType 
+      GROUP BY a.lType,a.UserId,b.Name,c.RPath
+  ) tt WHERE Score > 0";
                 SqlParameter[] paras = {
-                        new SqlParameter("@lType",lType),
-                        new SqlParameter("@Date",today)
+                        new SqlParameter("@lType",lType)
                     };
 
                 list = Util.ReaderToList<RankingList>(sql, paras);
@@ -143,11 +199,15 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list == null || list.Count < 1)
             {
-                string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
-  FROM dbo.SuperiorRecord a
-  left join UserInfo b on b.Id=a.UserId
-  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
-  WHERE a.lType=@lType AND a.[Date] Between @StartDate and @EndDate";
+                string sql = @"
+  select row_number() over(order by Score DESC ) as [Rank], * from (
+      SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
+      FROM dbo.SuperiorRecord a
+      left join UserInfo b on b.Id=a.UserId
+      left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
+      WHERE a.lType=@lType AND a.[Date] Between @StartDate and @EndDate
+      GROUP BY a.lType,a.UserId,b.Name,c.RPath
+  ) tt WHERE Score > 0";
 
                 SqlParameter[] paras = {
                         new SqlParameter("@lType",lType),
@@ -156,7 +216,7 @@ namespace C8.Lottery.Portal.Controllers
                     };
                 list = Util.ReaderToList<RankingList>(sql, paras);
 
-                if (list.Any())
+                if (list != null)
                 {
                     MemClientFactory.WriteCache(memberKey, list, 60 * 24);
                 }
@@ -179,11 +239,15 @@ namespace C8.Lottery.Portal.Controllers
 
             if (list == null || list.Count < 1)
             {
-                string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
-  FROM dbo.SuperiorRecord a
-  left join UserInfo b on b.Id=a.UserId
-  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
-  WHERE a.lType=@lType AND a.[Date] Between @StartDate and @EndDate";
+                string sql = @"
+  select row_number() over(order by Score DESC ) as [Rank], * from (
+      SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
+      FROM dbo.SuperiorRecord a
+      left join UserInfo b on b.Id=a.UserId
+      left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
+      WHERE a.lType=@lType AND a.[Date] Between @StartDate and @EndDate
+      GROUP BY a.lType,a.UserId,b.Name,c.RPath
+  ) tt WHERE Score > 0";
 
                 SqlParameter[] paras = {
                         new SqlParameter("@lType",lType),
@@ -191,7 +255,8 @@ namespace C8.Lottery.Portal.Controllers
                         new SqlParameter("@EndDate",endTime)
                     };
                 list = Util.ReaderToList<RankingList>(sql, paras);
-                if (list.Any())
+
+                if (list != null)
                     MemClientFactory.WriteCache(memberKey, list, 60 * 24 * 7);
             }
 
@@ -204,45 +269,72 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         private List<RankingList> GetSuperiorListDay(int lType, DateTime nowDate)
         {
-            string date = nowDate.ToString("yyyy-MM-dd");
+            string date = nowDate.AddDays(-1).ToString("yyyy-MM-dd");
             string memberKey = "superior_" + lType + "_day_" + nowDate.ToString("yyyyMMdd");
-            bool flag = CacheHelper.IsExistCache(memberKey);
-            if (flag)
+
+            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+
+            if (list == null || list.Count < 1)
             {
-                string key = "superior_" + lType + "_day_" + nowDate.AddDays(-1).ToString("yyyyMMdd");
-                DelCache(key);
-                key = "superior_" + lType + "_day_" + nowDate.AddDays(-2).ToString("yyyyMMdd");
-                DelCache(key);
-                return MemClientFactory.GetCache<List<RankingList>>(key);
-            }
-            else
-            {
-                DateTime refreshTime = Convert.ToDateTime(date + " 06:00:00");
-                if (nowDate > refreshTime)
-                {
-                    string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
+                string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
   FROM dbo.SuperiorRecord a
   left join UserInfo b on b.Id=a.UserId
   left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
-  WHERE a.lType=@lType AND a.[Date]=@Date";
-                    SqlParameter[] paras = {
+  WHERE a.lType=@lType AND a.[Date]=@Date AND a.Score>0";
+                SqlParameter[] paras = {
                         new SqlParameter("@lType",SqlDbType.Int),
                         new SqlParameter("@Date",SqlDbType.Date)
                     };
-                    paras[0].SqlValue = lType;
-                    paras[1].SqlValue = date;
+                paras[0].SqlValue = lType;
+                paras[1].SqlValue = date;
 
-                    var list = Util.ReaderToList<RankingList>(sql, paras);
+                list = Util.ReaderToList<RankingList>(sql, paras);
 
-                    MemClientFactory.WriteCache(memberKey, list, 60 * 24);
-                    return list;
-                }
-                else
+                if (list != null)
                 {
-                    DateTime yesterday = Convert.ToDateTime(nowDate.AddDays(-1).ToString("yyyy-MM-dd") + " 07:00:00");
-                    return GetSuperiorListDay(lType, yesterday);
+                    MemClientFactory.WriteCache(memberKey, list, 60 * 24);
                 }
             }
+
+            return list;
+
+            //          bool flag = CacheHelper.IsExistCache(memberKey);
+            //          if (flag)
+            //          {
+            //              string key = "superior_" + lType + "_day_" + nowDate.AddDays(-1).ToString("yyyyMMdd");
+            //              DelCache(key);
+            //              key = "superior_" + lType + "_day_" + nowDate.AddDays(-2).ToString("yyyyMMdd");
+            //              DelCache(key);
+            //              return MemClientFactory.GetCache<List<RankingList>>(key);
+            //          }
+            //          else
+            //          {
+            //              DateTime refreshTime = Convert.ToDateTime(date + " 06:00:00");
+            //              if (nowDate > refreshTime)
+            //              {
+            //                  string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
+            //FROM dbo.SuperiorRecord a
+            //left join UserInfo b on b.Id=a.UserId
+            //left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
+            //WHERE a.lType=@lType AND a.[Date]=@Date";
+            //                  SqlParameter[] paras = {
+            //                      new SqlParameter("@lType",SqlDbType.Int),
+            //                      new SqlParameter("@Date",SqlDbType.Date)
+            //                  };
+            //                  paras[0].SqlValue = lType;
+            //                  paras[1].SqlValue = date;
+
+            //                  var list = Util.ReaderToList<RankingList>(sql, paras);
+
+            //                  MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+            //                  return list;
+            //              }
+            //              else
+            //              {
+            //                  DateTime yesterday = Convert.ToDateTime(nowDate.AddDays(-1).ToString("yyyy-MM-dd") + " 07:00:00");
+            //                  return GetSuperiorListDay(lType, yesterday);
+            //              }
+            //          }
         }
 
         private void DelCache(string key)
@@ -260,22 +352,39 @@ namespace C8.Lottery.Portal.Controllers
             switch (queryType)
             {
                 case "day":
-                    sqlWhere = string.Format("Date='{0}'", today);
+                    sqlWhere = string.Format(" and Date='{0}'", today.AddDays(-1));
                     break;
                 case "week":
                     DateTime endTime = today.GetWeekStart();
                     DateTime beginTime = today.GetWeekStart().AddDays(-7);
-                    sqlWhere = string.Format("Date between '{0}' and '{1}'", beginTime, endTime);
+                    sqlWhere = string.Format(" and Date between '{0}' and '{1}'", beginTime, endTime);
                     break;
                 case "month":
-                    sqlWhere = string.Format("Date between '{0}' and '{1}'");
+                    endTime = today.GetMonthStart();
+                    beginTime = endTime.AddMonths(-1);
+                    sqlWhere = string.Format(" and Date between '{0}' and '{1}'", beginTime, endTime);
                     break;
                 case "all":
-                    sqlWhere = string.Format("Date < '{0}'", today);
                     break;
             }
 
-            return null;
+            int userId = UserHelper.GetByUserId();
+            string sql = string.Format(@"SELECT isnull(sum(Score),0)
+  FROM dbo.SuperiorRecord
+  WHERE lType={0} and UserId={1}{2}", lType, userId, sqlWhere);
+
+            object score = SqlHelper.ExecuteScalar(sql);
+
+            var user = UserHelper.GetUser(userId);
+
+            return new RankingList()
+            {
+                UserId = userId,
+                Avater = user.Headpath,
+                LType = lType,
+                NickName = user.Name,
+                Score = score.ToInt32()
+            };
         }
     }
 }
