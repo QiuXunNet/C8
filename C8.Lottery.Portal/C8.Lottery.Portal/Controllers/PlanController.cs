@@ -158,6 +158,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
         //发帖
+        [Authentication]
         public ActionResult Post(int id)
         {
             //彩种
@@ -213,6 +214,10 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.issueDesc = "当前第<t id='currentIssue'>" + currentIssue + "</t>期";
 
 
+            //
+
+
+
             return View();
         }
 
@@ -245,11 +250,12 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         playName2 = Util.GetPlayName(lType, playName, s1, i);
 
-                        string sql = "insert into BettingRecord(UserId,lType,Issue,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
+                        string sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
 
                         SqlParameter[] pms =
                         {
                             new SqlParameter("@Issue", currentIssue),
+                            new SqlParameter("@BigPlayName", playName),
                             new SqlParameter("@PlayName", playName + playName2),
                             new SqlParameter("@BetNum", s1),
                         };
@@ -1011,6 +1017,17 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
             }
 
 
+        }
+
+
+
+        [Authentication]
+        public ActionResult AlreadyPostData(int id)
+        {
+            string sql = "select * from BettingRecord where UserId  =" + UserHelper.LoginUser.Id + " and lType=" + id + " and Issue = '" + Util.GetCurrentIssue(id) + "'";
+            List<BettingRecord> list = Util.ReaderToList<BettingRecord>(sql);
+
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 }
