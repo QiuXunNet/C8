@@ -21,12 +21,47 @@
     <script type="text/javascript" src="/js/bet.js"></script>
     
     <script type="text/javascript" src="/js/runTime2.js"></script>
+    
+    <script>
+
+        $(function() {
+
+            var lType = $('#lType').val();
+
+            var target;
+
+            $.post('/Plan/AlreadyPostData', { id: lType }, function(data) {
+
+                for(var i = 0; i< data.length; i++) {
+                    var d = data[i];
+                    var playName = d.BigPlayName;
+                    var betNum = d.BetNum;
+
+                    target = $('.WanFa_TableA h3:contains(' + playName + ')').parent().next();
+                    var html = target.html();
+                    if (html == '') {
+                        target.html(betNum);
+                    }
+                    else {
+                        target.html(html + '|' + betNum);
+                    }
+                }
+                    
+            });
+
+        });
+
+
+    </script>
+    
+    
+
 </head>
 
 <body style="background:#F4F4F5;">
     
     <input type="hidden" value="@ViewBag.lType" id="lType"/>
-
+    
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@ViewBag.lotteryName</a>
@@ -122,35 +157,35 @@
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">杀一码</h3>
                     </td>
-                    <td align="center" valign="middle" class="betContainer" id="fc3d_q4">6</td>
+                    <td align="center" valign="middle" class="betContainer" id="fc3d_q4"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('fc3d_q4','popup_10','fc3d');" data-id="fc3d_q4" data-type="popup_10" data-length="1" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">杀二码</h3>
                     </td>
-                    <td align="center" valign="middle" class="betContainer" id="fc3d_q5">2，6</td>
+                    <td align="center" valign="middle" class="betContainer" id="fc3d_q5"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('fc3d_q5','popup_10','fc3d');" data-id="fc3d_q5" data-type="popup_10" data-length="2" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">胆一码</h3>
                     </td>
-                    <td align="center" valign="middle" class="betContainer" id="fc3d_q6">6</td>
+                    <td align="center" valign="middle" class="betContainer" id="fc3d_q6"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('fc3d_q6','popup_10','fc3d');" data-id="fc3d_q6" data-type="popup_10" data-length="1" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">胆二码</h3>
                     </td>
-                    <td align="center" valign="middle" class="betContainer" id="fc3d_q7">2，6</td>
+                    <td align="center" valign="middle" class="betContainer" id="fc3d_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('fc3d_q7','popup_10','fc3d');" data-id="fc3d_q7" data-type="popup_10" data-length="2" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">胆三码</h3>
                     </td>
-                    <td align="center" valign="middle" class="betContainer" id="fc3d_q8">1，2，6</td>
+                    <td align="center" valign="middle" class="betContainer" id="fc3d_q8"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('fc3d_q8','popup_10','fc3d');" data-id="fc3d_q8" data-type="popup_10" data-length="3" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
@@ -164,63 +199,63 @@
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">红2胆</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q8">1，8</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q8"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q8','popup_num33','xsq');" data-id="xsq_q8" data-type="popup_num33" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td width="18%" align="center" valign="middle">
                         <h3 class="WF_Ttitle">红3胆</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q1">6，5，4</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q1"></td>
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('xsq_q1','popup_num33','xsq');" data-id="xsq_q1" data-type="popup_num33" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">杀3红</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q2">6，5，4</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q2"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q2','popup_num33','xsq');" data-id="xsq_q2" data-type="popup_num33" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">蓝单双</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q3">单</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q3"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q3','popup_dan','xsq');" data-id="xsq_q3" data-type="popup_dan" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">蓝大小</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q4">小</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q4"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q4','popup_daxiao','xsq');" data-id="xsq_q4" data-type="popup_daxiao" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">龙头单双</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q5">单</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q5"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q5','popup_dan','xsq');" data-id="xsq_q5" data-type="popup_dan" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">凤尾单双</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q6">双</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q6"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q6','popup_dan','xsq');" data-id="xsq_q6" data-type="popup_dan" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">蓝5码</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q9">1，2，5，6，8</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q9"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q9','popup_num16','xsq');" data-id="xsq_q9" data-type="popup_num16" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">蓝8码</h3>
                     </td>
-                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q7">1，2，5，6，8，2，3，4</td>
+                    <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q7','popup_num16','xsq');" data-id="xsq_q7" data-type="popup_num16" class="WF_Btn">选择号码</a></td>
                 </tr>
                 
