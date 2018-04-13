@@ -24,7 +24,7 @@ namespace C8.Lottery.Model
         public string ProcessName { get; set; }
 
         /// <summary>
-        /// 处理类型  1:删除消息   2:禁言
+        /// 处理类型  1:删除消息   2:禁言   3:解除拉黑
         /// </summary>
         public int Type { get; set; }
 

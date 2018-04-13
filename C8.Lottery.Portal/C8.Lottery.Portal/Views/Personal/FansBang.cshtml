@@ -28,10 +28,10 @@
 
     <div class="guessing_header">
         <ul class="C8_nav2 C8_bang">
-            <li class="current" data-id="1" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>日榜</p><span></span></a></li>
-            <li data-id="2" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>周榜</p><span></span></a></li>
-            <li data-id="3" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>月榜</p><span></span></a></li>
-            <li data-id="4" data-pageIndex="1" data-pageSize="10"><a href="javascript:;"><p>总榜</p><span></span></a></li>
+            <li class="current" data-id="1" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>日榜</p><span></span></a></li>
+            <li data-id="2" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>周榜</p><span></span></a></li>
+            <li data-id="3" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>月榜</p><span></span></a></li>
+            <li data-id="4" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>总榜</p><span></span></a></li>
             <div style="clear:both;"></div>
         </ul>
     </div>
@@ -93,7 +93,7 @@
         function initnews(clickElement) {
             var id = clickElement.attr("data-id"),
             pageIndex = clickElement.attr("data-pageindex") || 1,
-            pageSize = clickElement.attr("data-pagesize") || 10;
+            pageSize = clickElement.attr("data-pagesize") || 100;
             
             if (!id) return;
 

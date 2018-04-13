@@ -59,9 +59,5 @@ function BindconfirmBetCLick() {
         }
 
 
-
-
-
-
     });
 }
