@@ -2,10 +2,13 @@
 using Aop.Api.Request;
 using Aop.Api.Response;
 using Aop.Api.Util;
+using C8.Lottery.Model;
+using C8.Lottery.Public;
 using Senparc.Weixin.HttpUtility;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,15 +22,17 @@ namespace C8.Lottery.Portal.Controllers
     /// </summary>
     public class RechargeController : Controller
     {
-       // private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        // private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-
+        [Authentication]
         public ActionResult Index()
         {
+
+
             var no = Guid.NewGuid().ToString("N");
 
             ViewBag.OrdersId = no;
-
+            LogHelper.WriteLog("初始订单号：" + no);
 
             return View();
         }
@@ -37,9 +42,10 @@ namespace C8.Lottery.Portal.Controllers
         string mchid = "1375852802";
         string key = "1de60212dceafe2b4fdb621bd6f04288";
 
-        public ActionResult GetWxUrl(decimal amount, string no)
+        public ActionResult GetWxUrl(int amount, string no)
         {
             var redirect_url = HttpUtility.UrlEncode("http://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
+            var total = (amount * 100).ToString();
 
             Senparc.Weixin.MP.TenPayLibV3.RequestHandler packageReqHandler = new Senparc.Weixin.MP.TenPayLibV3.RequestHandler(null);
             packageReqHandler.SetParameter("appid", appid);//APPID
@@ -47,9 +53,9 @@ namespace C8.Lottery.Portal.Controllers
             packageReqHandler.SetParameter("nonce_str", Senparc.Weixin.MP.TenPayLibV3.TenPayV3Util.GetNoncestr());
             packageReqHandler.SetParameter("body", "金币充值");
             packageReqHandler.SetParameter("out_trade_no", no);//订单号
-            packageReqHandler.SetParameter("total_fee", ((int)(amount * 100)).ToString()); //金额,以分为单位
+            packageReqHandler.SetParameter("total_fee", total); //金额,以分为单位
             packageReqHandler.SetParameter("spbill_create_ip", Request.UserHostAddress);//IP
-            packageReqHandler.SetParameter("notify_url", "http://" + HttpContext.Request.Url.Host + "/Recharge/AsyncPay"); //回调地址
+            packageReqHandler.SetParameter("notify_url", "http://" + HttpContext.Request.Url.Host + "/Recharge/WxNotify"); //回调地址
             packageReqHandler.SetParameter("trade_type", "MWEB");//这个不可以改。固定为Mweb
             packageReqHandler.SetParameter("sign", packageReqHandler.CreateMd5Sign("key", key));
             string data = packageReqHandler.ParseXML();
@@ -58,14 +64,22 @@ namespace C8.Lottery.Portal.Controllers
             MemoryStream ms = new MemoryStream();
             ms.Write(formDataBytes, 0, formDataBytes.Length);
             ms.Seek(0, SeekOrigin.Begin);
-            var result = RequestUtility.HttpPost(urlFormat, null, ms);
 
-            var res = System.Xml.Linq.XDocument.Parse(result);
-            //log.Info(res);
-            //log.Info("订单号:" + no);
-            string mweb_url = res.Element("xml").Element("mweb_url").Value + "&redirect_url=" + redirect_url;
+            if (AddComeOutRecord(no, amount, 1))
+            {
+                var result = RequestUtility.HttpPost(urlFormat, null, ms);
 
-            return Content(mweb_url);
+                var res = System.Xml.Linq.XDocument.Parse(result);
+                //log.Info(res);
+                //log.Info("订单号:" + no);
+                string mweb_url = res.Element("xml").Element("mweb_url").Value + "&redirect_url=" + redirect_url;
+
+                return Content(mweb_url);
+            }
+            else
+            {
+                return Content("0");
+            }
         }
 
         public ActionResult WxNotify()
@@ -77,8 +91,8 @@ namespace C8.Lottery.Portal.Controllers
             string return_msg = payNotifyRepHandler.GetParameter("return_msg");
             string xml = string.Format(@"<xml><return_code><![CDATA[{0}]]></return_code><return_msg><![CDATA[{1}]]></return_msg></xml>", return_code, return_msg);
 
-         //   log.Info(xml);
-
+            //   log.Info(xml);
+            LogHelper.WriteLog(xml);
             if (return_code.ToUpper() != "SUCCESS")
             {
                 return Content(xml, "text/xml");
@@ -90,19 +104,15 @@ namespace C8.Lottery.Portal.Controllers
             //微信服务器可能会多次推送到本接口，这里需要根据out_trade_no去查询订单是否处理，如果处理直接返回：return Content(xml, "text/xml"); 不跑下面代码
             //if (false)
             //{
-            DingDanXiuGai(out_trade_no);
-            //}
-
-            ////验证请求是否从微信发过来（安全）
-            //if (payNotifyRepHandler.IsTenpaySign())
-            //{
-            //    log.Info("IsTenpaySign - " + payNotifyRepHandler.IsTenpaySign());
-            //}
-            //else
-            //{
-
-            //}
-            return Content(xml, "text/xml");
+            if (AlertComeOutRecord(out_trade_no, 1))
+            {
+                return Content(xml, "text/xml");
+            }
+            else {
+                //如果订单修改失败，需要微信再次发送请求
+                xml = string.Format(@"<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[]]></return_msg></xml>");
+                return Content(xml, "text/xml");
+            }
         }
 
         #endregion
@@ -120,12 +130,12 @@ namespace C8.Lottery.Portal.Controllers
         //支付宝公钥
         static string alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAydy5QG+mxrN77GIiLLEis/cVYleYn8hg5CesKKT73WkswNSr4ohTfV/BVvHdURec395Ex2T230mKu/QSbbY7Ahi3k+EWufIX6TYz/Q28grV4BrtF1kIcNvQUHgE/zEGL+nVQhfEH/uBjZQ84ue4S8ywnVBovndB2rJOExr1SBS5iI1yzYxdvpHRGTHHMIF0MInW96dRU1t3XqGut6e4YvsZj8x3tEprNBSF5MIQ+BRz9KrdplIRpzR/sPXenxbgGjBTj5Fus/a625Oofb23F6W8qPG86m9RgPo14BWmAi5SoVa7FAYubN2p3OBpnEhxkDqSq5LmtVHkXUKOjxaIQxwIDAQAB";
 
-        public ActionResult GetZfbUrl(decimal amount, string no)
+        public ActionResult GetZfbUrl(int amount, string no)
         {
             IAopClient client = new DefaultAopClient(serverUrl, app_id, merchant_private_key, format, version, sign_type, alipay_public_key, charset, false);
             AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
             string address = "http://" + HttpContext.Request.Url.Host; //获取访问域名
-           // log.Info("address:" + address);
+                                                                       // log.Info("address:" + address);
             request.SetReturnUrl(address + "/Personal/TransactionRecord");//同步请求
             request.SetNotifyUrl(address + "/Recharge/AsyncPay");//异步请求
             request.BizContent = "{" +
@@ -137,11 +147,18 @@ namespace C8.Lottery.Portal.Controllers
                                     "\"product_code\":\"QUICK_WAP_WAY\"" +
                                 "  }";//这里填写一些发送给支付宝的一些参数
 
-           // log.Info(request.BizContent);
+            // log.Info(request.BizContent);
 
-            AlipayTradeWapPayResponse response = client.pageExecute(request);
-            return Content(response.Body);//这里会发送一个表单输出到页面中
-        }     
+            if (AddComeOutRecord(no, amount, 2))
+            {
+                AlipayTradeWapPayResponse response = client.pageExecute(request);
+                return Content(response.Body);//这里会发送一个表单输出到页面中
+            }
+            else
+            {
+                return Content("0");
+            }
+        }
 
         /// <summary>
         /// 验证通知数据的正确性
@@ -183,13 +200,13 @@ namespace C8.Lottery.Portal.Controllers
 
         public void AsyncPay()
         {
-           // log.Info("支付宝异步回调页面");
+            // log.Info("支付宝异步回调页面");
             SortedDictionary<string, string> sPara = GetRequestPost();//将post请求过来的参数传化为SortedDictionary
-           // log.Info("sPara.Count:" + sPara.Count);
+                                                                      // log.Info("sPara.Count:" + sPara.Count);
             if (sPara.Count > 0)
             {
                 bool bo = Verify(sPara);
-               // log.Info("Verify(sPara):" + bo);
+                // log.Info("Verify(sPara):" + bo);
                 if (bo)//验签if (VerifyResult)
                 {
                     try
@@ -228,11 +245,19 @@ namespace C8.Lottery.Portal.Controllers
 
                         if (trade_status == "TRADE_FINISHED") //支持退款订单，如果超过可退款日期，支付宝发送一条请求并走这个代码
                         {
-                          //  log.Info("该订单不可退款");
+                            //  log.Info("该订单不可退款");
                         }
                         else if (trade_status == "TRADE_SUCCESS")
                         {
-                            DingDanXiuGai(out_trade_no);
+
+                            if (AlertComeOutRecord(out_trade_no, 2))
+                            {
+                                Response.Write("success");  //请不要修改或删除
+                            }
+                            else
+                            {
+                                Response.Write("fail");  //如果订单修改失败，则要求支付宝再次发送请求
+                            }
                         }
                         else
                         {
@@ -249,27 +274,99 @@ namespace C8.Lottery.Portal.Controllers
                     catch (Exception ex)
                     {
 
-                      //  log.Error(ex.Message);
+                        //  log.Error(ex.Message);
                     }
                 }
                 else//验证失败
                 {
-                   // log.Info("验证失败");
+                    // log.Info("验证失败");
                     Response.Write("fail");
                 }
             }
             else
             {
-               // log.Info("无通知参数");
+                // log.Info("无通知参数");
                 Response.Write("无通知参数");
             }
         }
 
         #endregion
 
-        public void DingDanXiuGai(string no)
+        /// <summary>
+        /// 添加订单信息
+        /// </summary>
+        /// <param name="no">订单号</param>
+        /// <param name="money">订单金额(单位：元)</param>
+        /// <param name="payType">支付类型</param>
+        private bool AddComeOutRecord(string no,int money,int payType)
         {
-            //log.Info("支付成功,修改订单:" + no);
+            int userId = UserHelper.GetByUserId();
+            string sql = @"insert into ComeOutRecord (UserId,OrderId,Money,Type,SubTime,PayType) 
+                            values(@UserId,@OrderId,@Money,1,GETDATE(),@PayType);select @@identity;";
+
+            SqlParameter[] regsp = new SqlParameter[] {
+                    new SqlParameter("@UserId",userId),
+                    new SqlParameter("@OrderId",no),
+                    new SqlParameter("@Money",money),
+                    new SqlParameter("@PayType",payType)
+                 };
+
+            var i = Convert.ToInt32(SqlHelper.ExecuteScalar(sql, regsp));
+
+            return i > 0;
+        }
+
+        /// <summary>
+        /// 修改订单
+        /// </summary>
+        /// <param name="no"></param>
+        /// <param name="type"></param>
+        public bool AlertComeOutRecord(string no,int payType)
+        {
+            try
+            {
+                LogHelper.WriteLog("修改订单");
+                LogHelper.WriteLog("no --"+no);
+                LogHelper.WriteLog("payType --" + payType);
+
+                //判断支付中的订单是否存在,如果不存在.则说明已经改变状态了
+                string sql = "select * from ComeOutRecord where OrderId=@OrderId and PayType=@PayType and State=1";
+                var list = Util.ReaderToList<ComeOutRecord>(sql, new SqlParameter[] { new SqlParameter("@OrderId",no),new SqlParameter("@PayType",payType)});
+                LogHelper.WriteLog("是否存在数据 --" + list.Any());
+                
+                if(!list.Any())
+                {
+                    return true;
+                }
+
+
+
+                var money = list.FirstOrDefault().Money;
+                var userId = list.FirstOrDefault().UserId;
+
+                LogHelper.WriteLog("money --" + money);
+                    LogHelper.WriteLog("userId --" + userId);
+
+                sql = @"update ComeOutRecord set State = 2 where OrderId=@OrderId and PayType=@PayType;
+                        update UserInfo set Coin = Coin + " + money+" where Id =@Id";
+
+                LogHelper.WriteLog("sql --" + sql);
+
+                SqlParameter[] regsp = new SqlParameter[] {
+                    new SqlParameter("@OrderId",no),
+                    new SqlParameter("@PayType",payType),
+                    new SqlParameter("@Id",userId)
+                 };
+
+                var i = SqlHelper.ExecuteNonQuery(sql, regsp);
+                LogHelper.WriteLog("i --" + i);
+                return i > 0;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("错误 -- "+ ex.Message);
+                return false;
+            }
         }
     }
 }

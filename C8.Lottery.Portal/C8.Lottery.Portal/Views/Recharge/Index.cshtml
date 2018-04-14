@@ -14,7 +14,7 @@
 
 <body style="background:#F4F4F5;">
     <header class="hjc_header">
-        <a href="javascript:;" class="hjc_back"></a>
+        <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">在线充值</a>
     </header>
 
@@ -119,6 +119,14 @@
                 return;
             }
 
+            var regex = /^\d+\.\d+$/;
+            var b = regex.test(amount);
+
+            if (b) {
+                alert("请输入整数金额");
+                return;
+            }
+
             var playType = $(".Recha_if2Dl .current:eq(0)").attr("data-value");
 
             if (playType == undefined || playType == null) {
@@ -132,16 +140,23 @@
            
             if (playType == "1") {
                 $.post("/Recharge/GetWxUrl", obj, function (data) {
-                    alert(data);
-                    document.location.href = data;
+                    if (data == "0") {
+                        alert("操作失败,请刷新后重试");
+                    }
+                    else {
+                        document.location.href = data;
+                    }                    
                 });
             }
 
-            if (playType == "2") {
-               
+            if (playType == "2") {               
                 $.post("/Recharge/GetZfbUrl", obj, function (data) {   
-                    alert(data);
-                    $("#hideDiv").append();
+                    if (data == "0") {
+                        alert("操作失败,请刷新后重试");
+                    }
+                    else {
+                        $("#hideDiv").append(data);
+                    }   
                 });
             }
         }
