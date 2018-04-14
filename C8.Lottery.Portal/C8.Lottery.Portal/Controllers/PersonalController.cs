@@ -1784,7 +1784,7 @@ on c.OrderId=b.Id
             {
                 int UserId = UserHelper.GetByUserId();
                 string strsql = @"select MyYj,Txing,Txleiji from 
- (select isnull(sum([Money]),0)as MyYj from ComeOutRecord where  [UserId]=@UserId and Type in(4,9))t1,
+ (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
  (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
                 SqlParameter[] sp = new SqlParameter[] {
