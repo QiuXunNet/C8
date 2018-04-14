@@ -31,13 +31,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\..\备份\c8\C8\C8.Lottery.Public\bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>bin\log4net.dll</HintPath>
+      <HintPath>..\..\..\备份\c8\C8\C8.Lottery.Public\bin\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Memcached.ClientLibrary">
-      <HintPath>..\C8.Lottery.Portal\C8.Lottery.Portal\bin\Memcached.ClientLibrary.dll</HintPath>
+      <HintPath>..\..\..\备份\c8\C8\C8.Lottery.Public\bin\Memcached.ClientLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\C8.Lottery.Portal\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
