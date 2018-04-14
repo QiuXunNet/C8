@@ -55,7 +55,7 @@ $(function () {
                 },
                 page: {
                     num: 0,
-                    size: 20,
+                    size: 50,
                     time: null
                 }
             }
@@ -160,7 +160,7 @@ function buildHtml(data, tabtype) {
         itemHtml += '</div>'
             + '<div class="KL_port f-l">'
             + '<div class="port_tu">'
-            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '"><img src="' + item.Avater + '"></a>'
+            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '"><img src="' + (item.Avater.length<1?"/images/default_avater.png": item.Avater) + '" /></a>'
             + '</div>';
         if (item.RowNumber <= 3) {
             itemHtml += '<i class="port_sf"><img src="/images/66.png"></i>';

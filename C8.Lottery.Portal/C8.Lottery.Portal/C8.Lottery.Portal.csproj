@@ -145,6 +145,7 @@
     <Compile Include="Models\AchievementModel.cs" />
     <Compile Include="Models\ACHVModel.cs" />
     <Compile Include="Models\BetModel.cs" />
+    <Compile Include="Models\BettingRecordExtend.cs" />
     <Compile Include="Models\ComeOutRecordModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\DrawMoneyModel.cs" />

@@ -588,7 +588,7 @@ where RowNumber BETWEEN @Start AND @End ";
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-where
+where  f.Status=1 and 
      year(FollowTime)=year(getdate()) and day(FollowTime)=day(getdate())-1
  group by Followed_UserId,Name,RPath
 )t
@@ -602,7 +602,7 @@ WHERE Rank BETWEEN @Start AND @End";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 
-where year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
+where f.Status=1 and  year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
 group by datename(week,FollowTime), Followed_UserId,Name,RPath
 )t
 WHERE Rank BETWEEN @Start AND @End";
@@ -615,7 +615,7 @@ WHERE Rank BETWEEN @Start AND @End";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 
-where year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1
+where f.Status=1 and   year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1
 
 group by month(FollowTime), Followed_UserId,Name,RPath
 
@@ -630,7 +630,7 @@ WHERE Rank BETWEEN @Start AND @End";
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-
+where f.Status=1   
 group  by Followed_UserId,Name,RPath
 )t
 WHERE Rank BETWEEN @Start AND @End";
@@ -668,7 +668,7 @@ WHERE Rank BETWEEN @Start AND @End";
   from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-where
+where  f.Status=1   and 
    year(FollowTime)=year(getdate()) and day(FollowTime)=day(getdate())-1 
   group by Followed_UserId,Name,RPath
 )t
@@ -681,7 +681,7 @@ where t.Followed_UserId=@Followed_UserId";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 
-where year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
+where f.Status=1   and  year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
 group by datename(week,FollowTime), Followed_UserId,Name,RPath
 )t
 WHERE t.Followed_UserId=@Followed_UserId";
@@ -694,7 +694,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
 
-where year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1 
+where f.Status=1   and  year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1 
 
 group by month(FollowTime), Followed_UserId,Name,RPath
 
@@ -708,7 +708,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-
+  where f.Status=1    
 group  by Followed_UserId,Name,RPath
 )t
 WHERE t.Followed_UserId=@Followed_UserId";
@@ -914,7 +914,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
                 if (ltype > 0) ltypeWhere = " AND lType=" + ltype;
 
                 string sql = string.Format(@"SELECT * FROM ( 
-	SELECT row_number() over(order by Issue DESC,lType ) as rowNumber,* FROM (
+	SELECT row_number() over(order by WinState,Issue DESC,lType ) as rowNumber,* FROM (
 		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState FROM [dbo].[BettingRecord]
 		WHERE UserId=@UserId{0}{1}
 		) t
@@ -1686,9 +1686,10 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     strstate = "1";
 
                     strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and Type in(" + strstate + @")
+ where UserId =@UserId and Type in(" + strstate + @") 
  )t
- where   rowNumber BETWEEN  @Start AND @End";
+ where   rowNumber BETWEEN  @Start AND @End  
+   order by SubTime desc";
                 }
                 else if (Type == 2)//消费
                 {
@@ -1701,7 +1702,8 @@ on b.UserId=u.Id
 on c.OrderId=b.Id
  where c.UserId=@UserId and c.Type in(" + strstate + @")
  )t
- where   rowNumber BETWEEN @Start AND @End";
+ where   rowNumber BETWEEN @Start AND @End
+    order by SubTime desc";
 
                 }
                 else if (Type == 3)//赚钱
@@ -1710,7 +1712,8 @@ on c.OrderId=b.Id
                     strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
  where UserId =@UserId and Type in(" + strstate + @")
  )t
- where   rowNumber BETWEEN  @Start AND @End";
+ where   rowNumber BETWEEN  @Start AND @End
+     order by SubTime desc  ";
                 }
                 string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
 
@@ -1781,7 +1784,7 @@ on c.OrderId=b.Id
             {
                 int UserId = UserHelper.GetByUserId();
                 string strsql = @"select MyYj,Txing,Txleiji from 
- (select isnull(sum([Money]),0)as MyYj from ComeOutRecord where  [UserId]=@UserId and Type in(4,9))t1,
+ (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
  (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
                 SqlParameter[] sp = new SqlParameter[] {

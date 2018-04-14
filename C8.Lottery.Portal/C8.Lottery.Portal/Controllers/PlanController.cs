@@ -94,8 +94,6 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
-
-
         //官方推荐数据
         public ActionResult PlanData(int id, int pageIndex = 1, int pageSize = 10)
         {
@@ -122,11 +120,6 @@ namespace C8.Lottery.Portal.Controllers
 
             return View();
         }
-
-
-
-
-
 
 
         public ActionResult GetOpenRemainingTime(int lType)
@@ -223,8 +216,18 @@ namespace C8.Lottery.Portal.Controllers
 
 
         //投注
+        [Authentication]
         public ActionResult Bet(int lType, string currentIssue, string betInfo)
         {
+
+            long uid = UserHelper.LoginUser.Id;
+
+            //数据清理
+            string sql = "delete from BettingRecord where UserId=" + uid + " and lType =" + lType + " and Issue=@Issue";
+            SqlHelper.ExecuteNonQuery(sql, new SqlParameter("@Issue", currentIssue));
+
+
+
             string[] betInfoArr = betInfo.Split('$');
 
             string playName = "";
@@ -250,7 +253,7 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         playName2 = Util.GetPlayName(lType, playName, s1, i);
 
-                        string sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
+                        sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + uid + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
 
                         SqlParameter[] pms =
                         {
@@ -336,10 +339,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             #endregion
 
-            //step4.查询当前用户是否发帖
-            string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and WinState=1";
-            object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
-            ViewBag.IsSub = obj != null && Convert.ToInt32(objIsSub) > 0;
+
 
             //step5.查询该彩种玩法列表
             ViewBag.LTypeName = Util.GetLotteryTypeName(id);
@@ -360,6 +360,11 @@ namespace C8.Lottery.Portal.Controllers
 
             ViewBag.ReadCoin = setting != null ? setting.Coin : 0;
 
+            //step4.查询当前用户是否发帖
+
+            string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and UserId=" + uid + " and WinState=1";
+            object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
+            ViewBag.IsSub = objIsSub != null && Convert.ToInt32(objIsSub) > 0;
 
             return View(model);
         }
@@ -538,20 +543,22 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             #region 分页查询专家排行数据行
             string sql = string.Format(@"select * from (
  select top 100 row_number() over(order by a.playTotalScore DESC ) as rowNumber,
-    a.*,b.ltypeTotalScore,c.MinIntegral,d.Name,e.RPath as avater 
+    a.*,b.ltypeTotalScore,c.MinIntegral,isnull(d.Name,'') as Name,isnull(e.RPath,'') as avater 
 from (
   select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [C8].[dbo].[BettingRecord]
-  where WinState>1
+  where WinState>1 and lType=@lType and PlayName=@PlayName
   group by UserId, lType, PlayName
  ) a
   left join (
    select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [C8].[dbo].[BettingRecord]
-   where WinState>1
+   where WinState>1 and lType=@lType
    group by UserId, lType
-  ) b on b.lType=a.lType
+  ) b on b.lType=a.lType and b.UserId=a.UserId
   left join ( 
 	select lType, isnull( min(MinIntegral),0) as MinIntegral 
-	from [dbo].[LotteryCharge] group by lType
+	from [dbo].[LotteryCharge] 
+    where lType=@lType
+    group by lType
   ) c on c.lType=a.lType
   left join UserInfo d on d.Id=a.UserId
   left join ResourceMapping e on e.FkId =a.UserId and e.[Type]=@ResourceType
@@ -690,9 +697,19 @@ from (
                 pager.PageData = list;
 
                 //查询最新一期玩法
-                var lastPlay = Util.ReaderToList<BettingRecord>(playSql, sp);
+                var lastPlay = Util.ReaderToList<BettingRecordViewModel>(playSql, sp);
+                var extraData = lastPlay.FirstOrDefault();
 
-                pager.ExtraData = lastPlay.FirstOrDefault();
+                if (extraData != null)
+                {
+                    //查询当前用户是否点阅过该记录
+                    string isSubSql = "select count(1) from dbo.ComeOutRecord where Type="
+                        + (int)TransactionTypeEnum.点阅 + " and UserId=" + UserHelper.GetByUserId() + " and OrderId=" + extraData.Id;
+                    object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
+                    extraData.IsRead = objIsSub != null && Convert.ToInt32(objIsSub) > 0;
+                }
+
+                pager.ExtraData = extraData;
 
                 result.Data = pager;
             }
