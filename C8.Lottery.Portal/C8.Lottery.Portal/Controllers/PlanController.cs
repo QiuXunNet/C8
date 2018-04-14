@@ -94,8 +94,6 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
-
-
         //官方推荐数据
         public ActionResult PlanData(int id, int pageIndex = 1, int pageSize = 10)
         {
@@ -122,11 +120,6 @@ namespace C8.Lottery.Portal.Controllers
 
             return View();
         }
-
-
-
-
-
 
 
         public ActionResult GetOpenRemainingTime(int lType)
@@ -223,8 +216,18 @@ namespace C8.Lottery.Portal.Controllers
 
 
         //投注
+        [Authentication]
         public ActionResult Bet(int lType, string currentIssue, string betInfo)
         {
+
+            long uid = UserHelper.LoginUser.Id;
+
+            //数据清理
+            string sql = "delete from BettingRecord where UserId=" + uid + " and lType =" + lType + " and Issue=@Issue";
+            SqlHelper.ExecuteNonQuery(sql, new SqlParameter("@Issue", currentIssue));
+
+
+
             string[] betInfoArr = betInfo.Split('$');
 
             string playName = "";
@@ -250,7 +253,7 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         playName2 = Util.GetPlayName(lType, playName, s1, i);
 
-                        string sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
+                        sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + uid + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
 
                         SqlParameter[] pms =
                         {
@@ -994,7 +997,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
                 sqlBuilder.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏, coin);
 
-                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id && x.Type == (int)CommissionTypeEnum.打赏佣金);
+                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == model.lType && x.Type == (int)CommissionTypeEnum.打赏佣金);
                 if (userRateSetting != null && userRateSetting.Percentage > 0)
                 {
                     int commission = (int)(userRateSetting.Percentage * coin);
@@ -1005,6 +1008,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏佣金, commission);
                 }
 
+                //LogHelper.WriteLog(sqlBuilder.ToString());
                 SqlHelper.ExecuteTransaction(sqlBuilder.ToString());
 
                 return Json(new AjaxResult(100, "打赏成功"));

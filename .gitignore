@@ -287,3 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /C8.Lottery.Portal/C8.Lottery.Portal/Upload/TalkingImg
+/C8.Lottery.Portal/Logs

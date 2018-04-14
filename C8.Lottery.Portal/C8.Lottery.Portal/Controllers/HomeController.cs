@@ -121,7 +121,7 @@ namespace C8.Lottery.Portal.Controllers
             string password = form["password"];
 
             string vcode = form["vcode"];
-            string name =  form["name"];
+            string name = form["name"];
             string usersql = "select * from UserInfo where Mobile =@Mobile";
 
             string namesql = "select count(1) from UserInfo where Name=@Name";
@@ -132,7 +132,7 @@ namespace C8.Lottery.Portal.Controllers
                 List<UserInfo> list = new List<UserInfo>();
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
                 SqlParameter[] namesp = new SqlParameter[] { new SqlParameter("@Name", name) };
-                int namecount= Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, namesp));
+                int namecount = Convert.ToInt32(SqlHelper.ExecuteScalar(namesql, namesp));
                 list = Util.ReaderToList<UserInfo>(usersql, sp);
 
                 if (list.Count > 0)
@@ -150,7 +150,7 @@ namespace C8.Lottery.Portal.Controllers
                     else
                     {
                         bool iscz = Tool.CheckSensitiveWords(name);
-                        if (iscz==true)
+                        if (iscz == true)
                         {
                             jsonmsg.Success = false;
                             jsonmsg.Msg = "该昵称包含敏感字符";
@@ -208,7 +208,7 @@ namespace C8.Lottery.Portal.Controllers
                                                 AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
                                                                                            //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
                                                 AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
-                                                AddUserTask(inviteid,105);
+                                                AddUserTask(inviteid, 105);
                                                 UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
                                                 if (super != null)
                                                 {
@@ -235,7 +235,7 @@ namespace C8.Lottery.Portal.Controllers
                                 jsonmsg.Msg = "请重新获取验证码";
 
                             }
-                        }              
+                        }
                     }
 
 
@@ -255,32 +255,32 @@ namespace C8.Lottery.Portal.Controllers
         /// <summary>
         /// 增加邀请成功注册任务记录
         /// </summary>
-        public void AddUserTask(int UserId,int TaskCode)
+        public void AddUserTask(int UserId, int TaskCode)
         {
             string countsql = "select * from UserTask where UserId=@UserId and TaskId=@TaskId ";
             string strsqlup = "update UserTask set CompletedCount=CompletedCount+1 where UserId=@UserId and TaskId=@TaskId";
             string strsqlins = "insert into UserTask(UserId, TaskId, CompletedCount)values(@UserId, @TaskId, 1)";
             string strtasksql = "select * from MakeMoneyTask   where Code = 105";//邀请成功注册任务
-           
+
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@UserId",UserId),
                 new SqlParameter("@TaskId",TaskCode)
 
             };
             try
-            { 
+            {
                 UserTask task = Util.ReaderToModel<UserTask>(countsql, sp);
-                if (task!=null)
+                if (task != null)
                 {
-                   int update= SqlHelper.ExecuteNonQuery(strsqlup, sp);
+                    int update = SqlHelper.ExecuteNonQuery(strsqlup, sp);
                     if (update > 0)
                     {
-                        UserTask task1 = Util.ReaderToModel<UserTask>(string.Format("select * from UserTask where UserId={0} and TaskId={1}",UserId,TaskCode));
+                        UserTask task1 = Util.ReaderToModel<UserTask>(string.Format("select * from UserTask where UserId={0} and TaskId={1}", UserId, TaskCode));
                         MakeMoneyTask mtask = Util.ReaderToModel<MakeMoneyTask>(strtasksql);
                         if (task1.CompletedCount == mtask.Count)
                         {
-                            string strsqlinstask =string.Format(@"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
-                                   values({0}, {1}, 8, {2}, getdate())",UserId,TaskCode,mtask.Coin);
+                            string strsqlinstask = string.Format(@"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
+                                   values({0}, {1}, 8, {2}, getdate())", UserId, TaskCode, mtask.Coin);
                             SqlHelper.ExecuteNonQuery(strsqlinstask);
 
                         }
@@ -296,9 +296,9 @@ namespace C8.Lottery.Portal.Controllers
 
                 throw;
             }
-          
 
-            
+
+
 
 
 
@@ -358,7 +358,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="OrderId"></param>
         /// <param name="Type">6=受邀奖励 7=邀请奖励</param>
         /// <param name="Money"></param>
-        public void AddComeOutRecord(int UserId,string OrderId,int Type,int Money)
+        public void AddComeOutRecord(int UserId, string OrderId, int Type, int Money)
         {
             try
             {
@@ -388,7 +388,7 @@ namespace C8.Lottery.Portal.Controllers
         public int GetNum(int GradeId)
         {
             int Num = 0;
-       
+
             List<int> listNum = new List<int>();
             try
             {
@@ -397,7 +397,7 @@ namespace C8.Lottery.Portal.Controllers
                     new SqlParameter("@GradeId", GradeId)
                 };
                 List<CoinRate> list = Util.ReaderToList<CoinRate>(strsql, sp);
-                if (list.Count>0)
+                if (list.Count > 0)
                 {
                     foreach (var item in list)
                     {
@@ -484,7 +484,7 @@ namespace C8.Lottery.Portal.Controllers
                         iscor = Crypter.CheckPassword(password, user.Password);
                     }
 
-                    if (Tool.GetMD5(password) != user.Password && iscor==false)
+                    if (Tool.GetMD5(password) != user.Password && iscor == false)
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "密码不正确";
@@ -503,7 +503,7 @@ namespace C8.Lottery.Portal.Controllers
                             string guid = Guid.NewGuid().ToString();
                             Response.Cookies["UserId"].Value = guid;
                             //Session[guid] = user.Id;
-                            Response.Cookies["UserId"].Expires= DateTime.Now.AddMonths(1);
+                            Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
                             CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
 
@@ -559,7 +559,7 @@ namespace C8.Lottery.Portal.Controllers
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
-             
+
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(usersql, sp));
 
@@ -669,7 +669,7 @@ namespace C8.Lottery.Portal.Controllers
             return Json(jsonmsg);
         }
 
-      
+
         /// <summary>
         /// 计划
         /// </summary>
