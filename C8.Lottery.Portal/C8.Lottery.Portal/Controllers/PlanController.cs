@@ -225,6 +225,15 @@ namespace C8.Lottery.Portal.Controllers
         //投注
         public ActionResult Bet(int lType, string currentIssue, string betInfo)
         {
+
+            long uid = UserHelper.LoginUser.Id;
+
+            //数据清理
+            string sql = "delete from BettingRecord where UserId=" + uid + " and lType =" + lType + " and Issue=@Issue";
+            SqlHelper.ExecuteNonQuery(sql, new SqlParameter("@Issue", currentIssue));
+
+
+
             string[] betInfoArr = betInfo.Split('$');
 
             string playName = "";
@@ -250,7 +259,7 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         playName2 = Util.GetPlayName(lType, playName, s1, i);
 
-                        string sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + UserHelper.LoginUser.Id + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
+                        sql = "insert into BettingRecord(UserId,lType,Issue,BigPlayName,PlayName,BetNum,SubTime) values(" + uid + "," + lType + ",@Issue,@BigPlayName,@PlayName,@BetNum,'" + DateTime.Now.ToString() + "')";
 
                         SqlParameter[] pms =
                         {
