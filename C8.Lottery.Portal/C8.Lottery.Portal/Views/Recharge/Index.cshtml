@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>个人中心-充值</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+    <header class="hjc_header">
+        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">在线充值</a>
+    </header>
+
+    <div class="Recharge_Box">
+        <div class="Recharge_info1">
+            <div class="Recharge_if1K1">
+                <div class="Rech_K1L f-l">
+                    <div class="K1L_tu f-l"><img id="currentImg" src="/images/41_1.png"></div>
+                    <h3 class="K1L_title f-l" id="currentText">微信充值</h3>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="Rech_K1R f-r"><p>兑换比例：1元=1金币</p></div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="Recharge_if1K2">
+                <ul class="Recharge_UL">
+                    <li class="current" data-Amount="20"><a href="javascript:;">20元</a></li>
+                    <li data-Amount="100"><a href="javascript:;">100元</a></li>
+                    <li data-Amount="500"><a href="javascript:;">500元</a></li>
+                    <li data-Amount="1000"><a href="javascript:;">1000元</a></li>
+                    <div style="clear:both;"></div>
+                </ul>
+            </div>
+            <div class="Recharge_if1K3">
+                <p class="if1K3_Lp f-l">充值金额：</p>
+                <p class="if1K3_Rp f-r">元</p>
+                <div class="if1K3_text"><input type="number" value="20" id="txtAmount" placeholder="最低充值10元"></div>
+            </div>
+        </div>
+        <button class="Set_btnMM" onclick="play()">充值</button>
+        <div class="Recharge_info2">
+            <h3 class="Recha_if2Tit">更多支付方式：</h3>
+            <div class="Recha_if2Nav">
+                <dl class="Recha_if2Dl">
+                    <dt><img src="/images/41_1.png"></dt>
+                    <dd data-value="1" class="current">
+                        <h3>微信支付</h3>
+                        <p>快速支付，免手续费</p>
+                    </dd>
+                </dl>
+                <dl class="Recha_if2Dl">
+                    <dt><img src="/images/41_2.png"></dt>
+                    <dd data-value="2">
+                        <h3>支付宝</h3>
+                        <p>快速支付，免手续费</p>
+                    </dd>
+                </dl>
+                @*<dl class="Recha_if2Dl">
+                    <dt><img src="images/41_3.png"></dt>
+                    <dd>
+                        <h3>银联</h3>
+                        <p>无需网银，有卡就能支付，免手续费</p>
+                    </dd>
+                </dl>
+                <dl class="Recha_if2Dl">
+                    <dt><img src="images/41_4.png"></dt>
+                    <dd>
+                        <h3>银行卡快捷支付</h3>
+                        <p>无需网银，有卡就能支付，免手续费</p>
+                    </dd>
+                </dl>*@
+            </div>
+        </div>
+    </div>
+
+    <div id="hideDiv" style="display:none"></div>
+    <script type="text/javascript">
+        $(function () {
+            $(".Recha_if2Dl").click(function () {
+                $(".Recha_if2Dl dd").removeClass("current");
+                $(this).find("dd").addClass("current");
+                $("#currentImg").attr("src",($(this).find("img:eq(0)").attr("src")));
+                $("#currentText").text($(this).find("h3:eq(0)").text());
+            });
+
+            $(".Recharge_UL li").click(function () {
+                $(this).parent().find("li").removeClass("current");
+                $(this).addClass("current");
+                $("#txtAmount").val($(this).attr("data-Amount"))
+            });
+
+            $("#txtAmount").keyup(function () {
+                if ($(this).val().length > 0) {
+                    $(".Recharge_UL li").removeClass("current");
+                }
+            });
+        });        
+
+        var no = "@ViewBag.OrdersId";
+
+        function play() {
+            var amount = 0;
+            if ($(".Recharge_UL .current").length > 0) {
+                amount = $(".Recharge_UL .current:eq(0)").attr("data-Amount");
+            }
+            else {
+                amount = $("#txtAmount").val();
+            }
+
+            if (amount == 0) {
+                alert("请输入充值金额");
+                return;
+            }
+
+            var playType = $(".Recha_if2Dl .current:eq(0)").attr("data-value");
+
+            if (playType == undefined || playType == null) {
+                alert("请选择支付方式");
+            }
+
+            var obj = {};
+            obj.no = no;
+            obj.amount = amount;
+
+           
+            if (playType == "1") {
+                $.post("/Recharge/GetWxUrl", obj, function (data) {
+                    alert(data);
+                    document.location.href = data;
+                });
+            }
+
+            if (playType == "2") {
+               
+                $.post("/Recharge/GetZfbUrl", obj, function (data) {   
+                    alert(data);
+                    $("#hideDiv").append();
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+

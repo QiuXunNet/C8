@@ -2365,9 +2365,14 @@ a {
 .Recha_if2Dl dd {
     height: 40px;
     margin-left: 50px;
-    background: url(../images/05.png) no-repeat right center;
-    background-size: 8px;
+    background: url(../images/card_noSelected@2x.png) no-repeat right center;
+    background-size: 25px;
 }
+
+    .Recha_if2Dl dd.current {
+        background: url(../images/card_Selected@2x.png) no-repeat right center;
+        background-size: 25px;
+    }
 
     .Recha_if2Dl dd h3 {
         line-height: 20px;
