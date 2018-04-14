@@ -339,7 +339,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             #endregion
 
-           
+
 
             //step5.查询该彩种玩法列表
             ViewBag.LTypeName = Util.GetLotteryTypeName(id);
@@ -364,7 +364,7 @@ namespace C8.Lottery.Portal.Controllers
 
             string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and UserId=" + uid + " and WinState=1";
             object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
-            ViewBag.IsSub = obj != null && Convert.ToInt32(objIsSub) > 0;
+            ViewBag.IsSub = objIsSub != null && Convert.ToInt32(objIsSub) > 0;
 
             return View(model);
         }
@@ -543,7 +543,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             #region 分页查询专家排行数据行
             string sql = string.Format(@"select * from (
  select top 100 row_number() over(order by a.playTotalScore DESC ) as rowNumber,
-    a.*,b.ltypeTotalScore,c.MinIntegral,d.Name,e.RPath as avater 
+    a.*,b.ltypeTotalScore,c.MinIntegral,isnull(d.Name,'') as Name,isnull(e.RPath,'') as avater 
 from (
   select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [C8].[dbo].[BettingRecord]
   where WinState>1 and lType=@lType and PlayName=@PlayName
@@ -697,9 +697,19 @@ from (
                 pager.PageData = list;
 
                 //查询最新一期玩法
-                var lastPlay = Util.ReaderToList<BettingRecord>(playSql, sp);
+                var lastPlay = Util.ReaderToList<BettingRecordViewModel>(playSql, sp);
+                var extraData = lastPlay.FirstOrDefault();
 
-                pager.ExtraData = lastPlay.FirstOrDefault();
+                if (extraData != null)
+                {
+                    //查询当前用户是否点阅过该记录
+                    string isSubSql = "select count(1) from dbo.ComeOutRecord where Type="
+                        + (int)TransactionTypeEnum.点阅 + " and UserId=" + UserHelper.GetByUserId() + " and OrderId=" + extraData.Id;
+                    object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
+                    extraData.IsRead = objIsSub != null && Convert.ToInt32(objIsSub) > 0;
+                }
+
+                pager.ExtraData = extraData;
 
                 result.Data = pager;
             }

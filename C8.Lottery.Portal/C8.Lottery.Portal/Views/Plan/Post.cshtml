@@ -22,43 +22,6 @@
     
     <script type="text/javascript" src="/js/runTime2.js"></script>
     
-    <script>
-
-        $(function() {
-
-            var lType = $('#lType').val();
-
-            var target;
-
-            $.post('/Plan/AlreadyPostData', { id: lType }, function(data) {
-
-                initBetting(qiu, data);
-                for(var i = 0; i< data.length; i++) {
-                    var d = data[i];
-                    var playName = d.BigPlayName;
-                    var betNum = d.BetNum;
-
-                    target = $('.WanFa_TableA h3:contains(' + playName + ')').parent().next();
-                    var html = target.html();
-                    if (html == '') {
-                        target.html(betNum);
-                    }
-                    else {
-                        target.html(html + '|' + betNum);
-                    }
-                }
-
-
-                    
-            });
-
-        });
-
-
-    </script>
-    
-    
-
 </head>
 
 <body style="background:#F4F4F5;">
@@ -1136,8 +1099,40 @@
     @RenderPage("../Public/Tan.cshtml")
 
     <script type="text/javascript" src="/js/luo/play.js"></script>
-    <script type="text/javascript">
-        //initLottery(9);
+
+    <script>
+
+        $(function() {
+
+            var lType = $('#lType').val();
+
+            var target;
+
+            $.post('/Plan/AlreadyPostData', { id: lType }, function(data) {
+
+                initBetting(qiu, data);
+                for(var i = 0; i< data.length; i++) {
+                    var d = data[i];
+                    var playName = d.BigPlayName;
+                    var betNum = d.BetNum;
+
+                    target = $('.WanFa_TableA h3:contains(' + playName + ')').parent().next();
+                    var html = target.html();
+                    if (html == '') {
+                        target.html(betNum);
+                    }
+                    else {
+                        target.html(html + '|' + betNum);
+                    }
+                }
+
+
+
+            });
+
+        });
+
+
     </script>
 </body>
 

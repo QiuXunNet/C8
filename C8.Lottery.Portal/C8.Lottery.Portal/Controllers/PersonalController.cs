@@ -914,7 +914,7 @@ WHERE t.Followed_UserId=@Followed_UserId";
                 if (ltype > 0) ltypeWhere = " AND lType=" + ltype;
 
                 string sql = string.Format(@"SELECT * FROM ( 
-	SELECT row_number() over(order by Issue DESC,lType ) as rowNumber,* FROM (
+	SELECT row_number() over(order by WinState,Issue DESC,lType ) as rowNumber,* FROM (
 		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState FROM [dbo].[BettingRecord]
 		WHERE UserId=@UserId{0}{1}
 		) t

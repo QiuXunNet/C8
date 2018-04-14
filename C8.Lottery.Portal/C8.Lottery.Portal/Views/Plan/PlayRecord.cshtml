@@ -27,7 +27,7 @@
     <script src="~/js/luo/jquery.emoji.min.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/TouchSlide.1.1.js"></script>
-    @*<script type="text/javascript" src="~/js/runTime2.js"></script>*@
+    <script type="text/javascript" src="~/js/runTime2.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
@@ -248,6 +248,7 @@
         var readCoin=@readCoin;
         var ltype=@lType;
         var uid=@Model.Id;
+        var isRead = false;
         $(function() {
             $(".Gues_ul").parseEmoji();
 
@@ -302,6 +303,7 @@
         function buildLastPlay(data) {
             if (data != null && typeof (data) != "undefined") {
                 recordId = data.Id;
+                isRead = data.IsRead;
                 $("#visitPlanContainer").html('<span>已更新</span><a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>')
             } else {
                 $("#visitPlanContainer").html("<span>未更新</span>");
@@ -467,7 +469,7 @@
                 });
             },
             view:function() {
-                if (readCoin > 0) {
+                if (readCoin > 0 && !isRead) {
                     $(".C8_TCpopupA").show();
                     $(".mask").show();
                 } else {
