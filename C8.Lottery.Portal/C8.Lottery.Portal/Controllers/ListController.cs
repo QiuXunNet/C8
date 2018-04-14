@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Public;
+using C8.Lottery.Portal.Models;
+using C8.Lottery.Model.Enum;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -127,6 +129,86 @@ namespace C8.Lottery.Portal.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 打赏榜
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Gratuity()
+        {
+            //step1.查询彩种分类列表
+
+            int i =Tool.GetCacheTime("week");
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
+            var list = Util.ReaderToList<LotteryType2>(strsql);
+            ViewBag.TypeList = list;
+            //step2.查询具体彩种
+            string lotteryListSql = @"select * from LotteryType2 where PId<>0  order by Position,PId ";
+            var lotteryList = Util.ReaderToList<LotteryType2>(lotteryListSql).GroupBy(x => x.PId);
+            ViewBag.LotteryList = lotteryList;
+
+            return View();
+
+        }
+
+        /// <summary>
+        /// 佣金排行数据 （打赏、盈利）
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetRankMoneyList(string queryType,int RType,int lType)
+        {
+            List<RankMoneyListModel> list = new List<RankMoneyListModel>();
+            DateTime today = DateTime.Today;
+            string memberKey = "RankMoney_"+ RType + "_"+ queryType + "_"+ lType + "_total_" + today.ToString("yyyyMMdd");
+            ReturnMessageJson msgjson = new ReturnMessageJson();
+            try
+            {
+             //   list = MemClientFactory.GetCache<List<RankMoneyListModel>>(memberKey);
+                if (list == null || list.Count <= 0)
+                {
+                    string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
+(select 
+a.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
+left join BettingRecord b on b.Id=a.OrderId 
+left join UserInfo c on c.Id=a.UserId
+left join ResourceMapping d on d.FkId=a.UserId and d.[Type]=@ResourceType
+where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
+{0}
+group by a.UserId,a.Money ,c.Name,d.RPath ,b.lType
+)t
+group by t.UserId ,t.NickName,t.Avater,t.lType
+order by Money desc,NickName asc
+", Tool.GetTimeWhere("a.SubTime", queryType));
+                    SqlParameter[] sp = new SqlParameter[]{
+                new SqlParameter("@RType",RType),
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@lType",lType)
+            };
+
+                    list = Util.ReaderToList<RankMoneyListModel>(strsql, sp);
+                    if (list.Count>0)
+                    {
+                        MemClientFactory.WriteCache(memberKey, list, Tool.GetCacheTime(queryType));
+                    }
+                  
+
+                }
+                msgjson.Success = true;
+                msgjson.data = list;
+            }
+            catch (Exception e)
+            {
+                msgjson.Success = false;
+                msgjson.Msg = e.Message;
+                throw;
+            }
+
+         
+            return Json(msgjson,JsonRequestBehavior.AllowGet);
+
+        }
+
+
 
 
         /// <summary>
@@ -157,8 +239,8 @@ namespace C8.Lottery.Portal.Controllers
 
             DateTime today = DateTime.Today;
             string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
-
-            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+        
+          var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {

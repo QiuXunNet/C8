@@ -255,6 +255,91 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 排行榜 时间条件
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        public static string GetTimeWhere(string Timefiled,string queryType)
+        {
+            DateTime today = DateTime.Today;
+            string sqlWhere = "";
+            switch (queryType)
+            {
+                case "day":
+                    DateTime dayStartTime = today.AddDays(-1);
+                    DateTime dayEndTime = today;
+                    sqlWhere = string.Format(" and  {0}>='{1}' and {0}<'{2}'", Timefiled, dayStartTime, dayEndTime);
+                    break;
+                case "week":
+                    DateTime weekEndTime = today.GetWeekStart();
+                    DateTime weekStartTime = today.GetWeekStart().AddDays(-7);
+                    sqlWhere = string.Format(" and {0}>='{1}' and {0}<'{2}'", Timefiled, weekStartTime, weekEndTime);
+                    break;
+                case "month":
+                    DateTime monthEndTime = today.GetMonthStart();
+                    DateTime monthStartTime = today.GetWeekStart().AddMonths(-1);
+                    sqlWhere = string.Format(" and {0}>='{1}' and {0}<'{2}'", Timefiled, monthStartTime, monthEndTime);
+                    break;
+                case "all":
+                    sqlWhere = "";
+                    break;
+            }
+            return sqlWhere;
+        }
+
+
+
+
+        /// <summary>
+        /// 设置缓存时间
+        /// </summary>
+        /// <returns></returns>
+        public static int GetCacheTime(string queryType)
+        {
+            int time=0;
+            DateTime today = DateTime.Today;
+            switch (queryType)
+            {
+                case "day":
+                    DateTime dayStartTime = today.AddDays(-1);
+                    DateTime dayEndTime = today;
+                    time = ExecDateDiff(dayStartTime, dayEndTime);
+                    break;
+                case "week":
+                    DateTime weekEndTime = today.GetWeekStart();
+                    DateTime weekStartTime = today.GetWeekStart().AddDays(-7);
+                    time = ExecDateDiff(weekStartTime, weekEndTime);
+                    break;
+                case "month":
+                    DateTime monthEndTime = today.GetMonthStart();
+                    DateTime monthStartTime = today.GetWeekStart().AddMonths(-1);
+                    time = ExecDateDiff(monthStartTime, monthEndTime);
+                    break;
+                case "all":
+                    time = 60 * 24;
+                    break;
+            }
+            return time;
+        }
+
+        /// 程序执行时间测试
+        /// </summary>
+        /// <param name="dateBegin">开始时间</param>
+        /// <param name="dateEnd">结束时间</param>
+        /// <returns>返回(秒)单位，比如: 0.00239秒</returns>
+        public static int  ExecDateDiff(DateTime dateBegin, DateTime dateEnd)
+        {
+            TimeSpan ts1 = new TimeSpan(dateBegin.Ticks);
+            TimeSpan ts2 = new TimeSpan(dateEnd.Ticks);
+            TimeSpan ts3 = ts1.Subtract(ts2).Duration();
+            //你想转的格式
+            return Convert.ToInt32(ts3.TotalMinutes);
+        }
+
+
+
+
     }
 
 

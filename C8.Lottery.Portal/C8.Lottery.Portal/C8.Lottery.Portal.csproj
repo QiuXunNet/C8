@@ -143,6 +143,7 @@
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
+    <Compile Include="Models\RankMoneyListModel.cs" />
     <Compile Include="Models\SystemMessage.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -774,6 +775,7 @@
     <Content Include="Views\List\Expert.cshtml" />
     <Content Include="Views\Plan\PlanData.cshtml" />
     <Content Include="Views\List\ExpertData.cshtml" />
+    <Content Include="Views\List\Gratuity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
