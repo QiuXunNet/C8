@@ -103,9 +103,10 @@
 
                 var _this = $(this);
                 var _index = _this.attr("data-ltype");
+                var cid = _this.attr("data-cid");
 
                 _this.addClass("current").siblings().removeClass("current");
-                $(".wrapper-container .Grades_" + _index).show().siblings().hide();
+                $(".wrapper-container .Grades_"+cid+ _index).show().siblings().hide();
 
                 pager(_this)
             });
@@ -449,7 +450,7 @@
         {
             var i = -1;
             var p0 = ["第一球五码", "冠军五码", "第一球", "冠军","第一名"];
-            var p1 = ["第二球五码", "第二名五码", "第二球", "亚军", "第二名"];
+            var p1 = ["第二球五码", "第二名五码", "第二球", "亚军", "第二名", "亚军五码"];
             var p2 = ["第三球五码", "第三名五码", "第三球", "第三名"];
             var p3 = ["第四球五码", "第四名五码", "第四球", "第四名"];
             var p4 = ["第五球五码", "第五名五码", "第五球", "第五名"];
