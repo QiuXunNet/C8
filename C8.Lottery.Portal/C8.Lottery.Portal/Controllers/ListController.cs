@@ -174,7 +174,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.LotteryList = lotteryList;
 
             return View();
-            return View();
+          
         }
         /// <summary>
         /// 佣金排行数据 （打赏、盈利）
