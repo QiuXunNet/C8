@@ -133,6 +133,7 @@ namespace C8.Lottery.Portal.Controllers
         /// 打赏榜
         /// </summary>
         /// <returns></returns>
+        [Authentication]
         public ActionResult Gratuity()
         {
             //step1.查询彩种分类列表
@@ -150,21 +151,44 @@ namespace C8.Lottery.Portal.Controllers
 
         }
 
+
+
+        /// <summary>
+        /// 盈利榜=点阅佣金榜
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Profit()
+        {   //step1.查询彩种分类列表
+
+            int i = Tool.GetCacheTime("week");
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
+            var list = Util.ReaderToList<LotteryType2>(strsql);
+            ViewBag.TypeList = list;
+            //step2.查询具体彩种
+            string lotteryListSql = @"select * from LotteryType2 where PId<>0  order by Position,PId ";
+            var lotteryList = Util.ReaderToList<LotteryType2>(lotteryListSql).GroupBy(x => x.PId);
+            ViewBag.LotteryList = lotteryList;
+
+            return View();
+            return View();
+        }
         /// <summary>
         /// 佣金排行数据 （打赏、盈利）
         /// </summary>
         /// <returns></returns>
+        [Authentication]
         [HttpGet]
+
         public JsonResult GetRankMoneyList(string queryType,int RType,int lType)
         {
-            List<RankMoneyListModel> list = new List<RankMoneyListModel>();
+            RankMoneyListModel model = new RankMoneyListModel();
             DateTime today = DateTime.Today;
             string memberKey = "RankMoney_"+ RType + "_"+ queryType + "_"+ lType + "_total_" + today.ToString("yyyyMMdd");
             ReturnMessageJson msgjson = new ReturnMessageJson();
             try
             {
              //   list = MemClientFactory.GetCache<List<RankMoneyListModel>>(memberKey);
-                if (list == null || list.Count <= 0)
+                if (model.MyRankMonyModel == null)
                 {
                     string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
 (select 
@@ -184,17 +208,13 @@ order by Money desc,NickName asc
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@lType",lType)
             };
-
-                    list = Util.ReaderToList<RankMoneyListModel>(strsql, sp);
-                    if (list.Count>0)
-                    {
-                        MemClientFactory.WriteCache(memberKey, list, Tool.GetCacheTime(queryType));
-                    }
-                  
+                    model.RankMonyModelList= Util.ReaderToList<RankMonyModel>(strsql, sp);                  
+                    model.MyRankMonyModel = GetMyRankMony(queryType,RType,lType);
+                       
 
                 }
                 msgjson.Success = true;
-                msgjson.data = list;
+                msgjson.data = model;
             }
             catch (Exception e)
             {
@@ -205,6 +225,59 @@ order by Money desc,NickName asc
 
          
             return Json(msgjson,JsonRequestBehavior.AllowGet);
+
+        }
+        /// <summary>
+        /// 我的排名 打赏盈利
+        /// </summary>
+        /// <param name="queryType"></param>
+        /// <param name="RType"></param>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        public MyRankMonyModel GetMyRankMony(string queryType, int RType, int lType)
+        {
+            int UserId = UserHelper.GetByUserId();
+            string strsql = string.Format(@"select  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
+(select 
+a.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
+left join BettingRecord b on b.Id=a.OrderId 
+left join UserInfo c on c.Id=a.UserId
+left join ResourceMapping d on d.FkId=a.UserId and d.[Type]=@ResourceType
+where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
+{0}
+group by a.UserId,a.Money ,c.Name,d.RPath ,b.lType
+)t
+group by t.UserId ,t.NickName,t.Avater,t.lType
+order by Money desc,NickName asc
+", Tool.GetTimeWhere("a.SubTime", queryType));
+            SqlParameter[] sp = new SqlParameter[]{
+                new SqlParameter("@RType",RType),
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@lType",lType)
+            };
+            List<RankMonyModel> list = Util.ReaderToList<RankMonyModel>(strsql, sp);
+            MyRankMonyModel myrank = new MyRankMonyModel();
+            UserInfo user = UserHelper.GetUser();
+            myrank.NickName = user.Name;
+            myrank.Avater = user.Headpath;
+            myrank.Rank = 0;
+            myrank.UserId = user.Id;
+            myrank.Money = 0;
+            if (list.Count > 0)
+            {
+                RankMonyModel rmodel = list.Where(x => x.UserId == UserId).FirstOrDefault();
+                if (rmodel != null)
+                {
+                    myrank.Avater = rmodel.Avater;
+                    myrank.Rank = rmodel.Rank;
+                    myrank.NickName = rmodel.NickName;
+                    myrank.Money = rmodel.Money;
+                    myrank.LType = rmodel.LType;
+                    myrank.UserId = rmodel.UserId;
+                }
+            }
+            return myrank;
+            
 
         }
 

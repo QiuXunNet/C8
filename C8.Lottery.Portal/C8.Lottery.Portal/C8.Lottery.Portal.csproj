@@ -777,6 +777,7 @@
     <Content Include="Views\Plan\PlanData.cshtml" />
     <Content Include="Views\List\ExpertData.cshtml" />
     <Content Include="Views\List\Gratuity.cshtml" />
+    <Content Include="Views\List\Profit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />
