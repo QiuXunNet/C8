@@ -347,7 +347,7 @@ namespace C8.Lottery.Portal.Controllers
                 LogHelper.WriteLog("money --" + money);
                     LogHelper.WriteLog("userId --" + userId);
 
-                sql = @"update ComeOutRecord set State = 2 where OrderId=@OrderId and PayType=@PayType;
+                sql = @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
                         update UserInfo set Coin = Coin + " + money+" where Id =@Id";
 
                 LogHelper.WriteLog("sql --" + sql);
