@@ -34,9 +34,12 @@ var lottery = {
  */
 function initBetting(qiu, data) {
 
+    try {
+        qiuClone = {};
+        qiuClone = copy(qiu, qiuClone);
+    } catch (e) {
 
-    qiuClone = {};
-    qiuClone = copy(qiu, qiuClone);
+    }
     if (!data || data.length < 1) return;
     $.each(data, function(index, item) {
         if (item.lType == 1) {

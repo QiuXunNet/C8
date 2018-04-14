@@ -697,6 +697,7 @@
     <Content Include="css\fonts\c8.eot" />
     <Content Include="css\fonts\c8.ttf" />
     <Content Include="css\fonts\c8.woff" />
+    <Content Include="App_Data\log4net.config" />
     <None Include="Properties\PublishProfiles\C8 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\C8 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -778,7 +779,6 @@
     <Content Include="Views\List\Gratuity.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="js\kcp\src\" />
   </ItemGroup>
   <ItemGroup>

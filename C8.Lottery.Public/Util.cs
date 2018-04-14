@@ -22497,7 +22497,7 @@ namespace C8.Lottery.Public
             }
             else if (lType == 45)
             {
-                result = "河北快三";
+                result = "湖北快三";
             }
             else if (lType == 46)
             {

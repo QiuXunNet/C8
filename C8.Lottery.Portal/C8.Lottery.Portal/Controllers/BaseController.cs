@@ -186,7 +186,7 @@ order by a.LotteryNumber desc";
                     MemClientFactory.WriteCache(memKey, list, 60);
                 }
             }
-
+            
             return list ?? new List<CommissionSetting>();
         }
     }
