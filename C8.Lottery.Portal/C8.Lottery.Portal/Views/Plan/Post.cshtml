@@ -32,6 +32,7 @@
 
             $.post('/Plan/AlreadyPostData', { id: lType }, function(data) {
 
+                initBetting(qiu, data);
                 for(var i = 0; i< data.length; i++) {
                     var d = data[i];
                     var playName = d.BigPlayName;
@@ -46,6 +47,8 @@
                         target.html(html + '|' + betNum);
                     }
                 }
+
+
                     
             });
 
@@ -389,56 +392,56 @@
                     <td width="20%" align="center" valign="middle">
                         <h3 class="WF_Ttitle">特码单双</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q1">单</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q1"></td>
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('lhc_q1','popup_dan','lhc');" data-id="lhc_q1" data-type="popup_dan" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">特码大小</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q2">大</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q2"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q2','popup_daxiao','lhc');" data-id="lhc_q2" data-type="popup_daxiao" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">特尾大小</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q3">小</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q3"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q3','popup_daxiao','lhc');" data-id="lhc_q3" data-type="popup_daxiao" class="WF_Btn ">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">特合单双</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q4">单</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q4"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q4','popup_dan','lhc');" data-id="lhc_q4" data-type="popup_dan" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">特码波色</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q5">红波</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q5"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q5','popup_color','lhc');" data-id="lhc_q5" data-type="popup_color" class="WF_Btn ">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">平特一肖</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q6">猪</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q6"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q6','popup_animal','lhc');" data-id="lhc_q6" data-type="popup_animal" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">四肖中特</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q7">猪，马，牛，羊</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q7','popup_animal','lhc');" data-id="lhc_q7" data-type="popup_animal" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">六肖中特</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q8">猪，马，牛，羊，狗，龙</td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q8"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q8','popup_animal','lhc');" data-id="lhc_q8" data-type="popup_animal" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -446,26 +449,7 @@
                         <h3 class="WF_Ttitle">二十码中特</h3>
                     </td>
                     <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q9">
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
+                        
                     </td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q9','popup_num49','lhc');" data-id="lhc_q9" data-type="popup_num49" class="WF_Btn" style="padding:28px 0;">选择号码</a></td>
                 </tr>
@@ -474,16 +458,7 @@
                         <h3 class="WF_Ttitle">十码中特</h3>
                     </td>
                     <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q10">
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
+                        
                     </td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q10','popup_num49','lhc');" data-id="lhc_q10" data-type="popup_num49" class="WF_Btn" style="padding:16px 0;">选择号码</a></td>
                 </tr>
@@ -492,11 +467,7 @@
                         <h3 class="WF_Ttitle">平五码</h3>
                     </td>
                     <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q11">
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
+                        
                     </td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q11','popup_num49','lhc');" data-id="lhc_q11" data-type="popup_num49" class="WF_Btn">选择号码</a></td>
                 </tr>
@@ -505,11 +476,7 @@
                         <h3 class="WF_Ttitle">五不中</h3>
                     </td>
                     <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q12">
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
+                        
                     </td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q12','popup_num49','lhc');" data-id="lhc_q12" data-type="popup_num49" class="WF_Btn">选择号码</a></td>
                 </tr>
@@ -518,12 +485,7 @@
                         <h3 class="WF_Ttitle">六不中</h3>
                     </td>
                     <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q13">
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspblue">03</span>
-                        <span class="WF_TBAsp WF_TBAspred">01</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
-                        <span class="WF_TBAsp WF_TBAspgreen">02</span>
+                        
                     </td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q13','popup_num49','lhc');" data-id="lhc_q13" data-type="popup_num49" class="WF_Btn">选择号码</a></td>
                 </tr>

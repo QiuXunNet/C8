@@ -1,156 +1,389 @@
-﻿
+﻿@using C8.Lottery.Model
+@{
+    List<RankingList> dailyList = ViewBag.DailyList;
+    List<RankingList> weekList = ViewBag.WeekList;
+    List<RankingList> monthList = ViewBag.MonthList;
+    List<RankingList> totalList = ViewBag.TotalList;
 
-<div class="Ranking_Cinfo">
-    <table width="100%" border="0" class="Ranking_table1">
-        <tbody>
-            <tr>
-                <td width="10%" align="center" valign="middle"><img src="/images/44_1.png" class="Ranking_Btu"></td>
-                <td width="15%" align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_5.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p class="Ysfont"><a href="javascript:;">茶之轨迹</a></p>
-                </td>
-                <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle"><img src="/images/44_2.png" class="Ranking_Btu"></td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_6.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p class="Ysfont"><a href="javascript:;">linyuelong</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle"><img src="/images/44_3.png" class="Ranking_Btu"></td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p class="Ysfont"><a href="javascript:;">我很好那么你呢</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>4</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>5</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>6</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>7</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>8</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>9</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>10</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <p>11</p>
-                </td>
-                <td align="center" valign="middle">
-                    <div class="Ranking_Blogotu">
-                        <a href="javascript:;"><img src="/images/44_7.png"></a>
-                    </div>
-                </td>
-                <td align="left" valign="middle">
-                    <p><a href="javascript:;">卡桑德拉</a></p>
-                </td>
-                <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-            </tr>
-        </tbody>
-    </table>
+    RankingList userDailyInfo = ViewBag.UserDailyInfo;
+    RankingList userWeekInfo = ViewBag.UserWeekInfo;
+    RankingList userMonthInfo = ViewBag.UserMonthInfo;
+    RankingList userTotalInfo = ViewBag.UserTotalInfo;
+}
+
+
+<div class="Ranking_content mt10">
+    <div class="Ranking_Cinfo">
+
+        @if (dailyList != null && dailyList.Count>0)
+        {
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+                    @foreach (var item in dailyList)
+                    {
+                        <tr>
+
+                            <td width="10%" align="center" valign="middle">
+                                @if (item.Rank == 1)
+                                {
+                                    <img src="/images/44_1.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 2)
+                                {
+                                    <img src="/images/44_2.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 3)
+                                {
+                                    <img src="/images/44_3.png" class="Ranking_Btu" />
+                                }
+                                else
+                                {
+                                    <p>@item.Rank</p>
+                                }
+                            </td>
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="/Personal/UserCenter/@item.UserId">
+                                        @if (string.IsNullOrEmpty(item.Avater))
+                                        {
+                                            <img src="/images/default_avater.png" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@item.Avater" />
+                                        }
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p class="Ysfont">
+                                    <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                                </p>
+                            </td>
+                            <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="mescroll-empty">
+                <img class="empty-icon" src="/images/null.png">
+                <p class="empty-tip">暂无榜单~</p>
+            </div>
+        }
+    </div>
+    <div class="Ranking_Cinfo" style="display: none;">
+        @if (weekList != null && weekList.Count > 0)
+        {
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+
+                    @foreach (var item in weekList)
+                {
+                <tr>
+
+                    <td width="10%" align="center" valign="middle">
+                        @if (item.Rank == 1)
+                            {
+                            <img src="/images/44_1.png" class="Ranking_Btu" />
+                            }
+                            else if (item.Rank == 2)
+                            {
+                            <img src="/images/44_2.png" class="Ranking_Btu" />
+                            }
+                            else if (item.Rank == 3)
+                            {
+                            <img src="/images/44_3.png" class="Ranking_Btu" />
+                            }
+                            else
+                            {
+                            <p>@item.Rank</p>
+                            }
+                    </td>
+                    <td width="15%" align="center" valign="middle">
+                        <div class="Ranking_Blogotu">
+                            <a href="/Personal/UserCenter/@item.UserId">
+                                @if (string.IsNullOrEmpty(item.Avater))
+                                    {
+                                    <img src="/images/default_avater.png" />
+                                    }
+                                    else
+                                    {
+                                    <img src="@item.Avater" />
+                                    }
+                            </a>
+                        </div>
+                    </td>
+                    <td align="left" valign="middle">
+                        <p class="Ysfont">
+                            <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                        </p>
+                    </td>
+                    <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="mescroll-empty">
+                <img class="empty-icon" src="/images/null.png">
+                <p class="empty-tip">暂无榜单~</p>
+            </div>
+        }
+    </div>
+    <div class="Ranking_Cinfo" style="display: none;">
+        @if (monthList != null && monthList.Count > 0)
+        {
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+
+                    @foreach (var item in monthList)
+                {
+                    <tr>
+
+                        <td width="10%" align="center" valign="middle">
+                            @if (item.Rank == 1)
+                        {
+                                <img src="/images/44_1.png" class="Ranking_Btu" />
+                        }
+                        else if (item.Rank == 2)
+                        {
+                                <img src="/images/44_2.png" class="Ranking_Btu" />
+                        }
+                        else if (item.Rank == 3)
+                        {
+                                <img src="/images/44_3.png" class="Ranking_Btu" />
+                        }
+                        else
+                        {
+                                <p>@item.Rank</p>
+                        }
+                        </td>
+                        <td width="15%" align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="/Personal/UserCenter/@item.UserId">
+                                    @if (string.IsNullOrEmpty(item.Avater))
+                                {
+                                        <img src="/images/default_avater.png" />
+                                }
+                                else
+                                {
+                                        <img src="@item.Avater" />
+                                }
+                                </a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p class="Ysfont">
+                                <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                            </p>
+                        </td>
+                        <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="mescroll-empty">
+                <img class="empty-icon" src="/images/null.png">
+                <p class="empty-tip">暂无榜单~</p>
+            </div>
+        }
+    </div>
+    <div class="Ranking_Cinfo" style="display: none;">
+
+        @if (totalList != null && totalList.Count > 0)
+            {
+            <table width="100%" border="0" class="Ranking_table1">
+                <tbody>
+                    @foreach (var item in totalList)
+                {
+                    <tr>
+
+                        <td width="10%" align="center" valign="middle">
+                            @if (item.Rank == 1)
+                                {
+                                <img src="/images/44_1.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 2)
+                                {
+                                <img src="/images/44_2.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 3)
+                                {
+                                <img src="/images/44_3.png" class="Ranking_Btu" />
+                                }
+                                else
+                                {
+                                <p>@item.Rank</p>
+                                }
+                        </td>
+                        <td width="15%" align="center" valign="middle">
+                            <div class="Ranking_Blogotu">
+                                <a href="/Personal/UserCenter/@item.UserId">
+                                    @if (string.IsNullOrEmpty(item.Avater))
+                                        {
+                                        <img src="/images/default_avater.png" />
+                                        }
+                                        else
+                                        {
+                                        <img src="@item.Avater" />
+                                        }
+                                </a>
+                            </div>
+                        </td>
+                        <td align="left" valign="middle">
+                            <p class="Ysfont">
+                                <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                            </p>
+                        </td>
+                        <td width="25%" align="center" valign="middle">
+                            <span class="Ds_money Jf_money">@item.Score</span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="mescroll-empty">
+                <img class="empty-icon" src="/images/null.png">
+                <p class="empty-tip">暂无榜单~</p>
+            </div>
+        }
+    </div>
+</div>
+<div class="Ranking_footer">
+    <dl class="Rank_ftDL">
+        <dt>
+            <a href="/Personal/UserCenter/@userDailyInfo.UserId">
+                @if (string.IsNullOrEmpty(@userDailyInfo.Avater))
+                {
+                <img src="/images/default_avater.png" />
+                }
+                else
+                {
+                <img src="@userDailyInfo.Avater" />
+                }
+            </a>
+        </dt>
+        <dd>
+            <p class="Ds_money1 Jf_money1 f-r">@userDailyInfo.Score</p>
+            <div class="Rank_ftL">
+                <h3><a href="/Personal/UserCenter/@userDailyInfo.UserId">@userDailyInfo.NickName</a></h3>
+                <P>
+                    当前排名：
+                    @if (userDailyInfo.Rank > 0)
+                    {
+                    <span>userDailyInfo.Rank</span>
+                    }
+                    else
+                    {
+                    <span>未上榜</span>
+                    }
+                </P>
+            </div>
+        </dd>
+    </dl>
+    <dl class="Rank_ftDL" style="display: none;">
+        <dt>
+            <a href="/Personal/UserCenter/@userWeekInfo.UserId">
+                @if (string.IsNullOrEmpty(@userWeekInfo.Avater))
+                {
+                <img src="/images/default_avater.png" />
+                }
+                else
+                {
+                <img src="@userWeekInfo.Avater" />
+                }
+            </a>
+        </dt>
+        <dd>
+            <p class="Ds_money1 Jf_money1 f-r">@userWeekInfo.Score</p>
+            <div class="Rank_ftL">
+                <h3><a href="/Personal/UserCenter/@userWeekInfo.UserId">@userWeekInfo.NickName</a></h3>
+                <P>
+                    当前排名：
+                    @if (userWeekInfo.Rank > 0)
+                    {
+                    <span>userWeekInfo.Rank</span>
+                    }
+                    else
+                    {
+                    <span>未上榜</span>
+                    }
+                </P>
+            </div>
+        </dd>
+    </dl>
+    <dl class="Rank_ftDL" style="display: none;">
+        <dt>
+            <a href="/Personal/UserCenter/@userMonthInfo.UserId">
+                @if (string.IsNullOrEmpty(@userMonthInfo.Avater))
+                {
+                <img src="/images/default_avater.png" />
+                }
+                else
+                {
+                <img src="@userMonthInfo.Avater" />
+                }
+            </a>
+        </dt>
+        <dd>
+            <p class="Ds_money1 Jf_money1 f-r">@userMonthInfo.Score</p>
+            <div class="Rank_ftL">
+                <h3><a href="/Personal/UserCenter/@userMonthInfo.UserId">@userMonthInfo.NickName</a></h3>
+                <P>
+                    当前排名：
+                    @if (userMonthInfo.Rank > 0)
+                    {
+                    <span>userMonthInfo.Rank</span>
+                    }
+                    else
+                    {
+                    <span>未上榜</span>
+                    }
+                </P>
+            </div>
+        </dd>
+    </dl>
+    <dl class="Rank_ftDL" style="display: none;">
+        <dt>
+            <a href="/Personal/UserCenter/@userTotalInfo.UserId">
+                @if (string.IsNullOrEmpty(@userTotalInfo.Avater))
+                {
+                <img src="/images/default_avater.png" />
+                }
+                else
+                {
+                <img src="@userTotalInfo.Avater" />
+                }
+            </a>
+        </dt>
+        <dd>
+            <p class="Ds_money1 Jf_money1 f-r">@userTotalInfo.Score</p>
+            <div class="Rank_ftL">
+                <h3><a href="/Personal/UserCenter/@userTotalInfo.UserId">@userTotalInfo.NickName</a></h3>
+                <P>
+                    当前排名：
+                    @if (userTotalInfo.Rank > 0)
+                    {
+                    <span>userTotalInfo.Rank</span>
+                    }
+                    else
+                    {
+                    <span>未上榜</span>
+                    }
+                </P>
+            </div>
+        </dd>
+    </dl>
 </div>

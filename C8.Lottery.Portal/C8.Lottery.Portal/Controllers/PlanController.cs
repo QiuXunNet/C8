@@ -994,7 +994,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
                 sqlBuilder.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏, coin);
 
-                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id && x.Type == (int)CommissionTypeEnum.打赏佣金);
+                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == model.lType && x.Type == (int)CommissionTypeEnum.打赏佣金);
                 if (userRateSetting != null && userRateSetting.Percentage > 0)
                 {
                     int commission = (int)(userRateSetting.Percentage * coin);
@@ -1005,6 +1005,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏佣金, commission);
                 }
 
+                //LogHelper.WriteLog(sqlBuilder.ToString());
                 SqlHelper.ExecuteTransaction(sqlBuilder.ToString());
 
                 return Json(new AjaxResult(100, "打赏成功"));

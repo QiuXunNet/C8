@@ -1,0 +1,591 @@
+﻿
+@using C8.Lottery.Model
+
+@{
+    ViewBag.Title = "Profit";
+    var TypeList = ViewBag.TypeList as List<LotteryType2>;
+    var LotteryList = ViewBag.LotteryList as IEnumerable<IGrouping<int, LotteryType2>>;
+
+}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>盈利榜</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/mescroll.min.css" rel="stylesheet" />
+    <link href="~/css/dialog.css" rel="stylesheet" />
+
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script src="~/js/dialog.min.js"></script>>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script>
+        $(function () {
+
+
+            var pid = $(".hdNav_cai_lhs .current").attr("data-pid");
+            var ltype = $("#group_" + pid + " .current").attr("data-ltype");
+            var queryType = $(".C8_bang .current").attr("data-idx");
+            getlist(queryType, 4, ltype);
+
+            $(".hdNav_cai_lhs li").click(function ()
+            {
+                $(".C8_bang").find("li").first().addClass("current").siblings().removeClass("current");
+                var _this = $(this);
+                var pid = _this.attr("data-pid");
+
+                var ltype = $("#group_" + pid + " .current").attr("data-ltype");
+                var queryType = $(".C8_bang .current").attr("data-idx");
+                getlist(queryType, 4, ltype);
+
+
+            });
+
+
+            $(".hdNav_cai li").click(function () {
+                $(".C8_bang").find("li").first().addClass("current").siblings().removeClass("current");
+                var _this = $(this);
+                var pid = _this.attr("data-pid");
+
+                var ltype = $("#group_" + pid + " .current").attr("data-ltype");
+                var queryType = $(".C8_bang .current").attr("data-idx");
+                getlist(queryType, 4, ltype);
+
+            });
+
+            $(".GS_box li").on('click', function ()
+            {
+                $(".C8_bang").find("li").first().addClass("current").siblings().removeClass("current");
+
+                var pid = $(".hdNav_cai_lhs .current").attr("data-pid");
+                var _this = $(this);
+                var ltype = _this.attr("data-ltype");
+                var queryType = $(".C8_bang .current").attr("data-idx");
+
+                getlist(queryType, 4, ltype);
+
+
+            });
+
+            $(".C8_bang li").click(function () {
+                var pid = $(".hdNav_cai_lhs .current").attr("data-pid");
+
+                var ltype = $("#group_" + pid + " .current").attr("data-ltype");
+
+                var queryType = $(this).attr("data-idx");
+
+                getlist(queryType, 4, ltype);
+
+            });
+
+
+        });
+
+        function getlist(queryType, RType, lType)
+        {
+            $.get("/List/GetRankMoneyList",
+                {
+                    queryType: queryType,
+                    RType: RType,
+                    lType: lType
+
+                },
+              function (data)
+              {
+
+                  if (data.Success==true)
+                  {
+                      myrankHtml(data.data.MyRankMonyModel);
+                      if (data.data.RankMonyModelList.length == 0)
+                      {
+                          $(".Ranking_Cinfo").html('<div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>');
+                      } else
+                      {
+                          buildHtml(data.data.RankMonyModelList, queryType);
+                      }
+
+
+                  } else
+                  {
+                      alertmsg(data.Msg);
+                  }
+
+              });
+        }
+
+        function buildHtml(data, queryType)
+        {
+            console.log(data);
+            var html = [];
+            var html2 = [];
+            var tb = '<table width="100%" border="0" class="Ranking_table1"> <tbody>';
+            var tb2 = '<table width="100%" border="0" class="Ranking_table2"><tbody>';
+
+            var tr = '';
+            var tr2 = '';
+            $.each(data, function (index, value)
+            {
+
+                if (queryType == "all")
+                {
+                    if (value.Rank <= 3)
+                    {
+                        tr2 = ''
+                        +'<td width="33%" align="center" valign="middle">'
+                          +' <div class="Ranking_Blogotu2">'
+                            +' <div class="Ranking_B2tu"> '
+                            + '<a href="javascript:;"><img src="' + (value.Avater.length <= 0 ? '/images/default_avater.png' : value.Avater) + '"></a>'
+                           +' </div>'
+                        + ' <img src="' + gettop3img(value.Rank) + '" class="Ranking_PHtu">'
+                        +' </div>'
+                        + ' <h3 class="Ranking_name"><a href="javascript:;">' + value.NickName + '</a></h3>'
+                         + '<span class="Ds_money2">' + value.Money + '</span>'
+                        +'</td>'
+
+                    } else
+                    {
+                 tr = '<tr><td align="center" valign="middle"> <p>'+value.Rank+'</p></td>'
+                  + '<td width="15%" align="center" valign="middle">'
+                  + ' <div class="Ranking_Blogotu">'
+                  + '  <a href="javascript:;"><img src="' + (value.Avater.length <= 0 ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
+                  + '   </td> <td align="left" valign="middle">'
+                  + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
+                  + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Money + '</span></td>'
+                  + ' </tr> '
+                    }
+
+                    html2.push(tr2);
+
+                } else
+                {
+                    var tdrank = '<td align="center" valign="middle"> <p>4</p></td>';
+                    if (value.Rank <= 3)
+                    {
+                        tdrank = '<td width="10%" align="center" valign="middle"><img src="' + gettop3img(value.Rank)+ '" class="Ranking_Btu"></td>';
+                    }
+
+                     tr= '<tr>' + tdrank
+                    + '<td width="15%" align="center" valign="middle">'
+                    + ' <div class="Ranking_Blogotu">'
+                    + '  <a href="javascript:;"><img src="' + (value.Avater.length <= 0 ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
+                    + '   </td> <td align="left" valign="middle">'
+                    + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
+                    + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Money + '</span></td>'
+                    + ' </tr> '
+
+                }
+                html.push(tr);
+
+            });
+
+            $(".Ranking_Cinfo").html('');
+            if (queryType == "all")
+            {
+                $(".Ranking_Cinfo").append(tb2 +'<tr>'+ html2.join('')+'</tr>' + '</tbody></table>' + tb + html.join('') + '</tbody></table>');
+
+            } else
+            {
+                $(".Ranking_Cinfo").append(tb + html.join('') + '</tbody></table>');
+            }
+
+
+
+
+        }
+
+        //我的排名
+        function myrankHtml(data)
+        {
+            $(".Rank_ftDL").html('');
+
+            var text = '';
+            if (data.Rank <= 0 || data.Rank > 100)
+            {
+                text = '暂未上榜';
+            } else {
+                text = data.Rank;
+            }
+
+            var html='<dt>'
+            + '<a href="javascript:;"><img src="' + (data.Avater== null ? '/images/default_avater.png' : data.Avater) + '"></a>'
+           + ' </dt>'
+           + ' <dd>'
+           + '<p class="Ds_money1 f-r">'+data.Money+'</p>'
+           + ' <div class="Rank_ftL">'
+           + '  <h3><a href="javascript:;">'+data.NickName+'</a></h3>'
+            + ' <P>'
+           + '  当前排名：<span>' + text + '</span>'
+           + '</P>'
+           + ' </div>'
+           + ' </dd>'
+
+            $(".Rank_ftDL").append(html);
+
+        }
+
+        //前3图片
+        function gettop3img(rank)
+        {
+            var imgsrc = '';
+            switch (rank) {
+                case 1:
+                    imgsrc = "/images/44_1.png";
+                    break;
+                case 2:
+                    imgsrc = "/images/44_2.png";
+                    break;
+                case 3:
+                    imgsrc = "/images/44_3.png";
+                    break;
+
+            }
+            return imgsrc;
+        }
+
+
+
+    </script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="/List/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">盈利榜</a>
+    </header>
+
+    <div class="hjc_hdNav">
+
+        <div class="hdNav_cai_collect">
+            <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
+            <ul class="hdNav_cai_lhs">
+                @foreach (var item in TypeList)
+                {
+                    if (TypeList.IndexOf(item) == 0)
+                    {
+                        <li data-pid="@item.Id" class="current"><a href="javascript:;">@item.Name</a></li>
+                    }
+                    else
+                    {
+                        <li data-pid="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                    }
+                }
+
+                <div style="clear:both;"></div>
+
+            </ul>
+        </div>
+        <div class="hdNav_cai_expand" style="display:none">
+            <div class="hdNav_cai_title">
+                <span>切换分类</span>
+                <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
+            </div>
+            <ul class="hdNav_cai">
+                @foreach (var item in TypeList)
+                {
+                    if (TypeList.IndexOf(item) == 0)
+                    {
+                        <li data-pid="@item.Id" class="current"><a href="javascript:;">@item.Name</a></li>
+                    }
+                    else
+                    {
+                        <li data-pid="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                    }
+                }
+
+
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- <div class="guessing_header">
+        <ul class="C8_nav5 C8_GPQG">
+            <li class="current"><a href="javascript:;">全部</a></li>
+            <li><a href="javascript:;">高频彩</a></li>
+            <li class=""><a href="javascript:;">全国彩</a></li>
+            <div style="clear:both;"></div>
+        </ul>
+    </div> -->
+
+    <div class="gaoshou">
+        <div class="GS_box">
+
+            @foreach (IGrouping<int, LotteryType2> item in LotteryList)
+            {
+
+                if (item.Key == 1)
+                {
+
+                    <ul id="group_@item.ElementAt(0).PId" class="GS_nav">
+                        @foreach (var item1 in item.ToList())
+                        {
+                            if (item.ToList().IndexOf(item1) == 0)
+                            {
+                                <li data-ltype="@item1.lType" class="current"><a href="javascript:;">@item1.Name</a></li>
+                            }
+                            else
+                            {
+                                <li data-ltype="@item1.lType"><a href="javascript:;">@item1.Name</a></li>
+                            }
+                        }
+
+                    </ul>
+                }
+                else
+                {
+                    <ul id="group_@item.ElementAt(0).PId" class="GS_nav" style="display: none;">
+                        @foreach (var item1 in item.ToList())
+                        {
+                            if (item.ToList().IndexOf(item1) == 0)
+                            {
+                                <li data-ltype="@item1.lType" class="current"><a href="javascript:;">@item1.Name</a></li>
+                            }
+                            else
+                            {
+                                <li data-ltype="@item1.lType"><a href="javascript:;">@item1.Name</a></li>
+                            }
+                        }
+                    </ul>
+                }
+
+
+            }
+
+        </div>
+        <a href="javascript:;" class="GS_btn"><img src="~/images/50.png"></a>
+    </div>
+
+
+
+    <ul class="C8_nav6 C8_bang">
+        <li data-idx="day" class="current">
+            <a href="javascript:;">
+                <p>日榜</p><span></span>
+            </a>
+        </li>
+        <li data-idx="week">
+            <a href="javascript:;">
+                <p>周榜</p><span></span>
+            </a>
+        </li>
+        <li data-idx="month">
+            <a href="javascript:;">
+                <p>月榜</p><span></span>
+            </a>
+        </li>
+        <li data-idx="all">
+            <a href="javascript:;">
+                <p>总榜</p><span></span>
+            </a>
+        </li>
+        <div style="clear:both;"></div>
+    </ul>
+
+
+    <div class="Ranking_content mt0">
+        <div class="Ranking_Cinfo">
+            @*<table width="100%" border="0" class="Ranking_table1">
+                    <tbody>
+                        <tr>
+                            <td width="10%" align="center" valign="middle"><img src="~/images/44_1.png" class="Ranking_Btu"></td>
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_5.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p class="Ysfont"><a href="javascript:;">茶之轨迹</a></p>
+                            </td>
+                            <td width="25%" align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+
+                    </tbody>
+                </table>*@
+        </div>
+
+
+        @*<div class="Ranking_Cinfo" style="display:none;">
+                <table width="100%" border="0" class="Ranking_table2">
+                    <tbody>
+                        <tr>
+                            <td width="33%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu2">
+                                    <div class="Ranking_B2tu">
+                                        <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                    </div>
+                                    <img src="~/images/44_2.png" class="Ranking_PHtu">
+                                </div>
+                                <h3 class="Ranking_name"><a href="javascript:;">你家二狗的</a></h3>
+                                <span class="Ds_money2">20000</span>
+                            </td>
+                            <td width="33%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu2">
+                                    <div class="Ranking_B2tu">
+                                        <a href="javascript:;"><img src="~/images/44_5.png"></a>
+                                    </div>
+                                    <img src="~/images/44_1.png" class="Ranking_PHtu">
+                                </div>
+                                <h3 class="Ranking_name"><a href="javascript:;">Atlantis</a></h3>
+                                <span class="Ds_money2">36800</span>
+                            </td>
+                            <td width="33%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu2">
+                                    <div class="Ranking_B2tu">
+                                        <a href="javascript:;"><img src="~/images/44_6.png"></a>
+                                    </div>
+                                    <img src="~/images/44_3.png" class="Ranking_PHtu">
+                                </div>
+                                <h3 class="Ranking_name"><a href="javascript:;">阿牛哥</a></h3>
+                                <span class="Ds_money2">15300</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table width="100%" border="0" class="Ranking_table1">
+                    <tbody>
+                        <tr>
+                            <td width="10%" align="center" valign="middle">
+                                <p>4</p>
+                            </td>
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td width="25%" align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>5</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>6</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>7</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>8</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>9</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+
+
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>10</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <p>11</p>
+                            </td>
+                            <td align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p><a href="javascript:;">卡桑德拉</a></p>
+                            </td>
+                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>*@
+    </div>
+    <div class="Ranking_footer">
+        <dl class="Rank_ftDL">
+
+            @*<dt>
+                <a href="javascript:;"><img src="~/images/44_7.png"></a>
+                </dt>
+                <dd>
+                    <p class="Ds_money1 f-r">20000</p>
+                    <div class="Rank_ftL">
+                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
+                        <P>
+                            当前排名：<span>126</span>
+
+                        </P>
+                    </div>
+                </dd>*@
+
+        </dl>
+    </div>
+
+</body>
+
+</html>

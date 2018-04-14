@@ -12,25 +12,27 @@ namespace System
 
         public static long GetJsTimespan(this DateTime dt)
         {
-            TimeSpan span = (TimeSpan) (dt - new DateTime(0x7b2, 1, 1));
-            return (long) span.TotalMilliseconds;
+            TimeSpan span = (TimeSpan)(dt - new DateTime(0x7b2, 1, 1));
+            return (long)span.TotalMilliseconds;
         }
 
         public static DateTime GetMonthStart(this DateTime dt)
         {
-            return dt.Date.AddDays((double) (-dt.Day + 1));
+            return dt.Date.AddDays((double)(-dt.Day + 1));
         }
 
         public static DateTime GetWeekStart(this DateTime dt, bool startFromMonday = true)
         {
             int num = 0;
+
             if (startFromMonday)
             {
-                num = -(int) dt.DayOfWeek;
+                int weeknow = (int)dt.DayOfWeek;
+                num = -(weeknow == 0 ? (7 - 1) : (weeknow - 1));
             }
             else
             {
-                num = -((int) dt.DayOfWeek + 6)%((int) DayOfWeek.Saturday | (int) DayOfWeek.Monday);
+                num = -(int)dt.DayOfWeek;
             }
             return dt.Date.AddDays(num);
         }
@@ -81,19 +83,19 @@ namespace System
 
         public static string ToTimePeriodDescription(this DateTime dt)
         {
-            TimeSpan span = (TimeSpan) (DateTime.Now - dt);
+            TimeSpan span = (TimeSpan)(DateTime.Now - dt);
             double totalDays = span.TotalDays;
             double totalHours = span.TotalHours;
             double totalMinutes = span.TotalMinutes;
             if (totalDays > 1.0)
             {
-                return (((int) totalDays) + "天前");
+                return (((int)totalDays) + "天前");
             }
             if (totalHours > 1.0)
             {
-                return (((int) totalHours) + "小时前");
+                return (((int)totalHours) + "小时前");
             }
-            return (((int) totalMinutes) + "分钟前");
+            return (((int)totalMinutes) + "分钟前");
         }
 
         /// <summary>

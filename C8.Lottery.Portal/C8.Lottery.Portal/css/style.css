@@ -5608,7 +5608,7 @@ a {
     padding: 8px 0;
     border-top: 1px solid #ccc;
     background: #fff;
-    z-index: 9999;
+    z-index: 8888;
 }
 
 .WF_ftTitle {
@@ -6694,7 +6694,7 @@ a {
     height: 100%;
     -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
-    z-index: 999;
+    z-index: 9998;
 }
 
 .list_mainUl2 {
@@ -8510,7 +8510,17 @@ footer {
 }
 /**** Added by LHS 2018-4-10 END****/
 
-
+/**** Added by LHS 2018-4-13 ****/
+.hjc_ftNav a {
+    color: #666;
+}
+.hjc_ftNav p {
+    margin: 6px 0;
+}
+.hjc_adlink {
+    margin-bottom: 13px;
+}
+/**** Added by LHS 2018-4-13 END****/
 
 /**兼容小屏**/
 

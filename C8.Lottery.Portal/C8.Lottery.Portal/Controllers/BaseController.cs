@@ -177,7 +177,7 @@ order by a.LotteryNumber desc";
         {
             string memKey = "base_commission_settings";
             var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
-            if (list == null)
+            if (list == null || list.Count < 1)
             {
                 string sql = "SELECT [Id],[lType],[Percentage],[Type] FROM [dbo].[SharedRevenue] WHERE IsDeleted=0";
                 list = Util.ReaderToList<CommissionSetting>(sql);
@@ -186,7 +186,7 @@ order by a.LotteryNumber desc";
                     MemClientFactory.WriteCache(memKey, list, 60);
                 }
             }
-
+            
             return list ?? new List<CommissionSetting>();
         }
     }
