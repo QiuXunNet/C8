@@ -8,6 +8,20 @@ namespace C8.Lottery.Portal.Models
     [Serializable]
     public class RankMoneyListModel
     {
+        public List<RankMonyModel> RankMonyModelList { get; set; }
+        public MyRankMonyModel MyRankMonyModel { get; set; }
+
+    }
+    public class MyRankMonyModel : RankModel
+    {
+
+    }
+    public class RankMonyModel:RankModel
+    {
+
+    }
+    public class RankModel
+    {
         /// <summary>
         /// 用户Id
         /// </summary>
@@ -16,7 +30,7 @@ namespace C8.Lottery.Portal.Models
         /// 彩种Id
         /// </summary>
         public int LType { get; set; }
-    
+
         /// <summary>
         /// 佣金
         /// </summary>
@@ -34,4 +48,7 @@ namespace C8.Lottery.Portal.Models
         /// </summary>
         public int Rank { get; set; }
     }
+  
+   
+
 }
