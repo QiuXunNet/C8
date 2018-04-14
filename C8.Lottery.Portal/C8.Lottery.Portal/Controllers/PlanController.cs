@@ -94,8 +94,6 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
-
-
         //官方推荐数据
         public ActionResult PlanData(int id, int pageIndex = 1, int pageSize = 10)
         {
@@ -122,11 +120,6 @@ namespace C8.Lottery.Portal.Controllers
 
             return View();
         }
-
-
-
-
-
 
 
         public ActionResult GetOpenRemainingTime(int lType)
@@ -223,6 +216,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
         //投注
+        [Authentication]
         public ActionResult Bet(int lType, string currentIssue, string betInfo)
         {
 
