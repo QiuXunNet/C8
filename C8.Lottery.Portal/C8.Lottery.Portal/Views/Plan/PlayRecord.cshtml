@@ -93,7 +93,7 @@
                     }
                 </h3>
             </div>
-            <div class="Gues_ThdRight f-r">
+            <div id="visitPlanContainer" class="Gues_ThdRight f-r">
                 @if (isSub)
                 {
                     <span>已更新</span>
@@ -270,7 +270,7 @@
         });
 
         function getData(playName) {
-            var uid=@Model.Id;
+            var uid = @Model.Id;
             $.ajax({
                 type: 'GET',
                 data: {
@@ -286,9 +286,8 @@
                         //回调
                         buildHtml(res.Data.PageData);
 
-                        if (res.Data.ExtraData && res.Data.ExtraData.Id) {
-                            recordId=res.Data.ExtraData.Id;
-                        }
+                        buildLastPlay(res.Data.ExtraData);
+
 
                     } else {
                         alertmsg("服务器繁忙");
@@ -298,6 +297,15 @@
                     alertmsg("服务器繁忙");
                 }
             });
+        }
+
+        function buildLastPlay(data) {
+            if (data != null && typeof (data) != "undefined") {
+                recordId = data.Id;
+                $("#visitPlanContainer").html('<span>已更新</span><a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>')
+            } else {
+                $("#visitPlanContainer").html("<span>未更新</span>");
+            }
         }
 
         function buildHtml(pageData) {
@@ -412,6 +420,15 @@
         }
 
         var playUtil = {
+            goLastPlay:function() {
+                var playName = $(".SX_Ul li.current").attr("data-title")||"";
+                location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
+            },
+            giftCoin:function() {
+
+                var playName = $(".SX_Ul li.current").attr("data-title")||"";
+                location.href = "/Plan/Tip?uid=" + uid + "&ltype=" + ltype + "&playName=" + playName;
+            },
             cancel:function() {
                 $(".C8_TCpopupA").hide();
                 $(".mask").hide();
@@ -427,7 +444,7 @@
                 }
 
                 $.ajax({
-                    type: 'GET',
+                    type: 'POST',
                     data: {
                         lType:ltype,
                         uid:uid,
@@ -439,7 +456,7 @@
                     success: function (res) {
 
                         if (res.IsSuccess) {
-                            this.goLastPlay();
+                            playUtil.goLastPlay();
                         } else {
                             alertmsg(res.Message);
                         }
@@ -455,17 +472,8 @@
                     $(".mask").show();
                 } else {
                     //this.confirm();
-                    this.goLastPlay();
+                    playUtil.goLastPlay();
                 }
-            },
-            goLastPlay:function() {
-                var playName = $(".SX_Ul li.current").attr("data-title")||"";
-                location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
-            },
-            giftCoin:function() {
-
-                var playName = $(".SX_Ul li.current").attr("data-title")||"";
-                location.href = "/Plan/Tip?uid=" + uid + "&ltype=" + ltype + "&playName=" + playName;
             }
         }
 

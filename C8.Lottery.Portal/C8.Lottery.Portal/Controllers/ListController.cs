@@ -28,7 +28,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <returns></returns>
         [Authentication]
-        public ActionResult Expert(int id)
+        public ActionResult Expert(int id = 0)
         {
             //step1.查询彩种分类列表
             string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
@@ -36,11 +36,15 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.TypeList = list;
             //step2.查询具体彩种
             string lotteryListSql = @"select * from LotteryType2 where PId>0  order by Position ";
-            var lotteryList = Util.ReaderToList<LotteryType2>(lotteryListSql).GroupBy(x => x.PId);
+            var queryList = Util.ReaderToList<LotteryType2>(lotteryListSql);
+            var lotteryList = queryList.GroupBy(x => x.PId);
             ViewBag.LotteryList = lotteryList.OrderBy(x => x.Key);
 
+
+
             //step3.查询当前彩种信息
-            var model = Util.GetEntityById<LotteryType2>(id);
+            var model = id < 1 ? queryList.FirstOrDefault() : queryList.FirstOrDefault(x => x.Id == id);
+            //Util.GetEntityById<LotteryType2>(id);
 
             //step2.查询当前
             return View(model);
@@ -138,7 +142,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             //step1.查询彩种分类列表
 
-            int i =Tool.GetCacheTime("week");
+            int i = Tool.GetCacheTime("week");
             string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
             var list = Util.ReaderToList<LotteryType2>(strsql);
             ViewBag.TypeList = list;
@@ -179,15 +183,15 @@ namespace C8.Lottery.Portal.Controllers
         [Authentication]
         [HttpGet]
 
-        public JsonResult GetRankMoneyList(string queryType,int RType,int lType)
+        public JsonResult GetRankMoneyList(string queryType, int RType, int lType)
         {
             RankMoneyListModel model = new RankMoneyListModel();
             DateTime today = DateTime.Today;
-            string memberKey = "RankMoney_"+ RType + "_"+ queryType + "_"+ lType + "_total_" + today.ToString("yyyyMMdd");
+            string memberKey = "RankMoney_" + RType + "_" + queryType + "_" + lType + "_total_" + today.ToString("yyyyMMdd");
             ReturnMessageJson msgjson = new ReturnMessageJson();
             try
             {
-             //   list = MemClientFactory.GetCache<List<RankMoneyListModel>>(memberKey);
+                //   list = MemClientFactory.GetCache<List<RankMoneyListModel>>(memberKey);
                 if (model.MyRankMonyModel == null)
                 {
                     string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
@@ -208,9 +212,9 @@ order by Money desc,NickName asc
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@lType",lType)
             };
-                    model.RankMonyModelList= Util.ReaderToList<RankMonyModel>(strsql, sp);                  
-                    model.MyRankMonyModel = GetMyRankMony(queryType,RType,lType);
-                       
+                    model.RankMonyModelList = Util.ReaderToList<RankMonyModel>(strsql, sp);
+                    model.MyRankMonyModel = GetMyRankMony(queryType, RType, lType);
+
 
                 }
                 msgjson.Success = true;
@@ -223,8 +227,8 @@ order by Money desc,NickName asc
                 throw;
             }
 
-         
-            return Json(msgjson,JsonRequestBehavior.AllowGet);
+
+            return Json(msgjson, JsonRequestBehavior.AllowGet);
 
         }
         /// <summary>
@@ -277,7 +281,7 @@ order by Money desc,NickName asc
                 }
             }
             return myrank;
-            
+
 
         }
 
@@ -312,8 +316,8 @@ order by Money desc,NickName asc
 
             DateTime today = DateTime.Today;
             string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
-        
-          var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+
+            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {

@@ -25,7 +25,7 @@
 <body style="background:#F4F4F5;">
 
     <header class="hjc_header">
-        <a href="javascript:;" class="hjc_back"></a>
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">高手榜</a>
     </header>
 
@@ -85,7 +85,7 @@
             {
                 foreach (var goupList in lotteryList)
                 {
-                    string showMode = goupList.Key == Model.Id ? "display:block;" : "display:none;";
+                    string showMode = goupList.Key == Model.PId ? "display:block;" : "display:none;";
                     <ul id="@("group"+goupList.Key)" class="GS_nav" style="@showMode">
 
                         @foreach (var item in goupList)
