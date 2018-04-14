@@ -218,13 +218,13 @@
             var itemList = [];
             var listDom = $("#dataList" + curNavIndex);
             $.each(data, function (index, item) {
-                var moneyhtml = '<p>+<span>' + item.Money + '</span></p></div>';
+                var moneyhtml = '<p>+' + item.Money + '</p></div>';
                 var timehtml = '<p>' + getDateTime(item.SubTime, curNavIndex) + '</p>';
                 var text = "";
                 if (curNavIndex == 2)
                 {
                     text = item.UserName;
-                    moneyhtml = '<p><span>' + (item.Type==3?"点阅":"打赏" )+ '</span>-<span>' + item.Money + '</span></p></div>';
+                    moneyhtml = '<p>' + (item.Type==3?"点阅":"打赏" )+ ' -' + item.Money + '</p></div>';
                     timehtml = '<p>' + item.Issue +'期'+ getDateTime(item.SubTime, curNavIndex) + '</p>'
                 } else if (curNavIndex == 1)
                 {
@@ -246,6 +246,12 @@
                     } else if (item.Type == 7)
                     {
                         text = "邀请成功注册奖励";
+                    } else if (item.Type = 9)
+                    {
+                        text = "打赏";
+                    } else if (item.Type == 4)
+                    {
+                        text = "点阅";
                     }
                 }
 

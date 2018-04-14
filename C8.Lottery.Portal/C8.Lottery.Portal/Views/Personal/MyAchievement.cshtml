@@ -32,6 +32,7 @@
             $(".wrapper-container .Grades_" + index).show().siblings().hide();
             var dh = $(document.body).height() - $(".gaoshou").height() - $(".Grades_TopNav").height()-90;
             $(".Grades_CBInfo").height(dh);
+           
 
             var curNavIndex = "110";
             var mescrollArr = new Array(length);
@@ -260,6 +261,7 @@
                         var issym = item.BettingRecord[j].WinState == 3 ? "+" : "";
                         var redwin = '';
                         var mynum = item.BettingRecord[j].BetNum;
+                     
                         if (item.BettingRecord[j].WinState == 3)
                         {
                             var mynum = item.BettingRecord[j].BetNum;
@@ -272,6 +274,7 @@
                                 if (z == -1)
                                 {
                                     var ltnum = item.LotteryNum.Num;
+                               
                                     if (item.BettingRecord[j].PlayName == "平特一肖")
                                     {
                                         ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
@@ -290,14 +293,42 @@
                                     {
                                         lonum[z] = getShengxiaoByDigit(lonum[z]);
                                     }
-                                  
-                                    if (lonum[z] == mynumsplit[x])
+                                    if (z==10)
                                     {
-                                        console.log("中了")
-                                      
-                                       mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                        var lonum1 = lonum.slice(0, 6);
+                                     
+                                        if ($.inArray(mynumsplit[x], lonum1) != -1)
+                                        {
+                                            mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                        }
+                                    
+                                    } else if (z == 11)
+                                    {
+                                        var lonum1 = lonum.slice(0, 5);
+                                        if ($.inArray(mynumsplit[x], lonum1) != -1)
+                                        {
+                                            mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                        }
+                                    }else if(z==12)
+                                    {
+                                        var lonum1 = lonum.slice(5);
+                                        console.log(lonum1);
 
+                                        if ($.inArray(mynumsplit[x], lonum1) != -1) {
+                                            mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                        }
+
+                                    }else
+                                    {
+                                        if (lonum[z] == mynumsplit[x]) {
+                                            console.log("中了")
+
+                                            mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+
+                                        }
                                     }
+                                  
+                                  
                                 }
                              
                             }
@@ -418,16 +449,19 @@
         function getwanfa(playName)
         {
             var i = -1;
-            var p0 = ["第一球五码", "冠军五码", "第一球"];
-            var p1 = ["第二球五码", "第二名五码", "第二球"];
-            var p2 = ["第三球五码", "第三名五码", "第三球"];
-            var p3 = ["第四球五码", "第四名五码", "第四球"];
-            var p4 = ["第五球五码", "第五名五码", "第五球"];
-            var p5 = ["第六球五码", "第六名五码", "第六球"];
-            var p6 = ["第七球五码", "第七名五码", "第七球", "十码中特", "二十码中特", "四肖中特", "六肖中特", "蓝5码", "蓝8码"];
-            var p7 = ["第八球五码", "第八名五码", "第八球"];
-            var p8 = ["第九球五码", "第九名五码", "第九球"];
-            var p9 = ["第十球五码", "第十名五码", "第十球"];
+            var p0 = ["第一球五码", "冠军五码", "第一球", "冠军","第一名"];
+            var p1 = ["第二球五码", "第二名五码", "第二球", "亚军", "第二名"];
+            var p2 = ["第三球五码", "第三名五码", "第三球", "第三名"];
+            var p3 = ["第四球五码", "第四名五码", "第四球", "第四名"];
+            var p4 = ["第五球五码", "第五名五码", "第五球", "第五名"];
+            var p5 = ["第六球五码", "第六名五码", "第六球", "第六名"];
+            var p6 = ["第七球五码", "第七名五码", "第七球", "第七名", "十码中特", "二十码中特", "四肖中特", "六肖中特", "蓝5码", "蓝8码"];
+            var p7 = ["第八球五码", "第八名五码", "第八球", "第八名"];
+            var p8 = ["第九球五码", "第九名五码", "第九球", "第九名"];
+            var p9 = ["第十球五码", "第十名五码", "第十球", "第十名"];
+            var p10 = ["红2胆", "红3胆"];
+            var p11 = ["前区4码"];
+            var p12 = ["后区3码"];
             if ($.inArray(playName,p0)!=-1)
             {
              
@@ -452,6 +486,16 @@
                 i = 8;
             } else if ($.inArray(playName, p9) != -1) {
                 i = 9;
+            } else if ($.inArray(playName, p10) != -1)
+            {
+                i=10
+            } else if ($.inArray(playName, p11) != -1)
+            {
+                i = 11;
+
+            } else if ($.inArray(playName, p12) != -1)
+            {
+                i = 12;
             }
             return i;
         }
