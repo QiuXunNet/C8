@@ -336,10 +336,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             #endregion
 
-            //step4.查询当前用户是否发帖
-            string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and WinState=1";
-            object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
-            ViewBag.IsSub = obj != null && Convert.ToInt32(objIsSub) > 0;
+           
 
             //step5.查询该彩种玩法列表
             ViewBag.LTypeName = Util.GetLotteryTypeName(id);
@@ -360,6 +357,11 @@ namespace C8.Lottery.Portal.Controllers
 
             ViewBag.ReadCoin = setting != null ? setting.Coin : 0;
 
+            //step4.查询当前用户是否发帖
+
+            string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and UserId=" + uid + " and WinState=1";
+            object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
+            ViewBag.IsSub = obj != null && Convert.ToInt32(objIsSub) > 0;
 
             return View(model);
         }
@@ -541,17 +543,19 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
     a.*,b.ltypeTotalScore,c.MinIntegral,d.Name,e.RPath as avater 
 from (
   select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [C8].[dbo].[BettingRecord]
-  where WinState>1
+  where WinState>1 and lType=@lType and PlayName=@PlayName
   group by UserId, lType, PlayName
  ) a
   left join (
    select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [C8].[dbo].[BettingRecord]
-   where WinState>1
+   where WinState>1 and lType=@lType
    group by UserId, lType
-  ) b on b.lType=a.lType
+  ) b on b.lType=a.lType and b.UserId=a.UserId
   left join ( 
 	select lType, isnull( min(MinIntegral),0) as MinIntegral 
-	from [dbo].[LotteryCharge] group by lType
+	from [dbo].[LotteryCharge] 
+    where lType=@lType
+    group by lType
   ) c on c.lType=a.lType
   left join UserInfo d on d.Id=a.UserId
   left join ResourceMapping e on e.FkId =a.UserId and e.[Type]=@ResourceType
