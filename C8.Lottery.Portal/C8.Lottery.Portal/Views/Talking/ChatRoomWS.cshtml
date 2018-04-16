@@ -20,13 +20,13 @@
         <header class="header">
             <a href="/Talking/Index" class="a_back"></a>
             <div class="h_title">
-                <h1>@Html.Raw(ViewBag.RommName + "聊天室")</h1>
+                <h1>@Html.Raw(ViewBag.RoomName)</h1>
                 <p><span id="lineNumber">0</span>人在线</p>
             </div>
             @*<a href="javascript:;" class="a_fx">分享</a>*@
             @*@if (ViewBag.IsAdmin == true)
-        {*@
-            <a href="/Talking/ManagementList/@ViewBag.RoomId" class="a_gl" style="width:auto;margin-right: 10px;">处理记录</a>
+                {*@
+            <a href="/Talking/ManagementList?roomId=@ViewBag.RoomId&roomName=@ViewBag.RoomName" class="a_gl" style="width:auto;margin-right: 10px;">处理记录</a>
             @* } *@
         </header>
         <!-- header End -->
@@ -134,7 +134,7 @@
         //解压表情
         function unZipFace(str) {
             for (var i = 1; i <= 54; i++) {
-                var reger = new RegExp("#" + faceObj[i] + "#", "g");               
+                var reger = new RegExp("#" + faceObj[i] + "#", "g");
                 str = str.replace(reger, "<img class='img_face' src='/images/emoji/Face/" + i + ".png'/>");
             }
             return str;
@@ -158,7 +158,7 @@
 
 
             $("#faceUl img").click(function () {
-                $("#MessageContent").val($("#MessageContent").val() + "#" + $(this).attr("data-py") + "#");                
+                $("#MessageContent").val($("#MessageContent").val() + "#" + $(this).attr("data-py") + "#");
             });
         });
 
@@ -183,7 +183,7 @@
                 //var t = $(this).val();
                 //$(this).val("").focus().val(t);
             });
-        }       
+        }
 
         //大图展示
         function showPic() {
@@ -215,6 +215,7 @@
         var isAdmin = "@ViewBag.IsAdmin";
         var isTop = false;  //历史消息是否已经到顶
         var blackListStr = "@ViewBag.BlackListStr"; //已被拉黑的人
+        var isBlack = @ViewBag.IsBlack;//是否在后台被拉黑
 
         var heartbeatT = setInterval("heartbeat()", 3000);//心跳包定时器
         var isLink = true; //是否已经链接上
@@ -266,7 +267,7 @@
                 }
             });
 
-            if (blackListStr.indexOf("," + userId+",")>-1) {
+            if (blackListStr.indexOf("," + userId + ",") > -1 || isBlack == 1) {
                 $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
                 $("#inputImage").attr("disabled", "disabled");
                 $("#SendMessageBtn").unbind();
@@ -308,7 +309,7 @@
                 case 23: //表情包消息
                     insertMessage(data, 1);
                     if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
-                        addMessage(data);
+
                     }
                     $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
                     setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
@@ -344,7 +345,7 @@
                 return;
             }
 
-            heartbeatNum = 2;            
+            heartbeatNum = 2;
 
           //  window.clearInterval(t);
             if (isLink == false) {
@@ -367,14 +368,14 @@
                 ws.onclose = function () {
                     wsOnclose()
                 }
-            }            
+            }
         }
 
         //心跳包发送
-        function heartbeat() {            
+        function heartbeat() {
             if (heartbeatNum <= 0) {
                 isLink = false;
-                reconnection();                
+                reconnection();
             }
 
             var data = {};
@@ -440,7 +441,7 @@
                         isTop = true;
                     $(data.DataList).each(function () {
                         insertMessage(this, 2);
-                    });                   
+                    });
                     if (source == 0) {
                         $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)
                         setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 200);
@@ -490,7 +491,7 @@
             msgHtml += "        </h3>";
             if (isAdmin == "True" && data.UserId == userId) {
                 msgHtml += "        <div class='c_do'>";
-                msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";             
+                msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
                 msgHtml += "        </div > ";
             }
             msgHtml += contentHtml;
@@ -498,7 +499,7 @@
                 msgHtml += "        <div class='c_do'>";
                 msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
                 msgHtml += "            <i class='i_mv' onclick = 'delMessageAll(this)' > 全删</i>";
-                if (blackListStr.indexOf("," + data.UserId + ",") > -1) {
+                if (blackListStr.indexOf("," + data.UserId + ",") > -1 || isBlack ==1) {
                     msgHtml += "        <i class='i_ylh defriend'>已拉黑</i>";
                 }
                 else {
@@ -528,7 +529,7 @@
                 $("#ChatList").prepend(html);
             }
 
-            
+
         }
 
         //发送消息
@@ -538,6 +539,17 @@
                 $("#MessageContent").val("");
                 var guid = newGuid();
                 var message = message;
+
+                var obj = {};
+                obj.Content = message;
+                obj.UserId = userId;
+                obj.UserName = userName;
+                obj.PhotoImg = photoImg;
+                obj.RoomId = roomId;
+                obj.MsgTypeChild = 21;
+                obj.Guid = guid;
+                obj.IsAdmin = "@ViewBag.IsAdmin" == "True";
+                addMessage(obj);
 
                 var data = {};
                 data.MsgType = 2;
@@ -585,7 +597,7 @@
             var userId = $(a).closest(".messageOption").attr("data-UserId");
             var userName = $(a).closest(".messageOption").find(".nickname").text();
 
-            var obj = {};            
+            var obj = {};
             obj.userId = userId;
             obj.userName = userName;
             obj.roomId = roomId;
@@ -691,11 +703,23 @@
                     var guid = newGuid();
                     var message = data.imgUrl;
 
+                    var obj = {};
+                    obj.Content = message;
+                    obj.UserId = userId;
+                    obj.UserName = userName;
+                    obj.PhotoImg = photoImg;
+                    obj.RoomId = roomId;
+                    obj.MsgTypeChild = 22;
+                    obj.Guid = guid;
+                    obj.IsAdmin = "@ViewBag.IsAdmin" == "True";
+                    addMessage(obj);
+
                     var data2 = {};
                     data2.MsgType = 2;
                     data2.MsgTypeChild = 22;
                     data2.Content = message;
                     data2.Guid = guid;
+
                     var json = JSON.stringify(data2);
                     if (ws.readyState == WebSocket.OPEN) {
                         ws.send(json);

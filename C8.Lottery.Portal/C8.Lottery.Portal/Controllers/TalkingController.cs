@@ -20,14 +20,25 @@ namespace C8.Lottery.Portal.Controllers
     /// </summary>
     public class TalkingController : BaseController
     {
-
         /// <summary>
         /// 聊天室列表业
         /// </summary>
         /// <returns></returns>
+        [Authentication]
         public ActionResult Index()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 获取房间列表
+        /// </summary>
+        public ActionResult GetChatRoomList()
+        {
+            string sql = "select * from ChatRoom order by Code ";
+            var list = Util.ReaderToList<ChatRoom>(sql);
+
+            return Json(list);
         }
 
         /// <summary>
@@ -35,91 +46,44 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="id">聊天室Id</param>
         /// <returns></returns>
-        public ActionResult ChatRoom(int id)
+        [Authentication]
+        public ActionResult ChatRoom(int roomId,string roomName)
         {
             try
             {
                 int userId = UserHelper.GetByUserId();
                 UserInfo user = UserHelper.GetUser(userId);
+                var userState = UserHelper.GetUserState(userId);
 
-                ViewBag.RoomId = id;
+                ViewBag.RoomId = roomId;
+                ViewBag.RoomName = roomName;
+
                 if (user == null)
                 {
                     ViewBag.UserId = 9998;
                     ViewBag.UserName = "测试用户";
                     ViewBag.PhotoImg = "/images/default_avater.png";
-                    ViewBag.IsAdmin = true;
+                    ViewBag.IsAdmin = false;
                 }
                 else
                 {
                     ViewBag.UserId = user.Id;
                     ViewBag.UserName = user.Name;
                     ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;//user.;
-                    ViewBag.IsAdmin = false; //
-                }
-
-                switch (id)
-                {
-                    case 1:
-                        ViewBag.RommName = "综合";
-                        break;
-                    case 2:
-                        ViewBag.RommName = "答题";
-                        break;
-                    case 3:
-                        ViewBag.RommName = "双色球";
-                        break;
-                    case 4:
-                        ViewBag.RommName = "福彩3D";
-                        break;
-                    case 5:
-                        ViewBag.RommName = "排列三";
-                        break;
-                    case 6:
-                        ViewBag.RommName = "排列五";
-                        break;
-                    case 7:
-                        ViewBag.RommName = "六合彩";
-                        break;
-                    case 8:
-                        ViewBag.RommName = "十一选五";
-                        break;
-                    case 9:
-                        ViewBag.RommName = "快乐十分";
-                        break;
-                    case 10:
-                        ViewBag.RommName = "时时彩";
-                        break;
-                    case 11:
-                        ViewBag.RommName = "快三";
-                        break;
-                    case 12:
-                        ViewBag.RommName = "幸运飞艇";
-                        break;
-                    case 13:
-                        ViewBag.RommName = "北京赛车";
-                        break;
-                    case 14:
-                        ViewBag.RommName = "七星彩";
-                        break;
-                    case 15:
-                        ViewBag.RommName = "七乐彩";
-                        break;
-                    default:
-                        ViewBag.RommName = "";
-                        break;
+                    ViewBag.IsAdmin = (userState.IsChatAD??0)==0?false:true; //
                 }
 
                 //查询登录人在本房间是否被禁言
                 string sql = "select UserId from TalkBlackList where RoomId = @RoomId and (IsEverlasting =1 or EndTime > GETDATE())";
 
                 SqlParameter[] regsp = new SqlParameter[] {
-                    new SqlParameter("@RoomId",id)
+                    new SqlParameter("@RoomId",roomId)
                  };
 
                 var blackListStr = ","+string.Join(",", Util.ReaderToList<TalkBlackList>(sql, regsp).Select(e=>e.UserId))+",";
                 
                 ViewBag.BlackListStr = blackListStr;
+                ViewBag.IsBlack = userState.ChatBlack;//1拉黑  0 正常
             }
             catch (Exception)
             {
@@ -132,21 +96,24 @@ namespace C8.Lottery.Portal.Controllers
         /// 处理记录页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult ManagementList(int id)
+        [Authentication]
+        public ActionResult ManagementList(int roomId, string roomName)
         {
             int userId = UserHelper.GetByUserId();
             UserInfo user = UserHelper.GetUser(userId);
+            var userState = UserHelper.GetUserState(userId);
 
             if (user == null)
             {
-                ViewBag.IsAdmin = true;
+                ViewBag.IsAdmin = false;
             }
             else
             {
-                ViewBag.IsAdmin = false; //
+                ViewBag.IsAdmin = (userState.IsChatAD ?? 0) == 0 ? false : true;
             }
 
-            ViewBag.RoomId = id;
+            ViewBag.RoomId = roomId;
+            ViewBag.RoomName = roomName;
             return View();
         }
 
@@ -155,9 +122,11 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult BlackList(int id)
+        [Authentication]
+        public ActionResult BlackList(int roomId, string roomName)
         {
-            ViewBag.RoomId = id;
+            ViewBag.RoomId = roomId;
+            ViewBag.RoomName = roomName;
 
             return View();
         }
@@ -195,7 +164,7 @@ namespace C8.Lottery.Portal.Controllers
                 image2.Dispose();
                 ms2.Close();
 
-                return Json(new { Status=1,imgUrl= xPath + datePath + fileName + "_Min.jpg" } );
+                return Json(new { Status=1,imgUrl= "http://"+ HttpContext.Request.Url.Host+":"+HttpContext.Request.Url.Port+xPath + datePath + fileName + "_Min.jpg" } );
             }
             catch (Exception ex)
             {

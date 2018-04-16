@@ -23,27 +23,29 @@ namespace C8.Lottery.Portal.Controllers
     public class RechargeController : Controller
     {
         // private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        public static object _lock = new object();
         [Authentication]
         public ActionResult Index()
-        {
-
-
-            var no = Guid.NewGuid().ToString("N");
-
-            ViewBag.OrdersId = no;
-            LogHelper.WriteLog("初始订单号：" + no);
-
+        {          
             return View();
         }
+
+         public string GetRandom()
+         {
+             lock(_lock)
+             {
+                 return "T" + DateTime.Now.Ticks; 
+             }
+         }
 
         #region 微信支付代码
         string appid = "wx226d38e96ed8f01e";
         string mchid = "1375852802";
         string key = "1de60212dceafe2b4fdb621bd6f04288";
 
-        public ActionResult GetWxUrl(int amount, string no)
+        public ActionResult GetWxUrl(int amount)
         {
+            var no = GetRandom();// Guid.NewGuid().ToString("N");
             var redirect_url = HttpUtility.UrlEncode("http://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
             var total = (amount * 100).ToString();
 
@@ -130,8 +132,15 @@ namespace C8.Lottery.Portal.Controllers
         //支付宝公钥
         static string alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAydy5QG+mxrN77GIiLLEis/cVYleYn8hg5CesKKT73WkswNSr4ohTfV/BVvHdURec395Ex2T230mKu/QSbbY7Ahi3k+EWufIX6TYz/Q28grV4BrtF1kIcNvQUHgE/zEGL+nVQhfEH/uBjZQ84ue4S8ywnVBovndB2rJOExr1SBS5iI1yzYxdvpHRGTHHMIF0MInW96dRU1t3XqGut6e4YvsZj8x3tEprNBSF5MIQ+BRz9KrdplIRpzR/sPXenxbgGjBTj5Fus/a625Oofb23F6W8qPG86m9RgPo14BWmAi5SoVa7FAYubN2p3OBpnEhxkDqSq5LmtVHkXUKOjxaIQxwIDAQAB";
 
-        public ActionResult GetZfbUrl(int amount, string no)
+        /// <summary>
+        /// 获取支付宝唤起APP的代码
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="no"></param>
+        /// <returns></returns>
+        public ActionResult GetZfbUrl(int amount)
         {
+            var no = GetRandom();// Guid.NewGuid().ToString("N");
             IAopClient client = new DefaultAopClient(serverUrl, app_id, merchant_private_key, format, version, sign_type, alipay_public_key, charset, false);
             AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
             string address = "http://" + HttpContext.Request.Url.Host; //获取访问域名
@@ -198,6 +207,9 @@ namespace C8.Lottery.Portal.Controllers
             return verifyResult;
         }
 
+        /// <summary>
+        /// 支付宝异步回调方法
+        /// </summary>
         public void AsyncPay()
         {
             // log.Info("支付宝异步回调页面");
@@ -321,13 +333,11 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="no"></param>
         /// <param name="type"></param>
-        public bool AlertComeOutRecord(string no,int payType)
+        private bool AlertComeOutRecord(string no,int payType)
         {
             try
             {
                 LogHelper.WriteLog("修改订单");
-                LogHelper.WriteLog("no --"+no);
-                LogHelper.WriteLog("payType --" + payType);
 
                 //判断支付中的订单是否存在,如果不存在.则说明已经改变状态了
                 string sql = "select * from ComeOutRecord where OrderId=@OrderId and PayType=@PayType and State=1";
@@ -339,18 +349,14 @@ namespace C8.Lottery.Portal.Controllers
                     return true;
                 }
 
-
-
                 var money = list.FirstOrDefault().Money;
                 var userId = list.FirstOrDefault().UserId;
 
                 LogHelper.WriteLog("money --" + money);
-                    LogHelper.WriteLog("userId --" + userId);
+                LogHelper.WriteLog("userId --" + userId);
 
                 sql = @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
                         update UserInfo set Coin = Coin + " + money+" where Id =@Id";
-
-                LogHelper.WriteLog("sql --" + sql);
 
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@OrderId",no),
