@@ -12,8 +12,18 @@ namespace C8.Lottery.Portal.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            //修改原因：当一个新浏览器第一次访问站点时，不会传Cookie过来,则报错
+            string sessionId = "";
+            try
+            {
+                sessionId = Convert.ToString(filterContext.HttpContext.Request.Cookies["UserId"].Value);
+            }
+            catch (Exception)
+            {
+                sessionId = "";
+            }
 
-            string sessionId =Convert.ToString(filterContext.HttpContext.Request.Cookies["UserId"].Value);
+           
             string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
             bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
 

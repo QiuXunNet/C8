@@ -75,6 +75,34 @@ namespace C8.Lottery.Portal
             }
             return user;
         }
+
+        /// <summary>
+        /// 获取用户状态
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static UserState GetUserState(int userId)
+        {
+            string usersql = @"select top(1) * from UserState where UserId = @UserId ";
+
+            var userState = new UserState();
+            try
+            {
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@UserId", userId)};
+                List<UserState> list = Util.ReaderToList<UserState>(usersql, sp);
+                userState = list.FirstOrDefault();
+                if (userState == null)
+                {
+                    userState = new UserState();
+                }
+                return userState;
+            }
+            catch (Exception)
+            {
+                return userState;
+            }            
+        }
+
         /// <summary>
         /// 更新缓存用户信息
         /// </summary>
