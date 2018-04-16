@@ -690,6 +690,7 @@
     <Content Include="js\luo\jquery.mCustomScrollbar.min.js" />
     <Content Include="js\luo\jquery.mousewheel-3.0.6.min.js" />
     <Content Include="js\luo\mescroll.min.js" />
+    <Content Include="js\luo\personal.usercenter.js" />
     <Content Include="js\luo\plan.index.expert.js" />
     <Content Include="js\luo\notice.js" />
     <Content Include="js\luo\picmax.js" />
@@ -711,6 +712,7 @@
     <Content Include="css\fonts\c8.ttf" />
     <Content Include="css\fonts\c8.woff" />
     <Content Include="App_Data\log4net.config" />
+    <Content Include="js\luo\plan.myplan.js" />
     <None Include="Properties\PublishProfiles\C8 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\C8 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />

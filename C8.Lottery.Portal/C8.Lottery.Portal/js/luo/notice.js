@@ -103,12 +103,8 @@
 
                 if (res.IsSuccess && res.Data) {
                     //回调
-
                     successCallback( res.Data,res.Data.HasNextPage);
 
-                    if (curNavIndex == 0) {
-                        $("#mescroll0").parseEmoji();
-                    }
                 } else {
                     alertmsg("服务器繁忙");
                 }
@@ -163,6 +159,7 @@ function buildHtml(data, curNavIndex,extraData) {
                     + '</div>'
                     + '</div>';
             }
+            itemHtml = $.stringParseEmoji(itemHtml);
             itemList.push(itemHtml);
         });
     } else if (curNavIndex == 1) {
