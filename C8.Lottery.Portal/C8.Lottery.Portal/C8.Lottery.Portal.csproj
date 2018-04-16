@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AopSdk">
+      <HintPath>..\Lib\AopSdk.dll</HintPath>
+    </Reference>
     <Reference Include="CryptSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CryptSharpOfficial.2.1.0.0\lib\CryptSharp.dll</HintPath>
       <Private>True</Private>
@@ -55,6 +58,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin">
+      <HintPath>..\Lib\Senparc.Weixin.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP">
+      <HintPath>..\Lib\Senparc.Weixin.MP.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,6 +136,7 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
+    <Compile Include="Controllers\RechargeController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\TalkingController.cs" />
     <Compile Include="Global.asax.cs">
@@ -332,6 +342,8 @@
     <Content Include="images\bt-5.png" />
     <Content Include="images\bt-6.png" />
     <Content Include="images\c8.png" />
+    <Content Include="images\card_noSelected%402x.png" />
+    <Content Include="images\card_selected%402x.png" />
     <Content Include="images\Chat\chat_pic.jpg" />
     <Content Include="images\Chat\icon_back.png" />
     <Content Include="images\Chat\icon_face.png" />
@@ -779,6 +791,7 @@
     <Content Include="Views\List\ExpertData.cshtml" />
     <Content Include="Views\List\Gratuity.cshtml" />
     <Content Include="Views\List\Profit.cshtml" />
+    <Content Include="Views\Recharge\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />
