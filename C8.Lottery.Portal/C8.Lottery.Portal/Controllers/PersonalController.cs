@@ -1686,7 +1686,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     strstate = "1";
 
                     strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and Type in(" + strstate + @") 
+ where UserId =@UserId and Type in(" + strstate + @")  and State=3
  )t
  where   rowNumber BETWEEN  @Start AND @End  
    order by SubTime desc";
@@ -1708,14 +1708,37 @@ on c.OrderId=b.Id
                 }
                 else if (Type == 3)//赚钱
                 {
-                    strstate = "4,6,7,8,9 ";
-                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and Type in(" + strstate + @")
- )t
- where   rowNumber BETWEEN  @Start AND @End
+                    //strstate = "4,6,7,8,9 ";
+                    strstate = "4,6,7,8,9";
+                    strsql = @"select * from (
+select row_number() over (order by Id) as rowNumber,* from (
+
+select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
+where UserId =@UserId and Type in(6,7,8)
+UNION 
+select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c 
+left join BettingRecord b on b.Id=c.OrderId 
+where b.UserId=@UserId and Type in(4,9)
+)t
+)t1
+ where   t1.rowNumber BETWEEN  @Start AND @End
      order by SubTime desc  ";
+
+
                 }
-                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+
+                string countsql =Type==3? @"
+select count(1) from(
+select row_number() over(order by Id) as rowNumber, *from(
+select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
+where UserId =@UserId and Type in(6, 7, 8)
+UNION
+select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c
+left
+        join BettingRecord b on b.Id = c.OrderId
+where b.UserId =@UserId and Type in(4, 9)
+)t
+)t1" : @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
 
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId),
@@ -1733,7 +1756,7 @@ on c.OrderId=b.Id
                         list.ForEach(x =>
                         {
 
-                            x.LotteryIcon = Tool.GetPayImg(x.Type);
+                            x.LotteryIcon = Tool.GetPayImg(Convert.ToInt32(x.PayType));
                         });
 
                     }

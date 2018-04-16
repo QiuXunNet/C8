@@ -198,8 +198,8 @@ namespace C8.Lottery.Portal.Controllers
 (select 
 a.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
 left join BettingRecord b on b.Id=a.OrderId 
-left join UserInfo c on c.Id=a.UserId
-left join ResourceMapping d on d.FkId=a.UserId and d.[Type]=@ResourceType
+left join UserInfo c on c.Id=b.UserId
+left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
 where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
 {0}
 group by a.UserId,a.Money ,c.Name,d.RPath ,b.lType
@@ -245,8 +245,8 @@ order by Money desc,NickName asc
 (select 
 a.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
 left join BettingRecord b on b.Id=a.OrderId 
-left join UserInfo c on c.Id=a.UserId
-left join ResourceMapping d on d.FkId=a.UserId and d.[Type]=@ResourceType
+left join UserInfo c on c.Id=b.UserId
+left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
 where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
 {0}
 group by a.UserId,a.Money ,c.Name,d.RPath ,b.lType
