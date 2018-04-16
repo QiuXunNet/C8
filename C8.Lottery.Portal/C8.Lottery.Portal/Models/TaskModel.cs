@@ -13,6 +13,9 @@ namespace C8.Lottery.Portal.Models
             set;
            
         }
+        public int Code {
+            get;set;
+        }
         /// <summary>
         /// 任务项
         /// </summary>
