@@ -21,6 +21,7 @@ namespace C8.Lottery.Model
         private DateTime _subtime;
         private int _count = 0;
         private int _state = 1;
+        private int _code;
         /// <summary>
         /// 
         /// </summary>
@@ -74,6 +75,19 @@ namespace C8.Lottery.Model
             set
             {
                 _state = value;
+            }
+        }
+
+        public int Code
+        {
+            get
+            {
+                return _code;
+            }
+
+            set
+            {
+                _code = value;
             }
         }
         #endregion Model

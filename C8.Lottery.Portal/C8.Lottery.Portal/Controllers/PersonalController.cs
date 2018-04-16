@@ -259,12 +259,13 @@ namespace C8.Lottery.Portal.Controllers
             foreach (var item in tasklist)
             {
                 TaskModel tm = new TaskModel();
+                tm.Code = item.Code;
                 tm.Id = item.Id;
                 tm.TaskItem = item.TaskItem;
                 tm.Coin = item.Coin;
                 tm.Count = item.Count;
                 tm.SubTime = item.SubTime;
-                tm.CompletedCount = GetCompletedCount(item.Id);
+                tm.CompletedCount = GetCompletedCount(item.Code);
                 list.Add(tm);
             }
 
