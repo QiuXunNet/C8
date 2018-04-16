@@ -361,7 +361,7 @@ namespace C8.Lottery.Portal.Controllers
                         var obj = SqlHelper.ExecuteScalar("select top(1) completedCount from usertask where UserId = @UserId and taskId = 100",
                             new SqlParameter[] { new SqlParameter("@UserId", userId) });
                         LogHelper.WriteLog("obj --" + obj);
-                        LogHelper.WriteLog("obj == DBNull.Value --" + (obj == DBNull.Value));
+                        LogHelper.WriteLog("obj == null --" + (obj == null));
                         if (obj == null || Convert.ToInt32(obj) == 0)//判断今日是否做任务
                         {
                             var coinObj = SqlHelper.ExecuteScalar("select top(1) Coin from MakeMoneyTask where Code=100");
@@ -410,5 +410,7 @@ namespace C8.Lottery.Portal.Controllers
                 return false;
             }
         }
+
+
     }
 }
