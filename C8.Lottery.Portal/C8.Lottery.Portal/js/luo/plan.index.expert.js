@@ -3,12 +3,18 @@ var playType = 0;
 var playName = '';
 var queryType = 1;
 $(function () {
+    var h = $(window).height() - 177;
+    $('#mescroll0,#mescroll1').height(h);
+
     var mescroll = new MeScroll("mescroll0", {
-        //上拉加载的配置项
+        down: {
+            auto: false,
+            callback: downCallback
+        },
         up: {
             callback: getListData,
             isBounce: false, //此处禁止ios回弹
-            noMoreSize: 20,
+            noMoreSize: 5,
             empty: {
                 icon: "/images/null.png",
                 tip: "暂无高手推荐~",
@@ -34,11 +40,14 @@ $(function () {
     setTimeout(function () {
         queryType = 2;
         mescrol2 = new MeScroll("mescroll1", {
-            //上拉加载的配置项
+            down: {
+                auto: false,
+                callback: downCallback
+            },
             up: {
                 callback: getListData,
                 isBounce: false, //此处禁止ios回弹
-                noMoreSize: 20,
+                noMoreSize: 5,
                 empty: {
                     icon: "/images/null.png",
                     tip: "暂无免费专家~",
@@ -55,7 +64,7 @@ $(function () {
                 },
                 page: {
                     num: 0,
-                    size: 50,
+                    size: 20,
                     time: null
                 }
             }
@@ -95,13 +104,35 @@ $(function () {
             if (queryType == 1) {
                 mescroll.endSuccess(pageData.length, hasNextPage);
                 //设置高手推荐列表数据
-                buildHtml(pageData, 0);
+                buildHtml(pageData, 0, page.num);
             } else if (queryType == 2) {
                 mescrol2.endSuccess(pageData.length, hasNextPage);
                 //设置高手推荐列表数据
-                buildHtml(pageData, 1);
+                buildHtml(pageData, 1, page.num);
             }
 
+        }, function () {
+            //隐藏下拉刷新和上拉加载的状态;
+            if (queryType == 1) {
+                mescroll.endErr();
+            } else if (queryType == 2) {
+                mescrol2.endErr();
+            }
+        });
+    }
+
+    /*下拉刷新*/
+    function downCallback() {
+        getListDataFromNet(playType, queryType, 1, 20, function (pageData, hasNextPage) {
+            if (queryType == 1) {
+                mescroll.endSuccess(pageData.length, hasNextPage);
+                //设置高手推荐列表数据
+                buildHtml(pageData, 0, 1);
+            } else if (queryType == 2) {
+                mescrol2.endSuccess(pageData.length, hasNextPage);
+                //设置高手推荐列表数据
+                buildHtml(pageData, 1, 1);
+            }
         }, function () {
             //隐藏下拉刷新和上拉加载的状态;
             if (queryType == 1) {
@@ -141,7 +172,7 @@ $(function () {
 
 });
 
-function buildHtml(data, tabtype) {
+function buildHtml(data, tabtype,pageIndex) {
 
     var itemList = [];
     var listDom = $("#datalist" + tabtype);
@@ -160,7 +191,7 @@ function buildHtml(data, tabtype) {
         itemHtml += '</div>'
             + '<div class="KL_port f-l">'
             + '<div class="port_tu">'
-            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '"><img src="' + (item.Avater.length<1?"/images/default_avater.png": item.Avater) + '" /></a>'
+            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '"><img src="' + (item.Avater.length < 1 ? "/images/default_avater.png" : item.Avater) + '" /></a>'
             + '</div>';
         if (item.RowNumber <= 3) {
             itemHtml += '<i class="port_sf"><img src="/images/66.png"></i>';
@@ -192,5 +223,9 @@ function buildHtml(data, tabtype) {
     });
 
     var html = itemList.join('');
-    listDom.append(html);
+    if (pageIndex == 1) {
+        listDom.html(html);
+    } else {
+        listDom.append(html);
+    }
 }

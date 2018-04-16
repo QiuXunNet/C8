@@ -662,74 +662,127 @@ $.fn.extend({
             ]
         });
     },
+
     /**
      * 转换Emoji
      */
     parseEmoji: function () {
+
         this.emojiParse({
-            icons: [
-                {
-                    path: "/images/emoji/Face/",
-                    file: ".png",
-                    placeholder: "#{alias}#",
-                    alias: {
-                        1: "am",
-                        2: "baiy",
-                        3: "bishi",
-                        4: "bizui",
-                        5: "piezui",
-                        6: "cahan",
-                        7: "ciya",
-                        8: "dabing",
-                        9: "daku",
-                        10: "fadai",
-                        11: "deyi",
-                        12: "fanu",
-                        13: "fendou",
-                        14: "ganga",
-                        15: "guzhang",
-                        16: "dahaq",
-                        17: "haixiu",
-                        18: "daxiao",
-                        19: "huaixiao",
-                        20: "jie",
-                        21: "jingkong",
-                        22: "jingya",
-                        23: "keai",
-                        24: "kelian",
-                        25: "koubi",
-                        26: "kulou",
-                        27: "ku",
-                        28: "kuaikuliao",
-                        29: "kun",
-                        30: "lenghan",
-                        31: "liuhan",
-                        32: "liulei",
-                        33: "nanguo",
-                        34: "qiaoda",
-                        35: "qinqin",
-                        36: "qiudale",
-                        37: "se",
-                        38: "shui",
-                        39: "tiaopi",
-                        40: "touxiao",
-                        41: "tu",
-                        42: "weixiao",
-                        43: "weiqu",
-                        44: "xia",
-                        45: "xu",
-                        46: "yiwen",
-                        47: "yinxian",
-                        48: "youhengheng",
-                        49: "yun",
-                        50: "zaijian",
-                        51: "zhemo",
-                        52: "dama",
-                        53: "zhuakuang",
-                        54: "zuohengheng"
-                    }
-                }]
+            icons: this.icons
         });
+    },
+
+});
+
+$.extend({
+    icons: [
+        {
+            path: "/images/emoji/Face/",
+            file: ".png",
+            placeholder: "#{alias}#",
+            alias: {
+                1: "am",
+                2: "baiy",
+                3: "bishi",
+                4: "bizui",
+                5: "piezui",
+                6: "cahan",
+                7: "ciya",
+                8: "dabing",
+                9: "daku",
+                10: "fadai",
+                11: "deyi",
+                12: "fanu",
+                13: "fendou",
+                14: "ganga",
+                15: "guzhang",
+                16: "dahaq",
+                17: "haixiu",
+                18: "daxiao",
+                19: "huaixiao",
+                20: "jie",
+                21: "jingkong",
+                22: "jingya",
+                23: "keai",
+                24: "kelian",
+                25: "koubi",
+                26: "kulou",
+                27: "ku",
+                28: "kuaikuliao",
+                29: "kun",
+                30: "lenghan",
+                31: "liuhan",
+                32: "liulei",
+                33: "nanguo",
+                34: "qiaoda",
+                35: "qinqin",
+                36: "qiudale",
+                37: "se",
+                38: "shui",
+                39: "tiaopi",
+                40: "touxiao",
+                41: "tu",
+                42: "weixiao",
+                43: "weiqu",
+                44: "xia",
+                45: "xu",
+                46: "yiwen",
+                47: "yinxian",
+                48: "youhengheng",
+                49: "yun",
+                50: "zaijian",
+                51: "zhemo",
+                52: "dama",
+                53: "zhuakuang",
+                54: "zuohengheng"
+            }
+        }
+    ],
+
+    stringParseEmoji: function (str) {
+
+        var iconsGroup = this.icons;
+        var groupLength = iconsGroup.length;
+        var path,
+            file,
+            placeholder,
+            alias,
+            pattern,
+            regexp,
+            revertAlias = {};
+        if (groupLength > 0) {
+            for (var i = 0; i < groupLength; i++) {
+                path = iconsGroup[i].path;
+                file = iconsGroup[i].file || '.jpg';
+                placeholder = iconsGroup[i].placeholder;
+                alias = iconsGroup[i].alias;
+                if (!path) {
+                    continue;
+                }
+                if (alias) {
+                    for (var attr in alias) {
+                        if (alias.hasOwnProperty(attr)) {
+                            revertAlias[alias[attr]] = attr;
+                        }
+                    }
+                    pattern = placeholder.replace(new RegExp('{alias}', 'gi'), '([\\s\\S]+?)');
+                    regexp = new RegExp(pattern, 'gm');
+                    str = str.replace(regexp, function ($0, $1) {
+                        var n = revertAlias[$1];
+                        if (n) {
+                            return '<img class="emoji_icon" src="' + path + n + file + '"/>';
+                        } else {
+                            return $0;
+                        }
+                    });
+                } else {
+                    pattern = placeholder.replace(new RegExp('{alias}', 'gi'), '(\\d+?)');
+                    str = str.replace(new RegExp(pattern, 'gm'), '<img class="emoji_icon" src="' + path + '$1' + file + '"/>');
+                }
+            }
+        }
+        return str;
     }
 });
 /**评论End by LHS */

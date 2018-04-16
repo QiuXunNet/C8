@@ -192,7 +192,6 @@
 
                             dropload.resetload();
 
-                            $("#Gues2").parseEmoji();
                         },
                         error: function(xhr, type) {
                             alertmsg("服务器繁忙");
@@ -233,6 +232,7 @@
                     + '</div>'
                     + (value.ReplayCount > 0 ? '<div class="comp_replay"><a href="/News/CommentDetail/' + value.Id + '">查看全部<span>' + value.ReplayCount + '</span>条回复>></a></div>' : '')
                     + '</li>';
+                li = $.stringParseEmoji(li);
                 html.push(li);
             });
 

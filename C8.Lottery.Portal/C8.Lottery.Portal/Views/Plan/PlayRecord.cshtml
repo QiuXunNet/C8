@@ -44,11 +44,11 @@
                     <a href="/Personal/UserCenter/@Model.Id">
                         @if (string.IsNullOrEmpty(Model.Headpath))
                         {
-                            <img src="/images/default_avater.png" alt="" />
+                        <img src="/images/default_avater.png" alt="" />
                         }
                         else
                         {
-                            <img src="@Model.Headpath" alt="@Model.Headpath" />
+                        <img src="@Model.Headpath" alt="@Model.Headpath" />
                         }
                     </a>
                 </dt>
@@ -65,7 +65,7 @@
                         </div>
                         @if (type == 0)
                         {
-                            <a href="/Plan/PlayRecord/@lType?uid=@Model.Id&type=1" class="ThdDl_BtRight f-r">查看总成绩</a>
+                        <a href="/Plan/PlayRecord/@lType?uid=@Model.Id&type=1" class="ThdDl_BtRight f-r">查看总成绩</a>
                         }
                         <div style="clear:both;"></div>
                     </div>
@@ -115,18 +115,18 @@
     <div class="Gues_content">
         @if (type == 0)
         {
-            <div class="Gues_Cnav">
-                @if (playList != null)
+        <div class="Gues_Cnav">
+            @if (playList != null)
                 {
-                    <ul class="SX_Ul">
-                        @foreach (var play in playList)
+                <ul class="SX_Ul">
+                    @foreach (var play in playList)
                     {
-                            <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                        <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
                         }
-                    </ul>
-                    <div style="clear: both;"></div>
+                </ul>
+                <div style="clear: both;"></div>
                 }
-            </div>
+        </div>
         }
         <div class="Gues_Ctext">
 
@@ -305,7 +305,11 @@
             if (data != null && typeof (data) != "undefined") {
                 recordId = data.Id;
                 isRead = data.IsRead;
-                $("#visitPlanContainer").html('<span>已更新</span><a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>')
+                var html = '<span>已更新</span>';
+                if (typeof (playName) != 'undefined' &&(playName != '' || playName != '全部')) {
+                    html += '<a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>';
+                }
+                $("#visitPlanContainer").html(html);
             } else {
                 $("#visitPlanContainer").html("<span>未更新</span>");
             }
@@ -461,7 +465,11 @@
                         if (res.IsSuccess) {
                             playUtil.goLastPlay();
                         } else {
-                            alertmsg(res.Message);
+                            if (res.Code == 401) {
+                                alertmsg(res.Message);
+                            } else {
+                                alertmsg(res.Message);
+                            }
                         }
                     },
                     error: function(res, xhr) {
