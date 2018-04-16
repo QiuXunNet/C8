@@ -1686,7 +1686,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     strstate = "1";
 
                     strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and Type in(" + strstate + @") 
+ where UserId =@UserId and Type in(" + strstate + @")  and State=3
  )t
  where   rowNumber BETWEEN  @Start AND @End  
    order by SubTime desc";
@@ -1733,7 +1733,7 @@ on c.OrderId=b.Id
                         list.ForEach(x =>
                         {
 
-                            x.LotteryIcon = Tool.GetPayImg(x.Type);
+                            x.LotteryIcon = Tool.GetPayImg(Convert.ToInt32(x.PayType));
                         });
 
                     }
