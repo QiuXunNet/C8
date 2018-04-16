@@ -463,7 +463,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
                                 executeSql.AppendFormat("update UserInfo set Coin+={0} where Id={1}", commission, uid);
 
                                 executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
-     VALUES({0},{1},{2},{3}, 1, GETDATE());", uid, id, (int)TransactionTypeEnum.点阅佣金, commission);
+     VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, lastBettingRecord.Id, (int)TransactionTypeEnum.点阅佣金, commission);
                             }
                         }
                     }
@@ -589,17 +589,19 @@ from (
             //查询分页总数量
             string countSql = string.Format(@"select count(1) from (
   select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [dbo].[BettingRecord]
-  where WinState>1
+  where WinState>1 and lType=@lType and PlayName=@PlayName
   group by UserId, lType, PlayName
  ) a
   left join (
    select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [dbo].[BettingRecord]
-   where WinState>1
+   where WinState>1 and lType=@lType
    group by UserId, lType
-  ) b on b.lType=a.lType
+  ) b on b.lType=a.lType and b.UserId=a.UserId
   left join ( 
 	select lType, isnull( min(MinIntegral),0) as MinIntegral 
-	from [dbo].[LotteryCharge] group by lType
+	from [dbo].[LotteryCharge]
+    where lType=@lType
+    group by lType
   ) c on c.lType=a.lType
 
   where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName and a.lType=@lType", sqlWhere);
