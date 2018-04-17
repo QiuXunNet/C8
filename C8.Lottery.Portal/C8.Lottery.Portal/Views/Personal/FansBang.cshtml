@@ -28,10 +28,10 @@
 
     <div class="guessing_header">
         <ul class="C8_nav2 C8_bang">
-            <li class="current" data-id="1" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>日榜</p><span></span></a></li>
-            <li data-id="2" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>周榜</p><span></span></a></li>
-            <li data-id="3" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>月榜</p><span></span></a></li>
-            <li data-id="4" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>总榜</p><span></span></a></li>
+            <li class="current" data-type="day" data-id="1" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>日榜</p><span></span></a></li>
+            <li data-id="2" data-type="week" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>周榜</p><span></span></a></li>
+            <li data-id="3" data-type="month" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>月榜</p><span></span></a></li>
+            <li data-id="4" data-type="all" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>总榜</p><span></span></a></li>
             <div style="clear:both;"></div>
         </ul>
     </div>
@@ -92,6 +92,7 @@
 
         function initnews(clickElement) {
             var id = clickElement.attr("data-id"),
+            type = clickElement.attr("data-type")
             pageIndex = clickElement.attr("data-pageindex") || 1,
             pageSize = clickElement.attr("data-pagesize") || 100;
             
@@ -111,6 +112,7 @@
                         url: '/Personal/FansBangList',
                         data: {
                             typeId: id,
+                            type: type,
                             pageIndex: pageIndex,
                             pageSize: pageSize
                         },
@@ -152,17 +154,28 @@
         function MyRank(clickElement)
         {
             var id = clickElement.attr("data-id");
+            var type = clickElement.attr("data-type")
             if (!id) return;
-            $.post('/Personal/MyRank', { typeId: id }, function (data) {
+            $.post('/Personal/MyRank', { type: type }, function (data) {
 
               
                 if (data.Success != true) {
                     alertmsg(data.Msg);
                 } else {
-                    if (data.data != null) {
-                        $(".Rank_ftDL").html("<dt><a href='javascript:;'><img src='" + data.data.HeadPath + "'></a></dt> <dd> <p class='Ds_money1 Fs_money1 f-r'>" + data.data.Number + "</p> <div class='Rank_ftL'>"
+                    if (data.data != null)
+                    {
+                        var text='';
+                        if (data.data.Rank <= 0)
+                        {
+                            text = '暂未上榜';
+
+                        } else {
+                            text = data.data.Rank;
+                        }
+
+                        $(".Rank_ftDL").html("<dt><a href='javascript:;'><img src='" + (data.data.HeadPath == null ? '/images/default_avater.png' : data.data.HeadPath) + "'></a></dt> <dd> <p class='Ds_money1 Fs_money1 f-r'>" + data.data.Number + "</p> <div class='Rank_ftL'>"
 + "<h3><a href='javascript:;'>" + data.data.Name + "</a></h3>"
-+ "<P>当前排名：<span id='myrank'>" + data.data.Rank + "</span></P> </div> </dd>'");
++ "<P>当前排名：<span id='myrank'>" + text + "</span></P> </div> </dd>'");
 
                     }
                 }

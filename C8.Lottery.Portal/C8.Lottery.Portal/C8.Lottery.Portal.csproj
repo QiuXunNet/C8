@@ -133,8 +133,10 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InController.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\OutController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\RechargeController.cs" />
@@ -811,6 +813,7 @@
     <Content Include="Views\List\Gratuity.cshtml" />
     <Content Include="Views\List\Profit.cshtml" />
     <Content Include="Views\Recharge\Index.cshtml" />
+    <Content Include="Views\List\Integral.cshtml" />
     <Content Include="Views\Amount\BindingBankCard.cshtml" />
     <Content Include="Views\Amount\ExtractCash.cshtml" />
     <Content Include="Views\Amount\ExtractCashSuccess.cshtml" />
