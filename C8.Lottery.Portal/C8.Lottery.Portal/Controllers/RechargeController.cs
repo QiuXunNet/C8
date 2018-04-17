@@ -354,7 +354,7 @@ namespace C8.Lottery.Portal.Controllers
                 var addCoin = 0;  //需要增加的金币数
                 LogHelper.WriteLog("money >= 1 --" + (money >= 1));
                 //每日任务完成充值100元任务
-                if (money >= 1)
+                if (money >= 100)
                 {
                     var makeMoneyTaskList = Util.ReaderToList<MakeMoneyTask>("select top(1) * from MakeMoneyTask where Code=100");
                     if (makeMoneyTaskList != null && makeMoneyTaskList.Any())
