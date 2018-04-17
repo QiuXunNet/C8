@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>提现成功</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+
+<body style="background:#F4F4F5;">
+    <header class="hjc_header">
+        <a href="javascript:;" class="hjc_logo">提现成功</a>
+    </header>
+    <div class="Success_box">
+        <div class="Success_info1">
+            <div class="Success_if1tu"><img src="/images/48.png"></div>
+            <h3>提现成功</h3>
+        </div>
+        <div class="Success_info2">
+            <ul class="Success_if2Ul">
+                <li>
+                    <p class="Success_PL f-l">提现金额</p>
+                    <p class="Success_PR f-r">￥@ViewBag.Money</p>
+                    <div style="clear:both;"></div>
+                </li>
+            </ul>
+            <button class="Set_btnMM" onclick="document.location.href = '/Personal/Index'">完成</button>
+            <p class="Success_tixing">预计3个工作日内到帐</p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -28,7 +28,7 @@
     <header class="hjc_header">
         <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">我的佣金</a>
-        <a href="javascript:;" class="SX_A">绑定账户</a>
+        <a href="/Amount/BindingBankCard" class="SX_A">绑定账户</a>
     </header>
 
     <div class="sion_header">
@@ -37,7 +37,7 @@
                 <h3>@MyYj</h3>
                 <a href="/Personal/CommissionRules"><p>我的佣金</p></a> 
             </div>
-            <a href="javascript:;" class="HdIf1_R f-r">提现</a>
+            <a href="/Amount/ExtractCash" class="HdIf1_R f-r">提现</a>
             <div style="clear:both;"></div>
         </div>
         <ul class="sion_hdInfo2">
@@ -71,7 +71,7 @@
     </div>
 
     <div class="sion_content" >
-        <div class="sion_conInfo" style="height:100%;">
+        <div class="sion_conInfo" >
             <div id="mescroll" class="mescroll">
             
                 <div id="dataList" class="data-list">
@@ -85,7 +85,8 @@
 
     <script type="text/javascript">
     $(function () {
-
+        var dh = $(document.body).height() - $(".sion_header").height() - 90;
+        $(".sion_conInfo").height(dh);
         var mescroll = new MeScroll("mescroll", {
             //上拉加载的配置项
             up: {
@@ -102,7 +103,7 @@
                 } ,
             page: {
             num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-            size: 20, //每页数据条数
+            size: 100, //每页数据条数
             time: null //加载第一页数据服务器返回的时间; 防止用户翻页时,后台新增了数据从而导致下一页数据重复;
             },
                 clearEmptyId: "dataList"

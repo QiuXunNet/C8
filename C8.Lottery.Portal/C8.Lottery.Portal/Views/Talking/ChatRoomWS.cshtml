@@ -44,15 +44,18 @@
 
             <div class="footer_chat">
                 <div>
-                    <label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
-                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
+                    @*<label id="chat-tuxiang" title="发送图片" for="inputImage" class="btn-default-styles">
+                        
                         <i class="iconfont icon-tuxiang"></i>
+                    </label>*@
+                    <label href="javascript:void(0)" title="发送图片" class="a_cmore" for="inputImage">
+                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden" style="display:none">
                     </label>
+                    <input type="button" id="btnEmoji" value="" class="btn_face" />
                 </div>
                 <div>
                     <div class="msg">
                         <input type="text" name="" class="txt_msg" id="MessageContent" />
-                        <input type="button" id="btnEmoji" value="" class="btn_face" />
                     </div>
                 </div>
                 <div><a href="javascript:;" class="a_send" id="SendMessageBtn">发送</a></div>

@@ -287,6 +287,90 @@ order by Money desc,NickName asc
 
 
 
+        /// <summary>
+        /// 积分榜
+        /// </summary>
+        /// <returns></returns>
+        [Authentication]
+        public ActionResult Integral()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 积分榜数据
+        /// </summary>
+        /// <param name="queryType"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetIntegralList(string queryType)
+        {
+            string strsql =string.Format(@"
+select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,Date,NickName,Avater from
+(
+  SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
+  FROM dbo.SuperiorRecord a
+  left join UserInfo b on b.Id=a.UserId
+  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
+
+ )t
+ where 1=1   {0}
+ group by UserId,Date,NickName,Avater", Tool.GetTimeWhere("Date",queryType));
+            ReturnMessageJson msgjson = new ReturnMessageJson();
+            RankIntegralListModel rlist = new RankIntegralListModel();
+            RankIntegralModel my = new RankIntegralModel();
+            List<RankIntegralModel> list = new List<RankIntegralModel>();
+            SqlParameter[] sp = new SqlParameter[]{
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像)
+            };
+            try
+            {
+                list = Util.ReaderToList<RankIntegralModel>(strsql, sp);
+                int userId = UserHelper.GetByUserId();
+                UserInfo u = UserHelper.GetUser(userId);
+              
+                my.Avater = u.Headpath;
+                my.NickName = u.Name;
+                my.Rank = 0;
+                my.Score = 0;
+                my.UserId = Convert.ToInt32(u.Id);
+
+
+
+                if (list.Count > 0)
+                {
+                    RankIntegralModel myrank = list.Where(x => x.UserId == userId).FirstOrDefault();
+                    if (myrank != null)
+                    {
+                        my.Avater = myrank.Avater;
+                        my.Date = myrank.Date;
+                        my.NickName = myrank.NickName;
+                        my.Rank = myrank.Rank;
+                        my.Score = myrank.Score;
+                        my.UserId = myrank.UserId;
+
+                    }
+                }
+              
+                rlist.MyRankIntegralModel = my;
+                rlist.RankIntegralList = list;
+                msgjson.Success = true;
+                msgjson.data = rlist;
+            }
+            catch (Exception ex)
+            {
+
+                msgjson.Success = false;
+                msgjson.Msg = ex.Message;
+                throw;
+            }
+           
+         
+
+            return Json(msgjson, JsonRequestBehavior.AllowGet);
+             
+            
+
+        }
 
         /// <summary>
         /// 获取高手榜数据
