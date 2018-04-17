@@ -26,17 +26,17 @@ namespace C8.Lottery.Portal.Controllers
         public static object _lock = new object();
         [Authentication]
         public ActionResult Index()
-        {          
+        {
             return View();
         }
 
-         public string GetRandom()
-         {
-             lock(_lock)
-             {
-                 return "T" + DateTime.Now.Ticks; 
-             }
-         }
+        public string GetRandom()
+        {
+            lock (_lock)
+            {
+                return "T" + DateTime.Now.Ticks;
+            }
+        }
 
         #region 微信支付代码
         string appid = "wx226d38e96ed8f01e";
@@ -110,7 +110,8 @@ namespace C8.Lottery.Portal.Controllers
             {
                 return Content(xml, "text/xml");
             }
-            else {
+            else
+            {
                 //如果订单修改失败，需要微信再次发送请求
                 xml = string.Format(@"<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[]]></return_msg></xml>");
                 return Content(xml, "text/xml");
@@ -310,7 +311,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="no">订单号</param>
         /// <param name="money">订单金额(单位：元)</param>
         /// <param name="payType">支付类型</param>
-        private bool AddComeOutRecord(string no,int money,int payType)
+        private bool AddComeOutRecord(string no, int money, int payType)
         {
             int userId = UserHelper.GetByUserId();
             string sql = @"insert into ComeOutRecord (UserId,OrderId,Money,Type,SubTime,PayType) 
@@ -333,7 +334,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="no"></param>
         /// <param name="type"></param>
-        private bool AlertComeOutRecord(string no,int payType)
+        private bool AlertComeOutRecord(string no, int payType)
         {
             try
             {
@@ -341,22 +342,58 @@ namespace C8.Lottery.Portal.Controllers
 
                 //判断支付中的订单是否存在,如果不存在.则说明已经改变状态了
                 string sql = "select * from ComeOutRecord where OrderId=@OrderId and PayType=@PayType and State=1";
-                var list = Util.ReaderToList<ComeOutRecord>(sql, new SqlParameter[] { new SqlParameter("@OrderId",no),new SqlParameter("@PayType",payType)});
-                LogHelper.WriteLog("是否存在数据 --" + list.Any());
-                
-                if(!list.Any())
+                var list = Util.ReaderToList<ComeOutRecord>(sql, new SqlParameter[] { new SqlParameter("@OrderId", no), new SqlParameter("@PayType", payType) });
+
+                if (!list.Any())
                 {
                     return true;
                 }
 
                 var money = list.FirstOrDefault().Money;
                 var userId = list.FirstOrDefault().UserId;
+                var addCoin = 0;  //需要增加的金币数
+                LogHelper.WriteLog("money >= 1 --" + (money >= 1));
+                //每日任务完成充值100元任务
+                if (money >= 100)
+                {
+                    try
+                    {
+                        var obj = SqlHelper.ExecuteScalar("select top(1) completedCount from usertask where UserId = @UserId and taskId = 100",
+                            new SqlParameter[] { new SqlParameter("@UserId", userId) });
+                        LogHelper.WriteLog("obj --" + obj);
+                        LogHelper.WriteLog("obj == null --" + (obj == null));
+                        if (obj == null || Convert.ToInt32(obj) == 0)//判断今日是否做任务
+                        {
+                            var coinObj = SqlHelper.ExecuteScalar("select top(1) Coin from MakeMoneyTask where Code=100");
+                            LogHelper.WriteLog("coinObj --" + coinObj);
+                            if (coinObj != null)
+                            {
+                                addCoin = Convert.ToInt32(coinObj);
+                                LogHelper.WriteLog("addCoin --" + addCoin);
+                            }
 
-                LogHelper.WriteLog("money --" + money);
-                LogHelper.WriteLog("userId --" + userId);
+                            if (obj == null)
+                            {
+                                sql = "insert into usertask (UserId,TaskId,CompletedCount) values (@UserId,100,1)";
+                            }
+                            else
+                            {
+                                sql = "update usertask set completedCount = completedCount +1 where UserId = @UserId and taskId = 100";
+                            }
+                        }
+                        else
+                        {
+                            sql = "update usertask set completedCount = completedCount +1 where UserId = @UserId and taskId = 100";
+                        }
+                        LogHelper.WriteLog("sql --" + sql);
+                        LogHelper.WriteLog("UserId --" + userId);
+                        SqlHelper.ExecuteNonQuery(sql, new SqlParameter[] { new SqlParameter("@UserId", userId) });
+                    }
+                    catch (Exception) { }
+                }
 
                 sql = @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
-                        update UserInfo set Coin = Coin + " + money+" where Id =@Id";
+                        update UserInfo set Coin = Coin + " + (money + addCoin) + " where Id =@Id";
 
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@OrderId",no),
@@ -365,14 +402,15 @@ namespace C8.Lottery.Portal.Controllers
                  };
 
                 var i = SqlHelper.ExecuteNonQuery(sql, regsp);
-                LogHelper.WriteLog("i --" + i);
                 return i > 0;
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog("错误 -- "+ ex.Message);
+                LogHelper.WriteLog("错误 -- " + ex.Message);
                 return false;
             }
         }
+
+
     }
 }

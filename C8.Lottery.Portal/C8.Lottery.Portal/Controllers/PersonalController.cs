@@ -259,12 +259,13 @@ namespace C8.Lottery.Portal.Controllers
             foreach (var item in tasklist)
             {
                 TaskModel tm = new TaskModel();
+                tm.Code = item.Code;
                 tm.Id = item.Id;
                 tm.TaskItem = item.TaskItem;
                 tm.Coin = item.Coin;
                 tm.Count = item.Count;
                 tm.SubTime = item.SubTime;
-                tm.CompletedCount = GetCompletedCount(item.Id);
+                tm.CompletedCount = GetCompletedCount(item.Code);
                 list.Add(tm);
             }
 
@@ -574,71 +575,27 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public PartialViewResult FansBangList(int typeId, int pageIndex = 1, int pageSize = 20)
+        public PartialViewResult FansBangList(int typeId,string type, int pageIndex = 1, int pageSize = 20)
         {
 
             try
             {
 
-                string strsql = string.Empty;
-                string countsql = string.Empty;
-                if (typeId == 1) //日榜
-                {
-                    strsql = @"  select  * from ( select top 50 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+        
+
+
+                string strsql = string.Format(@"select  * from ( select top 50 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-where  f.Status=1 and 
-     year(FollowTime)=year(getdate()) and day(FollowTime)=day(getdate())-1
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
+where  f.Status=1  {0}
  group by Followed_UserId,Name,RPath
 )t
-WHERE Rank BETWEEN @Start AND @End";
+WHERE Rank BETWEEN @Start AND @End", Tool.GetTimeWhere("FollowTime",type));
 
-                }
-                else if (typeId == 2)//周榜
-                {
-                    strsql = @"select * from ( select  top 50 row_number() over(order by count(1) desc ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-
-where f.Status=1 and  year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
-group by datename(week,FollowTime), Followed_UserId,Name,RPath
-)t
-WHERE Rank BETWEEN @Start AND @End";
-
-                }
-                else if (typeId == 3)//月榜
-                {
-                    strsql = @"select  * from ( select top 50 row_number() over( order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-
-where f.Status=1 and   year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1
-
-group by month(FollowTime), Followed_UserId,Name,RPath
-
-)t
-WHERE Rank BETWEEN @Start AND @End";
-
-                }
-                else if (typeId == 4)//总榜
-                {
-                    strsql = @" select * from ( select top 50 row_number() over(order by count(1) desc) as Rank, 
-     count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-where f.Status=1   
-group  by Followed_UserId,Name,RPath
-)t
-WHERE Rank BETWEEN @Start AND @End";
-
-
-                }
+          
                 SqlParameter[] sp = new SqlParameter[] {
-
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@Start", (pageIndex - 1) * pageSize + 1),
                 new SqlParameter("@End", pageSize * pageIndex)
             };
@@ -657,70 +614,43 @@ WHERE Rank BETWEEN @Start AND @End";
         }
 
 
-        public JsonResult MyRank(int typeId)
+        public JsonResult MyRank(string type)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             int userId = UserHelper.GetByUserId();
-            string strsql = string.Empty;
-            if (typeId == 1)
-            {
-                strsql = @" select  * from ( select  row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
-  from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-where  f.Status=1   and 
-   year(FollowTime)=year(getdate()) and day(FollowTime)=day(getdate())-1 
-  group by Followed_UserId,Name,RPath
-)t
-where t.Followed_UserId=@Followed_UserId";
-            }
-            else if (typeId == 2)
-            {
-                strsql = @"select * from ( select   row_number() over(order by count(1) desc ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+          
+
+            string strsql  =string.Format(@" select  * from ( select top 50 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-
-where f.Status=1   and  year(FollowTime)=year(getdate()) and datename(week,FollowTime)= datename(week,getdate())-1
-group by datename(week,FollowTime), Followed_UserId,Name,RPath
+ left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
+where  f.Status=1  {0}
+ group by Followed_UserId,Name,RPath
 )t
-WHERE t.Followed_UserId=@Followed_UserId";
-
-            }
-            else if (typeId == 3)
-            {
-                strsql = @" select  * from ( select  row_number() over( order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-
-where f.Status=1   and  year(FollowTime)=year(getdate())  and MONTH(FollowTime)=MONTH(getdate())-1 
-
-group by month(FollowTime), Followed_UserId,Name,RPath
-
-)t
-WHERE t.Followed_UserId=@Followed_UserId";
-            }
-            else if (typeId == 4)
-            {
-                strsql = @" select * from ( select  row_number() over(order by count(1) desc) as Rank, 
-     count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=2)
-  where f.Status=1    
-group  by Followed_UserId,Name,RPath
-)t
-WHERE t.Followed_UserId=@Followed_UserId";
-            }
-
+where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type));
+        
             SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@Followed_UserId",userId)
             };
             try
             {
+            
                 FansBangListModel fansbang = Util.ReaderToModel<FansBangListModel>(strsql, sp);
+                if (fansbang == null)
+                {
+                    FansBangListModel fansbangs = new FansBangListModel();
+                    string countsql =string.Format("select count(1) from Follow where Followed_UserId={0}  {1} and Status=1 ", userId, Tool.GetTimeWhere("FollowTime", type));
+                    int number = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
 
+                    UserInfo user = UserHelper.GetUser(userId);
+                    fansbangs.Followd_UserId =Convert.ToInt32(user.Id);
+                    fansbangs.Name = user.Name;
+                    fansbangs.Rank = 0;
+                    fansbangs.Number = number;
+                    fansbangs.HeadPath = user.Headpath;
+                    fansbang = fansbangs;
+                }
 
                 jsonmsg.Success = true;
                 jsonmsg.data = fansbang;

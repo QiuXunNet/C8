@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\UserHelper.cs" />
+    <Compile Include="Controllers\AmountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AuthenticationAttribute.cs" />
     <Compile Include="Controllers\CommentController.cs" />

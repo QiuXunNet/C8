@@ -196,13 +196,13 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
 (select 
-a.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
+b.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
 left join BettingRecord b on b.Id=a.OrderId 
 left join UserInfo c on c.Id=b.UserId
 left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
 where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
 {0}
-group by a.UserId,a.Money ,c.Name,d.RPath ,b.lType
+
 )t
 group by t.UserId ,t.NickName,t.Avater,t.lType
 order by Money desc,NickName asc
@@ -243,13 +243,13 @@ order by Money desc,NickName asc
             int UserId = UserHelper.GetByUserId();
             string strsql = string.Format(@"select  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
 (select 
-a.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
+b.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
 left join BettingRecord b on b.Id=a.OrderId 
 left join UserInfo c on c.Id=b.UserId
 left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
 where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
 {0}
-group by a.UserId,a.Money ,c.Name,d.RPath ,b.lType
+
 )t
 group by t.UserId ,t.NickName,t.Avater,t.lType
 order by Money desc,NickName asc

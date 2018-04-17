@@ -278,7 +278,7 @@ namespace C8.Lottery.Public
                     break;
                 case "month":
                     DateTime monthEndTime = today.GetMonthStart();
-                    DateTime monthStartTime = today.GetWeekStart().AddMonths(-1);
+                    DateTime monthStartTime = today.GetMonthStart().AddMonths(-1);
                     sqlWhere = string.Format(" and {0}>='{1}' and {0}<'{2}'", Timefiled, monthStartTime, monthEndTime);
                     break;
                 case "all":
