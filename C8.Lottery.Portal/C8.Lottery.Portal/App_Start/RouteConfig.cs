@@ -14,6 +14,17 @@ namespace C8.Lottery.Portal
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                    name: "In",
+                    url: "In/{id}",
+                    defaults: new { controller = "In", action = "Index" }
+                );
+            routes.MapRoute(
+                     name: "Out",
+                     url: "Out/{id}",
+                     defaults: new { controller = "Out", action = "Index" }
+                 );
+
+            routes.MapRoute(
                     name: "article",
                     url: "News/Index/{id}/{ntype}",
                     defaults: new { controller = "News", action = "Index" }
