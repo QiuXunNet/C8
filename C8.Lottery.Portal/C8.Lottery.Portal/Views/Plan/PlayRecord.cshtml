@@ -288,7 +288,7 @@
                         //回调
                         buildHtml(res.Data.PageData);
 
-                        buildLastPlay(res.Data.ExtraData);
+                        buildLastPlay(res.Data.ExtraData,playName);
 
 
                     } else {
@@ -301,12 +301,12 @@
             });
         }
 
-        function buildLastPlay(data) {
+        function buildLastPlay(data,playName) {
             if (data != null && typeof (data) != "undefined") {
                 recordId = data.Id;
                 isRead = data.IsRead;
                 var html = '<span>已更新</span>';
-                if (typeof (playName) != 'undefined' &&(playName != '' || playName != '全部')) {
+                if (typeof (playName) != 'undefined' && playName != '' && playName != '全部') {
                     html += '<a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>';
                 }
                 $("#visitPlanContainer").html(html);

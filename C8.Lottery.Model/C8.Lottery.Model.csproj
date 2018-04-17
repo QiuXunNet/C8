@@ -55,7 +55,9 @@
     <Compile Include="Enum\TransactionTypeEnum.cs" />
     <Compile Include="Enum\UserInternalMessageTypeEnum.cs" />
     <Compile Include="Follow.cs" />
+    <Compile Include="FriendLink.cs" />
     <Compile Include="IntegralRule.cs" />
+    <Compile Include="LinkVisitRecord.cs" />
     <Compile Include="Lottery.cs" />
     <Compile Include="LotteryCharge.cs" />
     <Compile Include="LotteryType2.cs" />
