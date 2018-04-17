@@ -1744,10 +1744,10 @@ where b.UserId =@UserId and Type in(4, 9)
                     new SqlParameter("@UserId",UserId)
                 };
                 DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
-                ViewBag.MyYj = Tool.Rmoney(dr.MyYj);
+                ViewBag.MyYj = Tool.Rmoney(dr.MyYj- dr.Txleiji);
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
-                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing);
 
 
             }
