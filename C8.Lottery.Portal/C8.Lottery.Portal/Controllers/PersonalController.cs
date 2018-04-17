@@ -568,7 +568,7 @@ where RowNumber BETWEEN @Start AND @End ";
 
 
         /// <summary>
-        /// 粉丝榜数据 只取前50条
+        /// 粉丝榜数据 只取前100条
         /// </summary>
         /// <param name="typeId"></param>
         /// <param name="pageIndex"></param>
@@ -584,7 +584,7 @@ where RowNumber BETWEEN @Start AND @End ";
         
 
 
-                string strsql = string.Format(@"select  * from ( select top 50 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+                string strsql = string.Format(@"select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
@@ -613,14 +613,14 @@ WHERE Rank BETWEEN @Start AND @End", Tool.GetTimeWhere("FollowTime",type));
             return PartialView("FansBangList");
         }
 
-
+        [HttpGet]
         public JsonResult MyRank(string type)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             int userId = UserHelper.GetByUserId();
           
 
-            string strsql  =string.Format(@" select  * from ( select top 50 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+            string strsql  =string.Format(@" select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
@@ -644,7 +644,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
                     int number = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
 
                     UserInfo user = UserHelper.GetUser(userId);
-                    fansbangs.Followd_UserId =Convert.ToInt32(user.Id);
+                    fansbangs.Followed_UserId = Convert.ToInt32(user.Id);
                     fansbangs.Name = user.Name;
                     fansbangs.Rank = 0;
                     fansbangs.Number = number;
@@ -662,7 +662,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
                 jsonmsg.Msg = e.Message;
                 throw;
             }
-            return Json(jsonmsg);
+            return Json(jsonmsg,JsonRequestBehavior.AllowGet);
 
         }
 

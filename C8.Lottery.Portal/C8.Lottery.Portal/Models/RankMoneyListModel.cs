@@ -50,5 +50,22 @@ namespace C8.Lottery.Portal.Models
     }
   
    
+    public class RankIntegralListModel
+    {
+        public List<RankIntegralModel> RankIntegralList { get; set; }
+        public RankIntegralModel MyRankIntegralModel { get; set; }
+
+    }
+
+  
+    public class RankIntegralModel
+    {
+        public int Rank { set; get; }
+        public int Score { set; get; }
+        public int UserId { set; get; }
+        public DateTime Date { set; get; }
+        public string NickName { set; get; }
+        public string Avater { set; get; }
+    }
 
 }

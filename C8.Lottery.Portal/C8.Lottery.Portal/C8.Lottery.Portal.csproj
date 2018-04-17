@@ -796,6 +796,7 @@
     <Content Include="Views\List\Gratuity.cshtml" />
     <Content Include="Views\List\Profit.cshtml" />
     <Content Include="Views\Recharge\Index.cshtml" />
+    <Content Include="Views\List\Integral.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />
