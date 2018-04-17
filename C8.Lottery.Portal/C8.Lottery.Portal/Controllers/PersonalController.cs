@@ -1787,7 +1787,7 @@ inner join BettingRecord b
 inner join UserInfo u
 on b.UserId=u.Id
 on c.OrderId=b.Id
- where c.UserId=@UserId and c.Type in(4,9)
+ where b.UserId=@UserId and c.Type in(4,9)
  )t
  where   rowNumber BETWEEN @Start AND @End";
                     strstate = "4,9";

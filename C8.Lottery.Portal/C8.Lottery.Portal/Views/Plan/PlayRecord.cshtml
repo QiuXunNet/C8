@@ -377,16 +377,90 @@
                     var num = item.LotteryNum.Num.split(',');
                     var bethtml = '';
                     var cl1 = "hdM_ddcon";
+                    
                     if (item.BettingRecord.length > 0)
                     {
                         for (var j = 0; j < item.BettingRecord.length; j++)
                         {
+
                             var iswin = item.BettingRecord[j].WinState == 3 ? "中" : "未中";
                             var cliswin = item.BettingRecord[j].WinState == 3 ? "Forecast_Pred" : "";
                             var issym = item.BettingRecord[j].WinState == 3 ? "+" : "";
+                            var mynum = item.BettingRecord[j].BetNum;
+                            if (item.BettingRecord[j].WinState == 3)
+                            {
+                                var mynum = item.BettingRecord[j].BetNum;
+                                var mynumsplit = item.BettingRecord[j].BetNum.split(',');
+                         
+                                for (var x = 0; x < mynumsplit.length; x++)
+                                {
+                                    var z = getwanfa(item.BettingRecord[j].PlayName);
+                                
+                                    if (z == -1)
+                                    {
+                                        var ltnum = item.LotteryNum.Num;
+                               
+                                        if (item.BettingRecord[j].PlayName == "平特一肖")
+                                        {
+                                            ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
+                                        }
+
+                                        if (ltnum.indexOf(mynumsplit[x]) >= 0)
+                                        {
+                                       
+                                            mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                        }
+                                    } else
+                                    {
+                                        var lonum = item.LotteryNum.Num.split(',');
+                              
+                                        if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特")
+                                        {
+                                            lonum[z] = getShengxiaoByDigit(lonum[z]);
+                                        }
+                                        if (z==10)
+                                        {
+                                            var lonum1 = lonum.slice(0, 6);
+                                     
+                                            if ($.inArray(mynumsplit[x], lonum1) != -1)
+                                            {
+                                                mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                            }
+                                    
+                                        } else if (z == 11)
+                                        {
+                                            var lonum1 = lonum.slice(0, 5);
+                                            if ($.inArray(mynumsplit[x], lonum1) != -1)
+                                            {
+                                                mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                            }
+                                        }else if(z==12)
+                                        {
+                                            var lonum1 = lonum.slice(5);
+                                       
+                                            if ($.inArray(mynumsplit[x], lonum1) != -1) {
+                                                mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+                                            }
+
+                                        }else
+                                        {
+                                            if (lonum[z] == mynumsplit[x]) {
+                                                console.log("中了")
+
+                                                mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
+
+                                            }
+                                        }
+                                  
+                                  
+                                    }
+                             
+                                }
+                            }
+
 
                             bethtml += '<tr><td align="center" valign="middle" width="25%"><p>' + item.BettingRecord[j].PlayName + '</p> </td>'
-                                + ' <td align="center" valign="middle">  <p>' + item.BettingRecord[j].BetNum + '<span class="For_Red"></span></p> </td>'
+                                + ' <td align="center" valign="middle">   <p style="word-break:break-all; ">' + mynum + '<span class="For_Red"></span></p> </td>'
                                 + '<td align="center" valign="middle" width="25%"> <p class="' + cliswin + '">    <font class="P_TF">' + iswin + '</font><span>' + issym + '' + item.BettingRecord[j].Score + '</span></p>  </td> </tr>'
 
                         }
