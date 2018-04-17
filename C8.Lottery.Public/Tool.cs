@@ -130,7 +130,7 @@ namespace C8.Lottery.Public
 
 
         /// <summary>
-        /// 赚钱图片
+        /// 赚钱图片 只看任务奖励
         /// </summary>
         /// <param name="Type"></param>
         /// <returns></returns>
@@ -139,10 +139,10 @@ namespace C8.Lottery.Public
             string imgsrc = string.Empty;
             switch (Type)
             {
-                case 1:
+                case 100:
                     imgsrc = "/images/47_1.png";
                     break;
-                case 7:
+                case 105:
                     imgsrc = "/images/47_3.png";
                     break;
                 case 4:
