@@ -1636,39 +1636,34 @@ on c.OrderId=b.Id
     order by SubTime desc";
 
                 }
-                else if (Type == 3)//赚钱
+                else if (Type == 3)//赚钱 只看任务奖励
                 {
                     //strstate = "4,6,7,8,9 ";
-                    strstate = "4,6,7,8,9";
-                    strsql = @"select * from (
-select row_number() over (order by Id) as rowNumber,* from (
+                    strstate = "8";
+                    //                    strsql = @"select * from (
+                    //select row_number() over (order by Id) as rowNumber,* from (
 
-select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
-where UserId =@UserId and Type in(6,7,8)
-UNION 
-select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c 
-left join BettingRecord b on b.Id=c.OrderId 
-where b.UserId=@UserId and Type in(4,9)
-)t
-)t1
- where   t1.rowNumber BETWEEN  @Start AND @End
-     order by SubTime desc  ";
+                    //select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
+                    //where UserId =@UserId and Type in(6,7,8)
+                    //UNION 
+                    //select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c 
+                    //left join BettingRecord b on b.Id=c.OrderId 
+                    //where b.UserId=@UserId and Type in(4,9)
+                    //)t
+                    //)t1
+                    // where   t1.rowNumber BETWEEN  @Start AND @End
+                    //     order by SubTime desc  ";
+
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId = @UserId and Type in(" + strstate + @")  
+ )t
+ where   rowNumber BETWEEN  @Start AND @End
+   order by SubTime desc";
 
 
                 }
 
-                string countsql =Type==3? @"
-select count(1) from(
-select row_number() over(order by Id) as rowNumber, *from(
-select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
-where UserId =@UserId and Type in(6, 7, 8)
-UNION
-select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c
-left
-        join BettingRecord b on b.Id = c.OrderId
-where b.UserId =@UserId and Type in(4, 9)
-)t
-)t1" : @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
 
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId),
@@ -1703,7 +1698,7 @@ where b.UserId =@UserId and Type in(4, 9)
                         list.ForEach(x =>
                         {
 
-                            x.LotteryIcon = Tool.GetZqImg(x.Type);
+                            x.LotteryIcon = Tool.GetZqImg(Convert.ToInt32(x.OrderId));
                         });
                     }
 
