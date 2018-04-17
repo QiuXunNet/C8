@@ -57,6 +57,7 @@
     <Compile Include="AjaxResult.cs" />
     <Compile Include="CacheHelper.cs" />
     <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="HttpCommon.cs" />
     <Compile Include="LogerFactory.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="LuoUtil.cs" />

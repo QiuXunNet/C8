@@ -672,6 +672,21 @@
     <Content Include="images\star.png" />
     <Content Include="images\totop.png" />
     <Content Include="images\upbtn.png" />
+    <Content Include="images\Banklogo\ABC.png" />
+    <Content Include="images\Banklogo\BOC.png" />
+    <Content Include="images\Banklogo\CCB.png" />
+    <Content Include="images\Banklogo\CEB.png" />
+    <Content Include="images\Banklogo\CIB.png" />
+    <Content Include="images\Banklogo\CITIC.png" />
+    <Content Include="images\Banklogo\CMB.png" />
+    <Content Include="images\Banklogo\CMBC.png" />
+    <Content Include="images\Banklogo\COMM.png" />
+    <Content Include="images\Banklogo\GDB.png" />
+    <Content Include="images\Banklogo\HXBANK.png" />
+    <Content Include="images\Banklogo\ICBC.png" />
+    <Content Include="images\Banklogo\PSBC.png" />
+    <Content Include="images\Banklogo\SPABANK.png" />
+    <Content Include="images\Banklogo\SPDB.png" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
     <Content Include="js\fontSize.js" />
@@ -799,6 +814,9 @@
     <Content Include="Views\List\Profit.cshtml" />
     <Content Include="Views\Recharge\Index.cshtml" />
     <Content Include="Views\List\Integral.cshtml" />
+    <Content Include="Views\Amount\BindingBankCard.cshtml" />
+    <Content Include="Views\Amount\ExtractCash.cshtml" />
+    <Content Include="Views\Amount\ExtractCashSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />
