@@ -201,7 +201,7 @@ body {
     height: auto;
 }
 
-.footer_chat {
+/*.footer_chat {
     width: 100%;
     display: -webkit-box;
     -webkit-box-align: center;
@@ -272,7 +272,78 @@ body {
 
             .footer_chat .msg .btn_face:hover {
                 opacity: 0.8;
-            }
+            }*/
+
+
+.footer_chat {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    height: 4.2rem;
+    padding: 0.3rem 0;
+    background: #eee;
+    box-shadow: -2px 0 3px #999;
+}
+
+    .footer_chat > div:nth-of-type(1) {
+        width: 6.4rem;
+    }
+
+        .footer_chat > div:nth-of-type(1) .a_cmore {
+            width: 3.2rem;
+            height: 3.2rem;
+            display: inline-block;
+            float: left;
+            background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
+        }
+
+        .footer_chat > div:nth-of-type(1) .btn_face {
+            width: 2.8rem;
+            height: 3.2rem;
+            border: none;
+            cursor: pointer;
+            background: url(../../images/Chat/icon_face.png) no-repeat center center/2.0rem auto;
+            vertical-align: middle;
+        }
+
+    .footer_chat > div:nth-of-type(2) {
+        -webkit-box-flex: 1;
+    }
+
+    .footer_chat > div:nth-of-type(3) {
+        width: 5.5rem;
+    }
+
+    .footer_chat .a_send {
+        width: 3.8rem;
+        height: 2.8rem;
+        line-height: 2.8rem;
+        text-align: center;
+        font-size: 1.1rem;
+        color: #fff;
+        display: block;
+        margin: 0 auto;
+        background: #f13131;
+        border-radius: 0.4rem;
+    }
+
+    .footer_chat .msg {
+        height: 3.0rem;
+        background: #fff;
+        border-radius: 0.4rem;
+        display: -webkit-box;
+    }
+
+        .footer_chat .msg .txt_msg {
+            -webkit-box-flex: 1;
+            height: 3.0rem;
+            font-size: 1.3rem;
+            text-indent: 0.4rem;
+            color: #444;
+            display: block;
+            border: none;
+            background: none;
+        }
 /* footer_chat */
 
 .footer_face {
@@ -283,6 +354,7 @@ body {
 .face_wrapper {
     height: 10rem;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
     .face_wrapper::-webkit-scrollbar {

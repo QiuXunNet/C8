@@ -1,0 +1,135 @@
+﻿@using C8.Lottery.Model;
+@{
+    Layout = null;
+    var CardList = ViewBag.CardList as List<BankInfo>;
+    var bankAccount = "";
+    var bankName = "";
+    var backId = 0;
+    if (CardList.Any())
+    {
+        bankAccount = CardList.FirstOrDefault().BankAccount;
+        bankName = CardList.FirstOrDefault().BankName;
+        backId = CardList.FirstOrDefault().Id;
+    }
+
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>个人中心-我的佣金-提现</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type="text/javascript" src="/js/jquery.js"></script>
+</head>
+
+<body style="background:#F4F4F5;">
+
+    <header class="hjc_header">
+        <a href="/Personal/MyCommission" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">提现</a>
+    </header>
+
+    @if (CardList == null || !CardList.Any())
+    {
+        <script type="text/javascript">
+            alert("请先绑定一张银行卡");
+            document.location.href = "/Amount/BindingBankCard";
+        </script>
+    }
+    else
+    {
+        <div class="Withdrawals">
+            <dl class="Withd_DL">
+                <dt><img id="bankImg" src=""></dt>
+                <dd>
+                    <h3>@Html.Raw(bankName)</h3>
+                    <p>@Html.Raw("尾号" + bankAccount.Substring(bankAccount.Length - 4, 4))  储蓄卡</p>
+                </dd>
+            </dl>
+            <div class="Withd_Info">
+                <h3 class="Withd_Iftit">提现金额</h3>
+                <div class="Withd_Iftext">
+                    <p class="Ift_font f-l">￥</p>
+                    <div class="Ift_ipt"><input type="number" id="txtNumber" value="100"></div>
+                </div>
+                <div class="Withd_Ifwz">
+                    <p>可提现余额<span>@Html.Raw(ViewBag.MyCommission)</span>元</p>
+                    <a href="javascript:all();">全部提现</a>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="Withd_Ifwz">
+                    <p>最低提现金额<span>@Html.Raw(ViewBag.MinExtractCash)</span>元</p>
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+            <button class="Set_btnMM" onclick="extractCash()">确认</button>
+        </div>
+    }
+
+    <script type="text/javascript">
+        var bankList = [
+            { key:"中国工商银行",value:"ICBC"},
+            { key:"中国银行",value: "BOC" },
+            { key:"中国建设银行",value: "CCB" },
+            { key:"中国农业银行",value: "ABC" },
+            { key:"中国邮政储蓄银行",value: "PSBC" },
+            { key:"中国光大银行",value: "CEB" },
+            { key:"交通银行",value: "COMM" },
+            { key:"招商银行",value: "CMB" },
+            { key:"中国民生银行",value: "CMBC" },
+            { key:"兴业银行",value: "CIB" },
+            { key:"中信银行",value: "CITIC" },
+            { key:"广发银行",value: "GDB" },
+            { key:"华夏银行",value: "HXBANK" },
+            { key:"浦发银行",value: "SPDB" },
+            { key:"平安银行",value: "SPABANK" }
+        ];
+
+        $(function () {
+            for (var i in bankList) {
+                if (bankList[i].key == "@bankName") {
+                    $("#bankImg").attr("src", "/images/Banklogo/" + bankList[i].value + ".png");
+                }
+            }
+        });
+
+        function extractCash() {
+            var money = $.trim($("#txtNumber").val());
+
+            var regex = /^\d+\.\d+$/;
+            var b = regex.test(money);
+            if (b) {
+                alert("请输入整数金额");
+                return;
+            }
+
+            if (money >@ViewBag.MyCommission) {
+                alert("您输入的提现金额大于可提现佣金");
+                return;
+            }
+            if (money <@ViewBag.MinExtractCash) {
+                alert("您输入的提现金额小于最低提现金额");
+                return;
+            }
+
+            $.post("/Amount/AddExtractCash", { backId:@backId, money: money }, function (data) {
+                if (data.Status == 2) {
+                    alert("您的实际佣金已变动,请刷新页面后重新提交");
+                }
+                if (data.Status == 1) {
+                    document.location.href = "/Amount/ExtractCashSuccess?money=" + money;
+                }
+                if (data.Status == 0) {
+                    alert("提现申请失败");
+                }
+            });
+        }
+
+        //全部提现
+        function all() {
+            $("#txtNumber").val("@ViewBag.MyCommission");
+        }
+    </script>
+</body>
+</html>
