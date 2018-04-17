@@ -348,61 +348,53 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     return true;
                 }
-
+                sql = "";
                 var money = list.FirstOrDefault().Money;
                 var userId = list.FirstOrDefault().UserId;
                 var addCoin = 0;  //需要增加的金币数
                 LogHelper.WriteLog("money >= 1 --" + (money >= 1));
                 //每日任务完成充值100元任务
-                if (money >= 100)
+                if (money >= 1)
                 {
-                    try
+                    var makeMoneyTaskList = Util.ReaderToList<MakeMoneyTask>("select top(1) * from MakeMoneyTask where Code=100");
+                    if (makeMoneyTaskList != null && makeMoneyTaskList.Any())
                     {
-                        var obj = SqlHelper.ExecuteScalar("select top(1) completedCount from usertask where UserId = @UserId and taskId = 100",
-                            new SqlParameter[] { new SqlParameter("@UserId", userId) });
-                        LogHelper.WriteLog("obj --" + obj);
-                        LogHelper.WriteLog("obj == null --" + (obj == null));
-                        if (obj == null || Convert.ToInt32(obj) == 0)//判断今日是否做任务
+                        try
                         {
-                            var coinObj = SqlHelper.ExecuteScalar("select top(1) Coin from MakeMoneyTask where Code=100");
-                            LogHelper.WriteLog("coinObj --" + coinObj);
-                            if (coinObj != null)
-                            {
-                                addCoin = Convert.ToInt32(coinObj);
-                                LogHelper.WriteLog("addCoin --" + addCoin);
-                            }
+                            var obj = SqlHelper.ExecuteScalar("select top(1) completedCount from usertask where UserId = @UserId and taskId = 100",
+                                new SqlParameter[] { new SqlParameter("@UserId", userId) });
 
-                            if (obj == null)
+                            if (obj == null || (Convert.ToInt32(obj)+1) == makeMoneyTaskList.FirstOrDefault().Count)//判断今日是否完任务
+                            {                               
+                                addCoin = makeMoneyTaskList.FirstOrDefault().Coin;
+                                sql += "insert into ComeOutRecord (UserId,OrderId,Money,Type,SubTime) values(@UserId,100,@Money,8,GETDATE());";//插入领取任务记录
+                            }
+                            if (obj == null) //如果usertask表没有数据，则插入
                             {
-                                sql = "insert into usertask (UserId,TaskId,CompletedCount) values (@UserId,100,1)";
+                                sql += "insert into usertask (UserId,TaskId,CompletedCount) values (@UserId,100,1);";
                             }
                             else
                             {
-                                sql = "update usertask set completedCount = completedCount +1 where UserId = @UserId and taskId = 100";
-                            }
+                                sql += "update usertask set completedCount = completedCount +1 where UserId = @UserId and taskId = 100;";
+                            }                           
                         }
-                        else
-                        {
-                            sql = "update usertask set completedCount = completedCount +1 where UserId = @UserId and taskId = 100";
-                        }
-                        LogHelper.WriteLog("sql --" + sql);
-                        LogHelper.WriteLog("UserId --" + userId);
-                        SqlHelper.ExecuteNonQuery(sql, new SqlParameter[] { new SqlParameter("@UserId", userId) });
+                        catch (Exception) { }
                     }
-                    catch (Exception) { }
+                    
                 }
 
-                sql = @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
-                        update UserInfo set Coin = Coin + " + (money + addCoin) + " where Id =@Id";
+                sql += @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
+                        update UserInfo set Coin = Coin + " + (money + addCoin) + " where Id =@UserId;";
 
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@OrderId",no),
                     new SqlParameter("@PayType",payType),
-                    new SqlParameter("@Id",userId)
+                    new SqlParameter("@UserId",userId),
+                    new SqlParameter("@Money",addCoin)
                  };
 
-                var i = SqlHelper.ExecuteNonQuery(sql, regsp);
-                return i > 0;
+                SqlHelper.ExecuteTransaction(sql, regsp);
+                return true;
             }
             catch (Exception ex)
             {
