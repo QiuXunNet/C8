@@ -681,29 +681,44 @@ namespace C8.Lottery.Portal.Controllers
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             if (Session["Mobile"] != null)
             {
-
                 try
                 {
-                    string mobile = Session["Mobile"].ToString();
-                    password = Tool.GetMD5(password);
-                    string usersql = "update UserInfo set[Password] = @Password where Mobile=@Mobile";
-                    SqlParameter[] sp = new SqlParameter[] {
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        if(password.Length < 6 || password.Length > 12)
+                        {
+                            jsonmsg.Msg = "密码长度为6-12位";
+                            jsonmsg.Success = false;
+                        }
+                        else
+                        {
+                            string mobile = Session["Mobile"].ToString();
+                            password = Tool.GetMD5(password);
+                            string usersql = "update UserInfo set[Password] = @Password where Mobile=@Mobile";
+                            SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@Mobile",mobile),
                     new SqlParameter("@Password",password)
                 };
-                    int data = SqlHelper.ExecuteNonQuery(usersql, sp);
-                    if (data > 0)
-                    {
-                        jsonmsg.Msg = "ok";
-                        jsonmsg.Success = true;
-                    }
-                    else
-                    {
-                        jsonmsg.Success = false;
-                        jsonmsg.Msg = "fail";
+                            int data = SqlHelper.ExecuteNonQuery(usersql, sp);
+                            if (data > 0)
+                            {
+                                jsonmsg.Msg = "ok";
+                                jsonmsg.Success = true;
+                            }
+                            else
+                            {
+                                jsonmsg.Success = false;
+                                jsonmsg.Msg = "fail";
 
+                            }
+                            Session.Remove("Mobile");
+                        }
+                    }else
+                    {
+                        jsonmsg.Msg = "密码不能为空";
+                        jsonmsg.Success = false;
                     }
-                    Session.Remove("Mobile");
+                   
                 }
                 catch (Exception e)
                 {

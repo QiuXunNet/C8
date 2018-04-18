@@ -63,34 +63,51 @@ namespace C8.Lottery.Portal.Controllers
                 }
                 else
                 {
-                    newpwd = Tool.GetMD5(newpwd);
-                    try
+                    if (!string.IsNullOrEmpty(newpwd))
                     {
-                        string usersql = "update UserInfo set [Password]=@Password where Mobile =@Mobile ";
-                        SqlParameter[] sp = new SqlParameter[] {
-                            new SqlParameter("@Password",newpwd),
-                            new SqlParameter("@Mobile",user.Mobile)
-
-                        };
-                        int date = SqlHelper.ExecuteNonQuery(usersql, sp);
-                        if (date > 0)
+                        if(newpwd.Length < 6 || newpwd.Length > 12)
                         {
-                            jsonmsg.Success = true;
-                            jsonmsg.Msg = "ok";
+                            jsonmsg.Success = false;
+                            jsonmsg.Msg = "密码长度为6-12位";
                         }
                         else
                         {
-                            jsonmsg.Success = false;
-                            jsonmsg.Msg = "fail";
-                        }
+                            newpwd = Tool.GetMD5(newpwd);
+                            try
+                            {
+                                string usersql = "update UserInfo set [Password]=@Password where Mobile =@Mobile ";
+                                SqlParameter[] sp = new SqlParameter[] {
+                                new SqlParameter("@Password",newpwd),
+                                new SqlParameter("@Mobile",user.Mobile)
 
-                    }
-                    catch (Exception e)
+                                  };
+                                int date = SqlHelper.ExecuteNonQuery(usersql, sp);
+                                if (date > 0)
+                                {
+                                    jsonmsg.Success = true;
+                                    jsonmsg.Msg = "ok";
+                                }
+                                else
+                                {
+                                    jsonmsg.Success = false;
+                                    jsonmsg.Msg = "fail";
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                jsonmsg.Success = false;
+                                jsonmsg.Msg = e.Message;
+                                throw;
+                            }
+                        }
+                    }else
                     {
                         jsonmsg.Success = false;
-                        jsonmsg.Msg = e.Message;
-                        throw;
+                        jsonmsg.Msg = "密码不能为空";
                     }
+
+                   
                 }
             }
             else

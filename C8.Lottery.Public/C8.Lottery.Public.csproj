@@ -69,6 +69,7 @@
     <Compile Include="SmsSender.cs" />
     <Compile Include="SqlHelper.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="ValidateUtil.cs" />
     <Compile Include="WebHelper.cs" />
   </ItemGroup>
   <ItemGroup>
