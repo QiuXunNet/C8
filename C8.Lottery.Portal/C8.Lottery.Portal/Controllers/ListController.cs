@@ -31,11 +31,11 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Expert(int id = 0)
         {
             //step1.查询彩种分类列表
-            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position,Pid ";
             var list = Util.ReaderToList<LotteryType2>(strsql);
             ViewBag.TypeList = list;
             //step2.查询具体彩种
-            string lotteryListSql = @"select * from LotteryType2 where PId>0  order by Position ";
+            string lotteryListSql = @"select * from LotteryType2 where PId>0  order by Position,Pid ";
             var queryList = Util.ReaderToList<LotteryType2>(lotteryListSql);
             var lotteryList = queryList.GroupBy(x => x.PId);
             ViewBag.LotteryList = lotteryList.OrderBy(x => x.Key);
@@ -58,7 +58,7 @@ namespace C8.Lottery.Portal.Controllers
         [Authentication]
         public ActionResult ExpertData(int id)
         {
-            int lType = id;
+            int lType = GetlType(id);
             long userId = UserHelper.LoginUser.Id;
             //step1.查询日榜
             var dailyList = GetSuperiorListDay(lType, DateTime.Today);
@@ -123,6 +123,12 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.UserTotalInfo = userTotalInfo;
 
             return View();
+        }
+
+        public int GetlType(int id)
+        {
+            string strsql =string.Format("select lType from [dbo].[LotteryType2]  where Id={0}",id);
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
         }
 
         /// <summary>
@@ -305,16 +311,15 @@ order by Money desc,NickName asc
         public JsonResult GetIntegralList(string queryType)
         {
             string strsql =string.Format(@"
-select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,Date,NickName,Avater from
+select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
 (
   SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
   FROM dbo.SuperiorRecord a
   left join UserInfo b on b.Id=a.UserId
   left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
-
  )t
  where 1=1   {0}
- group by UserId,Date,NickName,Avater", Tool.GetTimeWhere("Date",queryType));
+ group by UserId,NickName,Avater", Tool.GetTimeWhere("Date",queryType));
             ReturnMessageJson msgjson = new ReturnMessageJson();
             RankIntegralListModel rlist = new RankIntegralListModel();
             RankIntegralModel my = new RankIntegralModel();
