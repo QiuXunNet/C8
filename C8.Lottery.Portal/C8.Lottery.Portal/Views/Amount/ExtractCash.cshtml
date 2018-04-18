@@ -51,15 +51,11 @@
                 <h3 class="Withd_Iftit">提现金额</h3>
                 <div class="Withd_Iftext">
                     <p class="Ift_font f-l">￥</p>
-                    <div class="Ift_ipt"><input type="number" id="txtNumber" value="100"></div>
+                    <div class="Ift_ipt"><input type="number" id="txtNumber" placeholder="@Html.Raw("最低提现金额"+ViewBag.MinExtractCash+"元")"></div>
                 </div>
                 <div class="Withd_Ifwz">
                     <p>可提现余额<span>@Html.Raw(ViewBag.MyCommission)</span>元</p>
                     <a href="javascript:all();">全部提现</a>
-                    <div style="clear:both;"></div>
-                </div>
-                <div class="Withd_Ifwz">
-                    <p>最低提现金额<span>@Html.Raw(ViewBag.MinExtractCash)</span>元</p>
                     <div style="clear:both;"></div>
                 </div>
             </div>

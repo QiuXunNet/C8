@@ -140,10 +140,10 @@ namespace C8.Lottery.Portal.Controllers
                 }
 
             }
-            else
-            {
-                ViewBag.time = "正在开奖";
-            }
+            //else
+            //{
+                ViewBag.time = time;
+          //  }
 
             return View("TypeList", model);
         }
