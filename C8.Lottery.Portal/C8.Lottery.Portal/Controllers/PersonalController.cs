@@ -1742,7 +1742,7 @@ on c.OrderId=b.Id
                 ViewBag.MyYj = Tool.Rmoney(dr.MyYj- dr.Txleiji);
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
-                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing- dr.Txleiji);
 
 
             }
