@@ -117,7 +117,8 @@ namespace C8.Lottery.Portal.Controllers
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-            string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
+            // string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
+            string sql = "select top(1)* from LotteryRecordToLhc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
             ViewBag.lastIssue = lr.Issue;
@@ -142,8 +143,8 @@ namespace C8.Lottery.Portal.Controllers
             }
             //else
             //{
-                ViewBag.time = time;
-          //  }
+            ViewBag.time = time;
+            //  }
 
             return View("TypeList", model);
         }
