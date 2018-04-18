@@ -1783,17 +1783,20 @@ inner join UserInfo u
 on b.UserId=u.Id
 on c.OrderId=b.Id
  where b.UserId=@UserId and c.Type in(4,9)
+
  )t
- where   rowNumber BETWEEN @Start AND @End";
+ where   rowNumber BETWEEN @Start AND @End
+       order by SubTime desc ";
                     strstate = "4,9";
 
                 }
                 else if (Type == 2)//提现明细
                 {
                     strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and Type=2
+ where UserId =@UserId and Type=2 
+
  )t
- where   rowNumber BETWEEN  @Start AND @End";
+ where   rowNumber BETWEEN  @Start AND @End order by SubTime desc";
                     strstate = "2";
                 }
                 string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";

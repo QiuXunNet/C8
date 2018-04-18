@@ -82,7 +82,8 @@ $(function () {
             playType = i;
             _this.addClass("current").siblings().removeClass("current");
 
-            if (queryType == 1) {
+            if (queryType == 1)
+            {
                 mescroll.resetUpScroll();
                 //隐藏回到顶部按钮
                 mescroll.hideTopBtn();
@@ -178,6 +179,7 @@ function buildHtml(data, tabtype,pageIndex) {
     var listDom = $("#datalist" + tabtype);
 
     $.each(data, function (index, item) {
+        console.log(item);
         var itemHtml = '<div class="CIFB_K">'
             + '<div class="CIFB_KL f-l">'
             + '<div class="KL_number f-l">';
@@ -191,7 +193,7 @@ function buildHtml(data, tabtype,pageIndex) {
         itemHtml += '</div>'
             + '<div class="KL_port f-l">'
             + '<div class="port_tu">'
-            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '"><img src="' + (item.Avater.length < 1 ? "/images/default_avater.png" : item.Avater) + '" /></a>'
+            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + encodeURI(item.PlayName) + '"><img src="' + (item.Avater.length < 1 ? "/images/default_avater.png" : item.Avater) + '" /></a>'
             + '</div>';
         if (item.RowNumber <= 3) {
             itemHtml += '<i class="port_sf"><img src="/images/66.png"></i>';
@@ -200,7 +202,7 @@ function buildHtml(data, tabtype,pageIndex) {
         itemHtml += '</div>'
             + '            <div class="KL_font">'
             + '                <h3 class="KL_fh3On">'
-            + '                    <a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '">' + item.Name + '</a>'
+            + '                    <a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + encodeURI(item.PlayName) + '">' + item.Name + '</a>'
             + '                </h3>'
             //+ '                <p>1000次查看</p>'
             + '            </div>'

@@ -456,7 +456,8 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
                             //3:查询用户分佣比例
-                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == id && x.Type == (int)CommissionTypeEnum.点阅佣金);
+                            var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == GetlType(id) && x.Type == (int)CommissionTypeEnum.点阅佣金);
+
                             if (userRateSetting != null && userRateSetting.Percentage > 0)
                             {
                                 int commission = (int)(userRateSetting.Percentage * readCoin);
@@ -476,7 +477,9 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
                     try
                     {
+                    
                         SqlHelper.ExecuteTransaction(executeSql.ToString());
+              
                     }
                     catch (Exception ex)
                     {
@@ -519,6 +522,21 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
             return View(model);
         }
+
+
+        /// <summary>
+        /// 获取大彩种lType
+        /// </summary>
+        /// <returns></returns>
+        public int GetlType(int LotteryCode)
+        {
+            string strsql =string.Format("select lType from [dbo].[Lottery] where LotteryCode={0}",LotteryCode);
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
+        }
+
+    
+
+
 
         /// <summary>
         /// 获取专家列表
@@ -1013,7 +1031,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
                 sqlBuilder.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏, coin);
 
-                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == model.lType && x.Type == (int)CommissionTypeEnum.打赏佣金);
+                var userRateSetting = GetCommissionSetting().FirstOrDefault(x => x.LType == GetlType(model.lType) && x.Type == (int)CommissionTypeEnum.打赏佣金);
                 if (userRateSetting != null && userRateSetting.Percentage > 0)
                 {
                     int commission = (int)(userRateSetting.Percentage * coin);
