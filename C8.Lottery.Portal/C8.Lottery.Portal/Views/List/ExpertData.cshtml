@@ -262,7 +262,7 @@
     </div>
 </div>
 <div class="Ranking_footer">
-    <dl class="Rank_ftDL">
+    <dl id="day" class="Rank_ftDL">
         <dt>
            
             <a href="/Plan/PlayRecord/@userDailyInfo.LType?uid=@userDailyInfo.UserId&type=1">
@@ -284,7 +284,7 @@
                     当前排名：
                     @if (userDailyInfo.Rank > 0)
                     {
-                    <span>userDailyInfo.Rank</span>
+                    <span>@userDailyInfo.Rank</span>
                     }
                     else
                     {
@@ -294,7 +294,7 @@
             </div>
         </dd>
     </dl>
-    <dl class="Rank_ftDL" style="display: none;">
+    <dl id="week" class="Rank_ftDL" style="display: none;">
         <dt>
           
             <a href="/Plan/PlayRecord/@userWeekInfo.LType?uid=@userWeekInfo.UserId&type=1">
@@ -316,7 +316,7 @@
                     当前排名：
                     @if (userWeekInfo.Rank > 0)
                     {
-                    <span>userWeekInfo.Rank</span>
+                    <span>@userWeekInfo.Rank</span>
                     }
                     else
                     {
@@ -326,7 +326,7 @@
             </div>
         </dd>
     </dl>
-    <dl class="Rank_ftDL" style="display: none;">
+    <dl id="month" class="Rank_ftDL" style="display: none;">
         <dt>
             <a href="/Plan/PlayRecord/@userMonthInfo.LType?uid=@userMonthInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userMonthInfo.Avater))
@@ -347,7 +347,7 @@
                     当前排名：
                     @if (userMonthInfo.Rank > 0)
                     {
-                    <span>userMonthInfo.Rank</span>
+                    <span>@userMonthInfo.Rank</span>
                     }
                     else
                     {
@@ -357,7 +357,7 @@
             </div>
         </dd>
     </dl>
-    <dl class="Rank_ftDL" style="display: none;">
+    <dl id="all" class="Rank_ftDL" style="display: none;">
         <dt>
             <a href="/Plan/PlayRecord/@userTotalInfo.LType?uid=@userTotalInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userTotalInfo.Avater))
@@ -378,7 +378,7 @@
                     当前排名：
                     @if (userTotalInfo.Rank > 0)
                     {
-                    <span>userTotalInfo.Rank</span>
+                    <span>@userTotalInfo.Rank</span>
                     }
                     else
                     {

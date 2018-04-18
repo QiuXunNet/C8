@@ -311,16 +311,15 @@ order by Money desc,NickName asc
         public JsonResult GetIntegralList(string queryType)
         {
             string strsql =string.Format(@"
-select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,Date,NickName,Avater from
+select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
 (
   SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
   FROM dbo.SuperiorRecord a
   left join UserInfo b on b.Id=a.UserId
   left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
-
  )t
  where 1=1   {0}
- group by UserId,Date,NickName,Avater", Tool.GetTimeWhere("Date",queryType));
+ group by UserId,NickName,Avater", Tool.GetTimeWhere("Date",queryType));
             ReturnMessageJson msgjson = new ReturnMessageJson();
             RankIntegralListModel rlist = new RankIntegralListModel();
             RankIntegralModel my = new RankIntegralModel();
