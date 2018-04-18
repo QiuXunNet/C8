@@ -58,7 +58,7 @@ namespace C8.Lottery.Portal.Controllers
         [Authentication]
         public ActionResult ExpertData(int id)
         {
-            int lType = id;
+            int lType = GetlType(id);
             long userId = UserHelper.LoginUser.Id;
             //step1.查询日榜
             var dailyList = GetSuperiorListDay(lType, DateTime.Today);
@@ -123,6 +123,12 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.UserTotalInfo = userTotalInfo;
 
             return View();
+        }
+
+        public int GetlType(int id)
+        {
+            string strsql =string.Format("select lType from [dbo].[LotteryType2]  where Id={0}",id);
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
         }
 
         /// <summary>
