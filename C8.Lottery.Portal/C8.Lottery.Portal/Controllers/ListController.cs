@@ -31,11 +31,11 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Expert(int id = 0)
         {
             //step1.查询彩种分类列表
-            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position,Pid ";
             var list = Util.ReaderToList<LotteryType2>(strsql);
             ViewBag.TypeList = list;
             //step2.查询具体彩种
-            string lotteryListSql = @"select * from LotteryType2 where PId>0  order by Position ";
+            string lotteryListSql = @"select * from LotteryType2 where PId>0  order by Position,Pid ";
             var queryList = Util.ReaderToList<LotteryType2>(lotteryListSql);
             var lotteryList = queryList.GroupBy(x => x.PId);
             ViewBag.LotteryList = lotteryList.OrderBy(x => x.Key);

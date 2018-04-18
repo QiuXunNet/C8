@@ -185,7 +185,7 @@
 
         $.each(data, function (index, item) {
           
-            var moneyhtml = '<p>+<span>' + item.Money + '</span></p>';
+            var moneyhtml = '<p>+' + formatCurrency(item.Money) + '</p>';
             var timehtml = ' <p>' + item.UserName + getDateTime(item.SubTime, 1) + ' </p>';
             var h3html = '';
             if (curNavIndex == 2)
@@ -213,7 +213,7 @@
          
             var itemHtml = '<dl class="details_DL"> <dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt>'
             + '<dd>  <div class="details_ddRight">' + moneyhtml + '</div>'
-            + '  <div class="details_ddLeft"> <h3><a href="javascript:;">' + h3html + '</a></h3>'
+            + '  <div class="details_ddLeft"> <h3><a href="javascript:;"><b>' + h3html + '</b></a></h3>'
             + timehtml
             + '  </div> </dd> </dl>'
             itemList.push(itemHtml);
@@ -221,6 +221,22 @@
         var html = itemList.join('');
         listDom.append(html);
 
+    }
+/* 货币格式化*/
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + num + '.' + cents);
     }
 
     /* 获取日期时间格式*/

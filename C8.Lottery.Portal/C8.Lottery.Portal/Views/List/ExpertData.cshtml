@@ -104,7 +104,7 @@
                     </td>
                     <td width="15%" align="center" valign="middle">
                         <div class="Ranking_Blogotu">
-                            <a href="/Personal/UserCenter/@item.UserId">
+                            <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
                                 @if (string.IsNullOrEmpty(item.Avater))
                                     {
                                     <img src="/images/default_avater.png" />
@@ -118,7 +118,7 @@
                     </td>
                     <td align="left" valign="middle">
                         <p class="Ysfont">
-                            <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                            <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
                         </p>
                     </td>
                     <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
