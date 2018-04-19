@@ -123,7 +123,7 @@ namespace C8.Lottery.Portal.Controllers
                         where b.[UserId]=@UserId and Type in(4,9)";
 
             var sql2 = @"select isnull(sum([Money]),0) from ComeOutRecord 
-                        where UserId = @UserId and Type = 2 and State in(1,3)";
+                        where UserId = @UserId and ((Type = 2 and State in(1,3)) or Type in(3,5))";
 
             SqlParameter[] regsp = new SqlParameter[]
             {
