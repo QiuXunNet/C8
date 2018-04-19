@@ -25,7 +25,7 @@
 <body style="background:#F4F4F5;">
 
     <header class="hjc_header">
-        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="/List/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">高手榜</a>
     </header>
 
@@ -109,22 +109,22 @@
     </div>
 
     <ul class="C8_nav6 C8_bang">
-            <li class="current">
+            <li data-idx="day" class="current">
                 <a href="javascript:;">
                     <p>日榜</p><span></span>
                 </a>
             </li>
-            <li>
+            <li data-idx="week">
                 <a href="javascript:;">
                     <p>周榜</p><span></span>
                 </a>
             </li>
-            <li>
+            <li data-idx="month">
                 <a href="javascript:;">
                     <p>月榜</p><span></span>
                 </a>
             </li>
-            <li>
+            <li data-idx="all">
                 <a href="javascript:;">
                     <p>总榜</p><span></span>
                 </a>
@@ -134,7 +134,18 @@
 
     @Html.Action("ExpertData", new { id = @Model.Id })
 
+    <script>
+        $(function ()
+        {
+            $(".C8_bang li").click(function ()
+            {
+                var id = $(this).attr("data-idx");
+                $(".Ranking_footer #" + id).show().siblings().hide();
+             
+            })
+        });
 
+    </script>
 </body>
 
 </html>

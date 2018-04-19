@@ -1,0 +1,311 @@
+﻿@using C8.Lottery.Portal.Models;
+@{
+    ViewBag.Title = "ExpertSearch";
+    var lType = ViewBag.lType;
+    List<ExpertSearchModel> HotList =ViewBag.HotList;
+    List<ExpertSearchModel> historyList = ViewBag.historyList;
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>排行榜-搜索专家</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <link href="~/css/mescroll.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/js/jquery.js"></script>
+    <script src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script>
+
+        $(function ()
+        {
+            $(".ttIf1_con li .ttIf1_cR").on("click", function ()
+            {
+               var lType=@lType;
+                var UserId=$(this).attr("data-uid");
+
+               InsertHotSearch(UserId,lType);
+            });
+
+
+
+            $(".ttIf2_Dlicon").on("click", function ()
+            {
+                var uid=$(this).attr("data-uid");
+                var lType=@lType;
+                DeleteHistory(uid,lType);
+
+
+            });
+
+            $(".ttIf2_QK").on("click", function ()
+            {
+                var lType=@lType;
+                DeleteHistory(0,lType);
+            });
+
+            $(".Search_BLdel").on("click", function ()
+            {
+                $("#NickName").val('');
+            });
+
+        });
+
+
+        function Search(lType)
+        {
+            var NickName = $("#NickName").val();
+
+            if (NickName.trim().length <= 0)
+            {
+                alertmsg("请输入专家名称")
+                return false;
+            }
+            $.get("/Plan/ExpertSearchList",
+              {
+                  lType: lType,
+                  NickName: NickName
+              },
+            function (data) {
+                console.log(data);
+                if (data.Success == true)
+                {
+                    if (data.data.length > 0)
+                    {
+                        $(".ttIf1_tit").remove();
+                        buildHtml(data.data);
+                    } else
+                    {
+                        $(".ttIf1_con").html('<div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>');
+                    }
+
+                } else
+                {
+                    alertmsg(data.Msg);
+                }
+
+            });
+        }
+
+        function buildHtml(data)
+        {
+            var html = [];
+            var li = '';
+            var text='';
+            $.each(data, function (index, value)
+            {
+                if(value.isFollow>0)
+                {
+                    text='已关注';
+                }else
+                {
+                    text='关注';
+                }
+
+
+                li = '<li data-uid="'+value.UserId+'"><div class="ttIf1_cL f-l"><a href="javascript:;"><img src="' + (value.Avater =='' ? '/images/default_avater.png' : value.Avater) + '"></a></div>'
+                +'  <a href="javascript:;"  onclick="javascript:unorfollow(this,'+value.UserId+');" class="ttIf1_cGz f-r">'+text+'</a>'
+                + '    <div class="ttIf1_cR" onclick="InsertHotSearch('+value.UserId+',@lType)"  data-uid="'+value.UserId+'"><a href="javascript:;">' + value.Name + '</a></div>'
+                + ' </li>'
+                html.push(li);
+            });
+
+            $(".ttIf1_con").empty();
+            $(".ttIf1_con").append(html.join(''));
+        }
+
+        function InsertHotSearch(UserId, lType)
+        {
+            $.post("/Plan/InsertHotSearch",
+            {
+                uid: UserId,
+                lType: lType
+            },
+          function (data) {
+              console.log(data);
+              if (data.Success == true)
+              {
+               window.location.href = "/Plan/PlayRecord/" + lType + "?uid=" + UserId + "&type=1"
+
+              } else
+              {
+                  alertmsg(data.Msg);
+              }
+
+          });
+
+
+        }
+
+        function unorfollow(obj, follow_uid) {
+
+            var text = $(obj).text();
+
+            if (text == "关注") {
+                $.post('/Personal/IFollow', { followed_userId: follow_uid }, function (data) {
+
+                    if (data.Success != true) {
+                        alertmsg(data.Msg);
+                    } else {
+
+
+
+                        $(obj).text("已关注");
+
+                    }
+                });
+
+            } else {
+
+                $(document).dialog({
+                    type: 'confirm',
+                    closeBtnShow: true,
+                    content: '确定不再关注此人?',
+                    onClickConfirmBtn: function () {
+                        $.post('/Personal/UnFollow', { followed_userId: follow_uid }, function (data) {
+
+                            if (data.Success != true) {
+                                alertmsg(data.Msg);
+                            } else {
+
+
+
+                                $(obj).text("关注");
+
+                            }
+                        });
+                    }
+                });
+
+
+            }
+        }
+
+
+        function DeleteHistory(uid,lType)
+        {
+            
+            $.get("/Plan/DeleteHistory",
+            {
+                uid: uid,
+                lType: lType
+            },
+          function (data) 
+          {
+            
+              if (data.Success == true)
+              {
+                  if(uid>0)
+                  {
+                      $("#d_"+uid).remove();
+                  }else
+                  {
+                      $(".Search_ttInfo2").children("dl").remove();
+                  }
+                 
+
+              } else
+              {
+                  alertmsg(data.Msg);
+              }
+
+          });
+        }
+</script>
+</head>
+<body style="background:#F4F4F5;">
+    <header class="hjc_header">
+        <div class="Search_Box">
+            <a href="javascript:;" onclick="Search(@lType)" class="Search_Bqx f-r">查询</a>
+            <div class="Search_BL">
+                <div class="Search_BLsearch f-l" onclick="Search(@lType);"><img src="~/images/59_1.png"></div>
+                <a href="javascript:;" class="Search_BLdel f-r"><img src="~/images/42.png"></a>
+                <div class="Search_BLtext"><input id="NickName" type="text" placeholder="请输入专家名称"></div>
+            </div>
+        </div>
+    </header>
+    <div class="Search_text">
+        <div class="Search_ttInfo1">
+            <h3 class="ttIf1_tit"><span>专家热搜版</span><font>实时更新</font></h3>
+            <ul class="ttIf1_con">
+                @if (HotList.Count > 0)
+                {
+                    foreach (var item in HotList)
+                    {
+                        <li data-uid="@item.UserId">
+                            <div class="ttIf1_cL f-l">
+                             <a href="javascript:;">
+                                 @if (string.IsNullOrEmpty(item.Avater))
+                                 {
+                                     <img src="/images/default_avater.png" alt="" />
+                                 }
+                                 else
+                                 {
+                                     <img src="@item.Avater" alt="" />
+                                 }
+                              </a>
+                            </div>
+                       
+                            @if (item.isFollow > 0)
+                            {
+                                <a href="javascript:;" onclick="javascript:unorfollow(this,@item.UserId);" class="ttIf1_cGz f-r">已关注</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:;" onclick="javascript:unorfollow(this,@item.UserId);" class="ttIf1_cGz f-r">关注</a>
+                            }
+                                   
+                            <div class="ttIf1_cR" data-uid="@item.UserId"><a href="javascript:;">@item.Name</a></div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>
+                }
+                @*<li>
+    <div class="ttIf1_cL f-l"><a href="javascript:;"><img src="~/images/36.png"></a></div>
+    <a href="javascript:;" class="ttIf1_cGz f-r">关注</a>
+    <div class="ttIf1_cR"><a href="javascript:;">一只安静的哈士奇</a></div>
+                </li>*@
+             
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+        <h3 class="ttIf1_tit2">历史记录</h3>
+        <div class="Search_ttInfo2">
+         
+            @if (historyList.Count > 0)
+            {
+                foreach (var item in historyList)
+                {
+                    <dl id="d_@item.UserId" class="ttIf2_Dl">
+                        <dt><a href="javascript:;">
+
+                                @if (string.IsNullOrEmpty(item.Avater))
+                                {
+                                    <img src="/images/default_avater.png" alt="" />
+                                }
+                                else
+                                {
+                                    <img src="@item.Avater" alt="" />
+                                }
+
+                            </a>
+                        </dt>
+                        <dd><i data-uid="@item.UserId" class="ttIf2_Dlicon f-r"><img src="~/images/60.png"></i><a href="javascript:;">@item.Name</a></dd>
+                    </dl>
+                }
+            }
+          
+           
+            <a href="javascript:;" class="ttIf2_QK">清空历史记录</a>
+        </div>
+    </div>
+
+</body>
+</html>
+

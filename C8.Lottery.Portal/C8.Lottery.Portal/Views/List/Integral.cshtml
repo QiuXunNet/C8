@@ -10,11 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>积分榜</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-
+    <link href="~/css/mescroll.min.css" rel="stylesheet" />
     <link href="~/css/dialog.css" rel="stylesheet" />
+
     <script src="~/js/jquery-1.8.3.min.js"></script>
-    <script src="~/js/dialog.min.js"></script>
-    <script type="text/javascript" src="~/js/yjp.js"></script>
+    <script src="~/js/dialog.min.js"></script>>
+    <script type="text/javascript" src="~/js/yjp.js"></script>    
     <script>
         $(function ()
         {
@@ -75,12 +76,12 @@
                         + '<td width="33%" align="center" valign="middle">'
                           + ' <div class="Ranking_Blogotu2">'
                             + ' <div class="Ranking_B2tu"> '
-                            + '<a href="javascript:;"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>'
+                            + '<a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>'
                            + ' </div>'
                         + ' <img src="' + gettop3img(value.Rank) + '" class="Ranking_PHtu">'
                         + ' </div>'
-                        + ' <h3 class="Ranking_name"><a href="javascript:;">' + value.NickName + '</a></h3>'
-                         + '<span class="Ds_money2">' + value.Score + '</span>'
+                        + ' <h3 class="Ranking_name"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></h3>'
+                         + '<span class="Ds_money Jf_money">' + value.Score + '</span>'
                         + '</td>'
                         html2.push(tr2);
                     } else
@@ -88,10 +89,10 @@
                         tr = '<tr><td align="center" valign="middle"> <p>' + value.Rank + '</p></td>'
                          + '<td width="15%" align="center" valign="middle">'
                          + ' <div class="Ranking_Blogotu">'
-                         + '  <a href="javascript:;"><img src="' + (value.Avater==null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
+                         + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
                          + '   </td> <td align="left" valign="middle">'
-                         + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
-                         + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Score + '</span></td>'
+                         + '   <p class="Ysfont"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></p>'
+                         + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + '</span></td>'
                          + ' </tr> '
                  
                     }
@@ -109,10 +110,10 @@
                     tr = '<tr>' + tdrank
                    + '<td width="15%" align="center" valign="middle">'
                    + ' <div class="Ranking_Blogotu">'
-                   + '  <a href="javascript:;"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
+                   + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
                    + '   </td> <td align="left" valign="middle">'
-                   + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
-                   + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Score + '</span></td>'
+                   + '   <p class="Ysfont"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></p>'
+                   + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + '</span></td>'
                    + ' </tr> '
                    
                 }
@@ -145,12 +146,12 @@
             }
 
             var html = '<dt>'
-            + '<a href="javascript:;"><img src="' + (data.Avater == null ? '/images/default_avater.png' : data.Avater) + '"></a>'
+            + '<a href="/Personal/UserCenter/'+data.UserId+'"><img src="' + (data.Avater == null ? '/images/default_avater.png' : data.Avater) + '"></a>'
            + ' </dt>'
            + ' <dd>'
-           + '<p class="Ds_money1 f-r">' + data.Score + '</p>'
+           + '<p class="Ds_money1 Jf_money1 f-r">' + data.Score + '</p>'
            + ' <div class="Rank_ftL">'
-           + '  <h3><a href="javascript:;">' + data.NickName + '</a></h3>'
+           + '  <h3><a href="/Personal/UserCenter/' + data.UserId + '">' + data.NickName + '</a></h3>'
             + ' <P>'
            + '  当前排名：<span>' + text + '</span>'
            + '</P>'
@@ -217,7 +218,7 @@
         </ul>
     </div>
 
-    <div class="Ranking_content">
+    <div class="Ranking_content" style="margin-top: 80px;">
         <div class="Ranking_Cinfo">
          
         </div>

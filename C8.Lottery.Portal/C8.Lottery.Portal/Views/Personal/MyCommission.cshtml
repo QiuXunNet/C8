@@ -85,7 +85,7 @@
 
     <script type="text/javascript">
     $(function () {
-        var dh = $(document.body).height() - $(".sion_header").height() - 90;
+        var dh = $(document.body).height() - $(".sion_header").height() - $(".hjc_header").height() - 10;
         $(".sion_conInfo").height(dh);
         var mescroll = new MeScroll("mescroll", {
             //上拉加载的配置项
@@ -185,9 +185,11 @@
 
         $.each(data, function (index, item) {
           
-            var moneyhtml = '<p>+<span>' + item.Money + '</span></p>';
-            var timehtml = ' <p>' + item.UserName + getDateTime(item.SubTime, 1) + ' </p>';
-            if (curNavIndex == 2) {
+            var moneyhtml = '<p>+' + formatCurrency(item.Money) + '</p>';
+            var timehtml = ' <p>' + item.UserName +' '+ getDateTime(item.SubTime, 1) + ' </p>';
+            var h3html = '';
+            if (curNavIndex == 2)
+            {
                 var text = "";
                 if (item.State == 1) {
                     text = "提现中";
@@ -200,10 +202,18 @@
                 moneyhtml = '<p><strong class="sion_strH">' + text + '</strong></p>';
                 timehtml = ' <p>' + getDateTime(item.SubTime, 2) + '</p>';
             }
+            if (curNavIndex == 1)
+            {
+                h3html = item.Issue+"期";
+            } else
+            {
+                h3html = formatCurrency(item.Money);
 
+            }
+         
             var itemHtml = '<dl class="details_DL"> <dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt>'
             + '<dd>  <div class="details_ddRight">' + moneyhtml + '</div>'
-            + '  <div class="details_ddLeft"> <h3><a href="javascript:;">' + item.Money + '</a></h3>'
+            + '  <div class="details_ddLeft"> <h3><a href="javascript:;"><b>' + h3html + '</b></a></h3>'
             + timehtml
             + '  </div> </dd> </dl>'
             itemList.push(itemHtml);
@@ -211,6 +221,22 @@
         var html = itemList.join('');
         listDom.append(html);
 
+    }
+/* 货币格式化*/
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + num + '.' + cents);
     }
 
     /* 获取日期时间格式*/

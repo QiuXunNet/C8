@@ -209,6 +209,16 @@ namespace C8.Lottery.Portal.Controllers
                                                                                            //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
                                                 AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
                                                 AddUserTask(inviteid, 105);
+                                                int CompletedCount = GetCompletedCount(105, inviteid);
+                                                MakeMoneyTask mt = GetMakeMoneyTaskCount(105);
+
+                                                if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
+                                                {
+                                                    AddComeOutRecord(inviteid,Convert.ToString(105), 8, mt.Coin);
+                                                }
+
+                                               
+
                                                 UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
                                                 if (super != null)
                                                 {
@@ -250,6 +260,43 @@ namespace C8.Lottery.Portal.Controllers
 
             return Json(jsonmsg);
         }
+
+        /// <summary>
+        /// 获取任务所需完成数量
+        /// </summary>
+        /// <param name="taskcode"></param>
+        /// <returns></returns>
+        public MakeMoneyTask GetMakeMoneyTaskCount(int taskcode)
+        {
+           
+            string strsql = "select * from[MakeMoneyTask] where Code =@Code";
+            SqlParameter[] sp = new SqlParameter[] {
+                   
+                   new SqlParameter("@Code",taskcode)
+            };
+           
+            return Util.ReaderToModel<MakeMoneyTask>(strsql,sp);
+        }
+
+        /// <summary>
+        /// 获取任务完成数量
+        /// </summary>
+        /// <param name="taskid"></param>
+        /// <returns></returns>
+        public int GetCompletedCount(int taskid,int UserId)
+        {
+            int result = 0;
+            string strsql = "select CompletedCount from  UserTask where UserId =@UserId and TaskId=@TaskId ";
+            SqlParameter[] sp = new SqlParameter[] {
+                   new SqlParameter("@UserId",UserId),
+                   new SqlParameter("@TaskId",taskid)
+            };
+            result = Convert.ToInt32(SqlHelper.ExecuteScalar(strsql, sp));
+
+            return result;
+        }
+
+
 
 
         /// <summary>
@@ -634,29 +681,44 @@ namespace C8.Lottery.Portal.Controllers
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             if (Session["Mobile"] != null)
             {
-
                 try
                 {
-                    string mobile = Session["Mobile"].ToString();
-                    password = Tool.GetMD5(password);
-                    string usersql = "update UserInfo set[Password] = @Password where Mobile=@Mobile";
-                    SqlParameter[] sp = new SqlParameter[] {
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        if(password.Length < 6 || password.Length > 12)
+                        {
+                            jsonmsg.Msg = "密码长度为6-12位";
+                            jsonmsg.Success = false;
+                        }
+                        else
+                        {
+                            string mobile = Session["Mobile"].ToString();
+                            password = Tool.GetMD5(password);
+                            string usersql = "update UserInfo set[Password] = @Password where Mobile=@Mobile";
+                            SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@Mobile",mobile),
                     new SqlParameter("@Password",password)
                 };
-                    int data = SqlHelper.ExecuteNonQuery(usersql, sp);
-                    if (data > 0)
-                    {
-                        jsonmsg.Msg = "ok";
-                        jsonmsg.Success = true;
-                    }
-                    else
-                    {
-                        jsonmsg.Success = false;
-                        jsonmsg.Msg = "fail";
+                            int data = SqlHelper.ExecuteNonQuery(usersql, sp);
+                            if (data > 0)
+                            {
+                                jsonmsg.Msg = "ok";
+                                jsonmsg.Success = true;
+                            }
+                            else
+                            {
+                                jsonmsg.Success = false;
+                                jsonmsg.Msg = "fail";
 
+                            }
+                            Session.Remove("Mobile");
+                        }
+                    }else
+                    {
+                        jsonmsg.Msg = "密码不能为空";
+                        jsonmsg.Success = false;
                     }
-                    Session.Remove("Mobile");
+                   
                 }
                 catch (Exception e)
                 {

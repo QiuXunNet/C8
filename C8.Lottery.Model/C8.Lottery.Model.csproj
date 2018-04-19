@@ -55,6 +55,7 @@
     <Compile Include="Enum\ResourceTypeEnum.cs" />
     <Compile Include="Enum\TransactionTypeEnum.cs" />
     <Compile Include="Enum\UserInternalMessageTypeEnum.cs" />
+    <Compile Include="ExpertHotSearch.cs" />
     <Compile Include="Follow.cs" />
     <Compile Include="FriendLink.cs" />
     <Compile Include="IntegralRule.cs" />

@@ -27,6 +27,7 @@ namespace C8.Lottery.Portal.Controllers
         [Authentication]
         public ActionResult Index()
         {
+          
             return View();
         }
 

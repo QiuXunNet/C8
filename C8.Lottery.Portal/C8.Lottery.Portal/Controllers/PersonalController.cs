@@ -63,34 +63,51 @@ namespace C8.Lottery.Portal.Controllers
                 }
                 else
                 {
-                    newpwd = Tool.GetMD5(newpwd);
-                    try
+                    if (!string.IsNullOrEmpty(newpwd))
                     {
-                        string usersql = "update UserInfo set [Password]=@Password where Mobile =@Mobile ";
-                        SqlParameter[] sp = new SqlParameter[] {
-                            new SqlParameter("@Password",newpwd),
-                            new SqlParameter("@Mobile",user.Mobile)
-
-                        };
-                        int date = SqlHelper.ExecuteNonQuery(usersql, sp);
-                        if (date > 0)
+                        if(newpwd.Length < 6 || newpwd.Length > 12)
                         {
-                            jsonmsg.Success = true;
-                            jsonmsg.Msg = "ok";
+                            jsonmsg.Success = false;
+                            jsonmsg.Msg = "密码长度为6-12位";
                         }
                         else
                         {
-                            jsonmsg.Success = false;
-                            jsonmsg.Msg = "fail";
-                        }
+                            newpwd = Tool.GetMD5(newpwd);
+                            try
+                            {
+                                string usersql = "update UserInfo set [Password]=@Password where Mobile =@Mobile ";
+                                SqlParameter[] sp = new SqlParameter[] {
+                                new SqlParameter("@Password",newpwd),
+                                new SqlParameter("@Mobile",user.Mobile)
 
-                    }
-                    catch (Exception e)
+                                  };
+                                int date = SqlHelper.ExecuteNonQuery(usersql, sp);
+                                if (date > 0)
+                                {
+                                    jsonmsg.Success = true;
+                                    jsonmsg.Msg = "ok";
+                                }
+                                else
+                                {
+                                    jsonmsg.Success = false;
+                                    jsonmsg.Msg = "fail";
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                jsonmsg.Success = false;
+                                jsonmsg.Msg = e.Message;
+                                throw;
+                            }
+                        }
+                    }else
                     {
                         jsonmsg.Success = false;
-                        jsonmsg.Msg = e.Message;
-                        throw;
+                        jsonmsg.Msg = "密码不能为空";
                     }
+
+                   
                 }
             }
             else
@@ -190,13 +207,33 @@ namespace C8.Lottery.Portal.Controllers
                     }
                     else
                     {
-                        bool iscz = Tool.CheckSensitiveWords(value);
-                        if (iscz == true)
+                        if (value.Trim().Length > 20)
                         {
                             jsonmsg.Success = false;
-                            jsonmsg.Msg = "该昵称包含敏感字符";
+                            jsonmsg.Msg = "签名长度不能超过20";
                             return Json(jsonmsg);
                         }
+                        else
+                        {
+                            bool iscz = Tool.CheckSensitiveWords(value);
+                            if (iscz == true)
+                            {
+                                jsonmsg.Success = false;
+                                jsonmsg.Msg = "该昵称包含敏感字符";
+                                return Json(jsonmsg);
+                            }
+                        }
+                       
+                    }
+                }else if (type == 2)
+                {
+
+                    bool iscz = Tool.CheckSensitiveWords(value);
+                    if (iscz == true)
+                    {
+                        jsonmsg.Success = false;
+                        jsonmsg.Msg = "个性签名包含敏感字符";
+                        return Json(jsonmsg);
                     }
                 }
 
@@ -1636,39 +1673,34 @@ on c.OrderId=b.Id
     order by SubTime desc";
 
                 }
-                else if (Type == 3)//赚钱
+                else if (Type == 3)//赚钱 只看任务奖励
                 {
                     //strstate = "4,6,7,8,9 ";
-                    strstate = "4,6,7,8,9";
-                    strsql = @"select * from (
-select row_number() over (order by Id) as rowNumber,* from (
+                    strstate = "8";
+                    //                    strsql = @"select * from (
+                    //select row_number() over (order by Id) as rowNumber,* from (
 
-select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
-where UserId =@UserId and Type in(6,7,8)
-UNION 
-select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c 
-left join BettingRecord b on b.Id=c.OrderId 
-where b.UserId=@UserId and Type in(4,9)
-)t
-)t1
- where   t1.rowNumber BETWEEN  @Start AND @End
-     order by SubTime desc  ";
+                    //select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
+                    //where UserId =@UserId and Type in(6,7,8)
+                    //UNION 
+                    //select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c 
+                    //left join BettingRecord b on b.Id=c.OrderId 
+                    //where b.UserId=@UserId and Type in(4,9)
+                    //)t
+                    //)t1
+                    // where   t1.rowNumber BETWEEN  @Start AND @End
+                    //     order by SubTime desc  ";
+
+                    strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
+ where UserId = @UserId and Type in(" + strstate + @")  
+ )t
+ where   rowNumber BETWEEN  @Start AND @End
+   order by SubTime desc";
 
 
                 }
 
-                string countsql =Type==3? @"
-select count(1) from(
-select row_number() over(order by Id) as rowNumber, *from(
-select  Id, UserId, OrderId, Type, Money, State, SubTime, PayType from ComeOutRecord a
-where UserId =@UserId and Type in(6, 7, 8)
-UNION
-select c.Id, c.UserId, OrderId, Type, Money, State, c.SubTime, PayType from ComeOutRecord c
-left
-        join BettingRecord b on b.Id = c.OrderId
-where b.UserId =@UserId and Type in(4, 9)
-)t
-)t1" : @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
+                string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";
 
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId),
@@ -1703,7 +1735,7 @@ where b.UserId =@UserId and Type in(4, 9)
                         list.ForEach(x =>
                         {
 
-                            x.LotteryIcon = Tool.GetZqImg(x.Type);
+                            x.LotteryIcon = Tool.GetZqImg(Convert.ToInt32(x.OrderId));
                         });
                     }
 
@@ -1736,18 +1768,19 @@ where b.UserId =@UserId and Type in(4, 9)
             try
             {
                 int UserId = UserHelper.GetByUserId();
-                string strsql = @"select MyYj,Txing,Txleiji from 
+                string strsql = @"	select MyYj,Txing,Txleiji,XfYj from 
  (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
- (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
+ (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3,
+ (select isnull(sum([Money]),0)as XfYj  from ComeOutRecord where  [UserId]=@UserId and Type in(3,5))t4";
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId)
                 };
                 DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
-                ViewBag.MyYj = Tool.Rmoney(dr.MyYj);
+                ViewBag.MyYj = Tool.Rmoney(dr.MyYj- dr.Txleiji-dr.XfYj);
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
-                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing- dr.Txleiji - dr.XfYj);
 
 
             }
@@ -1782,23 +1815,26 @@ where b.UserId =@UserId and Type in(4, 9)
                 string strstate = "";
                 if (Type == 1)//收入明细
                 {
-                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
-inner join BettingRecord b
-inner join UserInfo u
-on b.UserId=u.Id
-on c.OrderId=b.Id
+                    strsql = @"select * from (  select row_number() over (order by c.Id) as rowNumber,
+ c.UserId as BUserId,b.Issue,b.lType,u.Name as UserName, OrderId, Type, c.Money, c.State, c.SubTime, PayType 
+ from ComeOutRecord c
+inner join BettingRecord b on c.OrderId=b.Id
+inner join UserInfo u on  c.UserId=u.Id
  where b.UserId=@UserId and c.Type in(4,9)
+
  )t
- where   rowNumber BETWEEN @Start AND @End";
+ where   rowNumber BETWEEN @Start AND @End
+       order by SubTime desc ";
                     strstate = "4,9";
 
                 }
                 else if (Type == 2)//提现明细
                 {
                     strsql = @"select * from ( select row_number() over (order by Id) as rowNumber, * from ComeOutRecord
- where UserId =@UserId and Type=2
+ where UserId =@UserId and Type=2 
+
  )t
- where   rowNumber BETWEEN  @Start AND @End";
+ where   rowNumber BETWEEN  @Start AND @End order by SubTime desc";
                     strstate = "2";
                 }
                 string countsql = @" select count(1) from ComeOutRecord where UserId=@UserId and Type in(" + strstate + @")";

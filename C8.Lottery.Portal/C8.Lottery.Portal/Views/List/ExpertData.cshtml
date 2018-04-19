@@ -43,7 +43,7 @@
                             </td>
                             <td width="15%" align="center" valign="middle">
                                 <div class="Ranking_Blogotu">
-                                    <a href="/Personal/UserCenter/@item.UserId">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
                                         @if (string.IsNullOrEmpty(item.Avater))
                                         {
                                             <img src="/images/default_avater.png" />
@@ -57,7 +57,7 @@
                             </td>
                             <td align="left" valign="middle">
                                 <p class="Ysfont">
-                                    <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
                                 </p>
                             </td>
                             <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
@@ -104,7 +104,7 @@
                     </td>
                     <td width="15%" align="center" valign="middle">
                         <div class="Ranking_Blogotu">
-                            <a href="/Personal/UserCenter/@item.UserId">
+                            <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
                                 @if (string.IsNullOrEmpty(item.Avater))
                                     {
                                     <img src="/images/default_avater.png" />
@@ -118,7 +118,7 @@
                     </td>
                     <td align="left" valign="middle">
                         <p class="Ysfont">
-                            <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                            <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
                         </p>
                     </td>
                     <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
@@ -165,7 +165,7 @@
                         </td>
                         <td width="15%" align="center" valign="middle">
                             <div class="Ranking_Blogotu">
-                                <a href="/Personal/UserCenter/@item.UserId">
+                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
                                     @if (string.IsNullOrEmpty(item.Avater))
                                 {
                                         <img src="/images/default_avater.png" />
@@ -179,7 +179,7 @@
                         </td>
                         <td align="left" valign="middle">
                             <p class="Ysfont">
-                                <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
                             </p>
                         </td>
                         <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
@@ -227,7 +227,7 @@
                         </td>
                         <td width="15%" align="center" valign="middle">
                             <div class="Ranking_Blogotu">
-                                <a href="/Personal/UserCenter/@item.UserId">
+                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
                                     @if (string.IsNullOrEmpty(item.Avater))
                                         {
                                         <img src="/images/default_avater.png" />
@@ -241,7 +241,7 @@
                         </td>
                         <td align="left" valign="middle">
                             <p class="Ysfont">
-                                <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
                             </p>
                         </td>
                         <td width="25%" align="center" valign="middle">
@@ -262,9 +262,10 @@
     </div>
 </div>
 <div class="Ranking_footer">
-    <dl class="Rank_ftDL">
+    <dl id="day" class="Rank_ftDL">
         <dt>
-            <a href="/Personal/UserCenter/@userDailyInfo.UserId">
+           
+            <a href="/Plan/PlayRecord/@userDailyInfo.LType?uid=@userDailyInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userDailyInfo.Avater))
                 {
                 <img src="/images/default_avater.png" />
@@ -278,12 +279,12 @@
         <dd>
             <p class="Ds_money1 Jf_money1 f-r">@userDailyInfo.Score</p>
             <div class="Rank_ftL">
-                <h3><a href="/Personal/UserCenter/@userDailyInfo.UserId">@userDailyInfo.NickName</a></h3>
+                <h3><a href="/Plan/PlayRecord/@userDailyInfo.LType?uid=@userDailyInfo.UserId&type=1">@userDailyInfo.NickName</a></h3>
                 <P>
                     当前排名：
                     @if (userDailyInfo.Rank > 0)
                     {
-                    <span>userDailyInfo.Rank</span>
+                    <span>@userDailyInfo.Rank</span>
                     }
                     else
                     {
@@ -293,9 +294,10 @@
             </div>
         </dd>
     </dl>
-    <dl class="Rank_ftDL" style="display: none;">
+    <dl id="week" class="Rank_ftDL" style="display: none;">
         <dt>
-            <a href="/Personal/UserCenter/@userWeekInfo.UserId">
+          
+            <a href="/Plan/PlayRecord/@userWeekInfo.LType?uid=@userWeekInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userWeekInfo.Avater))
                 {
                 <img src="/images/default_avater.png" />
@@ -309,12 +311,12 @@
         <dd>
             <p class="Ds_money1 Jf_money1 f-r">@userWeekInfo.Score</p>
             <div class="Rank_ftL">
-                <h3><a href="/Personal/UserCenter/@userWeekInfo.UserId">@userWeekInfo.NickName</a></h3>
+                <h3><a href="/Plan/PlayRecord/@userWeekInfo.LType?uid=@userWeekInfo.UserId&type=1">@userWeekInfo.NickName</a></h3>
                 <P>
                     当前排名：
                     @if (userWeekInfo.Rank > 0)
                     {
-                    <span>userWeekInfo.Rank</span>
+                    <span>@userWeekInfo.Rank</span>
                     }
                     else
                     {
@@ -324,9 +326,9 @@
             </div>
         </dd>
     </dl>
-    <dl class="Rank_ftDL" style="display: none;">
+    <dl id="month" class="Rank_ftDL" style="display: none;">
         <dt>
-            <a href="/Personal/UserCenter/@userMonthInfo.UserId">
+            <a href="/Plan/PlayRecord/@userMonthInfo.LType?uid=@userMonthInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userMonthInfo.Avater))
                 {
                 <img src="/images/default_avater.png" />
@@ -340,12 +342,12 @@
         <dd>
             <p class="Ds_money1 Jf_money1 f-r">@userMonthInfo.Score</p>
             <div class="Rank_ftL">
-                <h3><a href="/Personal/UserCenter/@userMonthInfo.UserId">@userMonthInfo.NickName</a></h3>
+                <h3><a href="/Plan/PlayRecord/@userMonthInfo.LType?uid=@userMonthInfo.UserId&type=1">@userMonthInfo.NickName</a></h3>
                 <P>
                     当前排名：
                     @if (userMonthInfo.Rank > 0)
                     {
-                    <span>userMonthInfo.Rank</span>
+                    <span>@userMonthInfo.Rank</span>
                     }
                     else
                     {
@@ -355,9 +357,9 @@
             </div>
         </dd>
     </dl>
-    <dl class="Rank_ftDL" style="display: none;">
+    <dl id="all" class="Rank_ftDL" style="display: none;">
         <dt>
-            <a href="/Personal/UserCenter/@userTotalInfo.UserId">
+            <a href="/Plan/PlayRecord/@userTotalInfo.LType?uid=@userTotalInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userTotalInfo.Avater))
                 {
                 <img src="/images/default_avater.png" />
@@ -371,12 +373,12 @@
         <dd>
             <p class="Ds_money1 Jf_money1 f-r">@userTotalInfo.Score</p>
             <div class="Rank_ftL">
-                <h3><a href="/Personal/UserCenter/@userTotalInfo.UserId">@userTotalInfo.NickName</a></h3>
+                <h3><a href="/Plan/PlayRecord/@userTotalInfo.LType?uid=@userTotalInfo.UserId&type=1">@userTotalInfo.NickName</a></h3>
                 <P>
                     当前排名：
                     @if (userTotalInfo.Rank > 0)
                     {
-                    <span>userTotalInfo.Rank</span>
+                    <span>@userTotalInfo.Rank</span>
                     }
                     else
                     {

@@ -240,22 +240,14 @@
                     }
                 } else if (curNavIndex == 3)
                 {
-                    if (item.Type == 8)
+                    if (item.OrderId == 100)
                     {
                         text = "充值任务奖励";
-                    } else if (item.Type == 7)
+                    } else if (item.OrderId ==105)
                     {
                         text = "邀请成功注册奖励";
-                    } else if (item.Type == 9)
-                    {
-                        text = "打赏";
-                    } else if (item.Type == 4)
-                    {
-                        text = "点阅";
                     }
                 }
-
-
                 var itemHtml = '<dl class="details_DL">'
                        + '<dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt><dd>'
                        +'<div class="details_ddRight">'+moneyhtml+'</div>'

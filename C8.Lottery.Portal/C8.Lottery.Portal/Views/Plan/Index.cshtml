@@ -34,8 +34,25 @@
     </script>
 
     <script>
+        $(function ()
+        {
+            var cur = GetQueryString("cur");
+            if (cur != null)
+            {
+                $(".C8_nav5 #g2").first().addClass("current").siblings().removeClass("current");
+                $(".C8_nav5 #g2").click();
+
+            }
       
 
+        });
+
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
     </script>
     
     <style>
@@ -69,9 +86,9 @@
     </header>
     <div class="guessing_header">
         <ul class="C8_nav5">
-            <li class="current"><a href="javascript:;">官方推荐</a></li>
-            <li><a href="javascript:;">高手推荐</a></li>
-            <li><a href="javascript:;">免费专家</a></li>
+            <li id="g1" class="current"><a href="javascript:;">官方推荐</a></li>
+            <li  id="g2"><a href="javascript:;">高手推荐</a></li>
+            <li id="g3"><a href="javascript:;">免费专家</a></li>
         </ul>
         <input type="hidden" id="curNavIndex" value="0" />
         <div style="clear:both;"></div>
@@ -264,7 +281,7 @@
         </div>
     </div>
     <!--搜索-->
-    <div class="Plan_search"><a href="javascript:;"></a></div>
+    <div class="Plan_search"><a href="/Plan/ExpertSearch/@lType"></a></div>
 
     <script type="text/javascript" src="/js/luo/plan.index.expert.js"></script>
 </body>

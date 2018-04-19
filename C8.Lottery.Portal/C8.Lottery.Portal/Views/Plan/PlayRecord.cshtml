@@ -164,12 +164,14 @@
         {
         <div class="Gues_Cnav">
             @if (playList != null)
-                {
+            {
+                int i = 0;
                 <ul class="SX_Ul">
                     @foreach (var play in playList)
                     {
-                        <li data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
-                        }
+                        <li id="p_@i" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                        i++;
+                    }
                 </ul>
                 <div style="clear: both;"></div>
                 }
@@ -298,25 +300,61 @@
         var uid=@Model.Id;
         var isRead = false;
         $(function() {
+
+       
+            
+            var p=GetQueryString("p");
+        
+            if(p.p!=null)
+            {
+                var $curDd = $('.SX_Ul').find('li[data-title="'+p.p+'"]');
+                $curDd.addClass("current").siblings().removeClass("current");
+              
+                getData(p.p);
+               
+            }
+
             $(".Gues_ul").parseEmoji();
 
-            if (@type == 0) {
-                $(".SX_Ul li").click(function() {
+            if (@type == 0) 
+            {
+                $(".SX_Ul li").click(function() 
+                {
                     var _this = $(this),
                         playName = _this.attr("data-title") || "全部";
                     getData(playName);
 
                 });
-
-                $(".SX_Ul li:eq(0)").trigger("click");
+                if(p.p==null)
+                {
+                    $(".SX_Ul li:eq(0)").trigger("click");
+                }
+              
                 //查看预测号码
-                $("#viewBetting").click(function() {
+                $("#viewBetting").click(function() 
+                {
 
                 });
             } else {
                 getData("全部");
             }
         });
+
+        function GetQueryString(name) {   
+            var url = window.location.search; //获取url中"?"符后的字串   
+            var theRequest = new Object();   
+            if (url.indexOf("?") != -1) {   
+                var str = url.substr(1);   
+                strs = str.split("&");   
+                for(var i = 0; i < strs.length; i ++) {   
+                    //就是这句的问题
+                    theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]); 
+                    //之前用了unescape()
+                    //才会出现乱码  
+                }   
+            }   
+            return theRequest;   
+        }
 
         function getData(playName) {
             var uid = @Model.Id;
@@ -450,9 +488,7 @@
                                                 mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
 
                                             }
-                                        }
-                                  
-                                  
+                                        } 
                                     }
                              
                                 }

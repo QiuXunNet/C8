@@ -441,7 +441,7 @@ namespace C8.Lottery.Public
         }
 
 
-        public static string FilterSensitiveWords(string sourceString, string replaceString = "")
+        public static string FilterSensitiveWords(string sourceString, string replaceString = "*")
         {
             string words = GetSensitiveWords();
 

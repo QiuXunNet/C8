@@ -61,8 +61,6 @@ namespace C8.Lottery.Portal.Controllers
 where RefId={0}", friendLink.Id);
                     SqlHelper.ExecuteScalar(updateRecordSql);
                 }
-
-
             }
 
             Response.Redirect(url);
