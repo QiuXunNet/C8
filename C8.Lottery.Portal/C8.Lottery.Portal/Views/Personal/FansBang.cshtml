@@ -156,7 +156,7 @@
             var id = clickElement.attr("data-id");
             var type = clickElement.attr("data-type")
             if (!id) return;
-            $.post('/Personal/MyRank', { type: type }, function (data) {
+            $.get('/Personal/MyRank', { type: type }, function (data) {
 
               
                 if (data.Success != true) {

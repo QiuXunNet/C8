@@ -154,6 +154,7 @@
     <Compile Include="Models\DrawMoneyModel.cs" />
     <Compile Include="Models\DynamicMessage.cs" />
     <Compile Include="Models\DynamicRelatedInfo.cs" />
+    <Compile Include="Models\ExpertSearchModel.cs" />
     <Compile Include="Models\FansBangListModel.cs" />
     <Compile Include="Models\InvitationRegModel.cs" />
     <Compile Include="Models\NewsListResModel.cs" />
@@ -817,6 +818,7 @@
     <Content Include="Views\Amount\BindingBankCard.cshtml" />
     <Content Include="Views\Amount\ExtractCash.cshtml" />
     <Content Include="Views\Amount\ExtractCashSuccess.cshtml" />
+    <Content Include="Views\Plan\ExpertSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />

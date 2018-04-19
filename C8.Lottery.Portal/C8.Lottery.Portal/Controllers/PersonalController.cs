@@ -215,6 +215,15 @@ namespace C8.Lottery.Portal.Controllers
                             return Json(jsonmsg);
                         }
                     }
+                }else if (type == 2)
+                {
+                    bool iscz = Tool.CheckSensitiveWords(value);
+                    if (iscz == true)
+                    {
+                        jsonmsg.Success = false;
+                        jsonmsg.Msg = "个性签名包含敏感字符";
+                        return Json(jsonmsg);
+                    }
                 }
 
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
@@ -1748,18 +1757,19 @@ on c.OrderId=b.Id
             try
             {
                 int UserId = UserHelper.GetByUserId();
-                string strsql = @"select MyYj,Txing,Txleiji from 
+                string strsql = @"	select MyYj,Txing,Txleiji from 
  (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
- (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3";
+ (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3,
+ (select isnull(sum([Money]),0)as XfYj  from ComeOutRecord where  [UserId]=@UserId and Type in(3,5))t4";
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId)
                 };
                 DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
-                ViewBag.MyYj = Tool.Rmoney(dr.MyYj- dr.Txleiji);
+                ViewBag.MyYj = Tool.Rmoney(dr.MyYj- dr.Txleiji-dr.XfYj);
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
-                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing- dr.Txleiji);
+                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing- dr.Txleiji - dr.XfYj);
 
 
             }

@@ -1057,6 +1057,203 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
 
         }
 
+        /// <summary>
+        /// 专家热搜
+        /// </summary>
+        /// <returns></returns>
+        [Authentication]
+        public ActionResult ExpertSearch(int id)
+        {
+            int MyUserId = UserHelper.GetByUserId();
+            string strsql = @"select top 5 UserId,lType,isnull(u.Name, '') as Name,isnull(r.RPath, '') as Avater,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=e.UserId and Status=1) isFollow 
+from ExpertHotSearch e
+left join UserInfo u    on e.UserId = u.Id
+left join ResourceMapping r on r.FkId = e.UserId and r.[Type] = @ResourceType
+ where lType=@lType and e.UserId<>@MyUserId
+order by e.Count desc";
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@MyUserId",MyUserId),
+                new SqlParameter("@lType",id),
+                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像)
+            };
+            List<ExpertSearchModel> list = Util.ReaderToList<ExpertSearchModel>(strsql, sp);
+            ViewBag.HotList = list;
+            ViewBag.lType = id;
+            string memberKey = "history_" + MyUserId + "_" + id;
+            ViewBag.historyList= MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey)??new List<ExpertSearchModel>();
+            return View();
+        }
+
+
+        /// <summary>
+        /// 插入搜索数据
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        public JsonResult InsertHotSearch(int uid, int lType)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            string countsql = string.Format("select count(1) from ExpertHotSearch where UserId ={0} and lType = {1}", uid, lType);
+            int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
+            string strsql = "";
+            if (count > 0)
+            {
+                strsql = @"update ExpertHotSearch  set Count=Count+1 where UserId=@UserId and lType=@lType ";
+            }
+            else
+            {
+                strsql = @"insert into ExpertHotSearch(UserId, Count, lType)
+                           values(@UserId,1,@lType)";
+            }
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@UserId",uid),
+                new SqlParameter("@lType",lType)
+            };
+            try
+            {
+                int data = SqlHelper.ExecuteNonQuery(strsql, sp);
+
+                if (data > 0)
+                {
+                    List<ExpertSearchModel> list = new List<ExpertSearchModel>();
+
+                    int MyUserId = UserHelper.GetByUserId();
+                    string memberKey = "history_"+ MyUserId + "_"+lType;
+                    list=MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey)??new List<ExpertSearchModel>();
+
+                    UserInfo u = UserHelper.GetUser(uid);
+                   
+                    ExpertSearchModel e = new ExpertSearchModel();
+                    e.Avater = u.Headpath;
+                    e.UserId = uid;
+                    e.Name = u.Name;
+                    e.lType = lType;
+                    e.isFollow = 0;
+                    if (list.Count>0)
+                    {
+                        ExpertSearchModel e1 = list.Where(x => x.UserId == uid && x.lType == lType).FirstOrDefault();
+                        if (e1 == null)
+                        {
+                            list.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        list.Add(e);
+                    }
+
+                    MemClientFactory.WriteCache(memberKey, list, 144000);
+                    msg.Success = true;
+                    msg.Msg = "ok";
+                }
+                else
+                {
+                    msg.Success = false;
+                    msg.Msg = "fail";
+                }
+             
+            }
+            catch (Exception ex)
+            {
+                msg.Success = false;
+                msg.Msg = ex.Message;
+                throw;
+            }
+
+            return Json(msg);
+        
+        }
+        /// <summary>
+        /// 删除历史记录
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult DeleteHistory(int uid,int lType)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            try
+            {
+                int MyUserId = UserHelper.GetByUserId();
+                string memberKey = "history_" + MyUserId + "_" + lType;
+                List<ExpertSearchModel> list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey);
+                if (uid > 0)
+                {
+                    ExpertSearchModel e1 = list.Where(x => x.UserId == uid && x.lType == lType).FirstOrDefault();
+                    list.Remove(e1);
+                    MemClientFactory.WriteCache(memberKey, list, 144000);
+                }
+                else
+                {
+                    MemClientFactory.DeleteCache(memberKey);
+                }
+                msg.Success = true;
+            }
+            catch (Exception e)
+            {
+                msg.Success = false;
+                msg.Msg = e.Message;
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+       
+
+        }
+
+
+
+
+
+        /// <summary>
+        /// 搜索数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult ExpertSearchList(int lType,string NickName)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            int MyUserId = UserHelper.GetByUserId();
+            string strsql = @" select UserId,lType,
+	isnull(u.Name,'') as Name,isnull(r.RPath,'') as Avater,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=b.UserId and Status=1) isFollow 
+	from [BettingRecord] b 
+	left join UserInfo u	on b.UserId=u.Id
+	left join ResourceMapping r on r.FkId =b.UserId and r.[Type]=@ResourceType
+    where WinState>1 and lType=@lType and u.Name like @Name+'%'  and b.UserId<>@MyUserId
+    group by UserId, lType,u.Name,r.RPath";
+            SqlParameter[] sp = new SqlParameter[] 
+            {
+                new SqlParameter("@MyUserId",MyUserId),
+                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                new SqlParameter("@lType",lType),
+                new SqlParameter("@Name",NickName)
+
+            };
+            try
+            {
+                List<ExpertSearchModel> list = Util.ReaderToList<ExpertSearchModel>(strsql, sp);
+                msg.data = list;
+                msg.Success = true;
+               
+
+            }
+            catch (Exception e)
+            {
+                msg.Msg = e.Message;
+                msg.Success = false;
+                throw;
+            }
+
+            return Json(msg, JsonRequestBehavior.AllowGet);
+
+        }
+
+      
+
+
+
+
 
 
         [Authentication]
