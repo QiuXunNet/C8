@@ -336,12 +336,12 @@
                 $("#ballListDiv,#shengXiaoListDiv").empty();
             } else {
                 if (data.IsTM == 1) {//如果是特码
-                    $("#ballListDiv,#shengXiaoListDiv").append('<span class="LHC_spAjia">+</span>');
+                    $("#ballListDiv,#shengXiaoListDiv").append('<span class="LHC_spAjia">+</span>&nbsp;');
                 }
                 var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
-                $("#ballListDiv").append('<span class="LHC_spA ' + getColor(num) + '">' + num + '</span>');
+                $("#ballListDiv").append('<span class="LHC_spA ' + getColor(num) + '">' + num + '</span>&nbsp;');
 
-                $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content)+'</span>');
+                $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content) +'</span>&nbsp;');
             }
         }
 
