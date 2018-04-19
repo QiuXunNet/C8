@@ -186,7 +186,7 @@
         $.each(data, function (index, item) {
           
             var moneyhtml = '<p>+' + formatCurrency(item.Money) + '</p>';
-            var timehtml = ' <p>' + item.UserName + getDateTime(item.SubTime, 1) + ' </p>';
+            var timehtml = ' <p>' + item.UserName +' '+ getDateTime(item.SubTime, 1) + ' </p>';
             var h3html = '';
             if (curNavIndex == 2)
             {

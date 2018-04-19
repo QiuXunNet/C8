@@ -1757,7 +1757,7 @@ on c.OrderId=b.Id
             try
             {
                 int UserId = UserHelper.GetByUserId();
-                string strsql = @"	select MyYj,Txing,Txleiji from 
+                string strsql = @"	select MyYj,Txing,Txleiji,XfYj from 
  (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
  (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3,
@@ -1804,11 +1804,11 @@ on c.OrderId=b.Id
                 string strstate = "";
                 if (Type == 1)//收入明细
                 {
-                    strsql = @"select * from ( select row_number() over (order by c.Id) as rowNumber,b.UserId as BUserId,b.Issue,b.lType,u.Name as UserName,c.* from ComeOutRecord c
-inner join BettingRecord b
-inner join UserInfo u
-on b.UserId=u.Id
-on c.OrderId=b.Id
+                    strsql = @"select * from (  select row_number() over (order by c.Id) as rowNumber,
+ c.UserId as BUserId,b.Issue,b.lType,u.Name as UserName, OrderId, Type, c.Money, c.State, c.SubTime, PayType 
+ from ComeOutRecord c
+inner join BettingRecord b on c.OrderId=b.Id
+inner join UserInfo u on  c.UserId=u.Id
  where b.UserId=@UserId and c.Type in(4,9)
 
  )t
