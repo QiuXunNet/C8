@@ -50,6 +50,11 @@ function timeRunForOpen() {
                 var arr3 = data.split('&');
                 $('#openTime').html('<t id="minute2">' + arr3[1] + '</t>:<t id="second2">' + arr3[2] + '</t>');
             }
+            else {
+                if (startLottery) { //六合彩页面使用,如果状态为真正开奖，则调用开奖方法
+                    startLottery();
+                }
+            }
         });
 
         return;
