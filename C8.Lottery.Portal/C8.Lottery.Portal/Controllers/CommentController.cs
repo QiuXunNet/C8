@@ -119,6 +119,9 @@ namespace C8.Lottery.Portal.Controllers
             #endregion
 
             #region step3.评论内容过滤
+
+      
+
             //去Html标签
             content = WebHelper.NoHtml(content);
             //脏字过滤
