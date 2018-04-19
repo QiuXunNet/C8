@@ -207,16 +207,27 @@ namespace C8.Lottery.Portal.Controllers
                     }
                     else
                     {
-                        bool iscz = Tool.CheckSensitiveWords(value);
-                        if (iscz == true)
+                        if (value.Trim().Length > 20)
                         {
                             jsonmsg.Success = false;
-                            jsonmsg.Msg = "该昵称包含敏感字符";
+                            jsonmsg.Msg = "签名长度不能超过20";
                             return Json(jsonmsg);
                         }
+                        else
+                        {
+                            bool iscz = Tool.CheckSensitiveWords(value);
+                            if (iscz == true)
+                            {
+                                jsonmsg.Success = false;
+                                jsonmsg.Msg = "该昵称包含敏感字符";
+                                return Json(jsonmsg);
+                            }
+                        }
+                       
                     }
                 }else if (type == 2)
                 {
+
                     bool iscz = Tool.CheckSensitiveWords(value);
                     if (iscz == true)
                     {
