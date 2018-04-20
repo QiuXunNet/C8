@@ -461,7 +461,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
                             if (userRateSetting != null && userRateSetting.Percentage > 0)
                             {
                                 int commission = (int)(userRateSetting.Percentage * readCoin);
-                                executeSql.AppendFormat("update UserInfo set Coin+={0} where Id={1}", commission, uid);
+                                executeSql.AppendFormat("update UserInfo set [Money]+={0} where Id={1}", commission, uid);
 
                                 executeSql.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, lastBettingRecord.Id, (int)TransactionTypeEnum.点阅佣金, commission);
@@ -1036,7 +1036,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
                 {
                     int commission = (int)(userRateSetting.Percentage * coin);
                     //step6.发放发帖人金币账户
-                    sqlBuilder.AppendFormat("UPDATE dbo.UserInfo SET Coin+={1} WHERE Id={0};", model.UserId, commission);
+                    sqlBuilder.AppendFormat("UPDATE dbo.UserInfo SET [Money]+={1} WHERE Id={0};", model.UserId, commission);
                     //step7.添加打赏佣金记录
                     sqlBuilder.AppendFormat(@"INSERT INTO [dbo].[ComeOutRecord]([UserId],[OrderId],[Type] ,[Money],[State],[SubTime])
      VALUES({0},{1},{2},{3}, 1, GETDATE());", user.Id, id, (int)TransactionTypeEnum.打赏佣金, commission);
