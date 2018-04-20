@@ -203,18 +203,18 @@ namespace C8.Lottery.Portal.Controllers
                                                 int mynum = GetNum(3);
                                                 AddCoin(data, mynum);//受邀自己得3级奖励
                                                                      //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
-                                                AddComeOutRecord(data, inviteid.ToString(), 6, mynum);//受邀得奖记录
+                                                AddComeOutRecord(data, inviteid.ToString(), 6, mynum,1);//受邀得奖记录
                                                 int upnum = GetNum(1);
                                                 AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
                                                                                            //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
-                                                AddComeOutRecord(inviteid, data.ToString(), 7, upnum);//上级得奖记录
+                                                AddComeOutRecord(inviteid, data.ToString(), 7, upnum, 1);//上级得奖记录
                                                 AddUserTask(inviteid, 105);
                                                 int CompletedCount = GetCompletedCount(105, inviteid);
                                                 MakeMoneyTask mt = GetMakeMoneyTaskCount(105);
 
                                                 if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
                                                 {
-                                                    AddComeOutRecord(inviteid,Convert.ToString(105), 8, mt.Coin);
+                                                    AddComeOutRecord(inviteid,Convert.ToString(105), 8, mt.Coin,1);
                                                 }
 
                                                
@@ -224,6 +224,7 @@ namespace C8.Lottery.Portal.Controllers
                                                 {
                                                     int supernum = GetNum(2);
                                                     AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
+                                                    AddComeOutRecord(Convert.ToInt32(super.Id),Convert.ToString(inviteid), 7, supernum, data);
                                                 }
 
                                             }
@@ -405,18 +406,19 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="OrderId"></param>
         /// <param name="Type">6=受邀奖励 7=邀请奖励</param>
         /// <param name="Money"></param>
-        public void AddComeOutRecord(int UserId, string OrderId, int Type, int Money)
+        public void AddComeOutRecord(int UserId, string OrderId, int Type, int Money,int State)
         {
             try
             {
                 string strsql = @"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
-                                 values(@UserId, @OrderId, @Type, @Money, getdate())";
+                                 values(@UserId, @OrderId, @Type, @Money, @State,getdate())";
                 SqlParameter[] sp = new SqlParameter[]
                 {
                     new SqlParameter("@UserId",UserId),
                     new SqlParameter("@OrderId",OrderId),
                     new SqlParameter("@Type",Type),
-                    new SqlParameter("@Money",Money)
+                    new SqlParameter("@Money",Money),
+                    new SqlParameter("@State",State)
                 };
                 SqlHelper.ExecuteNonQuery(strsql, sp);
             }

@@ -311,7 +311,7 @@ order by Money desc,NickName asc
         public JsonResult GetIntegralList(string queryType)
         {
             string strsql =string.Format(@"
-select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
+select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
 (
   SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
   FROM dbo.SuperiorRecord a

@@ -1220,7 +1220,7 @@ order by e.Count desc";
 	from [BettingRecord] b 
 	left join UserInfo u	on b.UserId=u.Id
 	left join ResourceMapping r on r.FkId =b.UserId and r.[Type]=@ResourceType
-    where WinState>1 and lType=@lType and u.Name like @Name+'%'  and b.UserId<>@MyUserId
+    where WinState>1 and lType=@lType and u.Name like '%'+@Name+'%'  and b.UserId<>@MyUserId
     group by UserId, lType,u.Name,r.RPath";
             SqlParameter[] sp = new SqlParameter[] 
             {
