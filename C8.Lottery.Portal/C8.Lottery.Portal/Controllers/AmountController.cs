@@ -118,25 +118,30 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         private int GetMyCommission(int userId)
         {
-            var sql1 = @"select isnull(sum([Money]),0)as MyYj from ComeOutRecord c 
-                        inner join BettingRecord b on c.OrderId = b.Id
-                        where b.[UserId]=@UserId and Type in(4,9)";
+            var sql1 = @"select Money from userinfo where id = @UserId";
 
-            var sql2 = @"select isnull(sum([Money]),0) from ComeOutRecord 
-                        where UserId = @UserId and ((Type = 2 and State in(1,3)) or Type in(3,5))";
+            //var sql1 = @"select isnull(sum([Money]),0)as MyYj from ComeOutRecord c 
+            //            inner join BettingRecord b on c.OrderId = b.Id
+            //            where b.[UserId]=@UserId and Type in(4,9)";
+
+            //var sql2 = @"select isnull(sum([Money]),0) from ComeOutRecord 
+            //            where UserId = @UserId and ((Type = 2 and State in(1,3)) or Type in(3,5))";
 
             SqlParameter[] regsp = new SqlParameter[]
             {
                 new SqlParameter("@UserId",userId)
             };
 
-            //我获取到的佣金
-            var obtainCommission = Convert.ToInt32(SqlHelper.ExecuteScalar(sql1, regsp));
+            var money = Convert.ToInt32(SqlHelper.ExecuteScalar(sql1, regsp));
 
-            //我已提现的佣金
-            var useCommission = Convert.ToInt32(SqlHelper.ExecuteScalar(sql2, regsp));
+            return money;
+            ////我获取到的佣金
+            //var obtainCommission = Convert.ToInt32(SqlHelper.ExecuteScalar(sql1, regsp));
 
-            return obtainCommission - useCommission;
+            ////我已提现的佣金
+            //var useCommission = Convert.ToInt32(SqlHelper.ExecuteScalar(sql2, regsp));
+
+            //return obtainCommission - useCommission;
         }
 
         public static object _lock = new object();
@@ -169,7 +174,7 @@ namespace C8.Lottery.Portal.Controllers
                             values(@UserId,@OrderId,@Money,2,GETDATE(),3,1);";
 
                         //修改用户表中Coin字段
-                        sql += "update userinfo set Coin = Coin-@Money where Id=@UserId;";
+                        sql += "update userinfo set Money = Money-@Money where Id=@UserId;";
 
                         SqlParameter[] regsp = new SqlParameter[] {
                             new SqlParameter("@UserId",userId),
