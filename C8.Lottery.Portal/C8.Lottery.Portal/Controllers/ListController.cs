@@ -206,7 +206,7 @@ b.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeO
 left join BettingRecord b on b.Id=a.OrderId 
 left join UserInfo c on c.Id=b.UserId
 left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
-where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
+where a.Type=@RType  and b.lType=@lType
 {0}
 
 )t
@@ -253,7 +253,7 @@ b.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeO
 left join BettingRecord b on b.Id=a.OrderId 
 left join UserInfo c on c.Id=b.UserId
 left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
-where a.Type=@RType and  d.[Type]=@ResourceType and b.lType=@lType
+where a.Type=@RType and b.lType=@lType
 {0}
 
 )t
@@ -311,7 +311,7 @@ order by Money desc,NickName asc
         public JsonResult GetIntegralList(string queryType)
         {
             string strsql =string.Format(@"
-select row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
+select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
 (
   SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
   FROM dbo.SuperiorRecord a
