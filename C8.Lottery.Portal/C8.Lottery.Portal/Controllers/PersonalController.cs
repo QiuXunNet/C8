@@ -1768,11 +1768,12 @@ on c.OrderId=b.Id
             try
             {
                 int UserId = UserHelper.GetByUserId();
-                string strsql = @"	select MyYj,Txing,Txleiji,XfYj from 
+                string strsql = @"select MyYj,Txing,Txleiji,XfYj from 
  (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
  (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3,
- (select isnull(sum([Money]),0)as XfYj  from ComeOutRecord where  [UserId]=@UserId and Type in(3,5))t4";
+ (select isnull(sum([Money]),0)as XfYj  from ComeOutRecord where  [UserId]=@UserId and Type in(3,5))t4,
+ (select isnull([Money],0)as KeTx  from UserInfo  where  [UserId]=@UserId )t5";
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId)
                 };
@@ -1780,7 +1781,7 @@ on c.OrderId=b.Id
                 ViewBag.MyYj = Tool.Rmoney(dr.MyYj- dr.Txleiji-dr.XfYj);
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
-                ViewBag.KeTx = Tool.Rmoney(dr.MyYj - dr.Txing- dr.Txleiji - dr.XfYj);
+                ViewBag.KeTx = Tool.Rmoney(dr.KeTx);
 
 
             }
