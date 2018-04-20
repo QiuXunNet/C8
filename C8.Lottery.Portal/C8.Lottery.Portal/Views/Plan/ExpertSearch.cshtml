@@ -22,13 +22,6 @@
 
         $(function ()
         {
-            $(".ttIf1_con li .ttIf1_cR").on("click", function ()
-            {
-               var lType=@lType;
-                var UserId=$(this).attr("data-uid");
-
-               InsertHotSearch(UserId,lType);
-            });
 
 
 
@@ -73,9 +66,10 @@
                 console.log(data);
                 if (data.Success == true)
                 {
+                    $(".ttIf1_tit").remove();
                     if (data.data.length > 0)
                     {
-                        $(".ttIf1_tit").remove();
+                       
                         buildHtml(data.data);
                     } else
                     {
@@ -106,7 +100,7 @@
                 }
 
 
-                li = '<li data-uid="'+value.UserId+'"><div class="ttIf1_cL f-l"><a href="javascript:;"><img src="' + (value.Avater =='' ? '/images/default_avater.png' : value.Avater) + '"></a></div>'
+                li = '<li data-uid="'+value.UserId+'"><div class="ttIf1_cL f-l"><a href="javascript:;" onclick="InsertHotSearch('+value.UserId+',@lType)"><img src="' + (value.Avater =='' ? '/images/default_avater.png' : value.Avater) + '"></a></div>'
                 +'  <a href="javascript:;"  onclick="javascript:unorfollow(this,'+value.UserId+');" class="ttIf1_cGz f-r">'+text+'</a>'
                 + '    <div class="ttIf1_cR" onclick="InsertHotSearch('+value.UserId+',@lType)"  data-uid="'+value.UserId+'"><a href="javascript:;">' + value.Name + '</a></div>'
                 + ' </li>'
@@ -187,15 +181,15 @@
 
         function DeleteHistory(uid,lType)
         {
-            
+
             $.get("/Plan/DeleteHistory",
             {
                 uid: uid,
                 lType: lType
             },
-          function (data) 
+          function (data)
           {
-            
+
               if (data.Success == true)
               {
                   if(uid>0)
@@ -205,7 +199,7 @@
                   {
                       $(".Search_ttInfo2").children("dl").remove();
                   }
-                 
+
 
               } else
               {
@@ -237,7 +231,7 @@
                     {
                         <li data-uid="@item.UserId">
                             <div class="ttIf1_cL f-l">
-                             <a href="javascript:;">
+                             <a href="javascript:;" onclick="InsertHotSearch(@item.UserId,@lType)">
                                  @if (string.IsNullOrEmpty(item.Avater))
                                  {
                                      <img src="/images/default_avater.png" alt="" />
@@ -258,7 +252,7 @@
                                 <a href="javascript:;" onclick="javascript:unorfollow(this,@item.UserId);" class="ttIf1_cGz f-r">关注</a>
                             }
                                    
-                            <div class="ttIf1_cR" data-uid="@item.UserId"><a href="javascript:;">@item.Name</a></div>
+                            <div class="ttIf1_cR" onclick="InsertHotSearch(@item.UserId,@lType)" data-uid="@item.UserId"><a href="javascript:;">@item.Name</a></div>
                         </li>
                     }
                 }
