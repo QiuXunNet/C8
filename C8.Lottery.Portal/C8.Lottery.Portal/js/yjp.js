@@ -3,6 +3,14 @@
 $(function () {
 
 
+
+    /*清除文本框值*/
+    $(".Bul1_del").click(function () {
+        $(this).prev().val('');
+
+    });
+
+
     /*切换 首页 双面 长龙 走势 技巧*/
     /*$(".CZ_hdNL li").click(function(){
     	$(this).addClass("current").siblings().removeClass("current");
@@ -19,6 +27,7 @@ $(function () {
             $(this).find('.cBTm_info').eq(zhi).show().siblings().hide();
         });
     });
+
 
 
 
