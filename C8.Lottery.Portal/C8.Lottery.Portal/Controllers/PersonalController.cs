@@ -1773,7 +1773,7 @@ on c.OrderId=b.Id
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
  (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3,
  (select isnull(sum([Money]),0)as XfYj  from ComeOutRecord where  [UserId]=@UserId and Type in(3,5))t4,
- (select isnull([Money],0)as KeTx  from UserInfo  where  [UserId]=@UserId )t5";
+ (select isnull([Money],0)as KeTx  from UserInfo  where  [Id]=@UserId )t5";
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId)
                 };
