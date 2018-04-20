@@ -117,6 +117,8 @@
 
             $(".C8_JIlU li").click(function ()
             {
+                var bang = $(this).index();
+                $(".details_box .details_info1").eq(bang).show().siblings().hide();
                 pager($(this));
             });
 
