@@ -128,12 +128,12 @@ function buildHtml(data, curNavIndex, extraData) {
     if (curNavIndex == 0) {
 
         $.each(data, function (index, item) {
-
+          
             var itemHtml = '<div class="TID_Info">'
                 + '<div class="TID_Ifk1">'
                 + '	<div class="Ifk1_left f-l"><a href="javascript:;"><img src="' + item.FromAvater + '"></a></div>'
                 + '	<div class="Ifk1_right">'
-                + '		<h3><a href="/Comment/Index/'+item.ArticleId+'?ctype=2&type='+item.CommentType+'" class="f-r">回复</a><a href="javascript:;">' + item.FromNickName + '</a></h3>'
+                + '		<h3><a href="/Comment/Index/' + item.RefId + '?ctype=2&type=' + item.CommentType + '" class="f-r">回复</a><a href="javascript:;">' + item.FromNickName + '</a></h3>'
                 + '		<p>' + item.SubTimeStr + '</p>'
                 + '	</div>'
                 + '</div>'
@@ -145,7 +145,7 @@ function buildHtml(data, curNavIndex, extraData) {
             var parentComment = item.MyContent;
             var denamicType = item.CommentType == 1 ? "计划" : "资讯";
             if (parentComment!=null && parentComment.length>0) {
-                itemHtml += '	<div class="TID_Ifk2B">'
+                itemHtml += '<div class="TID_Ifk2B">'
                     + '		<p>我的评论：' + parentComment + '</p>'
                     + '	</div>'
                     + '</div>'

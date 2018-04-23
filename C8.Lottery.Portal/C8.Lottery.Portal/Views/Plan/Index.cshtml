@@ -43,6 +43,20 @@
                 $(".C8_nav5 #g2").click();
 
             }
+
+            $(".hjc_back").click(function ()
+            {
+                var ref = document.referrer;
+                if (ref.length == 0)
+                {
+                    $(this).attr('href', '/Home/Index');
+                } else
+                {
+                    $(this).attr('href', ref);
+                }
+             
+            })
+            
       
 
         });
@@ -68,7 +82,7 @@
 
     <input type="hidden" id="lType" value="@lType" />
     <header class="hjc_header">
-        <a href="/Home/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@title</a>
         <div class="Plan_QiHao">
             <p class="QiHao_tit">近10期</p>

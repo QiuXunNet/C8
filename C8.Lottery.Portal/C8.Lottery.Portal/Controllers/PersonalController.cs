@@ -1143,7 +1143,15 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     if (x.PId > 0)
                     {
                         var comment = GetComment(x.PId);
-                        x.MyContent = comment.Content;
+                        if (comment == null)
+                        {
+                            x.MyContent ="已删除";
+                        }
+                        else
+                        {
+                            x.MyContent = comment.Content;
+                        }
+                    
                     }
                     var info = GetLotteryTypeName(x.Type, x.ArticleId);
                     x.LotteryTypeName = info.TypeName ?? "";
@@ -1891,6 +1899,24 @@ inner join UserInfo u on  c.UserId=u.Id
         /// </summary>
         /// <returns></returns>
         public ActionResult CommissionRules()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 卡劵
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Voucher()
+        {
+
+            return View();
+        }
+        /// <summary>
+        /// 卡劵规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult VoucherRules()
         {
             return View();
         }

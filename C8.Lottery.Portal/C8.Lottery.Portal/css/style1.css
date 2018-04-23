@@ -6987,13 +6987,13 @@ a {
 .hjc_news_lhs {
     border-top: 4px solid #f3f4f4;
     box-sizing: border-box;
-    padding: 0 .625rem 10px;
+    padding: 0 .625rem;
     font-size: .9375rem;
     background: #fff;
 }
 
     .hjc_news_lhs .hjc_news_title {
-       /* text-align: center;*/
+        text-align: center;
         padding: .625rem 0;
         color: #f13131;
     }
@@ -8401,6 +8401,7 @@ footer {
 }
 
 .invitation-illustration {
+    height: 230.5px;
     margin: 0 12px;
 }
 
@@ -8593,61 +8594,3 @@ footer {
 /******************************************
  *********** CSS 编辑 By LHS 结束 ************
 *******************************************/
-
-
-
-
-/***************************杨晶鹏 第二次 css***************************/
-
-
-	/*******我的卡券*******/
-.My_KaJuanBox{ margin:60px 10px 10px;}
-.KaJuanInfo{margin-bottom:10px; background:#fff;box-shadow: 0px 0px 3px #c5c5c5;}
-.KJI_Top{ position:relative; padding:15px 0; border-bottom:1px dashed #fafafa;}
-.KJI_Ttu{ position:absolute; top:0; right:0; width:60px;}
-.KJI_Ttu img{ display:block; width:100%;}
-.KJI_Tdl{ overflow:hidden;}
-.KJI_Tdl dt{ float:left; width:60px; margin-left:20px;}
-.KJI_Tdl dt img{ display:block; width:100%;}
-.KJI_Tdl dd{ margin-left:90px;}
-.KJI_Tdl dd h3{ line-height:25px; font-size:16px; color:#333; font-weight:normal;}
-.KJI_Tdl dd p{ line-height:15px; color:#666; font-size:11px;}
-
-.KJI_Bt{ position:relative; padding:6px 0; background:#fafafa;}
-.KJI_Btu{ position:absolute; top:-15px; width:15px;}
-.KJI_BtuL{ left:-2px;}
-.KJI_BtuR{ right:-2px;}
-.KJI_Btu img{ display:block; width:100%;}
-.KJI_BtFont{ padding:0 9px; font-size:10px; color:#666;}
-
-
-	/*******首页 index*******/
-.JC_Left{ font-weight:normal; font-size:16px; color:#f13131;}
-.JC_More{ font-size:14px; color:#f13131;}
-
-
-	/*******资讯-双色球*******/
-.CK_Tiao{ margin-top:10px; height:40px; line-height:40px; text-align:center; border-radius:5px; background:#e5e5e4;}
-.CK_Tiao a{ display:block;}
-.CK_Tiao span{ display:inline-block; color:#666;}
-.CK_Tiao img{ display:inline-block; width:17px; margin-left:5px;}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

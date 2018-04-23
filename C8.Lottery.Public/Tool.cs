@@ -78,6 +78,14 @@ namespace C8.Lottery.Public
             }
             return imgsrc;
         }
+        /// <summary>
+        /// 获取卡劵图片
+        /// </summary>
+        /// <returns></returns>
+        public string GetVoucher()
+        {
+            return "";
+        }
 
         /// <summary>
         /// 获取充值图片
