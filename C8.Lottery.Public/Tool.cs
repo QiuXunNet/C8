@@ -28,7 +28,7 @@ namespace C8.Lottery.Public
 
             for (int i = 0; i<targetData.Length; i++)
             {
-                byte2String += targetData[i].ToString("x");
+                byte2String += targetData[i].ToString("x2");
             }
 
             return byte2String;
