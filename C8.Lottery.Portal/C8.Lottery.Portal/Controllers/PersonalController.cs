@@ -1782,8 +1782,7 @@ on c.OrderId=b.Id
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
                 ViewBag.KeTx = Tool.Rmoney(dr.KeTx);
-
-
+        
             }
             catch (Exception)
             {
