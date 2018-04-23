@@ -215,6 +215,18 @@ Order by CommentCount desc";
                                         Response.Cookies["UserId"].Value = guid;
                                         Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                                         CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
+                                        Coupon cou = GetCoupon("A0001");//查看劵
+                                        DateTime BeginTime = DateTime.Now;
+                                        DateTime EndTime = DateTime.Now.AddDays(cou.ExpiryDate);
+                                        UserCoupon uc = new UserCoupon();
+                                        uc.UserId = data;
+                                        uc.CouponCode = "A0001";
+                                        uc.PlanId = 0;
+                                        uc.BeginTime = BeginTime;
+                                        uc.EndTime = EndTime;
+                                        uc.FromType = 1;
+                                        uc.State = 1;                                      
+                                        AddUserCoupon(uc);
                                         if (inviteid > 0)
                                         {
                                             UserInfo invite = GetByid(inviteid);
@@ -226,7 +238,17 @@ Order by CommentCount desc";
                                                 AddComeOutRecord(data, inviteid.ToString(), 6, mynum,1);//受邀得奖记录
                                                 int upnum = GetNum(1);
                                                 AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
-                                                                                           //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
+                                                UserCoupon uc1 = new UserCoupon();
+                                                uc1.UserId = invite.Id;
+                                                uc1.CouponCode = "A0001";
+                                                uc1.PlanId = 0;
+                                                uc1.BeginTime = BeginTime;
+                                                uc1.EndTime = EndTime;
+                                                uc1.FromType = 2;
+                                                uc1.State = 1;
+                                                AddUserCoupon(uc1);//上级得卡劵
+
+                                                //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
                                                 AddComeOutRecord(inviteid, data.ToString(), 7, upnum, 1);//上级得奖记录
                                                 AddUserTask(inviteid, 105);
                                                 int CompletedCount = GetCompletedCount(105, inviteid);
@@ -317,6 +339,52 @@ Order by CommentCount desc";
             return result;
         }
 
+        /// <summary>
+        /// 添加用户优惠券
+        /// </summary>
+        /// <param name="uc"></param>
+        /// <returns></returns>
+        public int AddUserCoupon(UserCoupon uc)
+        {
+            int data = 0;
+            string strsql = @"insert into [UserCoupon](UserId, CouponCode, PlanId, BeginTime, EndTime, FromType, State, SubTime)
+                              values(@UserId, @CouponCode, @PlanId, @BeginTime, @EndTime, @FromType, @State, getdate());";
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@UserId",uc.UserId),
+                new SqlParameter("@CouponCode",uc.CouponCode),
+                new SqlParameter("@PlanId",uc.PlanId),
+                new SqlParameter("@BeginTime",uc.BeginTime),
+                new SqlParameter("@EndTime",uc.EndTime),
+                new SqlParameter("@FromType",uc.FromType),
+                new SqlParameter("@State",uc.State)
+            };
+            try
+            {
+                data = SqlHelper.ExecuteNonQuery(strsql, sp);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return data;
+        }
+
+
+        /// <summary>
+        /// 获取优惠券信息
+        /// </summary>
+        /// <param name="Code"></param>
+        /// <returns></returns>
+        public Coupon GetCoupon(string Code)
+        {
+            string strsql = "select* from[dbo].[Coupon] where Code = @Code";
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@Code",Code)
+
+            };
+            return Util.ReaderToModel<Coupon>(strsql, sp);
+        }
 
 
 
@@ -430,7 +498,7 @@ Order by CommentCount desc";
         {
             try
             {
-                string strsql = @"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
+                string strsql = @"insert into ComeOutRecord(UserId, OrderId, Type, Money,State, SubTime)
                                  values(@UserId, @OrderId, @Type, @Money, @State,getdate())";
                 SqlParameter[] sp = new SqlParameter[]
                 {

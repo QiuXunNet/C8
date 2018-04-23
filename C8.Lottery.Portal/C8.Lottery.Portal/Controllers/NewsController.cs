@@ -355,7 +355,9 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
   left join ResourceMapping c on c.FkId = a.UserId and c.[Type] =@ResourceType
    where  a.lType =@lType
  )t
-group by UserId, NickName, Avater";
+ where Score>0
+group by UserId,NickName,Avater
+Order by Score desc";
 
             SqlParameter[] sp = new SqlParameter[] {
                  new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),

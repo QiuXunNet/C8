@@ -115,7 +115,8 @@
 
 });
 
-function buildHtml(data, curNavIndex,extraData) {
+function buildHtml(data, curNavIndex, extraData) {
+    console.log(data);
     //设置未读消息
     if (extraData ==null || extraData.Unread <= 0) {
         $("#liNav" + curNavIndex + " i").remove();
@@ -127,6 +128,7 @@ function buildHtml(data, curNavIndex,extraData) {
     if (curNavIndex == 0) {
 
         $.each(data, function (index, item) {
+
             var itemHtml = '<div class="TID_Info">'
                 + '<div class="TID_Ifk1">'
                 + '	<div class="Ifk1_left f-l"><a href="javascript:;"><img src="' + item.FromAvater + '"></a></div>'

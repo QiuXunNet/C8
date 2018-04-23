@@ -365,7 +365,7 @@ namespace C8.Lottery.Portal.Controllers
             string isSubSql = "select count(1) from dbo.BettingRecord where lType=" + id + " and UserId=" + uid + " and WinState=1";
             object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
             ViewBag.IsSub = objIsSub != null && Convert.ToInt32(objIsSub) > 0;
-
+            ViewBag.MyUid = loginUserId;
             return View(model);
         }
 
@@ -380,9 +380,8 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult LastPlay(int id, int uid, string playName)
         {
             var user = UserHelper.LoginUser;
-            if (user.Id != uid)
-            {
-                #region 校验,添加点阅记录，扣费，分佣
+          
+              
 
                 //step1:验证玩法名称是否为空
                 string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", id, uid);
@@ -408,7 +407,9 @@ namespace C8.Lottery.Portal.Controllers
                 }
 
                 ViewBag.LastBettingRecord = lastBettingRecord;
-
+            #region 校验,添加点阅记录，扣费，分佣
+            if (user.Id != uid)
+             {
                 //step3:查询用户是否点阅过该帖子。若未点阅过，则校验金币是否充足
                 string readRecordSql = @"select count(1) from ComeOutRecord 
 where [Type]=@Type and UserId=@UserId and OrderId=@Id";
@@ -493,8 +494,9 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
                 }
 
-                #endregion
+               
             }
+            #endregion
 
             #region View数据查询
             ViewBag.lType = id;
