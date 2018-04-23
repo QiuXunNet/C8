@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
+using C8.Lottery.Portal.Models;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -343,6 +344,26 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                                 .Select(n => n.RPath).ToList();
             });
             ViewBag.RecommendArticle = list;
+            #endregion
+
+            #region 竞猜红人
+            string strsql = @"select top 10 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
+(
+  SELECT  UserId, Score, b.Name as NickName, c.RPath as Avater
+  FROM dbo.BettingRecord a
+  left join UserInfo b on b.Id = a.UserId
+  left join ResourceMapping c on c.FkId = a.UserId and c.[Type] =@ResourceType
+   where  a.lType =@lType
+ )t
+group by UserId, NickName, Avater";
+
+            SqlParameter[] sp = new SqlParameter[] {
+                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                 new SqlParameter("@ltype",newstype.LType)
+            };
+            List<RankIntegralModel> ListRankIntegral = Util.ReaderToList<RankIntegralModel>(strsql, sp);
+            ViewBag.ListRankIntegral = ListRankIntegral;
+
             #endregion
 
             return View(model);

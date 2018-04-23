@@ -7,6 +7,7 @@
     LotteryRecord record = null;
     int lType = 0;
     SiteSetting site = ViewBag.SiteSetting;
+    var newsList = ViewBag.NewsList as List<News>;
 }
 <!DOCTYPE html>
 
@@ -18,6 +19,7 @@
     <meta name="keywords" content="@site.KeyWord">
     <meta name="description" content="@site.Description">
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link href="~/css/c8-icon.css" rel="stylesheet" />
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/runTime3.js"></script>
@@ -263,6 +265,119 @@
 
 
 <div class="mask" style="display: none;"></div>
+
+    <div class="hjc_news_lhs">
+        <div class="hjc_news_title" style="text-align:left;">
+            <!-- <span class="icon-fire"></span> -->
+            <span class="icon-fire hjc_news_title_info" >精彩资讯</span>
+            <a style="color:#f13131;float:right;" href="/News/Index/2">更多</a>
+        </div>
+        @if (newsList != null)
+        {
+            foreach (var newse in newsList)
+            {
+                <div class="hjc_news_content">
+
+                    @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
+                    {
+                        //无图
+                        <a href="/News/NewsDetail/@newse.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@newse.FullHead</div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@newse.ReleaseTimeStr</span>
+                                    <span>@newse.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                    else if (newse.ThumbStyle == 1)
+                    {
+                        //一张小图
+                        <a href="/News/NewsDetail/@newse.Id">
+                            <div class="hjc_news_left">
+                                <div class="hjc_news_subject">@newse.FullHead</div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@newse.ReleaseTimeStr</span>
+                                    <span>@newse.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="hjc_news_right">
+                                @if (newse.ThumbList.Count > 0)
+                        {
+                                    <img src="@newse.ThumbList[0]" alt="@newse.FullHead" />
+                                }
+                            </div>
+
+                        </a>
+                        <div class="clearfix"></div>
+                    }
+                    else if (newse.ThumbStyle == 2)
+                    {
+                        //一张大图
+                        <a href="/News/NewsDetail/@newse.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@newse.FullHead</div>
+                                <div class="hjc_news_thumb">
+                                    <ul class="col_1">
+                                        @foreach (var thumb in newse.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@newse.FullHead" /></li>
+                                        }
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@newse.ReleaseTimeStr</span>
+                                    <span>@newse.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                    else if (newse.ThumbStyle == 3)
+                    {
+                        <a href="/News/NewsDetail/@newse.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@newse.FullHead</div>
+                                <div class="hjc_news_thumb">
+                                    <ul class="col_3">
+                                        @foreach (var thumb in newse.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@newse.FullHead" /></li>
+                                        }
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@newse.ReleaseTimeStr</span>
+                                    <span>@newse.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/News/NewsDetail/@newse.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@newse.FullHead</div>
+                                <div class="">
+                                    <span>万彩吧</span>
+                                    <span>@newse.ReleaseTimeStr</span>
+                                    <span>@newse.CommentCount<i class="icon-comment"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        }
+     
+    </div>
 
     @Html.Partial("Footer")
 </body>

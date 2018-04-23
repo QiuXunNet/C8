@@ -8,6 +8,7 @@ using C8.Lottery.Public;
 using System.Data.SqlClient;
 using C8.Lottery.Portal;
 using CryptSharp;
+using C8.Lottery.Model.Enum;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -28,6 +29,25 @@ namespace C8.Lottery.Portal.Controllers
                 sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Id desc";
                 list.Add(Util.ReaderToModel<LotteryRecord>(sql));
             }
+
+
+            string strsql = @"SELECT top 5 * FROM ( 
+SELECT
+[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM[dbo].[Comment]
+        WHERE[ArticleId]=a.Id and RefCommentId=0) as CommentCount
+FROM[dbo].[News]
+        a
+WHERE   DeleteMark=0 and EnabledMark = 1 ) T
+Order by CommentCount desc";
+            List<News> newlist = Util.ReaderToList<News>(strsql);
+            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
+            newlist.ForEach(x =>
+            {
+                x.ThumbList = GetResources(sourceType, x.Id)
+                                .Select(n => n.RPath).ToList();
+            });
+            ViewBag.NewsList = newlist;
+
 
             ViewBag.openList = list;
             ViewBag.UserInfo = UserHelper.LoginUser;
