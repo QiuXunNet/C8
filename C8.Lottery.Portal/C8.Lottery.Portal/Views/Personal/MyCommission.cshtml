@@ -238,6 +238,11 @@
             num.substring(num.length - (4 * i + 3));
         return (((sign) ? '' : '-') + num + '.' + cents);
     }
+    //日期时间处理
+    function conver(s) {
+        return s < 10 ? '0' + s : s;
+    }
+
 
     /* 获取日期时间格式*/
     function getDateTime(dateStr, type) {
@@ -249,9 +254,9 @@
         var mm = date.getMinutes();
         var ss = date.getSeconds();
         if (type == 1) {
-            return month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+            return conver(month) + "-" + conver(day) + " " + conver(hh) + ":" + conver(mm) + ":" + conver(ss);
         } else {
-            return year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+            return conver(year) + "-" + conver(month) + "-" + conver(day) + " " + conver(hh) + ":" + conver(mm) + ":" + conver(ss);
         }
 
     }

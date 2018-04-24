@@ -1913,6 +1913,47 @@ inner join UserInfo u on  c.UserId=u.Id
             return View();
         }
         /// <summary>
+        /// 卡劵数据
+        /// </summary>
+        /// <param name="type">0 未使用 1已使用 2已过期</param>
+        /// <returns></returns>
+        public JsonResult VoucherList(int type)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            int UserId = UserHelper.GetByUserId();
+            
+            string strwhere =string.Format(" UserId={0}",UserId);
+            switch (type)
+            {
+                case 0:
+                    strwhere += " and State=1 and getdate()<EndTime";
+                    break;
+
+                case 1:
+                    strwhere += " and State=2";
+                    break;
+
+                case 2:
+                    strwhere += " and getdate()>EndTime";
+                    break;
+            }
+            string strsql =string.Format("select * from UserCoupon where {0} ",strwhere);
+            try
+            {
+                List<UserCoupon> list = Util.ReaderToList<UserCoupon>(strsql);
+                msg.Success = true;
+                msg.data = list;
+            }
+            catch (Exception e)
+            {
+                msg.Success = false;
+                msg.Msg = e.Message;
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// 卡劵规则
         /// </summary>
         /// <returns></returns>
