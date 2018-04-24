@@ -1,5 +1,7 @@
-﻿@{
+﻿@using System.Configuration
+@{
     Layout = null;
+    var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
 }
 <!doctype html>
 <html>
@@ -228,7 +230,7 @@
         $(function () {
             //首次加载添加聊天记录
             getChatRecord(0);
-            url = "ws://119.147.139.131:8801/Handler1.ashx?userId=" + userId +
+            url = "@socketUrl/Handler1.ashx?userId=" + userId +
                 "&roomId=" + roomId + "&userName=" + userName + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin
             ws = new WebSocket(url);
 

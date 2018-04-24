@@ -56,7 +56,15 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.Icon = icon;
 
             //3.最后一期
-            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            string sql = "";
+            if (lType == 5) //如果是六合彩，则查询六合彩专用表
+            {
+                sql = "select top(1)* from LotteryRecordToLhc";
+            }
+            else
+            {
+                sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            }
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
             ViewBag.lastIssue = lr.Issue;
@@ -79,10 +87,10 @@ namespace C8.Lottery.Portal.Controllers
                 }
 
             }
-            else
-            {
-                ViewBag.time = "正在开奖";
-            }
+            //else
+            //{
+                ViewBag.time = time;
+           // }
 
 
 
