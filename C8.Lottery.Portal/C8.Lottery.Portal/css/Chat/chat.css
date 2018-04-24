@@ -43,13 +43,17 @@ body {
 
 .c_profile {
     width: 4rem;
-    padding: 0 1.2rem 0 0.6rem;
+    height: 4rem;
+    margin: 0 1.2rem 0 0.6rem;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
     .c_profile img {
         width: 100%;
-        /*border: 2px solid #b9456c;*/
-        border-radius: 50%;
+        height: 100%;
+        /*border: 2px solid #b9456c;
+        border-radius: 50%;*/
     }
 
 .c_cnt {
@@ -66,15 +70,19 @@ body {
         .c_cnt h3 s {
             text-decoration: none;
             color: #999;
-            padding-left: 5px;
+            padding: 0 6px;
+            background: #ccc;
+            border-radius: 0.2rem;
+            display: inline-block;
         }
 
         .c_cnt h3 .i_tag {
             background: #f13131;
             color: #fff;
             padding: 0 0.3rem;
-            border-radius: 0.4rem;
-            margin-right: 0.4rem;
+            border-radius: 0.2rem;
+            margin-right: 0.3rem;
+            FONT-SIZE: 12PX;
         }
 
     .c_cnt .c_main {
@@ -84,7 +92,7 @@ body {
         font-size: 1.2rem;
         display: inline-block;
         position: relative;
-        border-radius: 1.2rem;
+        border-radius: .5rem;
         text-align: justify;
         color: #333;
         vertical-align: middle;
@@ -121,7 +129,7 @@ body {
             margin: 0.4rem 0;
             /*width: 60%;*/
             max-width: 240px;
-            border-radius: 1.2rem;
+            border-radius: .5rem;
         }
 
         .c_cnt .img_face,
@@ -399,9 +407,20 @@ body {
 
 
 
-    .btn-default-styles i {
-        background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
-        width: 100%;
-        height: 3.2rem;
-        display: block;
-    }
+.btn-default-styles i {
+    background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
+    width: 100%;
+    height: 3.2rem;
+    display: block;
+}
+
+.C_GsaoShou {
+    background: #f18b31;
+    font-size: 12px;
+    color: #fff;
+    padding: 0 6px;
+    border-radius: 0.2rem;
+    font-weight: normal;
+    display: inline-block;
+}
+

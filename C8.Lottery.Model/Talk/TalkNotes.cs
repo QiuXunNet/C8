@@ -69,6 +69,11 @@ namespace C8.Lottery.Model
         public bool IsAdmin { get; set; }
 
         /// <summary>
+        /// 积分最高的彩种名称
+        /// </summary>
+        public string MasterLottery { get; set; }
+
+        /// <summary>
         /// 格式化后的发送时间
         /// </summary>
         public string SendTimeStr { get; set; }
