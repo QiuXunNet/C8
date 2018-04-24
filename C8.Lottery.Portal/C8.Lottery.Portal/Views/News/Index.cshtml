@@ -1,5 +1,6 @@
 ﻿@using C8.Lottery.Model;
 @using C8.Lottery.Public;
+@using System.Configuration;
 @{
     Layout = null;
 
@@ -10,6 +11,7 @@
 
     int lType = ViewBag.lType;
 
+    var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
 }
 @model LotteryType
 
@@ -55,6 +57,7 @@
 </head>
 
 <body style="background:#F4F4F5;">
+    <input type="hidden" id="lType" value="@lType" />
 
     @if (Model.TypeName == "六合彩")
     {
@@ -74,7 +77,7 @@
         </header>
 
         <div class="hjc_hdNav fixed" style="display: none">
-            <input type="hidden" id="lType" value="@lType"/>
+
             <div class="hdNav_cai_expand">
                 <ul class="hdNav_cai">
                     @foreach (LotteryType entity in ViewBag.LotteryTypeList)
@@ -102,7 +105,7 @@
                             if (entity.Id == currentLotteryTypeId)
                             {
                                 <li class="current" data-id="@entity.Id">
-                                    @Html.ActionLink(@entity.TypeName, "Index", new {id = @entity.Id})
+                                    @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
 
                                 </li>
                             }
@@ -110,7 +113,7 @@
                             {
 
                                 <li data-id="@entity.Id">
-                                    @Html.ActionLink(@entity.TypeName, "Index", new {id = @entity.Id})
+                                    @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
 
                                 </li>
                             }
@@ -129,113 +132,89 @@
                     <dt><a href="javascript:;"><img src="~/images/@ViewBag.Icon"></a></dt>
                     <dd>
                         <div class="hdM_ddtit">
-                            <h3 class="hdM_ddtqi f-l">第<span>@ViewBag.lastIssue</span>期</h3>
-                            
-                            @*<p class="hdM_ddtime f-r">下期开奖：<span>02:15</span></p>*@
-                            
-                            
-                            <p class="hdM_ddtime f-r">下期开奖：
-                            
-                                    @if (ViewBag.time == "正在开奖")
+                            <h3 class="hdM_ddtqi f-l">第<span id="txtIssue">@ViewBag.lastIssue</span>期</h3>
+
+                            <p class="hdM_ddtime f-r">
+                                下期开奖：
+
+                                @if (ViewBag.time == "正在开奖")
+                                {
+                                    <span id="openTime">正在开奖</span>
+                                }
+                                else
+                                {
+                                    if (lType < 9)
                                     {
-                                        <span id="openTime">正在开奖</span>
+                                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
                                     }
                                     else
                                     {
-                                        if (lType < 9)
-                                        {
-                                            <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                        }
-                                        else
-                                        {
-                                            <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                        }
-
+                                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
                                     }
 
-                                </p>
-                            
-                            
+                                }
 
+                            </p>
 
                             <div style="clear:both;"></div>
                         </div>
-                        <div class="hdM_ddcon">
-                            @*<span class="hdM_spssc">02</span>
-                            <span class="hdM_spssc">03</span>
-                            <span class="hdM_spssc">04</span>
-                            <span class="hdM_spssc">05</span>
-                            <span class="hdM_spssc">06</span>
-                            <span class="hdM_spssc">07</span>
-                            <span class="hdM_spliu" style="width:14px;">+</span>
-                            <span class="hdM_spssc hdM_spLan">01</span>
-                            *@
-                            
-                            
-                            
-                            
-                             @{
-                                    int countFor6 = 0; 
-                                   
-                                    
-                                    string num = ViewBag.lastNum;
-                                    string[] numArr = num.Split(',');
+                        <div class="hdM_ddcon" id="ballListDiv">
+                            @{
+                                int countFor6 = 0;
 
 
-                                    if (lType == 5)
+                                string num = ViewBag.lastNum;
+                                string[] numArr = num.Split(',');
+
+
+                                if (lType == 5)
+                                {
+                                    foreach (string s in numArr)
                                     {
-                                        foreach (string s in numArr)
+                                        countFor6++;
+
+                                        string color = Util.GetColor(s);
+                                        string cl = "";
+                                        if (color == "red")
                                         {
-                                            countFor6++;
-
-                                            string color = Util.GetColor(s);
-                                            string cl = "";
-                                            if (color == "red")
-                                            {
-                                                cl = "hdM_spliu hdM_spliured";
-                                            }
-                                            else if (color == "green")
-                                            {
-                                                cl = "hdM_spliu hdM_spliugreen";
-                                            }
-                                            else
-                                            {
-                                                cl = "hdM_spliu hdM_spliublue";
-                                            }
-
-                                            <span class="@cl">@s</span>
-
-                                            if (countFor6 == 6)
-                                            {
-                                                <span class="Mif_jgC">+</span>
-                                            }
-
+                                            cl = "hdM_spliu hdM_spliured";
                                         }
-                                    }
-                                    else
-                                    {
-                                        foreach (string s in numArr)
+                                        else if (color == "green")
                                         {
-                                            if (lType == 63 || lType == 64)
-                                            {
-                                                string clazz = "hdM_spPK hdM_spPK" + s;
-                                                <span class="@clazz">@s</span>
-                                            }
-
-                                            else
-                                            {
-                                                <span class="hdM_spssc">@s</span>
-                                            }
-
+                                            cl = "hdM_spliu hdM_spliugreen";
                                         }
-                                    }
+                                        else
+                                        {
+                                            cl = "hdM_spliu hdM_spliublue";
+                                        }
 
-                                    
+                                        <span class="@cl">@s</span>
+
+                                        if (countFor6 == 6)
+                                        {
+                                            <span class="Mif_jgC">+</span>
+                                        }
+
+                                    }
                                 }
-                            
-                            
-                            
+                                else
+                                {
+                                    foreach (string s in numArr)
+                                    {
+                                        if (lType == 63 || lType == 64)
+                                        {
+                                            string clazz = "hdM_spPK hdM_spPK" + s;
+                                            <span class="@clazz">@s</span>
+                                        }
 
+                                        else
+                                        {
+                                            <span class="hdM_spssc">@s</span>
+                                        }
+
+                                    }
+                                }
+                            }
                         </div>
                     </dd>
                 </dl>
@@ -248,21 +227,21 @@
             <div class="info_hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="info_hdNav_cai_lhs">
 
-            @foreach (NewsType item in ViewBag.NewsTypeList)
-            {
-                if (item.Id == currentNewsTypeId)
+                @foreach (NewsType item in ViewBag.NewsTypeList)
                 {
-                    <li class="current" data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
-                        @Html.ActionLink(item.TypeName, "Index",new {id=item.LType, ntype =item.Id})
-                    </li>
+                    if (item.Id == currentNewsTypeId)
+                    {
+                        <li class="current" data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
+                            @Html.ActionLink(item.TypeName, "Index", new { id = item.LType, ntype = item.Id })
+                        </li>
+                    }
+                    else
+                    {
+                        <li data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
+                            @Html.ActionLink(item.TypeName, "Index", new { id = item.LType, ntype = item.Id })
+                        </li>
+                    }
                 }
-                else
-                {
-                    <li data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
-                        @Html.ActionLink(item.TypeName, "Index", new {id = item.LType, ntype = item.Id})
-                    </li>
-                }
-            }
             </ul>
             <div style="clear:both;"></div>
         </div>
@@ -273,20 +252,20 @@
             </div>
             <ul class="info_hdNav_cai">
                 @foreach (NewsType item in ViewBag.NewsTypeList)
-            {
-                if (item.Id == currentNewsTypeId)
                 {
-                    <li class="current" data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
-                        @Html.ActionLink(item.TypeName, "Index", new { id = item.LType, ntype = item.Id })
-                    </li>
+                    if (item.Id == currentNewsTypeId)
+                    {
+                        <li class="current" data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
+                            @Html.ActionLink(item.TypeName, "Index", new { id = item.LType, ntype = item.Id })
+                        </li>
+                    }
+                    else
+                    {
+                        <li data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
+                            @Html.ActionLink(item.TypeName, "Index", new { id = item.LType, ntype = item.Id })
+                        </li>
+                    }
                 }
-                else
-                {
-                    <li data-id="@item.Id" data-pageIndex="1" data-pageSize="10">
-                        @Html.ActionLink(item.TypeName,"Index",new {id=item.LType, ntype = item.Id})
-                    </li>
-                }
-            }
             </ul>
             <div style="clear: both;"></div>
         </div>
@@ -298,19 +277,140 @@
             string enable = item.Id == currentNewsTypeId ? "block" : "none";
             if (item.ShowType == 2)
             {
-                <div class="hjc_news_lhs padding0" id="gallery"  style="overflow-x: hidden;display: @enable;">
-                    @Html.Action("NewsGalleryCategoryList", new {ltype = currentLotteryTypeId, newsTypeId= currentNewsTypeId})
+                <div class="hjc_news_lhs padding0" id="gallery" style="overflow-x: hidden;display: @enable;">
+                    @Html.Action("NewsGalleryCategoryList", new { ltype = currentLotteryTypeId, newsTypeId = currentNewsTypeId })
                 </div>
             }
             else
             {
-            <div class="hjc_news_lhs newslist" style="display: @enable;" id="news_@item.Id" data-id="@item.Id">
-                
-            </div>
+                <div class="hjc_news_lhs newslist" style="display: @enable;" id="news_@item.Id" data-id="@item.Id">
+
+                </div>
             }
         }
     </div>
     <div class="mask" style="display:none;"></div>
+
+    @if (lType == 5)
+    {
+        <script type="text/javascript">
+        var url = "@socketUrl/LhcHandler.ashx";
+        var ws;
+        $(function () {
+            if ("@ViewBag.time" == "正在开奖") {
+
+                ws = new WebSocket(url);
+
+                //链接成功回调
+                ws.onopen = function () {
+                    wsOnopen();
+                }
+                //收到消息回调
+                ws.onmessage = function (evt) {
+                    wsOnmessage(evt);
+                }
+                //链接失败回调
+                ws.onerror = function (evt) {
+                }
+                //链接关闭回调
+                ws.onclose = function () {
+                    wsOnclose()
+                }
+            }
+            //else {
+
+            //}
+        });
+
+        //链接成功回调
+        function wsOnopen() {
+
+        }
+
+        //收到消息回调
+        function wsOnmessage(evt) {
+            var msg = evt.data;
+            var data = eval("(" + msg + ")");
+            if (data == undefined || data == null)
+                return;
+            switch (data.MsgTypeChild) {
+                case 11: //开始命令
+                    break;
+                case 12: //结束命令
+                    ws.close()  //结束后，主动断开链接
+                    break;
+                case 21: //消息
+                    showBall(data);
+                    break;
+                case 31: //心跳包
+
+                    break;
+            }
+        }
+
+        //开始开奖
+        function startLottery() {
+            if (ws == undefined || ws == null || ws.readyState != WebSocket.OPEN) {
+                ws = new WebSocket(url);
+
+                //链接成功回调
+                ws.onopen = function () {
+                    wsOnopen();
+                }
+                //收到消息回调
+                ws.onmessage = function (evt) {
+                    wsOnmessage(evt);
+                }
+                //链接失败回调
+                ws.onerror = function (evt) {
+                }
+                //链接关闭回调
+                ws.onclose = function () {
+                    wsOnclose()
+                }
+            }
+        }
+
+        //链接关闭回调
+        function wsOnclose() {
+
+        }
+
+        //显示球
+        function showBall(data) {
+            if (data.IsPeriod == 1) { // 如果是期数消息
+                $("#txtIssue").text(data.Content);
+                $("#ballListDiv").empty();
+            } else {
+                if (data.IsTM == 1) {//如果是特码
+                    $("#ballListDiv").append('<span class="Mif_jgC">+</span>&nbsp;');
+                }
+                var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
+                $("#ballListDiv").append('<span class="hdM_spliu ' + getColor(num) + '">' + num + '</span>&nbsp;');
+
+            }
+        }
+
+        //获取球的颜色
+        function getColor(num) {
+            num = "," + num + ",";
+
+            var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";
+            var blue = ",03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48,";
+            var green = ",05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49,";
+
+            if (red.indexOf(num)>-1) {
+                return "hdM_spliured";
+            }
+            else if (blue.indexOf(num)>-1) {
+                return "hdM_spliublue";
+            }
+            else {
+                return "hdM_spliugreen";
+            }
+        }
+        </script>
+    }
 
     <script type="text/javascript">
         var dropload;
@@ -333,7 +433,7 @@
         }
 
         function initnews() {
-           
+
             dropload = $("#news_"+id).dropload({
                 scrollArea: window,
                 domDown: {
@@ -381,5 +481,4 @@
         }
     </script>
 </body>
-
 </html>
