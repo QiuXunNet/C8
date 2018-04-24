@@ -168,6 +168,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="favicon.ico" />
     <Content Include="css\c8-icon.css" />
     <Content Include="css\Chat\base.css" />
     <Content Include="css\Chat\chat.css" />
@@ -344,6 +345,7 @@
     <Content Include="images\70.png" />
     <Content Include="images\70_1.png" />
     <Content Include="images\70_2.png" />
+    <Content Include="images\bitbug_favicon.ico" />
     <Content Include="images\bqxtb01.png" />
     <Content Include="images\bt-5.png" />
     <Content Include="images\bt-6.png" />

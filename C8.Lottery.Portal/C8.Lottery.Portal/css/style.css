@@ -1891,7 +1891,7 @@ a {
 
     .Per_If2Ul li {
         float: left;
-        width: 20%;
+        width: 25%;
         text-align: center;
         background: url(../images/38_1.png) no-repeat left center;
     }
@@ -7413,7 +7413,7 @@ i.icon_star {
     }
 
 .gallery-recommend ul {
-    padding: 0 2.6666666%;
+    padding: 0 5%;
     box-sizing: border-box;
 }
 
@@ -7497,15 +7497,13 @@ input[type=search]::-webkit-search-cancel-button:after {
 .letter {
     width: auto;
     position: fixed;
-    top: 320px;
-    right: 10px;
+    top: 160px;
+    right: 0;
     text-align: center;
 }
 
     .letter ul {
         list-style-type: none;
-        height: 310px;
-        overflow: scroll;
     }
 
         .letter ul::-webkit-scrollbar {
@@ -7513,9 +7511,10 @@ input[type=search]::-webkit-search-cancel-button:after {
         }
 
     .letter li {
-        margin: .02rem 0;
-        width: 19px;
-        height: 19px;
+        
+        width: 16px;
+        height: 16px;
+		line-height:14px;
         text-align: center;
     }
 
@@ -7531,8 +7530,8 @@ input[type=search]::-webkit-search-cancel-button:after {
     .letter ul li a {
         text-decoration: none;
         color: #333;
-        font-size: 13px;
-        font-weight: 600;
+        font-size: 12px;
+       
     }
 
 .location-gallery {
@@ -7574,6 +7573,7 @@ input[type=search]::-webkit-search-cancel-button:after {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+		padding-right:15px;
     }
 
 
@@ -8256,12 +8256,11 @@ footer {
 .comp_replay {
     font-size: 13px;
     background: #eee;
-    height: 32px;
     line-height: 32px;
     margin: 10px 0;
     color: #333;
-    text-align: center;
     margin-left: 60px;
+	padding:5px 10px;
 }
 
 .CDL_DDFont .include {
@@ -8537,14 +8536,11 @@ footer {
 
     .gallery-list p {
         font-size: 12px;
+		padding-right:15px;
     }
 
     .hdNav_cai li a {
         font-size: 12px;
-    }
-
-    .letter {
-        top: 300px;
     }
 
         .letter ul {
