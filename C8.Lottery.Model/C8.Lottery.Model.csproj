@@ -48,6 +48,7 @@
     <Compile Include="BettingRecord.cs" />
     <Compile Include="ComeOutRecord.cs" />
     <Compile Include="CommissionSetting.cs" />
+    <Compile Include="Coupon.cs" />
     <Compile Include="Enum\CommentTypeEnum.cs" />
     <Compile Include="CoinRate.cs" />
     <Compile Include="Enum\CommissionTypeEnum.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Talk\TalkBlackList.cs" />
     <Compile Include="Talk\TalkNotes.cs" />
     <Compile Include="SiteSetting.cs" />
+    <Compile Include="UserCoupon.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserInternalMessage.cs" />
     <Compile Include="UserState.cs" />

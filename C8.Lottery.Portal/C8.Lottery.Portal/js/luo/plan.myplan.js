@@ -10,6 +10,7 @@ $(function () {
     $(".C8_nav3 li").click(function () {
         var _this = $(this),
             i = _this.attr("data-index");
+       
 
         if (curNavIndex != i) {
             _this.addClass("current").siblings().removeClass("current");
