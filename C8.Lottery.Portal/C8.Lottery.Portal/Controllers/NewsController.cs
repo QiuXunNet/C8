@@ -355,17 +355,14 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             #endregion
 
             #region 竞猜红人
-            string strsql = @"select top 10 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
-(
-  SELECT  UserId, Score, b.Name as NickName, c.RPath as Avater
-  FROM dbo.BettingRecord a
-  left join UserInfo b on b.Id = a.UserId
-  left join ResourceMapping c on c.FkId = a.UserId and c.[Type] =@ResourceType
-   where  a.lType =@lType
- )t
- where Score>0
-group by UserId,NickName,Avater
-Order by Score desc";
+            string strsql = @"	select  top 10 row_number() over(order by Score DESC ) as [Rank],  * from (
+      SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
+      FROM dbo.SuperiorRecord a
+      left join UserInfo b on b.Id=a.UserId
+      left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
+      WHERE a.lType=@ltype 
+      GROUP BY a.lType,a.UserId,b.Name,c.RPath
+  ) tt WHERE Score > 0";
 
             SqlParameter[] sp = new SqlParameter[] {
                  new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),

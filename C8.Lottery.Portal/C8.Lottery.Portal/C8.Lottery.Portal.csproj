@@ -699,6 +699,14 @@
     <Content Include="images\w3_2.png" />
     <Content Include="images\w4_1.png" />
     <Content Include="images\w4_2.png" />
+    <Content Include="images\w4_3.png" />
+    <Content Include="images\w5.png" />
+    <Content Include="images\w6_1.png" />
+    <Content Include="images\w6_2.png" />
+    <Content Include="images\w6_3.png" />
+    <Content Include="images\w6_4.png" />
+    <Content Include="images\w6_5.png" />
+    <Content Include="images\w7.png" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
     <Content Include="js\fontSize.js" />

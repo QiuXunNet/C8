@@ -2,7 +2,22 @@
 
 $(function () {
 
+    /*我的卡券*/
+    $(".My_KJHeader li").click(function () {
+        var KJ = $(this).index();
+        $(this).addClass("current").siblings().removeClass("current");
+       // $(".My_KaJuanBox .My_KaJuanK").eq(KJ).show().siblings().hide();
+    });
 
+    /*资讯-内容详情*/
+    $(".ZX_Sidebar").click(function () {
+        $(".ZX_CLBox").toggleClass("CLBox_current");
+        $(".CLB_cNav").toggleClass("cNav_current");
+    });
+    $(".CLB_YY").click(function () {
+        $(".ZX_CLBox").removeClass("CLBox_current");
+        $(".CLB_cNav").removeClass("cNav_current");
+    });
 
     /*清除文本框值*/
     $(".Bul1_del").click(function () {
@@ -407,7 +422,7 @@ $(function () {
                 ctype: ctype,
                 type: type
             }, function (result) {
-                console.log(result);
+         
                 if (result) {
                     if (result.Code === 401) {
                         location.href = "/Home/Login";
@@ -421,6 +436,8 @@ $(function () {
                             likeCount -= 1;
                         }
                         likeElement.html(likeCount);
+
+                        likeElement.html() == 0 ? likeElement.html("") : likeElement.html();
 
                     } else {
                         alertmsg(result.Message);
