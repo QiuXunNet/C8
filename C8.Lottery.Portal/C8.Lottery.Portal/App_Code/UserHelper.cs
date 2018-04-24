@@ -95,6 +95,19 @@ namespace C8.Lottery.Portal
                 {
                     userState = new UserState();
                 }
+
+                //获取积分大于100分且排在第一未的彩种
+                usersql = @"select top(1) tab.Name from (
+	                        select sum(br.Score) as Score , lt.Name from BettingRecord br
+	                        left join LotteryType2 lt on br.lType= lt.lType
+	                        where br.UserId = @UserId
+	                        group by lt.Name
+                        ) as tab 
+                        where tab.Score>=10
+                        order by score desc";
+
+                userState.MasterLottery = Convert.ToString(SqlHelper.ExecuteScalar(usersql, sp)).Replace("(PC蛋蛋)", "");
+
                 return userState;
             }
             catch (Exception)

@@ -72,6 +72,7 @@ namespace C8.Lottery.Portal.Controllers
                     ViewBag.UserName = user.Name;
                     ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;//user.;
                     ViewBag.IsAdmin = (userState.IsChatAD??0)==0?false:true; //
+                    ViewBag.MasterLottery = userState.MasterLottery;
                 }
 
                 //查询登录人在本房间是否被禁言
@@ -260,10 +261,28 @@ namespace C8.Lottery.Portal.Controllers
             model.SendTime = DateTime.Now;
             model.Status = 1;
 
+            var sensitiveWords = GetSensitiveWordsList();
+
+            //如果存在需替换的关键字
+            if (sensitiveWords != null)
+            {
+                foreach (var s in sensitiveWords)
+                {
+                    if (model.Content.IndexOf(s) == -1)
+                        continue;
+
+                    var newStr = "";
+                    for (int i = s.Length; i > 0; i--)
+                        newStr += "*";
+
+                    model.Content = model.Content.Replace(s, newStr);
+                }
+            }
+
             try
             {
-                string regsql = @"insert into TalkNotes (Content,UserId,UserName,PhotoImg,SendTime,RoomId,MsgTypeChild,Status,Guid,IsAdmin)
-                                values (@Content,@UserId,@UserName,@PhotoImg,@SendTime,@RoomId,@MsgTypeChild,@Status,@Guid,@IsAdmin);";
+                string regsql = @"insert into TalkNotes (Content,UserId,UserName,PhotoImg,SendTime,RoomId,MsgTypeChild,Status,Guid,IsAdmin,MasterLottery)
+                                values (@Content,@UserId,@UserName,@PhotoImg,@SendTime,@RoomId,@MsgTypeChild,@Status,@Guid,@IsAdmin,@MasterLottery);";
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@Content",model.Content),
                     new SqlParameter("@UserId",model.UserId),
@@ -274,7 +293,8 @@ namespace C8.Lottery.Portal.Controllers
                     new SqlParameter("@MsgTypeChild",model.MsgTypeChild),
                     new SqlParameter("@Status",model.Status),
                     new SqlParameter("@Guid",model.Guid),
-                    new SqlParameter("@IsAdmin",model.IsAdmin)
+                    new SqlParameter("@IsAdmin",model.IsAdmin),
+                    new SqlParameter("@MasterLottery",model.MasterLottery??"")
                  };
 
                 SqlHelper.ExecuteScalar(regsql, regsp);
@@ -611,7 +631,7 @@ namespace C8.Lottery.Portal.Controllers
         /// 获取屏蔽字
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetSensitiveWordsList()
+        private string[] GetSensitiveWordsList()
         {
             //屏蔽字一般不会变动，为减少数据库操作，加入2小时缓存
             var str = "";
@@ -627,13 +647,13 @@ namespace C8.Lottery.Portal.Controllers
                 str = CacheHelper.GetCache("GetSensitiveWordsList").ToString();
             }
 
-            if (string.IsNullOrEmpty(str))
+            if (!string.IsNullOrEmpty(str))
             {
-                return Json(str.Split(','));
+                return str.Split(',');
             }
             else
             {
-                return Json(new { });
+                return null;
             }
         }
     }

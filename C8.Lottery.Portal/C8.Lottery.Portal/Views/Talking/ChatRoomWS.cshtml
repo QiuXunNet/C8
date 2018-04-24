@@ -217,6 +217,7 @@
         var isTop = false;  //历史消息是否已经到顶
         var blackListStr = "@ViewBag.BlackListStr"; //已被拉黑的人
         var isBlack = @ViewBag.IsBlack;//是否在后台被拉黑
+        var masterLottery = "@ViewBag.MasterLottery";//积分最高的彩种名称
 
         var heartbeatT = setInterval("heartbeat()", 3000);//心跳包定时器
         var isLink = true; //是否已经链接上
@@ -231,7 +232,7 @@
             //首次加载添加聊天记录
             getChatRecord(0);
             url = "@socketUrl/Handler1.ashx?userId=" + userId +
-                "&roomId=" + roomId + "&userName=" + userName + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin
+                "&roomId=" + roomId + "&userName=" + userName + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin + "&masterLottery=" + masterLottery
             ws = new WebSocket(url);
 
             //链接成功回调
@@ -458,7 +459,9 @@
             var photoHtml = "";
             var msgHtml = "";
             var contentHtml = "";
-
+            var timeHtml = "";
+            var nameHtml = "";
+            var tagHtml = "";
 
             switch (data.MsgTypeChild) {
                 case 21:
@@ -486,9 +489,21 @@
             msgHtml += "    <div class='c_cnt'>";
             msgHtml += "        <h3>";
             if (data.IsAdmin) {
-                msgHtml += "            <i class='i_tag'>管理员</i>";
+                tagHtml += "<i class='i_tag'>管理员</i>";
             }
-            msgHtml += "<span class='nickname' style='color: #999;'>"+data.UserName+"</span><s>" + data.SendTimeStr + "</s>";
+            else if (data.MasterLottery !=null && data.MasterLottery.length>0) {
+                tagHtml += "<b class='C_GsaoShou'>" + data.MasterLottery+"高手</b>";
+            }
+            nameHtml += "<span class='nickname' style='color: #999;margin: 0px 5px;'>" + data.UserName + "</span>";
+            timeHtml += "<s>" + data.SendTimeStr + "</s>";
+
+            if (data.UserId == userId) {
+                msgHtml += timeHtml + nameHtml + tagHtml;
+            }
+            else {
+                msgHtml += tagHtml + nameHtml + timeHtml;
+            }
+
             msgHtml += "        </h3>";
             if (isAdmin == "True" && data.UserId == userId) {
                 msgHtml += "        <div class='c_do'>";
@@ -550,6 +565,7 @@
                 obj.MsgTypeChild = 21;
                 obj.Guid = guid;
                 obj.IsAdmin = "@ViewBag.IsAdmin" == "True";
+                obj.MasterLottery = masterLottery;
                 addMessage(obj);
 
                 var data = {};
@@ -713,6 +729,7 @@
                     obj.MsgTypeChild = 22;
                     obj.Guid = guid;
                     obj.IsAdmin = "@ViewBag.IsAdmin" == "True";
+                    obj.MasterLottery = masterLottery;
                     addMessage(obj);
 
                     var data2 = {};
