@@ -52,7 +52,7 @@ namespace C8.Lottery.Portal
         public static UserInfo GetUser(int userId)
         {
 
-            string usersql = @"select (select count(1)from Follow where UserId=u.Id and Status=1)as follow,(select count(1)from Follow where Followed_UserId=u.Id and Status=1)as fans, r.RPath as Headpath,u.* from UserInfo  u 
+            string usersql = @"select (select count(1)from Follow where UserId=u.Id and Status=1)as follow,(select count(1)from Follow where Followed_UserId=u.Id and Status=1)as fans,(select count(1) from UserCoupon where UserId=u.Id and State=1 and getdate()<EndTime)as usercoupon, r.RPath as Headpath,u.* from UserInfo  u 
                               left  JOIN (select RPath,FkId from ResourceMapping where Type = @Type)  r 
                               on u.Id=r.FkId  where u.Id=@userId ";
 
@@ -95,6 +95,19 @@ namespace C8.Lottery.Portal
                 {
                     userState = new UserState();
                 }
+
+                //获取积分大于100分且排在第一未的彩种
+                usersql = @"select top(1) tab.Name from (
+	                        select sum(br.Score) as Score , lt.Name from BettingRecord br
+	                        left join LotteryType2 lt on br.lType= lt.lType
+	                        where br.UserId = @UserId
+	                        group by lt.Name
+                        ) as tab 
+                        where tab.Score>=10
+                        order by score desc";
+
+                userState.MasterLottery = Convert.ToString(SqlHelper.ExecuteScalar(usersql, sp)).Replace("(PC蛋蛋)", "");
+
                 return userState;
             }
             catch (Exception)

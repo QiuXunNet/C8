@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
+using C8.Lottery.Portal.Models;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -56,7 +57,15 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.Icon = icon;
 
             //3.最后一期
-            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            string sql = "";
+            if (lType == 5) //如果是六合彩，则查询六合彩专用表
+            {
+                sql = "select top(1)* from LotteryRecordToLhc";
+            }
+            else
+            {
+                sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            }
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
             ViewBag.lastIssue = lr.Issue;
@@ -79,10 +88,10 @@ namespace C8.Lottery.Portal.Controllers
                 }
 
             }
-            else
-            {
-                ViewBag.time = "正在开奖";
-            }
+            //else
+            //{
+                ViewBag.time = time;
+           // }
 
 
 
@@ -343,6 +352,25 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
                                 .Select(n => n.RPath).ToList();
             });
             ViewBag.RecommendArticle = list;
+            #endregion
+
+            #region 竞猜红人
+            string strsql = @"	select  top 10 row_number() over(order by Score DESC ) as [Rank],  * from (
+      SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
+      FROM dbo.SuperiorRecord a
+      left join UserInfo b on b.Id=a.UserId
+      left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
+      WHERE a.lType=@ltype 
+      GROUP BY a.lType,a.UserId,b.Name,c.RPath
+  ) tt WHERE Score > 0";
+
+            SqlParameter[] sp = new SqlParameter[] {
+                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                 new SqlParameter("@ltype",newstype.LType)
+            };
+            List<RankIntegralModel> ListRankIntegral = Util.ReaderToList<RankIntegralModel>(strsql, sp);
+            ViewBag.ListRankIntegral = ListRankIntegral;
+
             #endregion
 
             return View(model);

@@ -72,20 +72,32 @@
         <div class="WanFa_hdInfo2">
             <i class="WF_hdIF2Icpon"></i>
             <p class="WF_hdIf2L">@ViewBag.lastIssueDesc</p>
-            <div class="WF_hdIf2R">
+            <div class="WF_hdIf2R ball_wrap">
                 
                 @{
                     string num = ViewBag.lastNum;
                     string[] numArr = num.Split(',');
                     foreach (string s in numArr)
                     {
-                        <span class="WF_spA WF_spAhWU">@s</span>
+
+
+                        if (lType == 63 || lType == 64)
+                        {
+                            string clazz = "ball_spA No" + s;
+                            <span class="@clazz">@s</span>
+                        }
+                        else
+                        {
+                            <span class="WF_spA WF_spAhWU">@s</span>
+                        }
+
+
                     }
                 }
-                
 
-                
-             
+
+
+
             </div>
         </div>
     </div>

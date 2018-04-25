@@ -8,6 +8,7 @@
     int lType = ViewBag.lType;
     List<Play> playList = ViewBag.PlayList;
     int type = ViewBag.Type;
+    int MyUid =Convert.ToInt32(ViewBag.MyUid);
     int readCoin = ViewBag.ReadCoin ?? 0;
 }
 
@@ -298,27 +299,29 @@
         var readCoin=@readCoin;
         var ltype=@lType;
         var uid=@Model.Id;
+        var MyUid=@MyUid;
+
         var isRead = false;
         $(function() {
 
-       
-            
+
+
             var p=GetQueryString("p");
-        
+
             if(p.p!=null)
             {
                 var $curDd = $('.SX_Ul').find('li[data-title="'+p.p+'"]');
                 $curDd.addClass("current").siblings().removeClass("current");
-              
+
                 getData(p.p);
-               
+
             }
 
             $(".Gues_ul").parseEmoji();
 
-            if (@type == 0) 
+            if (@type == 0)
             {
-                $(".SX_Ul li").click(function() 
+                $(".SX_Ul li").click(function()
                 {
                     var _this = $(this),
                         playName = _this.attr("data-title") || "全部";
@@ -329,9 +332,9 @@
                 {
                     $(".SX_Ul li:eq(0)").trigger("click");
                 }
-              
+
                 //查看预测号码
-                $("#viewBetting").click(function() 
+                $("#viewBetting").click(function()
                 {
 
                 });
@@ -340,20 +343,20 @@
             }
         });
 
-        function GetQueryString(name) {   
-            var url = window.location.search; //获取url中"?"符后的字串   
-            var theRequest = new Object();   
-            if (url.indexOf("?") != -1) {   
-                var str = url.substr(1);   
-                strs = str.split("&");   
-                for(var i = 0; i < strs.length; i ++) {   
+        function GetQueryString(name) {
+            var url = window.location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
                     //就是这句的问题
-                    theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]); 
+                    theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
                     //之前用了unescape()
-                    //才会出现乱码  
-                }   
-            }   
-            return theRequest;   
+                    //才会出现乱码
+                }
+            }
+            return theRequest;
         }
 
         function getData(playName) {
@@ -391,7 +394,8 @@
                 recordId = data.Id;
                 isRead = data.IsRead;
                 var html = '<span>已更新</span>';
-                if (typeof (playName) != 'undefined' && playName != '' && playName != '全部') {
+                if (typeof (playName) != 'undefined' && playName != '' && playName != '全部')
+                {
                     html += '<a id="viewBetting" href="javascript:playUtil.view();">查看预测号码</a>';
                 }
                 $("#visitPlanContainer").html(html);
@@ -407,7 +411,7 @@
                 itemList.push('<div class="Plan_CInfo"><div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无竞猜~</p></div></div>');
             }else{
 
-                $.each(pageData, function (index, item) 
+                $.each(pageData, function (index, item)
                 {
                     console.log(item);
                     var kjhtml = '';
@@ -415,7 +419,7 @@
                     var num = item.LotteryNum.Num.split(',');
                     var bethtml = '';
                     var cl1 = "hdM_ddcon";
-                    
+
                     if (item.BettingRecord.length > 0)
                     {
                         for (var j = 0; j < item.BettingRecord.length; j++)
@@ -429,15 +433,15 @@
                             {
                                 var mynum = item.BettingRecord[j].BetNum;
                                 var mynumsplit = item.BettingRecord[j].BetNum.split(',');
-                         
+
                                 for (var x = 0; x < mynumsplit.length; x++)
                                 {
                                     var z = getwanfa(item.BettingRecord[j].PlayName);
-                                
+
                                     if (z == -1)
                                     {
                                         var ltnum = item.LotteryNum.Num;
-                               
+
                                         if (item.BettingRecord[j].PlayName == "平特一肖")
                                         {
                                             ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
@@ -445,13 +449,13 @@
 
                                         if (ltnum.indexOf(mynumsplit[x]) >= 0)
                                         {
-                                       
+
                                             mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
                                         }
                                     } else
                                     {
                                         var lonum = item.LotteryNum.Num.split(',');
-                              
+
                                         if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特")
                                         {
                                             lonum[z] = getShengxiaoByDigit(lonum[z]);
@@ -459,12 +463,12 @@
                                         if (z==10)
                                         {
                                             var lonum1 = lonum.slice(0, 6);
-                                     
+
                                             if ($.inArray(mynumsplit[x], lonum1) != -1)
                                             {
                                                 mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
                                             }
-                                    
+
                                         } else if (z == 11)
                                         {
                                             var lonum1 = lonum.slice(0, 5);
@@ -475,7 +479,7 @@
                                         }else if(z==12)
                                         {
                                             var lonum1 = lonum.slice(5);
-                                       
+
                                             if ($.inArray(mynumsplit[x], lonum1) != -1) {
                                                 mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
                                             }
@@ -488,9 +492,9 @@
                                                 mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
 
                                             }
-                                        } 
+                                        }
                                     }
-                             
+
                                 }
                             }
 
@@ -606,7 +610,7 @@
             var p12 = ["后区3码"];
             if ($.inArray(playName,p0)!=-1)
             {
-             
+
                 i = 0;
             } else if ($.inArray(playName, p1) != -1)
             {
@@ -738,14 +742,24 @@
                     }
                 });
             },
-            view:function() {
-                if (readCoin > 0 && !isRead) {
-                    $(".C8_TCpopupA").show();
-                    $(".mask").show();
-                } else {
-                    //this.confirm();
+            view:function()
+            {
+                if(uid==MyUid)
+                {
                     playUtil.goLastPlay();
+
+                }else
+                {
+                    if (readCoin > 0 && !isRead)
+                    {
+                        $(".C8_TCpopupA").show();
+                        $(".mask").show();
+                    } else {
+                        //this.confirm();
+                        playUtil.goLastPlay();
+                    }
                 }
+               
             }
         }
 

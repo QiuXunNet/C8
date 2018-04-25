@@ -1,4 +1,6 @@
 ﻿@using C8.Lottery.Model
+@using C8.Lottery.Portal.Models
+@using C8.Lottery.Public
 @model C8.Lottery.Model.News
 
 @{
@@ -6,6 +8,7 @@
     NewsType newsType = ViewBag.NewsType;
     LotteryType lottery = ViewBag.Lottery;
     List<News> recArticle = ViewBag.RecommendArticle;
+    List<RankIntegralModel> RankIntegral = ViewBag.ListRankIntegral;
 }
 
 <!DOCTYPE html>
@@ -34,6 +37,7 @@
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@(lottery.TypeName + "." + @newsType.TypeName)</a>
         @*<a href="javascript:showShare();" class="SX_A">分享</a>*@
+        <a href="javascript::" class="ZX_Sidebar"></a>
     </header>
 
     <section class="article">
@@ -205,185 +209,77 @@
         </div>
 
     }
-    @*<div class="raking" style="background: #fff;">
-        <div class="raking-title">双色球竞猜红人</div>
+    <div class="raking" style="background: #fff;">
+        <div class="raking-title">@(lottery.TypeName)竞猜红人</div>
         <div class="Ranking_Cinfo">
             <table width="100%" border="0" class="Ranking_table1">
                 <tbody>
-                    <tr>
-                        <td width="10%" align="center" valign="middle"><img src="/images/44_1.png" class="Ranking_Btu"></td>
-                        <td width="15%" align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_5.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p class="Ysfont">
-                                <a href="javascript:;">茶之轨迹</a>
-                            </p>
-                        </td>
-                        <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle"><img src="/images/44_2.png" class="Ranking_Btu"></td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_6.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p class="Ysfont">
-                                <a href="javascript:;">linyuelong</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle"><img src="/images/44_3.png" class="Ranking_Btu"></td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p class="Ysfont">
-                                <a href="javascript:;">我很好那么你呢</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>4</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>5</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>6</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>7</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>8</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>9</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>10</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="middle">
-                            <p>11</p>
-                        </td>
-                        <td align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="javascript:;"><img src="/images/44_7.png"></a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p>
-                                <a href="javascript:;">卡桑德拉</a>
-                            </p>
-                        </td>
-                        <td align="center" valign="middle"><span class="Ds_money Jf_money">20000</span></td>
-                    </tr>
+
+                    @if (RankIntegral != null || RankIntegral.Count > 0)
+                    {
+                        foreach (var item in RankIntegral)
+                        {
+                            if (item.Rank <= 3)
+                            {
+                                <tr>
+                                    <td width="10%" align="center" valign="middle"><img src="@Tool.GetRankImg(item.Rank)" class="Ranking_Btu"></td>
+                                    <td width="15%" align="center" valign="middle">
+                                        <div class="Ranking_Blogotu">
+                                            <a href="/Personal/UserCenter/@item.UserId">
+                                                @if (!string.IsNullOrEmpty(item.Avater))
+                                                {
+                                                    <img src="@item.Avater">
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/images/default_avater.png">  
+                                                }
+                                          
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td align="left" valign="middle">
+                                        <p class="Ysfont">
+                                            <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                                        </p>
+                                    </td>
+                                    <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td align="center" valign="middle">
+                                        <p>@item.Rank</p>
+                                    </td>
+                                    <td align="center" valign="middle">
+                                        <div class="Ranking_Blogotu">
+                                            <a href="/Personal/UserCenter/@item.UserId">
+                                            @if (!string.IsNullOrEmpty(item.Avater))
+                                            {
+                                                <img src="@item.Avater">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/default_avater.png">
+                                            }</a>
+                                        </div>
+                                    </td>
+                                    <td align="left" valign="middle">
+                                        <p>
+                                            <a href="/Personal/UserCenter/@item.UserId">@item.NickName</a>
+                                        </p>
+                                    </td>
+                                    <td align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                                </tr>
+                            }
+                        }
+                    }
+
                 </tbody>
             </table>
         </div>
-    </div>*@
+    </div>
 
     @Html.Action("WonderfulComment", new { id = @Model.Id, type = 2 })
 
@@ -416,6 +312,76 @@
                 <div style="clear:both;"></div>
             </ul>
             <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
+        </div>
+    </div>
+
+    <!--侧边栏-->
+    <div class="ZX_CLBox">
+        <div class="CLB_YY"></div>
+        <div class="CLB_con">
+            <ul class="CLB_cNav">
+                <!--cNav_current-->
+                <li>
+                    <a href="/Home/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="~/images/w6_1.png"></dt>
+                            <dd>
+                                <p>首页</p>
+                                <img src="~/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Open">
+                        <dl class="cNav_Dl">
+                            <dt><img src="~/images/w6_2.png"></dt>
+                            <dd>
+                                <p>开奖</p>
+                                <img src="~/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="JavaScript:;">
+                        <dl class="cNav_Dl">
+                            <dt><img src="~/images/w6_3.png"></dt>
+                            <dd>
+                                <p>走势</p>
+                                <img src="~/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Plan">
+                        <dl class="cNav_Dl">
+                            <dt><img src="~/images/w6_4.png"></dt>
+                            <dd>
+                                <p>计划</p>
+                                <img src="~/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Talking/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="~/images/w6_5.png"></dt>
+                            <dd>
+                                <p>聊天</p>
+                                <img src="~/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 

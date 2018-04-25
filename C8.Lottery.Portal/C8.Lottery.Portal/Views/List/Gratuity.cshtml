@@ -33,7 +33,7 @@
 
             $(".hdNav_cai_lhs li").click(function ()
             {
-                $(".C8_bang").find("li").first().addClass("current").siblings().removeClass("current");
+                $(".C8_bang").find("li").last().addClass("current").siblings().removeClass("current");
                 var _this = $(this);
                 var pid = _this.attr("data-pid");
                 
@@ -46,7 +46,7 @@
 
             $(".hdNav_cai li").click(function ()
             {
-                $(".C8_bang").find("li").first().addClass("current").siblings().removeClass("current");
+                $(".C8_bang").find("li").last().addClass("current").siblings().removeClass("current");
                 var _this = $(this);
                 var pid = _this.attr("data-pid");
 
@@ -58,7 +58,7 @@
 
             $(".GS_box li").on('click', function ()
             {
-                $(".C8_bang").find("li").first().addClass("current").siblings().removeClass("current");
+                $(".C8_bang").find("li").last().addClass("current").siblings().removeClass("current");
 
                 var pid = $(".hdNav_cai_lhs .current").attr("data-pid");
                 var _this = $(this);
@@ -362,7 +362,7 @@
 
 
     <ul class="C8_nav6 C8_bang">
-        <li data-idx="day" class="current">
+        <li data-idx="day" >
             <a href="javascript:;">
                 <p>日榜</p><span></span>
             </a>
@@ -377,7 +377,7 @@
                 <p>月榜</p><span></span>
             </a>
         </li>
-        <li data-idx="all">
+        <li data-idx="all" class="current">
             <a href="javascript:;">
                 <p>总榜</p><span></span>
             </a>

@@ -1891,7 +1891,7 @@ a {
 
     .Per_If2Ul li {
         float: left;
-        width: 25%;
+        width: 20%;
         text-align: center;
         background: url(../images/38_1.png) no-repeat left center;
     }
@@ -5868,6 +5868,8 @@ a {
 
 .Plan_content {
     margin-top: 10px;
+	position:relative;
+	z-index:10000;
 }
 
 .Plan_CInfo {
@@ -6899,6 +6901,8 @@ a {
 .hdNav_cai {
     text-align: left;
     padding: 2% 0.4%;
+	max-height: 240px;
+    overflow-x: hidden;
 }
 
     .hdNav_cai li {
@@ -6938,7 +6942,7 @@ a {
 
 .hdNav_cai_lhs_expand {
     height: auto;
-    position: fixed;
+    position: absolute;
     right: 0;
 }
 
@@ -6987,13 +6991,13 @@ a {
 .hjc_news_lhs {
     border-top: 4px solid #f3f4f4;
     box-sizing: border-box;
-    padding: 0 .625rem;
+    padding: 0 .625rem 10px;
     font-size: .9375rem;
     background: #fff;
 }
 
     .hjc_news_lhs .hjc_news_title {
-        text-align: center;
+       /* text-align: center;*/
         padding: .625rem 0;
         color: #f13131;
     }
@@ -7413,7 +7417,7 @@ i.icon_star {
     }
 
 .gallery-recommend ul {
-    padding: 0 2.6666666%;
+    padding: 0 5%;
     box-sizing: border-box;
 }
 
@@ -7497,15 +7501,13 @@ input[type=search]::-webkit-search-cancel-button:after {
 .letter {
     width: auto;
     position: fixed;
-    top: 320px;
-    right: 10px;
+    top: 160px;
+    right: 0;
     text-align: center;
 }
 
     .letter ul {
         list-style-type: none;
-        height: 310px;
-        overflow: scroll;
     }
 
         .letter ul::-webkit-scrollbar {
@@ -7513,9 +7515,10 @@ input[type=search]::-webkit-search-cancel-button:after {
         }
 
     .letter li {
-        margin: .02rem 0;
-        width: 19px;
-        height: 19px;
+        
+        width: 16px;
+        height: 16px;
+		line-height:14px;
         text-align: center;
     }
 
@@ -7531,8 +7534,8 @@ input[type=search]::-webkit-search-cancel-button:after {
     .letter ul li a {
         text-decoration: none;
         color: #333;
-        font-size: 13px;
-        font-weight: 600;
+        font-size: 12px;
+       
     }
 
 .location-gallery {
@@ -7574,6 +7577,7 @@ input[type=search]::-webkit-search-cancel-button:after {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+		padding-right:15px;
     }
 
 
@@ -7687,7 +7691,7 @@ input[type=search]::-webkit-search-cancel-button:after {
 
 .LHC_info_YLZB_nav {
     position: relative;
-    top: 5px;
+    top: 0;
     margin-bottom: 4px;
     z-index: 999;
     background: #fff;
@@ -8256,12 +8260,11 @@ footer {
 .comp_replay {
     font-size: 13px;
     background: #eee;
-    height: 32px;
     line-height: 32px;
     margin: 10px 0;
     color: #333;
-    text-align: center;
     margin-left: 60px;
+	padding:5px 10px;
 }
 
 .CDL_DDFont .include {
@@ -8401,7 +8404,6 @@ footer {
 }
 
 .invitation-illustration {
-    height: 230.5px;
     margin: 0 12px;
 }
 
@@ -8538,14 +8540,11 @@ footer {
 
     .gallery-list p {
         font-size: 12px;
+		padding-right:15px;
     }
 
     .hdNav_cai li a {
         font-size: 12px;
-    }
-
-    .letter {
-        top: 300px;
     }
 
         .letter ul {
@@ -8594,3 +8593,85 @@ footer {
 /******************************************
  *********** CSS 编辑 By LHS 结束 ************
 *******************************************/
+
+
+
+
+/***************************杨晶鹏 第二次 css***************************/
+
+
+	/*******我的卡券*******/
+.My_KaJuanBox{ margin:101px 10px 51px;}
+.KaJuanInfo{margin-bottom:10px; background:#fff;box-shadow: 0px 0px 3px #c5c5c5;}
+.KJI_Top{ position:relative; padding:15px 0; border-bottom:1px dashed #fafafa;}
+.KJI_Ttu{ position:absolute; top:0; right:0; width:60px;}
+.KJI_Ttu img{ display:block; width:100%;}
+.KJI_Tdl{ overflow:hidden;}
+.KJI_Tdl dt{ float:left; width:60px; margin-left:20px;}
+.KJI_Tdl dt img{ display:block; width:100%;}
+.KJI_Tdl dd{ margin-left:90px;}
+.KJI_Tdl dd h3{ line-height:25px; font-size:16px; color:#333; font-weight:normal;}
+.KJI_Tdl dd p{ line-height:15px; color:#666; font-size:11px;}
+
+.KJI_Bt{ position:relative; padding:6px 0; background:#fafafa;}
+.KJI_Btu{ position:absolute; top:-15px; width:15px;}
+.KJI_BtuL{ left:-2px;}
+.KJI_BtuR{ right:-2px;}
+.KJI_Btu img{ display:block; width:100%;}
+.KJI_BtFont{ padding:0 9px; font-size:10px; color:#666;}
+
+.My_KJHeader{ position:fixed; top:50px; height:40px; background:#fff; width:100%; z-index:10001; border-bottom:1px solid #eee;}
+.My_KJHeader li{ float:left; width:33.3%; line-height:40px; text-align:center;}
+.My_KJHeader li a{ display:inline-block; font-size:14px; color:#333;}
+.My_KJHeader .current a{ height:38px; border-bottom:2px solid #f13131;}
+
+.KJ_YQ{ position:fixed; left:0; bottom:0; width:100%; height:40px; background:#fff; border-top:1px solid #eee; z-index:10001}
+.KJ_YQ a{ display:block; height:40px; line-height:40px; font-size:14px; text-align:center; color:#f13131;}
+
+	/*******首页 index*******/
+.JC_Left{ font-weight:normal; font-size:16px; color:#f13131;}
+.JC_More{ font-size:12px; color:#f13131;}
+
+
+	/*******资讯-双色球*******/
+.CK_Tiao{ margin-top:10px; height:40px; line-height:40px; text-align:center; border-radius:5px; background:#e5e5e4;}
+.CK_Tiao a{ display:block;}
+.CK_Tiao span{ display:inline-block; color:#666;}
+.CK_Tiao img{ display:inline-block; width:17px; margin-left:5px;}
+
+
+
+	/*******资讯-详情 侧栏*******/
+.ZX_Sidebar{ position:absolute; top:0; right:0; width:50px; height:50px; background:url(../images/w5.png) no-repeat center; background-size:25px;}
+
+.ZX_CLBox{ position:relative; position:fixed; top:0; left:100%; width:100%; height:100%; z-index:10000;transition: all 0.75s;}
+.CLBox_current{ left:0;}
+.CLB_YY{ position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);}
+.CLB_con{ position:absolute; top:0; right:0; width:55%; height:100%; background:#fff;}
+.CLB_cNav{ margin:60px 10px 10px; }
+.CLB_cNav li{opacity: 0; transform: translateX(50px); transition: all 0.4s;}
+.CLB_cNav li a{ display:block;}
+.cNav_current li{opacity: 1; transform: translateX(0);}
+.cNav_current li:nth-child(1){transition-delay: 0.50s;}
+.cNav_current li:nth-child(2){transition-delay: 0.65s;}
+.cNav_current li:nth-child(3){transition-delay: 0.80s;}
+.cNav_current li:nth-child(4){transition-delay: 0.95s;}
+.cNav_current li:nth-child(5){transition-delay: 1.10s;}
+.cNav_current li:nth-child(6){transition-delay: 1.25s;}
+.cNav_current li:nth-child(7){transition-delay: 1.40s;}
+.cNav_current li:nth-child(8){transition-delay: 1.55s;}
+.cNav_current li:nth-child(9){transition-delay: 1.70s;}
+.cNav_Dl{}
+.cNav_Dl dt{ float:left; width:30px; height:30px; margin-top:10px;}
+.cNav_Dl dt img{ display:block; width:100%; height:100%;}
+.cNav_Dl dd{ margin-left:40px; border-bottom:1px solid #eee; padding:10px 0;}
+.cNav_Dl dd p{ float:left; font-size:14px; color:#333; height:30px; line-height:30px;}
+.cNav_Dl dd img{ float:right; width:10px; margin-top:8px;}
+
+
+
+
+
+
+
+

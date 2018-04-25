@@ -1,5 +1,6 @@
 ﻿@using C8.Lottery.Model
 @using C8.Lottery.Public
+@using System.Configuration
 @model LotteryType
 
 @{
@@ -8,6 +9,8 @@
     int currentLotteryTypeId = ViewBag.CurrentLotteryType;
 
     int lType = ViewBag.lType;
+
+    var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
 }
 
 <!DOCTYPE html>
@@ -176,7 +179,7 @@
                                     }
                                 }
                             </div>
-                        }         
+                        }
 
                     </dd>
                 </dl>
@@ -219,7 +222,7 @@
             <dt><p><span class="spec"></span>香港正版图库</p></dt>
             <dd><a href="/News/Index/5/111">看图解码</a></dd>
             <dd><a href="/News/Index/5/112">幸运彩图</a></dd>
-            <dd><a href="/News/Index/5/113">精彩选图</a></dd>
+            <dd><a href="/News/Index/5/113">精选彩图</a></dd>
             <dd><a href="/News/Index/5/114">香港图库</a></dd>
         </dl>
         <div class="clearfix"></div>
@@ -247,11 +250,11 @@
     <div class="mask" style="display:none;"></div>
 
     <script type="text/javascript">
-        var url = "ws://119.147.139.131:8801/LhcHandler.ashx";
+        var url = "@socketUrl/LhcHandler.ashx";
         var ws;
         $(function () {
             if ("@ViewBag.time" == "正在开奖") {
-                
+
                 ws = new WebSocket(url);
 
                 //链接成功回调
@@ -273,7 +276,7 @@
             //else {
 
             //}
-        }); 
+        });
 
         //链接成功回调
         function wsOnopen() {
@@ -287,17 +290,17 @@
             if (data == undefined || data == null)
                 return;
             switch (data.MsgTypeChild) {
-                case 11: //开始命令                   
+                case 11: //开始命令
                     break;
                 case 12: //结束命令
                     ws.close()  //结束后，主动断开链接
-                    break;               
-                case 21: //消息               
+                    break;
+                case 21: //消息
                     showBall(data);
                     break;
                 case 31: //心跳包
-                   
-                    break;              
+
+                    break;
             }
         }
 
@@ -321,7 +324,7 @@
                 ws.onclose = function () {
                     wsOnclose()
                 }
-            }            
+            }
         }
 
         //链接关闭回调
@@ -346,7 +349,7 @@
         }
 
         //获取球的颜色
-        function getColor(num) {            
+        function getColor(num) {
             num = "," + num + ",";
 
             var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";

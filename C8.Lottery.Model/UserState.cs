@@ -69,5 +69,10 @@ namespace C8.Lottery.Model
         public int? IsInfoAD { get; set; }
 
         public int? IsPlanAD { get; set; }
+
+        /// <summary>
+        /// 积分最高的彩种名称
+        /// </summary>
+        public string MasterLottery { get; set; }
     }
 }

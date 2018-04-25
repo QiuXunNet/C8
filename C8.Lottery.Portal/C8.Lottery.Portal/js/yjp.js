@@ -2,7 +2,22 @@
 
 $(function () {
 
+    /*我的卡券*/
+    $(".My_KJHeader li").click(function () {
+        var KJ = $(this).index();
+        $(this).addClass("current").siblings().removeClass("current");
+       // $(".My_KaJuanBox .My_KaJuanK").eq(KJ).show().siblings().hide();
+    });
 
+    /*资讯-内容详情*/
+    $(".ZX_Sidebar").click(function () {
+        $(".ZX_CLBox").toggleClass("CLBox_current");
+        $(".CLB_cNav").toggleClass("cNav_current");
+    });
+    $(".CLB_YY").click(function () {
+        $(".ZX_CLBox").removeClass("CLBox_current");
+        $(".CLB_cNav").removeClass("cNav_current");
+    });
 
     /*清除文本框值*/
     $(".Bul1_del").click(function () {
@@ -60,15 +75,12 @@ $(function () {
         $(this).addClass("current").siblings().removeClass("current");
         var zhi = $(this).index();
         $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
-    });
-
-    /*index-切换彩种*/
-    $(".hdNav_cai li").click(function () {
-        $(this).addClass("current").siblings().removeClass("current");
-        var zhi = $(this).index();
-        $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
 
         $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
+		
+		$(".hdNav_cai_expand").hide();
+		$(".mask").hide();
+		
     });
 
     /*** Added By LHS 2018-3-1  */
@@ -82,6 +94,10 @@ $(function () {
         //展开项添加选中
         $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
         $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+		
+		$(".hdNav_cai_expand").hide();
+		$(".mask").hide();
+		
     });
 
     /* 展开项点击 */
@@ -117,9 +133,9 @@ $(function () {
     });
 
     $(".hdNav_cai_collect .hdNav_cai_lhs_expand").click(function () {
-        $(".hdNav_cai_collect").hide();
-        $(".hdNav_cai_expand").show();
-        $(".mask").show();
+        //$(".hdNav_cai_collect").hide();
+        $(".hdNav_cai_expand").toggle();
+        $(".mask").toggle();
     });
 
     $(".hdNav_cai_expand .collect").click(function () {
@@ -406,6 +422,7 @@ $(function () {
                 ctype: ctype,
                 type: type
             }, function (result) {
+         
                 if (result) {
                     if (result.Code === 401) {
                         location.href = "/Home/Login";
@@ -419,6 +436,8 @@ $(function () {
                             likeCount -= 1;
                         }
                         likeElement.html(likeCount);
+
+                        likeElement.html() == 0 ? likeElement.html("") : likeElement.html();
 
                     } else {
                         alertmsg(result.Message);

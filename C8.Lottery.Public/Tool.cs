@@ -22,13 +22,13 @@ namespace C8.Lottery.Public
      public static string GetMD5(string myString)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] fromData = System.Text.Encoding.Unicode.GetBytes(myString);
+            byte[] fromData = System.Text.Encoding.UTF8.GetBytes(myString);
             byte[] targetData = md5.ComputeHash(fromData);
             string byte2String = null;
 
             for (int i = 0; i<targetData.Length; i++)
             {
-                byte2String += targetData[i].ToString("x");
+                byte2String += targetData[i].ToString("x2");
             }
 
             return byte2String;
@@ -77,6 +77,14 @@ namespace C8.Lottery.Public
                     break;
             }
             return imgsrc;
+        }
+        /// <summary>
+        /// 获取卡劵图片
+        /// </summary>
+        /// <returns></returns>
+        public string GetVoucher()
+        {
+            return "";
         }
 
         /// <summary>

@@ -15,6 +15,8 @@ namespace C8.Lottery.Portal.Models
         /// 来源用户Id
         /// </summary>
         public int RefUserId { get; set; }
+
+        public int RefId { get; set; }
         /// <summary>
         /// 来源用户昵称
         /// </summary>

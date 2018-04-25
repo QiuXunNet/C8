@@ -1143,7 +1143,15 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     if (x.PId > 0)
                     {
                         var comment = GetComment(x.PId);
-                        x.MyContent = comment.Content;
+                        if (comment == null)
+                        {
+                            x.MyContent ="已删除";
+                        }
+                        else
+                        {
+                            x.MyContent = comment.Content;
+                        }
+                    
                     }
                     var info = GetLotteryTypeName(x.Type, x.ArticleId);
                     x.LotteryTypeName = info.TypeName ?? "";
@@ -1891,6 +1899,65 @@ inner join UserInfo u on  c.UserId=u.Id
         /// </summary>
         /// <returns></returns>
         public ActionResult CommissionRules()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 卡劵
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Voucher()
+        {
+
+            return View();
+        }
+        /// <summary>
+        /// 卡劵数据
+        /// </summary>
+        /// <param name="type">0 未使用 1已使用 2已过期</param>
+        /// <returns></returns>
+        public JsonResult VoucherList(int type)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            int UserId = UserHelper.GetByUserId();
+            
+            string strwhere =string.Format(" UserId={0}",UserId);
+            switch (type)
+            {
+                case 0:
+                    strwhere += " and State=1 and getdate()<EndTime";
+                    break;
+
+                case 1:
+                    strwhere += " and State=2";
+                    break;
+
+                case 2:
+                    strwhere += " and getdate()>EndTime";
+                    break;
+            }
+            string strsql =string.Format("select * from UserCoupon where {0} ",strwhere);
+            try
+            {
+                List<UserCoupon> list = Util.ReaderToList<UserCoupon>(strsql);
+                msg.Success = true;
+                msg.data = list;
+            }
+            catch (Exception e)
+            {
+                msg.Success = false;
+                msg.Msg = e.Message;
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 卡劵规则
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult VoucherRules()
         {
             return View();
         }

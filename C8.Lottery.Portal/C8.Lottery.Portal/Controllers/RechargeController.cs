@@ -213,13 +213,13 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         public void AsyncPay()
         {
-            // log.Info("支付宝异步回调页面");
+            LogHelper.WriteLog("支付宝异步回调页面");
             SortedDictionary<string, string> sPara = GetRequestPost();//将post请求过来的参数传化为SortedDictionary
                                                                       // log.Info("sPara.Count:" + sPara.Count);
             if (sPara.Count > 0)
             {
                 bool bo = Verify(sPara);
-                // log.Info("Verify(sPara):" + bo);
+                LogHelper.WriteLog("Verify(sPara):" + bo);
                 if (bo)//验签if (VerifyResult)
                 {
                     try
@@ -255,7 +255,7 @@ namespace C8.Lottery.Portal.Controllers
                         //log.Info("商品描述:" + body);
                         //log.Info("交易创建时间:" + gmt_create);
                         //log.Info("交易付款时间:" + gmt_payment);
-
+                        LogHelper.WriteLog("trade_status--" + trade_status);
                         if (trade_status == "TRADE_FINISHED") //支持退款订单，如果超过可退款日期，支付宝发送一条请求并走这个代码
                         {
                             //  log.Info("该订单不可退款");
@@ -343,7 +343,7 @@ namespace C8.Lottery.Portal.Controllers
                 //判断支付中的订单是否存在,如果不存在.则说明已经改变状态了
                 string sql = "select * from ComeOutRecord where OrderId=@OrderId and PayType=@PayType and State=1";
                 var list = Util.ReaderToList<ComeOutRecord>(sql, new SqlParameter[] { new SqlParameter("@OrderId", no), new SqlParameter("@PayType", payType) });
-
+                LogHelper.WriteLog("list.Count -- " +list.Count);
                 if (!list.Any())
                 {
                     return true;
@@ -385,6 +385,8 @@ namespace C8.Lottery.Portal.Controllers
 
                 sql += @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
                         update UserInfo set Coin = Coin + " + (money + addCoin) + " where Id =@UserId;";
+
+                LogHelper.WriteLog("sql --" + sql);
 
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@OrderId",no),
