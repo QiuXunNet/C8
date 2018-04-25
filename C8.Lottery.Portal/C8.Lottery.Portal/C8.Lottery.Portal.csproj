@@ -693,6 +693,8 @@
     <Content Include="images\Banklogo\SPABANK.png" />
     <Content Include="images\Banklogo\SPDB.png" />
     <Content Include="images\w1.png" />
+    <Content Include="images\w10_1.png" />
+    <Content Include="images\w10_2.png" />
     <Content Include="images\w2_1.png" />
     <Content Include="images\w2_2.png" />
     <Content Include="images\w3_1.png" />
@@ -707,6 +709,9 @@
     <Content Include="images\w6_4.png" />
     <Content Include="images\w6_5.png" />
     <Content Include="images\w7.png" />
+    <Content Include="images\w8.png" />
+    <Content Include="images\w9_1.png" />
+    <Content Include="images\w9_2.png" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
     <Content Include="js\fontSize.js" />

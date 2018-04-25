@@ -242,8 +242,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
             //查询推荐图
             string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
  left join NewsType b on b.Id= a.TypeId
- where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and b.lType=" + ltype + " order by ModifyDate DESC";
-            var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
+ where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and TypeId=@NewsTypeId and b.lType=@LType order by ModifyDate DESC";
+            var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql, parameters);
 
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
             recGalleryList.ForEach(x =>
