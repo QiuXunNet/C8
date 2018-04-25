@@ -270,6 +270,8 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     if (model.Content.IndexOf(s) == -1)
                         continue;
+                    if(string.IsNullOrEmpty(s))
+                        continue;
 
                     var newStr = "";
                     for (int i = s.Length; i > 0; i--)

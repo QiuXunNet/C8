@@ -409,7 +409,7 @@
                 var lis = $(".messageOption");
                 $(lis).each(function () {
                     if ($(this).attr("data-UserId") == data.BlackPeople) {
-                        $(this).find(".defriend").text("已拉黑").removeClass("i_lh").addClass("i_ylh").unbind()
+                        $(this).find(".defriend").text("已拉黑").removeClass("i_lh").addClass("i_ylh").unbind();
                     }
                 })
             }
@@ -633,6 +633,8 @@
 
         //拉入黑名单
         function blacklisted(a) {
+            if ($(a).hasClass("i_ylh"))
+                return;
 
             var userId = $(a).closest(".messageOption").attr("data-UserId");
             var userName = $(a).closest(".messageOption").find(".nickname").text();
