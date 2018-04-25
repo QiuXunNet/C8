@@ -16,3 +16,12 @@ function ShowTan(text) {
 function trimEnd(str) {
     return str.substr(0, str.length - 1);
 }
+
+/**
+ * 重定向
+ * @param {Url} url 
+ * @returns {} 
+ */
+function redirect(url) {
+    location.href = url;
+}

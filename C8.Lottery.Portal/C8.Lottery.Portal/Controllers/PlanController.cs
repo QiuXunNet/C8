@@ -222,6 +222,24 @@ namespace C8.Lottery.Portal.Controllers
 
             long uid = UserHelper.LoginUser.Id;
 
+            #region 校验
+            //获取当前状态
+            string time = Util.GetOpenRemainingTime(lType);
+            if (time == "正在开奖")
+            {
+                return Content("发帖失败，当期已封盘");
+            }
+
+            //校验当前这期是否已开奖
+            string isOpenSql = "select count(1) from dbo.LotteryRecord where lType=" + lType + " and Issue=@Issue";
+            object obj = SqlHelper.ExecuteScalar(isOpenSql, new SqlParameter("@Issue", currentIssue));
+            if (obj != null && Convert.ToInt32(obj) > 0)
+            {
+                return Content("发帖失败，当期已封盘");
+            }
+
+            #endregion
+
             //数据清理
             string sql = "delete from BettingRecord where UserId=" + uid + " and lType =" + lType + " and Issue=@Issue";
             SqlHelper.ExecuteNonQuery(sql, new SqlParameter("@Issue", currentIssue));
@@ -380,36 +398,36 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult LastPlay(int id, int uid, string playName)
         {
             var user = UserHelper.LoginUser;
-          
-              
 
-                //step1:验证玩法名称是否为空
-                string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", id, uid);
-                if (string.IsNullOrEmpty(playName))
-                {
-                    Response.Redirect(redirectUrl, true);
-                }
-                //step2.查询最新发帖
-                string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
+
+
+            //step1:验证玩法名称是否为空
+            string redirectUrl = string.Format("/Plan/PlayRecord/{0}?uid={1}", id, uid);
+            if (string.IsNullOrEmpty(playName))
+            {
+                Response.Redirect(redirectUrl, true);
+            }
+            //step2.查询最新发帖
+            string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
                  and lType=@lType and WinState=1 and PlayName=@PlayName order by SubTime desc";
-                var lastBettingParameter = new[]
-                {
+            var lastBettingParameter = new[]
+            {
                     new SqlParameter("@UserId", uid),
                     new SqlParameter("@lType", id),
                     new SqlParameter("@PlayName", playName),
                 };
-                var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
-                var lastBettingRecord = records.FirstOrDefault();
+            var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
+            var lastBettingRecord = records.FirstOrDefault();
 
-                if (lastBettingRecord == null)
-                {
-                    Response.Redirect(redirectUrl, true);
-                }
+            if (lastBettingRecord == null)
+            {
+                Response.Redirect(redirectUrl, true);
+            }
 
-                ViewBag.LastBettingRecord = lastBettingRecord;
+            ViewBag.LastBettingRecord = lastBettingRecord;
             #region 校验,添加点阅记录，扣费，分佣
             if (user.Id != uid)
-             {
+            {
                 //step3:查询用户是否点阅过该帖子。若未点阅过，则校验金币是否充足
                 string readRecordSql = @"select count(1) from ComeOutRecord 
 where [Type]=@Type and UserId=@UserId and OrderId=@Id";
@@ -478,9 +496,9 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
                     try
                     {
-                    
+
                         SqlHelper.ExecuteTransaction(executeSql.ToString());
-              
+
                     }
                     catch (Exception ex)
                     {
@@ -494,7 +512,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
                 }
 
-               
+
             }
             #endregion
 
@@ -532,11 +550,11 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         /// <returns></returns>
         public int GetlType(int LotteryCode)
         {
-            string strsql =string.Format("select lType from [dbo].[Lottery] where LotteryCode={0}",LotteryCode);
+            string strsql = string.Format("select lType from [dbo].[Lottery] where LotteryCode={0}", LotteryCode);
             return Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
         }
 
-    
+
 
 
 
@@ -1082,7 +1100,7 @@ order by e.Count desc";
             ViewBag.HotList = list;
             ViewBag.lType = id;
             string memberKey = "history_" + MyUserId + "_" + id;
-            ViewBag.historyList= MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey)??new List<ExpertSearchModel>();
+            ViewBag.historyList = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
             return View();
         }
 
@@ -1121,18 +1139,18 @@ order by e.Count desc";
                     List<ExpertSearchModel> list = new List<ExpertSearchModel>();
 
                     int MyUserId = UserHelper.GetByUserId();
-                    string memberKey = "history_"+ MyUserId + "_"+lType;
-                    list=MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey)??new List<ExpertSearchModel>();
+                    string memberKey = "history_" + MyUserId + "_" + lType;
+                    list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
 
                     UserInfo u = UserHelper.GetUser(uid);
-                   
+
                     ExpertSearchModel e = new ExpertSearchModel();
                     e.Avater = u.Headpath;
                     e.UserId = uid;
                     e.Name = u.Name;
                     e.lType = lType;
                     e.isFollow = 0;
-                    if (list.Count>0)
+                    if (list.Count > 0)
                     {
                         ExpertSearchModel e1 = list.Where(x => x.UserId == uid && x.lType == lType).FirstOrDefault();
                         if (e1 == null)
@@ -1154,7 +1172,7 @@ order by e.Count desc";
                     msg.Success = false;
                     msg.Msg = "fail";
                 }
-             
+
             }
             catch (Exception ex)
             {
@@ -1164,7 +1182,7 @@ order by e.Count desc";
             }
 
             return Json(msg);
-        
+
         }
         /// <summary>
         /// 删除历史记录
@@ -1173,7 +1191,7 @@ order by e.Count desc";
         /// <param name="lType"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult DeleteHistory(int uid,int lType)
+        public JsonResult DeleteHistory(int uid, int lType)
         {
             ReturnMessageJson msg = new ReturnMessageJson();
             try
@@ -1200,7 +1218,7 @@ order by e.Count desc";
                 throw;
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
-       
+
 
         }
 
@@ -1213,7 +1231,7 @@ order by e.Count desc";
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult ExpertSearchList(int lType,string NickName)
+        public JsonResult ExpertSearchList(int lType, string NickName)
         {
             ReturnMessageJson msg = new ReturnMessageJson();
             int MyUserId = UserHelper.GetByUserId();
@@ -1224,7 +1242,7 @@ order by e.Count desc";
 	left join ResourceMapping r on r.FkId =b.UserId and r.[Type]=@ResourceType
     where WinState>1 and lType=@lType and u.Name like '%'+@Name+'%'  and b.UserId<>@MyUserId
     group by UserId, lType,u.Name,r.RPath";
-            SqlParameter[] sp = new SqlParameter[] 
+            SqlParameter[] sp = new SqlParameter[]
             {
                 new SqlParameter("@MyUserId",MyUserId),
                  new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
@@ -1237,7 +1255,7 @@ order by e.Count desc";
                 List<ExpertSearchModel> list = Util.ReaderToList<ExpertSearchModel>(strsql, sp);
                 msg.data = list;
                 msg.Success = true;
-               
+
 
             }
             catch (Exception e)
@@ -1251,7 +1269,7 @@ order by e.Count desc";
 
         }
 
-      
+
 
 
 
