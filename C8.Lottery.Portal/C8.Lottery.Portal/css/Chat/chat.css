@@ -42,16 +42,15 @@ body {
     }
 
 .c_profile {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     margin: 0 1.2rem 0 0.6rem;
-    border-radius: 5px;
-    overflow: hidden;
+	border-radius:5px; overflow:hidden;
 }
 
     .c_profile img {
         width: 100%;
-        height: 100%;
+		height:100%;
         /*border: 2px solid #b9456c;
         border-radius: 50%;*/
     }
@@ -70,26 +69,27 @@ body {
         .c_cnt h3 s {
             text-decoration: none;
             color: #999;
-            padding: 0 6px;
-            background: #ccc;
-            border-radius: 0.2rem;
-            display: inline-block;
+           	padding: 0 6px;
+			background: #ccc;
+			border-radius:0.6rem;
+			margin-left: 5px;
+			font-size: 12px;
         }
 
         .c_cnt h3 .i_tag {
-            background: #f13131;
+            background: #f61d82;
             color: #fff;
-            padding: 0 0.3rem;
+            padding: 0 0.5rem;
             border-radius: 0.2rem;
             margin-right: 0.3rem;
-            FONT-SIZE: 12PX;
+			font-size: 12px;
         }
 
     .c_cnt .c_main {
         line-height: 1.6rem;
         padding: 0.6rem 1.0rem;
         background: #fff;
-        font-size: 1.2rem;
+        font-size: 12px;
         display: inline-block;
         position: relative;
         border-radius: .5rem;
@@ -151,14 +151,17 @@ body {
 
     .c_do i {
         margin: 0 0.2rem;
+			font-size: 12px;
     }
 
         .c_do i.i_mv {
             color: #D80003;
+			font-size: 12px;
         }
 
         .c_do i.i_ylh {
             color: #999;
+			font-size: 12px;
         }
 
 .c_right {
@@ -174,7 +177,7 @@ body {
     }
 
     .c_right .c_main {
-        background: #f13131;
+        background: #eb5c5c;
         color: #fff;
     }
 
@@ -207,6 +210,7 @@ body {
 
 .footer {
     height: auto;
+	border-top: 1px solid #dfdfdf;
 }
 
 /*.footer_chat {
@@ -301,7 +305,7 @@ body {
             width: 3.2rem;
             height: 3.2rem;
             display: inline-block;
-            float: left;
+            float: right;
             background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
         }
 
@@ -407,20 +411,11 @@ body {
 
 
 
-.btn-default-styles i {
-    background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
-    width: 100%;
-    height: 3.2rem;
-    display: block;
-}
-
-.C_GsaoShou {
-    background: #f18b31;
-    font-size: 12px;
-    color: #fff;
-    padding: 0 6px;
-    border-radius: 0.2rem;
-    font-weight: normal;
-    display: inline-block;
-}
-
+    .btn-default-styles i {
+        background: url(../../images/Chat/icon_pic.png) no-repeat center center/2.2rem auto;
+        width: 100%;
+        height: 3.2rem;
+        display: block;
+    }
+	
+	.C_GsaoShou{ background:#f18b31; font-size:12px; color:#fff; padding:0 6px; border-radius:0.2rem; font-weight:normal; margin-right:5px;}
