@@ -55,6 +55,7 @@ function BindconfirmBetCLick() {
             $.post('/Plan/Bet', { lType: lType, betInfo: betInfo, currentIssue: currentIssue }, function (res) {
                 if (res && res == "ok") {
                     ShowTan('发帖成功');
+                    redirect('/Personal/MyPlan');
                 } else {
                     ShowTan(res);
                 }
