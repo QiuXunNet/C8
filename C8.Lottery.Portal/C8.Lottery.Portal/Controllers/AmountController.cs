@@ -57,7 +57,7 @@ namespace C8.Lottery.Portal.Controllers
                 string regsql = "";
                 if (rows > 0)
                 {
-                    regsql = @"update bankinfo set BankAccount=@BankAccount,BankName=@BankName,SubTime=@SubTime where UserId=@UserId";
+                    regsql = @"update bankinfo set BankAccount=@BankAccount,BankName=@BankName,SubTime=@SubTime,TrueName=@TrueName where UserId=@UserId";
                 }
                 else
                 {
