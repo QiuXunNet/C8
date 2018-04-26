@@ -118,7 +118,7 @@ namespace C8.Lottery.Public
        public static bool CheckSensitiveWords(string str)
         {
             string words = WebHelper.GetSensitiveWords();
-            string[] zang = words.Split(',');
+            string[] zang = words.Remove(words.Length-1,1).Split(',');
             
             if (str.Trim().Length <= 0 || zang == null || zang.Count() <= 0)
             {
