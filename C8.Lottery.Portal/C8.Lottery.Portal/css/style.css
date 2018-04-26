@@ -110,6 +110,16 @@ a {
 
 /*公用样式*/
 
+/*C8 页面公用 颜色*/
+.HYJP_Red{ background:#f13131 !important;}
+.HYJP_Blue{ background:#1c3bd8 !important;}
+
+.HYJP_LhRed{background:url(../images/12_1.png) no-repeat !important; background-size:100% !important; color:#333 !important;}
+.HYJP_LhBlue{background:url(../images/12_2.png) no-repeat !important; background-size:100% !important; color:#333 !important;}
+.HYJP_LhGreen{background:url(../images/12_3.png) no-repeat !important; background-size:100% !important; color:#333 !important;}
+
+
+
 .f-l {
     float: left;
 }

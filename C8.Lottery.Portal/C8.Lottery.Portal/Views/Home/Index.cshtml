@@ -1,4 +1,5 @@
-﻿@using C8.Lottery.Model
+﻿@using C8.Lottery.Public
+@using C8.Lottery.Model
 @{
     Layout = null;
     UserInfo user = ViewBag.UserInfo;
@@ -182,19 +183,86 @@
                                 <div class="ball_wrap">
 
 
-                                    @if (lType <= 62)
+                                    @if (lType <= 62 && lType != 5 && lType != 2 && lType != 8 && lType != 4)
                                     {
                                         foreach (string s in numArr)
                                         {
-                                            if (s == "19" || s == "20")
+
+                                            <span class="ball_spB ball_red HYJP_Red">@s</span>
+
+                                        }
+                                    }
+                                    else if (lType == 2)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 6)
                                             {
-                                                <span class="ball_spB ball_red">@s</span>
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
                                             }
                                             else
                                             {
-                                                <span class="ball_spB ball_blue">@s</span>
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
                                             }
 
+                                        }
+                                    }
+                                    else if (lType == 4)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 5 || index == 6)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
+
+                                        }
+
+
+                                    }
+                                    else if (lType == 5)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            string Color = Util.GetColor(s);
+                                            string ys = string.Empty;
+                                            switch (Color)
+                                            {
+                                                case "red":
+                                                    ys = "HYJP_LhRed";
+                                                    break;
+                                                case "blue":
+                                                    ys = "HYJP_LhBlue";
+                                                    break;
+                                                case "green":
+                                                    ys = "HYJP_LhGreen";
+                                                    break;
+                                            }
+                                            <span class="ball_spB ball_blue @ys">@s</span>
+                                        }
+                                    }
+                                    else if (lType == 8)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 7)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
                                         }
                                     }
                                     else if (lType == 65)
@@ -204,22 +272,22 @@
                                         int c = int.Parse(numArr[2]);
                                         int sum = a + b + c;
 
-                                        <span class="ball_spB ball_blue">@numArr[0]</span>
-                                        <span class="ball_spB ball_blue">+</span>
-                                        <span class="ball_spB ball_blue">@numArr[1]</span>
-                                        <span class="ball_spB ball_blue">+</span>
-                                        <span class="ball_spB ball_blue">@numArr[2]</span>
-                                        <span class="ball_spB ball_blue">=</span>
-                                        <span class="ball_spB ball_blue">@sum</span>
-                                    }
-                                    else if (lType == 63 || lType == 64)
-                                    {
-                                        foreach (string s in numArr)
-                                        {
-                                            string clazz = "ball_spA No" + s;
-                                            <span class="@clazz">@s</span>
-                                        }
-                                    }
+                                         <span class="ball_spB ball_blue">@numArr[0]</span>
+                                         <span class="ball_spB ball_blue">+</span>
+                                         <span class="ball_spB ball_blue">@numArr[1]</span>
+                                         <span class="ball_spB ball_blue">+</span>
+                                         <span class="ball_spB ball_blue">@numArr[2]</span>
+                                         <span class="ball_spB ball_blue">=</span>
+                                         <span class="ball_spB ball_blue">@sum</span>
+                                     }
+                                     else if (lType == 63 || lType == 64)
+                                     {
+                                         foreach (string s in numArr)
+                                         {
+                                             string clazz = "ball_spA No" + s;
+                                             <span class="@clazz">@s</span>
+                                         }
+                                     }
 
 
                                 </div>
