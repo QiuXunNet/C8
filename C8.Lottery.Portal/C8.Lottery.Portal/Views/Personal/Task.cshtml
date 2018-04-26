@@ -21,27 +21,27 @@
         <a href="javascript:;" class="hjc_logo">赚钱任务</a>
         <a href="/Personal/TaskRule" class="SX_A">规则</a>
     </header>
-    
+
     <div class="Make_header">
         <div class="surePass">
             <div class="anyield">
-                <h3 class="any_Number">@Model.Where(x=>x.CompletedCount>=x.Count).Sum(p=>p.Coin)</h3>
+                <h3 class="any_Number">@Model.Where(x => x.CompletedCount >= x.Count).Sum(p => p.Coin)</h3>
                 <p class="any_Receive">已领取</p>
-                <p class="any_Can">@Html.Raw("今日可领 "+Model.Sum(x=>x.Coin))金币</p>
+                <p class="any_Can">@Html.Raw("今日可领 " + Model.Sum(x => x.Coin))金币</p>
             </div>
             <canvas class="circleRun" id="canvasThree"></canvas>
         </div>
     </div>
-    
+
     <div class="Make_content">
         <h3 class="Make_cTitle">赚钱任务</h3>
         <ul class="Make_cUl">
-          
+
             @foreach (var item in Model)
             {
-           
+
                 <li>
-                 
+
                     <i class="Mack_icon"></i>
                     <h3>@item.TaskItem（@item.CompletedCount/@item.Count）</h3>
                     <p>+@Html.Raw(item.Coin)金币</p>
@@ -53,36 +53,36 @@
                 </li>
             }
             @*<li>
-                <i class="Mack_icon"></i>
-                <h3>充值100元（0/1）</h3>
-                <p>+10金币</p>
-                <div style="clear:both;"></div>
-            </li>
-            <li>
-                <i class="Mack_icon"></i>
-                <h3>评论专家推荐(0/10)</h3>
-                <p>+1金币</p>
-                <div style="clear:both;"></div>
-            </li>
-            <li>
-                <i class="Mack_icon"></i>
-                <h3>邀请成功注册(0/8)</h3>
-                <p>+1金币</p>
-                <div style="clear:both;"></div>
-            </li>
-            <li>
-                <i class="Mack_icon"></i>
-                <h3>分享(0/5)</h3>
-                <p>+1金币</p>
-                <div style="clear:both;"></div>
-            </li>
-            <li>
-                <i class="Mack_icon"></i>
-                <h3>新增粉丝(10/10)</h3>
-                <p>+1金币</p>
-                <div style="clear:both;"></div>
-                <div class="Mack_YWC"><img src="~/images/68.png"></div>
-            </li>*@
+                    <i class="Mack_icon"></i>
+                    <h3>充值100元（0/1）</h3>
+                    <p>+10金币</p>
+                    <div style="clear:both;"></div>
+                </li>
+                <li>
+                    <i class="Mack_icon"></i>
+                    <h3>评论专家推荐(0/10)</h3>
+                    <p>+1金币</p>
+                    <div style="clear:both;"></div>
+                </li>
+                <li>
+                    <i class="Mack_icon"></i>
+                    <h3>邀请成功注册(0/8)</h3>
+                    <p>+1金币</p>
+                    <div style="clear:both;"></div>
+                </li>
+                <li>
+                    <i class="Mack_icon"></i>
+                    <h3>分享(0/5)</h3>
+                    <p>+1金币</p>
+                    <div style="clear:both;"></div>
+                </li>
+                <li>
+                    <i class="Mack_icon"></i>
+                    <h3>新增粉丝(10/10)</h3>
+                    <p>+1金币</p>
+                    <div style="clear:both;"></div>
+                    <div class="Mack_YWC"><img src="~/images/68.png"></div>
+                </li>*@
         </ul>
     </div>
 
@@ -92,30 +92,32 @@
             var taskcount = $(".Make_cUl li").length;
             var complete = $(".Make_cUl img").length;
             var perc = complete / taskcount;
-         
-            var findCanvas=$("#canvasThree");
-            var percents=findCanvas.attr('nowData')/findCanvas.attr('amout');
-			 //percents=0.25;
-			//percents 为百分比的值  范围 0- 1
+
+            var findCanvas = $("#canvasThree");
+            var percents = findCanvas.attr('nowData') / findCanvas.attr('amout');
+            //percents=0.25;
+            //percents 为百分比的值  范围 0- 1
             runCircle(
-			   {
-			    obj:'canvasThree',
-			    percent: perc,
-				url:'../images/fire.png',   //飞机小图地址
-				imgWidth:30,
-				imgHeight:30,
-				circleBottomColor:"#eee",//圆环底色 e6eaed
-				outerColorStart:'#ebf7ff',  //外部圆环 渐变色
-				//outerColorMid:'#d8eefc',
-				//outerColorEnd:'#a7cee7',
-				innerColorStart:'#f13131',  //内部圆环 渐变色 6fbef0
-				innerColorEnd:'#fff',
-			   }
-		    );
+                {
+                    obj: 'canvasThree',
+                    percent: perc,
+                    url: '../images/fire.png',   //飞机小图地址
+                    imgWidth: 30,
+                    imgHeight: 30,
+                    circleBottomColor: "#eee",//圆环底色 e6eaed
+                    outerColorStart: '#ebf7ff',  //外部圆环 渐变色
+                    //outerColorMid:'#d8eefc',
+                    //outerColorEnd:'#a7cee7',
+                    innerColorStart: '#f13131',  //内部圆环 渐变色 6fbef0
+                    innerColorEnd: '#fff',
+                }
+            );
         })
     </script>
 
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
 

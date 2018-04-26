@@ -16,99 +16,101 @@
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
     <style>
-        
-        .list_mainUl2{ display: none;}
 
+        .list_mainUl2 {
+            display: none;
+        }
     </style>
 </head>
 
-    <body style="background:#F4F4F5;">
+<body style="background:#F4F4F5;">
 
-        <header class="hjc_header">
-            <a href="/Home/Index" class="hjc_back"></a>
-            <a href="javascript:;" class="hjc_logo">计划</a>
-        </header>
+    <header class="hjc_header">
+        <a href="/Home/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">计划</a>
+    </header>
 
-        <div class="hjc_hdNav">
+    <div class="hjc_hdNav">
 
-            <div class="hdNav_cai_collect">
-                <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
-                <ul class="hdNav_cai_lhs">
-                    
-                    @foreach (LotteryType2 lotteryType in ViewBag.list)
-                    {
-                        <li><a href="javascript:;">@lotteryType.Name</a></li>
-                    }
+        <div class="hdNav_cai_collect">
+            <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
+            <ul class="hdNav_cai_lhs">
 
-                    <div style="clear:bothl;"></div>
-                </ul>
-            </div>
-            <div class="hdNav_cai_expand" style="display:none">
-                @*<div class="hdNav_cai_title">
+                @foreach (LotteryType2 lotteryType in ViewBag.list)
+                {
+                    <li><a href="javascript:;">@lotteryType.Name</a></li>
+                }
+
+                <div style="clear:bothl;"></div>
+            </ul>
+        </div>
+        <div class="hdNav_cai_expand" style="display:none">
+            @*<div class="hdNav_cai_title">
                     <span>切换分类</span>
                     <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
                 </div>*@
-                <ul class="hdNav_cai">
+            <ul class="hdNav_cai">
 
-                    @foreach (LotteryType2 lotteryType in ViewBag.list)
-                    {
-                         <li><a href="javascript:;">@lotteryType.Name</a></li>
-                    }
+                @foreach (LotteryType2 lotteryType in ViewBag.list)
+                {
+                    <li><a href="javascript:;">@lotteryType.Name</a></li>
+                }
 
-                 
-                    <div style="clear:both;"></div>
-                </ul>
-            </div>
+
+                <div style="clear:both;"></div>
+            </ul>
         </div>
+    </div>
 
 
-        <div class="hjc_indexmain" style="margin-top:90px;">
-            
-            
-            @foreach (LotteryType2 lotteryType in ViewBag.list)
-            {
+    <div class="hjc_indexmain" style="margin-top:90px;">
 
-                int[] lTypeArr = lotteryType.SonIdArr;
-                
-                @*热门*@
-                <ul class="list_mainUl2">
 
-                    @for (int i = 0; i < lTypeArr.Length; i++)
-                    {
-                        int j = lTypeArr[i];
-                        string logo = Util.GetLotteryIcon(j) + ".png";
-                    
-                        <li>
-                            <div class="UL2_hd">
-                                <a href="/Plan/Index/@j">
-                                    <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
-                                    <div class="UL2_hdtit">
-                                        <h3>@Util.GetLotteryTypeName(j)</h3>
-                                    </div>
-                                    <span class="UL2_hdicon"></span>
-                                </a>
-                            </div>
-                        </li>
-                    }
+        @foreach (LotteryType2 lotteryType in ViewBag.list)
+        {
 
-                </ul>
-            }
-            
+            int[] lTypeArr = lotteryType.SonIdArr;
 
-            
-            <script>
-                $(function () {
-                    $('.hdNav_cai_lhs li').eq(0).addClass('current');
-                    $('.hdNav_cai li').eq(0).addClass('current');
-                    $('.list_mainUl2').eq(0).show();
-                });
+            @*热门*@
+            <ul class="list_mainUl2">
 
-            </script>
-            
-           
-        </div>
-        <div class="mask" style="display:none;"></div>
+                @for (int i = 0; i < lTypeArr.Length; i++)
+                {
+                    int j = lTypeArr[i];
+                    string logo = Util.GetLotteryIcon(j) + ".png";
 
-    </body>
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="/Plan/Index/@j">
+                                <div class="UL2_hdtu f-l"><img src="/images/@logo"></div>
+                                <div class="UL2_hdtit">
+                                    <h3>@Util.GetLotteryTypeName(j)</h3>
+                                </div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                    </li>
+                }
 
+            </ul>
+        }
+
+
+
+        <script>
+            $(function () {
+                $('.hdNav_cai_lhs li').eq(0).addClass('current');
+                $('.hdNav_cai li').eq(0).addClass('current');
+                $('.list_mainUl2').eq(0).show();
+            });
+
+        </script>
+
+
+    </div>
+    <div class="mask" style="display:none;"></div>
+
+</body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

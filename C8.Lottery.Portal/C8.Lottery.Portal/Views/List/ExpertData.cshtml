@@ -15,7 +15,7 @@
 <div class="Ranking_content mt10">
     <div class="Ranking_Cinfo" style="display: none;">
 
-        @if (dailyList != null && dailyList.Count>0)
+        @if (dailyList != null && dailyList.Count > 0)
         {
             <table width="100%" border="0" class="Ranking_table1">
                 <tbody>
@@ -81,49 +81,49 @@
                 <tbody>
 
                     @foreach (var item in weekList)
-                {
-                <tr>
+                    {
+                        <tr>
 
-                    <td width="10%" align="center" valign="middle">
-                        @if (item.Rank == 1)
-                            {
-                            <img src="/images/44_1.png" class="Ranking_Btu" />
-                            }
-                            else if (item.Rank == 2)
-                            {
-                            <img src="/images/44_2.png" class="Ranking_Btu" />
-                            }
-                            else if (item.Rank == 3)
-                            {
-                            <img src="/images/44_3.png" class="Ranking_Btu" />
-                            }
-                            else
-                            {
-                            <p>@item.Rank</p>
-                            }
-                    </td>
-                    <td width="15%" align="center" valign="middle">
-                        <div class="Ranking_Blogotu">
-                            <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
-                                @if (string.IsNullOrEmpty(item.Avater))
-                                    {
-                                    <img src="/images/default_avater.png" />
-                                    }
-                                    else
-                                    {
-                                    <img src="@item.Avater" />
-                                    }
-                            </a>
-                        </div>
-                    </td>
-                    <td align="left" valign="middle">
-                        <p class="Ysfont">
-                            <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
-                        </p>
-                    </td>
-                    <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
-                </tr>
-                }
+                            <td width="10%" align="center" valign="middle">
+                                @if (item.Rank == 1)
+                                {
+                                    <img src="/images/44_1.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 2)
+                                {
+                                    <img src="/images/44_2.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 3)
+                                {
+                                    <img src="/images/44_3.png" class="Ranking_Btu" />
+                                }
+                                else
+                                {
+                                    <p>@item.Rank</p>
+                                }
+                            </td>
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
+                                        @if (string.IsNullOrEmpty(item.Avater))
+                                        {
+                                            <img src="/images/default_avater.png" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@item.Avater" />
+                                        }
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p class="Ysfont">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
+                                </p>
+                            </td>
+                            <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
@@ -142,48 +142,48 @@
                 <tbody>
 
                     @foreach (var item in monthList)
-                {
-                    <tr>
+                    {
+                        <tr>
 
-                        <td width="10%" align="center" valign="middle">
-                            @if (item.Rank == 1)
-                        {
-                                <img src="/images/44_1.png" class="Ranking_Btu" />
-                        }
-                        else if (item.Rank == 2)
-                        {
-                                <img src="/images/44_2.png" class="Ranking_Btu" />
-                        }
-                        else if (item.Rank == 3)
-                        {
-                                <img src="/images/44_3.png" class="Ranking_Btu" />
-                        }
-                        else
-                        {
-                                <p>@item.Rank</p>
-                        }
-                        </td>
-                        <td width="15%" align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
-                                    @if (string.IsNullOrEmpty(item.Avater))
+                            <td width="10%" align="center" valign="middle">
+                                @if (item.Rank == 1)
                                 {
-                                        <img src="/images/default_avater.png" />
+                                    <img src="/images/44_1.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 2)
+                                {
+                                    <img src="/images/44_2.png" class="Ranking_Btu" />
+                                }
+                                else if (item.Rank == 3)
+                                {
+                                    <img src="/images/44_3.png" class="Ranking_Btu" />
                                 }
                                 else
                                 {
-                                        <img src="@item.Avater" />
+                                    <p>@item.Rank</p>
                                 }
-                                </a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p class="Ysfont">
-                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
-                            </p>
-                        </td>
-                        <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
-                    </tr>
+                            </td>
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
+                                        @if (string.IsNullOrEmpty(item.Avater))
+                                        {
+                                            <img src="/images/default_avater.png" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@item.Avater" />
+                                        }
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p class="Ysfont">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
+                                </p>
+                            </td>
+                            <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">@item.Score</span></td>
+                        </tr>
                     }
 
                 </tbody>
@@ -197,57 +197,57 @@
             </div>
         }
     </div>
-    <div class="Ranking_Cinfo" >
+    <div class="Ranking_Cinfo">
 
         @if (totalList != null && totalList.Count > 0)
-            {
+        {
             <table width="100%" border="0" class="Ranking_table1">
                 <tbody>
                     @foreach (var item in totalList)
-                {
-                    <tr>
+                    {
+                        <tr>
 
-                        <td width="10%" align="center" valign="middle">
-                            @if (item.Rank == 1)
+                            <td width="10%" align="center" valign="middle">
+                                @if (item.Rank == 1)
                                 {
-                                <img src="/images/44_1.png" class="Ranking_Btu" />
+                                    <img src="/images/44_1.png" class="Ranking_Btu" />
                                 }
                                 else if (item.Rank == 2)
                                 {
-                                <img src="/images/44_2.png" class="Ranking_Btu" />
+                                    <img src="/images/44_2.png" class="Ranking_Btu" />
                                 }
                                 else if (item.Rank == 3)
                                 {
-                                <img src="/images/44_3.png" class="Ranking_Btu" />
+                                    <img src="/images/44_3.png" class="Ranking_Btu" />
                                 }
                                 else
                                 {
-                                <p>@item.Rank</p>
+                                    <p>@item.Rank</p>
                                 }
-                        </td>
-                        <td width="15%" align="center" valign="middle">
-                            <div class="Ranking_Blogotu">
-                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
-                                    @if (string.IsNullOrEmpty(item.Avater))
+                            </td>
+                            <td width="15%" align="center" valign="middle">
+                                <div class="Ranking_Blogotu">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">
+                                        @if (string.IsNullOrEmpty(item.Avater))
                                         {
-                                        <img src="/images/default_avater.png" />
+                                            <img src="/images/default_avater.png" />
                                         }
                                         else
                                         {
-                                        <img src="@item.Avater" />
+                                            <img src="@item.Avater" />
                                         }
-                                </a>
-                            </div>
-                        </td>
-                        <td align="left" valign="middle">
-                            <p class="Ysfont">
-                                <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
-                            </p>
-                        </td>
-                        <td width="25%" align="center" valign="middle">
-                            <span class="Ds_money Jf_money">@item.Score</span>
-                        </td>
-                    </tr>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="left" valign="middle">
+                                <p class="Ysfont">
+                                    <a href="/Plan/PlayRecord/@item.LType?uid=@item.UserId&type=1">@item.NickName</a>
+                                </p>
+                            </td>
+                            <td width="25%" align="center" valign="middle">
+                                <span class="Ds_money Jf_money">@item.Score</span>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -264,15 +264,15 @@
 <div class="Ranking_footer">
     <dl id="day" class="Rank_ftDL">
         <dt>
-           
+
             <a href="/Plan/PlayRecord/@userDailyInfo.LType?uid=@userDailyInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userDailyInfo.Avater))
                 {
-                <img src="/images/default_avater.png" />
+                    <img src="/images/default_avater.png" />
                 }
                 else
                 {
-                <img src="@userDailyInfo.Avater" />
+                    <img src="@userDailyInfo.Avater" />
                 }
             </a>
         </dt>
@@ -284,11 +284,11 @@
                     当前排名：
                     @if (userDailyInfo.Rank > 0)
                     {
-                    <span>@userDailyInfo.Rank</span>
+                        <span>@userDailyInfo.Rank</span>
                     }
                     else
                     {
-                    <span>未上榜</span>
+                        <span>未上榜</span>
                     }
                 </P>
             </div>
@@ -296,15 +296,15 @@
     </dl>
     <dl id="week" class="Rank_ftDL" style="display: none;">
         <dt>
-          
+
             <a href="/Plan/PlayRecord/@userWeekInfo.LType?uid=@userWeekInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userWeekInfo.Avater))
                 {
-                <img src="/images/default_avater.png" />
+                    <img src="/images/default_avater.png" />
                 }
                 else
                 {
-                <img src="@userWeekInfo.Avater" />
+                    <img src="@userWeekInfo.Avater" />
                 }
             </a>
         </dt>
@@ -316,11 +316,11 @@
                     当前排名：
                     @if (userWeekInfo.Rank > 0)
                     {
-                    <span>@userWeekInfo.Rank</span>
+                        <span>@userWeekInfo.Rank</span>
                     }
                     else
                     {
-                    <span>未上榜</span>
+                        <span>未上榜</span>
                     }
                 </P>
             </div>
@@ -331,11 +331,11 @@
             <a href="/Plan/PlayRecord/@userMonthInfo.LType?uid=@userMonthInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userMonthInfo.Avater))
                 {
-                <img src="/images/default_avater.png" />
+                    <img src="/images/default_avater.png" />
                 }
                 else
                 {
-                <img src="@userMonthInfo.Avater" />
+                    <img src="@userMonthInfo.Avater" />
                 }
             </a>
         </dt>
@@ -347,11 +347,11 @@
                     当前排名：
                     @if (userMonthInfo.Rank > 0)
                     {
-                    <span>@userMonthInfo.Rank</span>
+                        <span>@userMonthInfo.Rank</span>
                     }
                     else
                     {
-                    <span>未上榜</span>
+                        <span>未上榜</span>
                     }
                 </P>
             </div>
@@ -362,11 +362,11 @@
             <a href="/Plan/PlayRecord/@userTotalInfo.LType?uid=@userTotalInfo.UserId&type=1">
                 @if (string.IsNullOrEmpty(@userTotalInfo.Avater))
                 {
-                <img src="/images/default_avater.png" />
+                    <img src="/images/default_avater.png" />
                 }
                 else
                 {
-                <img src="@userTotalInfo.Avater" />
+                    <img src="@userTotalInfo.Avater" />
                 }
             </a>
         </dt>
@@ -378,14 +378,16 @@
                     当前排名：
                     @if (userTotalInfo.Rank > 0)
                     {
-                    <span>@userTotalInfo.Rank</span>
+                        <span>@userTotalInfo.Rank</span>
                     }
                     else
                     {
-                    <span>未上榜</span>
+                        <span>未上榜</span>
                     }
                 </P>
             </div>
         </dd>
     </dl>
 </div>
+
+@{Html.RenderAction("index", "PvUvIp");}

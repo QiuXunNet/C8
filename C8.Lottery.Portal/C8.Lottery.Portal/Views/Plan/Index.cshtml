@@ -28,52 +28,47 @@
     <script type="text/javascript" src="/js/dialog.min.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/runTime2.js"></script>
-    
+
     <script type="text/javascript" src="/js/plan_scroll1.js">
 
     </script>
 
     <script>
-        $(function ()
-        {
+        $(function () {
             var cur = GetQueryString("cur");
-            if (cur != null)
-            {
+            if (cur != null) {
                 $(".C8_nav5 #g2").first().addClass("current").siblings().removeClass("current");
                 $(".C8_nav5 #g2").click();
 
             }
 
-            $(".hjc_back").click(function ()
-            {
+            $(".hjc_back").click(function () {
                 var ref = document.referrer;
-                if (ref.length == 0)
-                {
+                if (ref.length == 0) {
                     $(this).attr('href', '/Home/Index');
-                } else
-                {
+                } else {
                     $(this).attr('href', ref);
                 }
-             
+
             })
-            
-      
+
+
 
         });
 
-        function GetQueryString(name)
-        {
+        function GetQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
             if (r != null) return unescape(r[2]); return null;
         }
     </script>
-    
+
     <style>
         .mscroll {
-            top: 200px; bottom: 0; background: #fff;
+            top: 200px;
+            bottom: 0;
+            background: #fff;
         }
-
     </style>
 
 </head>
@@ -101,7 +96,7 @@
     <div class="guessing_header">
         <ul class="C8_nav5">
             <li id="g1" class="current"><a href="javascript:;">官方推荐</a></li>
-            <li  id="g2"><a href="javascript:;">高手推荐</a></li>
+            <li id="g2"><a href="javascript:;">高手推荐</a></li>
             <li id="g3"><a href="javascript:;">免费专家</a></li>
         </ul>
         <input type="hidden" id="curNavIndex" value="0" />
@@ -135,7 +130,7 @@
     <div class="Plan_content" style="position: fixed; width: 100%;">
         @*官方推荐*@
         <div class="Plan_CInfo mescroll">
-            
+
             <div class="Plan_CIfBox">
                 <div class="CZ_hdtit">
                     <dl class="CZ_hdMain">
@@ -249,7 +244,7 @@
                     <!--计划列表-->
                     <div class="CZ_Minfo">
                         <div class="Mif_sy">
-                            
+
 
                             <div class="Mif_sykuai">
                                 <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
@@ -261,11 +256,11 @@
                                     </thead>
                                 </table>
                             </div>
-                            
+
                             <div id="mescroll5" class="mescroll mscroll">
-                                
+
                                 <div id="planList">
-                                    
+
 
                                 </div>
 
@@ -299,4 +294,6 @@
 
     <script type="text/javascript" src="/js/luo/plan.index.expert.js"></script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

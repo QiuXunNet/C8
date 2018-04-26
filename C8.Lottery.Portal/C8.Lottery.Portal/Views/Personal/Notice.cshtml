@@ -38,11 +38,11 @@
                         评论
                         @if (dynamicCount > 0 && dynamicCount < 100)
                         {
-                    <i>@dynamicCount</i>
+                            <i>@dynamicCount</i>
                         }
                         else if (dynamicCount >= 100)
                         {
-                    <i>99</i>
+                            <i>99</i>
                         }
                     </p><span></span>
                 </a>
@@ -53,11 +53,11 @@
                         系统消息
                         @if (sysMessageCount > 0 && sysMessageCount < 100)
                         {
-                    <i>@sysMessageCount</i>
+                            <i>@sysMessageCount</i>
                         }
                         else if (sysMessageCount >= 100)
                         {
-                    <i>99</i>
+                            <i>99</i>
                         }
                     </p><span></span>
                 </a>
@@ -82,4 +82,6 @@
 
     <script type="text/javascript" src="/js/luo/notice.js"></script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

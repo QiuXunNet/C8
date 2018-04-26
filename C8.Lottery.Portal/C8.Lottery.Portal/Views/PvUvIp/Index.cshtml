@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+<script src="/Scripts/jquery-1.8.0.min.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script type="text/javascript">
+    var linkCode = "@ViewBag.LinkCode";
+
+    if (linkCode != "") {
+        var ip = returnCitySN["cip"];
+        var cookieUv = getCookie("WcbCookieUv");
+        alert(cookieUv);
+        if (cookieUv == undefined || cookieUv == null || cookieUv == "") {
+            setCookie("WcbCookieUv", newGuid());
+
+            //发送请求保存 UV
+            $.post("/PvUvIp/AddUv", { linkCode: linkCode, type: "uv" });
+        }
+
+        var cookieIp = getCookie("WcbCookieIp");
+        alert(cookieIp);
+        if (cookieIp == undefined || cookieIp == null || cookieIp == "" || cookieIp != ip) {
+            setCookie("WcbCookieIp", ip);
+
+            //发送请求保存 Ip  需要后台判断Ip是否相同
+            $.post("/PvUvIp/AddIp", { linkCode: linkCode, type: "ip", ip: ip });
+        }
+
+        $.post("/PvUvIp/AddPv", { linkCode: linkCode, type: "pv" });
+    }
+
+    //生成32位GUID
+    function newGuid() {
+        var guid = "";
+        for (var i = 1; i <= 32; i++) {
+            var n = Math.floor(Math.random() * 16.0).toString(16);
+            guid += n;
+        }
+        return guid;
+    }
+    //添加cookie
+    function setCookie(c_name, value) {
+        var exdate = new Date();
+        var endTimeStr = exdate.getFullYear() + "/" + (exdate.getMonth() + 1) + "/" + exdate.getDate() + " 23:59:59";
+        var endTime = new Date(endTimeStr);
+
+        document.cookie = c_name + "=" + escape(value) + ";expires=" + endTime.toGMTString();
+    }
+    //获取cookie
+    function getCookie(c_name) {
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=")
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1
+                c_end = document.cookie.indexOf(";", c_start)
+                if (c_end == -1) c_end = document.cookie.length
+                return unescape(document.cookie.substring(c_start, c_end))
+            }
+        }
+        return ""
+    }
+</script>

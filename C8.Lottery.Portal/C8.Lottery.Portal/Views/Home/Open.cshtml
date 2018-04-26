@@ -21,9 +21,10 @@
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/runTime3.js"></script>
     <style>
-        
-        .ind_mainUl2{display: none;}
 
+        .ind_mainUl2 {
+            display: none;
+        }
     </style>
 </head>
 
@@ -35,13 +36,13 @@
     </header>
 
     <div class="hjc_hdNav">
-    
+
 
         <!-- 新增类型选择 By LHS 2018-3-2 -->
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-                
+
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
@@ -52,11 +53,11 @@
         </div>
         <div class="hdNav_cai_expand" style="display:none">
             @*<div class="hdNav_cai_title">
-                <span>切换分类</span>
-                <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
-            </div>*@
+                    <span>切换分类</span>
+                    <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
+                </div>*@
             <ul class="hdNav_cai">
-                
+
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
@@ -69,13 +70,13 @@
 
 
     <div class="hjc_indexmain" style="margin-top:91px;">
-        
+
         @foreach (LotteryType2 lotteryType in ViewBag.list)
         {
             int[] lTypeArr = lotteryType.SonIdArr;
-            
+
             <ul class="ind_mainUl2">
-          
+
 
                 @for (int j = 0; j < lTypeArr.Length; j++)
                 {
@@ -84,8 +85,8 @@
                     lType = i;
                     record = list[i - 1];
                     string iconName = record.ShowIconName + ".png";
-                    string[] numArr = record.Num.Split(',');  
-                         
+                    string[] numArr = record.Num.Split(',');
+
                     <li>
                         <div class="UL2_hd">
                             <a href="javascript:;">
@@ -180,28 +181,28 @@
                             </div>
                         </div>
                     </li>
-                         
-                         
+
+
                 }
 
-                    
-                         
-                     
-            </ul>        
-            
+
+
+
+            </ul>
+
         }
 
-                 
-                 
+
+
         <script>
-            $(function() {
+            $(function () {
                 $('.hdNav_cai_lhs li').eq(0).addClass('current');
                 $('.hdNav_cai li').eq(0).addClass('current');
                 $('.ind_mainUl2').eq(0).show();
             });
 
         </script>
-        
+
     </div>
 
 
@@ -211,4 +212,5 @@
 
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

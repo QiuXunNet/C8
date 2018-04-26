@@ -20,12 +20,11 @@
             set();
         });
 
-        function set()
-        {
+        function set() {
             $("#btnsub").click(function () {
                 var autograph = $("#autograph").val();
-              
-                if (autograph.trim().length >20) {
+
+                if (autograph.trim().length > 20) {
                     alertmsg("签名长度不能超过20");
                     return false;
                 }
@@ -57,8 +56,10 @@
             <li><input type="text" id="autograph" value="@Model.Autograph" class="Bul1_iptA"><i class="Bul1_del"></i></li>
         </ul>
     </div>
-  
+
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
 

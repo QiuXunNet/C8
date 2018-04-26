@@ -20,7 +20,7 @@ namespace C8.Lottery.Portal.Controllers
             string url = "/Home/Index";
 
             var friendLinkList =
-                Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=2 and Code=@Code",
+                Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=2 and state = 0 and Code=@Code",
                     new SqlParameter("@Code", id));
 
 
@@ -50,15 +50,14 @@ namespace C8.Lottery.Portal.Controllers
                     //新增
                     string insertRecordSql = string.Format(
                             @"insert into dbo.LinkVisitRecord (RefId,ClickCount,UV,IP,PV,RegCount,Type,SubTime)
-                        values({0},{1},{2},{3},{4},{5},{6},GETDATE())", friendLink.Id, 1, 1, 1, 1, 0, 2);
+                        values({0},1,0,0,0,0,2,'{1}')", friendLink.Id, DateTime.Today);
                     SqlHelper.ExecuteScalar(insertRecordSql);
 
                 }
                 else
                 {
                     //修改
-                    string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set ClickCount+=1,UV+=1,IP+=1,PV+=1
-where RefId={0}", friendLink.Id);
+                    string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set ClickCount+=1 where RefId={0} and Type=2 and SubTime='{1}'", friendLink.Id, DateTime.Today);
                     SqlHelper.ExecuteScalar(updateRecordSql);
                 }
             }

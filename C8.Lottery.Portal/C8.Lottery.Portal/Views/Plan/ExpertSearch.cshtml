@@ -69,7 +69,7 @@
                     $(".ttIf1_tit").remove();
                     if (data.data.length > 0)
                     {
-                       
+
                         buildHtml(data.data);
                     } else
                     {
@@ -208,7 +208,7 @@
 
           });
         }
-</script>
+    </script>
 </head>
 <body style="background:#F4F4F5;">
     <header class="hjc_header">
@@ -231,18 +231,18 @@
                     {
                         <li data-uid="@item.UserId">
                             <div class="ttIf1_cL f-l">
-                             <a href="javascript:;" onclick="InsertHotSearch(@item.UserId,@lType)">
-                                 @if (string.IsNullOrEmpty(item.Avater))
-                                 {
-                                     <img src="/images/default_avater.png" alt="" />
-                                 }
-                                 else
-                                 {
-                                     <img src="@item.Avater" alt="" />
-                                 }
-                              </a>
+                                <a href="javascript:;" onclick="InsertHotSearch(@item.UserId,@lType)">
+                                    @if (string.IsNullOrEmpty(item.Avater))
+                                    {
+                                        <img src="/images/default_avater.png" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.Avater" alt="" />
+                                    }
+                                </a>
                             </div>
-                       
+
                             @if (item.isFollow > 0)
                             {
                                 <a href="javascript:;" onclick="javascript:unorfollow(this,@item.UserId);" class="ttIf1_cGz f-r">已关注</a>
@@ -251,7 +251,7 @@
                             {
                                 <a href="javascript:;" onclick="javascript:unorfollow(this,@item.UserId);" class="ttIf1_cGz f-r">关注</a>
                             }
-                                   
+
                             <div class="ttIf1_cR" onclick="InsertHotSearch(@item.UserId,@lType)" data-uid="@item.UserId"><a href="javascript:;">@item.Name</a></div>
                         </li>
                     }
@@ -261,23 +261,24 @@
                     <div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>
                 }
                 @*<li>
-    <div class="ttIf1_cL f-l"><a href="javascript:;"><img src="~/images/36.png"></a></div>
-    <a href="javascript:;" class="ttIf1_cGz f-r">关注</a>
-    <div class="ttIf1_cR"><a href="javascript:;">一只安静的哈士奇</a></div>
-                </li>*@
-             
+                    <div class="ttIf1_cL f-l"><a href="javascript:;"><img src="~/images/36.png"></a></div>
+                    <a href="javascript:;" class="ttIf1_cGz f-r">关注</a>
+                    <div class="ttIf1_cR"><a href="javascript:;">一只安静的哈士奇</a></div>
+                                </li>*@
+
                 <div style="clear:both;"></div>
             </ul>
         </div>
         <h3 class="ttIf1_tit2">历史记录</h3>
         <div class="Search_ttInfo2">
-         
+
             @if (historyList.Count > 0)
             {
                 foreach (var item in historyList)
                 {
                     <dl id="d_@item.UserId" class="ttIf2_Dl">
-                        <dt><a href="javascript:;">
+                        <dt>
+                            <a href="javascript:;">
 
                                 @if (string.IsNullOrEmpty(item.Avater))
                                 {
@@ -294,12 +295,13 @@
                     </dl>
                 }
             }
-          
-           
+
+
             <a href="javascript:;" class="ttIf2_QK">清空历史记录</a>
         </div>
     </div>
 
 </body>
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
 

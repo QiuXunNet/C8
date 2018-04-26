@@ -63,19 +63,19 @@
                     </dd>
                 </dl>
                 @*<dl class="Recha_if2Dl">
-                    <dt><img src="images/41_3.png"></dt>
-                    <dd>
-                        <h3>银联</h3>
-                        <p>无需网银，有卡就能支付，免手续费</p>
-                    </dd>
-                </dl>
-                <dl class="Recha_if2Dl">
-                    <dt><img src="images/41_4.png"></dt>
-                    <dd>
-                        <h3>银行卡快捷支付</h3>
-                        <p>无需网银，有卡就能支付，免手续费</p>
-                    </dd>
-                </dl>*@
+                        <dt><img src="images/41_3.png"></dt>
+                        <dd>
+                            <h3>银联</h3>
+                            <p>无需网银，有卡就能支付，免手续费</p>
+                        </dd>
+                    </dl>
+                    <dl class="Recha_if2Dl">
+                        <dt><img src="images/41_4.png"></dt>
+                        <dd>
+                            <h3>银行卡快捷支付</h3>
+                            <p>无需网银，有卡就能支付，免手续费</p>
+                        </dd>
+                    </dl>*@
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@
             $(".Recha_if2Dl").click(function () {
                 $(".Recha_if2Dl dd").removeClass("current");
                 $(this).find("dd").addClass("current");
-                $("#currentImg").attr("src",($(this).find("img:eq(0)").attr("src")));
+                $("#currentImg").attr("src", ($(this).find("img:eq(0)").attr("src")));
                 $("#currentText").text($(this).find("h3:eq(0)").text());
             });
 
@@ -101,7 +101,7 @@
                     $(".Recharge_UL li").removeClass("current");
                 }
             });
-        });      
+        });
 
         function play() {
             var amount = 0;
@@ -131,9 +131,9 @@
                 alert("请选择支付方式");
             }
 
-            var obj = {};          
+            var obj = {};
             obj.amount = amount;
-           
+
             if (playType == "1") {
                 $.post("/Recharge/GetWxUrl", obj, function (data) {
                     if (data == "0") {
@@ -141,22 +141,24 @@
                     }
                     else {
                         document.location.href = data;
-                    }                    
+                    }
                 });
             }
 
-            if (playType == "2") {               
-                $.post("/Recharge/GetZfbUrl", obj, function (data) {   
+            if (playType == "2") {
+                $.post("/Recharge/GetZfbUrl", obj, function (data) {
                     if (data == "0") {
                         alert("操作失败,请刷新后重试");
                     }
                     else {
                         $("#hideDiv").append(data);
-                    }   
+                    }
                 });
             }
         }
     </script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
 
