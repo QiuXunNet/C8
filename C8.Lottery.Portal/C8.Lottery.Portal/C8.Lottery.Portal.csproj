@@ -136,7 +136,7 @@
     <Compile Include="Controllers\InController.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
-    <Compile Include="Controllers\OutController.cs" />
+    <Compile Include="Controllers\GoController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\PvUvIpController.cs" />

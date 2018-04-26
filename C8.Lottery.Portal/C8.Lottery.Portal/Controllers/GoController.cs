@@ -9,7 +9,7 @@ using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class OutController : Controller
+    public class GoController : Controller
     {
         /// <summary>
         /// 跳出

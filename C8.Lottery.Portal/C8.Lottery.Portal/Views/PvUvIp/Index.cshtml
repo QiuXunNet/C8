@@ -9,7 +9,7 @@
     if (linkCode != "") {
         var ip = returnCitySN["cip"];
         var cookieUv = getCookie("WcbCookieUv");
-        alert(cookieUv);
+        //alert(cookieUv);
         if (cookieUv == undefined || cookieUv == null || cookieUv == "") {
             setCookie("WcbCookieUv", newGuid());
 
@@ -18,7 +18,7 @@
         }
 
         var cookieIp = getCookie("WcbCookieIp");
-        alert(cookieIp);
+        //alert(cookieIp);
         if (cookieIp == undefined || cookieIp == null || cookieIp == "" || cookieIp != ip) {
             setCookie("WcbCookieIp", ip);
 
