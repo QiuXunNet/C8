@@ -6,7 +6,7 @@ $(function () {
     $(".My_KJHeader li").click(function () {
         var KJ = $(this).index();
         $(this).addClass("current").siblings().removeClass("current");
-       // $(".My_KaJuanBox .My_KaJuanK").eq(KJ).show().siblings().hide();
+        // $(".My_KaJuanBox .My_KaJuanK").eq(KJ).show().siblings().hide();
     });
 
     /*资讯-内容详情*/
@@ -17,6 +17,10 @@ $(function () {
     $(".CLB_YY").click(function () {
         $(".ZX_CLBox").removeClass("CLBox_current");
         $(".CLB_cNav").removeClass("cNav_current");
+    });
+    /*支付  弹窗    js*/
+    $(".zfC_XZ li").click(function () {
+        $(this).addClass("current").siblings().removeClass("current");
     });
 
     /*清除文本框值*/
@@ -77,10 +81,10 @@ $(function () {
         $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
 
         $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
-		
-		$(".hdNav_cai_expand").hide();
-		$(".mask").hide();
-		
+
+        $(".hdNav_cai_expand").hide();
+        $(".mask").hide();
+
     });
 
     /*** Added By LHS 2018-3-1  */
@@ -94,10 +98,10 @@ $(function () {
         //展开项添加选中
         $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
         $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
-		
-		$(".hdNav_cai_expand").hide();
-		$(".mask").hide();
-		
+
+        $(".hdNav_cai_expand").hide();
+        $(".mask").hide();
+
     });
 
     /* 展开项点击 */
@@ -133,6 +137,7 @@ $(function () {
     });
 
     $(".hdNav_cai_collect .hdNav_cai_lhs_expand").click(function () {
+        
         //$(".hdNav_cai_collect").hide();
         $(".hdNav_cai_expand").toggle();
         $(".mask").toggle();
@@ -145,12 +150,14 @@ $(function () {
     });
 
     $(".info_hdNav_cai_collect .info_hdNav_cai_lhs_expand").click(function () {
-        $(".info_hdNav_cai_collect").hide();
-        $(".info_hdNav_cai_expand").show();
-        $(".mask").show();
+     
+        // $(".info_hdNav_cai_collect").hide();
+        $(".info_hdNav_cai_expand").toggle();
+        $(".mask").toggle();
     });
 
     $(".info_hdNav_cai_expand .collect").click(function () {
+   
         $(".info_hdNav_cai_expand").hide();
         $(".info_hdNav_cai_collect").show();
         $(".mask").hide();
@@ -330,9 +337,9 @@ $(function () {
 
 
     /*资讯 切换彩种*/
-    $(".hjc_logo").click(function () {
+    $(".hjc_HeaderXL").click(function () {
         $(".hjc_hdNav").toggle();
-        $(".mask").toggle();
+        $(".mask2").toggle();
     });
 
     $(".info_hdnav li").click(function () {
@@ -422,7 +429,7 @@ $(function () {
                 ctype: ctype,
                 type: type
             }, function (result) {
-         
+
                 if (result) {
                     if (result.Code === 401) {
                         location.href = "/Home/Login";

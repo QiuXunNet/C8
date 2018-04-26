@@ -47,7 +47,7 @@
             <span class="article-time">@Model.ReleaseTimeStr</span>
         </div>
         <div id="article-body" class="article-body">
-            @Html.Raw( HttpUtility.UrlDecode(Model.NewsContent))
+            @Html.Raw(HttpUtility.UrlDecode(Model.NewsContent))
         </div>
         <div class="article-share">
             <dl>
@@ -77,7 +77,7 @@
             <div class="clearfix"></div>
         </div>
         <div class="article-pager">
-            
+
             @if (ViewBag.Nextview != null)
             {
                 var nextview = ViewBag.Nextview as News;
@@ -106,104 +106,104 @@
 
             @foreach (var article in recArticle)
             {
-            <div class="hjc_news_content">
+                <div class="hjc_news_content">
 
-                @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
+                    @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
                     {
                         //无图
-                    <a href="/News/NewsDetail/@article.Id">
-                        <div class="hjc_news">
-                            <div class="hjc_news_subject">@article.FullHead</div>
-                            <div class="newstime">
-                                <span>万彩吧</span>
-                                <span>@article.ReleaseTimeStr</span>
-                                <span>@article.CommentCount<i class="icon-comment"></i></span>
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     }
                     else if (article.ThumbStyle == 1)
                     {
                         //一张小图
-                    <a href="/News/NewsDetail/@article.Id">
-                        <div class="hjc_news_left">
-                            <div class="hjc_news_subject">@article.FullHead</div>
-                            <div class="newstime">
-                                <span>万彩吧</span>
-                                <span>@article.ReleaseTimeStr</span>
-                                <span>@article.CommentCount<i class="icon-comment"></i></span>
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news_left">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="hjc_news_right">
-                            @if (article.ThumbList.Count > 0)
+                            <div class="hjc_news_right">
+                                @if (article.ThumbList.Count > 0)
                                 {
-                                <img src="@article.ThumbList[0]" alt="@article.FullHead" />
+                                    <img src="@article.ThumbList[0]" alt="@article.FullHead" />
                                 }
-                        </div>
+                            </div>
 
-                    </a>
-                    <div class="clearfix"></div>
+                        </a>
+                        <div class="clearfix"></div>
                     }
                     else if (article.ThumbStyle == 2)
                     {
                         //一张大图
-                    <a href="/News/NewsDetail/@article.Id">
-                        <div class="hjc_news">
-                            <div class="hjc_news_subject">@article.FullHead</div>
-                            <div class="hjc_news_thumb">
-                                <ul class="col_1">
-                                    @foreach (var thumb in article.ThumbList)
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="hjc_news_thumb">
+                                    <ul class="col_1">
+                                        @foreach (var thumb in article.ThumbList)
                                         {
-                                        <li><img src="@thumb" alt="@article.FullHead" /></li>
+                                            <li><img src="@thumb" alt="@article.FullHead" /></li>
                                         }
-                                </ul>
-                                <div class="clearfix"></div>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
                             </div>
-                            <div class="newstime">
-                                <span>万彩吧</span>
-                                <span>@article.ReleaseTimeStr</span>
-                                <span>@article.CommentCount<i class="icon-comment"></i></span>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
                     }
                     else if (article.ThumbStyle == 3)
                     {
-                    <a href="/News/NewsDetail/@article.Id">
-                        <div class="hjc_news">
-                            <div class="hjc_news_subject">@article.FullHead</div>
-                            <div class="hjc_news_thumb">
-                                <ul class="col_3">
-                                    @foreach (var thumb in article.ThumbList)
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="hjc_news_thumb">
+                                    <ul class="col_3">
+                                        @foreach (var thumb in article.ThumbList)
                                         {
-                                        <li><img src="@thumb" alt="@article.FullHead" /></li>
+                                            <li><img src="@thumb" alt="@article.FullHead" /></li>
                                         }
-                                </ul>
-                                <div class="clearfix"></div>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="newstime">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
                             </div>
-                            <div class="newstime">
-                                <span>万彩吧</span>
-                                <span>@article.ReleaseTimeStr</span>
-                                <span>@article.CommentCount<i class="icon-comment"></i></span>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
                     }
                     else
                     {
-                    <a href="/News/NewsDetail/@article.Id">
-                        <div class="hjc_news">
-                            <div class="hjc_news_subject">@article.FullHead</div>
-                            <div class="">
-                                <span>万彩吧</span>
-                                <span>@article.ReleaseTimeStr</span>
-                                <span>@article.CommentCount<i class="icon-comment"></i></span>
+                        <a href="/News/NewsDetail/@article.Id">
+                            <div class="hjc_news">
+                                <div class="hjc_news_subject">@article.FullHead</div>
+                                <div class="">
+                                    <span>万彩吧</span>
+                                    <span>@article.ReleaseTimeStr</span>
+                                    <span>@article.CommentCount<i class="icon-comment"></i></span>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     }
-            </div>
+                </div>
             }
 
         </div>
@@ -232,9 +232,9 @@
                                                 }
                                                 else
                                                 {
-                                                    <img src="~/images/default_avater.png">  
+                                                    <img src="~/images/default_avater.png">
                                                 }
-                                          
+
                                             </a>
                                         </div>
                                     </td>
@@ -255,14 +255,15 @@
                                     <td align="center" valign="middle">
                                         <div class="Ranking_Blogotu">
                                             <a href="/Personal/UserCenter/@item.UserId">
-                                            @if (!string.IsNullOrEmpty(item.Avater))
-                                            {
-                                                <img src="@item.Avater">
-                                            }
-                                            else
-                                            {
-                                                <img src="~/images/default_avater.png">
-                                            }</a>
+                                                @if (!string.IsNullOrEmpty(item.Avater))
+                                                {
+                                                    <img src="@item.Avater">
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/images/default_avater.png">
+                                                }
+                                            </a>
                                         </div>
                                     </td>
                                     <td align="left" valign="middle">
@@ -421,4 +422,5 @@
     </script>
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

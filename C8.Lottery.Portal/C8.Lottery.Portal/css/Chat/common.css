@@ -19,7 +19,7 @@ body{ background:#eee; height: 100%; position: relative;}
     }
 /* header 样式 */
 
-.wrapper{ width:100%; top:50px; bottom:4.2rem; position:absolute; overflow-y:scroll; -webkit-overflow-scrolling:touch;}
+.wrapper{ width:100%; top:50px; bottom:5rem; position:absolute; overflow-y:scroll; -webkit-overflow-scrolling:touch;}
 .main{ width:100%; word-break:break-all; overflow:hidden; box-sizing:border-box; position:absolute;}
 .wrapper::-webkit-scrollbar {width:0px; background:rgba(255,255,255);}
 /* wrapper */

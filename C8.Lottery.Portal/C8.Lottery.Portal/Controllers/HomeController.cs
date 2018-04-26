@@ -207,7 +207,40 @@ Order by CommentCount desc";
                                     int data = Convert.ToInt32(SqlHelper.ExecuteScalar(regsql, regsp));
                                     if (data > 0)
                                     {
+                                        #region 如果是外链过来的，则增加注册数
+                                        var linkCode = Session["LinkCode"];
+                                        if (linkCode != null)
+                                        {
+                                            var friendLinkList = Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 and Code=@Code", new SqlParameter("@Code", linkCode.ToString()));
+                                            var friendLink = friendLinkList.FirstOrDefault();
 
+                                            string visitRecordSql = "select count(*) from dbo.LinkVisitRecord where RefId=@RefId and SubTime=@Date and [Type]=1";
+                                            //添加
+                                            var sqlParameter = new[]
+                                            {
+                                                new SqlParameter("@RefId",friendLink.Id),
+                                                new SqlParameter("@Date",DateTime.Today),
+                                            };
+                                            var count = Convert.ToInt32(SqlHelper.ExecuteScalar(visitRecordSql, sqlParameter));
+
+                                            if (count == 0)
+                                            {
+                                                //新增
+                                                string insertRecordSql = string.Format(
+                                                        @"insert into dbo.LinkVisitRecord (RefId,ClickCount,UV,IP,PV,RegCount,Type,SubTime)
+                                                        values({0},0,0,0,0,1,1,'{1}')", friendLink.Id, DateTime.Today);
+
+                                                SqlHelper.ExecuteScalar(insertRecordSql);
+                                            }
+                                            else
+                                            {
+                                                //修改
+                                                string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set RegCount+=1 where RefId={0} and SubTime = '{1}' and [Type]=1 ", friendLink.Id, DateTime.Today);
+                                                SqlHelper.ExecuteScalar(updateRecordSql);
+                                            }
+
+                                        }
+                                        #endregion
 
                                         jsonmsg.Success = true;
                                         jsonmsg.Msg = "ok";
@@ -225,7 +258,7 @@ Order by CommentCount desc";
                                         uc.BeginTime = BeginTime;
                                         uc.EndTime = EndTime;
                                         uc.FromType = 1;
-                                        uc.State = 1;                                      
+                                        uc.State = 1;
                                         AddUserCoupon(uc);
                                         if (inviteid > 0)
                                         {
@@ -235,7 +268,7 @@ Order by CommentCount desc";
                                                 int mynum = GetNum(3);
                                                 AddCoin(data, mynum);//受邀自己得3级奖励
                                                                      //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
-                                                AddComeOutRecord(data, inviteid.ToString(), 6, mynum,1);//受邀得奖记录
+                                                AddComeOutRecord(data, inviteid.ToString(), 6, mynum, 1);//受邀得奖记录
                                                 int upnum = GetNum(1);
                                                 AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
                                                 UserCoupon uc1 = new UserCoupon();
@@ -256,17 +289,17 @@ Order by CommentCount desc";
 
                                                 if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
                                                 {
-                                                    AddComeOutRecord(inviteid,Convert.ToString(105), 8, mt.Coin,1);
+                                                    AddComeOutRecord(inviteid, Convert.ToString(105), 8, mt.Coin, 1);
                                                 }
 
-                                               
+
 
                                                 UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
                                                 if (super != null)
                                                 {
                                                     int supernum = GetNum(2);
                                                     AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
-                                                    AddComeOutRecord(Convert.ToInt32(super.Id),Convert.ToString(inviteid), 7, supernum, data);
+                                                    AddComeOutRecord(Convert.ToInt32(super.Id), Convert.ToString(inviteid), 7, supernum, data);
                                                 }
 
                                             }
@@ -311,14 +344,14 @@ Order by CommentCount desc";
         /// <returns></returns>
         public MakeMoneyTask GetMakeMoneyTaskCount(int taskcode)
         {
-           
+
             string strsql = "select * from[MakeMoneyTask] where Code =@Code";
             SqlParameter[] sp = new SqlParameter[] {
-                   
+
                    new SqlParameter("@Code",taskcode)
             };
-           
-            return Util.ReaderToModel<MakeMoneyTask>(strsql,sp);
+
+            return Util.ReaderToModel<MakeMoneyTask>(strsql, sp);
         }
 
         /// <summary>
@@ -326,7 +359,7 @@ Order by CommentCount desc";
         /// </summary>
         /// <param name="taskid"></param>
         /// <returns></returns>
-        public int GetCompletedCount(int taskid,int UserId)
+        public int GetCompletedCount(int taskid, int UserId)
         {
             int result = 0;
             string strsql = "select CompletedCount from  UserTask where UserId =@UserId and TaskId=@TaskId ";
@@ -494,7 +527,7 @@ Order by CommentCount desc";
         /// <param name="OrderId"></param>
         /// <param name="Type">6=受邀奖励 7=邀请奖励</param>
         /// <param name="Money"></param>
-        public void AddComeOutRecord(int UserId, string OrderId, int Type, int Money,int State)
+        public void AddComeOutRecord(int UserId, string OrderId, int Type, int Money, int State)
         {
             try
             {
@@ -775,7 +808,7 @@ Order by CommentCount desc";
                 {
                     if (!string.IsNullOrEmpty(password))
                     {
-                        if(password.Length < 6 || password.Length > 12)
+                        if (password.Length < 6 || password.Length > 12)
                         {
                             jsonmsg.Msg = "密码长度为6-12位";
                             jsonmsg.Success = false;
@@ -803,12 +836,13 @@ Order by CommentCount desc";
                             }
                             Session.Remove("Mobile");
                         }
-                    }else
+                    }
+                    else
                     {
                         jsonmsg.Msg = "密码不能为空";
                         jsonmsg.Success = false;
                     }
-                   
+
                 }
                 catch (Exception e)
                 {

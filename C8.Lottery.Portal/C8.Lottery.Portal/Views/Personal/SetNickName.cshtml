@@ -16,28 +16,24 @@
     <script src="~/js/yjp.js"></script>
 
     <script>
-        $(function ()
-        {
+        $(function () {
             set();
         });
 
-        function set()
-        {
+        function set() {
             $("#btnsub").click(function () {
                 var name = $("#name").val();
-                if (name.trim().length== 0)
-                {
+                if (name.trim().length == 0) {
                     alertmsg("昵称不能为空");
                     return false;
-                    
+
                 }
-                if (name.trim().length > 8)
-                {
+                if (name.trim().length > 8) {
                     alertmsg("昵称长度不能超过8");
                     return false;
                 }
                 $.post('/Personal/EditUser', { value: name, type: 1 }, function (data) {
-                 
+
                     if (data.Success != true) {
                         alertmsg(data.Msg);
                     } else {
@@ -45,7 +41,7 @@
                     }
                 });
             });
-          
+
         }
 
     </script>
@@ -64,7 +60,9 @@
             <li><input type="text" id="name" value="@Model.Name" class="Bul1_iptA"><i class="Bul1_del"></i></li>
         </ul>
     </div>
-   
+
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

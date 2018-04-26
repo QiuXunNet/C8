@@ -39,7 +39,7 @@
             <div id="mescroll1" class="mescroll">
                 <div id="dataList1" class="data-list">
 
-              
+
 
                 </div>
 
@@ -53,30 +53,30 @@
             <div id="mescroll2" class="mescroll">
                 <div id="dataList2" class="data-list">
 
-              
+
 
                 </div>
             </div>
-        
-        
+
+
         </div>
 
         <div class="details_info1" style="display:none;">
 
             <div id="mescroll3" class="mescroll">
                 <div id="dataList3" class="data-list">
-            
+
 
 
                 </div>
             </div>
-        
+
         </div>
-        
 
 
 
-     </div>
+
+    </div>
 
 
     <script type="text/javascript">
@@ -87,8 +87,8 @@
 
             function pager(obj) {
                 var _this = $(obj),
-                i = _this.attr("data-index");
-            
+                    i = _this.attr("data-index");
+
 
                 if (curNavIndex != i) {
                     _this.addClass("current").siblings().removeClass("current");
@@ -115,8 +115,7 @@
                 }
             }
 
-            $(".C8_JIlU li").click(function ()
-            {
+            $(".C8_JIlU li").click(function () {
                 var bang = $(this).index();
                 $(".details_box .details_info1").eq(bang).show().siblings().hide();
                 pager($(this));
@@ -168,8 +167,7 @@
             }
 
 
-            function getListDataFromNet(Type, pageIndex, pageSize, successCallback, errorCallback)
-            {
+            function getListDataFromNet(Type, pageIndex, pageSize, successCallback, errorCallback) {
                 $.ajax({
                     type: 'GET',
                     data: {
@@ -177,15 +175,15 @@
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
-                    async:false,
+                    async: false,
                     url: '/Personal/RecordList',
                     dataType: 'json',
-                    success: function(res){
+                    success: function (res) {
 
                         if (res.IsSuccess && res.Data) {
                             //回调
 
-                            successCallback(res.Data.PageData,res.Data.HasNextPage);
+                            successCallback(res.Data.PageData, res.Data.HasNextPage);
 
                         } else {
                             alertmsg("服务器繁忙");
@@ -208,11 +206,11 @@
             var mm = date.getMinutes();
             var ss = date.getSeconds();
             if (type == 2) {
-                return  month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+                return month + "-" + day + " " + hh + ":" + mm + ":" + ss;
             } else {
                 return year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
             }
-          
+
         }
 
         function buildHtml(data, curNavIndex) {
@@ -223,39 +221,31 @@
                 var moneyhtml = '<p>+' + item.Money + '</p></div>';
                 var timehtml = '<p>' + getDateTime(item.SubTime, curNavIndex) + '</p>';
                 var text = "";
-                if (curNavIndex == 2)
-                {
+                if (curNavIndex == 2) {
                     text = item.UserName;
-                    moneyhtml = '<p>' + (item.Type==3?"点阅":"打赏" )+ ' -' + item.Money + '</p></div>';
-                    timehtml = '<p>' + item.Issue +'期'+ getDateTime(item.SubTime, curNavIndex) + '</p>'
-                } else if (curNavIndex == 1)
-                {
-                    if (item.PayType == 1)
-                    {
+                    moneyhtml = '<p>' + (item.Type == 3 ? "点阅" : "打赏") + ' -' + item.Money + '</p></div>';
+                    timehtml = '<p>' + item.Issue + '期' + getDateTime(item.SubTime, curNavIndex) + '</p>'
+                } else if (curNavIndex == 1) {
+                    if (item.PayType == 1) {
                         text = "微信充值";
-                    } else if (item.PayType == 2)
-                    {
+                    } else if (item.PayType == 2) {
                         text = "支付宝充值";
-                    } else if (item.PayType == 3)
-                    {
+                    } else if (item.PayType == 3) {
                         text = "银联充值";
                     }
-                } else if (curNavIndex == 3)
-                {
-                    if (item.OrderId == 100)
-                    {
+                } else if (curNavIndex == 3) {
+                    if (item.OrderId == 100) {
                         text = "充值任务奖励";
-                    } else if (item.OrderId ==105)
-                    {
+                    } else if (item.OrderId == 105) {
                         text = "邀请成功注册奖励";
                     }
                 }
                 var itemHtml = '<dl class="details_DL">'
-                       + '<dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt><dd>'
-                       +'<div class="details_ddRight">'+moneyhtml+'</div>'
-                       +'<div class="details_ddLeft">'
-                       + '<h3><a href="javascript:;"><b>' + text + '</b></a></h3>'
-                       + timehtml + '</div> </dd></dl>'
+                    + '<dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt><dd>'
+                    + '<div class="details_ddRight">' + moneyhtml + '</div>'
+                    + '<div class="details_ddLeft">'
+                    + '<h3><a href="javascript:;"><b>' + text + '</b></a></h3>'
+                    + timehtml + '</div> </dd></dl>'
 
                 itemList.push(itemHtml);
             });
@@ -266,5 +256,7 @@
 
     </script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
 

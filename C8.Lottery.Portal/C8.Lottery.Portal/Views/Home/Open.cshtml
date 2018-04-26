@@ -1,4 +1,5 @@
-﻿@using C8.Lottery.Model
+﻿@using C8.Lottery.Public
+@using C8.Lottery.Model
 @{
     Layout = null;
     List<LotteryRecord> list = ViewBag.openList;
@@ -21,9 +22,10 @@
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/runTime3.js"></script>
     <style>
-        
-        .ind_mainUl2{display: none;}
 
+        .ind_mainUl2 {
+            display: none;
+        }
     </style>
 </head>
 
@@ -35,13 +37,13 @@
     </header>
 
     <div class="hjc_hdNav">
-    
+
 
         <!-- 新增类型选择 By LHS 2018-3-2 -->
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-                
+
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
@@ -51,12 +53,12 @@
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            <div class="hdNav_cai_title">
-                <span>切换分类</span>
-                <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
-            </div>
+            @*<div class="hdNav_cai_title">
+                    <span>切换分类</span>
+                    <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
+                </div>*@
             <ul class="hdNav_cai">
-                
+
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
@@ -69,13 +71,13 @@
 
 
     <div class="hjc_indexmain" style="margin-top:91px;">
-        
+
         @foreach (LotteryType2 lotteryType in ViewBag.list)
         {
             int[] lTypeArr = lotteryType.SonIdArr;
-            
+
             <ul class="ind_mainUl2">
-          
+
 
                 @for (int j = 0; j < lTypeArr.Length; j++)
                 {
@@ -84,8 +86,8 @@
                     lType = i;
                     record = list[i - 1];
                     string iconName = record.ShowIconName + ".png";
-                    string[] numArr = record.Num.Split(',');  
-                         
+                    string[] numArr = record.Num.Split(',');
+
                     <li>
                         <div class="UL2_hd">
                             <a href="javascript:;">
@@ -123,19 +125,86 @@
                                 <div class="ball_wrap">
 
 
-                                    @if (lType <= 62)
+                                    @if (lType <= 62 && lType != 5 && lType != 2 && lType != 8 && lType != 4)
                                     {
                                         foreach (string s in numArr)
                                         {
-                                            if (s == "19" || s == "20")
+
+                                            <span class="ball_spB ball_red HYJP_Red">@s</span>
+
+                                        }
+                                    }
+                                    else if (lType == 2)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 6)
                                             {
-                                                <span class="ball_spB ball_red">@s</span>
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
                                             }
                                             else
                                             {
-                                                <span class="ball_spB ball_blue">@s</span>
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
                                             }
 
+                                        }
+                                    }
+                                    else if (lType == 4)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 5 || index == 6)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
+
+                                        }
+
+
+                                    }
+                                    else if (lType == 5)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            string Color = Util.GetColor(s);
+                                            string ys = string.Empty;
+                                            switch (Color)
+                                            {
+                                                case "red":
+                                                    ys = "HYJP_LhRed";
+                                                    break;
+                                                case "blue":
+                                                    ys = "HYJP_LhBlue";
+                                                    break;
+                                                case "green":
+                                                    ys = "HYJP_LhGreen";
+                                                    break;
+                                            }
+                                            <span class="ball_spB ball_blue @ys">@s</span>
+                                        }
+                                    }
+                                    else if (lType == 8)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 7)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
                                         }
                                     }
                                     else if (lType == 65)
@@ -175,38 +244,41 @@
                                 <a href="javascript:;" class="UL2_baif3a">走势</a>
                                 <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
                                 <a href="/Plan/Post/@record.lType" class="UL2_baif3a">发帖</a>
-                                <a href="javascript:;" class="UL2_baif3a">排行</a>
+                                <a href="/Plan/Index/@record.lType?cur=2" class="UL2_baif3a">排行</a>
                                 <div style="clear:both;"></div>
                             </div>
                         </div>
                     </li>
-                         
-                         
+
+
                 }
 
-                    
-                         
-                     
-            </ul>        
-            
+
+
+
+            </ul>
+
         }
 
-                 
-                 
+
+
         <script>
-            $(function() {
+            $(function () {
                 $('.hdNav_cai_lhs li').eq(0).addClass('current');
                 $('.hdNav_cai li').eq(0).addClass('current');
                 $('.ind_mainUl2').eq(0).show();
             });
 
         </script>
-        
+
     </div>
 
 
     @Html.Partial("Footer")
 
+    <div class="mask" style="display:none;"></div>
+
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

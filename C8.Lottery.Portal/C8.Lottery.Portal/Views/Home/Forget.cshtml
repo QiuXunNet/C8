@@ -20,7 +20,7 @@
             Validate();
             setInterval('runTime();', 1000);
             BindsendMsgClick();
-      
+
 
 
         });
@@ -57,7 +57,7 @@
                         $.post('/Home/GetCode', { mobile: mobile }, function (data) {
                             if (data != true) {
                                 alertmsg("验证码获取失败");
-                            } 
+                            }
                         });
                     } else {
                         alertmsg('手机号不能为空');
@@ -68,10 +68,9 @@
             });
         }
         //验证
-        function Validate()
-        {
+        function Validate() {
             $("#btnNext").click(function () {
-              
+
                 var mobile = $("#mobile").val();
                 var vcode = $("#vcode").val();
                 if (mobile.length == 0) {
@@ -93,7 +92,7 @@
 
                     });
                 }
-               
+
 
             });
         }
@@ -132,7 +131,7 @@
             </ul>
         </div>
         <div class="DL_info2">
-            <input type="button" id="btnNext"  class="DL_if2btn" value="下一步">
+            <input type="button" id="btnNext" class="DL_if2btn" value="下一步">
         </div>
         <!--<div class="DL_info4">
             客服热线：<a href="javascript:;">4009-9798-38</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;">在线客服</a>
@@ -140,5 +139,7 @@
     </div>
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
 

@@ -38,9 +38,9 @@
             <div class="nav-box">
 
                 @foreach (var item in galleryList)
-            {
-                if (item.Id == currentId)
                 {
+                    if (item.Id == currentId)
+                    {
                         <div class="line on">第@(item.Issue)期</div>
                     }
                     else
@@ -117,4 +117,5 @@
     <script type="text/javascript" src="~/js/view.js"></script>
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

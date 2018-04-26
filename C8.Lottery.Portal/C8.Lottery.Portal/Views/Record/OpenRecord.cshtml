@@ -27,46 +27,46 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">开奖记录</a>
-        
-         @if (lType >= 9)
-         {
-             string[] dateArr = queryDate.Split(',');
-             
-             <div class="Plan_QiHao">
-                 <p class="QiHao_tit">@ViewBag.currentDate</p>
-                 <div class="QiHao_text">
-                     <i class="QiHao_Ticon"></i>
-                     <ul class="QiHao_Nav" id="queryDate">
 
-                         @{
-                             foreach (string s in dateArr)
-                             {
-                                 <li>@s</li>
-                             }
-                         }
+        @if (lType >= 9)
+        {
+            string[] dateArr = queryDate.Split(',');
 
-                     </ul>
-                 </div>
-             </div>
-         }
+            <div class="Plan_QiHao">
+                <p class="QiHao_tit">@ViewBag.currentDate</p>
+                <div class="QiHao_text">
+                    <i class="QiHao_Ticon"></i>
+                    <ul class="QiHao_Nav" id="queryDate">
+
+                        @{
+                            foreach (string s in dateArr)
+                            {
+                                <li>@s</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        }
     </header>
-    
-    
-   
 
-         <div class="KJ_header">
-             <h3>@desc</h3>
-         </div>
-     
+
+
+
+    <div class="KJ_header">
+        <h3>@desc</h3>
+    </div>
+
 
     <div class="KJ_text">
 
         @foreach (LotteryRecord record in ViewBag.list)
         {
             string[] numArr = record.Num.Split(',');
-            
+
             <dl class="KJ_Tinfo">
-                
+
                 @if (lType == 10 || lType == 63 || lType == 65)
                 {
                     <dt>@record.ShowIssue</dt>
@@ -78,7 +78,7 @@
 
                 <dd>
                     <div class="KJ_TH">
-                        
+
                         @if (lType == 63 || lType == 64)
                         {
                             foreach (string s in numArr)
@@ -94,7 +94,7 @@
                             foreach (string s in numArr)
                             {
                                 count6++;
-                                
+
                                 string color = Util.GetColor(s);
                                 string cl = "";
                                 if (color == "red")
@@ -128,12 +128,12 @@
                             }
                         }
 
-                      
+
 
                     </div>
-                    
-                    
-                   
+
+
+
                     @if (lType == 5)
                     {
                         string[] shengxiaoArr = Util.ChangeOpenNumToShengxiao(record.Num).Split(',');
@@ -141,7 +141,7 @@
 
 
                         <div class="KJ_TH">
-                            
+
                             @foreach (string s in shengxiaoArr)
                             {
                                 count8++;
@@ -156,11 +156,11 @@
                         </div>
 
                     }
-                   
+
 
                 </dd>
             </dl>
-            
+
         }
 
 
@@ -171,4 +171,6 @@
 
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

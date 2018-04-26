@@ -37,7 +37,7 @@
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-              
+
                 @if (Model != null)
                 {
                     foreach (var item in Model)
@@ -48,24 +48,24 @@
                         }
                         else
                         {
-                <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                            <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
 
                         }
 
                     }
                 }
-            
-               
-                 <div style="clear:bothl;"></div>
+
+
+                <div style="clear:bothl;"></div>
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            <div class="hdNav_cai_title">
-                <span>切换分类</span>
-                <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
-            </div>
+            @*<div class="hdNav_cai_title">
+                    <span>切换分类</span>
+                    <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
+                </div>*@
             <ul class="hdNav_cai">
-             
+
                 @if (Model != null)
                 {
                     foreach (var item in Model)
@@ -87,27 +87,27 @@
     </div>
 
     <div class="guessing_content hjc_indexmain" style="margin-top:90px;">
-        
-    
-       @if (Model != null)
-                   {
-                       foreach (var item in Model)
-                       {
-                           string mid = "mescroll" + item.Id;
-                           string did = "datalist" + item.Id;
-
-                       <div id="@mid" class="list_mainUl2 gues_info mescroll" >
-                        <div id="@did" class="data-list">
-
-            </div>
-               </div>
 
 
-           }
-       }
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                string mid = "mescroll" + item.Id;
+                string did = "datalist" + item.Id;
+
+                <div id="@mid" class="list_mainUl2 gues_info mescroll">
+                    <div id="@did" class="data-list">
+
+                    </div>
+                </div>
 
 
-     
+            }
+        }
+
+
+
     </div>
 
     <div class="mask" style="display:none;"></div>
@@ -119,11 +119,11 @@
             var mescrollArr = new Array(17);
             var dh = $(document).height() - 200;
             $(".guessing_content").height(dh);
-             mescrollArr[curNavIndex] = initMescroll("mescroll1", "datalist1");
+            mescrollArr[curNavIndex] = initMescroll("mescroll1", "datalist1");
 
             function pager(obj) {
                 var _this = $(obj),
-                i = _this.attr("data-index");
+                    i = _this.attr("data-index");
                 console.log(i);
 
                 if (curNavIndex != i) {
@@ -152,18 +152,18 @@
             }
 
 
-          
+
 
 
             $(".hdNav_cai_lhs li").click(function () {
-            
-                
+
+
                 pager($(this));
             });
 
             $(".hdNav_cai li").click(function () {
-     
-               pager($(this));
+
+                pager($(this));
             });
 
 
@@ -196,7 +196,7 @@
 
             /*加载列表数据 */
             function getListData(page) {
-             
+
                 //联网加载数据
                 var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
                 getListDataFromNet(dataIndex, page.num, page.size, function (pageData, hasNextPage) {
@@ -212,24 +212,23 @@
             }
 
 
-            function getListDataFromNet(ltype,pageIndex,pageSize,successCallback,errorCallback)
-            {
+            function getListDataFromNet(ltype, pageIndex, pageSize, successCallback, errorCallback) {
                 $.ajax({
                     type: 'GET',
                     data: {
-                        PId:ltype,           
+                        PId: ltype,
                         pageIndex: pageIndex,
                         pageSize: pageSize
                     },
-                    async:false,
+                    async: false,
                     url: '/Personal/GetBet',
                     dataType: 'json',
-                    success: function(res){
+                    success: function (res) {
 
                         if (res.IsSuccess && res.Data) {
                             //回调
-                         
-                            successCallback(res.Data.PageData,res.Data.HasNextPage);
+
+                            successCallback(res.Data.PageData, res.Data.HasNextPage);
 
                         } else {
                             alertmsg("服务器繁忙");
@@ -243,14 +242,14 @@
         });
 
         function buildHtml(data, curNavIndex) {
-          
+
             var itemList = [];
             var listDom = $("#datalist" + curNavIndex);
             $.each(data, function (index, item) {
-            
+
                 var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></a></dt>'
-                + '<dd><a href="/Plan/Post/' + item.lType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.Name + '</h3>  <p>' + item.Score + '</p>   </div>'
-                + ' </a></dd> </dl>';
+                    + '<dd><a href="/Plan/Post/' + item.lType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.Name + '</h3>  <p>' + item.Score + '</p>   </div>'
+                    + ' </a></dd> </dl>';
                 itemList.push(itemHtml);
             });
             var html = itemList.join('');
@@ -260,5 +259,5 @@
 
     </script>
 </body>
-
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

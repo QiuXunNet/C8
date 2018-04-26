@@ -53,10 +53,10 @@
             <div style="clear:both;"></div>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            <div class="hdNav_cai_title">
-                <span>切换分类</span>
-                <span class="collect"><img src="/images/icon-collect.png" alt="" /></span>
-            </div>
+            @*<div class="hdNav_cai_title">
+                    <span>切换分类</span>
+                    <span class="collect"><img src="/images/icon-collect.png" alt="" /></span>
+                </div>*@
             <ul class="hdNav_cai">
                 @if (typeList != null)
                 {
@@ -77,7 +77,7 @@
             <div style="clear:both;"></div>
         </div>
     </div>
-    
+
     <div class="gaoshou">
         <div class="GS_box" style="display: block;">
 
@@ -105,47 +105,48 @@
                 }
             }
         </div>
-        <a href="javascript:;" class="GS_btn"><img src="/images/50.png"/></a>
+        <a href="javascript:;" class="GS_btn"><img src="/images/50.png" /></a>
     </div>
 
     <ul class="C8_nav6 C8_bang">
-            <li data-idx="day">
-                <a href="javascript:;">
-                    <p>日榜</p><span></span>
-                </a>
-            </li>
-            <li data-idx="week">
-                <a href="javascript:;">
-                    <p>周榜</p><span></span>
-                </a>
-            </li>
-            <li data-idx="month">
-                <a href="javascript:;">
-                    <p>月榜</p><span></span>
-                </a>
-            </li>
-            <li data-idx="all"  class="current">
-                <a href="javascript:;">
-                    <p>总榜</p><span></span>
-                </a>
-            </li>
-            <div style="clear: both;"></div>
-        </ul>
+        <li data-idx="day">
+            <a href="javascript:;">
+                <p>日榜</p><span></span>
+            </a>
+        </li>
+        <li data-idx="week">
+            <a href="javascript:;">
+                <p>周榜</p><span></span>
+            </a>
+        </li>
+        <li data-idx="month">
+            <a href="javascript:;">
+                <p>月榜</p><span></span>
+            </a>
+        </li>
+        <li data-idx="all" class="current">
+            <a href="javascript:;">
+                <p>总榜</p><span></span>
+            </a>
+        </li>
+        <div style="clear: both;"></div>
+    </ul>
 
     @Html.Action("ExpertData", new { id = @Model.Id })
 
+
+    <div class="mask" style="display: none;"></div>
     <script>
-        $(function ()
-        {
-            $(".C8_bang li").click(function ()
-            {
+        $(function () {
+            $(".C8_bang li").click(function () {
                 var id = $(this).attr("data-idx");
                 $(".Ranking_footer #" + id).show().siblings().hide();
-             
+
             })
         });
 
     </script>
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
