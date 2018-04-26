@@ -5869,7 +5869,7 @@ a {
 .Plan_content {
     margin-top: 10px;
 	position:relative;
-	z-index:10000;
+	z-index:9998;
 }
 
 .Plan_CInfo {
@@ -7286,6 +7286,8 @@ i.icon_star {
     }
 
 .info_hdNav_cai {
+    max-height: 145px;
+    overflow-x: hidden;
     text-align: left;
     padding: 2% 0.4%;
 }
