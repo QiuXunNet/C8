@@ -6002,7 +6002,8 @@ a {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    margin-left: 57%;
+    width:43%;
+    float:right;
     padding: 10px 0;
     overflow: hidden;
 }
