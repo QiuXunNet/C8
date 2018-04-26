@@ -22050,7 +22050,7 @@ namespace C8.Lottery.Public
             }
             else if (id == 11)
             {
-                lType = 18;
+                lType = 47;
             }
             else if (id == 12)
             {

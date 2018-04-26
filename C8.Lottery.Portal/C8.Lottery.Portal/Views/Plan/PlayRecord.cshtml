@@ -10,6 +10,8 @@
     int type = ViewBag.Type;
     int MyUid =Convert.ToInt32(ViewBag.MyUid);
     int readCoin = ViewBag.ReadCoin ?? 0;
+    int Coin = ViewBag.Coin ?? 0;
+    int Coupon = ViewBag.Coupon ?? 0;
 }
 
 <!DOCTYPE html>
@@ -269,7 +271,7 @@
         </div>
     </div>
 
-    <div class="C8_TCpopupA" style="margin-top: -80px; display: none;">
+    @*<div class="C8_TCpopupA" style="margin-top: -80px; display: none;">
         <div class="C8_Tcontent">
             <p class="C8_Tcfont">@("查看此专家预测号码需要支付" + readCoin + "金币")</p>
             <p class="C8_Tcfont">是否支付金币查看？</p>
@@ -289,8 +291,61 @@
             </li>
         </ul>
         <div style="clear: both;"></div>
-    </div>
+    </div>*@
+   
     <div class="mask" style="display: none;"></div>
+
+    <!--支付  弹窗-->
+    <div class="c8_TCpopupZf" style="display: none;">
+        <div class="C8_ZfContent">
+            <div class="zfC_header">
+                <a href="JavaScript:;" class="zfC_del"></a>
+                <h3>支付</h3>
+            </div>
+            <div class="zfC_Font">
+                <p>支付金币或使用查看券查看号码</p>
+            </div>
+            <ul class="zfC_XZ">
+                <li data-idx="1" class="current">
+                    <dl class="XZ_Dl">
+                        <dt><img src="~/images/w9_1.png"></dt>
+                        <dd>
+                            <p><span>X @readCoin</span>(@("可用金币" + Coin + "个"))</p>
+                            <div class="XZ_Qtu">
+                                <img src="~/images/w10_1.png" class="Qtu_A">
+                                <img src="~/images/w10_2.png" class="Qtu_B">
+                            </div>
+                            <div style="clear:both;"></div>
+                        </dd>
+                    </dl>
+                </li>
+                @if (Coupon > 0)
+                {
+                    <li data-idx="2">
+                        <dl class="XZ_Dl">
+                            <dt><img src="~/images/w9_2.png"></dt>
+                            <dd>
+                                <p><span>X 1</span>(@("可用查看券"+ Coupon + "张"))</p>
+                                <div class="XZ_Qtu">
+                                    <img src="~/images/w10_1.png" class="Qtu_A">
+                                    <img src="~/images/w10_2.png" class="Qtu_B">
+                                </div>
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </li>
+                }
+              
+            </ul>
+            <div class="zfC_Que">
+                <a href="javascript:playUtil.confirm();">确认支付</a>
+            </div>
+        </div>
+    </div>
+
+    
+    
+   
 
     <script src="~/js/kcp/NativeShare.js"></script>
     <script type="text/javascript">
@@ -303,6 +358,11 @@
         var isRead = false;
         $(function() {
 
+            $(".zfC_del").click(function()
+            {
+                $(".c8_TCpopupZf").hide();
+                $(".mask").hide();
+            });
 
 
             var p=GetQueryString("p");
@@ -693,7 +753,8 @@
         var playUtil = {
             goLastPlay:function() {
                 var playName = $(".SX_Ul li.current").attr("data-title")||"";
-                location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName;
+                var paytype=$(".zfC_XZ li.current").attr("data-idx");
+                location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid+"&playName="+playName+"&paytype="+paytype;
             },
             giftCoin:function() {
 
@@ -707,6 +768,7 @@
             confirm:function() {
                 var uid=@Model.Id;
                 var ltype=@lType;
+                var paytype=$(".zfC_XZ li.current").attr("data-idx");
                 var playName = $(".SX_Ul li.current").attr("data-title");
 
                 if (!playName || playName.length < 1) {
@@ -720,7 +782,8 @@
                         lType:ltype,
                         uid:uid,
                         id:recordId,
-                        coin:readCoin
+                        coin:readCoin,
+                        paytype:paytype
                     },
                     url: '/Plan/ViewPlan',
                     dataType: 'json',
@@ -751,7 +814,9 @@
                 {
                     if (readCoin > 0 && !isRead)
                     {
-                        $(".C8_TCpopupA").show();
+                      
+                        //$(".C8_TCpopupA").show();
+                        $(".c8_TCpopupZf").show();
                         $(".mask").show();
                     } else {
                         //this.confirm();
