@@ -715,7 +715,7 @@ a {
 }
 
 .hdM_ddtit .hdM_ddtime {
-    font-size: 15px;
+    font-size: 13px;
     color: #4f4f4f;
     line-height: 24px;
 }
@@ -2841,7 +2841,7 @@ a {
     background: #fff;
     border-top: 1px solid #eee;
     padding: 10px 2%;
-    z-index: 9999;
+    z-index: 900;
 }
 
 .Rank_ftDL {
@@ -3490,6 +3490,8 @@ a {
 }
 
 .SX_Ul {
+    max-height: 240px;
+    overflow-x: hidden;
     padding: 5px;
 }
 
@@ -5869,7 +5871,7 @@ a {
 .Plan_content {
     margin-top: 10px;
 	position:relative;
-	z-index:10000;
+	z-index:9998;
 }
 
 .Plan_CInfo {
@@ -6705,6 +6707,17 @@ a {
     filter: alpha(opacity=0);
     z-index: 998;
 }
+.mask2 {
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: rgba(47, 48, 49, 0.7);
+    width: 100%;
+    height: 100%;
+    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    z-index: 999;
+}
 
 .list_mainUl2 {
     background: #fff;
@@ -6901,7 +6914,7 @@ a {
 .hdNav_cai {
     text-align: left;
     padding: 2% 0.4%;
-	max-height: 240px;
+	max-height: 145px;
     overflow-x: hidden;
 }
 
@@ -7286,6 +7299,8 @@ i.icon_star {
     }
 
 .info_hdNav_cai {
+    max-height: 145px;
+    overflow-x: hidden;
     text-align: left;
     padding: 2% 0.4%;
 }

@@ -51,10 +51,10 @@
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            <div class="hdNav_cai_title">
+            @*<div class="hdNav_cai_title">
                 <span>切换分类</span>
                 <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
-            </div>
+            </div>*@
             <ul class="hdNav_cai">
                 
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
@@ -175,7 +175,7 @@
                                 <a href="javascript:;" class="UL2_baif3a">走势</a>
                                 <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
                                 <a href="/Plan/Post/@record.lType" class="UL2_baif3a">发帖</a>
-                                <a href="javascript:;" class="UL2_baif3a">排行</a>
+                                <a href="/List/Index" class="UL2_baif3a">排行</a>
                                 <div style="clear:both;"></div>
                             </div>
                         </div>
@@ -206,6 +206,8 @@
 
 
     @Html.Partial("Footer")
+
+    <div class="mask" style="display:none;"></div>
 
 </body>
 
