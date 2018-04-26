@@ -648,7 +648,7 @@ function initBetting(qiu, data) {
         }
         else if (lType >= 60 && lType < 63) {
             switch (item.PlayName) {
-                case '第一球五码':
+                case '第一球六码':
                     qiuClone.kl12.kl12_q1.num = item.BetNum.split(',');
                     break;
                 case '第一球单双':
@@ -657,7 +657,7 @@ function initBetting(qiu, data) {
                 case '第一球大小':
                     qiuClone.kl12.kl12_q1.dx = item.BetNum;
                     break;
-                case '第二球五码':
+                case '第二球六码':
                     qiuClone.kl12.kl12_q2.num = item.BetNum.split(',');
                     break;
                 case '第二球单双':
@@ -666,7 +666,7 @@ function initBetting(qiu, data) {
                 case '第二球大小':
                     qiuClone.kl12.kl12_q2.dx = item.BetNum;
                     break;
-                case '第三球五码':
+                case '第三球六码':
                     qiuClone.kl12.kl12_q3.num = item.BetNum.split(',');
                     break;
                 case '第三球单双':
@@ -675,7 +675,7 @@ function initBetting(qiu, data) {
                 case '第三球大小':
                     qiuClone.kl12.kl12_q3.dx = item.BetNum;
                     break;
-                case '第四球五码':
+                case '第四球六码':
                     qiuClone.kl12.kl12_q4.num = item.BetNum.split(',');
                     break;
                 case '第四球单双':
@@ -684,7 +684,7 @@ function initBetting(qiu, data) {
                 case '第四球大小':
                     qiuClone.kl12.kl12_q4.dx = item.BetNum;
                     break;
-                case '第五球五码':
+                case '第五球六码':
                     qiuClone.kl12.kl12_q5.num = item.BetNum.split(',');
                     break;
                 case '第五球单双':
@@ -1835,18 +1835,19 @@ $(function () {
         }
 
         if (isClose) {
-            selectedQiu.html = selectedResult;
             var arr = selectedResult.split('|');
             arr = removeEmpty(arr);
             if (arr.length < 1) {
-                $(document).dialog({
-                    type: 'notice',
-                    infoText: '请选择',
-                    autoClose: 1500
-                });
-                return;
+                //$(document).dialog({
+                //    type: 'notice',
+                //    infoText: '请选择',
+                //    autoClose: 1500
+                //});
+                //return;
+                selectedResult = "";
             }
 
+            selectedQiu.html = selectedResult;
             _currentNum.html(selectedResult);
 
 

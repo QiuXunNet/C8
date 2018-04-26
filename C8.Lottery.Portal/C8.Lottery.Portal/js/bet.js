@@ -52,8 +52,13 @@ function BindconfirmBetCLick() {
             currentIssue = $('#currentIssue').html();
 
             //投注
-            $.post('/Plan/Bet', { lType: lType, betInfo: betInfo, currentIssue: currentIssue }, function () {
-                ShowTan('发帖成功');
+            $.post('/Plan/Bet', { lType: lType, betInfo: betInfo, currentIssue: currentIssue }, function (res) {
+                if (res && res == "ok") {
+                    ShowTan('发帖成功');
+                    redirect('/Personal/MyPlan');
+                } else {
+                    ShowTan(res);
+                }
             });
 
         }

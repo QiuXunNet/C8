@@ -447,7 +447,8 @@ namespace C8.Lottery.Public
 
             if (string.IsNullOrEmpty(words)) return sourceString;
 
-            var list = words.Split(',', '，');
+            var list = words.Split(new[] { ',', '，' }, StringSplitOptions.RemoveEmptyEntries);
+            if (list.Length < 1) return sourceString;
             foreach (var c in list)
             {
                 sourceString = sourceString.Replace(c, replaceString);
@@ -475,6 +476,6 @@ namespace C8.Lottery.Public
         }
 
         #endregion
-        
+
     }
 }
