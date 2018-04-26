@@ -1,4 +1,5 @@
-﻿@using C8.Lottery.Model
+﻿@using C8.Lottery.Public
+@using C8.Lottery.Model
 @{
     Layout = null;
     UserInfo user = ViewBag.UserInfo;
@@ -99,7 +100,7 @@
         <div class="hdNav_cai_collect" style="display: block;">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-               
+
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
@@ -110,11 +111,11 @@
         </div>
         <div class="hdNav_cai_expand" style="display: none;">
             @*<div class="hdNav_cai_title">
-                <span>切换分类</span>
-                <span class="collect"><img src="/images/icon-collect.png" alt=""></span>
-            </div>*@
+                    <span>切换分类</span>
+                    <span class="collect"><img src="/images/icon-collect.png" alt=""></span>
+                </div>*@
             <ul class="hdNav_cai">
-                
+
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
@@ -128,128 +129,195 @@
 
 
     <div class="hjc_indexmain" style="margin-top:265px;">
-        
-         @foreach (LotteryType2 lotteryType in ViewBag.list)
-         {
-             int[] lTypeArr = lotteryType.SonIdArr;
 
-             <ul class="ind_mainUl2" style="display: none;">
-          
+        @foreach (LotteryType2 lotteryType in ViewBag.list)
+        {
+            int[] lTypeArr = lotteryType.SonIdArr;
 
-                 @for (int j = 0; j < lTypeArr.Length; j++)
-                 {
-                     int i = lTypeArr[j];
-
-                     lType = i;
-                     record = list[i - 1];
-                     string iconName = record.ShowIconName + ".png";
-                     string[] numArr = record.Num.Split(',');
-
-                     <li>
-                         <div class="UL2_hd">
-                             <a href="javascript:;">
-                                 <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
-                                 <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
-                                 <span class="UL2_hdicon"></span>
-                             </a>
-                         </div>
-                         <div class="UL2_bd">
-                             <div class="UL3_bdinfo1">
-                                 <p lType="@record.lType">
-                                     <font>第<span>@record.Issue</span>期</font>
-                                     <font>
-                                         下期开奖：
-
-                                         @if (record.ShowOpenTime == "正在开奖")
-                                         {
-                                             <span>正在开奖</span>
-                                         }
-                                         else
-                                         {
-                                             string openTime = record.ShowOpenTime;
-                                             string[] timeArr = openTime.Split('&');
-
-                                             string hour = timeArr[0];
-                                             string min = timeArr[1];
-                                             string sec = timeArr[2];
-
-                                             <span><t class="hour">@hour</t>:<t class="minute">@min</t>:<t class="second">@sec</t></span>
-                                         }
-                                     </font>
-                                 </p>
-                             </div>
-                             <div class="UL3_bdinfo2">
-                                 <div class="ball_wrap">
+            <ul class="ind_mainUl2" style="display: none;">
 
 
-                                     @if (lType <= 62)
-                                     {
-                                         foreach (string s in numArr)
-                                         {
-                                             if (s == "19" || s == "20")
-                                             {
-                                                 <span class="ball_spB ball_red">@s</span>
-                                             }
-                                             else
-                                             {
-                                                 <span class="ball_spB ball_blue">@s</span>
-                                             }
+                @for (int j = 0; j < lTypeArr.Length; j++)
+                {
+                    int i = lTypeArr[j];
 
-                                         }
-                                     }
-                                     else if (lType == 65)
-                                     {
-                                         int a = int.Parse(numArr[0]);
-                                         int b = int.Parse(numArr[1]);
-                                         int c = int.Parse(numArr[2]);
-                                         int sum = a + b + c;
+                    lType = i;
+                    record = list[i - 1];
+                    string iconName = record.ShowIconName + ".png";
+                    string[] numArr = record.Num.Split(',');
 
-                                         <span class="ball_spB ball_blue">@numArr[0]</span>
-                                         <span class="ball_spB ball_blue">+</span>
-                                         <span class="ball_spB ball_blue">@numArr[1]</span>
-                                         <span class="ball_spB ball_blue">+</span>
-                                         <span class="ball_spB ball_blue">@numArr[2]</span>
-                                         <span class="ball_spB ball_blue">=</span>
-                                         <span class="ball_spB ball_blue">@sum</span>
-                                     }
-                                     else if (lType == 63 || lType == 64)
-                                     {
-                                         foreach (string s in numArr)
-                                         {
-                                             string clazz = "ball_spA No" + s;
-                                             <span class="@clazz">@s</span>
-                                         }
-                                     }
+                    <li>
+                        <div class="UL2_hd">
+                            <a href="javascript:;">
+                                <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
+                                <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
+                                <span class="UL2_hdicon"></span>
+                            </a>
+                        </div>
+                        <div class="UL2_bd">
+                            <div class="UL3_bdinfo1">
+                                <p lType="@record.lType">
+                                    <font>第<span>@record.Issue</span>期</font>
+                                    <font>
+                                        下期开奖：
 
+                                        @if (record.ShowOpenTime == "正在开奖")
+                                        {
+                                            <span>正在开奖</span>
+                                        }
+                                        else
+                                        {
+                                            string openTime = record.ShowOpenTime;
+                                            string[] timeArr = openTime.Split('&');
 
-                                 </div>
-                                 <div class="UL3_ZZKJ">
-                                     <p>正在开奖中...</p>
-                                 </div>
-                             </div>
-                             <div class="UL3_bdinfo3">
-                                 <a href="/Plan/Index/@record.lType" class="UL2_baif3a">计划</a>
-                                 <a href="javascript:;" class="UL2_baif3a">双面</a>
-                                 <a href="javascript:;" class="UL2_baif3a">长龙</a>
-                                 <a href="javascript:;" class="UL2_baif3a">走势</a>
-                                 <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
-                                 <a href="/Plan/Post/@record.lType" class="UL2_baif3a">发帖</a>
-                                 <a href="/Plan/Index/@record.lType?cur=2" class="UL2_baif3a">排行</a>
-                                 <div style="clear: both;"></div>
-                             </div>
-                         </div>
-                     </li>
+                                            string hour = timeArr[0];
+                                            string min = timeArr[1];
+                                            string sec = timeArr[2];
+
+                                            <span><t class="hour">@hour</t>:<t class="minute">@min</t>:<t class="second">@sec</t></span>
+                                        }
+                                    </font>
+                                </p>
+                            </div>
+                            <div class="UL3_bdinfo2">
+                                <div class="ball_wrap">
 
 
-                 }
+                                    @if (lType <= 62 && lType != 5 && lType!=2 && lType!= 8 && lType != 4)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
 
-                    
-                         
-                     
-             </ul>
-         }
+                                          <span class="ball_spB ball_red HYJP_Red">@s</span>
 
-        
+                                        }
+                                    }
+                                    else if (lType == 2)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+                                           
+                                            if (index == 6)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
+
+                                        }
+                                    }
+                                    else if (lType == 4)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 5 || index == 6)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
+
+                                        }
+
+
+                                    }
+                                    else if (lType == 5)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            string Color = Util.GetColor(s);
+                                            string ys = string.Empty;
+                                            switch (Color)
+                                            {
+                                                case "red":
+                                                    ys = "HYJP_LhRed";
+                                                    break;
+                                                case "blue":
+                                                    ys = "HYJP_LhBlue";
+                                                    break;
+                                                case "green":
+                                                    ys = "HYJP_LhGreen";
+                                                    break;
+                                            }
+                                            <span class="ball_spB ball_blue @ys">@s</span>
+                                        }
+                                    }
+                                    else if (lType == 8)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            int index = numArr.ToList().IndexOf(s);
+
+                                            if (index == 7)
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
+                                            }
+                                        }
+                                    }
+                                    else if (lType == 65)
+                                    {
+                                        int a = int.Parse(numArr[0]);
+                                    int b = int.Parse(numArr[1]);
+                                    int c = int.Parse(numArr[2]);
+                                    int sum = a + b + c;
+
+                                        <span class="ball_spB ball_blue">@numArr[0]</span>
+                                        <span class="ball_spB ball_blue">+</span>
+                                        <span class="ball_spB ball_blue">@numArr[1]</span>
+                                        <span class="ball_spB ball_blue">+</span>
+                                        <span class="ball_spB ball_blue">@numArr[2]</span>
+                                        <span class="ball_spB ball_blue">=</span>
+                                        <span class="ball_spB ball_blue">@sum</span>
+                                        }
+                                    else if (lType == 63 || lType == 64)
+                                    {
+                                        foreach (string s in numArr)
+                                        {
+                                            string clazz = "ball_spA No" + s;
+                                            <span class="@clazz">@s</span>
+                                    }
+                                    }
+
+
+                                </div>
+                                <div class="UL3_ZZKJ">
+                                    <p>正在开奖中...</p>
+                                </div>
+                            </div>
+                            <div class="UL3_bdinfo3">
+                                <a href="/Plan/Index/@record.lType" class="UL2_baif3a">计划</a>
+                                <a href="javascript:;" class="UL2_baif3a">双面</a>
+                                <a href="javascript:;" class="UL2_baif3a">长龙</a>
+                                <a href="javascript:;" class="UL2_baif3a">走势</a>
+                                <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
+                                <a href="/Plan/Post/@record.lType" class="UL2_baif3a">发帖</a>
+                                <a href="/Plan/Index/@record.lType?cur=2" class="UL2_baif3a">排行</a>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+                    </li>
+
+
+                }
+
+
+
+
+            </ul>
+        }
+
+
         <script>
             $(function () {
                 $('.hdNav_cai_lhs li').eq(0).addClass('current');
@@ -265,12 +333,12 @@
 
 
 
-<div class="mask" style="display: none;"></div>
+    <div class="mask" style="display: none;"></div>
 
     <div class="hjc_news_lhs">
         <div class="hjc_news_title" style="text-align:left;">
             <!-- <span class="icon-fire"></span> -->
-            <span class="icon-fire hjc_news_title_info" >精彩资讯</span>
+            <span class="icon-fire hjc_news_title_info">精彩资讯</span>
             <a style="color:#f13131;float:right;" href="/News/Index/2">更多</a>
         </div>
         @if (newsList != null)
@@ -308,7 +376,7 @@
 
                             <div class="hjc_news_right">
                                 @if (newse.ThumbList.Count > 0)
-                        {
+                                {
                                     <img src="@newse.ThumbList[0]" alt="@newse.FullHead" />
                                 }
                             </div>
@@ -377,7 +445,7 @@
                 </div>
             }
         }
-     
+
     </div>
 
     @Html.Partial("Footer")
