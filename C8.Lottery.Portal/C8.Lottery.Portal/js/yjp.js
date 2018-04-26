@@ -18,6 +18,10 @@ $(function () {
         $(".ZX_CLBox").removeClass("CLBox_current");
         $(".CLB_cNav").removeClass("cNav_current");
     });
+    /*支付  弹窗    js*/
+    $(".zfC_XZ li").click(function () {
+        $(this).addClass("current").siblings().removeClass("current");
+    });
 
     /*清除文本框值*/
     $(".Bul1_del").click(function () {

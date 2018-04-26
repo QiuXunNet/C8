@@ -8685,6 +8685,35 @@ footer {
 .cNav_Dl dd img{ float:right; width:10px; margin-top:8px;}
 
 
+	/*******支付  弹窗*******/
+.c8_TCpopupZf{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);z-index: 99999;}
+.C8_ZfContent{ width:280px; background:#fff; border-radius:5px; position:absolute; top:50%; left:50%; margin:-131px 0 0 -140px; overflow:hidden;}
+.zfC_header{ position:relative; height:40px; border-bottom:1px solid #eee;}
+.zfC_header h3{ height:40px; line-height:40px; font-size:18px; color:#333; font-weight:normal; text-align:center;}
+.zfC_header .zfC_del{ width:40px; height:40px; position:absolute; top:0; left:0; background:url(../images/w8.png) no-repeat center; background-size:12px;}
+.zfC_Font{}
+.zfC_Font p{ font-size:14px; color:#333; line-height:40px; text-align:center;}
+.zfC_XZ{ margin:0 10px;}
+.zfC_XZ li{ cursor:pointer;}
+.zfC_XZ li .XZ_Dl{ padding:10px 0; border-bottom:1px solid #eee;}
+.zfC_XZ li .XZ_Dl dt{ float:left; width:45px;}
+.zfC_XZ li .XZ_Dl dt img{ display:block; width:100%;}
+.zfC_XZ li .XZ_Dl dd{ margin-left:55px;}
+.zfC_XZ li .XZ_Dl dd p{ float:left; font-size:14px; line-height:40px; color:#666;}
+.zfC_XZ li .XZ_Dl dd p span{ color:#333;}
+.zfC_XZ li .XZ_Dl dd .XZ_Qtu{ float:right; width:20px; height:20px; margin-top:10px;}
+.zfC_XZ li .XZ_Dl dd .XZ_Qtu img{ display:block; width:100%; height:100%;}
+.zfC_XZ li .XZ_Dl dd .XZ_Qtu .Qtu_A{ display:block;}
+.zfC_XZ li .XZ_Dl dd .XZ_Qtu .Qtu_B{ display:none;}
+.zfC_XZ .current .XZ_Dl dd .XZ_Qtu .Qtu_A{ display:none;}
+.zfC_XZ .current .XZ_Dl dd .XZ_Qtu .Qtu_B{ display:block;}
+.zfC_Que{ height:40px; margin:10px; border-radius:5px; background:#e21717;}
+.zfC_Que a{ display:block; text-align:center; color:#fff; font-size:14px; height:40px; line-height:40px;}
+
+
+
+
+
 
 
 
