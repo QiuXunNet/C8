@@ -60,7 +60,7 @@
             $("#txtBankAccount").keyup(function () {
                 if ($.trim($(this).val()).length >= 14) {
                     getBackType($.trim($(this).val()));
-                }                
+                }
             });
             $("#txtBankAccount").blur(function () {
                 if ($.trim($(this).val()).length >= 14) {
@@ -73,9 +73,9 @@
         function getBackType(no) {
             var obj = {};
             $.ajax({
-                url: "/Amount/CheckBankAccount?BankAccount="+no,
-                type: "get", 
-                success: function (data) {                    
+                url: "/Amount/CheckBankAccount?BankAccount=" + no,
+                type: "get",
+                success: function (data) {
                     obj = eval("(" + data + ")");
                     if (obj.validated && obj.cardType == "DC") {
                         var backDate = getBackNameOrImg(obj.bank);
@@ -101,7 +101,7 @@
                         $(".Withd_DL").hide();
                     }
                 }
-                
+
             })
         }
 
@@ -114,7 +114,7 @@
             html += '</ul>';
             document.getElementById('divCustomers').innerHTML = html;
         }
-   
+
 
         function add() {
             if (backAccount == "" || backName == "") {
@@ -198,4 +198,6 @@
         }
     </script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

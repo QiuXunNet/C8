@@ -11,217 +11,221 @@
 <!DOCTYPE html>
 
 <html>
-    
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-        <title>查看计划-重庆时时彩</title>
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <script src="/js/jquery-1.8.3.min.js"></script>
-        <script src="/js/function.js"></script>
-        <script src="/js/runTime2.js"></script>
-    </head>
 
-    <body style="background:#fff;">
-        <input type="hidden" id="lType" value="@lType" />
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>查看计划-重庆时时彩</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <script src="/js/function.js"></script>
+    <script src="/js/runTime2.js"></script>
+</head>
 
-        <header class="hjc_header">
-            <h3 class="hjc_logo">@ViewBag.siteTitle</h3>
-            <a  href="javascript:history.go(-1);" class="hjc_back"></a>
-        </header>
+<body style="background:#fff;">
+    <input type="hidden" id="lType" value="@lType" />
 
-        <div class="Plan_header" style="margin-top: 50px;">
+    <header class="hjc_header">
+        <h3 class="hjc_logo">@ViewBag.siteTitle</h3>
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+    </header>
 
-            <dl class="Plan_hdCZ">
-                <dt><img src="/images/@ViewBag.icon"></dt>
-                <dd>
-                    <div class="hdM_ddtit">
-                        <h3 class="hdM_ddtqi f-l">第<span>@ViewBag.lastIssue</span>期
-                        </h3>
-                        <p class="hdM_ddtime f-r">下期开奖：
+    <div class="Plan_header" style="margin-top: 50px;">
 
-                            @*<span id="openTime">@ViewBag.time</span>*@
+        <dl class="Plan_hdCZ">
+            <dt><img src="/images/@ViewBag.icon"></dt>
+            <dd>
+                <div class="hdM_ddtit">
+                    <h3 class="hdM_ddtqi f-l">
+                        第<span>@ViewBag.lastIssue</span>期
+                    </h3>
+                    <p class="hdM_ddtime f-r">
+                        下期开奖：
 
-                            @if (ViewBag.time == "正在开奖")
+                        @*<span id="openTime">@ViewBag.time</span>*@
+
+                        @if (ViewBag.time == "正在开奖")
+                        {
+                            <span id="openTime">正在开奖</span>
+                        }
+                        else
+                        {
+                            <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                        }
+
+                    </p>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="hdM_ddcon">
+
+                    @{
+                        string num = ViewBag.lastNum;
+                        string[] numArr = num.Split(',');
+
+                        foreach (string s in numArr)
+                        {
+                            <span class="hdM_spssc">@s</span>
+                        }
+                    }
+
+                </div>
+                <div class="hdM_ddZZKJ" style="display: none;">
+                    <p>正在开奖中...</p>
+                </div>
+            </dd>
+        </dl>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="Plan_main">
+        <div class="Mif_sy" id="mainContent">
+
+
+            <div class="Mif_sykuai">
+
+
+                <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
+                    <thead>
+                        <tr>
+                            <th colspan="4" scope="col"><a href="javascript:;" class="Mif_login">@ViewBag.msg</a></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+
+            <div class="Mif_sykuai">
+
+                <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
+
+                    @*开奖信息*@
+                    <thead>
+                        <tr>
+                            <th scope="col" width="20%">
+                                <div>
+                                    <span class="Mif_titred"><font>@ViewBag.currentIssue.Substring(4)</font>期</span>
+                                </div>
+                                <div>
+
+                                </div>
+                            </th>
+                            <th colspan="3" scope="col" align="left">
+                                <div class="Mif_Hao">
+
+
+
+                                </div>
+                                <div class="Mif_Hao" style="margin-top: 5px;">
+
+
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+
+                    @*预测号码*@
+                    <tbody>
+
+
+                        @foreach (Plan plan in ViewBag.list)
+                        {
+                            count++;
+
+                            if (count == 6 && ((lType >= 9 && lType < 38) || (lType >= 60 && lType < 63)))
                             {
-                                <span id="openTime">正在开奖</span>
+                                <tr>
+                                    <td align="center"><font>@plan.ShowSort</font></td>
+
+                                    <td colspan="3" align="center">
+                                        <font>@plan.Num</font>
+
+                                    </td>
+
+                                </tr>
+                            }
+                            else if (lType == 2 || lType == 4 || lType == 8)
+                            {
+                                numArr = plan.Num.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    <td width="40%" align="left">
+
+                                        <font class="Mif_red">@numArr[0]</font>
+
+
+                                    </td>
+                                    <td width="40%" align="left">
+
+                                        <font>@numArr[1]</font>
+
+
+                                    </td>
+
+
+                                </tr>
+                            }
+                            else if (lType == 5)
+                            {
+
+                                <tr>
+                                    <td width="30%" align="center"><font>@plan.ShowSort</font></td>
+                                    <td width="70%" align="left">
+
+                                        <font class="Mif_red">@plan.Num</font>
+                                    </td>
+
+
+                                </tr>
                             }
                             else
                             {
-                                <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                                numArr = plan.Num.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    <td width="40%" align="left">
+
+                                        <font class="Mif_red">@numArr[0]</font>
+
+
+                                    </td>
+                                    <td width="20%" align="left">
+
+                                        <font>@numArr[1]</font>
+
+
+                                    </td>
+                                    <td width="20%" align="left">
+
+                                        <font>@numArr[2]</font>
+                                    </td>
+
+                                </tr>
                             }
 
-                        </p>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="hdM_ddcon">
-
-                        @{
-                            string num = ViewBag.lastNum;
-                            string[] numArr = num.Split(',');
-
-                            foreach (string s in numArr)
-                            {
-                                <span class="hdM_spssc">@s</span>
-                            }
                         }
 
-                    </div>
-                    <div class="hdM_ddZZKJ" style="display: none;">
-                        <p>正在开奖中...</p>
-                    </div>
-                </dd>
-            </dl>
-            <div class="clearfix"></div>
-        </div>
-
-        <div class="Plan_main">
-            <div class="Mif_sy" id="mainContent">
-        
-        
-                <div class="Mif_sykuai">
-            
-                 
-                    <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
-                        <thead>
-                            <tr>
-                                <th colspan="4" scope="col"><a href="javascript:;" class="Mif_login">@ViewBag.msg</a></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-       
-
-                <div class="Mif_sykuai">
-                    
-                    <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
-
-                        @*开奖信息*@
-                        <thead>
-                            <tr>
-                                <th scope="col" width="20%">
-                                    <div>
-                                        <span class="Mif_titred"><font>@ViewBag.currentIssue.Substring(4)</font>期</span>
-                                    </div>
-                                    <div>
-
-                                    </div>
-                                </th>
-                                <th colspan="3" scope="col" align="left">
-                                    <div class="Mif_Hao">
 
 
-
-                                    </div>
-                                    <div class="Mif_Hao" style="margin-top: 5px;">
-
-
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-
-
-                        @*预测号码*@
-                        <tbody>
-                            
-
-                            @foreach (Plan plan in ViewBag.list)
-                            {
-                                count ++;
-
-                                if (count == 6 &&    ( ( lType >= 9 && lType < 38 ) || (lType >= 60 && lType < 63))            )
-                                {
-                                    <tr>
-                                        <td align="center"><font>@plan.ShowSort</font></td>
-
-                                        <td colspan="3" align="center">
-                                            <font>@plan.Num</font>
-
-                                        </td>
-
-                                    </tr>
-                                }
-                                else if (lType == 2 || lType == 4 || lType == 8)
-                                {
-                                    numArr = plan.Num.Split('|');
-
-                                    <tr>
-                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                        <td width="40%" align="left">
-
-                                            <font class="Mif_red">@numArr[0]</font>
-
-
-                                        </td>
-                                        <td width="40%" align="left">
-
-                                            <font>@numArr[1]</font>
-
-
-                                        </td>
-                                       
-
-                                    </tr>
-                                }
-                                else if (lType == 5)
-                                {
-
-                                    <tr>
-                                        <td width="30%" align="center"><font>@plan.ShowSort</font></td>
-                                        <td width="70%" align="left">
-
-                                            <font class="Mif_red">@plan.Num</font>
-                                        </td>
-                                       
-
-                                    </tr>
-                                }
-                                else
-                                {
-                                    numArr = plan.Num.Split('|');
-
-                                    <tr>
-                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                        <td width="40%" align="left">
-
-                                            <font class="Mif_red">@numArr[0]</font>
-
-
-                                        </td>
-                                        <td width="20%" align="left">
-
-                                            <font>@numArr[1]</font>
-
-
-                                        </td>
-                                        <td width="20%" align="left">
-
-                                            <font>@numArr[2]</font>
-                                        </td>
-
-                                    </tr>
-                                }
-
-                            }
-
-
-
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
 
 
 
 
-                </div>
-        
-        
-        
             </div>
+
+
+
         </div>
-    
-      
+    </div>
 
 
-    </body>
+
+
+</body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

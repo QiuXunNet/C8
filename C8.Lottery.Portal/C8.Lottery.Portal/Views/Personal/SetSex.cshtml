@@ -20,18 +20,14 @@
             set();
         });
 
-        function set()
-        {
-            $("#btnsub").click(function ()
-            {
+        function set() {
+            $("#btnsub").click(function () {
                 var selectvalue = $(".current").text().trim();
                 var sexvalue;
-            
-                if (selectvalue == "男")
-                {
+
+                if (selectvalue == "男") {
                     sexvalue = 0;
-                } else
-                {
+                } else {
                     sexvalue = 1;
                 }
                 $.post('/Personal/EditUser', { value: sexvalue, type: 3 }, function (data) {
@@ -41,7 +37,7 @@
                         location.href = '/Personal/Set';
                     }
                 });
-             
+
             });
         }
 
@@ -58,7 +54,7 @@
 
     <div class="Set_Box">
         <ul class="Set_Bul1 Set_Bxbul">
-           
+
             @if (Model.Sex == 0)
             {
                 <li class="current">
@@ -80,10 +76,12 @@
                 </li>
             }
 
-           
-       
-         </ul>
+
+
+        </ul>
     </div>
- 
+
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

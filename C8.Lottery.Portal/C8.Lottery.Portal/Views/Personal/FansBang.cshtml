@@ -8,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>粉丝榜</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />  
+    <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />
     <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
-    
+
     <script type="text/javascript" src="~/js/yjp.js"></script>
     <script type="text/javascript" src="~/js/luo/dropload.min.js"></script>
     <script type="text/javascript" src="~/js/dialog.min.js"></script>
 
-  
+
 </head>
 
 <body style="background:#F4F4F5;">
@@ -28,7 +28,7 @@
 
     <div class="guessing_header">
         <ul class="C8_nav2 C8_bang">
-            <li  data-type="day" data-id="1" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>日榜</p><span></span></a></li>
+            <li data-type="day" data-id="1" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>日榜</p><span></span></a></li>
             <li data-id="2" data-type="week" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>周榜</p><span></span></a></li>
             <li data-id="3" data-type="month" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>月榜</p><span></span></a></li>
             <li class="current" data-id="4" data-type="all" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>总榜</p><span></span></a></li>
@@ -36,9 +36,9 @@
         </ul>
     </div>
 
-    <div class="Ranking_content" >
+    <div class="Ranking_content">
         <div id="bang_1" class="Ranking_Cinfo">
-         
+
         </div>
         <div id="bang_2" class="Ranking_Cinfo">
         </div>
@@ -46,22 +46,22 @@
         </div>
         <div id="bang_4" class="Ranking_Cinfo">
         </div>
-         
-       
-   </div>
+
+
+    </div>
 
 
     <div class="Ranking_footer">
         <dl class="Rank_ftDL">
             @*<dt><a href="javascript:;"><img src="~/images/44_7.png"></a></dt>
-            <dd>
-                <p class="Ds_money1 Fs_money1 f-r">20000</p>
-                <div class="Rank_ftL">
-                    <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                    <P>当前排名：<span id="myrank">126</span></P>
-                    <font>↓</font><span>下降10</span>
-                </div>
-            </dd>*@
+                <dd>
+                    <p class="Ds_money1 Fs_money1 f-r">20000</p>
+                    <div class="Rank_ftL">
+                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
+                        <P>当前排名：<span id="myrank">126</span></P>
+                        <font>↓</font><span>下降10</span>
+                    </div>
+                </dd>*@
         </dl>
     </div>
 
@@ -70,7 +70,7 @@
         $(function () {
 
             var initElement = $(".C8_bang li.current");
-         
+
             initnews(initElement);
             MyRank(initElement);
 
@@ -78,7 +78,7 @@
 
                 $(".Ranking_content").children("div").css('display', 'none')
                 var id = $(this).attr("data-id");
-            
+
                 $("#bang_" + id).css('display', 'block');
                 if ($(".dropload-down").length > 0) {
                     $(".dropload-down").remove();
@@ -92,13 +92,13 @@
 
         function initnews(clickElement) {
             var id = clickElement.attr("data-id"),
-            type = clickElement.attr("data-type")
+                type = clickElement.attr("data-type")
             pageIndex = clickElement.attr("data-pageindex") || 1,
-            pageSize = clickElement.attr("data-pagesize") || 100;
-            
+                pageSize = clickElement.attr("data-pagesize") || 100;
+
             if (!id) return;
 
-            dropload = $("#bang_"+id).dropload({
+            dropload = $("#bang_" + id).dropload({
                 scrollArea: window,
                 domDown: {
                     domClass: 'dropload-down',
@@ -124,9 +124,9 @@
                                 // 延迟0.1秒加载
                                 setTimeout(function () {
 
-                                    $("#bang_"+id+ " .dropload-down").before(data)
-                                  
-                                    
+                                    $("#bang_" + id + " .dropload-down").before(data)
+
+
                                     pageIndex++;
                                     clickElement.attr("data-pageindex", pageIndex);
                                     // 每次数据加载完，必须重置
@@ -149,24 +149,21 @@
             });
         }
 
- 
 
-        function MyRank(clickElement)
-        {
+
+        function MyRank(clickElement) {
             var id = clickElement.attr("data-id");
             var type = clickElement.attr("data-type")
             if (!id) return;
             $.get('/Personal/MyRank', { type: type }, function (data) {
 
-              
+
                 if (data.Success != true) {
                     alertmsg(data.Msg);
                 } else {
-                    if (data.data != null)
-                    {
-                        var text='';
-                        if (data.data.Rank <= 0)
-                        {
+                    if (data.data != null) {
+                        var text = '';
+                        if (data.data.Rank <= 0) {
                             text = '暂未上榜';
 
                         } else {
@@ -174,8 +171,8 @@
                         }
 
                         $(".Rank_ftDL").html("<dt><a href='javascript:;'><img src='" + (data.data.HeadPath == null ? '/images/default_avater.png' : data.data.HeadPath) + "'></a></dt> <dd> <p class='Ds_money1 Fs_money1 f-r'>" + data.data.Number + "</p> <div class='Rank_ftL'>"
-+ "<h3><a href='javascript:;'>" + data.data.Name + "</a></h3>"
-+ "<P>当前排名：<span id='myrank'>" + text + "</span></P> </div> </dd>'");
+                            + "<h3><a href='javascript:;'>" + data.data.Name + "</a></h3>"
+                            + "<P>当前排名：<span id='myrank'>" + text + "</span></P> </div> </dd>'");
 
                     }
                 }
@@ -185,4 +182,6 @@
 
     </script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

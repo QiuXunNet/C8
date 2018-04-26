@@ -6,13 +6,13 @@
 }
 
 
-<div class="Grades_TopNav"  style="max-height:145px;overflow-x:hidden;">
+<div class="Grades_TopNav" style="max-height:145px;overflow-x:hidden;">
     <!--六合彩-->
     <ul class="Grades_TNul" id="gul_@ltype">
 
         @if (IntegralRuleList.Count > 0)
-            {
-                string idx = Pid.ToString() + ltype.ToString() + "0";
+        {
+            string idx = Pid.ToString() + ltype.ToString() + "0";
             <li data-name="全部" data-cid="@Pid" data-ltype="@ltype" data-idx="@idx" class="current"><a href="javascript:;">全部</a></li>
             foreach (var item in IntegralRuleList)
             {
@@ -23,7 +23,7 @@
         }
 
     </ul>
-    <div style="clear:both;"></div> 
+    <div style="clear:both;"></div>
 </div>
 <div class="Grades_content">
     <!--六合彩-->
@@ -59,3 +59,5 @@
         </div>
     </div>
 </div>
+
+@{Html.RenderAction("index", "PvUvIp");}

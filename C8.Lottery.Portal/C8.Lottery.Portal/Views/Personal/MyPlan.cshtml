@@ -33,25 +33,25 @@
         </ul>
         <div style="clear:both;"></div>
     </div>
-<div class="details_box" style="margin-top: 100px;">
-    <input type="hidden" id="userid" value="@userId"/>
-    <input type="hidden" id="ltype" value="@ltype" />
-    <div class="details_info mescroll" id="mescroll0" >
-        <div id="datalist0" class="data-list">
+    <div class="details_box" style="margin-top: 100px;">
+        <input type="hidden" id="userid" value="@userId" />
+        <input type="hidden" id="ltype" value="@ltype" />
+        <div class="details_info mescroll" id="mescroll0">
+            <div id="datalist0" class="data-list">
 
+            </div>
+        </div>
+        <div class="details_info1 mescroll" id="mescroll1" style="display: none;">
+            <div id="datalist1" class="data-list">
+
+            </div>
+        </div>
+        <div class="details_info2 mescroll" id="mescroll2" style="display: none;">
+            <div id="datalist2" class="data-list">
+
+            </div>
         </div>
     </div>
-    <div class="details_info1 mescroll" id="mescroll1" style="display: none;">
-        <div id="datalist1" class="data-list">
-
-        </div>
-    </div>
-    <div class="details_info2 mescroll" id="mescroll2" style="display: none;">
-        <div id="datalist2" class="data-list">
-
-        </div>
-    </div>
-</div>
     <div class="ShaiXuan">
         <div class="shaiXuan_yy"></div>
         <div class="shaiXuan_con">
@@ -84,4 +84,6 @@
     </div>
     <script type="text/javascript" src="/js/luo/plan.myplan.js"></script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

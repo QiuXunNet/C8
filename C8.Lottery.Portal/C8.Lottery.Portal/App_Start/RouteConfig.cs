@@ -19,8 +19,8 @@ namespace C8.Lottery.Portal
                     defaults: new { controller = "In", action = "Index" }
                 );
             routes.MapRoute(
-                     name: "Out",
-                     url: "Out/{id}",
+                     name: "Go",
+                     url: "Go/{id}",
                      defaults: new { controller = "Out", action = "Index" }
                  );
 

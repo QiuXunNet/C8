@@ -19,15 +19,15 @@
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/public.js"></script>
     <script type="text/javascript" src="/js/bet.js"></script>
-    
+
     <script type="text/javascript" src="/js/runTime2.js"></script>
-    
+
 </head>
 
 <body style="background:#F4F4F5;">
-    
-    <input type="hidden" value="@ViewBag.lType" id="lType"/>
-    
+
+    <input type="hidden" value="@ViewBag.lType" id="lType" />
+
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@ViewBag.lotteryName</a>
@@ -37,11 +37,12 @@
     <div class="WanFa_header">
         <div class="WanFa_hdInfo1">
             <h3>@Html.Raw(ViewBag.issueDesc)</h3>
-            
+
             @*<p>距离开奖时间<span>23:40:30</span></p>*@
-            
-            <p class="hdM_ddtime f-r">下期开奖：
-                            
+
+            <p class="hdM_ddtime f-r">
+                下期开奖：
+
                 @if (ViewBag.time == "正在开奖")
                 {
                     <span id="openTime">正在开奖</span>
@@ -61,10 +62,10 @@
 
             </p>
 
-            
-            
-            
-            
+
+
+
+
 
 
             <div style="clear:both;"></div>
@@ -73,7 +74,7 @@
             <i class="WF_hdIF2Icpon"></i>
             <p class="WF_hdIf2L">@ViewBag.lastIssueDesc</p>
             <div class="WF_hdIf2R ball_wrap">
-                
+
                 @{
                     string num = ViewBag.lastNum;
                     string[] numArr = num.Split(',');
@@ -103,12 +104,12 @@
     </div>
 
     <div id="WanFa_content" class="WanFa_content">
-        
+
         @if (lType == 1)
         {
             <!-- 福彩3D -->
             <table width="100%" border="1" bordercolor="#999" class="WanFa_TableA">
-                
+
                 <tr>
                     <td width="18%" align="center" valign="middle">
                         <h3 class="WF_Ttitle">第一球</h3>
@@ -167,7 +168,7 @@
                     <td align="center" valign="middle"><a href="javascript:openModule('fc3d_q8','popup_10','fc3d');" data-id="fc3d_q8" data-type="popup_10" data-length="3" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType == 2)
         {
@@ -236,9 +237,9 @@
                     <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q7','popup_num16','xsq');" data-id="xsq_q7" data-type="popup_num16" class="WF_Btn">选择号码</a></td>
                 </tr>
-                
+
             </table>
-            
+
         }
         else if (lType == 3)
         {
@@ -294,7 +295,7 @@
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('qxc_q7','popup_10_dan_da','qxc');" data-id="qxc_q7" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType == 4)
         {
@@ -357,7 +358,7 @@
                     <td align="center" valign="middle"><a href="javascript:openModule('dlt_q8','popup_dan','dlt');" data-id="dlt_q8" data-type="popup_dan" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType == 5)
         {
@@ -423,45 +424,35 @@
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">二十码中特</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q9">
-                        
-                    </td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q9"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q9','popup_num49','lhc');" data-id="lhc_q9" data-type="popup_num49" class="WF_Btn" style="padding:28px 0;">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">十码中特</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q10">
-                        
-                    </td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q10"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q10','popup_num49','lhc');" data-id="lhc_q10" data-type="popup_num49" class="WF_Btn" style="padding:16px 0;">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">平五码</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q11">
-                        
-                    </td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q11"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q11','popup_num49','lhc');" data-id="lhc_q11" data-type="popup_num49" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">五不中</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q12">
-                        
-                    </td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q12"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q12','popup_num49','lhc');" data-id="lhc_q12" data-type="popup_num49" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">六不中</h3>
                     </td>
-                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q13">
-                        
-                    </td>
+                    <td colspan="3" align="center" valign="middle" class="betContainer" id="lhc_q13"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('lhc_q13','popup_num49','lhc');" data-id="lhc_q13" data-type="popup_num49" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
@@ -528,7 +519,7 @@
                     <td align="center" valign="middle"><a href="javascript:openModule('pl3_q8','popup_10','pl3');" data-id="pl3_q8" data-type="popup_10" data-length="3" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType == 7)
         {
@@ -570,7 +561,7 @@
                     <td align="center" valign="middle"><a href="javascript:openModule('pl5_q5','popup_10_dan_da','pl5');" data-id="pl5_q5" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType == 8)
         {
@@ -661,7 +652,7 @@
                     <td align="center" valign="middle"><a href="javascript:openModule('qlc_q12','popup_num30','qlc');" data-id="qlc_q12" data-type="popup_num30" class="WF_Btn ">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType >= 9 && lType < 15)
         {
@@ -716,7 +707,7 @@
                     <td align="center" valign="middle"><a href="javascript:openModule('cqssc_total','popup_dan_da','cqssc');" data-id="cqssc_total" data-type="total" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
-            
+
         }
         else if (lType >= 15 && lType < 38)
         {
@@ -1057,7 +1048,7 @@
             </table>
         }
 
-        
+
     </div>
 
     <div class="WanFa_footer">
@@ -1077,30 +1068,30 @@
                 </tr>
             </thead>
             <tbody>
-                
-                
+
+
                 @foreach (LotteryRecord lr in ViewBag.lastFive)
                 {
 
                     string desc = "第" + lr.Issue + "期";
                     numArr = lr.Num.Split(',');
-                    
+
                     <tr>
                         <td align="center" valign="middle">@desc</td>
                         <td align="center" valign="middle">
-                            
+
                             @foreach (string s in numArr)
                             {
                                 <span class="History_sp">@s</span>
                             }
-                       
+
                         </td>
                     </tr>
-                    
+
                 }
 
-                
-               
+
+
                 <tr>
                     <td colspan="2" align="center" valign="middle"><a href="/Record/OpenRecord/?lType=@ViewBag.lType" target="_blank" class="WanFa_TBbtn">点击查看更多开奖历史>></a></td>
                 </tr>
@@ -1114,16 +1105,16 @@
 
     <script>
 
-        $(function() {
+        $(function () {
 
             var lType = $('#lType').val();
 
             var target;
 
-            $.post('/Plan/AlreadyPostData', { id: lType }, function(data) {
+            $.post('/Plan/AlreadyPostData', { id: lType }, function (data) {
 
                 initBetting(qiu, data);
-                for(var i = 0; i< data.length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     var d = data[i];
                     var playName = d.BigPlayName;
                     var betNum = d.BetNum;
@@ -1148,4 +1139,5 @@
     </script>
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

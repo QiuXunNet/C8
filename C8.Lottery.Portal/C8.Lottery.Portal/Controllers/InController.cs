@@ -21,12 +21,16 @@ namespace C8.Lottery.Portal.Controllers
             string url = "/Home/Index";
 
             var friendLinkList =
-                Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and Code=@Code",
+                Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 and Code=@Code",
                     new SqlParameter("@Code", id));
-
 
             if (friendLinkList != null && friendLinkList.Count > 0)
             {
+                if (Session["LinkCode"] == null)
+                {
+                    Session["LinkCode"] = id;
+                }
+
                 var friendLink = friendLinkList.FirstOrDefault();
                 url = friendLink.TransferUrl.ToLower();
 
@@ -36,40 +40,33 @@ namespace C8.Lottery.Portal.Controllers
                     url = "http://" + url;
                 }
 
-                string visitRecordSql = "select * from dbo.LinkVisitRecord where RefId=@RefId and SubTime=@Date and [Type]=1";
+                string visitRecordSql = "select count(*) from dbo.LinkVisitRecord where RefId=@RefId and SubTime=@Date and [Type]=1";
                 //添加
                 var sqlParameter = new[]
                 {
                         new SqlParameter("@RefId",friendLink.Id),
                         new SqlParameter("@Date",DateTime.Today),
                 };
-                var list = Util.ReaderToList<LinkVisitRecord>(visitRecordSql, sqlParameter);
+                var count = Convert.ToInt32(SqlHelper.ExecuteScalar(visitRecordSql, sqlParameter));
 
-
-                //TODO:需调整统计访问IP，UV
-
-                if (list == null || list.Count < 1)
+                if (count == 0)
                 {
                     //新增
                     string insertRecordSql = string.Format(
                             @"insert into dbo.LinkVisitRecord (RefId,ClickCount,UV,IP,PV,RegCount,Type,SubTime)
-                        values({0},{1},{2},{3},{4},{5},{6},GETDATE())", friendLink.Id, 1, 1, 1, 1, 0, 1);
+                        values({0},1,0,0,0,0,1,'{1}')", friendLink.Id, DateTime.Today);
                     SqlHelper.ExecuteScalar(insertRecordSql);
 
                 }
                 else
                 {
                     //修改
-                    string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set ClickCount+=1,UV+=1,IP+=1,PV+=1
-where RefId={0}", friendLink.Id);
+                    string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set ClickCount+=1 where RefId={0} and SubTime = '{1}' and [Type]=1 ", friendLink.Id, DateTime.Today);
                     SqlHelper.ExecuteScalar(updateRecordSql);
                 }
-
-
             }
 
             Response.Redirect(url);
         }
-
     }
 }

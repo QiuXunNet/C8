@@ -32,8 +32,7 @@
     <script type="text/javascript" src="/js/TouchSlide.1.1.js"></script>
     <script type="text/javascript" src="~/js/runTime2.js"></script>
     <script>
-        function unorfollow(obj, follow_uid) 
-        {
+        function unorfollow(obj, follow_uid) {
 
             var text = $(obj).text();
 
@@ -43,9 +42,9 @@
                     if (data.Success != true) {
                         alertmsg(data.Msg);
                     } else {
-                    
+
                         $(obj).text("已关注");
-                       
+
 
                     }
                 });
@@ -64,9 +63,9 @@
                             } else {
 
 
-                            
+
                                 $(obj).text("关注");
-                               
+
 
                             }
                         });
@@ -76,8 +75,8 @@
         }
 
     </script>
-      
-    
+
+
 </head>
 
 <body style="background:#F4F4F5;">
@@ -94,11 +93,11 @@
                     <a href="/Personal/UserCenter/@Model.Id">
                         @if (string.IsNullOrEmpty(Model.Headpath))
                         {
-                        <img src="/images/default_avater.png" alt="" />
+                            <img src="/images/default_avater.png" alt="" />
                         }
                         else
                         {
-                        <img src="@Model.Headpath" alt="@Model.Headpath" />
+                            <img src="@Model.Headpath" alt="@Model.Headpath" />
                         }
                     </a>
                 </dt>
@@ -111,11 +110,11 @@
                     <div class="ThdDl_Bt">
                         <div class="ThdDl_BtLeft f-l">
                             <span>粉丝：</span><span>@Model.Fans</span>
-                            <a onclick="unorfollow(this,@Model.Id)" href="javascript:;" >@(followed ? "已关注" : "关注")</a>
+                            <a onclick="unorfollow(this,@Model.Id)" href="javascript:;">@(followed ? "已关注" : "关注")</a>
                         </div>
                         @if (type == 0)
                         {
-                        <a href="/Plan/PlayRecord/@lType?uid=@Model.Id&type=1" class="ThdDl_BtRight f-r">查看总成绩</a>
+                            <a href="/Plan/PlayRecord/@lType?uid=@Model.Id&type=1" class="ThdDl_BtRight f-r">查看总成绩</a>
                         }
                         <div style="clear:both;"></div>
                     </div>
@@ -165,20 +164,20 @@
     <div class="Gues_content">
         @if (type == 0)
         {
-        <div class="Gues_Cnav">
-            @if (playList != null)
-            {
-                int i = 0;
-                <ul class="SX_Ul">
-                    @foreach (var play in playList)
-                    {
-                        <li id="p_@i" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
-                        i++;
-                    }
-                </ul>
-                <div style="clear: both;"></div>
+            <div class="Gues_Cnav">
+                @if (playList != null)
+                {
+                    int i = 0;
+                    <ul class="SX_Ul">
+                        @foreach (var play in playList)
+                        {
+                            <li id="p_@i" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                            i++;
+                        }
+                    </ul>
+                    <div style="clear: both;"></div>
                 }
-        </div>
+            </div>
         }
         <div class="Gues_Ctext">
 
@@ -824,10 +823,12 @@
                         playUtil.goLastPlay();
                     }
                 }
-               
+
             }
         }
 
     </script>
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

@@ -4,15 +4,15 @@
 }
 
 
-    @if (newsList != null)
+@if (newsList != null)
+{
+    foreach (var newse in newsList)
     {
-        foreach (var newse in newsList)
-        {
-            <div class="hjc_news_content">
-            
-             @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
-             {
-                 //无图
+        <div class="hjc_news_content">
+
+            @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
+            {
+                //无图
                 <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
                         <div class="hjc_news_subject">@newse.FullHead</div>
@@ -23,10 +23,10 @@
                         </div>
                     </div>
                 </a>
-             }
-             else if (newse.ThumbStyle == 1)
-             {
-                 //一张小图
+            }
+            else if (newse.ThumbStyle == 1)
+            {
+                //一张小图
                 <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news_left">
                         <div class="hjc_news_subject">@newse.FullHead</div>
@@ -45,11 +45,11 @@
                     </div>
 
                 </a>
-                    <div class="clearfix"></div>
-             }
-             else if (newse.ThumbStyle == 2)
-             {
-                 //一张大图
+                <div class="clearfix"></div>
+            }
+            else if (newse.ThumbStyle == 2)
+            {
+                //一张大图
                 <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
                         <div class="hjc_news_subject">@newse.FullHead</div>
@@ -69,9 +69,9 @@
                         </div>
                     </div>
                 </a>
-             }
-             else if (newse.ThumbStyle == 3)
-             {
+            }
+            else if (newse.ThumbStyle == 3)
+            {
                 <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
                         <div class="hjc_news_subject">@newse.FullHead</div>
@@ -91,9 +91,9 @@
                         </div>
                     </div>
                 </a>
-             }
-             else
-             {
+            }
+            else
+            {
                 <a href="/News/NewsDetail/@newse.Id">
                     <div class="hjc_news">
                         <div class="hjc_news_subject">@newse.FullHead</div>
@@ -104,7 +104,9 @@
                         </div>
                     </div>
                 </a>
-             }
-</div>
-        }
+            }
+        </div>
     }
+}
+
+@{Html.RenderAction("index", "PvUvIp");}

@@ -15,14 +15,12 @@
 
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <script src="~/js/dialog.min.js"></script>
-    <script type="text/javascript" src="~/js/yjp.js"></script>    
+    <script type="text/javascript" src="~/js/yjp.js"></script>
     <script>
-        $(function ()
-        {
+        $(function () {
             var queryType = $(".C8_bang .current").attr("data-idx");
             getlist(queryType);
-            $(".C8_bang li").click(function ()
-            {
+            $(".C8_bang li").click(function () {
 
                 var queryType = $(this).attr("data-idx");
                 getlist(queryType);
@@ -33,24 +31,24 @@
         function getlist(queryType) {
             $.get("/List/GetIntegralList",
                 {
-                    queryType: queryType                 
+                    queryType: queryType
                 },
-              function (data) {
+                function (data) {
 
-                  if (data.Success == true) {
-                      myrankHtml(data.data.MyRankIntegralModel);
-                      if (data.data.RankIntegralList.length == 0) {
-                          $(".Ranking_Cinfo").html('<div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>');
-                      } else {
-                          buildHtml(data.data.RankIntegralList, queryType);
-                      }
+                    if (data.Success == true) {
+                        myrankHtml(data.data.MyRankIntegralModel);
+                        if (data.data.RankIntegralList.length == 0) {
+                            $(".Ranking_Cinfo").html('<div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>');
+                        } else {
+                            buildHtml(data.data.RankIntegralList, queryType);
+                        }
 
 
-                  } else {
-                      alertmsg(data.Msg);
-                  }
+                    } else {
+                        alertmsg(data.Msg);
+                    }
 
-              });
+                });
         }
 
 
@@ -65,57 +63,51 @@
 
             var tr = '';
             var tr2 = '';
-            $.each(data, function (index, value)
-            {
+            $.each(data, function (index, value) {
 
-                if (queryType == "all")
-                {
-                    if (value.Rank <= 3)
-                    {
+                if (queryType == "all") {
+                    if (value.Rank <= 3) {
                         tr2 = ''
-                        + '<td width="33%" align="center" valign="middle">'
-                          + ' <div class="Ranking_Blogotu2">'
+                            + '<td width="33%" align="center" valign="middle">'
+                            + ' <div class="Ranking_Blogotu2">'
                             + ' <div class="Ranking_B2tu"> '
                             + '<a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>'
-                           + ' </div>'
-                        + ' <img src="' + gettop3img(value.Rank) + '" class="Ranking_PHtu">'
-                        + ' </div>'
-                        + ' <h3 class="Ranking_name"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></h3>'
-                         + '<span class="Ds_money Jf_money">' + value.Score + '</span>'
-                        + '</td>'
+                            + ' </div>'
+                            + ' <img src="' + gettop3img(value.Rank) + '" class="Ranking_PHtu">'
+                            + ' </div>'
+                            + ' <h3 class="Ranking_name"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></h3>'
+                            + '<span class="Ds_money Jf_money">' + value.Score + '</span>'
+                            + '</td>'
                         html2.push(tr2);
-                    } else
-                    {
+                    } else {
                         tr = '<tr><td align="center" valign="middle"> <p>' + value.Rank + '</p></td>'
-                         + '<td width="15%" align="center" valign="middle">'
-                         + ' <div class="Ranking_Blogotu">'
-                         + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
-                         + '   </td> <td align="left" valign="middle">'
-                         + '   <p class="Ysfont"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></p>'
-                         + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + '</span></td>'
-                         + ' </tr> '
-                 
+                            + '<td width="15%" align="center" valign="middle">'
+                            + ' <div class="Ranking_Blogotu">'
+                            + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
+                            + '   </td> <td align="left" valign="middle">'
+                            + '   <p class="Ysfont"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></p>'
+                            + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + '</span></td>'
+                            + ' </tr> '
+
                     }
 
-                 
 
-                } else
-                {
+
+                } else {
                     var tdrank = '<td align="center" valign="middle"> <p>' + value.Rank + '</p></td>';
-                    if (value.Rank <= 3)
-                    {
+                    if (value.Rank <= 3) {
                         tdrank = '<td width="10%" align="center" valign="middle"><img src="' + gettop3img(value.Rank) + '" class="Ranking_Btu"></td>';
                     }
 
                     tr = '<tr>' + tdrank
-                   + '<td width="15%" align="center" valign="middle">'
-                   + ' <div class="Ranking_Blogotu">'
-                   + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
-                   + '   </td> <td align="left" valign="middle">'
-                   + '   <p class="Ysfont"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></p>'
-                   + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + '</span></td>'
-                   + ' </tr> '
-                   
+                        + '<td width="15%" align="center" valign="middle">'
+                        + ' <div class="Ranking_Blogotu">'
+                        + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
+                        + '   </td> <td align="left" valign="middle">'
+                        + '   <p class="Ysfont"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + '</a></p>'
+                        + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + '</span></td>'
+                        + ' </tr> '
+
                 }
                 html.push(tr);
 
@@ -146,17 +138,17 @@
             }
 
             var html = '<dt>'
-            + '<a href="/Personal/UserCenter/'+data.UserId+'"><img src="' + (data.Avater == null ? '/images/default_avater.png' : data.Avater) + '"></a>'
-           + ' </dt>'
-           + ' <dd>'
-           + '<p class="Ds_money1 Jf_money1 f-r">' + data.Score + '</p>'
-           + ' <div class="Rank_ftL">'
-           + '  <h3><a href="/Personal/UserCenter/' + data.UserId + '">' + data.NickName + '</a></h3>'
-            + ' <P>'
-           + '  当前排名：<span>' + text + '</span>'
-           + '</P>'
-           + ' </div>'
-           + ' </dd>'
+                + '<a href="/Personal/UserCenter/' + data.UserId + '"><img src="' + (data.Avater == null ? '/images/default_avater.png' : data.Avater) + '"></a>'
+                + ' </dt>'
+                + ' <dd>'
+                + '<p class="Ds_money1 Jf_money1 f-r">' + data.Score + '</p>'
+                + ' <div class="Rank_ftL">'
+                + '  <h3><a href="/Personal/UserCenter/' + data.UserId + '">' + data.NickName + '</a></h3>'
+                + ' <P>'
+                + '  当前排名：<span>' + text + '</span>'
+                + '</P>'
+                + ' </div>'
+                + ' </dd>'
 
             $(".Rank_ftDL").append(html);
 
@@ -194,7 +186,7 @@
 
     <div class="guessing_header">
         <ul class="C8_nav2 C8_bang">
-            <li data-idx="day" >
+            <li data-idx="day">
                 <a href="javascript:;">
                     <p>日榜</p><span></span>
                 </a>
@@ -220,18 +212,17 @@
 
     <div class="Ranking_content" style="margin-top: 80px;">
         <div class="Ranking_Cinfo">
-         
+
         </div>
-   
+
     </div>
 
     <div class="Ranking_footer">
-        <dl class="Rank_ftDL">
-       
-        </dl>
+        <dl class="Rank_ftDL"></dl>
     </div>
 
 
 </body>
 
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

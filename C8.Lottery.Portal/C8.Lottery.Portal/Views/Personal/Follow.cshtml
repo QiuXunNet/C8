@@ -33,7 +33,7 @@
                         type: 'GET',
                         url: '/Personal/MyFollow',
                         data: {
-                           
+
                             pageIndex: pageIndex,
                             pageSize: pageSize
                         },
@@ -43,7 +43,7 @@
                                 me.noData();
                             }
                             if (res.IsSuccess && res.Data) {
-                                
+
                                 joinhtml(res.Data);
                                 console.log(res.Data);
                                 if (res.Data.HasNextPage) {
@@ -58,7 +58,7 @@
 
                             dropload.resetload();
 
-                          
+
                         },
                         error: function (xhr, type) {
                             alertmsg("服务器繁忙");
@@ -70,28 +70,26 @@
 
         });
 
-        function joinhtml(data)
-        {
+        function joinhtml(data) {
             var html = [];
             $.each(data.PageData, function (index, value) {
                 console.log(value.Headpath);
 
                 var dl = "<dl class='details_DL'><dt><a href='/Personal/UserCenter/" + value.Followed_UserId + "'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
-                         + "<dd>"
-                         + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.Followed_UserId + ")'> <p class='fans_Qxgz'>取消关注</p></div>"
-                         + "<div class='details_ddLeft'>"
-                         + "<h3><a href='/Personal/UserCenter/" + value.Followed_UserId + "'>" + value.Nickname + "</a></h3>"
-                         + "<p>" + value.Autograph + "</p>"
-                         + "</div> </dd> </dl>";
+                    + "<dd>"
+                    + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.Followed_UserId + ")'> <p class='fans_Qxgz'>取消关注</p></div>"
+                    + "<div class='details_ddLeft'>"
+                    + "<h3><a href='/Personal/UserCenter/" + value.Followed_UserId + "'>" + value.Nickname + "</a></h3>"
+                    + "<p>" + value.Autograph + "</p>"
+                    + "</div> </dd> </dl>";
 
                 html.push(dl);
             });
             $("#content").append(html.join(''));
         }
-      
+
         //取消or关注
-        function unorfollow(obj,follow_uid)
-        {
+        function unorfollow(obj, follow_uid) {
 
             var text = $(obj).children("p").text();
             if (text == "关注") {
@@ -101,7 +99,7 @@
                         alertmsg(data.Msg);
                     } else {
 
-                       
+
                         $(obj).children("p").remove();
                         $(obj).append("<p class='fans_Qxgz'>取消关注</p>");
 
@@ -138,7 +136,7 @@
                 //            alertmsg(data.Msg);
                 //        } else {
 
-                            
+
                 //            $(obj).children("p").remove();
                 //            $(obj).append("<p class='fans_Gz'>关注</p>");
 
@@ -146,10 +144,10 @@
                 //    });
                 //}
             }
-          
-           
-        
-            
+
+
+
+
         }
 
     </script>
@@ -164,22 +162,24 @@
 
     <div class="fans_Box">
         <div id="content">
-        
+
         </div>
         @*<dl class="details_DL">
-            <dt><a href="javascript:;"><img src="~/images/44_7.png"></a></dt>
-            <dd>
-                <div class="fans_ddRight f-r"><p class="fans_Qxgz">取消关注</p></div>
-                <div class="details_ddLeft">
-                    <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                    <p>生活只有彩票。</p>
-                </div>
-            </dd>
-        </dl>*@
+                <dt><a href="javascript:;"><img src="~/images/44_7.png"></a></dt>
+                <dd>
+                    <div class="fans_ddRight f-r"><p class="fans_Qxgz">取消关注</p></div>
+                    <div class="details_ddLeft">
+                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
+                        <p>生活只有彩票。</p>
+                    </div>
+                </dd>
+            </dl>*@
     </div>
 
 
-    
+
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>

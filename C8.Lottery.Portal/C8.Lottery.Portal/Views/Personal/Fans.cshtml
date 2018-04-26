@@ -9,18 +9,18 @@
     <title>个人中心-我的粉丝</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link href="~/css/dialog.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />  
+    <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <script src="~/js/dialog.min.js"></script>
     <script type="text/javascript" src="~/js/luo/dropload.min.js"></script>
-  
+
     <script type="text/javascript" src="~/js/yjp.js"></script>
     <script>
         var pageIndex = 1,
             pageSize = 10;
         $(function () {
-            
-           
+
+
 
             var dropload = $(".fans_Box").dropload({
                 scrollArea: window,
@@ -72,18 +72,17 @@
 
         });
 
-        function joinhtml(data)
-        {
+        function joinhtml(data) {
             var html = [];
             $.each(data.PageData, function (index, value) {
                 console.log(value);
                 var dl = "<dl class='details_DL'><dt><a href='/Personal/UserCenter/" + value.UserId + "'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
-                         + "<dd>"
-                         + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.UserId + ")'>" + (value.Isfollowed<=0?'<p class=\'fans_Gz\'>关注</p>':'<p class=\'fans_Ygz\'>已关注</p>') + "</div>"
-                         + "<div class='details_ddLeft'>"
-                         + "<h3><a href='/Personal/UserCenter/" + value.UserId + "'>" + value.Nickname + "</a></h3>"
-                         + "<p>" + value.Autograph + "</p>"
-                         + "</div> </dd> </dl>";
+                    + "<dd>"
+                    + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.UserId + ")'>" + (value.Isfollowed <= 0 ? '<p class=\'fans_Gz\'>关注</p>' : '<p class=\'fans_Ygz\'>已关注</p>') + "</div>"
+                    + "<div class='details_ddLeft'>"
+                    + "<h3><a href='/Personal/UserCenter/" + value.UserId + "'>" + value.Nickname + "</a></h3>"
+                    + "<p>" + value.Autograph + "</p>"
+                    + "</div> </dd> </dl>";
 
                 html.push(dl);
             });
@@ -146,7 +145,7 @@
         }
 
 
-       
+
 
     </script>
 </head>
@@ -164,20 +163,22 @@
 
         </div>
         @*<dl class="details_DL">
-            <dt><a href="javascript:;"><img src="images/46_4.png"></a></dt>
-            <dd>
-                <div class="fans_ddRight f-r"><p class="fans_Gz">关注</p></div>
-                <div class="details_ddLeft">
-                    <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                    <p>生活只有彩票。</p>
-                </div>
-            </dd>
-        </dl>*@
-      
+                <dt><a href="javascript:;"><img src="images/46_4.png"></a></dt>
+                <dd>
+                    <div class="fans_ddRight f-r"><p class="fans_Gz">关注</p></div>
+                    <div class="details_ddLeft">
+                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
+                        <p>生活只有彩票。</p>
+                    </div>
+                </dd>
+            </dl>*@
+
     </div>
 
 
 
 
 </body>
+
+@{Html.RenderAction("index", "PvUvIp");}
 </html>
