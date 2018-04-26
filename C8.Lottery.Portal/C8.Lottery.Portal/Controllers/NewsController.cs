@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
@@ -90,8 +92,8 @@ namespace C8.Lottery.Portal.Controllers
             }
             //else
             //{
-                ViewBag.time = time;
-           // }
+            ViewBag.time = time;
+            // }
 
 
 
@@ -275,6 +277,20 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <returns></returns>
         public ActionResult NewsDetail(int id)
         {
+            new Task(() =>
+            {
+                try
+                {
+                    string pvSql = "UPDATE dbo.News SET PV+=1 WHERE Id=" + id;
+                    SqlHelper.ExecuteScalar(pvSql);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
+                }
+
+            }).Start();
+
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
             var thumbList = GetResources((int)ResourceTypeEnum.新闻缩略图, model.Id);
@@ -375,6 +391,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             return View(model);
         }
+
 
         /// <summary>
         /// 玄机图库浏览页
