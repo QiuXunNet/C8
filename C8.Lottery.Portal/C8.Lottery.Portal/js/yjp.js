@@ -149,7 +149,7 @@ $(function () {
      
         // $(".info_hdNav_cai_collect").hide();
         $(".info_hdNav_cai_expand").toggle();
-        $(".mask").show();
+        $(".mask").toggle();
     });
 
     $(".info_hdNav_cai_expand .collect").click(function () {
@@ -333,9 +333,9 @@ $(function () {
 
 
     /*资讯 切换彩种*/
-    $(".hjc_logo").click(function () {
+    $(".hjc_HeaderXL").click(function () {
         $(".hjc_hdNav").toggle();
-        $(".mask").toggle();
+        $(".mask2").toggle();
     });
 
     $(".info_hdnav li").click(function () {

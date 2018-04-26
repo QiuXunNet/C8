@@ -119,7 +119,7 @@ namespace C8.Lottery.Public
         {
             string words = WebHelper.GetSensitiveWords();
             string[] zang = words.Split(',');
-
+            
             if (str.Trim().Length <= 0 || zang == null || zang.Count() <= 0)
             {
                 return false;
@@ -129,6 +129,7 @@ namespace C8.Lottery.Public
             {
                 if (str.Contains(el))
                 {
+                 
                     contain = true;
                     break; ;
                 }
