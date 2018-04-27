@@ -137,7 +137,7 @@ $(function () {
     });
 
     $(".hdNav_cai_collect .hdNav_cai_lhs_expand").click(function () {
-        
+
         //$(".hdNav_cai_collect").hide();
         $(".hdNav_cai_expand").toggle();
         $(".mask").toggle();
@@ -150,14 +150,14 @@ $(function () {
     });
 
     $(".info_hdNav_cai_collect .info_hdNav_cai_lhs_expand").click(function () {
-     
+
         // $(".info_hdNav_cai_collect").hide();
         $(".info_hdNav_cai_expand").toggle();
         $(".mask").toggle();
     });
 
     $(".info_hdNav_cai_expand .collect").click(function () {
-   
+
         $(".info_hdNav_cai_expand").hide();
         $(".info_hdNav_cai_collect").show();
         $(".mask").hide();
@@ -704,9 +704,69 @@ $.fn.extend({
     parseEmoji: function () {
 
         this.emojiParse({
-            icons: this.icons
+            icons: [{
+                path: "/images/emoji/Face/",
+                file: ".png",
+                placeholder: "#{alias}#",
+                alias: {
+                    1: "am",
+                    2: "baiy",
+                    3: "bishi",
+                    4: "bizui",
+                    5: "piezui",
+                    6: "cahan",
+                    7: "ciya",
+                    8: "dabing",
+                    9: "daku",
+                    10: "fadai",
+                    11: "deyi",
+                    12: "fanu",
+                    13: "fendou",
+                    14: "ganga",
+                    15: "guzhang",
+                    16: "dahaq",
+                    17: "haixiu",
+                    18: "daxiao",
+                    19: "huaixiao",
+                    20: "jie",
+                    21: "jingkong",
+                    22: "jingya",
+                    23: "keai",
+                    24: "kelian",
+                    25: "koubi",
+                    26: "kulou",
+                    27: "ku",
+                    28: "kuaikuliao",
+                    29: "kun",
+                    30: "lenghan",
+                    31: "liuhan",
+                    32: "liulei",
+                    33: "nanguo",
+                    34: "qiaoda",
+                    35: "qinqin",
+                    36: "qiudale",
+                    37: "se",
+                    38: "shui",
+                    39: "tiaopi",
+                    40: "touxiao",
+                    41: "tu",
+                    42: "weixiao",
+                    43: "weiqu",
+                    44: "xia",
+                    45: "xu",
+                    46: "yiwen",
+                    47: "yinxian",
+                    48: "youhengheng",
+                    49: "yun",
+                    50: "zaijian",
+                    51: "zhemo",
+                    52: "dama",
+                    53: "zhuakuang",
+                    54: "zuohengheng"
+                }
+            }]
         });
-    },
+    }
 
 });
 
