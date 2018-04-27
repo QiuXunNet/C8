@@ -8,10 +8,10 @@
 
     if (linkCode != "") {
         var ip = returnCitySN["cip"];
-        var cookieUv = getCookie("WcbCookieUv") + linkCode;
+        var cookieUv = getCookie("WcbCookieUv" + linkCode) ;
         //alert(cookieUv);
         if (cookieUv == undefined || cookieUv == null || cookieUv == "") {
-            setCookie("WcbCookieUv" + linkCode, newGuid());
+            setCookie("WcbCookieUv" + linkCode, "wc8");
 
             //发送请求保存 UV
             var data = {};
@@ -44,15 +44,6 @@
       //  $.post("/PvUvIp/AddPv", { linkCode: linkCode, type: "pv" });
     }
 
-    //生成32位GUID
-    function newGuid() {
-        var guid = "";
-        for (var i = 1; i <= 32; i++) {
-            var n = Math.floor(Math.random() * 16.0).toString(16);
-            guid += n;
-        }
-        return guid;
-    }
     //添加cookie
     function setCookie(c_name, value) {
         var exdate = new Date();
