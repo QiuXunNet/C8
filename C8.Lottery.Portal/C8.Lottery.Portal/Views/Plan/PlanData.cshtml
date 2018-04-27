@@ -82,6 +82,23 @@
                                     }
                                 }
                             }
+                            else if (lType == 65)
+                            {
+                                numArr = record.Num.Split(',');
+                                int a = int.Parse(numArr[0]);
+                                int b = int.Parse(numArr[1]);
+                                int c = int.Parse(numArr[2]);
+                                int sum = a + b + c;
+
+
+                                <span class="Mif_jgB HYJP_Red">@numArr[0]</span>
+                                <span class="Mif_jgB HYJP_PcHao">+</span>
+                                        <span class="Mif_jgB HYJP_Red">@numArr[1]</span>
+                                        <span class="Mif_jgB HYJP_PcHao">+</span>
+                                        <span class="Mif_jgB HYJP_Red">@numArr[2]</span>
+                                        <span class="Mif_jgB HYJP_PcHao">=</span>
+                                        <span class="Mif_jgB HYJP_Red">@sum</span>
+                            }
                             else
                             {
                                 int i = -1;
@@ -111,7 +128,7 @@
                                     {
 
 
-                                       
+
                                         if (i == 5 || i == 6)
                                         {
                                             <span class="Mif_jgB HYJP_Blue">@s</span>
@@ -138,8 +155,8 @@
                                     {
                                         <span class="Mif_jgB HYJP_Red">@s</span>
 
+                                    }
                                 }
-                            }
                             }
 
 

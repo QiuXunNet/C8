@@ -1,5 +1,9 @@
 ﻿@{
     ViewBag.Title = "VoucherRules";
+
+
+    int platForm = ViewBag.Platform;
+    string show = platForm == 1 ? "top:0;" : "";
 }
 
 <!doctype html>
@@ -14,12 +18,14 @@
 
 <body>
 
+@if (platForm != 1)
+{
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">查看券规则</a>
     </header>
-
-    <div class="Invitation_Box">
+}
+    <div class="Invitation_Box" style="@show">
         <div class="invitation-desc">
             <h2>获取方式</h2>
             <p>老用户邀请新用户注册成功可获得查看券，新用户注册成功也可获得查看券。</p>
