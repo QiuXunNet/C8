@@ -25,11 +25,8 @@ namespace C8.Lottery.Portal.Controllers
                     new SqlParameter("@Code", id));
 
             if (friendLinkList != null && friendLinkList.Count > 0)
-            {
-                if (Session["LinkCode"] == null)
-                {
-                    Session["LinkCode"] = id;
-                }
+            {                
+                Session["LinkCode"] = id;                
 
                 var friendLink = friendLinkList.FirstOrDefault();
                 url = friendLink.TransferUrl.ToLower();
