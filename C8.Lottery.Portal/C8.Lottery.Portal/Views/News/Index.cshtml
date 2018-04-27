@@ -7,7 +7,7 @@
     int currentLotteryTypeId = ViewBag.CurrentLotteryType;
 
     NewsType newsType = ViewBag.CurrentNewsType;
-    long currentNewsTypeId = newsType==null?0:newsType.Id;
+    long currentNewsTypeId = newsType == null ? 0 : newsType.Id;
 
     int lType = ViewBag.lType;
 
@@ -17,11 +17,9 @@
 
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-
     @if (Model.TypeName == "六合彩")
     {
         <title>@Model.SeoSubject</title>
@@ -49,16 +47,11 @@
     <script type="text/javascript" src="~/js/luo/dropload.js"></script>
     <script type="text/javascript" src="~/js/dialog.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
-
     <script type="text/javascript" src="~/js/runTime2.js"></script>
 
-
-
 </head>
-
 <body style="background:#F4F4F5;">
     <input type="hidden" id="lType" value="@lType" />
-
     @if (Model.TypeName == "六合彩")
     {
 
@@ -75,9 +68,7 @@
             <a href="javascript:;" class="hjc_logo hjc_HeaderXL">@Model.TypeName<span class="select_sign"></span></a>
             <a href="/Home/Index" class="hjc_home_right"></a>
         </header>
-
         <div class="hjc_hdNav fixed" style="display: none">
-
             <div class="hdNav_cai_expand">
                 <ul class="hdNav_cai">
                     @foreach (LotteryType entity in ViewBag.LotteryTypeList)
@@ -123,7 +114,6 @@
                 <div style="clear: both;"></div>
             </div>
         </div>
-
     }
     <div class="Plan_content top50">
         <div class="Plan_CInfo">
@@ -133,7 +123,6 @@
                     <dd>
                         <div class="hdM_ddtit">
                             <h3 class="hdM_ddtqi f-l">第<span id="txtIssue">@ViewBag.lastIssue</span>期</h3>
-
                             <p class="hdM_ddtime f-r">
                                 下期开奖：
 
@@ -155,7 +144,6 @@
                                 }
 
                             </p>
-
                             <div style="clear:both;"></div>
                         </div>
                         <div class="hdM_ddcon" id="ballListDiv">
@@ -189,7 +177,6 @@
                                         }
 
                                         <span class="@cl">@s</span>
-
                                         if (countFor6 == 6)
                                         {
                                             <span class="Mif_jgC">+</span>
@@ -199,17 +186,52 @@
                                 }
                                 else
                                 {
+                                    int i = -1;
                                     foreach (string s in numArr)
                                     {
+                                        i++;
                                         if (lType == 63 || lType == 64)
                                         {
                                             string clazz = "hdM_spPK hdM_spPK" + s;
                                             <span class="@clazz">@s</span>
                                         }
+                                        else if (lType == 2)
+                                        {
+                                            if (i == 6)
+                                            {
+                                                <span class="hdM_spssc HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="hdM_spssc HYJP_Red">@s</span>
+                                            }
+                                        }
+                                        else if (lType == 4)
+                                        {
+                                            if (i == 5 || i == 6)
+                                            {
+                                                <span class="hdM_spssc HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="hdM_spssc HYJP_Red">@s</span>
+                                            }
+                                        }
+                                        else if (lType == 8)
+                                        {
+                                            if (i == 7)
+                                            {
+                                                <span class="hdM_spssc HYJP_Blue">@s</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="hdM_spssc HYJP_Red">@s</span>
+                                            }
+                                        }
 
                                         else
                                         {
-                                            <span class="hdM_spssc">@s</span>
+                                            <span class="hdM_spssc HYJP_Red">@s</span>
                                         }
 
                                     }
@@ -221,12 +243,10 @@
             </div>
         </div>
     </div>
-
     <div class="info_hdnav LHC_info_YLZB_nav">
         <div class="info_hdNav_cai_collect ">
             <div class="info_hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="info_hdNav_cai_lhs">
-
                 @foreach (NewsType item in ViewBag.NewsTypeList)
                 {
                     if (item.Id == currentNewsTypeId)
@@ -266,7 +286,6 @@
             <div style="clear: both;"></div>
         </div>
     </div>
-
     <div class="hjc_news_tabContent">
         @foreach (NewsType item in ViewBag.NewsTypeList)
         {
@@ -280,132 +299,130 @@
             else
             {
                 <div class="hjc_news_lhs newslist" style="display: @enable;" id="news_@item.Id" data-id="@item.Id">
-
                 </div>
             }
         }
     </div>
     <div class="mask" style="display:none;"></div>
     <div class="mask2" style="display:none;"></div>
-
     @if (lType == 5)
     {
         <script type="text/javascript">
-        var url = "@socketUrl/LhcHandler.ashx";
-        var ws;
-        $(function () {
-            if ("@ViewBag.time" == "正在开奖") {
+            var url = "@socketUrl/LhcHandler.ashx";
+            var ws;
+            $(function () {
+                if ("@ViewBag.time" == "正在开奖") {
 
-                ws = new WebSocket(url);
+                    ws = new WebSocket(url);
 
-                //链接成功回调
-                ws.onopen = function () {
-                    wsOnopen();
+                    //链接成功回调
+                    ws.onopen = function () {
+                        wsOnopen();
+                    }
+                    //收到消息回调
+                    ws.onmessage = function (evt) {
+                        wsOnmessage(evt);
+                    }
+                    //链接失败回调
+                    ws.onerror = function (evt) {
+                    }
+                    //链接关闭回调
+                    ws.onclose = function () {
+                        wsOnclose()
+                    }
                 }
-                //收到消息回调
-                ws.onmessage = function (evt) {
-                    wsOnmessage(evt);
-                }
-                //链接失败回调
-                ws.onerror = function (evt) {
-                }
-                //链接关闭回调
-                ws.onclose = function () {
-                    wsOnclose()
-                }
-            }
-            //else {
+                //else {
 
-            //}
-        });
+                //}
+            });
 
-        //链接成功回调
-        function wsOnopen() {
-
-        }
-
-        //收到消息回调
-        function wsOnmessage(evt) {
-            var msg = evt.data;
-            var data = eval("(" + msg + ")");
-            if (data == undefined || data == null)
-                return;
-            switch (data.MsgTypeChild) {
-                case 11: //开始命令
-                    break;
-                case 12: //结束命令
-                    ws.close()  //结束后，主动断开链接
-                    break;
-                case 21: //消息
-                    showBall(data);
-                    break;
-                case 31: //心跳包
-
-                    break;
-            }
-        }
-
-        //开始开奖
-        function startLottery() {
-            if (ws == undefined || ws == null || ws.readyState != WebSocket.OPEN) {
-                ws = new WebSocket(url);
-
-                //链接成功回调
-                ws.onopen = function () {
-                    wsOnopen();
-                }
-                //收到消息回调
-                ws.onmessage = function (evt) {
-                    wsOnmessage(evt);
-                }
-                //链接失败回调
-                ws.onerror = function (evt) {
-                }
-                //链接关闭回调
-                ws.onclose = function () {
-                    wsOnclose()
-                }
-            }
-        }
-
-        //链接关闭回调
-        function wsOnclose() {
-
-        }
-
-        //显示球
-        function showBall(data) {
-            if (data.IsPeriod == 1) { // 如果是期数消息
-                $("#txtIssue").text(data.Content);
-                $("#ballListDiv").empty();
-            } else {
-                if (data.IsTM == 1) {//如果是特码
-                    $("#ballListDiv").append('<span class="Mif_jgC">+</span>&nbsp;');
-                }
-                var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
-                $("#ballListDiv").append('<span class="hdM_spliu ' + getColor(num) + '">' + num + '</span>&nbsp;');
+            //链接成功回调
+            function wsOnopen() {
 
             }
-        }
 
-        //获取球的颜色
-        function getColor(num) {
-            num = "," + num + ",";
+            //收到消息回调
+            function wsOnmessage(evt) {
+                var msg = evt.data;
+                var data = eval("(" + msg + ")");
+                if (data == undefined || data == null)
+                    return;
+                switch (data.MsgTypeChild) {
+                    case 11: //开始命令
+                        break;
+                    case 12: //结束命令
+                        ws.close()  //结束后，主动断开链接
+                        break;
+                    case 21: //消息
+                        showBall(data);
+                        break;
+                    case 31: //心跳包
 
-            var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";
-            var blue = ",03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48,";
-            var green = ",05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49,";
+                        break;
+                }
+            }
 
-            if (red.indexOf(num)>-1) {
-                return "hdM_spliured";
+            //开始开奖
+            function startLottery() {
+                if (ws == undefined || ws == null || ws.readyState != WebSocket.OPEN) {
+                    ws = new WebSocket(url);
+
+                    //链接成功回调
+                    ws.onopen = function () {
+                        wsOnopen();
+                    }
+                    //收到消息回调
+                    ws.onmessage = function (evt) {
+                        wsOnmessage(evt);
+                    }
+                    //链接失败回调
+                    ws.onerror = function (evt) {
+                    }
+                    //链接关闭回调
+                    ws.onclose = function () {
+                        wsOnclose()
+                    }
+                }
             }
-            else if (blue.indexOf(num)>-1) {
-                return "hdM_spliublue";
+
+            //链接关闭回调
+            function wsOnclose() {
+
             }
-            else {
-                return "hdM_spliugreen";
+
+            //显示球
+            function showBall(data) {
+                if (data.IsPeriod == 1) { // 如果是期数消息
+                    $("#txtIssue").text(data.Content);
+                    $("#ballListDiv").empty();
+                } else {
+                    if (data.IsTM == 1) {//如果是特码
+                        $("#ballListDiv").append('<span class="Mif_jgC">+</span>&nbsp;');
+                    }
+                    var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
+                    $("#ballListDiv").append('<span class="hdM_spliu ' + getColor(num) + '">' + num + '</span>&nbsp;');
+
+                }
             }
-        }
+
+            //获取球的颜色
+            function getColor(num) {
+                num = "," + num + ",";
+
+                var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";
+                var blue = ",03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48,";
+                var green = ",05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49,";
+
+                if (red.indexOf(num)>-1) {
+                    return "hdM_spliured";
+                }
+                else if (blue.indexOf(num)>-1) {
+                    return "hdM_spliublue";
+                }
+                else {
+                    return "hdM_spliugreen";
+                }
+            }
         </script>
     }
 
@@ -478,6 +495,5 @@
         }
     </script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

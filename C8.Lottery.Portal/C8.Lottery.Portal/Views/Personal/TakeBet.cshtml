@@ -3,10 +3,8 @@
 @{
     ViewBag.Title = "TakeBet";
 }
-
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -17,14 +15,11 @@
     <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
-
 <body style="background:#F4F4F5;overflow:hidden;">
-
     <header class="hjc_header">
         <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">参与竞猜</a>
     </header>
-
     <!-- <div class="guessing_header">
         <ul class="C8_nav C8_cyjc">
             <li class="current"><a href="javascript:;"><p>高频彩</p><span></span></a></li>
@@ -33,16 +28,16 @@
         </ul>
     </div> -->
     <div class="hjc_hdNav">
-
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-
                 @if (Model != null)
                 {
+                    int i = -1;
                     foreach (var item in Model)
                     {
-                        if (Model.IndexOf(item) == 0)
+                        i++;
+                        if (i == 0)
                         {
                             <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
                         }
@@ -55,7 +50,6 @@
                     }
                 }
 
-
                 <div style="clear:bothl;"></div>
             </ul>
         </div>
@@ -65,12 +59,13 @@
                     <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
                 </div>*@
             <ul class="hdNav_cai">
-
                 @if (Model != null)
                 {
+                    int i = -1;
                     foreach (var item in Model)
                     {
-                        if (Model.IndexOf(item) == 0)
+                        i++;
+                        if (i == 0)
                         {
                             <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
                         }
@@ -85,9 +80,7 @@
             </ul>
         </div>
     </div>
-
     <div class="guessing_content hjc_indexmain" style="margin-top:90px;">
-
 
         @if (Model != null)
         {
@@ -98,7 +91,6 @@
 
                 <div id="@mid" class="list_mainUl2 gues_info mescroll">
                     <div id="@did" class="data-list">
-
                     </div>
                 </div>
 
@@ -106,12 +98,8 @@
             }
         }
 
-
-
     </div>
-
     <div class="mask" style="display:none;"></div>
-
 
     <script type="text/javascript">
         $(function () {

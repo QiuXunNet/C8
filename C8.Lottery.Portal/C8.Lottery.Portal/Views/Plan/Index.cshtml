@@ -22,17 +22,14 @@
     <link rel="stylesheet" type="text/css" href="/css/dialog.css" />
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
 
-
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="/js/dialog.min.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/runTime2.js"></script>
-
     <script type="text/javascript" src="/js/plan_scroll1.js">
 
     </script>
-
     <script>
         $(function () {
             var cur = GetQueryString("cur");
@@ -62,7 +59,6 @@
             if (r != null) return unescape(r[2]); return null;
         }
     </script>
-
     <style>
         .mscroll {
             top: 200px;
@@ -70,10 +66,8 @@
             background: #fff;
         }
     </style>
-
 </head>
 <body style="background:#F4F4F5; overflow-y: hidden;">
-
 
     <input type="hidden" id="lType" value="@lType" />
     <header class="hjc_header">
@@ -130,7 +124,6 @@
     <div class="Plan_content" style="position: fixed; width: 100%;">
         @*官方推荐*@
         <div class="Plan_CInfo mescroll">
-
             <div class="Plan_CIfBox">
                 <div class="CZ_hdtit">
                     <dl class="CZ_hdMain">
@@ -163,7 +156,6 @@
                                 <div style="clear: both;"></div>
                             </div>
                             <div class="hdM_ddcon">
-
                                 @{
                                     int countFor6 = 0;
 
@@ -204,20 +196,55 @@
                                     }
                                     else
                                     {
+                                        int i = -1;
                                         foreach (string s in numArr)
                                         {
+                                            i++;
                                             if (lType == 63 || lType == 64)
                                             {
                                                 string clazz = "hdM_spPK hdM_spPK" + s;
                                                 <span class="@clazz">@s</span>
                                             }
+                                            else if (lType == 2)
+                                            {
 
+                                                if (i == 6)
+                                                {
+                                                    <span class="hdM_spssc HYJP_Blue">@s</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="hdM_spssc HYJP_Red">@s</span>
+                                                }
+                                            }
+                                            else if (lType == 4)
+                                            {
+                                                if (i == 5 || i == 6)
+                                                {
+                                                    <span class="hdM_spssc HYJP_Blue">@s</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="hdM_spssc HYJP_Red">@s</span>
+                                                }
+                                            }
+                                            else if (lType == 8)
+                                            {
+                                                if (i ==7)
+                                                {
+                                                    <span class="hdM_spssc HYJP_Blue">@s</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="hdM_spssc HYJP_Red">@s</span>
+                                                }
+                                            }
                                             else
                                             {
                                                 <span class="hdM_spssc HYJP_Red">@s</span>
-                                            }
-
                                         }
+
+                                    }
                                     }
 
 
@@ -239,12 +266,10 @@
                     </ul>
                     <div style="clear: both;"></div>
                 </div>
-
                 <div class="CZ_main mt0">
                     <!--计划列表-->
                     <div class="CZ_Minfo">
                         <div class="Mif_sy">
-
 
                             <div class="Mif_sykuai">
                                 <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
@@ -256,44 +281,32 @@
                                     </thead>
                                 </table>
                             </div>
-
                             <div id="mescroll5" class="mescroll mscroll">
-
                                 <div id="planList">
 
-
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
         @*高手推荐*@
-        <div id="mescroll0" class="Plan_CInfo mescroll" style=" display: none;">
-
+        <div id="mescroll0" class="Plan_CInfo mescroll" style=" display none;">
             <div id="datalist0" class="Plan_CIfBox data-list">
-
             </div>
         </div>
-
 
         @*免费专家*@
         <div id="mescroll1" class="Plan_CInfo mescroll" style="display: none;">
             <div id="datalist1" class="Plan_CIfBox data-list">
-
             </div>
         </div>
     </div>
     <!--搜索-->
     <div class="Plan_search"><a href="/Plan/ExpertSearch/@lType"></a></div>
-
     <script type="text/javascript" src="/js/luo/plan.index.expert.js"></script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
