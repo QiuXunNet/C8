@@ -1,4 +1,6 @@
-﻿@using C8.Lottery.Model
+﻿
+@using C8.Lottery.Model
+@using C8.Lottery.Public
 @{
     Layout = null;
 
@@ -15,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>查看计划-重庆时时彩</title>
+    <title>查看计划-@ViewBag.msg</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="/js/jquery-1.8.3.min.js"></script>
     <script src="/js/function.js"></script>
@@ -62,9 +64,78 @@
                         string num = ViewBag.lastNum;
                         string[] numArr = num.Split(',');
 
+                        int i = -1;
                         foreach (string s in numArr)
                         {
-                            <span class="hdM_spssc">@s</span>
+                            i++;
+
+                            if (lType == 63 || lType == 64)
+                            {
+                                string clazz = "hdM_spPK hdM_spPK" + s;
+                                <span class="@clazz">@s</span>
+                            }
+                            else if (lType == 2)
+                            {
+                                if (i == 6)
+                                {
+                                    <span class="hdM_spssc HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="hdM_spssc HYJP_Red">@s</span>
+                                }
+                            }
+                            else if (lType == 5)
+                            {
+                                string Color = Util.GetColor(s);
+                                string ys = string.Empty;
+                                switch (Color)
+                                {
+                                    case "red":
+                                        ys = "HYJP_LhRed";
+                                        break;
+                                    case "blue":
+                                        ys = "HYJP_LhBlue";
+                                        break;
+                                    case "green":
+                                        ys = "HYJP_LhGreen";
+                                        break;
+                                }
+                                if (i == 6)
+                                {
+                                    <span class="hdM_spssc HYJP_PcHao">+</span>
+
+                                }
+                                <span class="hdM_spssc  @ys">@s</span>
+                            }
+                            else if (lType == 8)
+                            {
+                                if (i == 7)
+                                {
+                                    <span class="hdM_spssc HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="hdM_spssc HYJP_Red">@s</span>
+                                }
+                            }
+                            else if (lType == 4)
+                            {
+                                if (i == 5 || i == 6)
+                                {
+                                    <span class="hdM_spssc HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="hdM_spssc HYJP_Red">@s</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="hdM_spssc HYJP_Red">@s</span>
+                            }
+
+
                         }
                     }
 

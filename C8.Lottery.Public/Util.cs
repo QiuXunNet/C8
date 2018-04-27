@@ -22307,8 +22307,14 @@ namespace C8.Lottery.Public
             for (int i = 0; i < 5; i++)
             {
                 DateTime dTemp = DateTime.Now.AddDays(-i);
-
-                queryDate += dTemp.Month + "月" + dTemp.Day + ",";
+                if (dTemp.Month < 10)
+                {
+                    queryDate += "0"+dTemp.Month + "月" + dTemp.Day + ",";
+                }else
+                {
+                    queryDate += dTemp.Month + "月" + dTemp.Day + ",";
+                }
+               
             }
 
             return queryDate.TrimEnd(','); ;
