@@ -8,10 +8,10 @@
 
     if (linkCode != "") {
         var ip = returnCitySN["cip"];
-        var cookieUv = getCookie("WcbCookieUv");
+        var cookieUv = getCookie("WcbCookieUv") + linkCode;
         //alert(cookieUv);
         if (cookieUv == undefined || cookieUv == null || cookieUv == "") {
-            setCookie("WcbCookieUv", newGuid());
+            setCookie("WcbCookieUv" + linkCode, newGuid());
 
             //发送请求保存 UV
             var data = {};
@@ -23,10 +23,10 @@
           //  $.post("/PvUvIp/AddUv", );
         }
 
-        var cookieIp = getCookie("WcbCookieIp");
+        var cookieIp = getCookie("WcbCookieIp" + linkCode);
         //alert(cookieIp);
         if (cookieIp == undefined || cookieIp == null || cookieIp == "" || cookieIp != ip) {
-            setCookie("WcbCookieIp", ip);
+            setCookie("WcbCookieIp" + linkCode, ip);
 
             //发送请求保存 Ip  需要后台判断Ip是否相同
             var data = {};
@@ -59,7 +59,7 @@
         var endTimeStr = exdate.getFullYear() + "/" + (exdate.getMonth() + 1) + "/" + exdate.getDate() + " 23:59:59";
         var endTime = new Date(endTimeStr);
 
-        document.cookie = c_name + "=" + escape(value) + ";expires=" + endTime.toGMTString();
+        document.cookie = c_name + "=" + escape(value) + ";expires=" + endTime.toGMTString() + "; path=/";;
     }
     //获取cookie
     function getCookie(c_name) {
