@@ -1,5 +1,9 @@
 ﻿@{
     ViewBag.Title = "RewardRules";
+
+
+    int platForm = ViewBag.Platform;
+    string show = platForm == 1 ? "top:0;" : "";
 }
 <!doctype html>
 <html>
@@ -12,13 +16,14 @@
 </head>
 
 <body>
-
+@if (platForm != 1)
+{
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">奖励规则</a>
     </header>
-
-    <div class="Invitation_Box">
+    }
+    <div class="Invitation_Box" style="@show">
         <div class="invitation-illustration-title">分享流程</div>
         <div class="invitation-illustration">
             <img src="~/images/invitation_illustration.png" alt="分享流程图" />

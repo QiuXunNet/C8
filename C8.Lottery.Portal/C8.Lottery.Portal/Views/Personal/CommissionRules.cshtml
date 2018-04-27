@@ -1,5 +1,9 @@
 ﻿@{
     ViewBag.Title = "CommissionRules";
+
+
+
+    int platForm = ViewBag.Platform;
 }
 
 <!doctype html>
@@ -15,20 +19,21 @@
 </head>
 
 <body>
-
+@if (platForm != 1)
+{
     <header class="hjc_header">
         <a href="/Personal/MyCommission" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">规则</a>
     </header>
-
+}
     <div class="GZ_Lnav">
-        <ul class="Lnav_Ul">
+        <ul class="Lnav_Ul" style="padding-top:@(platForm==1?"0":"50px;")" >
             <li class="current">收费专家说明</li>
             <li>专家升降级</li>
             <li>我的佣金说明</li>
         </ul>
     </div>
-    <div class="GZ_text">
+    <div class="GZ_text"  style="margin-top:@(platForm==1?"10px":"60px;")">
         <div class="GZ_tInfo">
             <p>系统根据用户在每个彩种参与竞猜所获得的积分值进行判断，单个彩种所有玩法所获得积分满100自动升级为专家，其中不包含总积分，仅限于单个彩种类目下使用。</p>
         </div>

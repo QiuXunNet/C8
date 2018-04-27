@@ -189,7 +189,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //3.最后一期
-            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by SubTime desc,Issue desc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
             ViewBag.lastIssueDesc = "第" + lr.Issue + "期开奖号码:";
             ViewBag.lastNum = lr.Num;
@@ -197,7 +197,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //3.最新5期
-            sql = "select top(5)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            sql = "select top(5)* from LotteryRecord where lType =" + lType + " order by SubTime desc,Issue desc";
             ViewBag.lastFive = Util.ReaderToList<LotteryRecord>(sql);
 
 
@@ -297,7 +297,9 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Rule(int id)
         {
             string name = Util.GetLotteryTypeName(id);
+            
 
+            ViewBag.Platform = Request.Params["pl"].ToInt32();
 
             ViewBag.lType = id;
             ViewBag.title1 = "规则说明-" + name;
@@ -384,14 +386,14 @@ namespace C8.Lottery.Portal.Controllers
             object objIsSub = SqlHelper.ExecuteScalar(isSubSql);
             //查询可用金币
             int Myuid = UserHelper.GetByUserId();
-            string CoinSql = "select Coin from UserInfo where Id="+ Myuid;
+            string CoinSql = "select Coin from UserInfo where Id=" + Myuid;
             object objcoin = SqlHelper.ExecuteScalar(CoinSql);
-            ViewBag.Coin =  Convert.ToInt32(objcoin);
+            ViewBag.Coin = Convert.ToInt32(objcoin);
 
             //查询可用卡劵
-            string CouponSql = "select count(1) from [dbo].[UserCoupon] where UserId="+ Myuid + " and State=1 and getdate()<EndTime ";
+            string CouponSql = "select count(1) from [dbo].[UserCoupon] where UserId=" + Myuid + " and State=1 and getdate()<EndTime ";
             object objcoupon = SqlHelper.ExecuteScalar(CouponSql);
-            ViewBag.Coupon =Convert.ToInt32(objcoupon);
+            ViewBag.Coupon = Convert.ToInt32(objcoupon);
 
             ViewBag.IsSub = objIsSub != null && Convert.ToInt32(objIsSub) > 0;
             ViewBag.MyUid = loginUserId;
@@ -407,7 +409,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="paytype">支付类型 1金币 2查看劵</param>
         /// <returns></returns>
         [Authentication]
-        public ActionResult LastPlay(int id, int uid, string playName,int paytype=1)
+        public ActionResult LastPlay(int id, int uid, string playName, int paytype = 1)
         {
             var user = UserHelper.LoginUser;
 
@@ -430,7 +432,7 @@ namespace C8.Lottery.Portal.Controllers
                 };
             var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
             var lastBettingRecord = records.FirstOrDefault();
-         
+
             if (lastBettingRecord == null)
             {
                 Response.Redirect(redirectUrl, true);
@@ -530,7 +532,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
                 }
             }
-            else if(paytype==2)
+            else if (paytype == 2)
             {
                 if (user.Id != uid)
                 {
@@ -544,10 +546,10 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
                         Response.Redirect(redirectUrl, true);
                     }
                 }
-             
-              
+
+
             }
-          
+
             #endregion
 
             #region View数据查询
@@ -582,7 +584,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         /// </summary>
         /// <param name="uc"></param>
         /// <returns></returns>
-        public int UpdateUserCoupon(long planId,int Id)
+        public int UpdateUserCoupon(long planId, int Id)
         {
             string strsql = "update [UserCoupon] set PlanId =@PlanId, State = 2, SubTime = getdate() where Id =@Id ";
             SqlParameter[] sp = new SqlParameter[] {
@@ -607,7 +609,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         /// <returns></returns>
         public UserCoupon GetUserCoupon(int UserId)
         {
-            string strsql = "select top 1 * from[dbo].[UserCoupon] where UserId ="+UserId+" and State = 1 and getdate() < EndTime Order by EndTime";
+            string strsql = "select top 1 * from[dbo].[UserCoupon] where UserId =" + UserId + " and State = 1 and getdate() < EndTime Order by EndTime";
             return Util.ReaderToModel<UserCoupon>(strsql);
 
         }
@@ -841,7 +843,7 @@ from (
         /// <param name="coin">查看所需金币</param>
         /// <param name="paytype">支付类型 1金币 2查看劵</param>
         /// <returns></returns>
-        public JsonResult ViewPlan(int id, int ltype, int uid, int coin,int paytype)
+        public JsonResult ViewPlan(int id, int ltype, int uid, int coin, int paytype)
         {
             var result = new AjaxResult();
 
@@ -886,7 +888,8 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
                         result = new AjaxResult(401, "余额不足");
                         return Json(result);
                     }
-                }else if(paytype==2)
+                }
+                else if (paytype == 2)
                 {
                     if (GetCoupon(Convert.ToInt32(UserHelper.LoginUser.Id)) <= 0)
                     {
@@ -894,7 +897,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
                         return Json(result);
                     }
                 }
-               
+
 
             }
             catch (Exception ex)
@@ -916,7 +919,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         /// <returns></returns>
         public int GetCoupon(int UserId)
         {
-            string strsql = "select count(1) from [dbo].[UserCoupon] where UserId="+UserId+" and State=1 and getdate()<EndTime ";
+            string strsql = "select count(1) from [dbo].[UserCoupon] where UserId=" + UserId + " and State=1 and getdate()<EndTime ";
             return Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
         }
 

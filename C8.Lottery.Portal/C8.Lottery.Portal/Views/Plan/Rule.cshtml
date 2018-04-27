@@ -1,10 +1,11 @@
 ﻿@{
     Layout = null;
     int lType = ViewBag.lType;
+
+    int platForm = ViewBag.Platform;
+    string show = platForm == 1 ? "margin-top:0;" : "";
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -12,27 +13,19 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 <body>
-
-    <header class="hjc_header">
-        <a href="javascript:history.go(-1);" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo">@ViewBag.title2</a>
-    </header>
-
-
-
-
-
-
-
-
-
-
-
-
+    @if (platForm != 1)
+    {
+        <header class="hjc_header">
+            <a href="javascript:history.go(-1);" class="hjc_back"></a>
+            <a href="javascript:;" class="hjc_logo">@ViewBag.title2</a>
+        </header>
+        
+    }
+    
 
     @if (lType == 1)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩福彩3D玩法规则说明:</h3>
             <p class="Rule_font1">单双大小玩法：竞猜规则为三个球分别可选单双、大小的玩法</p>
             <p class="Rule_font1">（一）第一球单双</p>
@@ -70,7 +63,6 @@
             <p class="Rule_font2">例如：选中杀码1、2两个号码，开奖号码为3、5、6，本次杀码则属正确（命中）；如选中杀码1、2两个号码，开奖号码为1、5、7，本次杀码则属错误（不命中）</p>
             <p class="Rule_font1">（十四）三胆</p>
             <p class="Rule_font2">从10个开奖号码中选择3个号码，选中的号码有一个或以上被开奖号码包括即视为中奖</p>
-
             <br>
             <h3 class="Rule_title">福彩3D玩法积分规则:</h3>
             <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
@@ -164,7 +156,6 @@
                     <td align="center" valign="middle">-10</td>
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
-
                 <tr>
                     <th align="center" valign="middle" scope="row">连中2期</th>
                     <td align="center" valign="middle">+1</td>
@@ -190,12 +181,11 @@
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
             </table>
-
         </div>
     }
     else if (lType == 2)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩双色球玩法规则说明:</h3>
             <p class="Rule_font1">（一）红3胆</p>
             <p class="Rule_font2">33个红球中，选择3个红球作为胆码，开奖号码红球中有一个或以上相同即视为中奖。</p>
@@ -294,7 +284,7 @@
     }
     else if (lType == 3)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩七星彩玩法规则说明:</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  大小</p>
@@ -518,7 +508,7 @@
     }
     else if (lType == 4)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩大乐透玩法规则说明:</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）前区4码</p>
@@ -623,7 +613,7 @@
     }
     else if (lType == 5)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩六合彩玩法规则说明:</h3>
             <p class="Rule_font1">（一）特码单双</p>
             <p class="Rule_font2">特码单双：特码为偶数叫特双，为奇数叫特单，49为和</p>
@@ -776,7 +766,7 @@
     }
     else if (lType == 6)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩排列三玩法规则说明:</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">单双大小玩法：竞猜规则为三个球分别可选单双、大小的玩法</p>
@@ -949,12 +939,11 @@
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
             </table>
-
         </div>
     }
     else if (lType == 7)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩排列5玩法规则说明:</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  大小</p>
@@ -1125,7 +1114,7 @@
     }
     else if (lType == 8)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">万彩七乐彩玩法规则说明:</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  单双</p>
@@ -1306,7 +1295,7 @@
     }
     else if (lType >= 9 && lType < 15)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">@ViewBag.title3</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  单双</p>
@@ -1471,7 +1460,7 @@
     }
     else if (lType >= 15 && lType < 38)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">@ViewBag.title3</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  单双</p>
@@ -1610,7 +1599,7 @@
     }
     else if ((lType >= 38 && lType < 51) || lType == 65)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">@ViewBag.title3</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）和值大小</p>
@@ -1681,7 +1670,7 @@
     }
     else if (lType >= 51 && lType < 60)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">@ViewBag.title3</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  单双</p>
@@ -1855,7 +1844,7 @@
     }
     else if (lType >= 60 && lType < 63)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">@ViewBag.title3</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  单双</p>
@@ -1977,12 +1966,11 @@
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
             </table>
-
         </div>
     }
     else if (lType >= 63 && lType < 65)
     {
-        <div class="Rule_box">
+        <div class="Rule_box" style="@show">
             <h3 class="Rule_title">@ViewBag.title3</h3>
             <p class="Rule_font1">玩法分类</p>
             <p class="Rule_font1">（一）第一球  单双  </p>
@@ -2286,10 +2274,8 @@
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
             </table>
-
         </div>
     }
-
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
