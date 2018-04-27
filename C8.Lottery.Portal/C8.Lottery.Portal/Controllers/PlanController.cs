@@ -189,7 +189,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //3.最后一期
-            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            string sql = "select top(1)* from LotteryRecord where lType =" + lType + " order by SubTime desc,Issue desc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
             ViewBag.lastIssueDesc = "第" + lr.Issue + "期开奖号码:";
             ViewBag.lastNum = lr.Num;
@@ -197,7 +197,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //3.最新5期
-            sql = "select top(5)* from LotteryRecord where lType =" + lType + " order by Issue desc";
+            sql = "select top(5)* from LotteryRecord where lType =" + lType + " order by SubTime desc,Issue desc";
             ViewBag.lastFive = Util.ReaderToList<LotteryRecord>(sql);
 
 
