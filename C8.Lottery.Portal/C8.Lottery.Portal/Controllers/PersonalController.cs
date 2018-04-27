@@ -65,7 +65,7 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     if (!string.IsNullOrEmpty(newpwd))
                     {
-                        if(newpwd.Length < 6 || newpwd.Length > 12)
+                        if (newpwd.Length < 6 || newpwd.Length > 12)
                         {
                             jsonmsg.Success = false;
                             jsonmsg.Msg = "密码长度为6-12位";
@@ -101,13 +101,14 @@ namespace C8.Lottery.Portal.Controllers
                                 throw;
                             }
                         }
-                    }else
+                    }
+                    else
                     {
                         jsonmsg.Success = false;
                         jsonmsg.Msg = "密码不能为空";
                     }
 
-                   
+
                 }
             }
             else
@@ -223,9 +224,10 @@ namespace C8.Lottery.Portal.Controllers
                                 return Json(jsonmsg);
                             }
                         }
-                       
+
                     }
-                }else if (type == 2)
+                }
+                else if (type == 2)
                 {
 
                     bool iscz = Tool.CheckSensitiveWords(value);
@@ -319,6 +321,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult TaskRule()
         {
+            ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
 
@@ -487,7 +490,7 @@ where RowNumber BETWEEN @Start AND @End ";
                         jsonmsg.Success = false;
                     }
                 }
-               
+
 
 
             }
@@ -589,6 +592,7 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <returns></returns>
         public ActionResult RewardRules()
         {
+            ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
 
@@ -612,13 +616,13 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public PartialViewResult FansBangList(int typeId,string type, int pageIndex = 1, int pageSize = 20)
+        public PartialViewResult FansBangList(int typeId, string type, int pageIndex = 1, int pageSize = 20)
         {
 
             try
             {
 
-        
+
 
 
                 string strsql = string.Format(@"select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
@@ -628,9 +632,9 @@ where RowNumber BETWEEN @Start AND @End ";
 where  f.Status=1  {0}
  group by Followed_UserId,Name,RPath
 )t
-WHERE Rank BETWEEN @Start AND @End", Tool.GetTimeWhere("FollowTime",type));
+WHERE Rank BETWEEN @Start AND @End", Tool.GetTimeWhere("FollowTime", type));
 
-          
+
                 SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@Start", (pageIndex - 1) * pageSize + 1),
@@ -655,9 +659,9 @@ WHERE Rank BETWEEN @Start AND @End", Tool.GetTimeWhere("FollowTime",type));
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             int userId = UserHelper.GetByUserId();
-          
 
-            string strsql  =string.Format(@" select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
+
+            string strsql = string.Format(@" select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
  from Follow f 
  left join UserInfo u on f.Followed_UserId=u.id
  left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
@@ -665,19 +669,19 @@ where  f.Status=1  {0}
  group by Followed_UserId,Name,RPath
 )t
 where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type));
-        
+
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
                 new SqlParameter("@Followed_UserId",userId)
             };
             try
             {
-            
+
                 FansBangListModel fansbang = Util.ReaderToModel<FansBangListModel>(strsql, sp);
                 if (fansbang == null)
                 {
                     FansBangListModel fansbangs = new FansBangListModel();
-                    string countsql =string.Format("select count(1) from Follow where Followed_UserId={0}  {1} and Status=1 ", userId, Tool.GetTimeWhere("FollowTime", type));
+                    string countsql = string.Format("select count(1) from Follow where Followed_UserId={0}  {1} and Status=1 ", userId, Tool.GetTimeWhere("FollowTime", type));
                     int number = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
 
                     UserInfo user = UserHelper.GetUser(userId);
@@ -699,7 +703,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
                 jsonmsg.Msg = e.Message;
                 throw;
             }
-            return Json(jsonmsg,JsonRequestBehavior.AllowGet);
+            return Json(jsonmsg, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -1145,13 +1149,13 @@ WHERE rowNumber BETWEEN @Start AND @End";
                         var comment = GetComment(x.PId);
                         if (comment == null)
                         {
-                            x.MyContent ="已删除";
+                            x.MyContent = "已删除";
                         }
                         else
                         {
                             x.MyContent = comment.Content;
                         }
-                    
+
                     }
                     var info = GetLotteryTypeName(x.Type, x.ArticleId);
                     x.LotteryTypeName = info.TypeName ?? "";
@@ -1786,11 +1790,11 @@ on c.OrderId=b.Id
                     new SqlParameter("@UserId",UserId)
                 };
                 DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
-                ViewBag.MyYj = Tool.Rmoney(dr.KeTx+ dr.Txing);
+                ViewBag.MyYj = Tool.Rmoney(dr.KeTx + dr.Txing);
                 ViewBag.Txing = Tool.Rmoney(dr.Txing);
                 ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
                 ViewBag.KeTx = Tool.Rmoney(dr.KeTx);
-        
+
             }
             catch (Exception)
             {
@@ -1900,6 +1904,7 @@ inner join UserInfo u on  c.UserId=u.Id
         /// <returns></returns>
         public ActionResult CommissionRules()
         {
+            ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
 
@@ -1921,8 +1926,8 @@ inner join UserInfo u on  c.UserId=u.Id
         {
             ReturnMessageJson msg = new ReturnMessageJson();
             int UserId = UserHelper.GetByUserId();
-            
-            string strwhere =string.Format(" UserId={0}",UserId);
+
+            string strwhere = string.Format(" UserId={0}", UserId);
             switch (type)
             {
                 case 0:
@@ -1937,7 +1942,7 @@ inner join UserInfo u on  c.UserId=u.Id
                     strwhere += " and getdate()>EndTime";
                     break;
             }
-            string strsql =string.Format("select * from UserCoupon where {0} ",strwhere);
+            string strsql = string.Format("select * from UserCoupon where {0} ", strwhere);
             try
             {
                 List<UserCoupon> list = Util.ReaderToList<UserCoupon>(strsql);
@@ -1959,6 +1964,7 @@ inner join UserInfo u on  c.UserId=u.Id
         /// <returns></returns>
         public ActionResult VoucherRules()
         {
+            ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
     }
