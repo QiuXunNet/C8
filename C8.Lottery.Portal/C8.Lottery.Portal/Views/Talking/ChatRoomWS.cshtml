@@ -232,7 +232,7 @@
             //首次加载添加聊天记录
             getChatRecord(0);
             url = "@socketUrl/Handler1.ashx?userId=" + userId +
-                "&roomId=" + roomId + "&userName=" + userName + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin + "&masterLottery=" + masterLottery
+                "&roomId=" + roomId + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin + "&masterLottery=" + masterLottery
             ws = new WebSocket(url);
 
             //链接成功回调
@@ -572,6 +572,7 @@
                 data.MsgType = 2;
                 data.MsgTypeChild = 21;
                 data.Content = message;
+                data.UserName = userName;
                 data.Guid = guid;
                 var json = JSON.stringify(data);
                 if (ws.readyState == WebSocket.OPEN) {
@@ -739,6 +740,7 @@
                     data2.MsgTypeChild = 22;
                     data2.Content = message;
                     data2.Guid = guid;
+                    data2.UserName = userName;
 
                     var json = JSON.stringify(data2);
                     if (ws.readyState == WebSocket.OPEN) {
