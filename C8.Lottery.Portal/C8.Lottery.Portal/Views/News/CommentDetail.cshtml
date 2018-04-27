@@ -132,7 +132,7 @@
                             }
 
                             dropload.resetload();
-                            gues2.parseEmoji();
+                            //gues2.parseEmoji();
                         },
                         error: function (xhr, type) {
                             alertmsg("服务器繁忙");
@@ -179,8 +179,8 @@
                     + '</li>';
                 html.push(li);
             });
-
-            $("#Gues2 .Gues_ul").append(html.join(''));
+            var lilistHtml = $.stringParseEmoji(html.join(''));
+            $("#Gues2 .Gues_ul").append(lilistHtml);
             $("#totalCount").html('（'+ data.TotalCount+'）');
 
         }
