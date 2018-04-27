@@ -52,7 +52,9 @@ namespace C8.Lottery.Portal.Controllers
                 else
                 {
                     currentDate = date;
-                    date = "2017-" + date.Replace('月', '-');
+                    string year = DateTime.Now.Year.ToString();
+
+                    date = ""+ year + "-" + date.Replace('月', '-');
                 }
 
 
