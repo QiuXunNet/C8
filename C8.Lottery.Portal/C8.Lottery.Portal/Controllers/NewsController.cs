@@ -281,8 +281,24 @@ WHERE rowNumber BETWEEN @Start AND @End";
             {
                 try
                 {
-                    string pvSql = "UPDATE dbo.News SET PV+=1 WHERE Id=" + id;
-                    SqlHelper.ExecuteScalar(pvSql);
+                    string pvSql = @"if exists(
+	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+  )
+  begin
+   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+  end
+  else
+  begin
+  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
+  end;
+UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
+                    var pvParam = new[]
+                    {
+                        new SqlParameter("@Type",1),//新闻类型=1
+                        new SqlParameter("@Id",id),
+                        new SqlParameter("@ViewDate",DateTime.Today),
+                    };
+                    SqlHelper.ExecuteScalar(pvSql, pvParam);
                 }
                 catch (Exception ex)
                 {
