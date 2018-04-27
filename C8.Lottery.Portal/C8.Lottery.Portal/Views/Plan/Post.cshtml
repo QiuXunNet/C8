@@ -1,13 +1,11 @@
-﻿@using C8.Lottery.Model
+﻿@using C8.Lottery.Public
+@using C8.Lottery.Model
 @{
     Layout = null;
     int lType = ViewBag.lType;
 }
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -19,27 +17,19 @@
     <script type="text/javascript" src="/js/yjp.js"></script>
     <script type="text/javascript" src="/js/public.js"></script>
     <script type="text/javascript" src="/js/bet.js"></script>
-
     <script type="text/javascript" src="/js/runTime2.js"></script>
-
 </head>
-
 <body style="background:#F4F4F5;">
-
     <input type="hidden" value="@ViewBag.lType" id="lType" />
-
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@ViewBag.lotteryName</a>
         <a href="/Plan/Rule/@ViewBag.lType" class="SX_A">规则</a>
     </header>
-
     <div class="WanFa_header">
         <div class="WanFa_hdInfo1">
             <h3>@Html.Raw(ViewBag.issueDesc)</h3>
-
             @*<p>距离开奖时间<span>23:40:30</span></p>*@
-
             <p class="hdM_ddtime f-r">
                 下期开奖：
 
@@ -59,12 +49,7 @@
                     }
 
                 }
-
             </p>
-
-
-
-
 
 
 
@@ -74,18 +59,74 @@
             <i class="WF_hdIF2Icpon"></i>
             <p class="WF_hdIf2L">@ViewBag.lastIssueDesc</p>
             <div class="WF_hdIf2R ball_wrap">
-
                 @{
                     string num = ViewBag.lastNum;
                     string[] numArr = num.Split(',');
+                    int i = -1;
                     foreach (string s in numArr)
                     {
-
+                        i++;
 
                         if (lType == 63 || lType == 64)
                         {
                             string clazz = "ball_spA No" + s;
                             <span class="@clazz">@s</span>
+                        }
+                        else if (lType == 2)
+                        {
+                            if (i == 6)
+                            {
+                                <span class="WF_spA WF_spAhWU HYJP_Blue">@s</span>
+                            }
+                            else
+                            {
+                                <span class="WF_spA WF_spAhWU">@s</span>
+                            }
+                        }
+                        else if (lType == 5)
+                        {
+                            string Color = Util.GetColor(s);
+                            string ys = string.Empty;
+                            switch (Color)
+                            {
+                                case "red":
+                                    ys = "HYJP_LhRed";
+                                    break;
+                                case "blue":
+                                    ys = "HYJP_LhBlue";
+                                    break;
+                                case "green":
+                                    ys = "HYJP_LhGreen";
+                                    break;
+                            }
+                            if (i == 6)
+                            {
+                                <span class="WF_spA WF_spAhWU HYJP_PcHao">+</span>
+
+                            }
+                            <span class="WF_spA WF_spAhWU @ys">@s</span>
+                        }
+                        else if (lType == 8)
+                        {
+                            if (i == 7)
+                            {
+                                <span class="WF_spA WF_spAhWU HYJP_Blue">@s</span>
+                            }
+                            else
+                            {
+                                <span class="WF_spA WF_spAhWU">@s</span>
+                            }
+                        }
+                        else if (lType == 4)
+                        {
+                            if (i == 5 || i==6)
+                            {
+                                <span class="WF_spA WF_spAhWU HYJP_Blue">@s</span>
+                            }
+                            else
+                            {
+                                <span class="WF_spA WF_spAhWU">@s</span>
+                            }
                         }
                         else
                         {
@@ -97,25 +138,19 @@
                 }
 
 
-
-
             </div>
         </div>
     </div>
-
     <div id="WanFa_content" class="WanFa_content">
-
         @if (lType == 1)
         {
             <!-- 福彩3D -->
             <table width="100%" border="1" bordercolor="#999" class="WanFa_TableA">
-
                 <tr>
                     <td width="18%" align="center" valign="middle">
                         <h3 class="WF_Ttitle">第一球</h3>
                     </td>
                     <td align="center" valign="middle" class="betContainer" id="fc3d_q1"></td>
-
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('fc3d_q1','popup_10_dan_da','fc3d');" data-id="fc3d_q1" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -237,7 +272,6 @@
                     <td colspan="4" align="center" valign="middle" class="betContainer" id="xsq_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xsq_q7','popup_num16','xsq');" data-id="xsq_q7" data-type="popup_num16" class="WF_Btn">选择号码</a></td>
                 </tr>
-
             </table>
 
         }
@@ -466,7 +500,6 @@
                         <h3 class="WF_Ttitle">第一球</h3>
                     </td>
                     <td align="center" valign="middle" class="betContainer" id="pl3_q1"></td>
-
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('pl3_q1','popup_10_dan_da','pl3');" data-id="pl3_q1" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -663,7 +696,6 @@
                         <h3 class="WF_Ttitle">第一球</h3>
                     </td>
                     <td align="center" valign="middle" class="betContainer" id="cqssc_q1"></td>
-
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('cqssc_q1','popup_10_dan_da','cqssc');" data-id="cqssc_q1" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -671,7 +703,6 @@
                         <h3 class="WF_Ttitle">第二球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="cqssc_q2"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('cqssc_q2','popup_10_dan_da','cqssc');" data-id="cqssc_q2" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -679,7 +710,6 @@
                         <h3 class="WF_Ttitle">第三球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="cqssc_q3"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('cqssc_q3','popup_10_dan_da','cqssc');" data-id="cqssc_q3" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -687,7 +717,6 @@
                         <h3 class="WF_Ttitle">第四球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="cqssc_q4"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('cqssc_q4','popup_10_dan_da','cqssc');" data-id="cqssc_q4" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -695,7 +724,6 @@
                         <h3 class="WF_Ttitle">第五球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="cqssc_q5"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('cqssc_q5','popup_10_dan_da','cqssc');" data-id="cqssc_q5" data-type="popup_10_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -703,7 +731,6 @@
                         <h3 class="WF_Ttitle">总和</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="cqssc_total"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('cqssc_total','popup_dan_da','cqssc');" data-id="cqssc_total" data-type="total" class="WF_Btn">选择号码</a></td>
                 </tr>
             </table>
@@ -718,7 +745,6 @@
                         <h3 class="WF_Ttitle">第一球</h3>
                     </td>
                     <td align="center" valign="middle" class="betContainer" id="gd11x5_q1"></td>
-
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('gd11x5_q1','popup_11_dan_da','gd11x5');" data-id="gd11x5_q1" data-type="popup_11_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -726,7 +752,6 @@
                         <h3 class="WF_Ttitle">第二球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="gd11x5_q2"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('gd11x5_q2','popup_11_dan_da','gd11x5');" data-id="gd11x5_q2" data-type="popup_11_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -734,7 +759,6 @@
                         <h3 class="WF_Ttitle">第三球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="gd11x5_q3"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('gd11x5_q3','popup_11_dan_da','gd11x5');" data-id="gd11x5_q3" data-type="popup_11_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -742,7 +766,6 @@
                         <h3 class="WF_Ttitle">第四球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="gd11x5_q4"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('gd11x5_q4','popup_11_dan_da','gd11x5');" data-id="gd11x5_q4" data-type="popup_11_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -750,7 +773,6 @@
                         <h3 class="WF_Ttitle">第五球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="gd11x5_q5"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('gd11x5_q5','popup_11_dan_da','gd11x5');" data-id="gd11x5_q5" data-type="popup_11_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -758,7 +780,6 @@
                         <h3 class="WF_Ttitle">总和</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="gd11x5_total"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('gd11x5_total','popup_dan_da','gd11x5');" data-id="gd11x5_total" data-type="popup_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -808,7 +829,6 @@
                     <td align="center" valign="middle" class="betContainer" id="gdkl10f_q1"></td>
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('gdkl10f_q1','popup_kl10','gdkl10f');" data-id="gdkl10f_q1" data-type="popup_kl10" class="WF_Btn" style="padding:40px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td width="18%" align="center" valign="middle">
                         <h3 class="WF_Ttitle">第二球</h3>
@@ -827,7 +847,6 @@
                         <h3 class="WF_Ttitle">第一球</h3>
                     </td>
                     <td align="center" valign="middle" class="betContainer" id="kl12_q1"></td>
-
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('kl12_q1','popup_12_dan_da','kl12');" data-id="kl12_q1" data-type="popup_12_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -835,7 +854,6 @@
                         <h3 class="WF_Ttitle">第二球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="kl12_q2"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('kl12_q2','popup_12_dan_da','kl12');" data-id="kl12_q2" data-type="popup_12_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -843,7 +861,6 @@
                         <h3 class="WF_Ttitle">第三球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="kl12_q3"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('kl12_q3','popup_12_dan_da','kl12');" data-id="kl12_q3" data-type="popup_12_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -851,7 +868,6 @@
                         <h3 class="WF_Ttitle">第四球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="kl12_q4"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('kl12_q4','popup_12_dan_da','kl12');" data-id="kl12_q4" data-type="popup_12_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -859,7 +875,6 @@
                         <h3 class="WF_Ttitle">第五球</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="kl12_q5"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('kl12_q5','popup_12_dan_da','kl12');" data-id="kl12_q5" data-type="popup_12_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -867,7 +882,6 @@
                         <h3 class="WF_Ttitle">总和</h3>
                     </td>
                     <td width="32%" align="center" valign="middle" class="betContainer" id="kl12_total"></td>
-
                     <td align="center" valign="middle"><a href="javascript:openModule('kl12_total','popup_dan_da','kl12');" data-id="kl12_total" data-type="popup_dan_da" class="WF_Btn">选择号码</a></td>
                 </tr>
                 <tr>
@@ -890,7 +904,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q1"></td>
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('pk10_q1','popup_dan_da_lh','pk10');" data-id="pk10_q1" data-type="popup_dan_da_lh" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">亚军</h3>
@@ -898,7 +911,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q2"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q2','popup_dan_da_lh','pk10');" data-id="pk10_q2" data-type="popup_dan_da_lh" class="WF_Btn " style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第三名</h3>
@@ -906,7 +918,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q3"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q3','popup_dan_da_lh','pk10');" data-id="pk10_q3" data-type="popup_dan_da_lh" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第四名</h3>
@@ -921,7 +932,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q5"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q5','popup_dan_da_lh','pk10');" data-id="pk10_q5" data-type="popup_dan_da_lh" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第六名</h3>
@@ -929,7 +939,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q6"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q6','popup_1_10_dan_da','pk10');" data-id="pk10_q6" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第七名</h3>
@@ -937,7 +946,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q7','popup_1_10_dan_da','pk10');" data-id="pk10_q7" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第八名</h3>
@@ -945,7 +953,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q8"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q8','popup_1_10_dan_da','pk10');" data-id="pk10_q8" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第九名</h3>
@@ -953,7 +960,6 @@
                     <td align="center" valign="middle" class="betContainer" id="pk10_q9"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('pk10_q9','popup_1_10_dan_da','pk10');" data-id="pk10_q9" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第十名</h3>
@@ -974,7 +980,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q1"></td>
                     <td width="18%" align="center" valign="middle"><a href="javascript:openModule('xyft_q1','popup_dan_da_lh','xyft');" data-id="xyft_q1" data-type="popup_dan_da_lh" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">亚军</h3>
@@ -982,7 +987,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q2"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q2','popup_dan_da_lh','xyft');" data-id="xyft_q2" data-type="popup_dan_da_lh" class="WF_Btn " style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第三名</h3>
@@ -990,7 +994,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q3"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q3','popup_dan_da_lh','xyft');" data-id="xyft_q3" data-type="popup_dan_da_lh" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第四名</h3>
@@ -1005,7 +1008,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q5"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q5','popup_dan_da_lh','xyft');" data-id="xyft_q5" data-type="popup_dan_da_lh" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第六名</h3>
@@ -1013,7 +1015,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q6"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q6','popup_1_10_dan_da','xyft');" data-id="xyft_q6" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第七名</h3>
@@ -1021,7 +1022,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q7"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q7','popup_1_10_dan_da','xyft');" data-id="xyft_q7" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第八名</h3>
@@ -1029,7 +1029,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q8"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q8','popup_1_10_dan_da','xyft');" data-id="xyft_q8" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第九名</h3>
@@ -1037,7 +1036,6 @@
                     <td align="center" valign="middle" class="betContainer" id="xyft_q9"></td>
                     <td align="center" valign="middle"><a href="javascript:openModule('xyft_q9','popup_1_10_dan_da','xyft');" data-id="xyft_q9" data-type="popup_1_10_dan_da" class="WF_Btn" style="padding:20px 0;">选择号码</a></td>
                 </tr>
-
                 <tr>
                     <td align="center" valign="middle">
                         <h3 class="WF_Ttitle">第十名</h3>
@@ -1048,16 +1046,13 @@
             </table>
         }
 
-
     </div>
-
     <div class="WanFa_footer">
         <a href="javascript:empty();" class="WF_ftL f-l">清空</a>
         <a href="javascript:;" id="confirmBet" class="WF_ftR f-r">确定</a>
         <h3 class="WF_ftTitle">已选：<span>0</span>注</h3>
     </div>
     <div class="mask" style="display: none;z-index:10001;"></div>
-
     <!--历史开奖号码-->
     <div class="WanFa_History">
         <table width="100%" border="0" class="WanFa_TableB">
@@ -1069,7 +1064,6 @@
             </thead>
             <tbody>
 
-
                 @foreach (LotteryRecord lr in ViewBag.lastFive)
                 {
 
@@ -1079,18 +1073,14 @@
                     <tr>
                         <td align="center" valign="middle">@desc</td>
                         <td align="center" valign="middle">
-
                             @foreach (string s in numArr)
                             {
                                 <span class="History_sp">@s</span>
                             }
-
                         </td>
                     </tr>
 
                 }
-
-
 
                 <tr>
                     <td colspan="2" align="center" valign="middle"><a href="/Record/OpenRecord/?lType=@ViewBag.lType" target="_blank" class="WanFa_TBbtn">点击查看更多开奖历史>></a></td>
@@ -1098,11 +1088,8 @@
             </tbody>
         </table>
     </div>
-
     @RenderPage("../Public/Tan.cshtml")
-
     <script type="text/javascript" src="/js/luo/play.js?20180425"></script>
-
     <script>
 
         $(function () {
@@ -1138,6 +1125,5 @@
 
     </script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

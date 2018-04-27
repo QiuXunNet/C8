@@ -407,7 +407,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="paytype">支付类型 1金币 2查看劵</param>
         /// <returns></returns>
         [Authentication]
-        public ActionResult LastPlay(int id, int uid, string playName,int paytype)
+        public ActionResult LastPlay(int id, int uid, string playName,int paytype=1)
         {
             var user = UserHelper.LoginUser;
 
@@ -430,7 +430,7 @@ namespace C8.Lottery.Portal.Controllers
                 };
             var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
             var lastBettingRecord = records.FirstOrDefault();
-
+         
             if (lastBettingRecord == null)
             {
                 Response.Redirect(redirectUrl, true);
@@ -532,11 +532,19 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             }
             else if(paytype==2)
             {
-                UserCoupon uc = GetUserCoupon(Convert.ToInt32(user.Id));
-                if (uc != null)
+                if (user.Id != uid)
                 {
-                    UpdateUserCoupon(lastBettingRecord.Id, uc.Id);
+                    UserCoupon uc = GetUserCoupon(Convert.ToInt32(user.Id));
+                    if (uc != null)
+                    {
+                        UpdateUserCoupon(lastBettingRecord.Id, uc.Id);
+                    }
+                    else
+                    {
+                        Response.Redirect(redirectUrl, true);
+                    }
                 }
+             
               
             }
           
