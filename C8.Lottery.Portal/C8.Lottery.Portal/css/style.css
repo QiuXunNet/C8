@@ -118,6 +118,36 @@ a {
 .HYJP_LhRed{background:url(../images/12_1.png) no-repeat !important; background-size:100% !important; color:#333 !important;}
 .HYJP_LhBlue{background:url(../images/12_2.png) no-repeat !important; background-size:100% !important; color:#333 !important;}
 .HYJP_LhGreen{background:url(../images/12_3.png) no-repeat !important; background-size:100% !important; color:#333 !important;}
+/*新闻广告 样式*/
+.NewsGuanGao{}
+.NewsGuanGao a{ display:block; line-height:19px;}
+.NewsGuanGao a b{ font-weight:normal; color:#999; font-size:12px; padding:0 5px; border:1px solid #999; border-radius:3px;}
+.NewsGuanGao a span{ font-size:12px; color:#999; margin-left:5px;}
+
+
+/*5种广告页面*/
+.GG_Box{padding:10px 0; border-top:1px solid #f3f4f4;}
+.GG_Box1{padding:0 10px;}
+.GG_Box a{ display:block; overflow:hidden;}
+.GG_B1Tit{ font-size:14px; color:#333; font-weight:normal;}
+.GG_BbtFont{ line-height:19px; margin-top:10px;}
+.GG_BbtFont b{ font-weight:normal; color:#999; font-size:12px; padding:0 5px; border:1px solid #999; border-radius:3px;}
+.GG_BbtFont span{ font-size:12px; color:#999; margin-left:5px;}
+
+.GG_B2Left{ width:70%;}
+.GG_B2Right{ margin-left:72%;}
+.GG_B2Right img{ display:block; width:100%;}
+
+.GG_B3Tu{ margin-top:10px;}
+.GG_B3Tu li{ float:left; width:30%; margin:0 1.6%;}
+.GG_B3Tu li img{ display:block; width:100%;}
+
+.GG_B4Tu{ margin-top:10px;}
+.GG_B4Tu img{ display:block; width:100%;}
+
+.GG_B5Tu{ height:35px; display:block; width:100%;}
+
+
 
 
 

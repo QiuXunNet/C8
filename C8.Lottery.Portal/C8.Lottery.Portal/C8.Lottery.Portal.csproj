@@ -169,6 +169,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="5种广告页面.html" />
     <Content Include="favicon.ico" />
     <Content Include="css\c8-icon.css" />
     <Content Include="css\Chat\base.css" />

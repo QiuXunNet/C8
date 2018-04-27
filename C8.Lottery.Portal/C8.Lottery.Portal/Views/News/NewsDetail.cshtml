@@ -2,7 +2,6 @@
 @using C8.Lottery.Portal.Models
 @using C8.Lottery.Public
 @model C8.Lottery.Model.News
-
 @{
     Layout = null;
     NewsType newsType = ViewBag.NewsType;
@@ -10,10 +9,8 @@
     List<News> recArticle = ViewBag.RecommendArticle;
     List<RankIntegralModel> RankIntegral = ViewBag.ListRankIntegral;
 }
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -26,20 +23,172 @@
     <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
     <script src="~/js/luo/jquery.emoji.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
-
     <script type="text/javascript" src="~/js/luo/hammer.min.js"></script>
     <script type="text/javascript" src="~/js/luo/picmax.js"></script>
+    <script>
+        $(function ()
+        {
+            var location=@newsType.Id;
+            getadlist(location);
+        });
+        function getadlist(location)
+        {
+            $.get("/News/GetAdvertisementListJson",
+                {
+                    location: location,
+                    adtype: 2
+                },
+               function (data)
+               {
+                   if (data.Success == true)
+                   {
+                       inadHtml(data.data);
+                       console.log(data.data);
+                   } else
+                   {
+                       alert("Data Loaded: " + data.Msg);
+                   }
+
+               });
+        }
+        function inadHtml(data)
+        {
+            $.each(data, function (index, item)
+            {
+                if(item.Layer==1)
+                {
+                    $(".article").prepend(itemhtml(item))
+                }else if(item.Layer==2)
+                {
+                    $(".article-tag").after(itemhtml(item))
+                }else if(item.Layer==3)
+                {
+                    $(".article-body").after(itemhtml(item))
+                }
+                else if(item.Layer==4)
+                {
+                    $(".article-share").after(itemhtml(item))
+                }
+                else if(item.Layer==5)
+                {
+                    $(".article-pager").after(itemhtml(item))
+                }
+                else if(item.Layer==6)
+                {
+                    $(".hjc_news_lhs").after(itemhtml(item))
+
+                } else if(item.Layer==7)
+                {
+                    $(".raking").after(itemhtml(item))
+                }
+            });
+        }
+        function itemhtml(item)
+        {
+            var html='';
+            if(item.ThumbStyle==0)
+            {
+                html='<div class="GG_Box">'
+	  +'<a href="'+item.TransferUrl+'">'
+    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+       + '<div class="GG_BbtFont">'
+        	+'<b>广告</b>'
+          +  '<span>'+item.Company+'</span>'
+       + '</div>'
+         +'</a>'
+            +'</div>'
+
+            }else if(item.ThumbStyle==1)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'">'
+                }
+
+
+                html='<div class="GG_Box">'
+	+'<a href="'+item.TransferUrl+'">'
+    	+'<div class="GG_B2Left f-l">'
+        	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+          +  '<div class="GG_BbtFont">'
+            +   ' <b>广告</b>'
+           +    ' <span>'+item.Company+'</span>'
+          +  '</div>'
+       + '</div>'
+    	+'<div class="GG_B2Right">'+img+'</div>'
+    +'</a>'
+    +'</div>'
+
+            }else if(item.ThumbStyle==2)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'">'
+                }
+                html='<div class="GG_Box">'
+	+'<a href="'+item.TransferUrl+'">'
+    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+       + '<div class="GG_B4Tu">'+img+'</div>'
+       + '<div class="GG_BbtFont">'
+      +  	'<b>广告</b>'
+      +      '<span>'+item.Company+'</span>'
+     +   '</div>'
+   + '</a>'
++'</div>'
+
+            }else if(item.ThumbStyle==3)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    for (var i = 0; i < item.ThumbList.length; i++)
+                    {
+                        img+='<li><img src="'+item.ThumbList[i]+'"></li>'
+                    }
+                }
+
+                html='<div class="GG_Box">'
+	+ '<a href="'+item.TransferUrl+'">'
+    	+ '<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+        + '<ul class="GG_B3Tu">'
+        	+img
+            + '<div style="clear:both;"></div>'
+        + '</ul>'
+
+        + '<div class="GG_BbtFont">'
+        	+ '<b>广告</b>'
+            + '<span>'+item.Company+'</span>'
+        + '</div>'
+    + '</a>'
++ '</div>'
+            }else if(item.ThumbStyle==4)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
+                }
+                html='  <div class="GG_Box">'
+               + ' <a href="javascript:;">'+img+'</a>'
+               + '   </div>'
+            }
+
+
+            return html;
+        }
+
+
+    </script>
 </head>
-
 <body style="background:#F4F4F5;">
-
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@(lottery.TypeName + "." + @newsType.TypeName)</a>
         @*<a href="javascript:showShare();" class="SX_A">分享</a>*@
         <a href="javascript::" class="ZX_Sidebar"></a>
     </header>
-
     <section class="article">
         <div class="article-title">@Model.FullHead</div>
         <div class="article-tag">
@@ -57,27 +206,23 @@
                         <p><img src="/images/63_1.png" alt="分享到微信好友" /></p>
                         <p>微信好友</p>
                     </a>
-
                 </dd>
                 <dd>
                     <a href="javascript:call('wechatTimeline');">
                         <p><img src="/images/63_2.png" alt="分享到朋友圈" /></p>
                         <p>朋友圈</p>
                     </a>
-
                 </dd>
                 <dd>
                     <a href="javascript:call('qqFriend');">
                         <p><img src="/images/63_3.png" alt="分享到QQ好友" /></p>
                         <p>QQ好友</p>
                     </a>
-
                 </dd>
             </dl>
             <div class="clearfix"></div>
         </div>
         <div class="article-pager">
-
             @if (ViewBag.Nextview != null)
             {
                 var nextview = ViewBag.Nextview as News;
@@ -86,7 +231,6 @@
                     <a href="/News/NewsDetail/@nextview.Id" title="@nextview.FullHead">下一篇：@nextview.FullHead</a>
                 </div>
             }
-
             @if (ViewBag.Preview != null)
             {
                 var preview = ViewBag.Preview as News;
@@ -96,18 +240,15 @@
             }
         </div>
     </section>
-
     @if (recArticle != null && recArticle.Count > 0)
     {
         <div class="hjc_news_lhs">
             <div class="hjc_news_title article-news-title">
                 <span class="hjc_news_title_info">推荐阅读</span>
             </div>
-
             @foreach (var article in recArticle)
             {
                 <div class="hjc_news_content">
-
                     @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
                     {
                         //无图
@@ -134,14 +275,12 @@
                                     <span>@article.CommentCount<i class="icon-comment"></i></span>
                                 </div>
                             </div>
-
                             <div class="hjc_news_right">
                                 @if (article.ThumbList.Count > 0)
                                 {
                                     <img src="@article.ThumbList[0]" alt="@article.FullHead" />
                                 }
                             </div>
-
                         </a>
                         <div class="clearfix"></div>
                     }
@@ -205,7 +344,6 @@
                     }
                 </div>
             }
-
         </div>
 
     }
@@ -214,7 +352,6 @@
         <div class="Ranking_Cinfo">
             <table width="100%" border="0" class="Ranking_table1">
                 <tbody>
-
                     @if (RankIntegral != null || RankIntegral.Count > 0)
                     {
                         foreach (var item in RankIntegral)
@@ -234,7 +371,6 @@
                                                 {
                                                     <img src="~/images/default_avater.png">
                                                 }
-
                                             </a>
                                         </div>
                                     </td>
@@ -276,14 +412,11 @@
                             }
                         }
                     }
-
                 </tbody>
             </table>
         </div>
     </div>
-
     @Html.Action("WonderfulComment", new { id = @Model.Id, type = 2 })
-
 
     <!--分享-->
     <div class="Gues_share">
@@ -315,7 +448,6 @@
             <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
         </div>
     </div>
-
     <!--侧边栏-->
     <div class="ZX_CLBox">
         <div class="CLB_YY"></div>
@@ -385,7 +517,6 @@
             </ul>
         </div>
     </div>
-
     <script src="~/js/kcp/NativeShare.js"></script>
     <script type="text/javascript">
         $(function () {
@@ -421,6 +552,5 @@
 
     </script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
