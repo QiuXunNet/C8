@@ -606,10 +606,10 @@ function initBetting(qiu, data) {
                 case '第一球大小':
                     qiuClone.gdkl10f.gdkl10f_q1.dx = item.BetNum;
                     break;
-                case '第一球尾单双':
+                case '第一球合单双':
                     qiuClone.gdkl10f.gdkl10f_q1.lastdan = item.BetNum;
                     break;
-                case '第一球合大小':
+                case '第一球尾大小':
                     qiuClone.gdkl10f.gdkl10f_q1.totaldx = item.BetNum;
                     break;
                 case '第一球龙虎':
