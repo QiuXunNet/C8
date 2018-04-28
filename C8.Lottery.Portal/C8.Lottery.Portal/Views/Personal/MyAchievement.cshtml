@@ -6,7 +6,6 @@
 }
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -253,7 +252,7 @@
                 var kjhtml1 = '';
                 var num = item.LotteryNum.Num.split(',');
                 var bethtml = '';
-                var cl1 = "hdM_ddcon";
+                var cl1 = "hdM_ddcon ";
                 if (item.BettingRecord.length > 0) {
                     for (var j = 0; j < item.BettingRecord.length; j++) {
 
@@ -328,10 +327,11 @@
                 kjhtml1 = '';
                 for (var i = 0; i < num.length; i++) {
 
-                    var cl = "hdM_spssc";
+                    var cl = "hdM_spssc HYJP_Red";
                     //   console.log(item.BettingRecord[i].lType);
 
-                    if (ltype == 5) {
+                    if (ltype == 5)
+                    {
                         cl1 = "Forecast_LHC";
                         var color = getcolor(num[i]);
 
@@ -346,15 +346,54 @@
                         }
                         //   kjhtml1 += '<span class="LHC_spA">' + num[i] + '</span>'
 
-                        if (i == num.length - 2) {
+                        if (i == num.length - 2)
+                        {
                             kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '+</span>'
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span><span>+</span>'
-                        } else {
+                        } else
+                        {
                             kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '</span>'
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
                         }
 
-                    } else {
+                    } else if (ltype == 2)
+                    {
+                        if (i == 6)
+                        {
+                            cl = "hdM_spssc HYJP_Blue";
+                            kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+
+                        } else
+                        {
+                            kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+                        }
+
+                    } else if (ltype == 4)
+                    {
+                        if (i == 7)
+                        {
+                            cl = "hdM_spssc HYJP_Blue";
+                            kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+
+                        } else
+                        {
+                            kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+                        }
+
+                    } else if (ltype == 8)
+                    {
+                        if (i == 5 || i == 6)
+                        {
+                            cl = "hdM_spssc HYJP_Blue";
+                            kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+
+                        } else
+                        {
+                            kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+                        }
+                    } else
+                   
+                    {
                         kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
                     }
 
@@ -481,17 +520,13 @@
 
 
     </script>
-
 </head>
 
-
 <body style="background:#F4F4F5;overflow-y:hidden;">
-
     <header class="hjc_header">
         <a href="/Personal/Index" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">我的成绩</a>
     </header>
-
     <!-- <div class="Grades_header">
         <div class="Grades_hdBox">
             <div class="Grades_hdBInfo" style="width:1100px;">  <!这里的宽度是根据下面的li来得的 下面有好多个li就乘以100>
@@ -513,11 +548,9 @@
         </div>
     </div> -->
     <div class="hjc_hdNav">
-
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-
                 @if (Model.LotteryType != null)
                 {
                     foreach (var item in Model.LotteryType)
@@ -535,10 +568,7 @@
                     }
                 }
 
-
-
                 <div style="clear:both;"></div>
-
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
@@ -547,7 +577,6 @@
                     <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
                 </div>*@
             <ul class="hdNav_cai">
-
                 @if (Model.LotteryType != null)
                 {
                     foreach (var item in Model.LotteryType)
@@ -562,14 +591,12 @@
                         }
                     }
                 }
-
                 <div style="clear:both;"></div>
             </ul>
         </div>
     </div>
     <div class="gaoshou" style="margin-top:85px;">
         <div class="GS_box" id="lottery_type">
-
 
             @if (Model.LotteryType != null)
             {
@@ -578,7 +605,6 @@
                     if (Model.LotteryType.IndexOf(item) == 0)
                     {
                         <ul id="ul_@item.Id" data-index="@item.Id" class="GS_nav">
-
                             @Html.Action("GetLottery", "Personal", new { ltype = Convert.ToInt32(item.Id) })
                         </ul>
                     }
@@ -593,15 +619,11 @@
                 }
 
             }
-
             <div style="clear:both;"></div>
         </div>
         <a href="javascript:;" class="GS_btn"><img src="~/images/50.png"></a>
     </div>
-
     <div class="wrapper-container">
-
-
 
 
         @if (Model.Lottery != null)
@@ -614,9 +636,7 @@
                 {
 
                     <div class="Grades Grades_@name">
-
                         @Html.Action("GetIntegralRule", "Personal", new { ltype = Convert.ToInt32(item.lType), Pid = item.PId })
-
 
                     </div>
                 }
@@ -625,7 +645,6 @@
                     <div class="Grades Grades_@name" style="display:none">
                         @Html.Action("GetIntegralRule", "Personal", new { ltype = Convert.ToInt32(item.lType), Pid = item.PId })
 
-
                     </div>
 
                 }
@@ -633,9 +652,7 @@
             }
         }
     </div>
-
     <div class="mask" style="display:none;"></div>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
