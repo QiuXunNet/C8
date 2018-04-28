@@ -346,6 +346,17 @@ namespace C8.Lottery.Public
             return Convert.ToInt32(ts3.TotalMinutes);
         }
 
+        /// <summary>
+        /// 获取大采种
+        /// </summary>
+        /// <returns></returns>
+        public static int GetLotterylType(int LotteryCode)
+        {
+            string strsql =string.Format("select lType from [dbo].[Lottery] where LotteryCode={0}",LotteryCode);
+            int ltype= Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
+            return ltype;
+        }
+
 
 
 

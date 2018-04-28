@@ -229,8 +229,21 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <returns></returns>
         public List<Advertisement> GetAdvertisementList(int location,int adtype)
         {
-            string strsql =string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and State in(0,1)
-            and charindex(',{0},',','+[Location]+',')>0 and AdType={1}",location,adtype);
+            string strsql = "";
+            if (location == -1)//针对6彩栏目
+            {
+                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and State in(0,1)
+                 and AdType={1}", location, adtype);
+
+            }
+            else
+            {
+                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and State in(0,1)
+            and charindex(',{0},',','+[Location]+',')>0 and AdType={1}", location, adtype);
+
+            }
+        
+
             List<Advertisement> list = Util.ReaderToList<Advertisement>(strsql);
             return list;
         }
@@ -248,6 +261,11 @@ WHERE rowNumber BETWEEN @Start AND @End";
             try
             {
                 List<Advertisement> list = GetAdvertisementList(location, adtype);
+                int adimgtype = (int)ResourceTypeEnum.广告图;
+                list.ForEach(j =>
+                {
+                    j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
+                });
                 msg.Success = true;
                 msg.data = list;
             }

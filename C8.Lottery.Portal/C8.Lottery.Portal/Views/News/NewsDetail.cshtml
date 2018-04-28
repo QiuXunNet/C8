@@ -76,10 +76,12 @@
                 else if(item.Layer==6)
                 {
                     $(".hjc_news_lhs").after(itemhtml(item))
+                    $(".GG_Box").addClass("GG_Box1")
 
                 } else if(item.Layer==7)
                 {
                     $(".raking").after(itemhtml(item))
+                    $(".GG_Box").addClass("GG_Box1")
                 }
             });
         }
@@ -88,7 +90,7 @@
             var html='';
             if(item.ThumbStyle==0)
             {
-                html='<div class="GG_Box">'
+                html='<div class="GG_Box ">'
 	  +'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
        + '<div class="GG_BbtFont">'

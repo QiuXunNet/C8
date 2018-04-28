@@ -126,8 +126,9 @@ a {
 
 
 /*5种广告页面*/
-.GG_Box{padding:10px 0; border-top:1px solid #f3f4f4;}
-.GG_Box1{padding:0 10px;}
+.GG_Box{padding:10px 0; border-top:1px solid #f3f4f4;background:#fff;}
+.GG_Box1{padding:10px;}
+.GG_Box2{border-bottom: 5px solid #f3f4f4;}
 .GG_Box a{ display:block; overflow:hidden;}
 .GG_B1Tit{ font-size:14px; color:#333; font-weight:normal;}
 .GG_BbtFont{ line-height:19px; margin-top:10px;}
@@ -5490,7 +5491,7 @@ a {
 .WanFa_History {
     display: none;
     position: fixed;
-    top: 155px;
+    top: 114px;
     left: 0;
     width: 100%;
     height: 100%;
