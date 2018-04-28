@@ -75,15 +75,15 @@ namespace C8.Lottery.Public
             if (client == null)
                 client = GetCurrentMemClient();
 
-            //string json = value
+            string json = value.ToJsonString();
 
             if (client.KeyExists(key))
             {
-                client.Replace(key, value, DateTime.Now.AddMinutes(minutes));
+                client.Replace(key, json, DateTime.Now.AddMinutes(minutes));
             }
             else
             {
-                client.Set(key, value, DateTime.Now.AddMinutes(minutes));
+                client.Set(key, json, DateTime.Now.AddMinutes(minutes));
             }
         }
 
@@ -93,7 +93,9 @@ namespace C8.Lottery.Public
                 client = GetCurrentMemClient();
             try
             {
-                return (T)client.Get(key);
+
+                string json = client.Get(key).ToString();
+                return json.FromJsonString<T>();
             }
             catch
             {
