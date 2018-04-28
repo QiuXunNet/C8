@@ -11,7 +11,6 @@
     var newsList = ViewBag.NewsList as List<News>;
 }
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -28,7 +27,7 @@
 </head>
 <body>
     <header class="hjc_header" style="text-align:left;">
-        <a href="javascript:;" class="home_logo"><img src="/images/03.png"></a>
+        <a href="javascript:;" class="home_logo"><img src="@(string.IsNullOrEmpty(site.LogoPath)?"/images/03.png":site.LogoPath)"></a>
         <div class="hjc_hdDZ">
             @if (user == null)
             {
@@ -40,10 +39,8 @@
                 <a href="/Personal/Index">Hi,@user.Name</a>
                 <a href="/Personal/logOut">退出</a>
             }
-
         </div>
     </header>
-
 
     <div class="hjc_hdNav">
         <ul class="hdNav_ul">
@@ -100,12 +97,10 @@
         <div class="hdNav_cai_collect" style="display: block;">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
                 }
-
                 <div style="clear:both;"></div>
             </ul>
         </div>
@@ -115,27 +110,21 @@
                     <span class="collect"><img src="/images/icon-collect.png" alt=""></span>
                 </div>*@
             <ul class="hdNav_cai">
-
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
                 {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
                 }
-
                 <div style="clear:both;"></div>
             </ul>
         </div>
-
     </div>
 
-
     <div class="hjc_indexmain" style="margin-top:265px;">
-
         @foreach (LotteryType2 lotteryType in ViewBag.list)
         {
             int[] lTypeArr = lotteryType.SonIdArr;
 
             <ul class="ind_mainUl2" style="display: none;">
-
 
                 @for (int j = 0; j < lTypeArr.Length; j++)
                 {
@@ -181,7 +170,6 @@
                             </div>
                             <div class="UL3_bdinfo2">
                                 <div class="ball_wrap">
-
 
                                     @if (lType <= 62 && lType != 5 && lType != 2 && lType != 8 && lType != 4)
                                     {
@@ -255,7 +243,7 @@
                                             if (x3 == 6)
                                             {
                                                 <span class="ball_spB ball_blue HYJP_PcHao">+</span>
-                                             
+
                                             }
                                             <span class="ball_spB ball_blue @ys">@s</span>
                                         }
@@ -302,7 +290,6 @@
                                         }
                                     }
 
-
                                 </div>
                                 <div class="UL3_ZZKJ">
                                     <p>正在开奖中...</p>
@@ -316,7 +303,6 @@
                                 <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
                                 <a href="/Plan/Post/@record.lType" class="UL2_baif3a">发帖</a>
                                 <a href="/Plan/Index/@record.lType?cur=2" class="UL2_baif3a">排行</a>
-
                                 <a href="/News/Index/@Tool.GetLotterylType(record.lType)" class="UL2_baif3a">资讯</a>
                                 <div style="clear: both;"></div>
                             </div>
@@ -327,11 +313,8 @@
                 }
 
 
-
-
             </ul>
         }
-
 
         <script>
             $(function () {
@@ -342,14 +325,10 @@
 
         </script>
 
-
     </div>
 
 
-
-
     <div class="mask" style="display: none;"></div>
-
     <div class="hjc_news_lhs">
         <div class="hjc_news_title" style="text-align:left;">
             <!-- <span class="icon-fire"></span> -->
@@ -361,7 +340,6 @@
             foreach (var newse in newsList)
             {
                 <div class="hjc_news_content">
-
                     @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
                     {
                         //无图
@@ -388,14 +366,12 @@
                                     <span>@newse.CommentCount<i class="icon-comment"></i></span>
                                 </div>
                             </div>
-
                             <div class="hjc_news_right">
                                 @if (newse.ThumbList.Count > 0)
                                 {
                                     <img src="@newse.ThumbList[0]" alt="@newse.FullHead" />
                                 }
                             </div>
-
                         </a>
                         <div class="clearfix"></div>
                     }
@@ -460,11 +436,8 @@
                 </div>
             }
         }
-
     </div>
-
     @Html.Partial("Footer")
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
