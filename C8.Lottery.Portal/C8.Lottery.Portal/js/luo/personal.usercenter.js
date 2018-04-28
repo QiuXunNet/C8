@@ -134,8 +134,11 @@ function buildHtml(data, tabtype,pageIndex) {
 
     var itemList = [];
     var listDom=$("#datalist"+tabtype);
-    if (tabtype == 0) {
+    if (tabtype == 0)
+    {
+     
         $.each(data, function (index, item) {
+         
             var itemHtml = '<dl class="Other_TIfDL">'
                 + '<dt><a href="javascript:;"><img src="/images/' + item.LogoIndex + '.png"></a></dt>'
                 + '<dd>';

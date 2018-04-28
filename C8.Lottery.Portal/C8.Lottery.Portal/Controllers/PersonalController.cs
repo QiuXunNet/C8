@@ -886,7 +886,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
 
                 string sql = string.Format(@"SELECT * FROM ( 
 	SELECT row_number() over(order by WinState,Issue DESC,lType ) as rowNumber,* FROM (
-		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState FROM [dbo].[BettingRecord]
+		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState,SubTime FROM [dbo].[BettingRecord]
 		WHERE UserId=@UserId{0}{1}
 		) t
 	) tt
