@@ -511,6 +511,8 @@
 
             initnews();
 
+            getadlist(id);
+
         });
 
         function calcNavScoll() {
@@ -568,6 +570,140 @@
                 }
             });
         }
+    
+    
+        function getadlist(location)
+        {
+            $.get("/News/GetAdvertisementListJson",
+                {
+                    location: location,
+                    adtype: 1
+                },
+               function (data)
+               {
+                   if (data.Success == true)
+                   {
+                       inadHtml(data.data);
+                       console.log(data.data);
+                   } else
+                   {
+                       alert("Data Loaded: " + data.Msg);
+                   }
+
+               });
+        }
+        function inadHtml(data)
+        {
+            $.each(data, function (index, item)
+            {
+                if(item.Layer==1)
+                {
+                    $(".Plan_content").prepend(itemhtml(item))
+                }else if(item.Layer==2)
+                {
+                    $(".CZ_hdMain").after(itemhtml(item))
+                }
+               
+            });
+        }
+        function itemhtml(item)
+        {
+            var html='';
+            if(item.ThumbStyle==0)
+            {
+                html='<div class="GG_Box ">'
+	  +'<a href="'+item.TransferUrl+'">'
+    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+       + '<div class="GG_BbtFont">'
+        	+'<b>广告</b>'
+          +  '<span>'+item.Company+'</span>'
+       + '</div>'
+         +'</a>'
+            +'</div>'
+
+            }else if(item.ThumbStyle==1)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'">'
+                }
+
+
+                html='<div class="GG_Box">'
+	+'<a href="'+item.TransferUrl+'">'
+    	+'<div class="GG_B2Left f-l">'
+        	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+          +  '<div class="GG_BbtFont">'
+            +   ' <b>广告</b>'
+           +    ' <span>'+item.Company+'</span>'
+          +  '</div>'
+       + '</div>'
+    	+'<div class="GG_B2Right">'+img+'</div>'
+    +'</a>'
+    +'</div>'
+
+            }else if(item.ThumbStyle==2)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'">'
+                }
+                html='<div class="GG_Box">'
+	+'<a href="'+item.TransferUrl+'">'
+    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+       + '<div class="GG_B4Tu">'+img+'</div>'
+       + '<div class="GG_BbtFont">'
+      +  	'<b>广告</b>'
+      +      '<span>'+item.Company+'</span>'
+     +   '</div>'
+   + '</a>'
++'</div>'
+
+            }else if(item.ThumbStyle==3)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    for (var i = 0; i < item.ThumbList.length; i++)
+                    {
+                        img+='<li><img src="'+item.ThumbList[i]+'"></li>'
+                    }
+                }
+
+                html='<div class="GG_Box">'
+	+ '<a href="'+item.TransferUrl+'">'
+    	+ '<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+        + '<ul class="GG_B3Tu">'
+        	+img
+            + '<div style="clear:both;"></div>'
+        + '</ul>'
+
+        + '<div class="GG_BbtFont">'
+        	+ '<b>广告</b>'
+            + '<span>'+item.Company+'</span>'
+        + '</div>'
+    + '</a>'
++ '</div>'
+            }else if(item.ThumbStyle==4)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
+                }
+                html='  <div class="GG_Box GG_Box1 GG_Box2">'
+               + ' <a href="javascript:;">'+img+'</a>'
+               + '   </div>'
+            }
+
+
+            return html;
+        }
+    
+    
+    
     </script>
 </body>
 @{Html.RenderAction("index", "PvUvIp");}

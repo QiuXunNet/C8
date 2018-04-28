@@ -127,26 +127,35 @@ a {
 
 /*5种广告页面*/
 .GG_Box{padding:10px 0; border-top:1px solid #f3f4f4;background:#fff;}
-.GG_Box1{padding:10px;}
+.GG_Box1{padding:3px 10px;}
 .GG_Box2{border-bottom: 5px solid #f3f4f4;}
 .GG_Box a{ display:block; overflow:hidden;}
-.GG_B1Tit{ font-size:14px; color:#333; font-weight:normal;margin-bottom:10px;}
+.GG_B1Tit{ font-size:.9375rem;max-height: 3.25rem;overflow: hidden; color:#333; font-weight:normal;margin-bottom:.5625rem;    line-height: 1.625rem;}
 .GG_BbtFont{ line-height:19px; margin-top:10px;}
 .GG_BbtFont b{ font-weight:normal; color:#999; font-size:12px; padding:0 5px; border:1px solid #999; border-radius:3px;}
 .GG_BbtFont span{ font-size:12px; color:#999; margin-left:5px;}
 
-.GG_B2Left{ width:70%;}
-.GG_B2Right{ margin-left:72%;}
-.GG_B2Right img{ display:block; width:100%;}
+.GG_B2Left{ width:69%;}
+.GG_B2Right{
+    width: 6.5625rem;
+    height: 4.6875rem;
+    float: right;}
+@media screen and (max-width:320px) {
+    .GG_B2Right{
+    width: 5.6rem;
+    height: 4rem;}
+}
+
+.GG_B2Right img{ display:block; width:100%;height:100%;}
 
 .GG_B3Tu{ margin-top:10px;}
 .GG_B3Tu li{ float:left; width:30%; margin:0 1.6%;}
 .GG_B3Tu li img{ display:block; width:100%;}
 
-.GG_B4Tu{ margin-top:10px;}
+.GG_B4Tu{ margin-top:10px;margin-bottom:10px;}
 .GG_B4Tu img{ display:block; width:100%;}
 
-.GG_B5Tu{ height:35px; display:block; width:100%;}
+.GG_B5Tu{ height:45px; display:block; width:100%;}
 
 
 /*开奖记录 期号2*/
@@ -7128,6 +7137,7 @@ a {
     color: #999;
     font-size: .8125rem;
     margin-right: 10px;
+    padding-left: 0 !important;
 }
 
      .newstime span i {
