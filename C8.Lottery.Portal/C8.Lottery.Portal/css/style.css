@@ -130,7 +130,7 @@ a {
 .GG_Box1{padding:10px;}
 .GG_Box2{border-bottom: 5px solid #f3f4f4;}
 .GG_Box a{ display:block; overflow:hidden;}
-.GG_B1Tit{ font-size:14px; color:#333; font-weight:normal;}
+.GG_B1Tit{ font-size:14px; color:#333; font-weight:normal;margin-bottom:10px;}
 .GG_BbtFont{ line-height:19px; margin-top:10px;}
 .GG_BbtFont b{ font-weight:normal; color:#999; font-size:12px; padding:0 5px; border:1px solid #999; border-radius:3px;}
 .GG_BbtFont span{ font-size:12px; color:#999; margin-left:5px;}
@@ -7124,13 +7124,13 @@ a {
         width: 50%;
     }
 
-.hjc_news_content .newstime span {
+ .newstime span {
     color: #999;
     font-size: .8125rem;
     margin-right: 10px;
 }
 
-    .hjc_news_content .newstime span i {
+     .newstime span i {
         margin-left: 5px;
     }
 
