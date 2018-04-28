@@ -22343,7 +22343,7 @@ namespace C8.Lottery.Public
             }
             else if (lType == 5)
             {
-                result = "六合彩";
+                result = "6彩";
             }
             else if (lType == 6)
             {
