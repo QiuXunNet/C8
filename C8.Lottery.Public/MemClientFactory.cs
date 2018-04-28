@@ -68,10 +68,15 @@ namespace C8.Lottery.Public
         }
 
 
-        public static void WriteCache<T>(string key,T value,int minutes=10) where T:class
+        public static void WriteCache<T>(string key, T value, int minutes = 10) where T : class
         {
+            if (value == null) return;
+
             if (client == null)
                 client = GetCurrentMemClient();
+
+            //string json = value
+
             if (client.KeyExists(key))
             {
                 client.Replace(key, value, DateTime.Now.AddMinutes(minutes));
@@ -88,7 +93,7 @@ namespace C8.Lottery.Public
                 client = GetCurrentMemClient();
             try
             {
-                return (T) client.Get(key);
+                return (T)client.Get(key);
             }
             catch
             {
