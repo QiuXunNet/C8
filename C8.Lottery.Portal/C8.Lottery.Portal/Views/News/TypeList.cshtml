@@ -253,7 +253,10 @@
     <script type="text/javascript">
         var url = "@socketUrl/LhcHandler.ashx";
         var ws;
-        $(function () {
+        $(function ()
+        {
+            var location=-1;
+            getadlist(location);
             if ("@ViewBag.time" == "正在开奖") {
 
                 ws = new WebSocket(url);
@@ -278,6 +281,132 @@
 
             //}
         });
+        //广告位
+        function getadlist(location) {
+            $.get("/News/GetAdvertisementListJson",
+                {
+                    location: location,
+                    adtype: 3
+                },
+               function (data) {
+                   if (data.Success == true) {
+                       inadHtml(data.data);
+                       console.log(data.data);
+                   } else {
+                       alert("Data Loaded: " + data.Msg);
+                   }
+
+               });
+        }
+        function inadHtml(data) {
+            $.each(data, function (index, item) {
+                if (item.Layer == 1) {
+                    $(".Plan_content").prepend(itemhtml(item))
+                } else if (item.Layer == 2) {
+                    $(".Plan_content").after(itemhtml(item))
+                } else if (item.Layer == 3) {
+                    $(".info_LHC_nav").after(itemhtml(item))
+                }
+                else if (item.Layer == 4) {
+                    $(".col4").after(itemhtml(item))
+                }
+                else if (item.Layer == 5) {
+                    $(".col3").after(itemhtml(item))
+                }
+                else if (item.Layer == 6) {
+                    //$(".hjc_news_lhs").after(itemhtml(item))
+                    //$(".GG_Box").addClass("GG_Box1")
+
+                } else if (item.Layer == 7) {
+                    //$(".raking").after(itemhtml(item))
+                    //$(".GG_Box").addClass("GG_Box1")
+                }
+            });
+        }
+        function itemhtml(item) {
+            var html = '';
+            if (item.ThumbStyle == 0) {
+                html = '<div class="GG_Box  GG_Box1 GG_Box2">'
+	  + '<a href="' + item.TransferUrl + '">'
+    	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+       + '<div class="GG_BbtFont">'
+        	+ '<b>广告</b>'
+          + '<span>' + item.Company + '</span>'
+       + '</div>'
+         + '</a>'
+            + '</div>'
+
+            } else if (item.ThumbStyle == 1) {
+                var img = '';
+                if (item.ThumbList != null && item.ThumbList.length > 0) {
+                    img = '<img src="' + item.ThumbList[0] + '">'
+                }
+
+
+                html = '<div class="GG_Box GG_Box1">'
+	+ '<a href="' + item.TransferUrl + '">'
+    	+ '<div class="GG_B2Left f-l">'
+        	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+          + '<div class="GG_BbtFont">'
+            + ' <b>广告</b>'
+           + ' <span>' + item.Company + '</span>'
+          + '</div>'
+       + '</div>'
+    	+ '<div class="GG_B2Right">' + img + '</div>'
+    + '</a>'
+    + '</div>'
+
+            } else if (item.ThumbStyle == 2) {
+                var img = '';
+                if (item.ThumbList != null && item.ThumbList.length > 0) {
+                    img = '<img src="' + item.ThumbList[0] + '">'
+                }
+                html = '<div class="GG_Box GG_Box1">'
+	+ '<a href="' + item.TransferUrl + '">'
+    	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+       + '<div class="GG_B4Tu">' + img + '</div>'
+       + '<div class="GG_BbtFont">'
+      + '<b>广告</b>'
+      + '<span>' + item.Company + '</span>'
+     + '</div>'
+   + '</a>'
++ '</div>'
+
+            } else if (item.ThumbStyle == 3) {
+                var img = '';
+                if (item.ThumbList != null && item.ThumbList.length > 0) {
+                    for (var i = 0; i < item.ThumbList.length; i++) {
+                        img += '<li><img src="' + item.ThumbList[i] + '"></li>'
+                    }
+                }
+
+                html = '<div class="GG_Box GG_Box1">'
+	+ '<a href="' + item.TransferUrl + '">'
+    	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+        + '<ul class="GG_B3Tu">'
+        	+ img
+            + '<div style="clear:both;"></div>'
+        + '</ul>'
+
+        + '<div class="GG_BbtFont">'
+        	+ '<b>广告</b>'
+            + '<span>' + item.Company + '</span>'
+        + '</div>'
+    + '</a>'
++ '</div>'
+            } else if (item.ThumbStyle == 4) {
+                var img = '';
+                if (item.ThumbList != null && item.ThumbList.length > 0) {
+                    img = '<img src="' + item.ThumbList[0] + '"  class="GG_B5Tu">'
+                }
+                html = '  <div class="GG_Box GG_Box1">'
+               + ' <a href="javascript:;">' + img + '</a>'
+               + '   </div>'
+            }
+
+
+            return html;
+        }
 
         //链接成功回调
         function wsOnopen() {

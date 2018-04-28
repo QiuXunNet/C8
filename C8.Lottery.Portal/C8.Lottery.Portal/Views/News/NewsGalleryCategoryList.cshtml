@@ -6,7 +6,7 @@
 @{
     var typeList = ViewBag.TypeList as List<GalleryType>;
     var otherTypeList = ViewBag.OtherTypeList as List<GalleryType>;
-
+    var adList = ViewBag.AdList as List<Advertisement>;
     IEnumerable<IGrouping<string, GalleryType>> dictType = null;
 
     IEnumerable<string> letterList = null;
@@ -18,7 +18,6 @@
     }
 
 }
-
 <!--显示点击的是哪一个字母-->
 <div id="showLetter" class="showLetter iconfont"><span>A</span></div>
 <!--索引查询-->
@@ -29,12 +28,12 @@
         {
             foreach (var item in letterList)
             {
-                <li><a href="javascript:;" data-id="@item">@item</a></li>
+        <li><a href="javascript:;" data-id="@item">@item</a></li>
             }
         }
         @if (otherTypeList != null && otherTypeList.Count > 0)
         {
-            <li><a href="javascript:;" data-id="other">#</a></li>
+        <li><a href="javascript:;" data-id="other">#</a></li>
         }
     </ul>
 </div>
@@ -50,7 +49,6 @@
                 <li class="subscript-container">
                     <div class="subscript">推荐</div>
                     <a href="/News/Gallery/@gallery.Id">
-
                         <img src="@gallery.Picture" alt="" />
                     </a>
                 </li>
@@ -60,21 +58,376 @@
     </ul>
 </div>
 <div class="gallery-search">
-
     <input id="searchinput" name="keyword" type="search" class="iconfont" placeholder="&#xe901;搜索" />
-
 </div>
 <div class="container">
     <div class="gallery box">
         @if (typeList != null)
         {
+            int i = 0;
             foreach (var dict in dictType)
             {
+                i++;
                 if (dict.Any())
                 {
-                    <div class="gallery-list">
-                        <span class="gallery-letter" id='@string.Format("{0}1", @dict.Key)'>@dict.Key</span>
 
+                    <div class="gallery-list">
+                       @if (adList != null)
+                        {
+                        foreach (var ad in adList)
+                        {
+
+                        if (ad.Layer == 3 && i == 1)
+                        {
+                        <div class="GG_Box  GG_Box1 GG_Box2">
+                            @if (ad.ThumbList.Count < 1 || ad.ThumbStyle == 0)
+                            {
+                                //无图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 1)
+                            {
+                                //一张小图
+                                <a href="@ad.TransferUrl">
+                                    <div class="GG_B2Left f-l">
+                                        <h3 class="GG_B1Tit">@ad.Title</h3>
+                                        <div class="GG_BbtFont">
+                                            <b>广告</b>
+                                            <span>@ad.Company</span>
+                                        </div>
+                                    </div>
+                                    <div class="GG_B2Right">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 2)
+                            {
+                                //一张大图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_B4Tu">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 3)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <ul class="GG_B3Tu">
+                                        @foreach (var thumb in ad.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@ad.Title" /></li>
+                                        }
+
+                                        <div style="clear:both;"></div>
+                                    </ul>
+
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 4)
+                            {
+                                //纯图广告
+                                <a href="@ad.TransferUrl">
+                                    @if (ad.ThumbList.Count > 0)
+                                    {
+                                        <img src="@ad.ThumbList[0]" class="GG_B5Tu">
+                                    }
+
+                                </a>
+
+                            }
+
+                        </div>
+
+                        }
+                        else if (ad.Layer == 4 && i == 2)
+                        {
+
+                        <div class="GG_Box GG_Box1 GG_Box2">
+                            @if (ad.ThumbList.Count < 1 || ad.ThumbStyle == 0)
+                            {
+                                //无图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 1)
+                            {
+                                //一张小图
+                                <a href="@ad.TransferUrl">
+                                    <div class="GG_B2Left f-l">
+                                        <h3 class="GG_B1Tit">@ad.Title</h3>
+                                        <div class="GG_BbtFont">
+                                            <b>广告</b>
+                                            <span>@ad.Company</span>
+                                        </div>
+                                    </div>
+                                    <div class="GG_B2Right">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 2)
+                            {
+                                //一张大图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_B4Tu">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 3)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <ul class="GG_B3Tu">
+                                        @foreach (var thumb in ad.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@ad.Title" /></li>
+                                        }
+
+                                        <div style="clear:both;"></div>
+                                    </ul>
+
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 4)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    @if (ad.ThumbList.Count > 0)
+                                    {
+                                        <img src="@ad.ThumbList[0]" class="GG_B5Tu">
+                                    }
+
+                                </a>
+
+                            }
+
+                        </div>
+
+
+                        }
+                        else if (ad.Layer == 5 && i == 3)
+                        {
+                        <div class="GG_Box GG_Box1 GG_Box2">
+                            @if (ad.ThumbList.Count < 1 || ad.ThumbStyle == 0)
+                            {
+                                //无图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 1)
+                            {
+                                //一张小图
+                                <a href="@ad.TransferUrl">
+                                    <div class="GG_B2Left f-l">
+                                        <h3 class="GG_B1Tit">@ad.Title</h3>
+                                        <div class="GG_BbtFont">
+                                            <b>广告</b>
+                                            <span>@ad.Company</span>
+                                        </div>
+                                    </div>
+                                    <div class="GG_B2Right">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 2)
+                            {
+                                //一张大图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_B4Tu">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 3)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <ul class="GG_B3Tu">
+                                        @foreach (var thumb in ad.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@ad.Title" /></li>
+                                        }
+
+                                        <div style="clear:both;"></div>
+                                    </ul>
+
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 4)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    @if (ad.ThumbList.Count > 0)
+                                    {
+                                        <img src="@ad.ThumbList[0]" class="GG_B5Tu">
+                                    }
+
+                                </a>
+
+                            }
+
+                        </div>
+                        }
+                        else if (ad.Layer == 6 && i == 4)
+                        {
+
+                        <div class="GG_Box GG_Box1 GG_Box2">
+                            @if (ad.ThumbList.Count < 1 || ad.ThumbStyle == 0)
+                            {
+                                //无图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 1)
+                            {
+                                //一张小图
+                                <a href="@ad.TransferUrl">
+                                    <div class="GG_B2Left f-l">
+                                        <h3 class="GG_B1Tit">@ad.Title</h3>
+                                        <div class="GG_BbtFont">
+                                            <b>广告</b>
+                                            <span>@ad.Company</span>
+                                        </div>
+                                    </div>
+                                    <div class="GG_B2Right">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 2)
+                            {
+                                //一张大图
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <div class="GG_B4Tu">
+                                        @if (ad.ThumbList.Count > 0)
+                                        {
+                                            <img src="@ad.ThumbList[0]" alt="@ad.Title" />
+                                        }
+
+                                    </div>
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 3)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    <h3 class="GG_B1Tit">@ad.Title</h3>
+                                    <ul class="GG_B3Tu">
+                                        @foreach (var thumb in ad.ThumbList)
+                                        {
+                                            <li><img src="@thumb" alt="@ad.Title" /></li>
+                                        }
+
+                                        <div style="clear:both;"></div>
+                                    </ul>
+
+                                    <div class="GG_BbtFont">
+                                        <b>广告</b>
+                                        <span>@ad.Company</span>
+                                    </div>
+                                </a>
+                            }
+                            else if (ad.ThumbStyle == 4)
+                            {
+                                <a href="@ad.TransferUrl">
+                                    @if (ad.ThumbList.Count > 0)
+                                    {
+                                        <img src="@ad.ThumbList[0]" class="GG_B5Tu">
+                                    }
+
+                                </a>
+
+                            }
+
+                        </div>
+                        }
+
+                        }
+                        }
+
+                        <span class="gallery-letter" id='@string.Format("{0}1", @dict.Key)'>@dict.Key</span>
                         @foreach (var m in dict)
                         {
 
@@ -91,7 +444,6 @@
 
             }
         }
-
         @if (otherTypeList != null && otherTypeList.Count > 0)
         {
             <div class="gallery-list">
@@ -110,5 +462,4 @@
         }
     </div>
 </div>
-
 @{Html.RenderAction("index", "PvUvIp");}

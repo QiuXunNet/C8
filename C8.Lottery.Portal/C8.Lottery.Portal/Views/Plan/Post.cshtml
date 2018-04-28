@@ -27,34 +27,6 @@
         <a href="/Plan/Rule/@ViewBag.lType" class="SX_A">规则</a>
     </header>
     <div class="WanFa_header">
-        <div class="WanFa_hdInfo1">
-            <h3>@Html.Raw(ViewBag.issueDesc)</h3>
-            @*<p>距离开奖时间<span>23:40:30</span></p>*@
-            <p class="hdM_ddtime f-r">
-                下期开奖：
-
-                @if (ViewBag.time == "正在开奖")
-                {
-                    <span id="openTime">正在开奖</span>
-                }
-                else
-                {
-                    if (lType < 9)
-                    {
-                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                    }
-                    else
-                    {
-                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                    }
-
-                }
-            </p>
-
-
-
-            <div style="clear:both;"></div>
-        </div>
         <div class="WanFa_hdInfo2">
             <i class="WF_hdIF2Icpon"></i>
             <p class="WF_hdIf2L">@ViewBag.lastIssueDesc</p>
@@ -119,7 +91,7 @@
                         }
                         else if (lType == 4)
                         {
-                            if (i == 5 || i==6)
+                            if (i == 5 || i == 6)
                             {
                                 <span class="WF_spA WF_spAhWU HYJP_Blue">@s</span>
                             }
@@ -140,6 +112,35 @@
 
             </div>
         </div>
+        <div class="WanFa_hdInfo1">
+            <h3>@Html.Raw(ViewBag.issueDesc)</h3>
+            @*<p>距离开奖时间<span>23:40:30</span></p>*@
+            <p class="hdM_ddtime f-r">
+                距离开奖：
+
+                @if (ViewBag.time == "正在开奖")
+                {
+                    <span id="openTime">正在开奖</span>
+                }
+                else
+                {
+                    if (lType < 9)
+                    {
+                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                    }
+                    else
+                    {
+                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
+                    }
+
+                }
+            </p>
+
+
+
+            <div style="clear:both;"></div>
+        </div>
+     
     </div>
     <div id="WanFa_content" class="WanFa_content">
         @if (lType == 1)
