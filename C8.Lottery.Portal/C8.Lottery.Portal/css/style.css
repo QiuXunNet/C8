@@ -641,13 +641,13 @@ left: 0;
 }
 
     .UL2_bd .UL3_bdinfo1 {
-        height: 30px;
+        height: 25px;
     }
 
 .UL3_bdinfo1 p {
     font-size: 14px;
     color: #646464;
-    line-height: 30px;
+    line-height: 25px;
 }
 
     .UL3_bdinfo1 p font {
@@ -659,11 +659,11 @@ left: 0;
     }
 
 .UL2_bd .UL3_bdinfo2 {
-    height: 28px;
+
 }
 
 .UL3_bdinfo2 .ball_wrap {
-    height: 28px;
+ 
 }
 
     .UL3_bdinfo2 .ball_wrap .ball_spA {
@@ -693,11 +693,11 @@ left: 0;
 
 .UL3_bdinfo3 .UL2_baif3a {
     display: inline-block;
-    height: 28px;
-    line-height: 28px;
+    height: 20px;
+    line-height:20px;
     font-size: 14px;
     color: #646464;
-    padding: 0 7px;
+    padding: 0 5px;
     border: 1px solid #d9d9d9;
     margin:0 3px 5px 0;
     border-radius: 4px;
@@ -7045,11 +7045,11 @@ left: 0;
     }
 
 .UL2_hd a {
-    padding: 10px 10px;
+    padding: 5px 10px;
 }
 
 .UL2_bd {
-    padding: 5px 10px 5px 10px;
+    padding: 5px 10px 0px 10px;
 }
 
 .UL3_bdinfo3 .UL2_baif3a {
