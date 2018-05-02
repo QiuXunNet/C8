@@ -642,6 +642,7 @@ from Comment a
 
             ViewBag.ArticleId = id;
             ViewBag.Type = type;//1=计划 2=文章
+            ViewBag.RefUid = refUid;
 
             //查询新闻/文章 总评论数量
             int commentTotalCount = 0;

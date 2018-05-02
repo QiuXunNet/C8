@@ -37,7 +37,7 @@ namespace C8.Lottery.Portal.Controllers
         protected IList<LotteryType> GetLotteryTypeList()
         {
 
-            var list = MemClientFactory.GetCache<IList<LotteryType>>("base_lottery_type");
+            IList<LotteryType> list = MemClientFactory.GetCache<IList<LotteryType>>("base_lottery_type");
             if (list == null)
             {
                 list = Util.GetEntityAll<LotteryType>().OrderBy(x => x.SortCode).ToList();
@@ -59,7 +59,7 @@ namespace C8.Lottery.Portal.Controllers
         protected IList<NewsType> GetNewsTypeList(long ltype, int layer = 1)
         {
             string memKey = "base_news_type_" + ltype;
-            var list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
+            IList<NewsType> list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
 
             if (list != null && list.Any()) return list;
 
