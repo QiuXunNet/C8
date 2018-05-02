@@ -1,16 +1,13 @@
 ﻿@using C8.Lottery.Public
 @using C8.Lottery.Model
-
 @{
     Layout = null;
     string queryDate = ViewBag.queryDate;
-    
+
     string desc = @ViewBag.currentDate + "开奖记录";
     int lType = ViewBag.lType;
 }
-
 <!DOCTYPE html>
-
 
 <html>
 <head>
@@ -21,52 +18,67 @@
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/function.js"></script>
 </head>
-
 <body style="background: #F4F4F5;">
-
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">开奖记录</a>
-
         @if (lType >= 9)
         {
             string[] dateArr = queryDate.Split(',');
 
-            <div class="Plan_QiHao">
-                <p class="QiHao_tit">@ViewBag.currentDate</p>
-                <div class="QiHao_text">
-                    <i class="QiHao_Ticon"></i>
-                    <ul class="QiHao_Nav" id="queryDate">
+            @*<div class="Plan_QiHao">
+                    <p class="QiHao_tit">@ViewBag.currentDate</p>
+                    <div class="QiHao_text">
+                        <i class="QiHao_Ticon"></i>
+                        <ul class="QiHao_Nav" id="queryDate">
 
-                        @{
-                            foreach (string s in dateArr)
-                            {
-                                <li>@s</li>
+                            @{
+                                foreach (string s in dateArr)
+                                {
+                                    <li>@s</li>
+                                }
                             }
+
+                        </ul>
+                    </div>
+                </div>*@
+
+
+
+            <div class="Plan_QiHaoTwo">
+                <select class="QHT_Set" id="queryDate">
+
+                    @{
+                        foreach (string s in dateArr)
+                        {
+                            if (s == ViewBag.currentDate)
+                            {
+                                <option selected>@s</option>
+                            }
+                            else
+                            {
+                                <option>@s</option>
+                            }
+
                         }
+                    }
 
-                    </ul>
-                </div>
+                </select>
             </div>
-        }
+     }
     </header>
-
-
 
 
     <div class="KJ_header">
         <h3>@desc</h3>
     </div>
 
-
     <div class="KJ_text">
-
         @foreach (LotteryRecord record in ViewBag.list)
         {
             string[] numArr = record.Num.Split(',');
 
             <dl class="KJ_Tinfo">
-
                 @if (lType == 10 || lType == 63 || lType == 65)
                 {
                     <dt>@record.ShowIssue</dt>
@@ -75,10 +87,8 @@
                 {
                     <dt>@ViewBag.date @record.ShowIssue</dt>
                 }
-
                 <dd>
                     <div class="KJ_TH">
-
                         @if (lType == 63 || lType == 64)
                         {
                             foreach (string s in numArr)
@@ -120,6 +130,79 @@
                             }
 
                         }
+                        else if (lType == 2)
+                        {
+                            int x = -1;
+                            foreach (string s in numArr)
+                            {
+                                x++;
+
+
+                                if (x == 6)
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="TH_sp TH_spHong  HYJP_Red">@s</span>
+                                }
+
+                            }
+                        }
+                        else if (lType == 4)
+                        {
+                            int x1 = -1;
+                            foreach (string s in numArr)
+                            {
+                                x1++;
+
+
+                                if (x1 == 5 || x1 == 6)
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Red">@s</span>
+                                }
+
+                            }
+
+                        }
+                        else if (lType == 8)
+                        {
+                            int x2 = -1;
+                            foreach (string s in numArr)
+                            {
+                                x2++;
+
+
+                                if (x2 == 7)
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Red">@s</span>
+                                }
+                            }
+
+                        }
+                        else if (lType == 65)
+                        {
+                            int a = int.Parse(numArr[0]);
+                            int b = int.Parse(numArr[1]);
+                            int c = int.Parse(numArr[2]);
+                            int sum = a + b + c;
+
+                            <span class="TH_sp TH_spHong HYJP_Red">@numArr[0]</span>
+                                   <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
+                                        <span class="TH_sp TH_spHong HYJP_Red">@numArr[1]</span>
+                                        <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
+                                        <span class="TH_sp TH_spHong HYJP_Red">@numArr[2]</span>
+                                        <span class="TH_sp TH_spHong HYJP_PcHao">=</span>
+                                        <span class="TH_sp TH_spHong HYJP_Red">@sum</span>
+                        }
                         else
                         {
                             foreach (string s in numArr)
@@ -128,11 +211,7 @@
                             }
                         }
 
-
-
                     </div>
-
-
 
                     @if (lType == 5)
                     {
@@ -141,7 +220,6 @@
 
 
                         <div class="KJ_TH">
-
                             @foreach (string s in shengxiaoArr)
                             {
                                 count8++;
@@ -157,20 +235,14 @@
 
                     }
 
-
                 </dd>
             </dl>
 
         }
 
 
-
-
     </div>
 
-
-
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

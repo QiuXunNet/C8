@@ -66,7 +66,7 @@
         <header class="hjc_header">
             <a href="javascript:history.go(-1);" class="hjc_back"></a>
             <a href="javascript:;" class="hjc_logo hjc_HeaderXL">@Model.TypeName<span class="select_sign"></span></a>
-            <a href="/Home/Index" class="hjc_home_right"></a>
+            <a href="javascript:;" class="ZX_Sidebar"></a>
         </header>
         <div class="hjc_hdNav fixed" style="display: none">
             <div class="hdNav_cai_expand">
@@ -429,6 +429,115 @@
         </script>
     }
 
+
+
+    <!--侧边栏-->
+    <div class="ZX_CLBox">
+        <div class="CLB_YY"></div>
+        <div class="CLB_con">
+            <ul class="CLB_cNav">
+                <!--cNav_current-->
+                <li>
+                    <a href="/Home/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_1.png"></dt>
+                            <dd>
+                                <p>首页</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Open">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_2.png"></dt>
+                            <dd>
+                                <p>开奖</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                @*<li>
+                        <a href="JavaScript:;">
+                            <dl class="cNav_Dl">
+                                <dt><img src="/images/w6_4.png"></dt>
+                                <dd>
+                                    <p>走势</p>
+                                    <img src="/images/w7.png">
+                                    <div style="clear:both;"></div>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>*@
+                <li>
+                    <a href="/Home/Plan">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_3.png"></dt>
+                            <dd>
+                                <p>计划</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_04.png"></dt>
+                            <dd>
+                                <p>排行</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Talking/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_5.png"></dt>
+                            <dd>
+                                <p>聊天</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Expert">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_06.png"></dt>
+                            <dd>
+                                <p>高手</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/News/Index/2">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_07.png"></dt>
+                            <dd>
+                                <p>资讯</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
     <script type="text/javascript">
         var dropload;
         var id = @currentNewsTypeId,
@@ -438,6 +547,8 @@
             calcNavScoll();
 
             initnews();
+
+            getadlist(id);
 
         });
 
@@ -496,6 +607,140 @@
                 }
             });
         }
+    
+    
+        function getadlist(location)
+        {
+            $.get("/News/GetAdvertisementListJson",
+                {
+                    location: location,
+                    adtype: 1
+                },
+               function (data)
+               {
+                   if (data.Success == true)
+                   {
+                       inadHtml(data.data);
+                       console.log(data.data);
+                   } else
+                   {
+                       alert("Data Loaded: " + data.Msg);
+                   }
+
+               });
+        }
+        function inadHtml(data)
+        {
+            $.each(data, function (index, item)
+            {
+                if(item.Layer==1)
+                {
+                    $(".Plan_content").prepend(itemhtml(item))
+                }else if(item.Layer==2)
+                {
+                    $(".CZ_hdMain").after(itemhtml(item))
+                }
+               
+            });
+        }
+        function itemhtml(item)
+        {
+            var html='';
+            if(item.ThumbStyle==0)
+            {
+                html='<div class="GG_Box ">'
+	  +'<a href="'+item.TransferUrl+'">'
+    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+       + '<div class="GG_BbtFont">'
+        	+'<b>广告</b>'
+          +  '<span>'+item.Company+'</span>'
+       + '</div>'
+         +'</a>'
+            +'</div>'
+
+            }else if(item.ThumbStyle==1)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'">'
+                }
+
+
+                html='<div class="GG_Box">'
+	+'<a href="'+item.TransferUrl+'">'
+    	+'<div class="GG_B2Left f-l">'
+        	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+          +  '<div class="GG_BbtFont">'
+            +   ' <b>广告</b>'
+           +    ' <span>'+item.Company+'</span>'
+          +  '</div>'
+       + '</div>'
+    	+'<div class="GG_B2Right">'+img+'</div>'
+    +'</a>'
+    +'</div>'
+
+            }else if(item.ThumbStyle==2)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'">'
+                }
+                html='<div class="GG_Box">'
+	+'<a href="'+item.TransferUrl+'">'
+    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+       + '<div class="GG_B4Tu">'+img+'</div>'
+       + '<div class="GG_BbtFont">'
+      +  	'<b>广告</b>'
+      +      '<span>'+item.Company+'</span>'
+     +   '</div>'
+   + '</a>'
++'</div>'
+
+            }else if(item.ThumbStyle==3)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    for (var i = 0; i < item.ThumbList.length; i++)
+                    {
+                        img+='<li><img src="'+item.ThumbList[i]+'"></li>'
+                    }
+                }
+
+                html='<div class="GG_Box">'
+	+ '<a href="'+item.TransferUrl+'">'
+    	+ '<h3 class="GG_B1Tit">'+item.Title+'</h3>'
+        + '<ul class="GG_B3Tu">'
+        	+img
+            + '<div style="clear:both;"></div>'
+        + '</ul>'
+
+        + '<div class="GG_BbtFont">'
+        	+ '<b>广告</b>'
+            + '<span>'+item.Company+'</span>'
+        + '</div>'
+    + '</a>'
++ '</div>'
+            }else if(item.ThumbStyle==4)
+            {
+                var img='';
+                if(item.ThumbList!=null && item.ThumbList.length>0)
+                {
+                    img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
+                }
+                html='  <div class="GG_Box GG_Box1 GG_Box2">'
+               + ' <a href="'+item.TransferUrl+'">'+img+'</a>'
+               + '   </div>'
+            }
+
+
+            return html;
+        }
+    
+    
+    
     </script>
 </body>
 @{Html.RenderAction("index", "PvUvIp");}

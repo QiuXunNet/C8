@@ -265,6 +265,7 @@ Order by CommentCount desc";
                                             UserInfo invite = GetByid(inviteid);
                                             if (invite != null)
                                             {
+                                                hufen(data, inviteid);//邀请注册默认互粉
                                                 int mynum = GetNum(3);
                                                 AddCoin(data, mynum);//受邀自己得3级奖励
                                                                      //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
@@ -335,6 +336,29 @@ Order by CommentCount desc";
             }
 
             return Json(jsonmsg);
+        }
+        /// <summary>
+        /// 邀请注册互粉
+        /// </summary>
+        public void hufen(long userId,long followuid)
+        {
+            string strsql = @"insert into [dbo].[Follow]([UserId],[Followed_UserId],[FollowTime])
+                              values(@UserId,@Followed_UserId,getdate());
+                              insert into [dbo].[Follow]([UserId],[Followed_UserId],[FollowTime])
+                              values(@Followed_UserId,@UserId,getdate());";
+            try
+            {
+                SqlParameter[] sp = new SqlParameter[] {
+                    new SqlParameter("@UserId",userId),
+                    new SqlParameter("@Followed_UserId",followuid)
+                };
+                SqlHelper.ExecuteTransaction(strsql, sp);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>

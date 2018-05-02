@@ -391,9 +391,27 @@
                         {
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
                         }
-                    } else
-                   
+                    } else if (ltype == 63 || ltype==64)
                     {
+                        cl = "SaiChe_Text SaiChe_TA" + num[i];
+                        kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
+
+                    } else if (ltype == 65)
+                    {
+                        var a = Number(num[0]);
+                        var b = Number(num[1]);
+                        var c = Number(num[2]);
+                        var sum = a + b + c;
+                        kjhtml += '<span class="hdM_spssc HYJP_Red">' + num[0] + '</span>';
+                        kjhtml += '<span class="hdM_spssc HYJP_PcHao ">+</span>';
+                        kjhtml += '<span class="hdM_spssc HYJP_Red">' + num[1] + '</span>';
+                        kjhtml += '<span class="hdM_spssc HYJP_PcHao ">+</span>';
+                        kjhtml += '<span class="hdM_spssc HYJP_Red">' + num[2] + '</span>';
+                        kjhtml += '<span class="hdM_spssc HYJP_PcHao ">=</span>';
+                        kjhtml += '<span class="hdM_spssc HYJP_Red">' + sum + '</span>';
+                        break;
+
+                    } else {
                         kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
                     }
 

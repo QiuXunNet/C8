@@ -569,32 +569,94 @@
                         console.log(getcolor("06"));
                         console.log(num[i]);
                         var cl = "hdM_spssc";
-                        if (item.BettingRecord.ltype == 6)
+                        var lt=@lType;
+                        if (lt ==5)
                         {
                             var color = getcolor(num[i]);
 
                             if (color == "red") {
-                                cl = "hdM_spliu hdM_spliured";
+                                cl = "LHC_spB HYJP_LhRed";
                             }
                             else if (color == "green") {
-                                cl = "hdM_spliu hdM_spliugreen";
+                                cl = "LHC_spB HYJP_LhGreen";
                             }
                             else {
-                                cl = "hdM_spliu hdM_spliublue";
+                                cl = "LHC_spB HYJP_LhBlue";
                             }
+
+                            if(i==5)
+                            {
+                                kjhtml1 += '<span class="' + cl + '">' + num[i] + '</span>';
+                                kjhtml1 += '<span class="LHC_spB HYJP_PcHao ">+</span>';
+                            }else
+                            {
+                                kjhtml1 += '<span class="' + cl + '">' + num[i] + '</span>';
+                            }
+                        }else if(lt==2)
+                        {
+                            if(i==6)
+                            {
+                                kjhtml1 += '<span class="LHC_spB HYJP_Blue">' + num[i] + '</span>';
+                            }else
+                            {
+                                kjhtml1 += '<span class="LHC_spB">' + num[i] + '</span>';
+                            }
+
+                        }else if(lt==63 || lt==64)
+                        {
+                            cl= " SaiChe_Text SaiChe_TA"+num[i];
+                           kjhtml1 += '<span class="' + cl + '">' + num[i] + '</span>';
+                        }else if(lt==8)
+                        {
+                            if(i==7)
+                            {
+                                kjhtml1 += '<span class="LHC_spB HYJP_Blue">' + num[i] + '</span>';
+                            }else
+                            {
+                                kjhtml1 += '<span class="LHC_spB">' + num[i] + '</span>';
+                            }
+                        }else if(lt==4)
+                        {
+                            if(i==5 || i==6)
+                            {
+                                kjhtml1 += '<span class="LHC_spB HYJP_Blue">' + num[i] + '</span>';
+                            }else
+                            {
+                                kjhtml1 += '<span class="LHC_spB">' + num[i] + '</span>';
+                            }
+                        }else if(lt==65)
+                        {
+                            var a=Number(num[0]);
+                            var b=Number(num[1]);
+                            var c=Number(num[2]);
+                            var sum=a+b+c;
+                            kjhtml1 += '<span class="LHC_spB">' + num[0] + '</span>';
+                            kjhtml1 += '<span class="LHC_spB HYJP_PcHao ">+</span>';
+                            kjhtml1 += '<span class="LHC_spB">' + num[1] + '</span>';
+                            kjhtml1 += '<span class="LHC_spB HYJP_PcHao ">+</span>';
+                            kjhtml1 += '<span class="LHC_spB">' + num[2] + '</span>';
+                            kjhtml1 += '<span class="LHC_spB HYJP_PcHao ">=</span>';
+                            kjhtml1 += '<span class="LHC_spB">' + sum + '</span>';
+                            break;
                         }
 
-                        kjhtml += '<span class="' + cl + '">' + num[i] + '</span>';
+                        else
+                        {
+                            kjhtml1 += '<span class="LHC_spB">' + num[i] + '</span>';
+                        }
 
-                        kjhtml1 += '<span class="LHC_spB">' + num[i] + '</span>';
+
+
+
                     }
                     var itemHtml = '<table class="Forecast_tableA" width="100%" bordercolor="#ccc" border="1"> <tr>'
                         + ' <td align="center" valign="middle"> <p class="Forecast_Ptit">' + item.LotteryNum.Issue + '期</p>'
                         + '    <p class="Forecast_Ptit">' + item.LotteryNum.SubTime + '</p> </td>'
                         + ' <td colspan="2" align="left" valign="middle">';
-                    if (item.lType == 5) {
-                        itemHtml += '<div class="hdM_ddcon">' + kjhtml + '</div>';
-                    }
+                    //if (item.lType == 5)
+                    //{
+                    //    itemHtml += '<div class="hdM_ddcon">' + kjhtml + '</div>';
+                    //}
                     itemHtml += '<div class="Forecast_LHC">' + kjhtml1 + '</div>  </td></tr>'
                         + bethtml + '   </table>';
                     itemList.push(itemHtml);
@@ -814,7 +876,7 @@
                 {
                     if (readCoin > 0 && !isRead)
                     {
-                      
+
                         //$(".C8_TCpopupA").show();
                         $(".c8_TCpopupZf").show();
                         $(".mask").show();

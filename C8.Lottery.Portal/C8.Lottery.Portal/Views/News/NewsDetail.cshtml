@@ -173,7 +173,7 @@
                     img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
                 }
                 html='  <div class="GG_Box">'
-               + ' <a href="javascript:;">'+img+'</a>'
+               + ' <a href="' + item.TransferUrl + '">'+img+'</a>'
                + '   </div>'
             }
 
@@ -189,7 +189,7 @@
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">@(lottery.TypeName + "." + @newsType.TypeName)</a>
         @*<a href="javascript:showShare();" class="SX_A">分享</a>*@
-        <a href="javascript::" class="ZX_Sidebar"></a>
+        <a href="javascript:;" class="ZX_Sidebar"></a>
     </header>
     <section class="article">
         <div class="article-title">@Model.FullHead</div>
@@ -459,10 +459,10 @@
                 <li>
                     <a href="/Home/Index">
                         <dl class="cNav_Dl">
-                            <dt><img src="~/images/w6_1.png"></dt>
+                            <dt><img src="/images/w6_1.png"></dt>
                             <dd>
                                 <p>首页</p>
-                                <img src="~/images/w7.png">
+                                <img src="/images/w7.png">
                                 <div style="clear:both;"></div>
                             </dd>
                         </dl>
@@ -471,34 +471,46 @@
                 <li>
                     <a href="/Home/Open">
                         <dl class="cNav_Dl">
-                            <dt><img src="~/images/w6_2.png"></dt>
+                            <dt><img src="/images/w6_2.png"></dt>
                             <dd>
                                 <p>开奖</p>
-                                <img src="~/images/w7.png">
+                                <img src="/images/w7.png">
                                 <div style="clear:both;"></div>
                             </dd>
                         </dl>
                     </a>
                 </li>
-                <li>
-                    <a href="JavaScript:;">
-                        <dl class="cNav_Dl">
-                            <dt><img src="~/images/w6_3.png"></dt>
-                            <dd>
-                                <p>走势</p>
-                                <img src="~/images/w7.png">
-                                <div style="clear:both;"></div>
-                            </dd>
-                        </dl>
-                    </a>
-                </li>
+                @*<li>
+                <a href="JavaScript:;">
+                    <dl class="cNav_Dl">
+                        <dt><img src="/images/w6_4.png"></dt>
+                        <dd>
+                            <p>走势</p>
+                            <img src="/images/w7.png">
+                            <div style="clear:both;"></div>
+                        </dd>
+                    </dl>
+                </a>
+            </li>*@
                 <li>
                     <a href="/Home/Plan">
                         <dl class="cNav_Dl">
-                            <dt><img src="~/images/w6_4.png"></dt>
+                            <dt><img src="/images/w6_3.png"></dt>
                             <dd>
                                 <p>计划</p>
-                                <img src="~/images/w7.png">
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_04.png"></dt>
+                            <dd>
+                                <p>排行</p>
+                                <img src="/images/w7.png">
                                 <div style="clear:both;"></div>
                             </dd>
                         </dl>
@@ -507,15 +519,40 @@
                 <li>
                     <a href="/Talking/Index">
                         <dl class="cNav_Dl">
-                            <dt><img src="~/images/w6_5.png"></dt>
+                            <dt><img src="/images/w6_5.png"></dt>
                             <dd>
                                 <p>聊天</p>
-                                <img src="~/images/w7.png">
+                                <img src="/images/w7.png">
                                 <div style="clear:both;"></div>
                             </dd>
                         </dl>
                     </a>
                 </li>
+                <li>
+                    <a href="/List/Expert">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_06.png"></dt>
+                            <dd>
+                                <p>高手</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/News/Index/2">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_07.png"></dt>
+                            <dd>
+                                <p>资讯</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>

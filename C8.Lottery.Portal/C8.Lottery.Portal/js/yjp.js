@@ -1,6 +1,33 @@
 // JavaScript Document
 
 $(function () {
+    /*首页滑动*/
+    //$(window).scroll(function (event) {
+    //    var val = $(document).scrollTop();
+    //    if (val > 131) {
+    //        $(".hjc_CZQieBox").addClass("hjc_CZQieBoxDing");
+    //        $(".hjc_indexmain").addClass("M-T");
+    //    }
+    //    if (val < 131) {
+    //        $(".hjc_CZQieBox").removeClass("hjc_CZQieBoxDing");
+    //        $(".hjc_indexmain").removeClass("M-T");
+    //    }
+    //});
+
+    window.addEventListener('scroll', function () {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if (scrollTop > 131) {
+            $(".hjc_CZQieBox").addClass("hjc_CZQieBoxDing");
+            $(".hjc_indexmain").addClass("M-T");
+        }
+        if (scrollTop < 131) {
+            $(".hjc_CZQieBox").removeClass("hjc_CZQieBoxDing");
+            $(".hjc_indexmain").removeClass("M-T");
+        }
+    });
+
+
+
 
     /*我的卡券*/
     $(".My_KJHeader li").click(function () {

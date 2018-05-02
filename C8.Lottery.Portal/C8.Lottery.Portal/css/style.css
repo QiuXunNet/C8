@@ -127,26 +127,48 @@ a {
 
 /*5种广告页面*/
 .GG_Box{padding:10px 0; border-top:1px solid #f3f4f4;background:#fff;}
-.GG_Box1{padding:10px;}
+.GG_Box1{padding:3px 10px;}
 .GG_Box2{border-bottom: 5px solid #f3f4f4;}
 .GG_Box a{ display:block; overflow:hidden;}
-.GG_B1Tit{ font-size:14px; color:#333; font-weight:normal;}
+.GG_B1Tit{ font-size:.9375rem;max-height: 3.25rem;overflow: hidden; color:#333; font-weight:normal;margin-bottom:.5625rem;    line-height: 1.625rem;}
 .GG_BbtFont{ line-height:19px; margin-top:10px;}
 .GG_BbtFont b{ font-weight:normal; color:#999; font-size:12px; padding:0 5px; border:1px solid #999; border-radius:3px;}
 .GG_BbtFont span{ font-size:12px; color:#999; margin-left:5px;}
 
-.GG_B2Left{ width:70%;}
-.GG_B2Right{ margin-left:72%;}
-.GG_B2Right img{ display:block; width:100%;}
+.GG_B2Left{ width:69%;}
+.GG_B2Right{
+    width: 6.5625rem;
+    height: 4.6875rem;
+    float: right;}
+@media screen and (max-width:320px) {
+    .GG_B2Right{
+    width: 5.6rem;
+    height: 4rem;}
+}
+
+.GG_B2Right img{ display:block; width:100%;height:100%;}
 
 .GG_B3Tu{ margin-top:10px;}
 .GG_B3Tu li{ float:left; width:30%; margin:0 1.6%;}
 .GG_B3Tu li img{ display:block; width:100%;}
 
-.GG_B4Tu{ margin-top:10px;}
+.GG_B4Tu{ margin-top:10px;margin-bottom:10px;}
 .GG_B4Tu img{ display:block; width:100%;}
 
-.GG_B5Tu{ height:35px; display:block; width:100%;}
+.GG_B5Tu{ height:45px; display:block; width:100%;}
+
+
+/*开奖记录 期号2*/
+.Plan_QiHaoTwo{ position: absolute;top: 13px;right: 10px;cursor: pointer;}
+.QHT_Set{padding: 0 21px 0 11px;height: 24px;border: 1px solid #fff;border-radius: 2px; font-size:12px; background:url(../images/67_5.png) no-repeat 57px center; background-size:10px; color:#fff;appearance:none;  -moz-appearance:none;  -webkit-appearance:none;}
+.QHT_Set option{ background:#f13131; font-size:12px; color:#fff;}
+
+/*首页彩种切换*/
+.hjc_CZQieBox{ width:100%; background:#fff;}
+.hjc_CZQieBoxDing{ position:fixed; top:50px; left:0; z-index:9999;}
+.M-T{ margin-top:36px;}
+
+
 
 
 
@@ -259,16 +281,17 @@ a {
     }
 
 .hjc_hdNav {
-    position: fixed;
-    top: 50px;
-    left: 0;
     width: 100%;
+position: fixed;
+top: 50px;
+left: 0;
     background: #fff;
     z-index: 9999;
     border-bottom: 1px solid #e8e8e8;
 }
 
 .hdNav_ul {
+    padding:5px 0;
 }
 
     .hdNav_ul li {
@@ -284,7 +307,7 @@ a {
         .hdNav_ul li a {
             display: block;
             width: 100%;
-            padding: 12px 0;
+            padding: 2px 0;
         }
 
         .hdNav_ul li i {
@@ -339,7 +362,7 @@ a {
         }
 
 .hjc_indexmain {
-    margin-top: 254px;
+   
 }
 
 .ind_mainUl {
@@ -4481,7 +4504,7 @@ a {
 
 .Search_Box {
     height: 36px;
-    margin: 7px 10px;
+    margin: 7px 10px 7px 50px;
 }
 
 .Search_Bqx {
@@ -6920,12 +6943,12 @@ a {
         }
 
         .hdNav_ul li i {
-            width: 2.34375rem;
-            height: 2.34375rem;
+            width:30px;
+            height:30px;
         }
 
 .hjc_indexmain {
-    margin-top: 16.375rem;
+   
 }
 
 .hdNav_cai_expand .hdNav_cai_title {
@@ -7114,13 +7137,14 @@ a {
         width: 50%;
     }
 
-.hjc_news_content .newstime span {
+ .newstime span {
     color: #999;
     font-size: .8125rem;
     margin-right: 10px;
+    padding-left: 0 !important;
 }
 
-    .hjc_news_content .newstime span i {
+     .newstime span i {
         margin-left: 5px;
     }
 
@@ -8751,6 +8775,22 @@ footer {
 .zfC_XZ .current .XZ_Dl dd .XZ_Qtu .Qtu_B{ display:block;}
 .zfC_Que{ height:40px; margin:10px; border-radius:5px; background:#e21717;}
 .zfC_Que a{ display:block; text-align:center; color:#fff; font-size:14px; height:40px; line-height:40px;}
+
+
+
+/*赛车样式*/
+.SaiChe_Text{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;font-size:12px;color:#fff;margin:2px 5px 2px 0;border-radius:2px;text-shadow:#555 1px 0 0, #555 0 1px 0, #555 -1px 0 0, #555 0 -1px 0;-webkit-text-shadow:#555 1px 0 0, #555 0 1px 0, #555 -1px 0 0, #555 0 -1px 0;-moz-text-shadow:#555 1px 0 0, #555 0 1px 0, #555 -1px 0 0, #555 0 -1px 0;font-weight:bolder;font-style:italic;}
+.SaiChe_TA1{background:#FFCC00 !important;}
+.SaiChe_TA2{background:#0089ff !important;}
+.SaiChe_TA3{background:#4d4d4d !important;}
+.SaiChe_TA4{background:#ff7300 !important;}
+.SaiChe_TA5{background:#3399CC !important;}
+.SaiChe_TA6{background:#5200ff !important;}
+.SaiChe_TA7{background:#bbb !important;}
+.SaiChe_TA8{background:#ff0000 !important;}
+.SaiChe_TA9{background:#760000 !important;}
+.SaiChe_TA10{background:#28c200 !important;}
+
 
 
 

@@ -25,6 +25,7 @@ namespace C8.Lottery.Model
         private string _company;
         private string _where;
         private string _transferurl;
+        private int _commentsnumber = 0;
         public List<string> ThumbList { get; set; }
         /// <summary>
         /// 
@@ -129,6 +130,19 @@ namespace C8.Lottery.Model
         {
             set { _transferurl = value; }
             get { return _transferurl; }
+        }
+        /// <summary>
+        /// 评论数量
+        /// </summary>
+        public int CommentsNumber
+        {
+            set { _commentsnumber = value; }
+            get { return _commentsnumber; }
+        }
+
+        public string TimeStr
+        {
+            get { return SubTime.ToString("MM-dd HH:mm"); }
         }
         #endregion Model
 
