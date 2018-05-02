@@ -12,6 +12,10 @@ namespace C8.Lottery.Portal.Models
         /// </summary>
         public long Id { get; set; }
         /// <summary>
+        /// 关联评论用户Id
+        /// </summary>
+        public int RefUserId { get; set; }
+        /// <summary>
         /// 操作类型 1=评论 2=回复
         /// </summary>
         public int OperateType { get; set; }

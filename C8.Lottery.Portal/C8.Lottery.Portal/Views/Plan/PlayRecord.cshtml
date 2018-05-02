@@ -185,7 +185,7 @@
     </div>
 
 
-    @Html.Action("WonderfulComment", "News", new { id = @Model.Id, type = 1 })
+    @Html.Action("WonderfulComment", "News", new { id = @lType, type = 1, refUid = @Model.Id })
 
     @*<div class="Gues_expert">
             <h3 class="Expert_title">已有<font>10025</font>人分享该专家</h3>
