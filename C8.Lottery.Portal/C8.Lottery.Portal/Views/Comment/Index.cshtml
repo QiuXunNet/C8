@@ -3,9 +3,7 @@
     Layout = null;
 }
 @model C8.Lottery.Portal.Models.CommentViewModel
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -14,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
     <link href="~/css/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
     <link href="~/css/jquery.emoji.css" rel="stylesheet" />
-
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
     <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
@@ -23,15 +20,12 @@
     <script src="~/js/luo/jquery.emoji.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
-
 <body style="overflow: hidden">
-
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">发表评论</a>
         <a href="javascript:publish();" class="SX_A">发表</a>
     </header>
-
     <div class="Comment_Box">
         <div class="Comment_Btar">
             @if (Model.OperateType == 1)
@@ -49,14 +43,12 @@
                 <div style="clear:both;"></div>
             </ul>*@
     </div>
-
     <div class="Comment_footer">
         @*<button id="btnEmoji">aaaaa</button>*@
         <button id="btnEmoji" class="Com_FtA emoji-button"></button>
         @*<a href="javascript:;" id="btnEmojia" class="Com_FtA"><img src="/images/53_1.png"></a>*@
         @*<a href="javascript:;" class="Com_FtA"><img src="/images/53_2.png"></a>*@
     </div>
-
     <script type="text/javascript">
 
         $(function() {
@@ -75,7 +67,8 @@
                 id: @Model.Id,
                 ctype: @Model.OperateType,
                 type: @Model.CommentType,
-                    content:content
+                content:content,
+                refUid:@Model.RefUserId
                 }, function(result) {
                     if (result) {
                         if (result.Code === 401) {
@@ -95,6 +88,5 @@
         }
     </script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

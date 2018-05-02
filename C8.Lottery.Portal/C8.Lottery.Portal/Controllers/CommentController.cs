@@ -20,13 +20,15 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="id">文章/计划Id或评论Id</param>
         /// <param name="ctype">评论操作类型 1=一级评论 2=回复</param>
         /// <param name="type"></param>
+        /// <param name="refUid">相关评论用户Id</param>
         /// <returns></returns>
-        public ActionResult Index(int id, int ctype, int type = 2)
+        public ActionResult Index(int id, int ctype, int type = 2, int refUid = 0)
         {
             var model = new CommentViewModel();
             model.Id = id;
             model.CommentType = type;
             model.OperateType = ctype;
+            model.RefUserId = refUid;
 
             if (ctype == 2)
             {
@@ -50,8 +52,9 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="ctype">发表评论操作类型（1=一级评论 2=回复）</param>
         /// <param name="content">评论内容</param>
         /// <param name="type">评论类型 1=计划 2=文章</param>
+        /// <param name="refUid">计划相关用户Id</param>
         /// <returns></returns>
-        public ActionResult Publish(int id, int ctype, string content, int type = 2)
+        public ActionResult Publish(int id, int ctype, string content, int type = 2, int refUid = 0)
         {
             var result = new AjaxResult();
 
@@ -81,10 +84,12 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == 1)
                 {
                     //查询计划
-                    var model = Util.GetEntityById<BettingRecord>(id);
-                    if (model == null) return Json(new AjaxResult(400, "计划已不存在或已删除"));
+                    //id为彩种Id。对计划评论为用户在该彩种的评论
 
-                    refId = model.Id;
+                    //var model = Util.GetEntityById<BettingRecord>(id);
+                    //if (model == null) return Json(new AjaxResult(400, "计划已不存在或已删除"));
+
+                    refId = id;
                     //refCommentId=
                 }
                 else if (type == 2)
@@ -107,6 +112,7 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     //第N级回复，则关联评论Id=上一级评论关联Id
                     refCommentId = model.RefCommentId;
+                    refUid = model.UserId;
                 }
                 else
                 {
@@ -120,23 +126,23 @@ namespace C8.Lottery.Portal.Controllers
 
             #region step3.评论内容过滤
 
-      
+
 
             //去Html标签
             content = WebHelper.NoHtml(content);
             //脏字过滤
             content = WebHelper.FilterSensitiveWords(content);
             #endregion
-            
+
 
             try
             {
                 #region step4.添加评论
                 string sql = @"INSERT INTO [dbo].[Comment]
            ([PId],[UserId],[Content],[SubTime],[Type],[ArticleId]
-           ,[StarCount],[IsDeleted],[RefCommentId])
+           ,[StarCount],[IsDeleted],[RefCommentId],[ArticleUserId])
      VALUES(@PId,@UserId,@Content,GETDATE()
-           ,@Type,@ArticleId,0,0,@RefCommentId);";
+           ,@Type,@ArticleId,0,0,@RefCommentId,@ArticleUserId);";
 
                 SqlParameter[] parameters ={
                 new SqlParameter("@PID",pid),
@@ -145,6 +151,7 @@ namespace C8.Lottery.Portal.Controllers
                 new SqlParameter("@Type",type),
                 new SqlParameter("@ArticleId",refId),
                 new SqlParameter("@RefCommentId",refCommentId),
+                new SqlParameter("@ArticleUserId",refUid),
               };
                 int row = SqlHelper.ExecuteNonQuery(sql, parameters);
                 if (row <= 0)
