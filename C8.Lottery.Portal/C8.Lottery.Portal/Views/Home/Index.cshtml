@@ -42,7 +42,7 @@
         </div>
     </header>
 
-    <div class="hjc_hdNav">
+    <div class="" style="margin-top:50px;">
         <ul class="hdNav_ul">
             <li>
                 <a href="/Home/Open">
@@ -94,32 +94,36 @@
             </li>
             <div style="clear:both;"></div>
         </ul>
+
+      
+    </div>
+    <div class="hjc_CZQieBox">
         <div class="hdNav_cai_collect" style="display: block;">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
-                {
+            {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
                 }
                 <div style="clear:both;"></div>
             </ul>
         </div>
-        <div class="hdNav_cai_expand" style="display: none;">
-            @*<div class="hdNav_cai_title">
-                    <span>切换分类</span>
-                    <span class="collect"><img src="/images/icon-collect.png" alt=""></span>
-                </div>*@
+        <div class="hdNav_cai_expand" style="border-bottom: 1px solid rgb(238, 238, 238); display: none;">
+
             <ul class="hdNav_cai">
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
-                {
+            {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
                 }
                 <div style="clear:both;"></div>
             </ul>
         </div>
+
     </div>
 
-    <div class="hjc_indexmain" style="margin-top:265px;">
+
+
+    <div class="hjc_indexmain" >
         @foreach (LotteryType2 lotteryType in ViewBag.list)
         {
             int[] lTypeArr = lotteryType.SonIdArr;
@@ -328,7 +332,7 @@
     </div>
 
 
-    <div class="mask" style="display: none;"></div>
+
     <div class="hjc_news_lhs">
         <div class="hjc_news_title" style="text-align:left;">
             <!-- <span class="icon-fire"></span> -->
