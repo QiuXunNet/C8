@@ -130,6 +130,79 @@
                             }
 
                         }
+                        else if (lType == 2)
+                        {
+                            int x = -1;
+                            foreach (string s in numArr)
+                            {
+                                x++;
+
+
+                                if (x == 6)
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="TH_sp TH_spHong  HYJP_Red">@s</span>
+                                }
+
+                            }
+                        }
+                        else if (lType == 4)
+                        {
+                            int x1 = -1;
+                            foreach (string s in numArr)
+                            {
+                                x1++;
+
+
+                                if (x1 == 5 || x1 == 6)
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Red">@s</span>
+                                }
+
+                            }
+
+                        }
+                        else if (lType == 8)
+                        {
+                            int x2 = -1;
+                            foreach (string s in numArr)
+                            {
+                                x2++;
+
+
+                                if (x2 == 7)
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Blue">@s</span>
+                                }
+                                else
+                                {
+                                    <span class="TH_sp TH_spHong HYJP_Red">@s</span>
+                                }
+                            }
+
+                        }
+                        else if (lType == 65)
+                        {
+                            int a = int.Parse(numArr[0]);
+                            int b = int.Parse(numArr[1]);
+                            int c = int.Parse(numArr[2]);
+                            int sum = a + b + c;
+
+                            <span class="TH_sp TH_spHong HYJP_Red">@numArr[0]</span>
+                                   <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
+                                        <span class="TH_sp TH_spHong HYJP_Red">@numArr[1]</span>
+                                        <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
+                                        <span class="TH_sp TH_spHong HYJP_Red">@numArr[2]</span>
+                                        <span class="TH_sp TH_spHong HYJP_PcHao">=</span>
+                                        <span class="TH_sp TH_spHong HYJP_Red">@sum</span>
+                        }
                         else
                         {
                             foreach (string s in numArr)
