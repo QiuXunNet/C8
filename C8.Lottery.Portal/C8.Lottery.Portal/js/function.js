@@ -26,7 +26,7 @@ $(function () {
 
 
 function BindqueryDateLiClick() {
-    $('#queryDate').live('change', function () {
+    $('#queryDate').bind('change', function () {
         //var date = $(this).find("option:selected").text();
         var date = $(this).val();
    
