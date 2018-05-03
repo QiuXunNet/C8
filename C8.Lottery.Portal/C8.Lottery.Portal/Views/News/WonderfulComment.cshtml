@@ -67,7 +67,7 @@
                         @if (comment.ReplayCount > 0)
                         {
                             <div class="comp_replay">
-                                <a href="/News/CommentDetail/@comment.Id">查看全部<span>@comment.ReplayCount</span>条回复>></a>
+                                <a href="/News/CommentDetail/@comment.Id?type=@ViewBag.Type">查看全部<span>@comment.ReplayCount</span>条回复>></a>
                             </div>
                         }
                     </li>

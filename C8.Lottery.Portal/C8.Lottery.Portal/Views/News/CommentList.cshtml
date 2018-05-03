@@ -1,14 +1,10 @@
 ﻿@{
     Layout = null;
 }
-
 @using C8.Lottery.Model
 @model List<Comment>
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -24,15 +20,11 @@
     <script src="~/js/luo/jquery.emoji.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 </head>
-
 <body style="background:#F4F4F5;">
-
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">评论</a>
     </header>
-
-
 
     @if (Model != null && Model.Count > 0)
     {
@@ -77,11 +69,10 @@
                                 </a>
                                 <a href="/Comment/Index/@comment.Id?ctype=2&type=@ViewBag.Type" class="comp_HF"><img src="/images/46_3.png"></a>
                             </div>
-
                             @if (comment.ReplayCount > 0)
                             {
                                 <div class="comp_replay">
-                                    <a href="/News/CommentDetail/@comment.Id">查看全部<span>@comment.ReplayCount</span>条回复>></a>
+                                    <a href="/News/CommentDetail/@comment.Id?type=@ViewBag.Type">查看全部<span>@comment.ReplayCount</span>条回复>></a>
                                 </div>
                             }
                         </li>
@@ -91,7 +82,6 @@
             </div>
         </div>
     }
-
     <div class="Gues_comment">
         <div class="Gues_comTitle">
             <h3>最新评论<span id="totalCount"></span></h3>
@@ -102,7 +92,6 @@
             <ol class="Gues_ol"></ol>
         </div>
     </div>
-
     <div class="Gues_footer">
         <div class="Gues_ftTB f-r">
             <a href="javascript:;" class="ftTB_A">
@@ -113,7 +102,6 @@
         </div>
         <a href="/Comment/Index/@ViewBag.ArticleId?ctype=1&type=@ViewBag.Type" class="Gues_ftFBPL">请输入您的评论</a>
     </div>
-
 
     <!--分享-->
     <div class="Gues_share">
@@ -145,7 +133,6 @@
             <a href="javascript:hideShare();" class="Del_Share">取消分享</a>
         </div>
     </div>
-
     <script type="text/javascript">
         var id=@ViewBag.ArticleId,
             ctype=@ViewBag.Type;
@@ -171,8 +158,9 @@
                             id: id,
                             type: ctype,
                             pageIndex: pageIndex,
-                            pageSize: pageSize
-                        },
+                            pageSize: pageSize,
+                            refUid:@ViewBag.RefUid
+                            },
                         dataType: 'json',
                         success: function(res) {
                             if (res.Data.TotalCount < 1) {
@@ -230,7 +218,7 @@
                     + '</a>'
                     + '<a href="/Comment/Index/' + value.Id + '?ctype=2&type=' + ctype + '" class="comp_HF"><img src="/images/46_3.png"></a>'
                     + '</div>'
-                    + (value.ReplayCount > 0 ? '<div class="comp_replay"><a href="/News/CommentDetail/' + value.Id + '">查看全部<span>' + value.ReplayCount + '</span>条回复>></a></div>' : '')
+                    + (value.ReplayCount > 0 ? '<div class="comp_replay"><a href="/News/CommentDetail/' + value.Id + '?type='+value.Type+'">查看全部<span>' + value.ReplayCount + '</span>条回复>></a></div>' : '')
                     + '</li>';
                 li = $.stringParseEmoji(li);
                 html.push(li);
@@ -242,6 +230,5 @@
 
     </script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

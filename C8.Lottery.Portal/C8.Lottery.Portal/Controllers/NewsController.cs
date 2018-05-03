@@ -642,6 +642,7 @@ from Comment a
 
             ViewBag.ArticleId = id;
             ViewBag.Type = type;//1=计划 2=文章
+            ViewBag.RefUid = refUid;
 
             //查询新闻/文章 总评论数量
             int commentTotalCount = 0;
@@ -757,7 +758,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
 
             if (!list.Any())
             {
-                Response.Redirect("News/CommentList/" + id);
+                Response.Redirect("/News/CommentList/" + id);
                 return View();
             }
 
