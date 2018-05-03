@@ -46,15 +46,16 @@ namespace C8.Lottery.Portal.Controllers
                 //date
                 if (string.IsNullOrEmpty(date))
                 {
-                    currentDate = DateTime.Now.ToString("MM月dd");
+                    currentDate = DateTime.Now.ToString("MM月dd日");
                     date = DateTime.Now.ToString("yyyy-MM-dd");
                 }
                 else
                 {
                     currentDate = date;
                     string year = DateTime.Now.Year.ToString();
-
-                    date = ""+ year + "-" + date.Replace('月', '-');
+                    string monthday = date.Replace('月', '-').Replace('日',' ');
+                   
+                    date = ""+ year + "-" + monthday;
                 }
 
 

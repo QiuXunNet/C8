@@ -22309,10 +22309,27 @@ namespace C8.Lottery.Public
                 DateTime dTemp = DateTime.Now.AddDays(-i);
                 if (dTemp.Month < 10)
                 {
-                    queryDate += "0"+dTemp.Month + "月" + dTemp.Day + ",";
+                    if (dTemp.Day < 10)
+                    {
+                        queryDate += "0" + dTemp.Month + "月" +"0"+dTemp.Day + "日" + ",";
+
+                    }
+                    else
+                    {
+                        queryDate += "0" + dTemp.Month + "月" + dTemp.Day + "日" + ",";
+                    }
+                   
                 }else
                 {
-                    queryDate += dTemp.Month + "月" + dTemp.Day + ",";
+                    if (dTemp.Day < 10)
+                    {
+                        queryDate += "0" + dTemp.Month + "月" + "0" + dTemp.Day + "日" + ",";
+
+                    }else
+                    {
+                        queryDate += dTemp.Month + "月" + dTemp.Day + "日" + ",";
+                    }
+                  
                 }
                
             }
