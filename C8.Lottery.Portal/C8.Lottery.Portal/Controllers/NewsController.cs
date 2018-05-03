@@ -758,7 +758,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
 
             if (!list.Any())
             {
-                Response.Redirect("News/CommentList/" + id);
+                Response.Redirect("/News/CommentList/" + id);
                 return View();
             }
 
