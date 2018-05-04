@@ -100,6 +100,22 @@
                                 <span class="WF_spA WF_spAhWU">@s</span>
                             }
                         }
+                        else if (lType == 65)
+                        {
+                            int a = int.Parse(numArr[0]);
+                            int b = int.Parse(numArr[1]);
+                            int c = int.Parse(numArr[2]);
+                            int sum = a + b + c;
+                            <span class="WF_spA WF_spAhWU">@numArr[0]</span>
+                            <span class="WF_spA WF_spAhWU HYJP_PcHao">+</span>
+                            <span class="WF_spA WF_spAhWU">@numArr[1]</span>
+                            <span class="WF_spA WF_spAhWU HYJP_PcHao">+</span>
+                            <span class="WF_spA WF_spAhWU">@numArr[2]</span>
+                            <span class="WF_spA WF_spAhWU HYJP_PcHao">=</span>
+                            <span class="WF_spA WF_spAhWU">@sum</span>                          
+                            break;
+
+                        }
                         else
                         {
                             <span class="WF_spA WF_spAhWU">@s</span>
@@ -108,7 +124,6 @@
 
                     }
                 }
-
 
             </div>
         </div>
@@ -136,11 +151,9 @@
                 }
             </p>
 
-
-
             <div style="clear:both;"></div>
         </div>
-     
+
     </div>
     <div id="WanFa_content" class="WanFa_content">
         @if (lType == 1)
@@ -1046,7 +1059,6 @@
                 </tr>
             </table>
         }
-
     </div>
     <div class="WanFa_footer">
         <a href="javascript:empty();" class="WF_ftL f-l">清空</a>
@@ -1064,7 +1076,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach (LotteryRecord lr in ViewBag.lastFive)
                 {
 
@@ -1082,7 +1093,6 @@
                     </tr>
 
                 }
-
                 <tr>
                     <td colspan="2" align="center" valign="middle"><a href="/Record/OpenRecord/?lType=@ViewBag.lType" target="_blank" class="WanFa_TBbtn">点击查看更多开奖历史>></a></td>
                 </tr>
@@ -1112,7 +1122,7 @@
                         if (d.BigPlayName == "二十码中特" || d.BigPlayName == "十码中特" || d.BigPlayName == "平五码" || d.BigPlayName == "五不中" || d.BigPlayName == "六不中") {
                             var betNumArr = betNum.split(',');
                             var betNumResArr = [];
-                            $.each(betNumArr, function(index, item) {
+                            $.each(betNumArr, function (index, item) {
 
                                 var num = GetColorByLhc(item);
                                 betNumResArr.push(num);
@@ -1138,7 +1148,7 @@
                         }
                     });
 
-                    
+
                 }
 
 

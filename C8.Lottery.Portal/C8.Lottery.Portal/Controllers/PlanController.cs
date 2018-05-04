@@ -1036,6 +1036,9 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
             ViewBag.icon = icon;
 
+            string lotteryName = Util.GetLotteryTypeName(lType);
+            ViewBag.lotteryName = lotteryName;
+
 
             return View();
 

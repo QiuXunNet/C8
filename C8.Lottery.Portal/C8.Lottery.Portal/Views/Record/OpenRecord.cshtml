@@ -2,9 +2,9 @@
 @using C8.Lottery.Model
 @{
     Layout = null;
-    string queryDate = ViewBag.queryDate;
+    Dictionary<string, string> queryDate = ViewBag.queryDate as Dictionary<string, string>;
 
-    string desc = @ViewBag.currentDate + "开奖记录";
+    string desc = @ViewBag.date + "开奖记录";
     int lType = ViewBag.lType;
 }
 <!DOCTYPE html>
@@ -22,50 +22,28 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">开奖记录</a>
-        @if (lType >= 9)
-        {
-            string[] dateArr = queryDate.Split(',');
-
-            @*<div class="Plan_QiHao">
-                    <p class="QiHao_tit">@ViewBag.currentDate</p>
-                    <div class="QiHao_text">
-                        <i class="QiHao_Ticon"></i>
-                        <ul class="QiHao_Nav" id="queryDate">
-
-                            @{
-                                foreach (string s in dateArr)
-                                {
-                                    <li>@s</li>
-                                }
-                            }
-
-                        </ul>
-                    </div>
-                </div>*@
-
-
-
+        @*@if (lType >= 9)
+        {*@
             <div class="Plan_QiHaoTwo">
                 <select class="QHT_Set" id="queryDate">
 
                     @{
-                        foreach (string s in dateArr)
+                        foreach (var item in queryDate)
                         {
-                            if (s == ViewBag.currentDate)
+                            if (item.Key == ViewBag.currentDate)
                             {
-                                <option selected>@s</option>
+                                <option data-Date="@item.Key" selected>@item.Value</option>
                             }
                             else
                             {
-                                <option>@s</option>
+                                <option data-Date="@item.Key">@item.Value</option>
                             }
-
                         }
                     }
 
                 </select>
             </div>
-     }
+        @*}*@
     </header>
 
 
@@ -196,12 +174,12 @@
                             int sum = a + b + c;
 
                             <span class="TH_sp TH_spHong HYJP_Red">@numArr[0]</span>
-                                   <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
-                                        <span class="TH_sp TH_spHong HYJP_Red">@numArr[1]</span>
-                                        <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
-                                        <span class="TH_sp TH_spHong HYJP_Red">@numArr[2]</span>
-                                        <span class="TH_sp TH_spHong HYJP_PcHao">=</span>
-                                        <span class="TH_sp TH_spHong HYJP_Red">@sum</span>
+                            <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
+                            <span class="TH_sp TH_spHong HYJP_Red">@numArr[1]</span>
+                            <span class="TH_sp TH_spHong HYJP_PcHao">+</span>
+                            <span class="TH_sp TH_spHong HYJP_Red">@numArr[2]</span>
+                            <span class="TH_sp TH_spHong HYJP_PcHao">=</span>
+                            <span class="TH_sp TH_spHong HYJP_Red">@sum</span>
                         }
                         else
                         {
@@ -237,11 +215,17 @@
 
                 </dd>
             </dl>
-
         }
-
-
     </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#queryDate").change(function () {
+                var date = $("option:selected", this).attr("data-Date");
+                document.location.href = "/Record/OpenRecord?lType=@ViewBag.lType" + "&date=" + date;
+            })
+        });
+    </script>
 
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
