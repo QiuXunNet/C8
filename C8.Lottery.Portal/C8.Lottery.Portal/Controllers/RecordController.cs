@@ -19,7 +19,7 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
-        public ActionResult OpenRecord(int? lType, string date)
+        public ActionResult OpenRecord(int lType, string date)
         {
 
             //lType
@@ -46,40 +46,44 @@ namespace C8.Lottery.Portal.Controllers
                 //date
                 if (string.IsNullOrEmpty(date))
                 {
-                    currentDate = DateTime.Now.ToString("MM月dd日");
-                    date = DateTime.Now.ToString("yyyy-MM-dd");
+                    currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    date = DateTime.Now.ToString("MM月dd日");
                 }
                 else
                 {
                     currentDate = date;
-                    string year = DateTime.Now.Year.ToString();
-                    string monthday = date.Replace('月', '-').Replace('日',' ');
-                   
-                    date = ""+ year + "-" + monthday;
-                }
+                    string[] dateStrs = date.Split('-');
+                    date = new DateTime(int.Parse(dateStrs[0]), int.Parse(dateStrs[1]), int.Parse(dateStrs[2])).ToString("MM月dd日");
+                }  
 
-
-                ViewBag.date = date;
-                ViewBag.currentDate = currentDate;
-
-                //查询日期
-                ViewBag.queryDate = Util.GetQueryDate();
-
-
-                //list
-                string time1 = date;
-                string time2 = date + " 23:59:59";
+                string time1 = currentDate;
+                string time2 = currentDate + " 23:59:59";
 
                 sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' and SubTime < '" + time2 + "' order by Issue desc";
             }
             else
             {
-                int year = DateTime.Now.Year;
-                string time1 = year + "-1-1";
-                ViewBag.date = year;
-                ViewBag.currentDate = year + "年";
+                
+                if (string.IsNullOrEmpty(date))
+                {
+                    currentDate = DateTime.Now.ToString("yyyy-01-01");
+                    date = DateTime.Now.ToString("yyyy年");
+                   
+                }
+                else
+                {
+                    currentDate = date;
+                    date = date.Substring(0, 4) +"年";
+                }
+                var time1 = currentDate;
                 sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' order by Issue desc";
             }
+
+            ViewBag.date = date;
+            ViewBag.currentDate = currentDate;
+
+            //查询日期
+            ViewBag.queryDate = Util.GetQueryDate(lType);
 
             ViewBag.list = Util.ReaderToList<LotteryRecord>(sql);
 

@@ -21755,7 +21755,7 @@ namespace C8.Lottery.Public
 
             return result;
         }
-        
+
 
         public static string HandIssueSpecial(int lType, DateTime d, string date, string issue, string result)
         {
@@ -22301,40 +22301,25 @@ namespace C8.Lottery.Public
         }
 
 
-        public static string GetQueryDate()
+        public static Dictionary<string, string> GetQueryDate(int lType)
         {
-            string queryDate = "";
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
             for (int i = 0; i < 5; i++)
             {
-                DateTime dTemp = DateTime.Now.AddDays(-i);
-                if (dTemp.Month < 10)
+                if (lType >= 9)
                 {
-                    if (dTemp.Day < 10)
-                    {
-                        queryDate += "0" + dTemp.Month + "月" +"0"+dTemp.Day + "日" + ",";
-
-                    }
-                    else
-                    {
-                        queryDate += "0" + dTemp.Month + "月" + dTemp.Day + "日" + ",";
-                    }
-                   
-                }else
-                {
-                    if (dTemp.Day < 10)
-                    {
-                        queryDate += "0" + dTemp.Month + "月" + "0" + dTemp.Day + "日" + ",";
-
-                    }else
-                    {
-                        queryDate += dTemp.Month + "月" + dTemp.Day + "日" + ",";
-                    }
-                  
+                    DateTime dTemp = DateTime.Now.AddDays(-i);
+                    dic.Add(dTemp.ToString("yyyy-MM-dd"), dTemp.ToString("MM月dd日"));
                 }
-               
+                else
+                {
+                    DateTime dTemp = DateTime.Now.AddYears(-i);
+                    dic.Add(dTemp.ToString("yyyy-01-01"), dTemp.ToString("yyyy年"));
+                }
             }
 
-            return queryDate.TrimEnd(','); ;
+            return dic;
         }
 
 
@@ -22609,7 +22594,7 @@ namespace C8.Lottery.Public
         }
 
 
-        
+
 
 
         public static string GetTwoDateChaWithOutHour(DateTime dTemp, DateTime target)
@@ -25203,7 +25188,7 @@ namespace C8.Lottery.Public
 
         }
 
-      
+
 
 
     }
