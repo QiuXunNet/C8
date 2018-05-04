@@ -228,13 +228,30 @@
                                                 <span class="hdM_spssc HYJP_Red">@s</span>
                                             }
                                         }
+                                        else if (lType == 65)
+                                        {
+                                            int a = int.Parse(numArr[0]);
+                                            int b = int.Parse(numArr[1]);
+                                            int c = int.Parse(numArr[2]);
+                                            int sum = a + b + c;
+
+
+                                            <span class="hdM_spssc HYJP_Red">@numArr[0]</span>
+                                            <span class="hdM_spssc HYJP_PcHao">+</span>
+                                                <span class="hdM_spssc HYJP_Red">@numArr[1]</span>
+                                                <span class="hdM_spssc HYJP_PcHao">+</span>
+                                                <span class="hdM_spssc HYJP_Red">@numArr[2]</span>
+                                                <span class="hdM_spssc HYJP_PcHao">=</span>
+                                                <span class="hdM_spssc HYJP_Red">@sum</span>
+                                            break;
+                                        }
 
                                         else
                                         {
-                                            <span class="hdM_spssc HYJP_Red">@s</span>
+                                          <span class="hdM_spssc HYJP_Red">@s</span>
                                         }
 
-                                    }
+                                }
                                 }
                             }
                         </div>
@@ -544,6 +561,8 @@
            pageIndex =  1,
            pageSize = 10;
         $(function () {
+
+            $(".info_hdNav_cai_lhs li").unbind("click");
             calcNavScoll();
 
             initnews();
@@ -651,9 +670,9 @@
                 html='<div class="GG_Box ">'
 	  +'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-       + '<div class="GG_BbtFont">'
-        	+'<b>广告</b>'
-          +  '<span>'+item.Company+'</span>'
+       + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
        + '</div>'
          +'</a>'
             +'</div>'
@@ -671,10 +690,10 @@
 	+'<a href="'+item.TransferUrl+'">'
     	+'<div class="GG_B2Left f-l">'
         	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-          +  '<div class="GG_BbtFont">'
-            +   ' <b>广告</b>'
-           +    ' <span>'+item.Company+'</span>'
-          +  '</div>'
+           + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
+       + '</div>'
        + '</div>'
     	+'<div class="GG_B2Right">'+img+'</div>'
     +'</a>'
@@ -691,10 +710,10 @@
 	+'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
        + '<div class="GG_B4Tu">'+img+'</div>'
-       + '<div class="GG_BbtFont">'
-      +  	'<b>广告</b>'
-      +      '<span>'+item.Company+'</span>'
-     +   '</div>'
+        + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
+       + '</div>'
    + '</a>'
 +'</div>'
 
@@ -717,10 +736,10 @@
             + '<div style="clear:both;"></div>'
         + '</ul>'
 
-        + '<div class="GG_BbtFont">'
-        	+ '<b>广告</b>'
-            + '<span>'+item.Company+'</span>'
-        + '</div>'
+         + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
+       + '</div>'
     + '</a>'
 + '</div>'
             }else if(item.ThumbStyle==4)
@@ -730,8 +749,8 @@
                 {
                     img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
                 }
-                html='  <div class="GG_Box GG_Box1 GG_Box2 PD3">'
-               + ' <a href="'+item.TransferUrl+'">'+img+'</a>'
+                html='  <div class="GG_Box GG_Box1 PD3">'
+               + ' <a href="' + item.TransferUrl + '">'+img+'</a>'
                + '   </div>'
             }
 

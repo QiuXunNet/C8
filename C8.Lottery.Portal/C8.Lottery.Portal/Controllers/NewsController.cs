@@ -225,26 +225,28 @@ WHERE rowNumber BETWEEN @Start AND @End";
         ///获取广告位
         /// </summary>
         /// <param name="location">栏目ID</param>
-        /// <param name="adtype">广告类型</param>
+        /// <param name="adtype">广告类型 1=栏目 2=文章 3=六彩栏目</param>
         /// <returns></returns>
         public List<Advertisement> GetAdvertisementList(int location, int adtype)
         {
             string strsql = "";
             if (location == -1)//针对6彩栏目
             {
-                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and State in(0,1)
-                 and AdType={1}", location, adtype);
+                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and 
+                   AdType={1} and (State=1 or (State=0 and getdate()>=BeginTime and EndTime>getdate()))", location, adtype);
 
             }
             else
             {
-                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and State in(0,1)
-            and charindex(',{0},',','+[Location]+',')>0 and AdType={1}", location, adtype);
+                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0   
+            and charindex(',{0},',','+[Location]+',')>0 and AdType={1} and (State=1 or (State=0 and getdate()>=BeginTime and EndTime>getdate()))", location, adtype);
 
             }
 
 
             List<Advertisement> list = Util.ReaderToList<Advertisement>(strsql);
+
+
             return list;
         }
         /// <summary>
