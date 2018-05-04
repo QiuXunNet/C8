@@ -160,7 +160,7 @@ a {
 
 /*开奖记录 期号2*/
 .Plan_QiHaoTwo{ position: absolute;top: 13px;right: 10px;cursor: pointer;}
-.QHT_Set{padding: 0 21px 0 11px;height: 24px;border: 1px solid #fff;border-radius: 2px; font-size:12px; background:url(../images/67_5.png) no-repeat 57px center; background-size:10px; color:#fff;appearance:none;  -moz-appearance:none;  -webkit-appearance:none;}
+.QHT_Set{padding: 0 21px 0 11px;height: 24px;border: 1px solid #fff;border-radius: 2px; font-size:12px; background:url(../images/67_5.png) no-repeat 67px center; background-size:10px; color:#fff;appearance:none;  -moz-appearance:none;  -webkit-appearance:none;}
 .QHT_Set option{ background:#f13131; font-size:12px; color:#fff;}
 
 /*首页彩种切换*/
@@ -245,6 +245,7 @@ a {
     text-align: center;
     font-size: 18px;
     color: #fff;
+    font-weight: normal;
 }
 
     .hjc_logo img {
