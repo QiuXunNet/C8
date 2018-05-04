@@ -225,7 +225,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         ///获取广告位
         /// </summary>
         /// <param name="location">栏目ID</param>
-        /// <param name="adtype">广告类型</param>
+        /// <param name="adtype">广告类型 1=栏目 2=文章 3=六彩栏目</param>
         /// <returns></returns>
         public List<Advertisement> GetAdvertisementList(int location, int adtype)
         {
