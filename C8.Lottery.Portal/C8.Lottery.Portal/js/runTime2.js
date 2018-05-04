@@ -30,7 +30,7 @@ function handtimeRunForOpen() {
     //    return;
     //}
 
-    if (lType == 3 || lType == 11) {      //带小时的
+    if (lType == 1 || lType == 3 || lType == 11) {      //带小时的
         timeRunForOpen2();
     }
     else {
@@ -317,7 +317,7 @@ function HandIssueAndTime(data) {
 
         var arr2 = arr[1].split('&');
 
-        if (lType == 3 || lType == 5 || lType == 11 || lType == 19) {
+        if (1 <= lType && lType < 9) {
             $('#fenpanTime').html('<t id="hour">' + arr2[0] + '</t>:<t id="minute">' + arr2[1] + '</t>:<t id="second">' + arr2[2] + '</t>');
         }
         else {
@@ -331,7 +331,7 @@ function HandIssueAndTime(data) {
     }
     else {
         var arr3 = arr[2].split('&');
-        if (lType == 3 || lType == 5 || lType == 11 || lType == 19) {
+        if (1 <= lType && lType < 9) {
             $('#openTime').html('<t id="hour2">' + arr3[0] + '</t>:<t id="minute2">' + arr3[1] + '</t>:<t id="second2">' + arr3[2] + '</t>');
         } else {
             $('#openTime').html('<t id="minute2">' + arr3[1] + '</t>:<t id="second2">' + arr3[2] + '</t>');
