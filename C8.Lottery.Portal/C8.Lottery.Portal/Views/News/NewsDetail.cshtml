@@ -85,6 +85,9 @@
                 }
             });
         }
+
+     
+
         function itemhtml(item)
         {
             var html='';
@@ -93,9 +96,9 @@
                 html='<div class="GG_Box ">'
 	  +'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-       + '<div class="GG_BbtFont">'
-        	+'<b>广告</b>'
-          +  '<span>'+item.Company+'</span>'
+       + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
        + '</div>'
          +'</a>'
             +'</div>'
@@ -113,10 +116,10 @@
 	+'<a href="'+item.TransferUrl+'">'
     	+'<div class="GG_B2Left f-l">'
         	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-          +  '<div class="GG_BbtFont">'
-            +   ' <b>广告</b>'
-           +    ' <span>'+item.Company+'</span>'
-          +  '</div>'
+           + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
+       + '</div>'
        + '</div>'
     	+'<div class="GG_B2Right">'+img+'</div>'
     +'</a>'
@@ -133,10 +136,10 @@
 	+'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
        + '<div class="GG_B4Tu">'+img+'</div>'
-       + '<div class="GG_BbtFont">'
-      +  	'<b>广告</b>'
-      +      '<span>'+item.Company+'</span>'
-     +   '</div>'
+        + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
+       + '</div>'
    + '</a>'
 +'</div>'
 
@@ -159,10 +162,10 @@
             + '<div style="clear:both;"></div>'
         + '</ul>'
 
-        + '<div class="GG_BbtFont">'
-        	+ '<b>广告</b>'
-            + '<span>'+item.Company+'</span>'
-        + '</div>'
+         + ' <div class="newstime">'
+        	+'<span>'+item.Company+'</span> <span>'+item.TimeStr+'</span>'
+          +  '<span>'+item.CommentsNumber+'<i class="icon-comment"></i> </span>'
+       + '</div>'
     + '</a>'
 + '</div>'
             }else if(item.ThumbStyle==4)
@@ -172,7 +175,7 @@
                 {
                     img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
                 }
-                html='  <div class="GG_Box">'
+                html='  <div class="GG_Box GG_Box1 PD3">'
                + ' <a href="' + item.TransferUrl + '">'+img+'</a>'
                + '   </div>'
             }

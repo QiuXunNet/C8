@@ -41,7 +41,7 @@ function initBetting(qiu, data) {
 
     }
     if (!data || data.length < 1) return;
-    $.each(data, function(index, item) {
+    $.each(data, function (index, item) {
         if (item.lType == 1) {
             switch (item.PlayName) {
                 case '第一球五码':
@@ -107,30 +107,39 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '红3胆':
                     qiuClone.xsq.xsq_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xsq.xsq_q1, item.BetNum);
                     break;
                 case '杀3红':
                     qiuClone.xsq.xsq_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xsq.xsq_q2, item.BetNum);
                     break;
                 case '蓝单双':
                     qiuClone.xsq.xsq_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xsq.xsq_q3, item.BetNum);
                     break;
                 case '蓝大小':
                     qiuClone.xsq.xsq_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xsq.xsq_q4, item.BetNum);
                     break;
                 case '龙头单双':
                     qiuClone.xsq.xsq_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xsq.xsq_q5, item.BetNum);
                     break;
                 case '凤尾单双':
                     qiuClone.xsq.xsq_q6.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xsq.xsq_q6, item.BetNum);
                     break;
                 case '蓝球8码':
                     qiuClone.xsq.xsq_q7.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xsq.xsq_q7, item.BetNum);
                     break;
                 case '红2胆':
                     qiuClone.xsq.xsq_q8.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xsq.xsq_q8, item.BetNum);
                     break;
                 case '蓝五码':
                     qiuClone.xsq.xsq_q9.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xsq.xsq_q9, item.BetNum);
                     break;
                 default:
                     break;
@@ -140,66 +149,87 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球五码':
                     qiuClone.qxc.qxc_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.qxc.qxc_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.qxc.qxc_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q1, item.BetNum);
                     break;
                 case '第二球五码':
                     qiuClone.qxc.qxc_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.qxc.qxc_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.qxc.qxc_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q2, item.BetNum);
                     break;
                 case '第三球五码':
                     qiuClone.qxc.qxc_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.qxc.qxc_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.qxc.qxc_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q3, item.BetNum);
                     break;
                 case '第四球五码':
                     qiuClone.qxc.qxc_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q4, item.BetNum);
                     break;
                 case '第四球单双':
                     qiuClone.qxc.qxc_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q4, item.BetNum);
                     break;
                 case '第四球大小':
                     qiuClone.qxc.qxc_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q4, item.BetNum);
                     break;
                 case '第五球五码':
                     qiuClone.qxc.qxc_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q5, item.BetNum);
                     break;
                 case '第五球单双':
                     qiuClone.qxc.qxc_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q5, item.BetNum);
                     break;
                 case '第五球大小':
                     qiuClone.qxc.qxc_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q5, item.BetNum);
                     break;
                 case '第六球五码':
                     qiuClone.qxc.qxc_q6.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q6, item.BetNum);
                     break;
                 case '第六球单双':
                     qiuClone.qxc.qxc_q6.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q6, item.BetNum);
                     break;
                 case '第六球大小':
                     qiuClone.qxc.qxc_q6.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q6, item.BetNum);
                     break;
                 case '第七球五码':
                     qiuClone.qxc.qxc_q7.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qxc.qxc_q7, item.BetNum);
                     break;
                 case '第七球单双':
                     qiuClone.qxc.qxc_q7.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q7, item.BetNum);
                     break;
                 case '第七球大小':
                     qiuClone.qxc.qxc_q7.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qxc.qxc_q7, item.BetNum);
                     break;
                 default:
                     break;
@@ -209,27 +239,35 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '前区4码':
                     qiuClone.dlt.dlt_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.dlt.dlt_q1, item.BetNum);
                     break;
                 case '前区杀4码':
                     qiuClone.dlt.dlt_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.dlt.dlt_q2, item.BetNum);
                     break;
                 case '前区龙头单双':
                     qiuClone.dlt.dlt_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.dlt.dlt_q3, item.BetNum);
                     break;
                 case '前区凤尾单双':
                     qiuClone.dlt.dlt_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.dlt.dlt_q4, item.BetNum);
                     break;
                 case '后区3码':
                     qiuClone.dlt.dlt_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.dlt.dlt_q5, item.BetNum);
                     break;
                 case '后区杀3码':
                     qiuClone.dlt.dlt_q6.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.dlt.dlt_q6, item.BetNum);
                     break;
                 case '后区龙头单双':
                     qiuClone.dlt.dlt_q7.ds = item.BetNum;
+                    setQiuHtml(qiuClone.dlt.dlt_q7, item.BetNum);
                     break;
                 case '后区凤尾单双':
                     qiuClone.dlt.dlt_q8.ds = item.BetNum;
+                    setQiuHtml(qiuClone.dlt.dlt_q8, item.BetNum);
                     break;
                 default:
                     break;
@@ -239,42 +277,56 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '特码单双':
                     qiuClone.lhc.lhc_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.lhc.lhc_q1, item.BetNum);
                     break;
                 case '特码大小':
                     qiuClone.lhc.lhc_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.lhc.lhc_q2, item.BetNum);
                     break;
                 case '特尾大小':
                     qiuClone.lhc.lhc_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.lhc.lhc_q3, item.BetNum);
                     break;
                 case '特合单双':
                     qiuClone.lhc.lhc_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.lhc.lhc_q4, item.BetNum);
                     break;
                 case '特码波色':
-                    qiuClone.lhc.lhc_q5.color = item.BetNum;
+                    var betNum = item.BetNum.replace('波', '');
+                    qiuClone.lhc.lhc_q5.color = betNum;
+                    setQiuHtml(qiuClone.lhc.lhc_q5, item.BetNum);
                     break;
                 case '平特一肖':
                     qiuClone.lhc.lhc_q6.animal = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q6, item.BetNum);
                     break;
                 case '四肖中特':
                     qiuClone.lhc.lhc_q7.animal = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q7, item.BetNum);
                     break;
                 case '六肖中特':
                     qiuClone.lhc.lhc_q8.animal = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q8, item.BetNum);
                     break;
                 case '二十码中特':
                     qiuClone.lhc.lhc_q9.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q9, item.BetNum);
                     break;
                 case '十码中特':
                     qiuClone.lhc.lhc_q10.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q10, item.BetNum);
                     break;
                 case '平五码':
                     qiuClone.lhc.lhc_q11.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q11, item.BetNum);
                     break;
                 case '五不中':
                     qiuClone.lhc.lhc_q12.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q12, item.BetNum);
                     break;
                 case '六不中':
                     qiuClone.lhc.lhc_q13.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.lhc.lhc_q13, item.BetNum);
                     break;
                 default:
                     break;
@@ -284,45 +336,59 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球五码':
                     qiuClone.pl3.pl3_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.pl3.pl3_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl3.pl3_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.pl3.pl3_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl3.pl3_q1, item.BetNum);
                     break;
                 case '第二球五码':
                     qiuClone.pl3.pl3_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.pl3.pl3_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl3.pl3_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.pl3.pl3_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl3.pl3_q2, item.BetNum);
                     break;
                 case '第三球五码':
                     qiuClone.pl3.pl3_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.pl3.pl3_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl3.pl3_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.pl3.pl3_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl3.pl3_q3, item.BetNum);
                     break;
                 case '杀一码':
                     qiuClone.pl3.pl3_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q4, item.BetNum);
                     break;
                 case '杀二码':
                     qiuClone.pl3.pl3_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q5, item.BetNum);
                     break;
                 case '胆一码':
                     qiuClone.pl3.pl3_q6.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q6, item.BetNum);
                     break;
                 case '胆二码':
                     qiuClone.pl3.pl3_q7.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q7, item.BetNum);
                     break;
                 case '胆三码':
                     qiuClone.pl3.pl3_q8.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl3.pl3_q8, item.BetNum);
                     break;
                 default:
                     break;
@@ -332,48 +398,63 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球五码':
                     qiuClone.pl5.pl5_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl5.pl5_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.pl5.pl5_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.pl5.pl5_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q1, item.BetNum);
                     break;
                 case '第二球五码':
                     qiuClone.pl5.pl5_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl5.pl5_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.pl5.pl5_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.pl5.pl5_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q2, item.BetNum);
                     break;
                 case '第三球五码':
                     qiuClone.pl5.pl5_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl5.pl5_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.pl5.pl5_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.pl5.pl5_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q3, item.BetNum);
                     break;
                 case '第四球五码':
                     qiuClone.pl5.pl5_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl5.pl5_q4, item.BetNum);
                     break;
                 case '第四球单双':
                     qiuClone.pl5.pl5_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q4, item.BetNum);
                     break;
                 case '第四球大小':
                     qiuClone.pl5.pl5_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q4, item.BetNum);
                     break;
                 case '第五球五码':
                     qiuClone.pl5.pl5_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pl5.pl5_q5, item.BetNum);
                     break;
                 case '第五球单双':
                     qiuClone.pl5.pl5_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q5, item.BetNum);
                     break;
                 case '第五球大小':
                     qiuClone.pl5.pl5_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pl5.pl5_q5, item.BetNum);
                     break;
                 default:
                     break;
@@ -383,81 +464,107 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球五码':
                     qiuClone.qlc.qlc_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.qlc.qlc_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.qlc.qlc_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q1, item.BetNum);
                     break;
                 case '第二球五码':
                     qiuClone.qlc.qlc_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.qlc.qlc_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.qlc.qlc_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q2, item.BetNum);
                     break;
                 case '第三球五码':
                     qiuClone.qlc.qlc_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.qlc.qlc_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.qlc.qlc_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q3, item.BetNum);
                     break;
                 case '第四球五码':
                     qiuClone.qlc.qlc_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q4, item.BetNum);
                     break;
                 case '第四球单双':
                     qiuClone.qlc.qlc_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q4, item.BetNum);
                     break;
                 case '第四球大小':
                     qiuClone.qlc.qlc_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q4, item.BetNum);
                     break;
                 case '第五球五码':
                     qiuClone.qlc.qlc_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q5, item.BetNum);
                     break;
                 case '第五球单双':
                     qiuClone.qlc.qlc_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q5, item.BetNum);
                     break;
                 case '第五球大小':
                     qiuClone.qlc.qlc_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q5, item.BetNum);
                     break;
                 case '第六球五码':
                     qiuClone.qlc.qlc_q6.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q6, item.BetNum);
                     break;
                 case '第六球单双':
                     qiuClone.qlc.qlc_q6.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q6, item.BetNum);
                     break;
                 case '第六球大小':
                     qiuClone.qlc.qlc_q6.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q6, item.BetNum);
                     break;
                 case '第七球五码':
                     qiuClone.qlc.qlc_q7.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q7, item.BetNum);
                     break;
                 case '第七球单双':
                     qiuClone.qlc.qlc_q7.ds = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q7, item.BetNum);
                     break;
                 case '第七球大小':
                     qiuClone.qlc.qlc_q7.dx = item.BetNum;
+                    setQiuHtml(qiuClone.qlc.qlc_q7, item.BetNum);
                     break;
                 case '胆一码':
                     qiuClone.qlc.qlc_q8.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q8, item.BetNum);
                     break;
                 case '胆二码':
                     qiuClone.qlc.qlc_q9.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q9, item.BetNum);
                     break;
                 case '胆三码':
                     qiuClone.qlc.qlc_q10.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q10, item.BetNum);
                     break;
                 case '杀三码':
                     qiuClone.qlc.qlc_q11.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q11, item.BetNum);
                     break;
                 case '杀五码':
                     qiuClone.qlc.qlc_q12.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.qlc.qlc_q12, item.BetNum);
                     break;
                 default:
                     break;
@@ -467,54 +574,71 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球五码':
                     qiuClone.cqssc.cqssc_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.cqssc.cqssc_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.cqssc.cqssc_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.cqssc.cqssc_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q1, item.BetNum);
                     break;
                 case '第二球五码':
                     qiuClone.cqssc.cqssc_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.cqssc.cqssc_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.cqssc.cqssc_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.cqssc.cqssc_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q2, item.BetNum);
                     break;
                 case '第三球五码':
                     qiuClone.cqssc.cqssc_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.cqssc.cqssc_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.cqssc.cqssc_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.cqssc.cqssc_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q3, item.BetNum);
                     break;
                 case '第四球五码':
                     qiuClone.cqssc.cqssc_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.cqssc.cqssc_q4, item.BetNum);
                     break;
                 case '第四球单双':
                     qiuClone.cqssc.cqssc_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q4, item.BetNum);
                     break;
                 case '第四球大小':
                     qiuClone.cqssc.cqssc_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q4, item.BetNum);
                     break;
                 case '第五球五码':
                     qiuClone.cqssc.cqssc_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.cqssc.cqssc_q5, item.BetNum);
                     break;
                 case '第五球单双':
                     qiuClone.cqssc.cqssc_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q5, item.BetNum);
                     break;
                 case '第五球大小':
                     qiuClone.cqssc.cqssc_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_q5, item.BetNum);
                     break;
                 case '总和单双':
                     qiuClone.cqssc.cqssc_total.ds = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_total, item.BetNum);
                     break;
                 case '总和大小':
                     qiuClone.cqssc.cqssc_total.dx = item.BetNum;
+                    setQiuHtml(qiuClone.cqssc.cqssc_total, item.BetNum);
                     break;
                 default:
                     break;
@@ -524,57 +648,75 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球五码':
                     qiuClone.gd11x5.gd11x5_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.gd11x5.gd11x5_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.gd11x5.gd11x5_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q1, item.BetNum);
                     break;
                 case '第二球五码':
                     qiuClone.gd11x5.gd11x5_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.gd11x5.gd11x5_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.gd11x5.gd11x5_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q2, item.BetNum);
                     break;
                 case '第三球五码':
                     qiuClone.gd11x5.gd11x5_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.gd11x5.gd11x5_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.gd11x5.gd11x5_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q3, item.BetNum);
                     break;
                 case '第四球五码':
                     qiuClone.gd11x5.gd11x5_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q4, item.BetNum);
                     break;
                 case '第四球单双':
                     qiuClone.gd11x5.gd11x5_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q4, item.BetNum);
                     break;
                 case '第四球大小':
                     qiuClone.gd11x5.gd11x5_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q4, item.BetNum);
                     break;
                 case '第五球五码':
                     qiuClone.gd11x5.gd11x5_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q5, item.BetNum);
                     break;
                 case '第五球单双':
                     qiuClone.gd11x5.gd11x5_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q5, item.BetNum);
                     break;
                 case '第五球大小':
                     qiuClone.gd11x5.gd11x5_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_q5, item.BetNum);
                     break;
                 case '总和单双':
                     qiuClone.gd11x5.gd11x5_total.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_total, item.BetNum);
                     break;
                 case '总和大小':
                     qiuClone.gd11x5.gd11x5_total.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_total, item.BetNum);
                     break;
                 case '龙虎':
                     qiuClone.gd11x5.gd11x5_longhu.lh = item.BetNum;
+                    setQiuHtml(qiuClone.gd11x5.gd11x5_longhu, item.BetNum);
                     break;
                 default:
                     break;
@@ -584,15 +726,19 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '和值单双':
                     qiuClone.k3.k3_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.k3.k3_q1, item.BetNum);
                     break;
                 case '和值大小':
                     qiuClone.k3.k3_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.k3.k3_q1, item.BetNum);
                     break;
                 case '独胆':
                     qiuClone.k3.k3_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.k3.k3_q2, item.BetNum);
                     break;
                 case '双胆':
                     qiuClone.k3.k3_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.k3.k3_q3, item.BetNum);
                     break;
                 default:
                     break;
@@ -602,45 +748,59 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球单双':
                     qiuClone.gdkl10f.gdkl10f_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.gdkl10f.gdkl10f_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第一球合单双':
                     qiuClone.gdkl10f.gdkl10f_q1.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第一球尾大小':
                     qiuClone.gdkl10f.gdkl10f_q1.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第一球龙虎':
                     qiuClone.gdkl10f.gdkl10f_q1.lh = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第一球东南西北':
                     qiuClone.gdkl10f.gdkl10f_q1.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第一球中发白':
                     qiuClone.gdkl10f.gdkl10f_q1.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q1, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.gdkl10f.gdkl10f_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.gdkl10f.gdkl10f_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 case '第二球尾单双':
                     qiuClone.gdkl10f.gdkl10f_q2.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 case '第二球合大小':
                     qiuClone.gdkl10f.gdkl10f_q2.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 case '第二球龙虎':
                     qiuClone.gdkl10f.gdkl10f_q2.lh = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 case '第二球东南西北':
                     qiuClone.gdkl10f.gdkl10f_q2.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 case '第二球中发白':
                     qiuClone.gdkl10f.gdkl10f_q2.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
                 default:
                     break;
@@ -650,57 +810,75 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '第一球六码':
                     qiuClone.kl12.kl12_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.kl12.kl12_q1, item.BetNum);
                     break;
                 case '第一球单双':
                     qiuClone.kl12.kl12_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q1, item.BetNum);
                     break;
                 case '第一球大小':
                     qiuClone.kl12.kl12_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q1, item.BetNum);
                     break;
                 case '第二球六码':
                     qiuClone.kl12.kl12_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.kl12.kl12_q2, item.BetNum);
                     break;
                 case '第二球单双':
                     qiuClone.kl12.kl12_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q2, item.BetNum);
                     break;
                 case '第二球大小':
                     qiuClone.kl12.kl12_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q2, item.BetNum);
                     break;
                 case '第三球六码':
                     qiuClone.kl12.kl12_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.kl12.kl12_q3, item.BetNum);
                     break;
                 case '第三球单双':
                     qiuClone.kl12.kl12_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q3, item.BetNum);
                     break;
                 case '第三球大小':
                     qiuClone.kl12.kl12_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q3, item.BetNum);
                     break;
                 case '第四球六码':
                     qiuClone.kl12.kl12_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.kl12.kl12_q4, item.BetNum);
                     break;
                 case '第四球单双':
                     qiuClone.kl12.kl12_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q4, item.BetNum);
                     break;
                 case '第四球大小':
                     qiuClone.kl12.kl12_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q4, item.BetNum);
                     break;
                 case '第五球六码':
                     qiuClone.kl12.kl12_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.kl12.kl12_q5, item.BetNum);
                     break;
                 case '第五球单双':
                     qiuClone.kl12.kl12_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q5, item.BetNum);
                     break;
                 case '第五球大小':
                     qiuClone.kl12.kl12_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_q5, item.BetNum);
                     break;
                 case '总和单双':
                     qiuClone.kl12.kl12_total.ds = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_total, item.BetNum);
                     break;
                 case '总和大小':
                     qiuClone.kl12.kl12_total.dx = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_total, item.BetNum);
                     break;
                 case '龙虎':
                     qiuClone.kl12.kl12_longhu.lh = item.BetNum;
+                    setQiuHtml(qiuClone.kl12.kl12_longhu, item.BetNum);
                     break;
                 default:
                     break;
@@ -710,108 +888,143 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '冠军五码':
                     qiuClone.pk10.pk10_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q1, item.BetNum);
                     break;
                 case '冠军单双':
                     qiuClone.pk10.pk10_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q1, item.BetNum);
                     break;
                 case '冠军大小':
                     qiuClone.pk10.pk10_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q1, item.BetNum);
                     break;
                 case '冠军龙虎':
                     qiuClone.pk10.pk10_q1.lh = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q1, item.BetNum);
                     break;
                 case '亚军五码':
                     qiuClone.pk10.pk10_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q2, item.BetNum);
                     break;
                 case '亚军单双':
                     qiuClone.pk10.pk10_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q2, item.BetNum);
                     break;
                 case '亚军大小':
                     qiuClone.pk10.pk10_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q2, item.BetNum);
                     break;
                 case '亚军龙虎':
                     qiuClone.pk10.pk10_q2.lh = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q2, item.BetNum);
                     break;
                 case '第三名五码':
                     qiuClone.pk10.pk10_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q3, item.BetNum);
                     break;
                 case '第三名单双':
                     qiuClone.pk10.pk10_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q3, item.BetNum);
                     break;
                 case '第三名大小':
                     qiuClone.pk10.pk10_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q3, item.BetNum);
                     break;
                 case '第三名龙虎':
                     qiuClone.pk10.pk10_q3.lh = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q3, item.BetNum);
                     break;
                 case '第四名五码':
                     qiuClone.pk10.pk10_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q4, item.BetNum);
                     break;
                 case '第四名单双':
                     qiuClone.pk10.pk10_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q4, item.BetNum);
                     break;
                 case '第四名大小':
                     qiuClone.pk10.pk10_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q4, item.BetNum);
                     break;
                 case '第四名龙虎':
                     qiuClone.pk10.pk10_q4.lh = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q4, item.BetNum);
                     break;
                 case '第五名五码':
                     qiuClone.pk10.pk10_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q5, item.BetNum);
                     break;
                 case '第五名单双':
                     qiuClone.pk10.pk10_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q5, item.BetNum);
                     break;
                 case '第五名大小':
                     qiuClone.pk10.pk10_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q5, item.BetNum);
                     break;
                 case '第五名龙虎':
                     qiuClone.pk10.pk10_q5.lh = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q5, item.BetNum);
                     break;
                 case '第六名五码':
                     qiuClone.pk10.pk10_q6.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q6, item.BetNum);
                     break;
                 case '第六名单双':
                     qiuClone.pk10.pk10_q6.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q6, item.BetNum);
                     break;
                 case '第六名大小':
                     qiuClone.pk10.pk10_q6.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q6, item.BetNum);
                     break;
                 case '第七名五码':
                     qiuClone.pk10.pk10_q7.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q7, item.BetNum);
                     break;
                 case '第七名单双':
                     qiuClone.pk10.pk10_q7.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q7, item.BetNum);
                     break;
                 case '第七名大小':
                     qiuClone.pk10.pk10_q7.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q7, item.BetNum);
                     break;
                 case '第八名五码':
                     qiuClone.pk10.pk10_q8.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q8, item.BetNum);
                     break;
                 case '第八名单双':
                     qiuClone.pk10.pk10_q8.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q8, item.BetNum);
                     break;
                 case '第八名大小':
                     qiuClone.pk10.pk10_q8.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q8, item.BetNum);
                     break;
                 case '第九名五码':
                     qiuClone.pk10.pk10_q9.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q9, item.BetNum);
                     break;
                 case '第九名单双':
                     qiuClone.pk10.pk10_q9.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q9, item.BetNum);
                     break;
                 case '第九名大小':
                     qiuClone.pk10.pk10_q9.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q9, item.BetNum);
                     break;
                 case '第十名五码':
                     qiuClone.pk10.pk10_q10.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.pk10.pk10_q10, item.BetNum);
                     break;
                 case '第十名单双':
                     qiuClone.pk10.pk10_q10.ds = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q10, item.BetNum);
                     break;
                 case '第十名大小':
                     qiuClone.pk10.pk10_q10.dx = item.BetNum;
+                    setQiuHtml(qiuClone.pk10.pk10_q10, item.BetNum);
                     break;
                 default:
                     break;
@@ -821,115 +1034,150 @@ function initBetting(qiu, data) {
             switch (item.PlayName) {
                 case '冠军五码':
                     qiuClone.xyft.xyft_q1.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q1, item.BetNum);
                     break;
                 case '冠军单双':
                     qiuClone.xyft.xyft_q1.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q1, item.BetNum);
                     break;
                 case '冠军大小':
                     qiuClone.xyft.xyft_q1.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q1, item.BetNum);
                     break;
                 case '冠军龙虎':
                     qiuClone.xyft.xyft_q1.lh = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q1, item.BetNum);
                     break;
                 case '亚军五码':
                     qiuClone.xyft.xyft_q2.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q2, item.BetNum);
                     break;
                 case '亚军单双':
                     qiuClone.xyft.xyft_q2.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q2, item.BetNum);
                     break;
                 case '亚军大小':
                     qiuClone.xyft.xyft_q2.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q2, item.BetNum);
                     break;
                 case '亚军龙虎':
                     qiuClone.xyft.xyft_q2.lh = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q2, item.BetNum);
                     break;
                 case '第三名五码':
                     qiuClone.xyft.xyft_q3.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q3, item.BetNum);
                     break;
                 case '第三名单双':
                     qiuClone.xyft.xyft_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q3, item.BetNum);
                     break;
                 case '第三名大小':
                     qiuClone.xyft.xyft_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q3, item.BetNum);
                     break;
                 case '第三名龙虎':
                     qiuClone.xyft.xyft_q3.lh = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q3, item.BetNum);
                     break;
                 case '第四名五码':
                     qiuClone.xyft.xyft_q4.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q4, item.BetNum);
                     break;
                 case '第四名单双':
                     qiuClone.xyft.xyft_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q4, item.BetNum);
                     break;
                 case '第四名大小':
                     qiuClone.xyft.xyft_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q4, item.BetNum);
                     break;
                 case '第四名龙虎':
                     qiuClone.xyft.xyft_q4.lh = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q4, item.BetNum);
                     break;
                 case '第五名五码':
                     qiuClone.xyft.xyft_q5.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q5, item.BetNum);
                     break;
                 case '第五名单双':
                     qiuClone.xyft.xyft_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q5, item.BetNum);
                     break;
                 case '第五名大小':
                     qiuClone.xyft.xyft_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q5, item.BetNum);
                     break;
                 case '第五名龙虎':
                     qiuClone.xyft.xyft_q5.lh = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q5, item.BetNum);
                     break;
                 case '第六名五码':
                     qiuClone.xyft.xyft_q6.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q6, item.BetNum);
                     break;
                 case '第六名单双':
                     qiuClone.xyft.xyft_q6.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q6, item.BetNum);
                     break;
                 case '第六名大小':
                     qiuClone.xyft.xyft_q6.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q6, item.BetNum);
                     break;
                 case '第七名五码':
                     qiuClone.xyft.xyft_q7.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q7, item.BetNum);
                     break;
                 case '第七名单双':
                     qiuClone.xyft.xyft_q7.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q7, item.BetNum);
                     break;
                 case '第七名大小':
                     qiuClone.xyft.xyft_q7.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q7, item.BetNum);
                     break;
                 case '第八名五码':
                     qiuClone.xyft.xyft_q8.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q8, item.BetNum);
                     break;
                 case '第八名单双':
                     qiuClone.xyft.xyft_q8.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q8, item.BetNum);
                     break;
                 case '第八名大小':
                     qiuClone.xyft.xyft_q8.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q8, item.BetNum);
                     break;
                 case '第九名五码':
                     qiuClone.xyft.xyft_q9.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q9, item.BetNum);
                     break;
                 case '第九名单双':
                     qiuClone.xyft.xyft_q9.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q9, item.BetNum);
                     break;
                 case '第九名大小':
                     qiuClone.xyft.xyft_q9.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q9, item.BetNum);
                     break;
                 case '第十名五码':
                     qiuClone.xyft.xyft_q10.num = item.BetNum.split(',');
+                    setQiuHtml(qiuClone.xyft.xyft_q10, item.BetNum);
                     break;
                 case '第十名单双':
                     qiuClone.xyft.xyft_q10.ds = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q10, item.BetNum);
                     break;
                 case '第十名大小':
                     qiuClone.xyft.xyft_q10.dx = item.BetNum;
+                    setQiuHtml(qiuClone.xyft.xyft_q10, item.BetNum);
                     break;
                 default:
                     break;
             }
         }
     });
-    
+
 
     $(".WanFa_footer .WF_ftTitle span").html(data.length);
 
@@ -1505,6 +1753,24 @@ function commonCalc(count, ltypeCode, minNum, maxNum) {
     return count;
 }
 
+/**
+ * 获取六合彩的球颜色
+ * @param {号码} num 
+ * @returns {带颜色的号码球} 
+ */
+function GetColorByLhc(num) {
+    if (num) {
+        if ($.inArray(num, lhc_red) > -1) {
+            return "<span class=\"WF_TBAsp WF_TBAspred\">" + num + "</span>";
+        } else if ($.inArray(num, lhc_blue) > -1) {
+            return "<span class=\"WF_TBAsp WF_TBAspblue\">" + num + "</span>";
+        } else if ($.inArray(num, lhc_green) > -1) {
+            return "<span class=\"WF_TBAsp WF_TBAspgreen\">" + num + "</span>";
+        }
+    }
+    return "";
+}
+
 
 $(function () {
 
@@ -1785,16 +2051,10 @@ $(function () {
                 var numArray = selectedQiu.num.sort();
                 for (var i = 0; i < numLen; i++) {
                     var selectedNum = numArray[i];
-                    if (selectedNum) {
-                        if ($.inArray(selectedNum, lhc_red) > -1) {
-                            htmlArray.push("<span class=\"WF_TBAsp WF_TBAspred\">" + selectedNum + "</span>");
-                        } else if ($.inArray(selectedNum, lhc_blue) > -1) {
-                            htmlArray.push("<span class=\"WF_TBAsp WF_TBAspblue\">" + selectedNum + "</span>");
-                        } else if ($.inArray(selectedNum, lhc_green) > -1) {
 
-                            htmlArray.push("<span class=\"WF_TBAsp WF_TBAspgreen\">" + selectedNum + "</span>");
-                        }
-                    }
+                    var turnSelectNum = GetColorByLhc(selectedNum);
+                    htmlArray.push(turnSelectNum);
+                    
                 }
 
                 selectedResult = htmlArray.join(" ");

@@ -6,7 +6,7 @@
         <h3>精彩评论</h3>
         @if (Model.Count >= 3)
         {
-            <a href="/News/CommentList/@ViewBag.ArticleId?type=@ViewBag.Type">更多评论>></a>
+            <a href="/News/CommentList/@ViewBag.ArticleId?type=@ViewBag.Type&refUid=@ViewBag.RefUid">更多评论>></a>
         }
         <div style="clear:both;"></div>
     </div>
@@ -67,7 +67,7 @@
                         @if (comment.ReplayCount > 0)
                         {
                             <div class="comp_replay">
-                                <a href="/News/CommentDetail/@comment.Id">查看全部<span>@comment.ReplayCount</span>条回复>></a>
+                                <a href="/News/CommentDetail/@comment.Id?type=@ViewBag.Type">查看全部<span>@comment.ReplayCount</span>条回复>></a>
                             </div>
                         }
                     </li>
@@ -79,13 +79,13 @@
 
 <div class="Gues_footer">
     <div class="Gues_ftTB f-r">
-        <a href="/News/CommentList/@ViewBag.ArticleId?type=@ViewBag.Type" class="ftTB_A">
+        <a href="/News/CommentList/@ViewBag.ArticleId?type=@ViewBag.Type&refUid=@ViewBag.RefUid" class="ftTB_A">
             <img src="/images/62_1.png">
             <font>@ViewBag.CommentTotalCount</font>
         </a>
         @*<a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>*@
     </div>
-    <a href="/Comment/Index/@ViewBag.ArticleId?ctype=1&type=@ViewBag.Type" class="Gues_ftFBPL">请输入您的评论</a>
+    <a href="/Comment/Index/@ViewBag.ArticleId?ctype=1&type=@ViewBag.Type&refUid=@ViewBag.RefUid" class="Gues_ftFBPL">请输入您的评论</a>
 </div>
 
 @{Html.RenderAction("index", "PvUvIp");}
