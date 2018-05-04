@@ -319,7 +319,6 @@ namespace C8.Lottery.Portal.Controllers
         /// 赚钱任务规则
         /// </summary>
         /// <returns></returns>
-        [Authentication]
         public ActionResult TaskRule()
         {
             ViewBag.Platform = Request.Params["pl"].ToInt32();
@@ -591,7 +590,6 @@ where RowNumber BETWEEN @Start AND @End ";
         /// 奖励规则
         /// </summary>
         /// <returns></returns>
-        [Authentication]
         public ActionResult RewardRules()
         {
             ViewBag.Platform = Request.Params["pl"].ToInt32();
@@ -1904,7 +1902,6 @@ inner join UserInfo u on  c.UserId=u.Id
         /// 佣金规则
         /// </summary>
         /// <returns></returns>
-        [Authentication]
         public ActionResult CommissionRules()
         {
             ViewBag.Platform = Request.Params["pl"].ToInt32();
@@ -1965,8 +1962,6 @@ inner join UserInfo u on  c.UserId=u.Id
         /// 卡劵规则
         /// </summary>
         /// <returns></returns>
-
-        [Authentication]
         public ActionResult VoucherRules()
         {
             ViewBag.Platform = Request.Params["pl"].ToInt32();

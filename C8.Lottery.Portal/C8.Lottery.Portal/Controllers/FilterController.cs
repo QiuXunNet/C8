@@ -20,29 +20,30 @@ namespace C8.Lottery.Portal.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            
-            string sessionId =Convert.ToString(Request.Cookies["UserId"].Value);
-            string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
-            bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
-         
-            if (string.IsNullOrEmpty(sessionId))
-            {
-                if (isAjaxRequest)
-                {
-                    JsonResult json = new JsonResult();
-                    json.Data = new { Code = 401, Message = "未经授权" };
-                    filterContext.Result = json;
-                }
-                else
-                {
-                    Response.Redirect("/Home/Login");
-                }
 
+
+            string actionName = filterContext.ActionDescriptor.ActionName.ToLower();
+            string controllerName = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower();
+
+            if (controllerName == "personal" &&
+                (actionName == "taskrule" || actionName == "rewardrules" || actionName == "commissionrules" ||
+                 actionName == "voucherrules"))
+            {
+                //跳过登录验证
             }
             else
             {
-                object userId = CacheHelper.GetCache(sessionId);
-                if (userId == null)
+
+                var httpCookie = Request.Cookies["UserId"];
+                string sessionId = "";
+                if (httpCookie != null)
+                {
+                    sessionId = httpCookie.Value;
+                }
+                string sheader = filterContext.HttpContext.Request.Headers["X-Requested-With"];
+                bool isAjaxRequest = (sheader != null && sheader == "XMLHttpRequest") ? true : false;
+
+                if (string.IsNullOrEmpty(sessionId))
                 {
                     if (isAjaxRequest)
                     {
@@ -54,9 +55,27 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         Response.Redirect("/Home/Login");
                     }
-                }
 
-                //MemClientFactory.WriteCache(sessionId, user, 30);
+                }
+                else
+                {
+                    object userId = CacheHelper.GetCache(sessionId);
+                    if (userId == null)
+                    {
+                        if (isAjaxRequest)
+                        {
+                            JsonResult json = new JsonResult();
+                            json.Data = new { Code = 401, Message = "未经授权" };
+                            filterContext.Result = json;
+                        }
+                        else
+                        {
+                            Response.Redirect("/Home/Login");
+                        }
+                    }
+
+                    //MemClientFactory.WriteCache(sessionId, user, 30);
+                }
             }
 
         }

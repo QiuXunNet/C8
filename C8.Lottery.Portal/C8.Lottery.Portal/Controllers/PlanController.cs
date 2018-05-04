@@ -294,7 +294,6 @@ namespace C8.Lottery.Portal.Controllers
 
 
         //发帖规则
-        [Authentication]
         public ActionResult Rule(int id)
         {
             string name = Util.GetLotteryTypeName(id);
