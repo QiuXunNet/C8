@@ -78,6 +78,43 @@ namespace C8.Lottery.Public
             }
             return imgsrc;
         }
+       
+        /// <summary>
+        /// 前三橙色
+        /// </summary>
+        /// <param name="rank"></param>
+        /// <returns></returns>
+        public static string GetYsfont(int rank)
+        {
+            string color = "";
+            if (rank <= 3)
+            {
+                color = "Ysfont";
+            }
+            return color;
+        }
+
+        /// <summary>
+        /// 前三位置排序
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public static int sortByRank(int r)
+        {
+            int result =-1;
+            if (r == 2)
+            {
+                result = 1;
+            }else if (r == 1)
+            {
+                result =0;
+            }
+            else if (r == 3)
+            {
+                result =2;
+            }
+            return result;
+        }
         /// <summary>
         /// 获取卡劵图片
         /// </summary>
