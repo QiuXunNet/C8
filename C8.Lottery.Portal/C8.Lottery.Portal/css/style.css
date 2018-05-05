@@ -7656,8 +7656,8 @@ input[type=search]::-webkit-search-cancel-button:after {
         width: 50%;
         height: 33px;
         line-height: 33px;
-        border-bottom: 1px solid #e8ecf1;
-        border-right: 1px solid #e8ecf1;
+        border-bottom: 1px solid #f4f5f5;
+        border-right: 1px solid #f4f5f5;
         cursor: pointer;
         font-size: 15px;
         float: left;

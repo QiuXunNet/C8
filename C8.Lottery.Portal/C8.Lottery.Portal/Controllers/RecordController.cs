@@ -19,7 +19,7 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
-        public ActionResult OpenRecord(int lType, string date)
+        public ActionResult OpenRecord(int? lType, string date)
         {
 
             //lType
@@ -79,13 +79,15 @@ namespace C8.Lottery.Portal.Controllers
                 sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' order by Issue desc";
             }
 
-            ViewBag.date = date;
+          
             ViewBag.currentDate = currentDate;
 
             //查询日期
-            ViewBag.queryDate = Util.GetQueryDate(lType);
+            ViewBag.queryDate = Util.GetQueryDate(lType??0);
 
             ViewBag.list = Util.ReaderToList<LotteryRecord>(sql);
+
+            ViewBag.date = date;
 
             return View();
         }

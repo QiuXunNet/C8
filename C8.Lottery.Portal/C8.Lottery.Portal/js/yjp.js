@@ -384,7 +384,7 @@ $(function () {
         if (_this.hasClass("toSearch")) {
             anchor = "searchinput"
         }
-        $(window).scrollTop($('#' + anchor).offset().top);
+        $(window).scrollTop($('#' + anchor).offset().top-50);
         $("#showLetter span").html(s);
         $("#showLetter").show().delay(500).hide(0);
         _this.parent().addClass("current").siblings().removeClass("current");

@@ -28,9 +28,9 @@ $(function () {
 function BindqueryDateLiClick() {
     $('#queryDate').bind('change', function () {
         //var date = $(this).find("option:selected").text();
-        var date = $(this).val();
+        var date = $("option:selected", this).attr("data-Date");
        
-        $.post('/Record/OpenRecord', { date: date }, function (data) {
+        $.get('/Record/OpenRecord', { date: date }, function (data) {
             $('body').html(data);
          
          

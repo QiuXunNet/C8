@@ -22,8 +22,8 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">开奖记录</a>
-        @*@if (lType >= 9)
-        {*@
+        @if (lType >= 9)
+        {
             <div class="Plan_QiHaoTwo">
                 <select class="QHT_Set" id="queryDate">
 
@@ -43,7 +43,7 @@
 
                 </select>
             </div>
-        @*}*@
+        }
     </header>
 
 
@@ -59,11 +59,15 @@
             <dl class="KJ_Tinfo">
                 @if (lType == 10 || lType == 63 || lType == 65)
                 {
-                    <dt>@record.ShowIssue</dt>
+                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm:ss") @record.ShowIssue</dt>
+                }
+                else if (lType < 9)
+                {
+                    <dt>@record.SubTime.ToString("F") @record.ShowIssue</dt>
                 }
                 else
                 {
-                    <dt>@ViewBag.date @record.ShowIssue</dt>
+                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm:ss") @record.ShowIssue</dt>
                 }
                 <dd>
                     <div class="KJ_TH">
@@ -218,14 +222,7 @@
         }
     </div>
 
-    <script type="text/javascript">
-        $(function () {
-            $("#queryDate").change(function () {
-                var date = $("option:selected", this).attr("data-Date");
-                document.location.href = "/Record/OpenRecord?lType=@ViewBag.lType" + "&date=" + date;
-            })
-        });
-    </script>
+   
 
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
