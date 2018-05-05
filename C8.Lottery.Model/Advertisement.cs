@@ -68,7 +68,7 @@ namespace C8.Lottery.Model
             get { return _layer; }
         }
         /// <summary>
-        /// 缩略图类型 0=无图 1=1张小图 2=1张大图 3=大于1张小图
+        /// 缩略图类型 0=无图 1=1张小图 2=1张大图 3=大于1张小图 4=纯图片广告
         /// </summary>
         public int ThumbStyle
         {

@@ -511,12 +511,11 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             ViewBag.GalleryList = galleryList;
 
             //查询推荐图
-            string recGallerySql = @" SELECT TOP 10 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
- join NewsType b on b.Id= a.TypeId
- where  b.lType in
- (select ltype from News a join NewsType b on b.Id=a.TypeId
- where a.Id=" + id + " ) and a.TypeId=" + model.TypeId
- + @" and DeleteMark=0 and EnabledMark=1 
+            string recGallerySql = @" SELECT TOP 10   FullHead as Name, Id,LotteryNumber as Issue 
+ from News where Id  in(
+	select max(id) from News where TypeId=" + model.TypeId + @" group by FullHead having count(FullHead)>=1
+ )
+ and DeleteMark=0 and EnabledMark=1 
  order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;

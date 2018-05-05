@@ -13,6 +13,7 @@ namespace C8.Lottery.Model.Enum
     {
         新闻缩略图=1,
         用户头像=2,
-        广告图=20
+        评论图 = 3,
+        广告图 =20
     }
 }
