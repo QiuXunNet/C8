@@ -849,6 +849,7 @@
     <Content Include="Views\Personal\Voucher.cshtml" />
     <Content Include="Views\Personal\VoucherRules.cshtml" />
     <Content Include="Views\PvUvIp\Index.cshtml" />
+    <Content Include="Views\Personal\MyIntegral.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />
