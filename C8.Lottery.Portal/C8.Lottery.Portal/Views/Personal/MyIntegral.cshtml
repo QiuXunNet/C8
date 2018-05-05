@@ -1,0 +1,187 @@
+﻿@using C8.Lottery.Model;
+@{
+    ViewBag.Title = "MyIntegral";
+    int Integral = Convert.ToInt32(ViewBag.Integral);
+    List<LotteryType2> LotteryType2List = ViewBag.LotteryType2List;
+}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>我的积分</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/mescroll.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="~/js/jquery.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script>
+        $(function ()
+        {
+            var pid = $(".hdNav_cai_lhs  .current").attr("data-index");
+         
+            GetList(pid);
+
+            $(".hdNav_cai_lhs li").click(function () {
+
+                var pid = $(this).attr("data-index");
+
+                GetList(pid);
+               
+            });
+
+            $(".hdNav_cai li").click(function () {
+                var pid = $(this).attr("data-index");
+
+                GetList(pid);
+             
+            });
+        })
+
+
+        function GetList(PId)
+        {
+            $.ajax({
+                type: 'GET',
+                data: {
+                    PId: PId     
+                },
+                async: false,
+                url: '/Personal/GetMyIntegral',
+                dataType: 'json',
+                success: function (data) {
+
+                    if (data.Success) {
+                        if (data.data.length == 0)
+                        {
+                            $(".points_TInfo").html('<div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>');
+                        } else {
+                            buildHtml(data.data);
+                        }
+                       
+
+                    } else {
+                        alertmsg("服务器繁忙");
+                    }
+                }
+            });
+        }
+        
+
+
+        function buildHtml(data) {
+
+            var itemList = [];
+            var listDom = $(".points_TInfo");
+       
+            $.each(data, function (index, item) {
+                var itemHtml = '<dl class="points_Dl">'
+                + ' <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></dt>'
+                + '<dd>'
+                + '<p class="TIf_fen f-r">' + item.Score + '</p>'
+                + '<h3 class="TIf_tit"><a href="javascript:;">' + item.Name + '</a></h3>'
+                + '</dd>'
+                + '</dl>';
+                itemList.push(itemHtml);
+            });
+            listDom.html('');
+            var html = itemList.join('');
+            listDom.append(html);
+
+        }
+
+    </script>
+</head>
+
+<body style="background:#eee;">
+
+    <header class="hjc_header">
+        <a href="/Personal/Index" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo">我的积分</a>
+    </header>
+
+    <div class="points_header">
+        <div class="points_hdInfo1">
+            <div class="points_JiFen">
+                <h3>@Integral</h3>
+            </div>
+            <p class="points_JFfont">总积分</p>
+        </div>
+        <!-- <div class="points_hdInfo2">
+            <ul class="C8_nav C8_Myjf">
+                <li class="current"><a href="javascript:;"><p>高频彩</p><span></span></a></li>
+                <li class=""><a href="javascript:;"><p>全国彩</p><span></span></a></li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div> -->
+        <div class="hjc_hdNav">
+
+            <div class="hdNav_cai_collect">
+                <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
+                <ul class="hdNav_cai_lhs">
+
+                    @if (LotteryType2List != null)
+                    {
+                        int i = -1;
+                        foreach (var item in LotteryType2List)
+                        {
+                            i++;
+                            if (i == 0)
+                            {
+                                <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                            }
+                            else
+                            {
+                                <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+
+                            }
+
+                        }
+                    }
+                   
+                     <div style="clear:both;"></div>
+                </ul>
+            </div>
+            <div class="hdNav_cai_expand" style="display:none">
+                <ul class="hdNav_cai">
+                    @if (LotteryType2List != null)
+                    {
+                        int i = -1;
+                        foreach (var item in LotteryType2List)
+                        {
+                            i++;
+                            if (i == 0)
+                            {
+                                <li class="current" data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+                            }
+                            else
+                            {
+                                <li data-index="@item.Id"><a href="javascript:;">@item.Name</a></li>
+
+                            }
+
+                        }
+                    }
+                    <div style="clear:both;"></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="hjc_indexmain points_text">
+        <div class="list_mainUl2 points_TInfo">
+         
+    
+        </div>
+    
+    </div>
+
+
+    <div class="mask" style="display:none;"></div>
+
+</body>
+
+</html>

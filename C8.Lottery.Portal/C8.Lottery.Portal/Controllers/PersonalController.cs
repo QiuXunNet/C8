@@ -1967,6 +1967,64 @@ inner join UserInfo u on  c.UserId=u.Id
             ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
+        /// <summary>
+        /// 我的积分
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyIntegral()
+        {
+            UserInfo user = UserHelper.GetUser();
+            ViewBag.Integral = user.Integral;
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
+            List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
+            ViewBag.LotteryType2List = list;
+            return View();
+        }
+
+        /// <summary>
+        /// 获取我的积分数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetMyIntegral(int PId)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            int userId = UserHelper.GetByUserId();
+            try
+            {
+                List<BetModel> list = new List<BetModel>();
+          
+                string strsql = @"  select 
+     (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
+     and lType = l.lType) as Score,* from LotteryType2 l
+     where PId = @PId";
+            
+                SqlParameter[] sp = new SqlParameter[]
+                {
+                        new SqlParameter("@PId",PId),
+                        new SqlParameter("@UserId",userId),
+                    
+
+                 };
+
+                list = Util.ReaderToList<BetModel>(strsql, sp);
+                list.ForEach(x =>
+                {
+                    x.LotteryIcon = Util.GetLotteryIcon(x.lType);
+                });
+                msg.data = list;
+                msg.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                msg.Success = false;
+                msg.Msg = ex.Message;
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 
