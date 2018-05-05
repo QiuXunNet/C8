@@ -972,7 +972,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     }
 
 
-                    var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                    var info = GetLotteryTypeName(x.Type, x.ArticleId, x.ArticleUserId, x.RefCommentId);
 
                     x.LotteryTypeName = info == null ? "" : info.TypeName;
                 });
@@ -1116,7 +1116,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 #region 分页查询动态消息
                 string sql = @"SELECT * FROM (
     select row_number() over(order by m.SubTime DESC ) as rowNumber,m.*,a.PId,a.Content,
-	a.[Type] as CommentType,a.ArticleId,
+	a.[Type] as CommentType,a.ArticleId,a.ArticleUserId,a.RefCommentId,
 	a.UserId as FromUserId,b.Name as FromNickName,c.RPath as FromAvater 
 	from UserInternalMessage m
 	left join Comment a on a.Id=m.RefId
@@ -1157,7 +1157,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                         }
 
                     }
-                    var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                    var info = GetLotteryTypeName(x.Type, x.ArticleId, x.ArticleUserId, x.RefCommentId);
                     x.LotteryTypeName = info.TypeName ?? "";
                     x.RefNickName = info.NickName;
 
@@ -1314,22 +1314,44 @@ where  a.Id=@Id and a.IsDeleted = 0";
         /// 查询彩种类型名称
         /// </summary>
         /// <param name="type">类型 1=计划 2=文章</param>
-        /// <param name="id">计划/文章 Id</param>
+        /// <param name="id">彩种Id（上级评论Id）/文章 Id</param>
+        /// <param name="articleUserId">发表计划用户Id type=1时</param>
+        /// <param name="refCommentId">相关一级评论Id</param>
         /// <returns></returns>
-        private DynamicRelatedInfo GetLotteryTypeName(int type, int id)
+        private DynamicRelatedInfo GetLotteryTypeName(int type, int id, int articleUserId, int refCommentId)
         {
             DynamicRelatedInfo info = null;
             if (type == 1)
             {
-                //查询计划所属彩种
-                string sql = @"select b.Name as NickName,a.Id,1 as RelatedType,a.lType from BettingRecord a
-left join UserInfo b on b.Id=a.UserId
-where a.Id=" + id;
-                var list = Util.ReaderToList<DynamicRelatedInfo>(sql);
-                if (list.Any())
-                    info = list.First();
 
-                info.TypeName = Util.GetLotteryTypeName(info.LType);
+                info = new DynamicRelatedInfo();
+                if (refCommentId <= 0)
+                {
+                    //id为彩种Id
+                    info.LType = id;
+                    info.TypeName = Util.GetLotteryTypeName(id);
+
+                    var user = UserHelper.GetUser(articleUserId);
+                    if (user != null)
+                    {
+                        info.NickName = user.Name;
+                    }
+                }
+                else
+                {
+                    var comment = Util.GetEntityById<Comment>(refCommentId);
+                    if (comment != null)
+                    {
+                        info.LType = comment.ArticleUserId;
+                        info.TypeName = Util.GetLotteryTypeName(comment.ArticleUserId);
+
+                        var user = UserHelper.GetUser(comment.ArticleUserId);
+                        if (user != null)
+                        {
+                            info.NickName = user.Name;
+                        }
+                    }
+                }
 
             }
             else
