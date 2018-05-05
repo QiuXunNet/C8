@@ -94,6 +94,9 @@ namespace C8.Lottery.Model
         /// </summary>
         public string LotteryTypeName { get; set; }
         
-
+        /// <summary>
+        /// 关联计划发表人Id（计划=1时）
+        /// </summary>
+        public int ArticleUserId { get; set; }
     }
 }
