@@ -60,15 +60,15 @@
             <dl class="KJ_Tinfo">
                 @if (lType == 10 || lType == 63 || lType == 65)
                 {
-                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm:ss") @record.ShowIssue</dt>
+                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm") @record.ShowIssue</dt>
                 }
                 else if (lType < 9)
                 {
-                    <dt>@record.SubTime.ToString("F") @record.ShowIssue</dt>
+                    <dt>@record.SubTime.ToString("f") @record.ShowIssue</dt>
                 }
                 else
                 {
-                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm:ss") @record.ShowIssue</dt>
+                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm") @record.ShowIssue</dt>
                 }
                 <dd>
                     <div class="KJ_TH">

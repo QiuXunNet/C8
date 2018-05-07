@@ -141,7 +141,7 @@
                             + ' <div class="Ranking_Blogotu">'
                             + '  <a href="/Plan/PlayRecord/' + ltype + '?uid=' + value.UserId + '&type=1"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
                             + '   </td> <td align="left" valign="middle">'
-                            + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
+                            + '   <p class="' + GetYsfont(value.Rank) + '"><a href="javascript:;">' + value.NickName + '</a></p>'
                             + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Money + '</span></td>'
                             + ' </tr> '
                     }
@@ -159,7 +159,7 @@
                         + ' <div class="Ranking_Blogotu">'
                         + '  <a href="/Plan/PlayRecord/' + ltype + '?uid=' + value.UserId + '&type=1"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
                         + '   </td> <td align="left" valign="middle">'
-                        + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
+                        + '   <p class="' + GetYsfont(value.Rank) + '"><a href="javascript:;">' + value.NickName + '</a></p>'
                         + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Money + '</span></td>'
                         + ' </tr> '
 

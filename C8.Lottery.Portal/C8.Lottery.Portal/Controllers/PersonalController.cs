@@ -526,7 +526,7 @@ where RowNumber BETWEEN @Start AND @End ";
                 string strsql = @"select * from ( 
 select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,'') as NickName,ISNULL(b.Autograph,'')as Autograph ,isnull(c.RPath,'')as HeadPath
 ,(select count(1) from Follow where UserId=@Followed_UserId and Followed_UserId=a.UserId and Status=1)as Isfollowed from Follow as a 
- left join UserInfo b on b.Id = a.UserId
+ inner join UserInfo b on b.Id = a.UserId
  left join ResourceMapping c on c.FkId = a.UserId and c.Type =@Type
  where a.Followed_UserId=@Followed_UserId  and a.Status=1
 ) as d
@@ -885,7 +885,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
                 if (ltype > 0) ltypeWhere = " AND lType=" + ltype;
 
                 string sql = string.Format(@"SELECT * FROM ( 
-	SELECT row_number() over(order by WinState,Issue DESC,lType ) as rowNumber,* FROM (
+	SELECT row_number() over(order by WinState,SubTime DESC,lType) as rowNumber,* FROM (
 		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState,SubTime FROM [dbo].[BettingRecord]
 		WHERE UserId=@UserId{0}{1}
 		) t

@@ -554,6 +554,18 @@ $(function () {
 
 });
 
+/**前三名橙色*/
+function GetYsfont(rank)
+{
+    var color = "";
+    if (rank <= 3)
+    {
+        color = "Ysfont";
+    }
+    return color;
+}
+
+
 /**评论 by LHS */
 /**
  * 点击分享，显示分享模块

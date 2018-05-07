@@ -933,9 +933,9 @@ left: 0;
 
             .Mif_syTable thead tr th {
                 font-weight: normal;
-                font-size: 14px;
+                font-size: 12px;
                 color: #333;
-                padding: 5px 0;
+                padding: 2px 0;
             }
 
                 .Mif_syTable thead tr th .Mif_jgA {
@@ -5573,7 +5573,7 @@ left: 0;
     color: #fff;
     background: #f13131;
     border-radius: 50%;
-    margin: 5px 0;
+    margin: 2px 0;
 }
 
 .History_sp23 {
@@ -8796,6 +8796,9 @@ footer {
 .SaiChe_TA9{background:#760000 !important;}
 .SaiChe_TA10{background:#28c200 !important;}
 
+.MR_0 {
+    margin-right:0px !important;
+}
 
 
 
