@@ -345,6 +345,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
         /// <returns></returns>
         public ActionResult LotteryTime()
         {
+            ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
 

@@ -44,7 +44,11 @@
 
                             </div>
                         </td>
-                        <td align="left" valign="middle"><p class="Ysfont"><a href="javascript:;">@item.Name</a></p></td>
+                        <td align="left" valign="middle">
+                        <p class="@Tool.GetYsfont(item.Rank)">
+                            <a href="javascript:;">@item.Name</a>
+                         </p>
+                        </td>
                         <td width="25%" align="center" valign="middle"><span class="Ds_money Fs_money">@item.Number</span></td>
                     </tr>
 
@@ -62,12 +66,19 @@
         <table width="100%" border="0" class="Ranking_table2">
             <tbody>
                 <tr>
-                    @foreach (var item2 in banglist)
-                    {
+                    @{
+                        var top3banglist = banglist;
 
-                        if (item2.Rank <= 3)
+
+                        foreach (var item2 in top3banglist)
                         {
-                            <td width="33%" align="center" valign="middle">
+
+
+                            if (item2.Rank <= 3)
+                            {
+                                
+
+                            <td width="33%" class="@Tool.sortByRank(item2.Rank)" align="center" valign="middle">
                                 <div class="Ranking_Blogotu2">
                                     <div class="Ranking_B2tu"><a href="/Personal/UserCenter/@item2.Followed_UserId"><img src="@item2.HeadPath"></a></div>
                                     <img src="@Tool.GetRankImg(item2.Rank)" class="Ranking_PHtu">
@@ -78,7 +89,7 @@
                         }
 
                     }
-
+                    }
 
                 </tr>
             </tbody>
@@ -103,9 +114,6 @@
 
             </tbody>
         </table>
-
-
-
 
     }
 

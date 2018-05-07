@@ -554,6 +554,31 @@ $(function () {
 
 });
 
+/**前三名橙色*/
+function GetYsfont(rank)
+{
+    var color = "";
+    if (rank <= 3)
+    {
+        color = "Ysfont";
+    }
+    return color;
+}
+
+function sortByRank(rank)
+{
+    var cls = "";
+    if (rank == 1) {
+        cls = "rank_33_1";
+    }
+    else if (rank == 2) {
+        cls = "rank_33_2";
+    }
+
+    return cls;
+}
+
+
 /**评论 by LHS */
 /**
  * 点击分享，显示分享模块

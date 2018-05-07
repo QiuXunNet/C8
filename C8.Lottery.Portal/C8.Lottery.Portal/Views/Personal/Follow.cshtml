@@ -14,6 +14,7 @@
     <script type="text/javascript" src="~/js/luo/dropload.min.js"></script>
     <script src="~/js/dialog.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
 
     <script>
         var pageIndex = 1,
@@ -73,7 +74,7 @@
         function joinhtml(data) {
             var html = [];
             $.each(data.PageData, function (index, value) {
-                console.log(value.Headpath);
+               
 
                 var dl = "<dl class='details_DL'><dt><a href='/Personal/UserCenter/" + value.Followed_UserId + "'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
                     + "<dd>"

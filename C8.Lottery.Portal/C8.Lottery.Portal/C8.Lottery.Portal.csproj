@@ -714,6 +714,7 @@
     <Content Include="images\w8.png" />
     <Content Include="images\w9_1.png" />
     <Content Include="images\w9_2.png" />
+    <Content Include="js\baidu-statistics.js" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
     <Content Include="js\fontSize.js" />
@@ -848,6 +849,7 @@
     <Content Include="Views\Personal\Voucher.cshtml" />
     <Content Include="Views\Personal\VoucherRules.cshtml" />
     <Content Include="Views\PvUvIp\Index.cshtml" />
+    <Content Include="Views\Personal\MyIntegral.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />

@@ -18,6 +18,7 @@
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="~/js/dialog.min.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
@@ -75,7 +76,7 @@
             <tr>
                 <td align="center" valign="middle">
                     <p class="Forecast_Ptit">@(lastBettingRecord.Issue)期</p>
-                    <p class="Forecast_Ptit">@lastBettingRecord.SubTime.ToString("yyyy-MM-dd")</p>
+                    @*<p class="Forecast_Ptit">@lastBettingRecord.SubTime.ToString("yyyy-MM-dd")</p>*@
                 </td>
                 <td align="center" valign="middle">
                     <p class="Forecast_Pred">@ViewBag.Time</p>

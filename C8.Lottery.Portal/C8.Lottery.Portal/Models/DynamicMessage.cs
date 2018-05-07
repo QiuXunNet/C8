@@ -58,5 +58,14 @@ namespace C8.Lottery.Portal.Models
         /// 彩种名称
         /// </summary>
         public string LotteryTypeName { get; set; }
+
+        /// <summary>
+        /// 相关评论用户Id（Type=1时）
+        /// </summary>
+        public int ArticleUserId { get; set; }
+        /// <summary>
+        /// 动态消息的评论的上级评论
+        /// </summary>
+        public int RefCommentId { get; set; }
     }
 }

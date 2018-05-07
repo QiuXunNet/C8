@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/function.js"></script>
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
 </head>
 <body style="background: #F4F4F5;">
     <header class="hjc_header">
@@ -59,15 +60,15 @@
             <dl class="KJ_Tinfo">
                 @if (lType == 10 || lType == 63 || lType == 65)
                 {
-                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm:ss") @record.ShowIssue</dt>
+                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm") @record.ShowIssue</dt>
                 }
                 else if (lType < 9)
                 {
-                    <dt>@record.SubTime.ToString("F") @record.ShowIssue</dt>
+                    <dt>@record.SubTime.ToString("f") @record.ShowIssue</dt>
                 }
                 else
                 {
-                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm:ss") @record.ShowIssue</dt>
+                    <dt>@ViewBag.date @record.SubTime.ToString("HH:mm") @record.ShowIssue</dt>
                 }
                 <dd>
                     <div class="KJ_TH">

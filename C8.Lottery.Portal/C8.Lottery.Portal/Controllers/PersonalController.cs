@@ -526,7 +526,7 @@ where RowNumber BETWEEN @Start AND @End ";
                 string strsql = @"select * from ( 
 select a.*, ROW_NUMBER() OVER(Order by a.Id DESC ) AS RowNumber,isnull(b.Name,'') as NickName,ISNULL(b.Autograph,'')as Autograph ,isnull(c.RPath,'')as HeadPath
 ,(select count(1) from Follow where UserId=@Followed_UserId and Followed_UserId=a.UserId and Status=1)as Isfollowed from Follow as a 
- left join UserInfo b on b.Id = a.UserId
+ inner join UserInfo b on b.Id = a.UserId
  left join ResourceMapping c on c.FkId = a.UserId and c.Type =@Type
  where a.Followed_UserId=@Followed_UserId  and a.Status=1
 ) as d
@@ -885,9 +885,9 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
                 if (ltype > 0) ltypeWhere = " AND lType=" + ltype;
 
                 string sql = string.Format(@"SELECT * FROM ( 
-	SELECT row_number() over(order by WinState,Issue DESC,lType ) as rowNumber,* FROM (
-		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState,SubTime FROM [dbo].[BettingRecord]
-		WHERE UserId=@UserId{0}{1}
+	SELECT row_number() over(order by WinState,SubTime DESC,lType) as rowNumber,* FROM (
+		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState,SubTime FROM [dbo].[BettingRecord] a
+		WHERE SubTime=(select max(SubTime) from [BettingRecord] b where a.lType=b.lType and a.Issue=b.Issue  and a.UserId=b.UserId) and UserId=@UserId{0}{1}
 		) t
 	) tt
 WHERE rowNumber BETWEEN @Start AND @End", ltypeWhere, winStateWhere);
@@ -972,7 +972,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     }
 
 
-                    var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                    var info = GetLotteryTypeName(x.Type, x.ArticleId, x.ArticleUserId, x.RefCommentId);
 
                     x.LotteryTypeName = info == null ? "" : info.TypeName;
                 });
@@ -1116,7 +1116,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 #region 分页查询动态消息
                 string sql = @"SELECT * FROM (
     select row_number() over(order by m.SubTime DESC ) as rowNumber,m.*,a.PId,a.Content,
-	a.[Type] as CommentType,a.ArticleId,
+	a.[Type] as CommentType,a.ArticleId,a.ArticleUserId,a.RefCommentId,
 	a.UserId as FromUserId,b.Name as FromNickName,c.RPath as FromAvater 
 	from UserInternalMessage m
 	left join Comment a on a.Id=m.RefId
@@ -1157,7 +1157,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                         }
 
                     }
-                    var info = GetLotteryTypeName(x.Type, x.ArticleId);
+                    var info = GetLotteryTypeName(x.Type, x.ArticleId, x.ArticleUserId, x.RefCommentId);
                     x.LotteryTypeName = info.TypeName ?? "";
                     x.RefNickName = info.NickName;
 
@@ -1314,22 +1314,44 @@ where  a.Id=@Id and a.IsDeleted = 0";
         /// 查询彩种类型名称
         /// </summary>
         /// <param name="type">类型 1=计划 2=文章</param>
-        /// <param name="id">计划/文章 Id</param>
+        /// <param name="id">彩种Id（上级评论Id）/文章 Id</param>
+        /// <param name="articleUserId">发表计划用户Id type=1时</param>
+        /// <param name="refCommentId">相关一级评论Id</param>
         /// <returns></returns>
-        private DynamicRelatedInfo GetLotteryTypeName(int type, int id)
+        private DynamicRelatedInfo GetLotteryTypeName(int type, int id, int articleUserId, int refCommentId)
         {
             DynamicRelatedInfo info = null;
             if (type == 1)
             {
-                //查询计划所属彩种
-                string sql = @"select b.Name as NickName,a.Id,1 as RelatedType,a.lType from BettingRecord a
-left join UserInfo b on b.Id=a.UserId
-where a.Id=" + id;
-                var list = Util.ReaderToList<DynamicRelatedInfo>(sql);
-                if (list.Any())
-                    info = list.First();
 
-                info.TypeName = Util.GetLotteryTypeName(info.LType);
+                info = new DynamicRelatedInfo();
+                if (refCommentId <= 0)
+                {
+                    //id为彩种Id
+                    info.LType = id;
+                    info.TypeName = Util.GetLotteryTypeName(id);
+
+                    var user = UserHelper.GetUser(articleUserId);
+                    if (user != null)
+                    {
+                        info.NickName = user.Name;
+                    }
+                }
+                else
+                {
+                    var comment = Util.GetEntityById<Comment>(refCommentId);
+                    if (comment != null)
+                    {
+                        info.LType = comment.ArticleUserId;
+                        info.TypeName = Util.GetLotteryTypeName(comment.ArticleUserId);
+
+                        var user = UserHelper.GetUser(comment.ArticleUserId);
+                        if (user != null)
+                        {
+                            info.NickName = user.Name;
+                        }
+                    }
+                }
 
             }
             else
@@ -1967,6 +1989,64 @@ inner join UserInfo u on  c.UserId=u.Id
             ViewBag.Platform = Request.Params["pl"].ToInt32();
             return View();
         }
+        /// <summary>
+        /// 我的积分
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyIntegral()
+        {
+            UserInfo user = UserHelper.GetUser();
+            ViewBag.Integral = user.Integral;
+            string strsql = @"select * from LotteryType2 where PId=0  order by Position ";
+            List<LotteryType2> list = Util.ReaderToList<LotteryType2>(strsql);
+            ViewBag.LotteryType2List = list;
+            return View();
+        }
+
+        /// <summary>
+        /// 获取我的积分数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetMyIntegral(int PId)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            int userId = UserHelper.GetByUserId();
+            try
+            {
+                List<BetModel> list = new List<BetModel>();
+          
+                string strsql = @"  select 
+     (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
+     and lType = l.lType) as Score,* from LotteryType2 l
+     where PId = @PId";
+            
+                SqlParameter[] sp = new SqlParameter[]
+                {
+                        new SqlParameter("@PId",PId),
+                        new SqlParameter("@UserId",userId),
+                    
+
+                 };
+
+                list = Util.ReaderToList<BetModel>(strsql, sp);
+                list.ForEach(x =>
+                {
+                    x.LotteryIcon = Util.GetLotteryIcon(x.lType);
+                });
+                msg.data = list;
+                msg.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                msg.Success = false;
+                msg.Msg = ex.Message;
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 

@@ -304,7 +304,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lType = id;
             ViewBag.title1 = "规则说明-" + name;
             ViewBag.title2 = name + "规则说明";
-            ViewBag.title3 = "万彩" + name + "玩法规则说明:";
+            ViewBag.title3 = name + "玩法规则说明:";
             ViewBag.title4 = name + "玩法积分规则:";
 
 
@@ -797,7 +797,7 @@ from (
                         LotteryNum l = new LotteryNum();
                         l.Issue = item.Issue;
                         l.Num = item.Num;
-                        l.SubTime = Convert.ToDateTime(item.SubTime).ToString("yyyy-MM-dd");
+                        l.SubTime = Convert.ToDateTime(item.SubTime).ToString("MM-dd HH:mm");
                         model.LotteryNum = l;
                         if (listbet.Count() > 0)
                             model.BettingRecord = listbet.Where(x => x.Issue == item.Issue).ToList();

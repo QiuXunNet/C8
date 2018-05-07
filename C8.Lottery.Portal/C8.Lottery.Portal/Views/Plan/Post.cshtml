@@ -18,6 +18,7 @@
     <script type="text/javascript" src="/js/public.js"></script>
     <script type="text/javascript" src="/js/bet.js"></script>
     <script type="text/javascript" src="/js/runTime2.js"></script>
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
 </head>
 <body style="background:#F4F4F5;">
     <input type="hidden" value="@ViewBag.lType" id="lType" />
@@ -1071,7 +1072,7 @@
         <table width="100%" border="0" class="WanFa_TableB">
             <thead>
                 <tr>
-                    <th width="40%" align="center" valign="middle" scope="col">期次</th>
+                    <th width="29%" align="center" valign="middle" scope="col">期次</th>
                     <th align="center" valign="middle" scope="col">开奖号码</th>
                 </tr>
             </thead>
@@ -1085,10 +1086,97 @@
                     <tr>
                         <td align="center" valign="middle">@desc</td>
                         <td align="center" valign="middle">
-                            @foreach (string s in numArr)
-                            {
-                                <span class="History_sp">@s</span>
+                            @{
+                                int j = -1;
+                                foreach (string s in numArr)
+                                {
+                                    j++;
+
+                                    if (lType == 63 || lType == 64)
+                                    {
+                                        string clazz = "SaiChe_Text MR_0 SaiChe_TA" + s;
+                                        <span class="@clazz">@s</span>
+                                    }
+                                    else if (lType == 2)
+                                    {
+                                        if (j == 6)
+                                        {
+                                            <span class="History_sp HYJP_Blue">@s</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="History_sp">@s</span>
+                                        }
+                                    }
+                                    else if (lType == 5)
+                                    {
+                                        string Color = Util.GetColor(s);
+                                        string ys = string.Empty;
+                                        switch (Color)
+                                        {
+                                            case "red":
+                                                ys = "HYJP_LhRed";
+                                                break;
+                                            case "blue":
+                                                ys = "HYJP_LhBlue";
+                                                break;
+                                            case "green":
+                                                ys = "HYJP_LhGreen";
+                                                break;
+                                        }
+                                        if (j == 6)
+                                        {
+                                            <span class="History_sp HYJP_PcHao">+</span>
+
+                                        }
+                                        <span class="History_sp @ys">@s</span>
+                                    }
+                                    else if (lType == 8)
+                                    {
+                                        if (j == 7)
+                                        {
+                                            <span class="History_sp HYJP_Blue">@s</span>
+                                        }               
+                                        else            
+                                        {               
+                                            <span class="History_sp">@s</span>
+                                        }
+                                    }
+                                    else if (lType == 4)
+                                    {
+                                        if (j == 5 || j == 6)
+                                        {
+                                            <span class="History_sp HYJP_Blue">@s</span>
+                                        }               
+                                        else            
+                                        {               
+                                            <span class="History_sp">@s</span>
+                                        }
+                                    }
+                                    else if (lType == 65)
+                                    {
+                                        int a = int.Parse(numArr[0]);
+                                        int b = int.Parse(numArr[1]);
+                                        int c = int.Parse(numArr[2]);
+                                        int sum = a + b + c;
+                                        <span class="History_sp">@numArr[0]</span>
+                                        <span class="History_sp HYJP_PcHao">+</span>
+                                        <span class="History_sp">@numArr[1]</span>
+                                        <span class="History_sp HYJP_PcHao">+</span>
+                                        <span class="History_sp">@numArr[2]</span>
+                                        <span class="History_sp HYJP_PcHao">=</span>
+                                        <span class="History_sp">@sum</span>
+                                        break;
+
+                                    }
+                                    else
+                                    {
+                                        <span class="History_sp">@s</span>
+                                    }
+                                }
+
                             }
+                            
                         </td>
                     </tr>
 

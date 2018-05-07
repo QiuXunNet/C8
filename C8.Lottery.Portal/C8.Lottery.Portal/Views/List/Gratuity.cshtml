@@ -22,6 +22,7 @@
     <script src="~/js/dialog.min.js"></script>>
     <script type="text/javascript" src="~/js/yjp.js"></script>
 
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
     <script>
         $(function () {
 
@@ -121,7 +122,7 @@
                 if (queryType == "all") {
                     if (value.Rank <= 3) {
                         tr2 = ''
-                            + '<td width="33%" align="center" valign="middle">'
+                            + '<td width="33%" class="' + sortByRank(value.Rank) + '" align="center" valign="middle">'
                             + ' <div class="Ranking_Blogotu2">'
                             + ' <div class="Ranking_B2tu"> '
                             + '<a href="/Plan/PlayRecord/' + ltype + '?uid=' + value.UserId + '&type=1"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>'
@@ -138,7 +139,7 @@
                             + ' <div class="Ranking_Blogotu">'
                             + '  <a href="/Plan/PlayRecord/' + ltype + '?uid=' + value.UserId + '&type=1"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
                             + '   </td> <td align="left" valign="middle">'
-                            + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
+                            + '   <p class="' + GetYsfont(value.Rank) + '"><a href="javascript:;">' + value.NickName + '</a></p>'
                             + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Money + '</span></td>'
                             + ' </tr> '
                     }
@@ -156,7 +157,7 @@
                         + ' <div class="Ranking_Blogotu">'
                         + '  <a href="/Plan/PlayRecord/' + ltype + '?uid=' + value.UserId + '&type=1"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>  </div>'
                         + '   </td> <td align="left" valign="middle">'
-                        + '   <p class="Ysfont"><a href="javascript:;">' + value.NickName + '</a></p>'
+                        + '   <p class="' + GetYsfont(value.Rank) + '"><a href="javascript:;">' + value.NickName + '</a></p>'
                         + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money">' + value.Money + '</span></td>'
                         + ' </tr> '
 

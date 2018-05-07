@@ -1,11 +1,11 @@
 ﻿@{
     Layout = null;
+
+    int platform = ViewBag.Platform;
+    string show = platform == 1 ? "margin-top:0;" : "";
 }
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -16,28 +16,25 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
 </head>
-
 <body>
-
-    <header class="hjc_header">
-        <a href="javascript:history.go(-1);" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo">6彩-开奖时间</a>
-    </header>
-
-    <div class="smemu">
+    @if (platform != 1)
+    {
+        <header class="hjc_header">
+            <a href="javascript:history.go(-1);" class="hjc_back"></a>
+            <a href="javascript:;" class="hjc_logo">6彩-开奖时间</a>
+        </header>
+    }
+    <div class="smemu" style="@show">
         <div class="sm-l">开奖日排期表</div>
         <div class="sm-b">印有粉色底即为开奖日！</div>
     </div>
     <div class="rq-box"></div>
 
 
-
-
-
     <script src="~/js/zepto.tap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/js/opendate.js"></script>
-
     <script type="text/javascript">
         var daTa;
         $.ajax({
@@ -51,6 +48,5 @@
         var _djson = daTa;
     </script>
 </body>
-
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
