@@ -106,16 +106,25 @@ namespace C8.Lottery.Portal.Controllers
             //微信服务器可能会多次推送到本接口，这里需要根据out_trade_no去查询订单是否处理，如果处理直接返回：return Content(xml, "text/xml"); 不跑下面代码
             //if (false)
             //{
-            if (AlertComeOutRecord(out_trade_no, 1))
+            //验证请求是否从微信发过来（安全）
+            if (payNotifyRepHandler.IsTenpaySign())
             {
-                return Content(xml, "text/xml");
+                LogHelper.WriteLog("---------11111111");
+                if (AlertComeOutRecord(out_trade_no, 1))
+                {
+                    return Content(xml, "text/xml");
+                }
+                else
+                {                   
+                    //如果订单修改失败，需要微信再次发送请求
+                    xml = string.Format(@"<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[]]></return_msg></xml>");
+                    return Content(xml, "text/xml");
+                }
             }
-            else
-            {
-                //如果订单修改失败，需要微信再次发送请求
-                xml = string.Format(@"<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[]]></return_msg></xml>");
-                return Content(xml, "text/xml");
-            }
+            else {
+                LogHelper.WriteLog("---------222222222");
+                return Content("");
+            }           
         }
 
         #endregion
