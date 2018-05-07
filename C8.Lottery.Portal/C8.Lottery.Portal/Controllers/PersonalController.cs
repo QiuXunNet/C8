@@ -886,8 +886,8 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
 
                 string sql = string.Format(@"SELECT * FROM ( 
 	SELECT row_number() over(order by WinState,SubTime DESC,lType) as rowNumber,* FROM (
-		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState,SubTime FROM [dbo].[BettingRecord]
-		WHERE UserId=@UserId{0}{1}
+		SELECT distinct lType,Issue, (case WinState when 1 then 1 else 2 end) as WinState,SubTime FROM [dbo].[BettingRecord] a
+		WHERE SubTime=(select max(SubTime) from [BettingRecord] b where a.lType=b.lType and a.Issue=b.Issue  and a.UserId=b.UserId) and UserId=@UserId{0}{1}
 		) t
 	) tt
 WHERE rowNumber BETWEEN @Start AND @End", ltypeWhere, winStateWhere);
