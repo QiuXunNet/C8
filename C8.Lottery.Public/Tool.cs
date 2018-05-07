@@ -99,21 +99,19 @@ namespace C8.Lottery.Public
         /// </summary>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static int sortByRank(int r)
+        public static string sortByRank(int r)
         {
-            int result =-1;
-            if (r == 2)
+            string cls = "";
+            if (r == 1)
             {
-                result = 1;
-            }else if (r == 1)
-            {
-                result =0;
+                cls = "rank_33_1";
             }
-            else if (r == 3)
+            else if (r == 2)
             {
-                result =2;
+                cls = "rank_33_2";
             }
-            return result;
+            
+            return cls;
         }
         /// <summary>
         /// 获取卡劵图片

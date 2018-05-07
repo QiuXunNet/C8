@@ -2814,6 +2814,7 @@ left: 0;
 }
 
 .Ranking_table2 {
+    position: relative;
 }
 
 .Ranking_table2 {
@@ -2872,6 +2873,7 @@ left: 0;
     font-weight: normal;
     color: #ff8a00;
     margin-top: 5px;
+    white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
 }
 
 .Ranking_name a {
@@ -8799,6 +8801,14 @@ footer {
 .MR_0 {
     margin-right:0px !important;
 }
+
+.rank_33_2 {
+    position:absolute;top:0;left:0;
+}
+.rank_33_1 {
+    position:absolute;top:0;left:33%;
+}
+
 
 
 

@@ -565,6 +565,19 @@ function GetYsfont(rank)
     return color;
 }
 
+function sortByRank(rank)
+{
+    var cls = "";
+    if (rank == 1) {
+        cls = "rank_33_1";
+    }
+    else if (rank == 2) {
+        cls = "rank_33_2";
+    }
+
+    return cls;
+}
+
 
 /**评论 by LHS */
 /**

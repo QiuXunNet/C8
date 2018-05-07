@@ -124,7 +124,7 @@
                 if (queryType == "all") {
                     if (value.Rank <= 3) {
                         tr2 = ''
-                            + '<td width="33%" align="center" valign="middle">'
+                            + '<td width="33%" class="' + sortByRank(value.Rank) + '" align="center" valign="middle">'
                             + ' <div class="Ranking_Blogotu2">'
                             + ' <div class="Ranking_B2tu"> '
                             + '<a href="/Plan/PlayRecord/' + ltype + '?uid=' + value.UserId + '&type=1"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>'

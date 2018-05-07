@@ -69,7 +69,7 @@
                 if (queryType == "all") {
                     if (value.Rank <= 3) {
                         tr2 = ''
-                            + '<td width="33%" align="center" valign="middle">'
+                            + '<td class="' + sortByRank(value.Rank) + '" width="33%" align="center" valign="middle">'
                             + ' <div class="Ranking_Blogotu2">'
                             + ' <div class="Ranking_B2tu"> '
                             + '<a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? '/images/default_avater.png' : value.Avater) + '"></a>'
@@ -96,7 +96,8 @@
 
                 } else {
                     var tdrank = '<td align="center" valign="middle"> <p>' + value.Rank + '</p></td>';
-                    if (value.Rank <= 3) {
+                    if (value.Rank <= 3)
+                    {
                         tdrank = '<td width="10%" align="center" valign="middle"><img src="' + gettop3img(value.Rank) + '" class="Ranking_Btu"></td>';
                     }
 

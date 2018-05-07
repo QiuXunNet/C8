@@ -68,7 +68,7 @@
                 <tr>
                     @{
                         var top3banglist = banglist;
-                     
+
 
                         foreach (var item2 in top3banglist)
                         {
@@ -76,7 +76,9 @@
 
                             if (item2.Rank <= 3)
                             {
-                            <td width="33%" align="center" valign="middle">
+                                
+
+                            <td width="33%" class="@Tool.sortByRank(item2.Rank)" align="center" valign="middle">
                                 <div class="Ranking_Blogotu2">
                                     <div class="Ranking_B2tu"><a href="/Personal/UserCenter/@item2.Followed_UserId"><img src="@item2.HeadPath"></a></div>
                                     <img src="@Tool.GetRankImg(item2.Rank)" class="Ranking_PHtu">
@@ -112,9 +114,6 @@
 
             </tbody>
         </table>
-
-
-
 
     }
 
