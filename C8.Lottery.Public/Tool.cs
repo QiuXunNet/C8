@@ -111,8 +111,8 @@ namespace C8.Lottery.Public
             }
             catch (Exception)
             {
-
-                throw;
+                return "";
+               
             }
         }
 
