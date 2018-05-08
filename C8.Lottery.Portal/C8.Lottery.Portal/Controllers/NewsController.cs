@@ -536,7 +536,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         {
             string sql = string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,
 (select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes,
-(select count(1) from Comment where PId = a.Id ) as ReplayCount 
+(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount 
 from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -608,7 +608,7 @@ from Comment a
         {
             string sql =
                string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -683,7 +683,7 @@ from Comment a
 
             string sql = string.Format(@"SELECT * FROM ( 
 select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
 from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -732,7 +732,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             string sql =
                @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater
 ,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -798,7 +798,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             string sql = @"SELECT * FROM ( 
 select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
 ,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
 from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
