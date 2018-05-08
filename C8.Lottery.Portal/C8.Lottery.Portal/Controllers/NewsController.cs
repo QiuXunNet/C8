@@ -159,6 +159,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.time = time;
             //  }
 
+            ViewBag.CityId = Tool.GetCityId();
+
             return View("TypeList", model);
         }
 

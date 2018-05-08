@@ -64,8 +64,9 @@ namespace C8.Lottery.Public
         /// <returns></returns>
         public static string GetCityId()
         {
-            string i = "0";
             string city = GetByIPCity();
+            string i = "0";
+         
             if (city.Contains("深圳"))
             {
                 i = "2";
@@ -98,21 +99,13 @@ namespace C8.Lottery.Public
         {
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://pv.sohu.com/cityjson?ie=utf-8&qq-pf-to=pcqq.discussion");
-                request.Method = "GET";
-                request.ContentType = "text/html;charset=UTF-8";
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream myResponseStream = response.GetResponseStream();
-                StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-                string retString = myStreamReader.ReadToEnd();
-                string json = retString.Substring(retString.IndexOf("{")).Replace(';', ' ');
-                JObject jo = (JObject)JsonConvert.DeserializeObject(json);
-
-                string city = jo["cname"].ToString();
-                
-                
-                myStreamReader.Close();
-                myResponseStream.Close();
+               
+                string ip = GetIP();
+                string json = HttpCommon.HttpGet("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip + "");
+                JObject jo = (JObject)JsonConvert.DeserializeObject(json);               
+                string data = jo["data"].ToString();
+                JObject jocity = (JObject)JsonConvert.DeserializeObject(data);
+                string city = jocity["city"].ToString();
 
                 return city;
             }
