@@ -575,7 +575,7 @@ where RowNumber BETWEEN @Start AND @End ";
             string strsql = @" select Number,Coin,Coupon from
                               (select count(1) as Number from UserInfo where Pid = @Pid) t1,
                               (select sum([Money])as Coin from ComeOutRecord  where [UserId]=@UserId and [Type]=7) t2,
-							  (select count(1)as Coupon  from UserCoupon where UserId=@UserId) t3";
+							  (select count(1)as Coupon  from UserCoupon where UserId=@UserId and FromType=2) t3";
 
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@Pid",UserId),
