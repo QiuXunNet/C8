@@ -9,6 +9,9 @@ using System.Web;
 using C8.Lottery.Public;
 using System.IO;
 using System.Drawing;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace C8.Lottery.Public
 {
@@ -55,7 +58,73 @@ namespace C8.Lottery.Public
             return userIP;
         }
 
+        /// <summary>
+        /// 获取广告位城市标识
+        /// </summary>
+        /// <returns></returns>
+        public static string GetCityId()
+        {
+            string i = "0";
+            string city = GetByIPCity();
+            if (city.Contains("深圳"))
+            {
+                i = "2";
+            }else if (city.Contains("北京"))
+            {
+                i = "1";
+            }
+            else if (city.Contains("广州"))
+            {
+                i = "3";
 
+            }
+            else if (city.Contains("上海"))
+            {
+                i = "4";
+            }
+            else if (city.Contains("东莞"))
+            {
+                i = "5";
+            }
+            return i;
+        }
+
+
+        /// <summary>
+        /// 获取访客ip城市
+        /// </summary>
+        /// <returns></returns>
+        public static string GetByIPCity()
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://pv.sohu.com/cityjson?ie=utf-8&qq-pf-to=pcqq.discussion");
+                request.Method = "GET";
+                request.ContentType = "text/html;charset=UTF-8";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream myResponseStream = response.GetResponseStream();
+                StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
+                string retString = myStreamReader.ReadToEnd();
+                string json = retString.Substring(retString.IndexOf("{")).Replace(';', ' ');
+                JObject jo = (JObject)JsonConvert.DeserializeObject(json);
+
+                string city = jo["cname"].ToString();
+                
+                
+                myStreamReader.Close();
+                myResponseStream.Close();
+
+                return city;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        
+        
         /// <summary>
         /// 获取排名前三图片
         /// </summary>

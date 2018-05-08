@@ -11,6 +11,7 @@
     int lType = ViewBag.lType;
 
     var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
+    string CityId = ViewBag.CityId;
 }
 
 <!DOCTYPE html>
@@ -300,27 +301,40 @@
                });
         }
         function inadHtml(data) {
-            $.each(data, function (index, item) {
-                if (item.Layer == 1) {
-                    $(".Plan_content").prepend(itemhtml(item))
-                } else if (item.Layer == 2) {
-                    $(".Plan_content").after(itemhtml(item))
-                } else if (item.Layer == 3) {
-                    $(".info_LHC_nav").after(itemhtml(item))
+            var cityid=@CityId;
+            var city;
+            var idx=-1;
+            $.each(data, function (index, item)
+            {
+                if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
+                {
+                    city=item.RestrictedAreas.split(',');
+                    idx=$.inArray(cityid.toString(),city);
                 }
-                else if (item.Layer == 4) {
-                    $(".col4").after(itemhtml(item))
-                }
-                else if (item.Layer == 5) {
-                    $(".col3").after(itemhtml(item))
-                }
-                else if (item.Layer == 6) {
-                    //$(".hjc_news_lhs").after(itemhtml(item))
-                    //$(".GG_Box").addClass("GG_Box1")
+                if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
+                {
 
-                } else if (item.Layer == 7) {
-                    //$(".raking").after(itemhtml(item))
-                    //$(".GG_Box").addClass("GG_Box1")
+                    if (item.Layer == 1) {
+                        $(".Plan_content").prepend(itemhtml(item))
+                    } else if (item.Layer == 2) {
+                        $(".Plan_content").after(itemhtml(item))
+                    } else if (item.Layer == 3) {
+                        $(".info_LHC_nav").after(itemhtml(item))
+                    }
+                    else if (item.Layer == 4) {
+                        $(".col4").after(itemhtml(item))
+                    }
+                    else if (item.Layer == 5) {
+                        $(".col3").after(itemhtml(item))
+                    }
+                    else if (item.Layer == 6) {
+                        //$(".hjc_news_lhs").after(itemhtml(item))
+                        //$(".GG_Box").addClass("GG_Box1")
+
+                    } else if (item.Layer == 7) {
+                        //$(".raking").after(itemhtml(item))
+                        //$(".GG_Box").addClass("GG_Box1")
+                    }
                 }
             });
         }

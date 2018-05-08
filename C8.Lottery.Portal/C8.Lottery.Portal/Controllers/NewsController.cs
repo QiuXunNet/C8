@@ -95,6 +95,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.time = time;
             // }
 
+            ViewBag.CityId = Tool.GetCityId();
+
 
 
             return View(model);
@@ -217,6 +219,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             });
             ViewBag.AdList = adlist;
             ViewBag.PageIndex = pageIndex;
+            ViewBag.CityId = Tool.GetCityId();
 
             return PartialView("NewsList");
         }
@@ -334,7 +337,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
             });
             ViewBag.AdList = adlist;
-
+            ViewBag.CityId = Tool.GetCityId();
 
             return PartialView("NewsGalleryCategoryList");
         }
@@ -484,6 +487,9 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             #endregion
 
+
+            ViewBag.CityId = Tool.GetCityId();
+
             return View(model);
         }
 
@@ -521,6 +527,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;
 
+            ViewBag.CityId = Tool.GetCityId();
+            
             return View(model);
         }
 

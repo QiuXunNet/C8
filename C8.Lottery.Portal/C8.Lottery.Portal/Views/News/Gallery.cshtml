@@ -5,7 +5,7 @@
     List<Gallery> galleryList = ViewBag.GalleryList;
     var currentId = galleryList.Any() ? galleryList.FirstOrDefault().Id : 0;
     NewsType newsType = ViewBag.NewsType;
-    
+    string CityId = ViewBag.CityId;
 }
 @model Gallery
 
@@ -54,36 +54,48 @@
         }
         function inadHtml(data)
         {
+            var cityid=@CityId;
+            var city;
+            var idx=-1;
             $.each(data, function (index, item)
             {
-                if(item.Layer==1)
+                if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
                 {
-                    $(".listdetail").prepend(itemhtml(item))
-                }else if(item.Layer==2)
-                {
-                    $(".listtitle").after(itemhtml(item))
-                }else if(item.Layer==3)
-                {
-                    $(".slick-track").after(itemhtml(item))
+                    city=item.RestrictedAreas.split(',');
+                    idx=$.inArray(cityid.toString(),city);
                 }
-                else if(item.Layer==4)
+                if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
                 {
-                    $(".rec-gallery dt").after(itemhtml(item))
-                }
-                else if(item.Layer==5)
-                {
-                    $(".rec-gallery").after(itemhtml(item))
-                }
-                else if(item.Layer==6)
-                {
-                    //$(".hjc_news_lhs").after(itemhtml(item))
-                    //$(".GG_Box").addClass("GG_Box1")
+                    if(item.Layer==1)
+                    {
+                        $(".listdetail").prepend(itemhtml(item))
+                    }else if(item.Layer==2)
+                    {
+                        $(".listtitle").after(itemhtml(item))
+                    }else if(item.Layer==3)
+                    {
+                        $(".slick-track").after(itemhtml(item))
+                    }
+                    else if(item.Layer==4)
+                    {
+                        $(".rec-gallery dt").after(itemhtml(item))
+                    }
+                    else if(item.Layer==5)
+                    {
+                        $(".rec-gallery").after(itemhtml(item))
+                    }
+                    else if(item.Layer==6)
+                    {
+                        //$(".hjc_news_lhs").after(itemhtml(item))
+                        //$(".GG_Box").addClass("GG_Box1")
 
-                } else if(item.Layer==7)
-                {
-                    //$(".raking").after(itemhtml(item))
-                    //$(".GG_Box").addClass("GG_Box1")
+                    } else if(item.Layer==7)
+                    {
+                        //$(".raking").after(itemhtml(item))
+                        //$(".GG_Box").addClass("GG_Box1")
+                    }
                 }
+
             });
         }
         function itemhtml(item)
@@ -194,7 +206,7 @@
     </header>
 
     <div class="alllist">
-        <div id="navbox" class="top-nav oh">
+        <div id="navbox" class="top-nav oh" style="overflow: hidden;">
             <div class="nav-box">
 
                 @foreach (var item in galleryList)

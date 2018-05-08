@@ -861,6 +861,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
             var result = new AjaxResult<PagedList<BettingRecord>>();
             try
             {
+
                 var pager = new PagedList<BettingRecord>();
                 pager.PageIndex = pageIndex;
                 pager.PageSize = pageSize;

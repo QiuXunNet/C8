@@ -19,6 +19,7 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult Index()
         {
+            
             //1.最后一期开奖号码
             string sql = "";
 

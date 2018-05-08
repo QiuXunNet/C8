@@ -10,6 +10,7 @@
     long currentNewsTypeId = newsType == null ? 0 : newsType.Id;
 
     int lType = ViewBag.lType;
+    string CityId = ViewBag.CityId;
 
     var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
 }
@@ -651,14 +652,27 @@
         }
         function inadHtml(data)
         {
+            var cityid=@CityId;
+            var city;
+            var idx=-1;
+           
             $.each(data, function (index, item)
             {
-                if(item.Layer==1)
+                if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
                 {
-                    $(".Plan_content").prepend(itemhtml(item))
-                }else if(item.Layer==2)
+                    city=item.RestrictedAreas.split(',');
+                    idx=$.inArray(cityid.toString(),city);
+                }
+
+                if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
                 {
-                    $(".CZ_hdMain").after(itemhtml(item))
+                    if(item.Layer==1)
+                    {      
+                        $(".Plan_content").prepend(itemhtml(item))
+                    }else if(item.Layer==2)
+                    {
+                        $(".CZ_hdMain").after(itemhtml(item))    
+                    }
                 }
                
             });
@@ -668,7 +682,7 @@
             var html='';
             if(item.ThumbStyle==0)
             {
-                html='<div class="GG_Box ">'
+                html='<div class="GG_Box  GG_Box1 ">'
 	  +'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
        + ' <div class="newstime">'
@@ -687,7 +701,7 @@
                 }
 
 
-                html='<div class="GG_Box">'
+                html='<div class="GG_Box GG_Box1">'
 	+'<a href="'+item.TransferUrl+'">'
     	+'<div class="GG_B2Left f-l">'
         	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
@@ -707,7 +721,7 @@
                 {
                     img='<img src="'+item.ThumbList[0]+'">'
                 }
-                html='<div class="GG_Box">'
+                html='<div class="GG_Box GG_Box1">'
 	+'<a href="'+item.TransferUrl+'">'
     	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
        + '<div class="GG_B4Tu">'+img+'</div>'
@@ -729,7 +743,7 @@
                     }
                 }
 
-                html='<div class="GG_Box">'
+                html='<div class="GG_Box GG_Box1">'
 	+ '<a href="'+item.TransferUrl+'">'
     	+ '<h3 class="GG_B1Tit">'+item.Title+'</h3>'
         + '<ul class="GG_B3Tu">'
