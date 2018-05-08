@@ -73,9 +73,7 @@
 
         function joinhtml(data) {
             var html = [];
-            $.each(data.PageData, function (index, value) {
-               
-
+            $.each(data.PageData, function (index, value) {            
                 var dl = "<dl class='details_DL'><dt><a href='/Personal/UserCenter/" + value.Followed_UserId + "'><img src='" + (value.Headpath.length <= 0 ? '/images/default_avater.png' : value.Headpath) + "'></a></dt>"
                     + "<dd>"
                     + "<div class='fans_ddRight f-r'  onclick='unorfollow(this," + value.Followed_UserId + ")'> <p class='fans_Qxgz'>取消关注</p></div>"

@@ -16,6 +16,7 @@
         dictType = typeList.GroupBy(x => x.QuickQuery);
         letterList = dictType.Select(x => x.Key);
     }
+    string CityId = ViewBag.CityId;
 
 }
 <!--显示点击的是哪一个字母-->
@@ -75,11 +76,20 @@
                     <div class="gallery-list">
                        @if (adList != null)
                        {
+                           int idx = -1;
                            foreach (var ad in adList)
                            {
-
-                               if (ad.Layer == 3 && i == 1)
+                               string[] city = new string[] { };
+                               if (!string.IsNullOrEmpty(ad.RestrictedAreas))
                                {
+                                   city = ad.RestrictedAreas.Split(',');
+                                   idx = Array.IndexOf(city, CityId);
+                               }
+                               if (string.IsNullOrEmpty(ad.RestrictedAreas) || idx== -1)
+                               {
+
+                                   if (ad.Layer == 3 && i == 1)
+                                   {
                                 <div class="GG_Box GG_Box1 GG_Box2">
                                     @if (ad.ThumbList.Count < 1 || ad.ThumbStyle == 0)
                                     {
@@ -438,6 +448,7 @@
 
                                 </div>
                                }
+                              }
 
                            }
                        }

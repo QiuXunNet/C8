@@ -8,6 +8,8 @@
     LotteryType lottery = ViewBag.Lottery;
     List<News> recArticle = ViewBag.RecommendArticle;
     List<RankIntegralModel> RankIntegral = ViewBag.ListRankIntegral;
+    string CityId = ViewBag.CityId;
+
 }
 <!DOCTYPE html>
 <html>
@@ -54,35 +56,46 @@
         }
         function inadHtml(data)
         {
+            var cityid=@CityId;
+            var city;
+            var idx=-1;
             $.each(data, function (index, item)
             {
-                if(item.Layer==1)
+                if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
                 {
-                    $(".article").prepend(itemhtml(item))
-                }else if(item.Layer==2)
-                {
-                    $(".article-tag").after(itemhtml(item))
-                }else if(item.Layer==3)
-                {
-                    $(".article-body").after(itemhtml(item))
+                    city=item.RestrictedAreas.split(',');
+                    idx=$.inArray(cityid.toString(),city);
                 }
-                else if(item.Layer==4)
+                if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
                 {
-                    $(".article-share").after(itemhtml(item))
-                }
-                else if(item.Layer==5)
-                {
-                    $(".article-pager").after(itemhtml(item))
-                }
-                else if(item.Layer==6)
-                {
-                    $(".hjc_news_lhs").after(itemhtml(item))
-                    $(".GG_Box").addClass("GG_Box1")
+                    if(item.Layer==1)
+                    {
+                        $(".article").prepend(itemhtml(item))
+                    }else if(item.Layer==2)
+                    {
+                        $(".article-tag").after(itemhtml(item))
+                    }else if(item.Layer==3)
+                    {
+                        $(".article-body").after(itemhtml(item))
+                    }
+                    else if(item.Layer==4)
+                    {
+                        $(".article-share").after(itemhtml(item))
+                    }
+                    else if(item.Layer==5)
+                    {
+                        $(".article-pager").after(itemhtml(item))
+                    }
+                    else if(item.Layer==6)
+                    {
+                        $(".hjc_news_lhs").after(itemhtml(item))
+                        $(".GG_Box").addClass("GG_Box1")
 
-                } else if(item.Layer==7)
-                {
-                    $(".raking").after(itemhtml(item))
-                    $(".GG_Box").addClass("GG_Box1")
+                    } else if(item.Layer==7)
+                    {
+                        $(".raking").after(itemhtml(item))
+                        $(".GG_Box").addClass("GG_Box1")
+                    }
                 }
             });
         }
