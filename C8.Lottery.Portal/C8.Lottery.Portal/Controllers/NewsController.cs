@@ -250,8 +250,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
 
             List<Advertisement> list = Util.ReaderToList<Advertisement>(strsql);
-
-
+          
             return list;
         }
         /// <summary>
