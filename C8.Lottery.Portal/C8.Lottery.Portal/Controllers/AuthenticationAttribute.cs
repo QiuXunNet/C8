@@ -42,7 +42,8 @@ namespace C8.Lottery.Portal.Controllers
             }
             else
             {
-                object userId = CacheHelper.GetCache(sessionId);
+               // object userId = CacheHelper.GetCache(sessionId);
+                object userId = CacheManager.GetObject<int>(sessionId);
 
                 if (userId == null)
                 {
