@@ -282,7 +282,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             string sessionId = Request["UserId"];
             //MemClientFactory.DeleteCache(sessionId);
-            CacheManager.RemoveObject(sessionId);
+            CacheHelper.DeleteCache(sessionId);
 
             Response.Redirect("/Home/Login");
         }

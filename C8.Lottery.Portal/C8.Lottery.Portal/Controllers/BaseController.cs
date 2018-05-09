@@ -19,14 +19,14 @@ namespace C8.Lottery.Portal.Controllers
         protected SiteSetting GetSiteSetting()
         {
             //var setting = MemClientFactory.GetCache<SiteSetting>("base_site_setting");
-            var setting = CacheManager.GetObject<SiteSetting>("base_site_setting");
+            var setting = CacheHelper.GetCache<SiteSetting>("base_site_setting");
             if (setting == null)
             {
                 string sql = "select top 1 * from dbo.SiteSetting";
                 setting = Util.ReaderToList<SiteSetting>(sql).FirstOrDefault();
                 if (setting != null)
                     // MemClientFactory.WriteCache("base_site_setting", setting, 60 * 24);
-                    CacheManager.AddObject("base_site_setting", setting, 60 * 24);
+                    CacheHelper.AddCache("base_site_setting", setting, 60 * 24);
             }
             return setting ?? new SiteSetting();
         }
@@ -39,12 +39,12 @@ namespace C8.Lottery.Portal.Controllers
         {
 
            // IList<LotteryType> list = MemClientFactory.GetCache<IList<LotteryType>>("base_lottery_type");
-            IList<LotteryType> list = CacheManager.GetObject<IList<LotteryType>>("base_lottery_type");
+            IList<LotteryType> list = CacheHelper.GetCache<IList<LotteryType>>("base_lottery_type");
             if (list == null)
             {
                 list = Util.GetEntityAll<LotteryType>().OrderBy(x => x.SortCode).ToList();
                 //MemClientFactory.WriteCache("base_lottery_type", list);
-                CacheManager.AddObject("base_lottery_type", list);
+                CacheHelper.AddCache("base_lottery_type", list);
                 return list;
             }
             else
@@ -63,7 +63,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             string memKey = "base_news_type_" + ltype;
            // IList<NewsType> list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
-            IList<NewsType> list = CacheManager.GetObject<IList<NewsType>>(memKey);
+            IList<NewsType> list = CacheHelper.GetCache<IList<NewsType>>(memKey);
 
             if (list != null && list.Any()) return list;
 
@@ -71,7 +71,7 @@ namespace C8.Lottery.Portal.Controllers
             list = Util.ReaderToList<NewsType>(newsTypeSql) ?? new List<NewsType>();
 
             //MemClientFactory.WriteCache(memKey, list);
-            CacheManager.AddObject(memKey, list);
+            CacheHelper.AddCache(memKey, list);
             return list;
 
         }
@@ -106,7 +106,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             string memKey = "base_gallery_id_" + newsId;
             //var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);
-            var list = CacheManager.GetObject<IList<Gallery>>(memKey);
+            var list = CacheHelper.GetCache<IList<Gallery>>(memKey);
 
             if (list != null && list.Any()) return list;
 
@@ -127,7 +127,7 @@ order by a.LotteryNumber desc";
             list = Util.ReaderToList<Gallery>(sql, parameters) ?? new List<Gallery>();
 
             // MemClientFactory.WriteCache(memKey, list);
-            CacheManager.AddObject(memKey, list);
+            CacheHelper.AddCache(memKey, list);
             return list;
         }
 
@@ -141,7 +141,7 @@ order by a.LotteryNumber desc";
             string memKey = "base_play_name_" + ltype;
 
             //var list = MemClientFactory.GetCache<IList<Play>>(memKey);
-            var list = CacheManager.GetObject<IList<Play>>(memKey);
+            var list = CacheHelper.GetCache<IList<Play>>(memKey);
             if (list != null && list.Any()) return list;
 
             string sql = "SELECT Id,lType,PlayName FROM IntegralRule WHERE ltype=" + ltype;
@@ -149,7 +149,7 @@ order by a.LotteryNumber desc";
             if (list != null)
             {
                 //MemClientFactory.WriteCache(memKey, list);
-                CacheManager.AddObject(memKey, list);
+                CacheHelper.AddCache(memKey, list);
                 return list;
             }
 
@@ -164,7 +164,7 @@ order by a.LotteryNumber desc";
         {
             string memKey = "base_lottery_charge_settings";
             //var list = MemClientFactory.GetCache<IList<LotteryCharge>>(memKey);
-            var list = CacheManager.GetObject<IList<LotteryCharge>>(memKey);
+            var list = CacheHelper.GetCache<IList<LotteryCharge>>(memKey);
             if (list != null && list.Any()) return list;
 
             string sql = "SELECT Id,lType,MinIntegral,MaxIntegral,Coin FROM dbo.LotteryCharge";
@@ -173,7 +173,7 @@ order by a.LotteryNumber desc";
             if (list != null)
             {
                 // MemClientFactory.WriteCache(memKey, list);
-                CacheManager.AddObject(memKey, list);
+                CacheHelper.AddCache(memKey, list);
                 return list;
             }
 
@@ -188,7 +188,7 @@ order by a.LotteryNumber desc";
         {
             string memKey = "base_commission_settings";
            // var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
-            var list = CacheManager.GetObject<IList<CommissionSetting>>(memKey);
+            var list = CacheHelper.GetCache<IList<CommissionSetting>>(memKey);
             if (list == null || list.Count < 1)
             {
                 string sql = "SELECT [Id],[lType],[Percentage],[Type] FROM [dbo].[SharedRevenue] WHERE IsDeleted=0";
@@ -196,7 +196,7 @@ order by a.LotteryNumber desc";
                 if (list != null)
                 {
                     //MemClientFactory.WriteCache(memKey, list, 60);
-                    CacheManager.AddObject(memKey, list, 60);
+                    CacheHelper.AddCache(memKey, list, 60);
                 }
             }
             

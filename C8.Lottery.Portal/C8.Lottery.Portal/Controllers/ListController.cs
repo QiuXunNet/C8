@@ -407,7 +407,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
 
            // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
-            var list = CacheManager.GetObject<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -428,7 +428,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
                 if (list != null)
                 {
                     //MemClientFactory.WriteCache(memberKey, list, 60 * 24);
-                    CacheManager.AddObject(memberKey, list, 60 * 24);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24);
                 }
             }
 
@@ -446,7 +446,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             string memberKey = "superior_" + lType + "_month_" + beginTime.Month;
 
             //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
-            var list = CacheManager.GetObject<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -470,7 +470,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
                 if (list != null)
                 {
                     //MemClientFactory.WriteCache(memberKey, list, 60 * 24);
-                    CacheManager.AddObject(memberKey, list, 60 * 24);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24);
                 }
 
             }
@@ -488,7 +488,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             string memberKey = "superior_" + lType + "_week_" + beginTime.GetWeekOfYear();
 
             //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
-            var list = CacheManager.GetObject<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -511,7 +511,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
 
                 if (list != null)
                     //MemClientFactory.WriteCache(memberKey, list, 60 * 24 * 7);
-                    CacheManager.AddObject(memberKey, list, 60 * 24 * 7);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24 * 7);
             }
 
             return list;
@@ -527,7 +527,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             string memberKey = "superior_" + lType + "_day_" + nowDate.ToString("yyyyMMdd");
 
             //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
-            var list = CacheManager.GetObject<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -548,7 +548,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
                 if (list != null)
                 {
                     //MemClientFactory.WriteCache(memberKey, list, 60 * 24);
-                    CacheManager.AddObject(memberKey, list, 60 * 24);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24);
                 }
             }
 
@@ -599,7 +599,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             //{
             //    CacheHelper.DeleteCache(key);
             //}
-            CacheManager.RemoveObject(key);
+            CacheHelper.DeleteCache(key);
         }
 
         private RankingList GetUserRankingInfo(int lType, string queryType)

@@ -18,7 +18,7 @@ namespace C8.Lottery.Portal
             {
                 string guid = HttpContext.Current.Request["UserId"];
                 //object userId = CacheHelper.GetCache(guid);
-                int userId = CacheManager.GetObject<int>(guid);
+                int userId = CacheHelper.GetCache<int>(guid);
                // int userId2 = Convert.ToInt32(userId);
                 return Util.GetEntityById<UserInfo>(userId);
             }
@@ -32,7 +32,7 @@ namespace C8.Lottery.Portal
         {
             string guid = HttpContext.Current.Request["UserId"];
             //object userId = CacheHelper.GetCache(guid);
-            int userId = CacheManager.GetObject<int>(guid);
+            int userId = CacheHelper.GetCache<int>(guid);
             //int userId2 = Convert.ToInt32(userId);
             return userId;
         }
@@ -126,7 +126,7 @@ namespace C8.Lottery.Portal
         {
             string sessionId = HttpContext.Current.Request["sessionId"];
             // MemClientFactory.WriteCache(sessionId, u, 30);
-            CacheManager.AddObject(sessionId, u, 30);
+            CacheHelper.AddCache(sessionId, u, 30);
         }
     }
 }

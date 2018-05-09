@@ -290,7 +290,7 @@ Order by CommentCount desc";
                                         Response.Cookies["UserId"].Value = guid;
                                         Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                                         //CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
-                                        CacheManager.AddObject(guid, data, 30*24*60);
+                                        CacheHelper.AddCache(guid, data, 30*24*60);
                                         Coupon cou = GetCoupon("A0001");//查看劵
                                         DateTime BeginTime = DateTime.Now;
                                         DateTime EndTime = DateTime.Now.AddDays(cou.ExpiryDate);
@@ -743,7 +743,7 @@ Order by CommentCount desc";
                             Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
                             // CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
-                            CacheManager.AddObject(guid, user.Id, 30*24*60);
+                            CacheHelper.AddCache(guid, user.Id, 30*24*60);
 
 
                             jsonmsg.Success = true;

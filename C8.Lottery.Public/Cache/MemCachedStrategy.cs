@@ -6,7 +6,7 @@ using System.Collections;
 using System.Web;
 using System.Net;
 using System.Runtime.Remoting.Messaging;
-using Memcached.Client;
+using Memcached.ClientLibrary;
 
 namespace C8.Lottery.Public.Cache
 {

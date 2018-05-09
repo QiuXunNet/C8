@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AjaxResult.cs" />
-    <Compile Include="Cache\CacheManager.cs" />
+    <Compile Include="Cache\CacheHelper.cs" />
     <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="Cache\ICacheStrategy.cs" />
     <Compile Include="Cache\LocalCacheStrategy.cs" />
