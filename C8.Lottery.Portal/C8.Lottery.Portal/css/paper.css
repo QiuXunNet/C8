@@ -707,7 +707,7 @@ body {
 .alllist {
     position: relative;
     margin-top: 50px;
-	overflow:hidden;
+	/*overflow:hidden;*/
 }
 
 .alllist .upbtn {

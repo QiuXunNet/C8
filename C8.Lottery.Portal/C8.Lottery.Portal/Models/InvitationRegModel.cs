@@ -10,5 +10,7 @@ namespace C8.Lottery.Portal.Models
         public int Number { get; set; }//人数
         public int Coin { get; set; }//金币
 
+        public int Coupon { get; set; }//卡劵
+
     }
 }

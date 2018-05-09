@@ -87,11 +87,13 @@
 
         function buildHtml(data)
         {
+            console.log(data);
             var html = [];
             var li = '';
             var text='';
             $.each(data, function (index, value)
             {
+                console.log(value.PlayName);
                 if(value.isFollow>0)
                 {
                     text='已关注';
@@ -101,9 +103,9 @@
                 }
 
 
-                li = '<li data-uid="'+value.UserId+'"><div class="ttIf1_cL f-l"><a href="javascript:;" onclick="InsertHotSearch('+value.UserId+',@lType)"><img src="' + (value.Avater =='' ? '/images/default_avater.png' : value.Avater) + '"></a></div>'
+                li = '<li data-uid="'+value.UserId+'"><div class="ttIf1_cL f-l"><a href="javascript:;" onclick="InsertHotSearch(\''+value.PlayName+'\','+value.UserId+',@lType)"><img src="' + (value.Avater =='' ? '/images/default_avater.png' : value.Avater) + '"></a></div>'
                 +'  <a href="javascript:;"  onclick="javascript:unorfollow(this,'+value.UserId+');" class="ttIf1_cGz f-r">'+text+'</a>'
-                + '    <div class="ttIf1_cR" onclick="InsertHotSearch('+value.UserId+',@lType)"  data-uid="'+value.UserId+'"><a href="javascript:;">' + value.Name + '</a></div>'
+                + '    <div class="ttIf1_cR" onclick="InsertHotSearch(\''+value.PlayName+'\','+value.UserId+',@lType)"  data-uid="'+value.UserId+'"><a href="javascript:;">' + value.Name + '</a></div>'
                 + ' </li>'
                 html.push(li);
             });
@@ -112,18 +114,21 @@
             $(".ttIf1_con").append(html.join(''));
         }
 
-        function InsertHotSearch(UserId, lType)
+        function InsertHotSearch(P,UserId, lType)
         {
+          
             $.post("/Plan/InsertHotSearch",
             {
                 uid: UserId,
                 lType: lType
             },
           function (data) {
-              console.log(data);
+              
               if (data.Success == true)
               {
-               window.location.href = "/Plan/PlayRecord/" + lType + "?uid=" + UserId + "&type=1"
+                  //window.location.href = "/Plan/PlayRecord/" + lType + "?uid=" + UserId + "&type=1"
+                  window.location.href = "/Plan/PlayRecord/" + lType + "?uid=" + UserId + "&p="+P+"";
+
 
               } else
               {
@@ -234,7 +239,7 @@
                     {
                         <li data-uid="@item.UserId">
                             <div class="ttIf1_cL f-l">
-                                <a href="javascript:;" onclick="InsertHotSearch(@item.UserId,@lType)">
+                                <a href="javascript:;" onclick="InsertHotSearch('@item.PlayName',@item.UserId,@lType)">
                                     @if (string.IsNullOrEmpty(item.Avater))
                                     {
                                         <img src="/images/default_avater.png" alt="" />
@@ -255,7 +260,7 @@
                                 <a href="javascript:;" onclick="javascript:unorfollow(this,@item.UserId);" class="ttIf1_cGz f-r">关注</a>
                             }
 
-                            <div class="ttIf1_cR" onclick="InsertHotSearch(@item.UserId,@lType)" data-uid="@item.UserId"><a href="javascript:;">@item.Name</a></div>
+                            <div class="ttIf1_cR" onclick="InsertHotSearch('@item.PlayName',@item.UserId,@lType)" data-uid="@item.UserId"><a href="javascript:;">@item.Name</a></div>
                         </li>
                     }
                 }

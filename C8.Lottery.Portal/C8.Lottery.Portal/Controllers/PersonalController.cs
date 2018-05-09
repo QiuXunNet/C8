@@ -573,9 +573,10 @@ where RowNumber BETWEEN @Start AND @End ";
         {
             int UserId = UserHelper.GetByUserId();
             ViewData["uid"] = UserId;
-            string strsql = @" select Number,Coin from
+            string strsql = @" select Number,Coin,Coupon from
                               (select count(1) as Number from UserInfo where Pid = @Pid) t1,
-                              (select sum([Money])as Coin from ComeOutRecord  where [UserId]=@UserId and [Type]=7) t2";
+                              (select sum([Money])as Coin from ComeOutRecord  where [UserId]=@UserId and [Type]=7) t2,
+							  (select count(1)as Coupon  from UserCoupon where UserId=@UserId and FromType=2) t3";
 
             SqlParameter[] sp = new SqlParameter[] {
                 new SqlParameter("@Pid",UserId),
@@ -862,6 +863,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
             var result = new AjaxResult<PagedList<BettingRecord>>();
             try
             {
+
                 var pager = new PagedList<BettingRecord>();
                 pager.PageIndex = pageIndex;
                 pager.PageSize = pageSize;
@@ -884,6 +886,7 @@ where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type)
 
                 string ltypeWhere = "";
                 if (ltype > 0) ltypeWhere = " AND lType=" + ltype;
+
 
                 string sql = string.Format(@"SELECT * FROM ( 
 	SELECT row_number() over(order by WinState,SubTime DESC,lType) as rowNumber,* FROM (

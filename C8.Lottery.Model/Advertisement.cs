@@ -26,6 +26,7 @@ namespace C8.Lottery.Model
         private string _where;
         private string _transferurl;
         private int _commentsnumber = 0;
+        private string _restrictedareas;
         public List<string> ThumbList { get; set; }
         /// <summary>
         /// 
@@ -138,6 +139,14 @@ namespace C8.Lottery.Model
         {
             set { _commentsnumber = value; }
             get { return _commentsnumber; }
+        }
+        /// <summary>
+        /// 限制区域：为空即不限制，格式（1,2,3,4,5） 1=北京 2=深圳 3=广州 4=上海 5=东莞
+        /// </summary>
+        public string RestrictedAreas
+        {
+            set { _restrictedareas = value; }
+            get { return _restrictedareas; }
         }
 
         public string TimeStr

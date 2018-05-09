@@ -95,6 +95,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.time = time;
             // }
 
+            ViewBag.CityId = Tool.GetCityId();
+
 
 
             return View(model);
@@ -157,6 +159,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.time = time;
             //  }
 
+            ViewBag.CityId = Tool.GetCityId();
+
             return View("TypeList", model);
         }
 
@@ -217,6 +221,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
             });
             ViewBag.AdList = adlist;
             ViewBag.PageIndex = pageIndex;
+            ViewBag.CityId = Tool.GetCityId();
 
             return PartialView("NewsList");
         }
@@ -245,8 +250,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
 
             List<Advertisement> list = Util.ReaderToList<Advertisement>(strsql);
-
-
+          
             return list;
         }
         /// <summary>
@@ -334,7 +338,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                 j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
             });
             ViewBag.AdList = adlist;
-
+            ViewBag.CityId = Tool.GetCityId();
 
             return PartialView("NewsGalleryCategoryList");
         }
@@ -484,6 +488,9 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
             #endregion
 
+
+            ViewBag.CityId = Tool.GetCityId();
+
             return View(model);
         }
 
@@ -521,6 +528,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;
 
+            ViewBag.CityId = Tool.GetCityId();
+            
             return View(model);
         }
 
@@ -536,7 +545,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         {
             string sql = string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,
 (select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes,
-(select count(1) from Comment where PId = a.Id ) as ReplayCount 
+(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount 
 from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -608,7 +617,7 @@ from Comment a
         {
             string sql =
                string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -683,7 +692,7 @@ from Comment a
 
             string sql = string.Format(@"SELECT * FROM ( 
 select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
 from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -732,7 +741,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             string sql =
                @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater
 ,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
   from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
@@ -798,7 +807,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             string sql = @"SELECT * FROM ( 
 select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
 ,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where PId = a.Id ) as ReplayCount
+,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
 from Comment a
   left join UserInfo b on b.Id = a.UserId
   left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
