@@ -1185,7 +1185,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
         public ActionResult ExpertSearch(int id)
         {
             int MyUserId = UserHelper.GetByUserId();
-            string strsql = @"select top 5 UserId,lType,isnull(u.Name, '') as Name,isnull(r.RPath, '') as Avater,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=e.UserId and Status=1) isFollow 
+            string strsql = @"select top 5 UserId,lType,isnull(u.Name, '') as Name,(select top 1 PlayName from [dbo].[IntegralRule] where lType=e.lType) as PlayName,isnull(r.RPath, '') as Avater,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=e.UserId and Status=1) isFollow 
 from ExpertHotSearch e
 left join UserInfo u    on e.UserId = u.Id
 left join ResourceMapping r on r.FkId = e.UserId and r.[Type] = @ResourceType
@@ -1336,7 +1336,7 @@ order by e.Count desc";
             ReturnMessageJson msg = new ReturnMessageJson();
             int MyUserId = UserHelper.GetByUserId();
             string strsql = @" select UserId,lType,
-	isnull(u.Name,'') as Name,isnull(r.RPath,'') as Avater,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=b.UserId and Status=1) isFollow 
+	isnull(u.Name,'') as Name,isnull(r.RPath,'') as Avater,(select top 1 PlayName from [dbo].[IntegralRule] where lType=b.lType) as PlayName,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=b.UserId and Status=1) isFollow 
 	from [BettingRecord] b 
 	left join UserInfo u	on b.UserId=u.Id
 	left join ResourceMapping r on r.FkId =b.UserId and r.[Type]=@ResourceType

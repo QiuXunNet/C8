@@ -76,6 +76,47 @@ Order by CommentCount desc";
         }
 
 
+        /// <summary>
+        /// app下载页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult down()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 获取下载数据
+        /// </summary>
+        /// <param name="ClientSource"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetDown(int ClientSource)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            string strsql = @"
+                    select top 1 * from ClientSourceVersion where ClientSource =@ClientSource and ClientType =@ClientSource
+                    order by VersionCode desc";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@ClientSource",ClientSource)
+            };
+            try
+            {
+                List<ClientSourceVersion> list = Util.ReaderToList<ClientSourceVersion>(strsql, sp);
+                msg.data = list;
+                msg.Success = true;
+            }
+            catch (Exception e)
+            {
+                msg.Success = false;
+                msg.Msg = e.Message;
+              
+
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// 获取验证码KCP

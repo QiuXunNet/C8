@@ -28,5 +28,10 @@ namespace C8.Lottery.Portal.Models
         /// 头像
         /// </summary>
         public string Avater { get; set; }
+
+        /// <summary>
+        /// 默认玩法
+        /// </summary>
+        public string PlayName { get; set; }
     }
 }
