@@ -23,5 +23,10 @@ namespace C8.Lottery.Model
         public string Description { get; set; }
 
         public string LogoPath { get; set; }
+
+        /// <summary>
+        /// 网站名字
+        /// </summary>
+        public string WebName { get; set; }
     }
 }

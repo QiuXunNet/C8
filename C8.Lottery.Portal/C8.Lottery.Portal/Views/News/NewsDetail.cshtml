@@ -9,6 +9,7 @@
     List<News> recArticle = ViewBag.RecommendArticle;
     List<RankIntegralModel> RankIntegral = ViewBag.ListRankIntegral;
     string CityId = ViewBag.CityId;
+    SiteSetting site = ViewBag.SiteSetting;
 
 }
 <!DOCTYPE html>
@@ -211,7 +212,7 @@
     <section class="article">
         <div class="article-title">@Model.FullHead</div>
         <div class="article-tag">
-            <span class="article-source"><a href="http://c8.cn">万彩吧c8.cn</a></span>
+            <span class="article-source"><a href="javascript:;">@site.WebName</a></span>
             <span class="article-time">@Model.ReleaseTimeStr</span>
         </div>
         <div id="article-body" class="article-body">

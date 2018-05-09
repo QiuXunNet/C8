@@ -14,7 +14,16 @@ namespace C8.Lottery.Public.Cache
 
         public RedisStrategy()
         {
-            doRedisString = new DoRedisString();
+            try
+            {
+                doRedisString = new DoRedisString();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+           
         } 
 
         #region

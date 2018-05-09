@@ -1,5 +1,7 @@
-﻿@{
+﻿@using C8.Lottery.Model
+@{
     ViewBag.Title = "Login";
+    SiteSetting site = ViewBag.SiteSetting;
 }
 <!doctype html>
 <html>
@@ -58,7 +60,7 @@
 
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo"><img src="~/images/03.png"></a>
+        <a href="javascript:;" class="hjc_logo"><img src="@(string.IsNullOrEmpty(site.LogoPath)?"/images/03.png":site.LogoPath)"></a>
     </header>
 
     <div class="DL_main">

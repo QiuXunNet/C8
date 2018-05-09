@@ -164,6 +164,9 @@ Order by CommentCount desc";
         {
 
             ViewData["id"] = id == null ? 0 : id;
+
+            ViewBag.SiteSetting = GetSiteSetting();
+
             return View();
 
 
@@ -694,6 +697,7 @@ Order by CommentCount desc";
         /// <returns></returns>
         public ActionResult Login()
         {
+            ViewBag.SiteSetting = GetSiteSetting();
             return View();
         }
         [HttpPost]
