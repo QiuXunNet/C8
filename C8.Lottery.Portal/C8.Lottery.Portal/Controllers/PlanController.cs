@@ -1200,7 +1200,8 @@ order by e.Count desc";
             ViewBag.HotList = list;
             ViewBag.lType = id;
             string memberKey = "history_" + MyUserId + "_" + id;
-            ViewBag.historyList = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
+            //ViewBag.historyList = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
+            ViewBag.historyList = CacheManager.GetObject<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
             return View();
         }
 
@@ -1240,7 +1241,8 @@ order by e.Count desc";
 
                     int MyUserId = UserHelper.GetByUserId();
                     string memberKey = "history_" + MyUserId + "_" + lType;
-                    list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
+                   // list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
+                    list = CacheManager.GetObject<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
 
                     UserInfo u = UserHelper.GetUser(uid);
 
@@ -1263,7 +1265,8 @@ order by e.Count desc";
                         list.Add(e);
                     }
 
-                    MemClientFactory.WriteCache(memberKey, list, 144000);
+                    //MemClientFactory.WriteCache(memberKey, list, 144000);
+                    CacheManager.AddObject(memberKey, list, 144000);
                     msg.Success = true;
                     msg.Msg = "ok";
                 }
@@ -1298,16 +1301,19 @@ order by e.Count desc";
             {
                 int MyUserId = UserHelper.GetByUserId();
                 string memberKey = "history_" + MyUserId + "_" + lType;
-                List<ExpertSearchModel> list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey);
+                //List<ExpertSearchModel> list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey);
+                List<ExpertSearchModel> list = CacheManager.GetObject<List<ExpertSearchModel>>(memberKey);
                 if (uid > 0)
                 {
                     ExpertSearchModel e1 = list.Where(x => x.UserId == uid && x.lType == lType).FirstOrDefault();
                     list.Remove(e1);
-                    MemClientFactory.WriteCache(memberKey, list, 144000);
+                    //MemClientFactory.WriteCache(memberKey, list, 144000);
+                    CacheManager.AddObject(memberKey, list, 144000);
                 }
                 else
                 {
-                    MemClientFactory.DeleteCache(memberKey);
+                    //MemClientFactory.DeleteCache(memberKey);
+                    CacheManager.RemoveObject(memberKey);
                 }
                 msg.Success = true;
             }

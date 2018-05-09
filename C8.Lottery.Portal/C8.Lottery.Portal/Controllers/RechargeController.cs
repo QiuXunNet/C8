@@ -94,7 +94,6 @@ namespace C8.Lottery.Portal.Controllers
             string xml = string.Format(@"<xml><return_code><![CDATA[{0}]]></return_code><return_msg><![CDATA[{1}]]></return_msg></xml>", return_code, return_msg);
 
             //   log.Info(xml);
-            LogHelper.WriteLog(xml);
             if (return_code.ToUpper() != "SUCCESS")
             {
                 return Content(xml, "text/xml");
@@ -109,7 +108,6 @@ namespace C8.Lottery.Portal.Controllers
             //验证请求是否从微信发过来（安全）
             if (payNotifyRepHandler.IsTenpaySign())
             {
-                LogHelper.WriteLog("---------11111111");
                 if (AlertComeOutRecord(out_trade_no, 1))
                 {
                     return Content(xml, "text/xml");
@@ -126,6 +124,7 @@ namespace C8.Lottery.Portal.Controllers
                 return Content("");
             }           
         }
+
 
         #endregion
 
@@ -347,12 +346,9 @@ namespace C8.Lottery.Portal.Controllers
         {
             try
             {
-                LogHelper.WriteLog("修改订单");
-
                 //判断支付中的订单是否存在,如果不存在.则说明已经改变状态了
                 string sql = "select * from ComeOutRecord where OrderId=@OrderId and PayType=@PayType and State=1";
                 var list = Util.ReaderToList<ComeOutRecord>(sql, new SqlParameter[] { new SqlParameter("@OrderId", no), new SqlParameter("@PayType", payType) });
-                LogHelper.WriteLog("list.Count -- " +list.Count);
                 if (!list.Any())
                 {
                     return true;
@@ -361,7 +357,6 @@ namespace C8.Lottery.Portal.Controllers
                 var money = list.FirstOrDefault().Money;
                 var userId = list.FirstOrDefault().UserId;
                 var addCoin = 0;  //需要增加的金币数
-                LogHelper.WriteLog("money >= 1 --" + (money >= 1));
                 //每日任务完成充值100元任务
                 if (money >= 100)
                 {
@@ -395,8 +390,6 @@ namespace C8.Lottery.Portal.Controllers
                 sql += @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
                         update UserInfo set Coin = Coin + " + (money + addCoin) + " where Id =@UserId;";
 
-                LogHelper.WriteLog("sql --" + sql);
-
                 SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@OrderId",no),
                     new SqlParameter("@PayType",payType),
@@ -413,7 +406,5 @@ namespace C8.Lottery.Portal.Controllers
                 return false;
             }
         }
-
-
     }
 }
