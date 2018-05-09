@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
-using C8.Lottery.Public.Cache;
+using Qiuxun.C8.Api.Service.Cache;
 
-namespace C8.Lottery.Public.Caching
+namespace Qiuxun.C8.Api.Service.Caching
 {
     /// <summary>
     /// 缓存进行全局控制管理
     /// </summary>
-    public static class CacheManager
+    public static class CacheHelper
     {
         private static ICacheStrategy cs;
         private static object lockHelper = new object();
@@ -27,9 +27,9 @@ namespace C8.Lottery.Public.Caching
         /// </summary>
         private static int timeOut = 0;
 
-        static CacheManager()
+        static CacheHelper()
         {
-            string provider = ConfigurationManager.AppSettings["CacheProvider"].ToLower();
+            string provider = ConfigurationManager.AppSettings["CacheProvider"].ToLower(); 
             timeOut = Convert.ToInt32((ConfigurationManager.AppSettings["CacheTimeOut"]));
 
             switch (provider)
@@ -62,7 +62,7 @@ namespace C8.Lottery.Public.Caching
                 /// 如果配置为0也认为是永久不失效
                 cs.AddObject<T>(GetCacheKey(cacheKey), obj, timeOut);
             }
-        }
+        }       
 
         /// <summary>
         /// 添加缓存，带失效时间
@@ -157,9 +157,9 @@ namespace C8.Lottery.Public.Caching
                 {
                     return default(T);
                 }
-
+                
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return default(T);
             }

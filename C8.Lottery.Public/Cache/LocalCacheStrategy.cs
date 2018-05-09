@@ -79,6 +79,43 @@ namespace C8.Lottery.Public.Cache
             }
         }
 
+        /// <summary>
+        /// 添加缓存
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="obj"></param>
+        /// <param name="date">日期</param>
+        public void SetObject<T>(string cacheKey, T obj)
+        {
+            string json = obj.ToJsonString();
+
+            if (string.IsNullOrEmpty(cacheKey) || obj == null)
+            {
+                return;
+            }
+           
+            cache.Insert(cacheKey, json, null, DateTime.MaxValue, TimeSpan.Zero, System.Web.Caching.CacheItemPriority.High, callBack);
+        }
+
+        /// <summary>
+        /// 添加缓存
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="obj"></param>
+        /// <param name="date">日期</param>
+        public void SetObject<T>(string cacheKey, T obj, DateTime date)
+        {
+            string json = obj.ToJsonString();
+
+            if (string.IsNullOrEmpty(cacheKey) || obj == null)
+            {
+                return;
+            }
+          
+            cache.Insert(cacheKey, json, null, date, TimeSpan.Zero, System.Web.Caching.CacheItemPriority.High, callBack);
+            
+        }
+
         ///// <summary>
         ///// 添加指定ID的对象(关联指定键值组)
         ///// </summary>
@@ -91,7 +128,7 @@ namespace C8.Lottery.Public.Cache
         //    {
         //        return;
         //    }
-            
+
         //    CacheDependency dep = new CacheDependency(null, dependKey, DateTime.UtcNow);
 
         //    cache.Insert(cacheKey, obj, dep, DateTime.Now.AddMinutes(TimeOut), TimeSpan.Zero, System.Web.Caching.CacheItemPriority.High, callBack);

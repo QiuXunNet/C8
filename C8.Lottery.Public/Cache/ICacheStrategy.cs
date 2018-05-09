@@ -25,6 +25,21 @@ namespace C8.Lottery.Public.Cache
         /// <param name="expire">到期时间,单位:分钟</param>
         void AddObject<T>(string cacheKey, T obj, int expire);
 
+        /// <summary>
+        /// 添加指定ID的对象
+        /// </summary>
+        /// <param name="cacheKey">缓存键</param>
+        /// <param name="obj">缓存对象</param>
+        /// <param name="date">日期</param>
+        void SetObject<T>(string cacheKey, T obj, DateTime date);
+
+        /// <summary>
+        /// 添加指定ID的对象
+        /// </summary>
+        /// <param name="cacheKey">缓存键</param>
+        /// <param name="obj">缓存对象</param>
+        void SetObject<T>(string cacheKey, T obj);
+
         ///// <summary>
         ///// 添加指定ID的对象(关联指定键值组)
         ///// </summary>

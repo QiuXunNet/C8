@@ -23,13 +23,13 @@ namespace C8.Lottery.Public.Cache
         {
             return RedisBase.Core.Set(key,obj, dt);
         }
-        /// <summary>
-        /// 设置key的value并设置过期时间
-        /// </summary>
-        public bool Set(string key, string value, TimeSpan sp)
-        {
-            return RedisBase.Core.Set(key, Encoding.Default.GetBytes(value), sp);
-        }
+        ///// <summary>
+        ///// 设置key的value并设置过期时间
+        ///// </summary>
+        //public bool Set(string key, string value, TimeSpan sp)
+        //{
+        //    return RedisBase.Core.Set(key, Encoding.Default.GetBytes(value), sp);
+        //}
         /// <summary>
         /// 设置多个key/value
         /// </summary>
@@ -121,5 +121,15 @@ namespace C8.Lottery.Public.Cache
             return RedisBase.Core.DecrementValueBy(key, count);
         }
         #endregion
+
+        /// <summary>
+        /// key是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool KeyExists(string key)
+        {
+            return RedisBase.Core.ContainsKey(key);
+        }
     }
 }

@@ -5,8 +5,8 @@ using System.Text;
 using System.Collections;
 using System.Web;
 using System.Net;
-using Memcached.ClientLibrary;
 using System.Runtime.Remoting.Messaging;
+using Memcached.Client;
 
 namespace C8.Lottery.Public.Cache
 {
@@ -57,7 +57,7 @@ namespace C8.Lottery.Public.Cache
                     pool.Nagle = false;
                     pool.Initialize();
                     //客户端实例
-                    MemClient = new Memcached.ClientLibrary.MemcachedClient();
+                    MemClient = new MemcachedClient();
                     MemClient.EnableCompression = false;
                     CallContext.SetData("client", MemClient);
                 }               
@@ -101,6 +101,45 @@ namespace C8.Lottery.Public.Cache
             else
             {
                 MemClient.Set(cacheKey, json, DateTime.Now.AddMinutes(expire));
+            }
+        }
+
+        /// <summary>
+        /// 添加缓存
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="obj"></param>
+        public void SetObject<T>(string cacheKey, T obj)
+        {
+            string json = obj.ToJsonString();
+
+            if (MemClient.KeyExists(cacheKey))
+            {
+                MemClient.Replace(cacheKey, json);
+            }
+            else
+            {
+                MemClient.Set(cacheKey, json);
+            }
+        }
+
+        /// <summary>
+        /// 添加缓存
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="obj"></param>
+        /// <param name="date">日期</param>
+        public void SetObject<T>(string cacheKey, T obj, DateTime date)
+        {
+            string json = obj.ToJsonString();
+
+            if (MemClient.KeyExists(cacheKey))
+            {
+                MemClient.Replace(cacheKey, json, date);
+            }
+            else
+            {
+                MemClient.Set(cacheKey, json, date);
             }
         }
         #endregion

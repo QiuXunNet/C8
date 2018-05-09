@@ -25,7 +25,7 @@ namespace C8.Lottery.Public.Cache
         /// <param name="obj"></param>
         public void AddObject<T>(string cacheKey, T obj)
         {
-            AddObject(cacheKey, obj, 0);
+            doRedisString.Set(cacheKey, obj);
         }
         /// <summary>
         /// 添加缓存
@@ -38,6 +38,28 @@ namespace C8.Lottery.Public.Cache
            // string json = obj.ToJsonString();
 
             doRedisString.Set(cacheKey, obj, DateTime.Now.AddMinutes(expire));            
+        }
+
+        /// <summary>
+        /// 添加缓存 永久
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="obj"></param>
+        public void SetObject<T>(string cacheKey, T obj)
+        {
+            doRedisString.Set(cacheKey, obj);
+        }
+
+        /// <summary>
+        /// 添加缓存
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="obj"></param>
+        /// <param name="data">日期</param>
+        public void SetObject<T>(string cacheKey, T obj, DateTime data)
+        {
+            // string json = obj.ToJsonString();
+            doRedisString.Set(cacheKey, obj, data);
         }
         #endregion
 
