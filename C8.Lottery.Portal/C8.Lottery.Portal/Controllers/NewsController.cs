@@ -223,6 +223,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
             ViewBag.PageIndex = pageIndex;
             ViewBag.CityId = Tool.GetCityId();
 
+            ViewBag.SiteSetting = GetSiteSetting();
+
             return PartialView("NewsList");
         }
 
@@ -490,6 +492,8 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
 
 
             ViewBag.CityId = Tool.GetCityId();
+
+            ViewBag.SiteSetting = GetSiteSetting();
 
             return View(model);
         }
