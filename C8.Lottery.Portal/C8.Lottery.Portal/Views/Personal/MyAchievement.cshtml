@@ -20,15 +20,17 @@
 
 
         $(function () {
-
+          
 
             var id = $(".hdNav_cai_lhs .current").attr("data-id");
             var index = $("#ul_" + id + " .current").attr("data-type-id")
 
             var idx = $("#gul_" + id + " .current").attr("data-idx");
+
             var length = $(".wrapper-container .Grades").length;
             var dataname = "全部";
             var _ltype = index;
+
             $(".wrapper-container .Grades_" + index).show().siblings().hide();
             var dh = $(document.body).height() - $(".gaoshou").height() - $(".Grades_TopNav").height() - 90;
             $(".Grades_CBInfo").height(dh);
@@ -36,6 +38,7 @@
 
             var curNavIndex = "110";
             var mescrollArr = new Array(length);
+
             mescrollArr[curNavIndex] = initMescroll("mescroll_" + idx, "datalist_" + idx);
 
             $(".hdNav_cai_lhs li").on('click', function () {
@@ -238,6 +241,10 @@
             }
         });
 
+
+
+
+      
 
         function buildHtml(data, curNavIndex, ltype) {
             if (curNavIndex == 0) {
