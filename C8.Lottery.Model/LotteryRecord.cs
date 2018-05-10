@@ -29,7 +29,8 @@ namespace C8.Lottery.Model
 
         public string ShowOpenTime
         {
-            get { return Util.GetOpenRemainingTimeWithHour(this.lType); }
+            //get { return Util.GetOpenRemainingTimeWithHour(this.lType); }
+            get { return LotteryTime.GetTime(lType.ToString()); }
         }
 
         public string ShowIssue

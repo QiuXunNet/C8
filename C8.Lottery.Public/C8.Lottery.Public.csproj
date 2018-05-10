@@ -85,6 +85,7 @@
     <Compile Include="JsonSerializerManager.cs" />
     <Compile Include="LogerFactory.cs" />
     <Compile Include="LogHelper.cs" />
+    <Compile Include="LotteryTime.cs" />
     <Compile Include="LuoUtil.cs" />
     <Compile Include="PagedListT.cs" />
     <Compile Include="Pagination.cs" />
