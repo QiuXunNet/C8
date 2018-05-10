@@ -42,9 +42,10 @@ namespace C8.Lottery.Portal.Controllers
             }
             else
             {
-                object userId = CacheHelper.GetCache(sessionId);
+               // object userId = CacheHelper.GetCache(sessionId);
+                int userId = CacheHelper.GetCache<int>(sessionId);
 
-                if (userId == null)
+                if (userId == default(int))
                 {
                     if (isAjaxRequest)
                     {

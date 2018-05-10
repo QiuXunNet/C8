@@ -406,7 +406,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             DateTime today = DateTime.Today;
             string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
 
-            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+           // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -426,7 +427,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
                 list = Util.ReaderToList<RankingList>(sql, paras);
                 if (list != null)
                 {
-                    MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+                    //MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24);
                 }
             }
 
@@ -443,7 +445,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
 
             string memberKey = "superior_" + lType + "_month_" + beginTime.Month;
 
-            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -466,7 +469,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
 
                 if (list != null)
                 {
-                    MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+                    //MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24);
                 }
 
             }
@@ -483,7 +487,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
 
             string memberKey = "superior_" + lType + "_week_" + beginTime.GetWeekOfYear();
 
-            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -505,7 +510,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
                 list = Util.ReaderToList<RankingList>(sql, paras);
 
                 if (list != null)
-                    MemClientFactory.WriteCache(memberKey, list, 60 * 24 * 7);
+                    //MemClientFactory.WriteCache(memberKey, list, 60 * 24 * 7);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24 * 7);
             }
 
             return list;
@@ -520,7 +526,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             string date = nowDate.AddDays(-1).ToString("yyyy-MM-dd");
             string memberKey = "superior_" + lType + "_day_" + nowDate.ToString("yyyyMMdd");
 
-            var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)
             {
@@ -540,7 +547,8 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
 
                 if (list != null)
                 {
-                    MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+                    //MemClientFactory.WriteCache(memberKey, list, 60 * 24);
+                    CacheHelper.AddCache(memberKey, list, 60 * 24);
                 }
             }
 
@@ -587,10 +595,11 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
 
         private void DelCache(string key)
         {
-            if (CacheHelper.IsExistCache(key))
-            {
-                CacheHelper.DeleteCache(key);
-            }
+            //if (CacheHelper.IsExistCache(key))
+            //{
+            //    CacheHelper.DeleteCache(key);
+            //}
+            CacheHelper.DeleteCache(key);
         }
 
         private RankingList GetUserRankingInfo(int lType, string queryType)

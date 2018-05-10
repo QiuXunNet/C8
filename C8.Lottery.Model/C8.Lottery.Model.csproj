@@ -47,6 +47,7 @@
     <Compile Include="Advertisement.cs" />
     <Compile Include="BankInfo.cs" />
     <Compile Include="BettingRecord.cs" />
+    <Compile Include="ClientSourceVersion.cs" />
     <Compile Include="ComeOutRecord.cs" />
     <Compile Include="CommissionSetting.cs" />
     <Compile Include="Coupon.cs" />

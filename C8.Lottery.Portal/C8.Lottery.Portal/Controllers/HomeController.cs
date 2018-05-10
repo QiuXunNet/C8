@@ -61,10 +61,16 @@ Order by CommentCount desc";
             return View();
         }
 
+        //private static object obj = new object();
 
         public ActionResult GetRemainOpenTimeByType(int lType)
         {
-            string time = Util.GetOpenRemainingTimeWithHour(lType);
+            string time = "3";
+          //  lock (obj)
+           // {
+                time = Util.GetOpenRemainingTimeWithHour(lType);
+          //  }
+            
             string[] arr = time.Split('&');
 
             if (arr.Length == 3)
@@ -75,6 +81,47 @@ Order by CommentCount desc";
             return Content(time);
         }
 
+
+        /// <summary>
+        /// app下载页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult down()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 获取下载数据
+        /// </summary>
+        /// <param name="ClientSource"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetDown(int ClientSource)
+        {
+            ReturnMessageJson msg = new ReturnMessageJson();
+            string strsql = @"
+                    select top 1 * from ClientSourceVersion where ClientSource =@ClientSource and ClientType =@ClientSource
+                    order by VersionCode desc";
+            SqlParameter[] sp = new SqlParameter[]
+            {
+                new SqlParameter("@ClientSource",ClientSource)
+            };
+            try
+            {
+                List<ClientSourceVersion> list = Util.ReaderToList<ClientSourceVersion>(strsql, sp);
+                msg.data = list;
+                msg.Success = true;
+            }
+            catch (Exception e)
+            {
+                msg.Success = false;
+                msg.Msg = e.Message;
+              
+
+                throw;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
 
 
         /// <summary>
@@ -123,6 +170,9 @@ Order by CommentCount desc";
         {
 
             ViewData["id"] = id == null ? 0 : id;
+
+            ViewBag.SiteSetting = GetSiteSetting();
+
             return View();
 
 
@@ -248,7 +298,8 @@ Order by CommentCount desc";
                                         string guid = Guid.NewGuid().ToString();
                                         Response.Cookies["UserId"].Value = guid;
                                         Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
-                                        CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
+                                        //CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
+                                        CacheHelper.AddCache(guid, data, 30*24*60);
                                         Coupon cou = GetCoupon("A0001");//查看劵
                                         DateTime BeginTime = DateTime.Now;
                                         DateTime EndTime = DateTime.Now.AddDays(cou.ExpiryDate);
@@ -652,6 +703,7 @@ Order by CommentCount desc";
         /// <returns></returns>
         public ActionResult Login()
         {
+            ViewBag.SiteSetting = GetSiteSetting();
             return View();
         }
         [HttpPost]
@@ -700,7 +752,8 @@ Order by CommentCount desc";
                             //Session[guid] = user.Id;
                             Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
-                            CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
+                            // CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
+                            CacheHelper.AddCache(guid, user.Id, 30*24*60);
 
 
                             jsonmsg.Success = true;

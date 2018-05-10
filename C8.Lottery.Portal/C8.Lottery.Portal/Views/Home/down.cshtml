@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "down";
+}
+<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+<link href="~/css/dialog.css" rel="stylesheet" />
+<script src="~/js/dialog.min.js"></script>
+<script type="text/javascript" src="~/js/yjp.js"></script>
+<script>
+    $(function ()
+    {
+     
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 || u.indexOf('Adr') > -1)
+        {//安卓手机
+            var url=getdata(1);
+ 
+            window.location.href=url;
+        } else if (u.indexOf('iPhone') > -1 || !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {//苹果手机
+            var url = getdata(2);
+            console.log(url);
+            window.open(url);
+           
+        } else if (u.indexOf('Windows Phone') > -1)
+        {
+            alertmsg("暂无下载数据包");
+            
+        }
+    });
+
+    function getdata(ClientSource) {
+        var url;
+
+        $.ajax({
+            type: "Get",
+            url: "/Home/GetDown",
+            data: "ClientSource=" + ClientSource,
+            async: false,
+            success: function (data) {
+                if (data.Success == true)
+                {
+                    if (data.data.length > 0)
+                    {
+                        url = data.data[0].UpdateLink;
+
+                    }
+
+                } else {
+                    alertmsg("暂无下载数据包")
+                }
+
+
+            }
+        });
+        return url;
+    }
+
+</script>
+
