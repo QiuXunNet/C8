@@ -15,7 +15,7 @@ function handtimeRun() {
     var sec = d.getSeconds();
 
     for (var i = 1; i < 66; i++) {
-        if (i != 10 && i != 11 && i != 53) {
+        if (i != 11 && i != 53) {
             timeRun(i);
         }
     }
