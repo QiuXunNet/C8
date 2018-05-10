@@ -138,9 +138,9 @@ function buildHtml(data, tabtype,pageIndex) {
     {
      
         $.each(data, function (index, item) {
-         
+          
             var itemHtml = '<dl class="Other_TIfDL">'
-                + '<dt><a href="javascript:;"><img src="/images/' + item.LogoIndex + '.png"></a></dt>'
+                + '<dt><a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + item.DefaultPlayName + '"><img src="/images/' + item.LogoIndex + '.png"></a></dt>'
                 + '<dd>';
             if (item.WinState == 1) {
                 itemHtml += '<div class="Other_TIR"><p><strong class="sion_strH">未开奖</strong></p></div>';
@@ -148,7 +148,7 @@ function buildHtml(data, tabtype,pageIndex) {
                 itemHtml += '<div class="Other_TIR"><p>已开奖</p></div>';
             }
             itemHtml += '<div class="Other_TIddL">'
-                + '<h3><a href="javascript:;">' + item.LotteryTypeName + '</a></h3>'
+                + '<h3><a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + item.DefaultPlayName + '">' + item.LotteryTypeName + '</a></h3>'
                 + '<p>第' + item.Issue + '期  ' + item.TimeStr + '</p>'
                 + '</div>'
                 + '</dd>'
