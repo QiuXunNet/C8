@@ -18,7 +18,9 @@
         } else if (u.indexOf('iPhone') > -1 || !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {//苹果手机
             var url = getdata(2);
             console.log(url);
-            window.open(url);
+          
+            window.location.href=url;
+           // alertmsg("苹果手机：" + url);
            
         } else if (u.indexOf('Windows Phone') > -1)
         {
