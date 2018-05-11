@@ -51,9 +51,9 @@ function timeRunForOpen() {
                 $('#openTime').html('<t id="minute2">' + arr3[1] + '</t>:<t id="second2">' + arr3[2] + '</t>');
             }
             else {
-                if (startLottery) { //六合彩页面使用,如果状态为真正开奖，则调用开奖方法
-                    startLottery();
-                }
+                //if (startLottery) { //六合彩页面使用,如果状态为真正开奖，则调用开奖方法
+                //    startLottery();
+                //}
             }
         });
 
@@ -64,11 +64,12 @@ function timeRunForOpen() {
     var sec = -1;
     var min = -1;
     //将显示秒数转换为数字
-    if (second.substr(0, 1) == "0") {
-        sec = parseInt(second.substr(1, 1));
-    } else {
-        sec = parseInt(second);
-    }
+    sec = parseInt(second);
+    //if (second.substr(0, 1) == "0") {
+    //    sec = parseInt(second.substr(1, 1));
+    //} else {
+    //    sec = parseInt(second);
+    //}
     //秒数减一
     sec = sec - 1;
 
@@ -82,11 +83,12 @@ function timeRunForOpen() {
             //秒数用完了 取分钟数
             var minute = $("#minute2").html();
             //将显示分钟数转化为数字
-            if (minute.substr(0, 1) == "0") {
-                min = parseInt(minute.substr(1, 1));
-            } else {
-                min = parseInt(minute);
-            }
+            min = parseInt(minute);
+            //if (minute.substr(0, 1) == "0") {
+            //    min = parseInt(minute.substr(1, 1));
+            //} else {
+            //    min = parseInt(minute);
+            //}
 
             //判断分钟数是否为0
             if (min - 1 > -1) {
@@ -138,11 +140,12 @@ function timeRunForOpen2() {
     var min = -1;
     var hour = -1;
     //将显示秒数转换为数字
-    if (second.substr(0, 1) == "0") {
-        sec = parseInt(second.substr(1, 1));
-    } else {
-        sec = parseInt(second);
-    }
+    sec = parseInt(second);
+    //if (second.substr(0, 1) == "0") {
+    //    sec = parseInt(second.substr(1, 1));
+    //} else {
+    //    sec = parseInt(second);
+    //}
     //秒数减一
     sec = sec - 1;
 
@@ -158,11 +161,12 @@ function timeRunForOpen2() {
             //秒数用完了 取分钟数
             var minute = $("#minute2").html();
             //将显示分钟数转化为数字
-            if (minute.substr(0, 1) == "0") {
-                min = parseInt(minute.substr(1, 1));
-            } else {
-                min = parseInt(minute);
-            }
+            min = parseInt(minute);
+            //if (minute.substr(0, 1) == "0") {
+            //    min = parseInt(minute.substr(1, 1));
+            //} else {
+            //    min = parseInt(minute);
+            //}
 
             //判断分钟数是否为0
             if (min - 1 > -1) {
@@ -180,12 +184,13 @@ function timeRunForOpen2() {
                 var hours = $("#hour2").html();
 
                 if (hours != undefined) {
+                    hour = parseInt(hours);
                     //将显示小时数转化为数字
-                    if (hours.substr(0, 1) == "0") {
-                        hour = parseInt(hours.substr(1, 1));
-                    } else {
-                        hour = parseInt(hours);
-                    }
+                    //if (hours.substr(0, 1) == "0") {
+                    //    hour = parseInt(hours.substr(1, 1));
+                    //} else {
+                    //    hour = parseInt(hours);
+                    //}
                 }
 
                 //判断小时数是否为0
