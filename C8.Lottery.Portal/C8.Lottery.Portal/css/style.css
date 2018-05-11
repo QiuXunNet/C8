@@ -8809,7 +8809,9 @@ footer {
     position:absolute;top:0;left:33%;
 }
 
-
+/******发帖*******/
+.YiFengPan{ position:fixed; left:0; bottom:0; width:100%; height:47px; background:rgba(241,49,49,0.8); z-index:9998;}
+.YFP_H3{ height:47px; line-height:47px; text-align:center; font-weight:normal; font-size:24px; color:#fff;}
 
 
 
