@@ -666,13 +666,17 @@
 
                 if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
                 {
-                    if(item.Layer==1)
-                    {      
-                        $(".Plan_content").prepend(itemhtml(item))
-                    }else if(item.Layer==2)
+                    if(!IsPC())
                     {
-                        $(".CZ_hdMain").after(itemhtml(item))    
+                        if(item.Layer==1)
+                        {      
+                            $(".Plan_content").prepend(itemhtml(item))
+                        }else if(item.Layer==2)
+                        {
+                            $(".CZ_hdMain").after(itemhtml(item))    
+                        }
                     }
+                  
                 }
                
             });

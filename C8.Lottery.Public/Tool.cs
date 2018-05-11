@@ -116,6 +116,27 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 判断是否PC端
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsPc()
+        {
+            bool flag = true;
+            string strUserAgent = HttpContext.Current.Request.UserAgent;
+            if (strUserAgent != null)
+            {
+                if (HttpContext.Current.Request.Browser.IsMobileDevice == true || strUserAgent.Contains("iPhone") ||
+                strUserAgent.Contains("SymbianOS") || strUserAgent.Contains("Android") ||
+                strUserAgent.Contains("iPad") || strUserAgent.Contains("Windows Phone") ||
+                strUserAgent.Contains("iPod"))
+                {
+                    flag = false;
+                }
+            }
+            return flag;
+        }
+
         
         
         /// <summary>
