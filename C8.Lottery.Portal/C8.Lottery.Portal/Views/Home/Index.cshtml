@@ -96,14 +96,14 @@
             <div style="clear:both;"></div>
         </ul>
 
-      
+
     </div>
     <div class="hjc_CZQieBox">
         <div class="hdNav_cai_collect" style="display: block;">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
-            {
+                {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
                 }
                 <div style="clear:both;"></div>
@@ -113,7 +113,7 @@
 
             <ul class="hdNav_cai">
                 @foreach (LotteryType2 lotteryType in ViewBag.list)
-            {
+                {
                     <li><a href="javascript:;">@lotteryType.Name</a></li>
                 }
                 <div style="clear:both;"></div>
@@ -124,7 +124,7 @@
 
 
 
-    <div class="hjc_indexmain" >
+    <div class="hjc_indexmain">
         @foreach (LotteryType2 lotteryType in ViewBag.list)
         {
             int[] lTypeArr = lotteryType.SonIdArr;
@@ -158,6 +158,10 @@
                                         @if (record.ShowOpenTime == "正在开奖")
                                         {
                                             <span>正在开奖</span>
+                                        }
+                                        else if (record.ShowOpenTime == "休奖时间")
+                                        {
+                                            <span>休奖时间</span>
                                         }
                                         else
                                         {
@@ -352,7 +356,7 @@
                             <div class="hjc_news">
                                 <div class="hjc_news_subject">@newse.FullHead</div>
                                 <div class="newstime">
-                                    <span>万彩吧</span>
+                                    <span>@site.WebName</span>
                                     <span>@newse.ReleaseTimeStr</span>
                                     <span>@newse.CommentCount<i class="icon-comment"></i></span>
                                 </div>
@@ -366,7 +370,7 @@
                             <div class="hjc_news_left">
                                 <div class="hjc_news_subject">@newse.FullHead</div>
                                 <div class="newstime">
-                                    <span>万彩吧</span>
+                                    <span>@site.WebName</span>
                                     <span>@newse.ReleaseTimeStr</span>
                                     <span>@newse.CommentCount<i class="icon-comment"></i></span>
                                 </div>
@@ -396,7 +400,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="newstime">
-                                    <span>万彩吧</span>
+                                    <span>@site.WebName</span>
                                     <span>@newse.ReleaseTimeStr</span>
                                     <span>@newse.CommentCount<i class="icon-comment"></i></span>
                                 </div>
@@ -418,7 +422,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="newstime">
-                                    <span>万彩吧</span>
+                                    <span>@site.WebName</span>
                                     <span>@newse.ReleaseTimeStr</span>
                                     <span>@newse.CommentCount<i class="icon-comment"></i></span>
                                 </div>
@@ -431,7 +435,7 @@
                             <div class="hjc_news">
                                 <div class="hjc_news_subject">@newse.FullHead</div>
                                 <div class="">
-                                    <span>万彩吧</span>
+                                    <span>@site.WebName</span>
                                     <span>@newse.ReleaseTimeStr</span>
                                     <span>@newse.CommentCount<i class="icon-comment"></i></span>
                                 </div>

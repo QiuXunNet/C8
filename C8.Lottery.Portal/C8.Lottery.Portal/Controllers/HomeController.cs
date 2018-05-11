@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using C8.Lottery.Portal;
 using CryptSharp;
 using C8.Lottery.Model.Enum;
+using System.Configuration;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -61,16 +62,14 @@ Order by CommentCount desc";
             return View();
         }
 
-        //private static object obj = new object();
 
         public ActionResult GetRemainOpenTimeByType(int lType)
         {
             string time = "3";
-          //  lock (obj)
-           // {
-                time = Util.GetOpenRemainingTimeWithHour(lType);
-          //  }
-            
+          
+                //time = Util.GetOpenRemainingTimeWithHour(lType);
+                time = LotteryTime.GetTime(lType.ToString());
+          
             string[] arr = time.Split('&');
 
             if (arr.Length == 3)
@@ -748,7 +747,14 @@ Order by CommentCount desc";
                         {
 
                             string guid = Guid.NewGuid().ToString();
+                            string webdomain= ConfigurationManager.AppSettings["WebDomain"];
+                            string debug= ConfigurationManager.AppSettings["debug"];
+                            if (debug == "0")
+                            {
+                                Response.Cookies["UserId"].Domain = webdomain;
+                            }
                             Response.Cookies["UserId"].Value = guid;
+                            
                             //Session[guid] = user.Id;
                             Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);

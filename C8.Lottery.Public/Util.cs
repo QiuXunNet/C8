@@ -22593,8 +22593,23 @@ namespace C8.Lottery.Public
             return result;
         }
 
+        /// <summary>
+        /// 获取采种第一个玩法名字
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        public static string GetDefaultPlayName(int lType)
+        {
+            string PlayName = "";
+            string strsql = " select  top 1 PlayName from [dbo].[IntegralRule]  where lType=@lType  ";
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@lType",lType)
 
+            };
+            PlayName =Convert.ToString(SqlHelper.ExecuteScalar(strsql, sp));
+            return PlayName;
 
+        }
 
 
         public static string GetTwoDateChaWithOutHour(DateTime dTemp, DateTime target)

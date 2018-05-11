@@ -32,6 +32,11 @@ namespace C8.Lottery.Model
             get { return Util.GetLotteryTypeName(lType); }
         }
 
+        public string DefaultPlayName
+        {
+            get { return Util.GetDefaultPlayName(lType); }
+        }
+
         public string TimeStr
         {
             get { return SubTime.ToString("MM-dd HH:mm"); }
