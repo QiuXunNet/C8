@@ -9,10 +9,10 @@ namespace C8.Lottery.Public
 {
     public static class LotteryTime
     {
-        private static List<LotteryTimeModel> GetLotteryTimeList()
+        public static List<LotteryTimeModel> GetLotteryTimeList()
         {
             var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
-            list = null;
+            
             if (list == null || list.Count == 0)
             {
                 list = new List<LotteryTimeModel>();
