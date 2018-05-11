@@ -313,28 +313,32 @@
                 }
                 if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
                 {
+                    if(!IsPC())
+                    {
+                        if (item.Layer == 1) {
+                            $(".Plan_content").prepend(itemhtml(item))
+                        } else if (item.Layer == 2) {
+                            $(".Plan_content").after(itemhtml(item))
+                        } else if (item.Layer == 3) {
+                            $(".info_LHC_nav").after(itemhtml(item))
+                        }
+                        else if (item.Layer == 4) {
+                            $(".col4").after(itemhtml(item))
+                        }
+                        else if (item.Layer == 5) {
+                            $(".col3").after(itemhtml(item))
+                        }
+                        else if (item.Layer == 6) {
+                            //$(".hjc_news_lhs").after(itemhtml(item))
+                            //$(".GG_Box").addClass("GG_Box1")
 
-                    if (item.Layer == 1) {
-                        $(".Plan_content").prepend(itemhtml(item))
-                    } else if (item.Layer == 2) {
-                        $(".Plan_content").after(itemhtml(item))
-                    } else if (item.Layer == 3) {
-                        $(".info_LHC_nav").after(itemhtml(item))
+                        } else if (item.Layer == 7) {
+                            //$(".raking").after(itemhtml(item))
+                            //$(".GG_Box").addClass("GG_Box1")
+                        }
                     }
-                    else if (item.Layer == 4) {
-                        $(".col4").after(itemhtml(item))
-                    }
-                    else if (item.Layer == 5) {
-                        $(".col3").after(itemhtml(item))
-                    }
-                    else if (item.Layer == 6) {
-                        //$(".hjc_news_lhs").after(itemhtml(item))
-                        //$(".GG_Box").addClass("GG_Box1")
 
-                    } else if (item.Layer == 7) {
-                        //$(".raking").after(itemhtml(item))
-                        //$(".GG_Box").addClass("GG_Box1")
-                    }
+                   
                 }
             });
         }

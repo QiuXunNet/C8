@@ -66,34 +66,38 @@
                 }
                 if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
                 {
-                    if(item.Layer==1)
+                    if(!IsPC())
                     {
-                        $(".listdetail").prepend(itemhtml(item))
-                    }else if(item.Layer==2)
-                    {
-                        $(".listtitle").after(itemhtml(item))
-                    }else if(item.Layer==3)
-                    {
-                        $(".slick-track").after(itemhtml(item))
-                    }
-                    else if(item.Layer==4)
-                    {
-                        $(".rec-gallery dt").after(itemhtml(item))
-                    }
-                    else if(item.Layer==5)
-                    {
-                        $(".rec-gallery").after(itemhtml(item))
-                    }
-                    else if(item.Layer==6)
-                    {
-                        //$(".hjc_news_lhs").after(itemhtml(item))
-                        //$(".GG_Box").addClass("GG_Box1")
+                        if(item.Layer==1)
+                        {
+                            $(".listdetail").prepend(itemhtml(item))
+                        }else if(item.Layer==2)
+                        {
+                            $(".listtitle").after(itemhtml(item))
+                        }else if(item.Layer==3)
+                        {
+                            $(".slick-track").after(itemhtml(item))
+                        }
+                        else if(item.Layer==4)
+                        {
+                            $(".rec-gallery dt").after(itemhtml(item))
+                        }
+                        else if(item.Layer==5)
+                        {
+                            $(".rec-gallery").after(itemhtml(item))
+                        }
+                        else if(item.Layer==6)
+                        {
+                            //$(".hjc_news_lhs").after(itemhtml(item))
+                            //$(".GG_Box").addClass("GG_Box1")
 
-                    } else if(item.Layer==7)
-                    {
-                        //$(".raking").after(itemhtml(item))
-                        //$(".GG_Box").addClass("GG_Box1")
+                        } else if(item.Layer==7)
+                        {
+                            //$(".raking").after(itemhtml(item))
+                            //$(".GG_Box").addClass("GG_Box1")
+                        }
                     }
+                    
                 }
 
             });
