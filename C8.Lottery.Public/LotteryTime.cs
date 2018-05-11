@@ -12,7 +12,7 @@ namespace C8.Lottery.Public
         private static List<LotteryTimeModel> GetLotteryTimeList()
         {
             var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
-
+            list = null;
             if (list == null || list.Count == 0)
             {
                 list = new List<LotteryTimeModel>();
@@ -39,7 +39,7 @@ namespace C8.Lottery.Public
                     });
                 }
 
-                CacheHelper.AddCache<List<LotteryTimeModel>>("GetLotteryTimeListss", list, 8 * 60);
+                CacheHelper.AddCache("GetLotteryTimeListss", list, 8 * 60);
             }
 
             return list;
@@ -54,6 +54,7 @@ namespace C8.Lottery.Public
         {
             var nowTime = DateTime.Now;
             var nowTimeStr = nowTime.ToString("yyyy-MM-dd");
+            var timeStr = nowTime.ToString("hh:mm:ss");
 
             if (int.Parse(lType) < 9)
             {
@@ -67,13 +68,13 @@ namespace C8.Lottery.Public
                 return Util.GetTwoDateCha(nowTime, target);
 
                 #endregion
-            }           
+            }
 
             LotteryTimeModel lotteryTimeModel;
 
-            lotteryTimeModel = GetLotteryTimeList().Where(e => e.LType == lType &&
+            lotteryTimeModel = GetLotteryTimeList().FirstOrDefault(e => e.LType == lType &&
             nowTime > Convert.ToDateTime(nowTimeStr + " " + e.BeginTime) &&
-            nowTime < Convert.ToDateTime(nowTimeStr + " " + e.EndTime) && e.IsStop == "0").FirstOrDefault();
+            nowTime < (e.EndTime == "24:00" ? DateTime.Today.AddDays(1) : Convert.ToDateTime(nowTimeStr + " " + e.EndTime)) && e.IsStop == "0");
 
             //如果当前时间不在配置的彩种开奖时间范围
             if (lotteryTimeModel == null)
@@ -82,7 +83,7 @@ namespace C8.Lottery.Public
             }
 
             //获取当前时间已过首次开奖计时时间的秒数
-            int timeLong = (int)(nowTime - Convert.ToDateTime(nowTimeStr+" " + lotteryTimeModel.BeginTime)).TotalSeconds;
+            int timeLong = (int)(nowTime - Convert.ToDateTime(nowTimeStr + " " + lotteryTimeModel.BeginTime)).TotalSeconds;
 
             if (timeLong < 0)
             {

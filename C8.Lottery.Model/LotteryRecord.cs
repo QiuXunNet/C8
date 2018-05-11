@@ -44,11 +44,11 @@ namespace C8.Lottery.Model
                 {
                     result = Issue;
                 }
-                else if ((lType >= 9 && lType <= 14) || (lType >= 38 && lType <= 62) || lType == 64 || lType < 9)
+                else if ((lType >= 9 && lType <= 14)  || lType == 64 || lType < 9)
                 {
                     result = Issue.Substring(length - 3);
                 }
-                else if (lType >= 15 && lType <= 37)
+                else if (lType >= 15  && lType <= 62)
                 {
                     result = Issue.Substring(length - 2);
                 }
