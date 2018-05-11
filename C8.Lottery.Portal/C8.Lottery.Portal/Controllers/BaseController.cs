@@ -20,6 +20,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             //var setting = MemClientFactory.GetCache<SiteSetting>("base_site_setting");
             var setting = CacheHelper.GetCache<SiteSetting>("base_site_setting");
+    
             if (setting == null)
             {
                 string sql = "select top 1 * from dbo.SiteSetting";

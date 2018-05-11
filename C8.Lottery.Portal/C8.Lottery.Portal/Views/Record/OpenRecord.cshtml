@@ -23,10 +23,19 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">开奖记录</a>
-        @if (lType >= 9)
-        {
+        @*@if (lType >= 9)
+        {*@
+        @{
+            string style = "";
+            if (lType < 9)
+            {
+                style = "background-position-x:55px;";
+            }
+
+
+         }
             <div class="Plan_QiHaoTwo">
-                <select class="QHT_Set" id="queryDate">
+                <select class="QHT_Set" id="queryDate" style="@style">
 
                     @{
                         foreach (var item in queryDate)
@@ -44,7 +53,7 @@
 
                 </select>
             </div>
-        }
+        @*}*@
     </header>
 
 
