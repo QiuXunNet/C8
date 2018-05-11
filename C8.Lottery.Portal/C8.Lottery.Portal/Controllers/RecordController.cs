@@ -66,7 +66,7 @@ namespace C8.Lottery.Portal.Controllers
                 
                 if (string.IsNullOrEmpty(date))
                 {
-                    currentDate = DateTime.Now.ToString("yyyy-01-01");
+                    currentDate = DateTime.Now.ToString("yyyy");
                     date = DateTime.Now.ToString("yyyy年");
                    
                 }
@@ -75,8 +75,8 @@ namespace C8.Lottery.Portal.Controllers
                     currentDate = date;
                     date = date.Substring(0, 4) +"年";
                 }
-                var time1 = currentDate;
-                sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' order by Issue desc";
+                var time1 = currentDate.Substring(0, 4);
+                sql = "select * from LotteryRecord where lType=" + lType + " and YEAR(SubTime) ='" + time1 + "' order by Issue desc";
             }
 
           

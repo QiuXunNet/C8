@@ -55,6 +55,7 @@
                 $(document).dialog({
                     type: 'confirm',
                     closeBtnShow: true,
+                    style:"ios",
                     content: '确定不再关注此人?',
                     onClickConfirmBtn: function () {
                         $.post('/Personal/UnFollow', { followed_userId: follow_uid }, function (data) {
