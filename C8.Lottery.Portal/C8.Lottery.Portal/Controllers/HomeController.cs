@@ -62,16 +62,14 @@ Order by CommentCount desc";
             return View();
         }
 
-        //private static object obj = new object();
 
         public ActionResult GetRemainOpenTimeByType(int lType)
         {
             string time = "3";
-          //  lock (obj)
-           // {
-                time = Util.GetOpenRemainingTimeWithHour(lType);
-          //  }
-            
+          
+                //time = Util.GetOpenRemainingTimeWithHour(lType);
+                time = LotteryTime.GetTime(lType.ToString());
+          
             string[] arr = time.Split('&');
 
             if (arr.Length == 3)

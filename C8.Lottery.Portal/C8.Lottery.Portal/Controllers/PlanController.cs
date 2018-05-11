@@ -238,6 +238,13 @@ namespace C8.Lottery.Portal.Controllers
                 return Content("发帖失败，当期已封盘");
             }
 
+            //获取当前最新期
+            string currentLastIssue = Util.GetCurrentIssue(lType);
+            if (string.IsNullOrEmpty(currentLastIssue) || currentIssue != currentLastIssue)
+            {
+                return Content("发帖失败，当期已封盘");
+            }
+
             #endregion
 
             //数据清理
@@ -297,7 +304,7 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Rule(int id)
         {
             string name = Util.GetLotteryTypeName(id);
-            
+
 
             ViewBag.Platform = Request.Params["pl"].ToInt32();
 
@@ -1241,7 +1248,7 @@ order by e.Count desc";
 
                     int MyUserId = UserHelper.GetByUserId();
                     string memberKey = "history_" + MyUserId + "_" + lType;
-                   // list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
+                    // list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
                     list = CacheHelper.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
 
                     UserInfo u = UserHelper.GetUser(uid);
