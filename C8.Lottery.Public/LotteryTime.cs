@@ -169,7 +169,7 @@ namespace C8.Lottery.Public
         {
             var nowTime = DateTime.Now;
 
-            var list = GetLotteryTimeList().Where(e => e.LType == lType);
+            var list = GetLotteryTimeModelList().Where(e => e.LType == lType);
             if (!list.Any())
                 return null;
 
