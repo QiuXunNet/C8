@@ -193,7 +193,8 @@ SELECT row_number() over(order by SortCode ASC, ReleaseTime DESC ) as rowNumber,
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
 FROM [dbo].[News] a
 WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
-WHERE rowNumber BETWEEN @Start AND @End";
+WHERE rowNumber BETWEEN @Start AND @End 
+ORDER BY rowNumber";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),

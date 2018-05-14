@@ -43,7 +43,7 @@
   <Rule BeginIssue ="1" Name="江西快三" LType="48" BeginTime="08:55" EndTime="22:55" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="内蒙古快三" LType="49" BeginTime="09:35" EndTime="21:55" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="上海快三" LType="50" BeginTime="08:48" EndTime="22:28" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
-  <Rule BeginIssue ="1" Name="重庆快乐十分" LType="51" BeginTime="09:53" EndTime="02:03" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
+  <Rule BeginIssue ="14" Name="重庆快乐十分" LType="51" BeginTime="09:53" EndTime="02:03" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="广东快乐十分" LType="52" BeginTime="09:00" EndTime="23:00" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="广西快乐十分" LType="53" BeginTime="08:55" EndTime="21:25" TimeInterval="15" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="黑龙江快乐十分" LType="54" BeginTime="08:35" EndTime="22:35" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
