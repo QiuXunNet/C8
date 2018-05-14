@@ -73,7 +73,8 @@ namespace C8.Lottery.Public
             }
 
             LotteryTimeModel lotteryTimeModel;
-            var list = GetLotteryTimeList();
+            var list = GetLotteryTimeList().Where(e => e.IsStop == "0");
+            list.ToList().ForEach(e => e.EndTime = e.EndTime == "24:00" ? "00:00" : e.EndTime);
             foreach (var model in list)
             {
                 model.BeginTimeDate = Convert.ToDateTime(nowTimeStr + " " + model.BeginTime);
@@ -96,7 +97,7 @@ namespace C8.Lottery.Public
             }
 
             lotteryTimeModel = list.FirstOrDefault(e => e.LType == lType &&
-            nowTime > e.BeginTimeDate && nowTime < e.EndTimeDate && e.IsStop == "0");
+            nowTime > e.BeginTimeDate && nowTime < e.EndTimeDate);
 
             //如果当前时间不在配置的彩种开奖时间范围
             if (lotteryTimeModel == null)
