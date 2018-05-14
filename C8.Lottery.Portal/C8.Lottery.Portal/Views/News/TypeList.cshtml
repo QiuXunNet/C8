@@ -492,7 +492,7 @@
                 }
                 var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
                 $("#ballListDiv").append('<span class="LHC_spA ' + getColor(num) + '">' + num + '</span>&nbsp;');
-
+                console.log(data.SubTime);
                 $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content) +'</span>&nbsp;');
             }
         }

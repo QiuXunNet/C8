@@ -15,6 +15,7 @@
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="~/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="~/js/yjp.js"></script>
+    <script type="text/javascript" src="~/js/6caiSX.js"></script>
     <script type="text/javascript" src="/js/baidu-statistics.js"></script>
     <script>
 
@@ -256,9 +257,11 @@
 
             $.each(data, function (index, item) {
 
+              
                 var kjhtml = '';
                 var kjhtml1 = '';
                 var num = item.LotteryNum.Num.split(',');
+                var dttime = item.LotteryNum.SubTime;//针对6彩
                 var bethtml = '';
                 var cl1 = "hdM_ddcon ";
                 if (item.BettingRecord.length > 0) {
@@ -269,6 +272,8 @@
                         var issym = item.BettingRecord[j].WinState == 3 ? "+" : "";
                         var redwin = '';
                         var mynum = item.BettingRecord[j].BetNum;
+                  
+                        
 
                         if (item.BettingRecord[j].WinState == 3) {
                             var mynum = item.BettingRecord[j].BetNum;
@@ -277,11 +282,17 @@
                             for (var x = 0; x < mynumsplit.length; x++) {
                                 var z = getwanfa(item.BettingRecord[j].PlayName);
 
-                                if (z == -1) {
+                                if (z == -1)
+                                {
                                     var ltnum = item.LotteryNum.Num;
 
-                                    if (item.BettingRecord[j].PlayName == "平特一肖") {
-                                        ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
+                                    if (item.BettingRecord[j].PlayName == "平特一肖")
+                                    {
+                                        
+                                       // ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
+                                        
+                                        ltnum = get6caiSx(ltnum, dttime);
+                                        console.log(ltnum);
                                     }
 
                                     if (ltnum.indexOf(mynumsplit[x]) >= 0) {
@@ -291,13 +302,16 @@
                                 } else {
                                     var lonum = item.LotteryNum.Num.split(',');
 
-                                    if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特") {
-                                        lonum[z] = getShengxiaoByDigit(lonum[z]);
+                                    if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特")
+                                    {
+                                        //lonum[z] = getShengxiaoByDigit(lonum[z]);
+                                        lonum[z] = GetName(dttime, lonum[z]);
                                     }
                                     if (z == 10) {
                                         var lonum1 = lonum.slice(0, 6);
 
-                                        if ($.inArray(mynumsplit[x], lonum1) != -1) {
+                                        if ($.inArray(mynumsplit[x], lonum1) != -1)
+                                        {
                                             mynum = mynum.replace(mynumsplit[x], "<span class='For_Red'>" + mynumsplit[x] + "</span>");
                                         }
 
@@ -354,13 +368,19 @@
                         }
                         //   kjhtml1 += '<span class="LHC_spA">' + num[i] + '</span>'
 
+
                         if (i == num.length - 2)
                         {
-                            kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '+</span>'
+
+                            //kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '+</span>'
+                            kjhtml1 += '<span class="LHC_spA">' + GetName(dttime,num[i]) + '+</span>'
+
+
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span><span>+</span>'
                         } else
                         {
-                            kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '</span>'
+                            //kjhtml1 += '<span class="LHC_spA">' + getShengxiaoByDigit(num[i]) + '</span>'
+                            kjhtml1 += '<span class="LHC_spA">' + GetName(dttime, num[i]) + '</span>'
                             kjhtml += '<span class="' + cl + '">' + num[i] + '</span>'
                         }
 
@@ -436,6 +456,19 @@
             listDom.append(html);
 
         }
+
+        //生肖
+        function get6caiSx(num,subtime)
+        {
+            var cainum;
+            for (var i = 0; i < num.length; i++)
+            {
+                cainum+=GetName(subtime, num[i]) + ",";
+            }
+            return cainum.substring(0, cainum.length - 1);
+            
+        }
+
         //获取六合彩球的颜色
         function getcolor(haoma) {
             var red = "01，02，07，08，12，13，18，19，23，24，29，30，34，35，40，45，46";
@@ -451,7 +484,8 @@
 
         }
         //六合彩数字转生肖
-        function getShengxiaoByDigit(digit) {
+        function getShengxiaoByDigit(digit)
+        {
             var result = "鸡";
 
 

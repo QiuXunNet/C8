@@ -65,6 +65,7 @@ namespace C8.Lottery.Model
                 string result = "";
 
                 string[] arr = this.Num.Split(',');
+                
 
                 if (lType >= 9 && lType < 15)
                 {
@@ -96,13 +97,13 @@ namespace C8.Lottery.Model
                 }
                 else if (lType == 5)
                 {
-                    result += Util.GetShengxiaoByDigit(int.Parse(arr[0])) + "," +
-                              Util.GetShengxiaoByDigit(int.Parse(arr[1])) + "," +
-                              Util.GetShengxiaoByDigit(int.Parse(arr[2])) + "," +
-                              Util.GetShengxiaoByDigit(int.Parse(arr[3])) + "," +
-                              Util.GetShengxiaoByDigit(int.Parse(arr[4])) + "," +
-                              Util.GetShengxiaoByDigit(int.Parse(arr[5])) + "," +
-                              Util.GetShengxiaoByDigit(int.Parse(arr[6]));
+                    result += Util.GetShengxiaoByDigit(int.Parse(arr[0]), this.SubTime) + "," +
+                              Util.GetShengxiaoByDigit(int.Parse(arr[1]), this.SubTime) + "," +
+                              Util.GetShengxiaoByDigit(int.Parse(arr[2]), this.SubTime) + "," +
+                              Util.GetShengxiaoByDigit(int.Parse(arr[3]), this.SubTime) + "," +
+                              Util.GetShengxiaoByDigit(int.Parse(arr[4]), this.SubTime) + "," +
+                              Util.GetShengxiaoByDigit(int.Parse(arr[5]), this.SubTime) + "," +
+                              Util.GetShengxiaoByDigit(int.Parse(arr[6]), this.SubTime);
                 }
                 else if (lType == 63 || lType == 64)
                 {
