@@ -210,7 +210,7 @@ namespace C8.Lottery.Public
             return result;
         }
 
-        public static string HandWinNumColorFor6(string num, string openNum, int sort)
+        public static string HandWinNumColorFor6(string num, string openNum, int sort,DateTime dt)
         {
             string[] numArr = num.Split(' ');
             string[] openArr = openNum.Split(',');
@@ -264,7 +264,7 @@ namespace C8.Lottery.Public
                 }
                 else if (sort == 2)
                 {
-                    string texiao = Util.GetShengxiaoByDigit(int.Parse(openArr[6]));
+                    string texiao = Util.GetShengxiaoByDigit(int.Parse(openArr[6]),dt);
 
                     foreach (string s in numArr)
                     {
@@ -22210,7 +22210,7 @@ namespace C8.Lottery.Public
 
 
         //开奖号码 数字 转化为生肖
-        public static string ChangeOpenNumToShengxiao(string openNum)
+        public static string ChangeOpenNumToShengxiao(string openNum,DateTime dt)
         {
             string[] arr = openNum.Split(',');
             string result = "";
@@ -22218,70 +22218,74 @@ namespace C8.Lottery.Public
             foreach (string s in arr)
             {
                 int num = int.Parse(s);
-                result += GetShengxiaoByDigit(num) + ",";
+                result += GetShengxiaoByDigit(num,dt) + ",";
             }
 
             return result.TrimEnd(',');
         }
 
         //六合彩数字转生肖
-        public static string GetShengxiaoByDigit(int digit)
+        public static string GetShengxiaoByDigit(int digit,DateTime dt)
         {
-            string result = "鸡";
+            //string SxJsonData = "[{ 'BeginTime':'2015 - 02 - 19','EndTime':'2016 - 02 - 07','Data':[{'Name':'羊','Nums':'01,13,25,37,49'},{'Name':'马','Nums':'02,14,26,38'},{'Name':'蛇','Nums':'03,15,27,39'},{'Name':'龙','Nums':'04,16,28,40'},{'Name':'兔','Nums':'05,17,29,41'},{'Name':'虎','Nums':'06,18,30,42'},{'Name':'牛','Nums':'07,19,31,43'},{'Name':'鼠','Nums':'08,20,32,44'},{'Name':'猪','Nums':'09,21,33,45'},{'Name':'狗','Nums':'10,22,34,46'},{'Name':'鸡','Nums':'11,23,35,47'},{'Name':'猴','Nums':'12,24,36,48'}]},{'BeginTime':'2016 - 02 - 08','EndTime':'2017 - 01 - 27','Data':[{'Name':'猴','Nums':'01,13,25,37,49'},{'Name':'羊','Nums':'02,14,26,38'},{'Name':'马','Nums':'03,15,27,39'},{'Name':'蛇','Nums':'04,16,28,40'},{'Name':'龙','Nums':'05,17,29,41'},{'Name':'兔','Nums':'06,18,30,42'},{'Name':'虎','Nums':'07,19,31,43'},{'Name':'牛','Nums':'08,20,32,44'},{'Name':'鼠','Nums':'09,21,33,45'},{'Name':'猪','Nums':'10,22,34,46'},{'Name':'狗','Nums':'11,23,35,47'},{'Name':'鸡','Nums':'12,24,36,48'}]},{'BeginTime':'2017 - 01 - 28','EndTime':'2018 - 02 - 15','Data':[{'Name':'鸡','Nums':'01,13,25,37,49'},{'Name':'猴','Nums':'02,14,26,38'},{'Name':'羊','Nums':'03,15,27,39'},{'Name':'马','Nums':'04,16,28,40'},{'Name':'蛇','Nums':'05,17,29,41'},{'Name':'龙','Nums':'06,18,30,42'},{'Name':'兔','Nums':'07,19,31,43'},{'Name':'虎','Nums':'08,20,32,44'},{'Name':'牛','Nums':'09,21,33,45'},{'Name':'鼠','Nums':'10,22,34,46'},{'Name':'猪','Nums':'11,23,35,47'},{'Name':'狗','Nums':'12,24,36,48'}]},{'BeginTime':'2018 - 02 - 16','EndTime':'2019 - 02 - 04','Data':[{'Name':'狗','Nums':'01,13,25,37,49'},{'Name':'鸡','Nums':'02,14,26,38'},{'Name':'猴','Nums':'03,15,27,39'},{'Name':'羊','Nums':'04,16,28,40'},{'Name':'马','Nums':'05,17,29,41'},{'Name':'蛇','Nums':'06,18,30,42'},{'Name':'龙','Nums':'07,19,31,43'},{'Name':'兔','Nums':'08,20,32,44'},{'Name':'虎','Nums':'09,21,33,45'},{'Name':'牛','Nums':'10,22,34,46'},{'Name':'鼠','Nums':'11,23,35,47'},{'Name':'猪','Nums':'12,24,36,48'}]},{'BeginTime':'2019 - 02 - 05','EndTime':'2020 - 01 - 24','Data':[{'Name':'猪','Nums':'01,13,25,37,49'},{'Name':'狗','Nums':'02,14,26,38'},{'Name':'鸡','Nums':'03,15,27,39'},{'Name':'猴','Nums':'04,16,28,40'},{'Name':'羊','Nums':'05,17,29,41'},{'Name':'马','Nums':'06,18,30,42'},{'Name':'蛇','Nums':'07,19,31,43'},{'Name':'龙','Nums':'08,20,32,44'},{'Name':'兔','Nums':'09,21,33,45'},{'Name':'虎','Nums':'10,22,34,46'},{'Name':'牛','Nums':'11,23,35,47'},{'Name':'鼠','Nums':'12,24,36,48'}]},{'BeginTime':'2020 - 01 - 25','EndTime':'2021 - 02 - 11','Data':[{'Name':'鼠','Nums':'01,13,25,37,49'},{'Name':'猪','Nums':'02,14,26,38'},{'Name':'狗','Nums':'03,15,27,39'},{'Name':'鸡','Nums':'04,16,28,40'},{'Name':'猴','Nums':'05,17,29,41'},{'Name':'羊','Nums':'06,18,30,42'},{'Name':'马','Nums':'07,19,31,43'},{'Name':'蛇','Nums':'08,20,32,44'},{'Name':'龙','Nums':'09,21,33,45'},{'Name':'兔','Nums':'10,22,34,46'},{'Name':'虎','Nums':'11,23,35,47'},{'Name':'牛','Nums':'12,24,36,48'}]},{'BeginTime':'2021 - 02 - 12','EndTime':'2022 - 01 - 31','Data':[{'Name':'牛','Nums':'01,13,25,37,49'},{'Name':'鼠','Nums':'02,14,26,38'},{'Name':'猪','Nums':'03,15,27,39'},{'Name':'狗','Nums':'04,16,28,40'},{'Name':'鸡','Nums':'05,17,29,41'},{'Name':'猴','Nums':'06,18,30,42'},{'Name':'羊','Nums':'07,19,31,43'},{'Name':'马','Nums':'08,20,32,44'},{'Name':'蛇','Nums':'09,21,33,45'},{'Name':'龙','Nums':'10,22,34,46'},{'Name':'兔','Nums':'11,23,35,47'},{'Name':'虎','Nums':'12,24,36,48'}]},{'BeginTime':'2022 - 02 - 01','EndTime':'2023 - 01 - 21','Data':[{'Name':'虎','Nums':'01,13,25,37,49'},{'Name':'牛','Nums':'02,14,26,38'},{'Name':'鼠','Nums':'03,15,27,39'},{'Name':'猪','Nums':'04,16,28,40'},{'Name':'狗','Nums':'05,17,29,41'},{'Name':'鸡','Nums':'06,18,30,42'},{'Name':'猴','Nums':'07,19,31,43'},{'Name':'羊','Nums':'08,20,32,44'},{'Name':'马','Nums':'09,21,33,45'},{'Name':'蛇','Nums':'10,22,34,46'},{'Name':'龙','Nums':'11,23,35,47'},{'Name':'兔','Nums':'12,24,36,48'}]}]";
+
+           return   ChineseZodiacHelper.GetChineseZodiac(dt, digit);
+
+            //string result = "鸡";
 
 
-            if (digit == 11 || digit == 23 || digit == 35 || digit == 47)
-            {
-                result = "鼠";
-            }
-            else if (digit == 10 || digit == 22 || digit == 34 || digit == 46)
-            {
-                result = "牛";
-            }
-            else if (digit == 9 || digit == 21 || digit == 33 || digit == 45)
-            {
-                result = "虎";
-            }
-            else if (digit == 8 || digit == 20 || digit == 32 || digit == 44)
-            {
-                result = "兔";
-            }
-            else if (digit == 7 || digit == 19 || digit == 31 || digit == 43)
-            {
-                result = "龙";
-            }
-            else if (digit == 6 || digit == 18 || digit == 30 || digit == 42)
-            {
-                result = "蛇";
-            }
-            else if (digit == 5 || digit == 17 || digit == 29 || digit == 41)
-            {
-                result = "马";
-            }
-            else if (digit == 4 || digit == 16 || digit == 28 || digit == 40)
-            {
-                result = "羊";
-            }
-            else if (digit == 3 || digit == 15 || digit == 27 || digit == 39)
-            {
-                result = "猴";
-            }
-            else if (digit == 2 || digit == 14 || digit == 26 || digit == 38)
-            {
-                result = "鸡";
-            }
-            else if (digit == 1 || digit == 13 || digit == 25 || digit == 37 || digit == 49)
-            {
-                result = "狗";
-            }
-            else if (digit == 12 || digit == 24 || digit == 36 || digit == 48)
-            {
-                result = "猪";
-            }
+            //if (digit == 11 || digit == 23 || digit == 35 || digit == 47)
+            //{
+            //    result = "鼠";
+            //}
+            //else if (digit == 10 || digit == 22 || digit == 34 || digit == 46)
+            //{
+            //    result = "牛";
+            //}
+            //else if (digit == 9 || digit == 21 || digit == 33 || digit == 45)
+            //{
+            //    result = "虎";
+            //}
+            //else if (digit == 8 || digit == 20 || digit == 32 || digit == 44)
+            //{
+            //    result = "兔";
+            //}
+            //else if (digit == 7 || digit == 19 || digit == 31 || digit == 43)
+            //{
+            //    result = "龙";
+            //}
+            //else if (digit == 6 || digit == 18 || digit == 30 || digit == 42)
+            //{
+            //    result = "蛇";
+            //}
+            //else if (digit == 5 || digit == 17 || digit == 29 || digit == 41)
+            //{
+            //    result = "马";
+            //}
+            //else if (digit == 4 || digit == 16 || digit == 28 || digit == 40)
+            //{
+            //    result = "羊";
+            //}
+            //else if (digit == 3 || digit == 15 || digit == 27 || digit == 39)
+            //{
+            //    result = "猴";
+            //}
+            //else if (digit == 2 || digit == 14 || digit == 26 || digit == 38)
+            //{
+            //    result = "鸡";
+            //}
+            //else if (digit == 1 || digit == 13 || digit == 25 || digit == 37 || digit == 49)
+            //{
+            //    result = "狗";
+            //}
+            //else if (digit == 12 || digit == 24 || digit == 36 || digit == 48)
+            //{
+            //    result = "猪";
+            //}
 
 
 
-            return result;
+            //return result;
         }
 
 
