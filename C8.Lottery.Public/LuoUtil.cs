@@ -142,7 +142,8 @@ namespace C8.Lottery.Public
                 string result = dateStr + issue;
 
                 //step8.处理晚上 结束后的特殊情况
-                Util.HandIssueSpecial(lType, nowTime, dateStr, issue, result);
+                string date = nowTime.ToString("yyyy-MM-dd");
+                Util.HandIssueSpecial(lType, nowTime, date, issue, result);
 
                 return result;
 
