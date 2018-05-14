@@ -179,10 +179,10 @@ namespace C8.Lottery.Portal.Controllers
                 ViewBag.min = timeArr[1];
                 ViewBag.sec = timeArr[2];
 
-                if (lType < 9)
-                {
+                //if (lType < 9)
+                //{
                     ViewBag.hour = timeArr[0];
-                }
+               // }
 
             }
             else

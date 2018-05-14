@@ -259,7 +259,7 @@
         {
             var location=-1;
             getadlist(location);
-            if ("@ViewBag.time" == "正在开奖") {
+            @*if ("@ViewBag.time" == "正在开奖") {*@
 
                 ws = new WebSocket(url);
 
@@ -278,7 +278,7 @@
                 ws.onclose = function () {
                     wsOnclose()
                 }
-            }
+            //}
             //else {
 
             //}
