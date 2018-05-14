@@ -48,7 +48,7 @@ namespace C8.Lottery.Public
             string issue = "";
 
 
-            if (lType <= 8 || lType == 39 || lType == 54 || lType == 63 || lType == 65)
+            if (lType <= 8 || lType == 10 || lType == 39 || lType == 54 || lType == 63 || lType == 65)
 
             {
                 //期号一直递增,获取最后一次开奖号码+1
@@ -65,27 +65,36 @@ namespace C8.Lottery.Public
                 string lotteryType = lType.ToString();
                 var list = LotteryTime.GetLotteryTimeList().Where(x => x.LType == lotteryType);
 
+                if (list.Count() < 1)
+                {
+                    return "未获取到彩种配置";
+                }
+
                 var lotteryTimeModel = list.FirstOrDefault(e => nowTime >= Convert.ToDateTime(e.BeginTime) &&
                                                     nowTime <
                                                     (e.EndTime == "24:00"
                                                         ? DateTime.Today.AddDays(1)
                                                         : Convert.ToDateTime(e.EndTime)) && e.IsStop == "0");
-
+                int intervalCount = 0;
                 //step2.判断是否获取到开奖配置，未获取到则返回已封盘
-                if (lotteryTimeModel == null) return "已封盘";
+                if (lotteryTimeModel == null)
+                {
+
+                    //return "已封盘";
+                }
+                intervalCount = lotteryTimeModel.BeginIssue.ToInt32();
 
                 //step3.获取该彩种的开奖间隔时长。并是否小于等于0, true则返回空
-                int intervalCount = 0;
 
                 if (lType == 9)
                 {
                     if (lotteryTimeModel.BeginTime == "09:50")
                     {
-                        intervalCount = 24;//初始24期
+                        intervalCount = 23;//初始23期
                     }
                     else if (lotteryTimeModel.BeginTime == "22:00")
                     {
-                        intervalCount = 96;//初始96期
+                        intervalCount = 95;//初始96期
                     }
                 }
                 else if (lType == 13)
@@ -99,14 +108,14 @@ namespace C8.Lottery.Public
                 {
                     if (lotteryTimeModel.BeginTime == "09:53")
                     {
-                        intervalCount = 13;//初始12期
+                        intervalCount = 13;//初始13期
                     }
                 }
                 else if (lType == 64)
                 {
                     if (lotteryTimeModel.BeginTime == "00:00")
                     {
-                        intervalCount = 131;//初始24期
+                        intervalCount = 131;//初始131期
                     }
                 }
 
@@ -178,6 +187,50 @@ namespace C8.Lottery.Public
             }
 
             return string.Empty;
+        }
+
+
+        /// <summary>
+        /// 查询当前彩种封盘倒计时
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        public static string GetRemainingTime(int lType)
+        {
+            DateTime d = DateTime.Now;
+            if (lType < 9)
+            {
+                #region 49彩 七星彩 3D 排列三
+
+                string sql = "select OpenLine from DateLine where lType = " + lType;
+                DateTime target = (DateTime)SqlHelper.ExecuteScalar(sql);
+
+                if (d > target) return "正在开奖";
+
+                return CompareTime(d, target);
+
+                #endregion
+            }
+
+
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 比较时间差
+        /// </summary>
+        /// <param name="time1"></param>
+        /// <param name="time2"></param>
+        /// <returns>相差时间字符串 (eg: 02&02&02)</returns>
+        public static string CompareTime(DateTime time1, DateTime time2)
+        {
+            var diff = time2 - time1;
+            string hour = ((int)diff.TotalHours).ToString("D2");
+            string minute = diff.Minutes.ToString("D2");
+            string seconds = diff.Seconds.ToString("D2");
+
+            return $"{hour}&{minute}&{seconds}";
         }
 
     }
