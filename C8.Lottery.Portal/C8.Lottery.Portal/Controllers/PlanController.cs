@@ -114,7 +114,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //2.取最新10期开奖号
-            string pageSql = "select top " + pageSize + " temp.* from ( select row_number() over(order by Id desc) as rownumber,* from LotteryRecord where lType = " + lType + ")as temp where rownumber>" + ((pageIndex - 1) * pageSize);
+            string pageSql = "select top " + pageSize + " temp.* from ( select row_number() over(order by Issue desc) as rownumber,* from LotteryRecord where lType = " + lType + ")as temp where rownumber>" + ((pageIndex - 1) * pageSize);
             ViewBag.list = Util.ReaderToList<LotteryRecord>(pageSql);
 
 

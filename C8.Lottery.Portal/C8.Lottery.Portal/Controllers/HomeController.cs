@@ -28,7 +28,7 @@ namespace C8.Lottery.Portal.Controllers
 
             for (int i = 0; i < 65; i++)
             {
-                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Id desc";
+                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Issue desc";
                 list.Add(Util.ReaderToModel<LotteryRecord>(sql));
             }
 
@@ -970,7 +970,7 @@ Order by CommentCount desc";
 
             for (int i = 0; i < 65; i++)
             {
-                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Id desc";
+                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Issue desc";
                 list.Add(Util.ReaderToModel<LotteryRecord>(sql));
             }
 
