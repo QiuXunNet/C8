@@ -11,6 +11,7 @@ namespace C8.Lottery.Public
     {
         public static List<LotteryTimeModel> GetLotteryTimeList()
         {
+
             var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
             
             if (list == null || list.Count == 0)
