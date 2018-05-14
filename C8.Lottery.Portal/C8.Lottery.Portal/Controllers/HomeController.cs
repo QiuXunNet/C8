@@ -20,7 +20,7 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult Index()
         {
-           
+
             //1.最后一期开奖号码
             string sql = "";
 
@@ -28,7 +28,7 @@ namespace C8.Lottery.Portal.Controllers
 
             for (int i = 0; i < 65; i++)
             {
-                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Id desc";
+                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Issue desc";
                 list.Add(Util.ReaderToModel<LotteryRecord>(sql));
             }
 
@@ -62,14 +62,18 @@ Order by CommentCount desc";
             return View();
         }
 
+        //object obj = new object();
 
         public ActionResult GetRemainOpenTimeByType(int lType)
         {
             string time = "3";
-          
-                //time = Util.GetOpenRemainingTimeWithHour(lType);
+            //lock (obj)
+            //{
                 time = LotteryTime.GetTime(lType.ToString());
-          
+            //}
+            //time = Util.GetOpenRemainingTimeWithHour(lType);
+
+
             string[] arr = time.Split('&');
 
             if (arr.Length == 3)
@@ -115,7 +119,7 @@ Order by CommentCount desc";
             {
                 msg.Success = false;
                 msg.Msg = e.Message;
-              
+
 
                 throw;
             }
@@ -298,7 +302,7 @@ Order by CommentCount desc";
                                         Response.Cookies["UserId"].Value = guid;
                                         Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                                         //CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
-                                        CacheHelper.AddCache(guid, data, 30*24*60);
+                                        CacheHelper.AddCache(guid, data, 30 * 24 * 60);
                                         Coupon cou = GetCoupon("A0001");//查看劵
                                         DateTime BeginTime = DateTime.Now;
                                         DateTime EndTime = DateTime.Now.AddDays(cou.ExpiryDate);
@@ -391,7 +395,7 @@ Order by CommentCount desc";
         /// <summary>
         /// 邀请注册互粉
         /// </summary>
-        public void hufen(long userId,long followuid)
+        public void hufen(long userId, long followuid)
         {
             string strsql = @"insert into [dbo].[Follow]([UserId],[Followed_UserId],[FollowTime])
                               values(@UserId,@Followed_UserId,getdate());
@@ -747,19 +751,19 @@ Order by CommentCount desc";
                         {
 
                             string guid = Guid.NewGuid().ToString();
-                            string webdomain= ConfigurationManager.AppSettings["WebDomain"];
-                            string debug= ConfigurationManager.AppSettings["debug"];
+                            string webdomain = ConfigurationManager.AppSettings["WebDomain"];
+                            string debug = ConfigurationManager.AppSettings["debug"];
                             if (debug == "0")
                             {
                                 Response.Cookies["UserId"].Domain = webdomain;
                             }
                             Response.Cookies["UserId"].Value = guid;
-                            
+
                             //Session[guid] = user.Id;
                             Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                             //MemClientFactory.WriteCache<string>(sessionId.ToString(), user.Id.ToString(), 30);
                             // CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
-                            CacheHelper.AddCache(guid, user.Id, 30*24*60);
+                            CacheHelper.AddCache(guid, user.Id, 30 * 24 * 60);
 
 
                             jsonmsg.Success = true;
@@ -966,7 +970,7 @@ Order by CommentCount desc";
 
             for (int i = 0; i < 65; i++)
             {
-                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Id desc";
+                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Issue desc";
                 list.Add(Util.ReaderToModel<LotteryRecord>(sql));
             }
 

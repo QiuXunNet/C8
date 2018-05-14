@@ -74,7 +74,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lastNum = lr.Num;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(lType);
+            //string time = Util.GetOpenRemainingTime(lType);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
 
 
             if (time != "正在开奖")
@@ -139,7 +140,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.showInfo = lr.ShowInfo;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(lType);
+            //string time = Util.GetOpenRemainingTime(lType);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
 
             if (time != "正在开奖")
             {

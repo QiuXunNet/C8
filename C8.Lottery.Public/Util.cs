@@ -331,7 +331,7 @@ namespace C8.Lottery.Public
         //2017-8-29
         public static string GetPK10Issue(int lType)            //期号依次递增的彩种
         {
-            string sql = "select top(1)Issue from LotteryRecord where lType = " + lType + " order by Id desc";
+            string sql = "select top(1)Issue from LotteryRecord where lType = " + lType + " order by Issue desc";
 
             long nextIssue = 0;
             int year = DateTime.Now.Year;
@@ -351,6 +351,13 @@ namespace C8.Lottery.Public
             //    }
             //}
 
+            #endregion
+
+            #region 黑龙江时时彩，8位数字，不足补零
+            if (lType == 10)
+            {
+                return nextIssue.ToString("D7");
+            }
             #endregion
 
             return nextIssue.ToString();
@@ -22665,6 +22672,12 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 比较两个时间之间的时间差
+        /// </summary>
+        /// <param name="dTemp"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public static string GetTwoDateCha(DateTime dTemp, DateTime target)
         {
             int seconds = (int)((target - dTemp).TotalSeconds);
@@ -22752,6 +22765,11 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
         public static string GetOpenRemainingTimeWithHour(int lType)
         {
             int showHour = 0;
@@ -23313,6 +23331,11 @@ namespace C8.Lottery.Public
             return showHourFormat + "&" + showMinuteFormat + "&" + showSecondFormat;
         }
 
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
         public static string GetRemainingTime(int lType)
         {
             int showHour = 0;
@@ -24104,6 +24127,11 @@ namespace C8.Lottery.Public
             return showHourFormat + "&" + showMinuteFormat + "&" + showSecondFormat;
         }
 
+        /// <summary>
+        /// 弃用 弃用 弃用
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
         public static string GetOpenRemainingTime(int lType)
         {
             int showHour = 0;
