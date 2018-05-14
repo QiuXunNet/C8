@@ -73,7 +73,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lotteryName = lotteryName;
 
             //当前期号
-            string currentIssue = Util.GetCurrentIssue(lType);
+            string currentIssue = LuoUtil.GetCurrentIssue(lType); 
             ViewBag.currentIssue = currentIssue;
             ViewBag.msg = "查看" + currentIssue + "期" + lotteryName + "计划";
 
@@ -135,15 +135,15 @@ namespace C8.Lottery.Portal.Controllers
 
             if (lType == 63)
             {
-                result = Util.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
+                result = LuoUtil.GetCurrentIssue(lType)+ "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
             }
             else if (lType < 9)
             {
-                result = Util.GetCurrentIssue(lType) + "||" + Util.GetOpenRemainingTime(lType);
+                result = LuoUtil.GetCurrentIssue(lType) + "||" + Util.GetOpenRemainingTime(lType);
             }
             else
             {
-                result = Util.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
+                result = LuoUtil.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
             }
 
             return Content(result);
@@ -202,7 +202,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //当前期号
-            string currentIssue = Util.GetCurrentIssue(lType);
+            string currentIssue = LuoUtil.GetCurrentIssue(lType);
             //ViewBag.currentIssue = currentIssue;
             ViewBag.issueDesc = "当前第<t id='currentIssue'>" + currentIssue + "</t>期";
 
@@ -239,7 +239,7 @@ namespace C8.Lottery.Portal.Controllers
             }
 
             //获取当前最新期
-            string currentLastIssue = Util.GetCurrentIssue(lType);
+            string currentLastIssue = LuoUtil.GetCurrentIssue(lType);
             if (string.IsNullOrEmpty(currentLastIssue) || currentIssue != currentLastIssue)
             {
                 return Content("发帖失败，当期已封盘");
@@ -1004,7 +1004,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         {
             int lType = id;
             ViewBag.lType = lType;
-            string currentIssue = DateTime.Now.Year + Util.GetCurrentIssue(lType);
+            string currentIssue = DateTime.Now.Year + LuoUtil.GetCurrentIssue(lType);
 
             //2.倒计时
             string time = Util.GetOpenRemainingTime(lType);
@@ -1392,7 +1392,7 @@ order by e.Count desc";
         [Authentication]
         public ActionResult AlreadyPostData(int id)
         {
-            string sql = "select * from BettingRecord where UserId  =" + UserHelper.LoginUser.Id + " and lType=" + id + " and Issue = '" + Util.GetCurrentIssue(id) + "'";
+            string sql = "select * from BettingRecord where UserId  =" + UserHelper.LoginUser.Id + " and lType=" + id + " and Issue = '" + LuoUtil.GetCurrentIssue(id) + "'";
             List<BettingRecord> list = Util.ReaderToList<BettingRecord>(sql);
 
             return Json(list, JsonRequestBehavior.AllowGet);

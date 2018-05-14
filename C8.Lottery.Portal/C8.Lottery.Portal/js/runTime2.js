@@ -266,7 +266,7 @@ function resetTimeForOpen2() {
         $("#minute2").html('58');
         $("#second2").html('59');
     }
-    
+
 }
 
 
@@ -309,10 +309,11 @@ function InitIssueAndTime() {
 function HandIssueAndTime(data) {
 
     var arr = data.split('|');
+    var curIssue = arr[0];
 
     $('#nextIssue').html(arr[0]);       //期号
 
-    if (arr[1] == '已封盘') {
+    if (curIssue == '已封盘' || arr[1] == '已封盘') {
         $('#fenpanTime').html('已封盘');
         $('#fengpan').show();               //底部的封盘遮罩
     }

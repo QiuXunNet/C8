@@ -21759,7 +21759,7 @@ namespace C8.Lottery.Public
 
         public static string HandIssueSpecial(int lType, DateTime d, string date, string issue, string result)
         {
-            if (lType == 15 && d > DateTime.Parse(date + " 23:53:0"))
+            if (lType == 51 && d > DateTime.Parse(date + " 23:53:0"))
             {
                 result = d.AddDays(1).ToString("MMdd") + issue;
             }
@@ -23621,6 +23621,9 @@ namespace C8.Lottery.Public
                         }
                         return "00&00&0" + secTemp;
                     }
+                }else if (minute >= 9 && sec >= 59)
+                {
+                    return "已封盘";
                 }
 
                 #endregion
