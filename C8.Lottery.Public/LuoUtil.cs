@@ -198,9 +198,11 @@ namespace C8.Lottery.Public
         public static string GetRemainingTime(int lType)
         {
             DateTime d = DateTime.Now;
+
+            #region 49彩 七星彩 3D 排3 排5 七乐彩
             if (lType < 9)
             {
-                #region 49彩 七星彩 3D 排列三
+                //查询设置的开奖时间，进行比较
 
                 string sql = "select OpenLine from DateLine where lType = " + lType;
                 DateTime target = (DateTime)SqlHelper.ExecuteScalar(sql);
@@ -209,10 +211,46 @@ namespace C8.Lottery.Public
 
                 return CompareTime(d, target);
 
-                #endregion
             }
+            #endregion
 
 
+            int hour = d.Hour;
+            int min = d.Minute;
+            int sec = d.Second;
+
+            #region 时时彩
+
+            var lotterySetting = LotteryTime.GetModelUseIssue(lType.ToString());
+            if (lType >= 9 && lType < 15)
+            {
+
+                //开奖前30秒封盘
+
+                //step1.当期开奖时间和当前时间差，获取相差总时长（毫秒）
+                TimeSpan diff = d - lotterySetting.BeginTimeDate;
+
+                int totalMilliseconds = (int)diff.TotalMilliseconds;
+
+                //step2.计算除数
+                int divisorMilliseconds = lotterySetting.TimeInterval.ToInt32() * 60 * 1000;
+
+                //step3.计算余数
+                int diffCount = totalMilliseconds/divisorMilliseconds;
+                int remainderMilliseconds = totalMilliseconds % divisorMilliseconds;
+
+                //step4.判断是否封盘的30秒
+                int disableMilliseconds = divisorMilliseconds - remainderMilliseconds;
+
+                if (0 <= disableMilliseconds && disableMilliseconds <= 30000)
+                {
+                    return "已封盘";
+                }
+
+                //return GetDiffTime();
+
+            }
+            #endregion
 
             return string.Empty;
         }
@@ -226,11 +264,36 @@ namespace C8.Lottery.Public
         public static string CompareTime(DateTime time1, DateTime time2)
         {
             var diff = time2 - time1;
-            string hour = ((int)diff.TotalHours).ToString("D2");
-            string minute = diff.Minutes.ToString("D2");
-            string seconds = diff.Seconds.ToString("D2");
+
+            return GetDiffTime(diff);
+        }
+
+        /// <summary>
+        /// 获取时间差字符串
+        /// </summary>
+        /// <param name="diffTimsSpan"></param>
+        /// <returns></returns>
+        public static string GetDiffTime(TimeSpan diffTimsSpan)
+        {
+            string hour = ((int)diffTimsSpan.TotalHours).ToString("D2");
+            string minute = diffTimsSpan.Minutes.ToString("D2");
+            string seconds = diffTimsSpan.Seconds.ToString("D2");
 
             return $"{hour}&{minute}&{seconds}";
+        }
+
+        /// <summary>
+        /// 转换倒计时模板
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        public static string ConvertTimeString(int milliseconds)
+        {
+            
+            int seconds = milliseconds/60000;
+            int minute = milliseconds/3600000;
+            int hour = milliseconds/(3600000*24);
+
+            return string.Empty;
         }
 
     }
