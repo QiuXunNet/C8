@@ -216,9 +216,9 @@ namespace C8.Lottery.Public
             {
                 return "已封盘";
             }
-            
+
             //封盘开始时间
-            DateTime disableTime = lotterySetting.BeginTimeDate.AddMilliseconds((diffCount + 1) * divisorMilliseconds);
+            DateTime disableTime = lotterySetting.BeginTimeDate.AddMilliseconds((diffCount + 1) * divisorMilliseconds - 30000);
             var disableDiff = disableTime - lotterySetting.BeginTimeDate;
             return GetDiffTime(disableDiff);
         }
