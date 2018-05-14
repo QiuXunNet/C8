@@ -91,8 +91,8 @@ namespace C8.Lottery.Public
                 DateTime lotteryBeginTime = DateTime.Parse(lotteryTimeModel.BeginTime);
 
 
-                #region 处理重庆时时彩 0点到2点期号问题
-                if (lType == 9 && lotteryTimeModel.BeginTimeDate.Day != lotteryTimeModel.EndTimeDate.Day)
+                #region 处理重庆时时彩 重庆快乐十分跨天的期号 凌晨为第一期
+                if ((lType == 9 || lType==51) && lotteryTimeModel.BeginTimeDate.Day != lotteryTimeModel.EndTimeDate.Day)
                 {
                     //处理 0点到2点
                     if (nowTime > lotteryTimeModel.EndTimeDate.Date)

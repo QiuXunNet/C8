@@ -79,6 +79,7 @@
     <Compile Include="Cache\Redis\RedisBase.cs" />
     <Compile Include="Cache\Redis\RedisConfig.cs" />
     <Compile Include="Cache\Redis\RedisManager.cs" />
+    <Compile Include="ChineseZodiacHelper.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="HttpCommon.cs" />
     <Compile Include="JsonExtension.cs" />

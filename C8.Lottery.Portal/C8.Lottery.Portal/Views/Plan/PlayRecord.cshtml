@@ -505,7 +505,8 @@
 
                                         if (item.BettingRecord[j].PlayName == "平特一肖")
                                         {
-                                            ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
+                                            //ltnum = getShengxiaoByDigit(item.LotteryNum.Num);
+                                            ltnum = get6caiSx(ltnum, dttime);
                                         }
 
                                         if (ltnum.indexOf(mynumsplit[x]) >= 0)
@@ -519,7 +520,8 @@
 
                                         if (item.BettingRecord[j].PlayName == "四肖中特" || item.BettingRecord[j].PlayName == "六肖中特")
                                         {
-                                            lonum[z] = getShengxiaoByDigit(lonum[z]);
+                                            //lonum[z] = getShengxiaoByDigit(lonum[z]);
+                                            lonum[z] = GetName(dttime, lonum[z]);
                                         }
                                         if (z==10)
                                         {
@@ -667,6 +669,18 @@
             var html = itemList.join('');
 
             $(".Gues_Ctext").empty().html(html);
+        }
+
+        //生肖
+        function get6caiSx(num,subtime)
+        {
+            var cainum;
+            for (var i = 0; i < num.length; i++)
+            {
+                cainum+=GetName(subtime, num[i]) + ",";
+            }
+            return cainum.substring(0, cainum.length - 1);
+            
         }
 
 

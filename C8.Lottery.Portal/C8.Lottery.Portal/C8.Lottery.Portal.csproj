@@ -726,6 +726,7 @@
     <Content Include="images\w8.png" />
     <Content Include="images\w9_1.png" />
     <Content Include="images\w9_2.png" />
+    <Content Include="js\6caiSX.js" />
     <Content Include="js\baidu-statistics.js" />
     <Content Include="js\bet.js" />
     <Content Include="js\dialog.min.js" />
