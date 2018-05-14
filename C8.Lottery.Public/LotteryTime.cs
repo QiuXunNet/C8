@@ -154,6 +154,22 @@ namespace C8.Lottery.Public
             return (nextLotteryTimeSeconds / 3600).ToString("00") + "&" + (nextLotteryTimeSeconds % 3600 / 60).ToString("00") + "&" + (nextLotteryTimeSeconds % 60).ToString("00");
         }
 
+        /// <summary>
+        /// 获取彩种开奖配置
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
+        public static LotteryTimeModel GetLotteryModel(string lType)
+        {
+            var nowTime = DateTime.Now;
+            var list = GetLotteryTimeModelList();
+
+            var lotteryTimeModel = list.FirstOrDefault(e => e.LType == lType &&
+            nowTime > e.BeginTimeDate && nowTime < e.EndTimeDate);
+
+            return lotteryTimeModel;
+        }
+
         public static List<LotteryTimeModel> GetLotteryTimeModelList()
         {
             var nowTime = DateTime.Now;
