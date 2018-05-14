@@ -22304,8 +22304,8 @@ namespace C8.Lottery.Public
         public static Dictionary<string, string> GetQueryDate(int lType)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-
-            for (int i = 0; i < 5; i++)
+            int length = lType >= 9 ? 5 : 4;
+            for (int i = 0; i < length; i++)
             {
                 if (lType >= 9)
                 {
