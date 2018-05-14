@@ -69,8 +69,15 @@ namespace C8.Lottery.Public
             //step2.判断是否获取到开奖配置，未获取到则查询最近的将要开奖的配置
             if (lotteryTimeModel == null)
             {
+                //查询初始期号
                 lotteryTimeModel = LotteryTime.GetModelUseIssue(lotteryType);
                 intervalCount = lotteryTimeModel.BeginIssue.ToInt32();
+
+                if (lotteryTimeModel.BeginTimeDate > nowTime)
+                {
+                    dateStr = lotteryTimeModel.BeginTimeDate.ToString("yyyyMMdd");
+                }
+
             }
             else
             {
