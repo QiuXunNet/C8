@@ -75,7 +75,10 @@ namespace C8.Lottery.Public
             else
             {
                 //获取当前阶段初始期号
-                intervalCount += lotteryTimeModel.BeginIssue.ToInt32();
+                if (lType == 9)
+                {
+                    intervalCount += lotteryTimeModel.BeginIssue.ToInt32();
+                }
                 //step3.获取该彩种的开奖间隔时长。并是否小于等于0, true则返回空
 
                 //获取当前彩种开奖间隔时长(毫秒）

@@ -331,7 +331,7 @@ namespace C8.Lottery.Public
         //2017-8-29
         public static string GetPK10Issue(int lType)            //期号依次递增的彩种
         {
-            string sql = "select top(1)Issue from LotteryRecord where lType = " + lType + " order by Id desc";
+            string sql = "select top(1)Issue from LotteryRecord where lType = " + lType + " order by Issue desc";
 
             long nextIssue = 0;
             int year = DateTime.Now.Year;
