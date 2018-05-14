@@ -35,7 +35,8 @@ namespace C8.Lottery.Public
                         LotteryInterval = child.Attributes["LotteryInterval"].Value,
                         LType = child.Attributes["LType"].Value,
                         Name = child.Attributes["Name"].Value,
-                        TimeInterval = child.Attributes["TimeInterval"].Value
+                        TimeInterval = child.Attributes["TimeInterval"].Value,
+                        BeginIssue = child.Attributes["BeginIssue"].Value
                     });
                 }
 
