@@ -23621,6 +23621,9 @@ namespace C8.Lottery.Public
                         }
                         return "00&00&0" + secTemp;
                     }
+                }else if (minute >= 9 && sec >= 59)
+                {
+                    return "已封盘";
                 }
 
                 #endregion

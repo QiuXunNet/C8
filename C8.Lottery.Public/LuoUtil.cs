@@ -51,7 +51,7 @@ namespace C8.Lottery.Public
             if (lType <= 8 || lType == 39 || lType == 54 || lType == 63 || lType == 65)
 
             {
-                //期号一直递增
+                //期号一直递增,获取最后一次开奖号码+1
                 return Util.GetPK10Issue(lType);
             }
             else
@@ -99,7 +99,7 @@ namespace C8.Lottery.Public
                 {
                     if (lotteryTimeModel.BeginTime == "09:53")
                     {
-                        intervalCount = 12;//初始12期
+                        intervalCount = 13;//初始12期
                     }
                 }
                 else if (lType == 64)
@@ -148,6 +148,36 @@ namespace C8.Lottery.Public
                 return result;
 
             }
+        }
+
+
+        public static string GetOpenRemainingTime(int lType)
+        {
+
+            DateTime d = DateTime.Now;
+            if (lType < 9)
+            {
+                #region 3D 双色球 七星彩 大乐透 六合彩 排3 排5 七乐彩
+
+                string sql = "select OpenLine from DateLine where lType = " + lType;
+                DateTime target = (DateTime)SqlHelper.ExecuteScalar(sql);
+
+                if (d > target) return "正在开奖";
+
+                return Util.GetTwoDateCha(d, target);
+
+                #endregion
+            }
+            else if (lType >= 9 && lType < 15)
+            {
+                #region 时时彩
+                //8点-10点
+                var list = LotteryTime.GetLotteryTimeList().Where(x => x.LType == lType.ToString());
+
+                #endregion
+            }
+
+            return string.Empty;
         }
 
     }
