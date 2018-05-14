@@ -62,15 +62,15 @@ Order by CommentCount desc";
             return View();
         }
 
-        object obj = new object();
+        //object obj = new object();
 
         public ActionResult GetRemainOpenTimeByType(int lType)
         {
             string time = "3";
-            lock (obj)
-            {
+            //lock (obj)
+            //{
                 time = LotteryTime.GetTime(lType.ToString());
-            }
+            //}
             //time = Util.GetOpenRemainingTimeWithHour(lType);
 
 
