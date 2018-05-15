@@ -75,7 +75,7 @@ namespace C8.Lottery.Public
 
                 var endTime = DateTime.Parse(lotteryTimeModel.EndTime);
 
-                if (lType != 13 && lType != 35 && lType != 51)
+                if (lType != 13 && lType != 35 && lType != 51 && lType != 64)
                 {
                     if (endTime < nowTime)
                     {

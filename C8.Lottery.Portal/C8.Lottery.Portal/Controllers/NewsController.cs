@@ -189,7 +189,7 @@ namespace C8.Lottery.Portal.Controllers
             //}
 
             string sql = @"SELECT * FROM ( 
-SELECT row_number() over(order by SortCode ASC, ReleaseTime DESC ) as rowNumber,
+SELECT row_number() over(order by SortCode ASC, LotteryNumber DESC, ReleaseTime DESC ) as rowNumber,
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
 FROM [dbo].[News] a
 WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
@@ -413,7 +413,7 @@ UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
             string sql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] > @CurrentId 
+WHERE [TypeId]=@TypeId AND DeleteMark=0 AND EnabledMark=1 AND [Id] > @CurrentId 
 ORDER BY SortCode,Id";
             SqlParameter[] parameters =
             {
@@ -433,7 +433,7 @@ ORDER BY SortCode,Id";
             string nextsql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
+WHERE [TypeId]=@TypeId AND DeleteMark=0 AND EnabledMark=1 AND [Id] < @CurrentId 
 ORDER BY SortCode desc,Id DESC";
             SqlParameter[] nextparameters =
             {

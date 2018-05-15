@@ -74,7 +74,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lotteryName = lotteryName;
 
             //当前期号
-            string currentIssue = LuoUtil.GetCurrentIssue(lType); 
+            string currentIssue = LuoUtil.GetCurrentIssue(lType);
             ViewBag.currentIssue = currentIssue;
             ViewBag.msg = "查看" + currentIssue + "期" + lotteryName + "计划";
 
@@ -169,7 +169,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.title = "发布计划-" + lotteryName;
 
             //剩余时间
-           // string time = Util.GetOpenRemainingTime(lType);
+            // string time = Util.GetOpenRemainingTime(lType);
             string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
 
             if (time != "正在开奖")
@@ -181,8 +181,8 @@ namespace C8.Lottery.Portal.Controllers
 
                 //if (lType < 9)
                 //{
-                    ViewBag.hour = timeArr[0];
-               // }
+                ViewBag.hour = timeArr[0];
+                // }
 
             }
             else
@@ -231,6 +231,11 @@ namespace C8.Lottery.Portal.Controllers
             //string time = Util.GetOpenRemainingTime(lType);
             string time = LotteryTime.GetTime(lType.ToString());
             if (time == "正在开奖")
+            {
+                return Content("发帖失败，当期已封盘");
+            }
+
+            if (LuoUtil.GetRemainingTime(lType) == "已封盘")
             {
                 return Content("发帖失败，当期已封盘");
             }
@@ -349,7 +354,7 @@ namespace C8.Lottery.Portal.Controllers
 
             #region step3.查询开奖时间
             //step3.查询开奖时间
-           // string time = Util.GetOpenRemainingTime(id);
+            // string time = Util.GetOpenRemainingTime(id);
             string time = C8.Lottery.Public.LotteryTime.GetTime(id.ToString());
 
 
@@ -577,7 +582,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
 
             //step6.查询是否开奖
-           // string time = Util.GetOpenRemainingTime(id);
+            // string time = Util.GetOpenRemainingTime(id);
             string time = C8.Lottery.Public.LotteryTime.GetTime(id.ToString());
             if (time != "正在开奖")
             {

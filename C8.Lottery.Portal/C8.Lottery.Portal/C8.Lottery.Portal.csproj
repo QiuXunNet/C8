@@ -181,7 +181,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="5种广告页面.html" />
     <Content Include="favicon.ico" />
     <Content Include="css\c8-icon.css" />
     <Content Include="css\Chat\base.css" />
@@ -772,6 +771,9 @@
     <Content Include="css\fonts\c8.woff" />
     <Content Include="App_Data\log4net.config" />
     <Content Include="js\luo\plan.myplan.js" />
+    <Content Include="Mdate\iScroll.js" />
+    <Content Include="Mdate\Mdate.js" />
+    <Content Include="Mdate\needcss\Mdate.css" />
     <Content Include="XML\LotteryTime.xml" />
     <None Include="Properties\PublishProfiles\1.pubxml" />
     <None Include="Properties\PublishProfiles\C8 - FTP.pubxml" />
