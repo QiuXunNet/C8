@@ -64,7 +64,7 @@ function runTime() {
         var m = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 
-        if (h == 23) {
+        if (lType<9 && h == 23) {
             $('#openTime').html("正在开奖");
         } else {
             if (Number(h) > 0) {

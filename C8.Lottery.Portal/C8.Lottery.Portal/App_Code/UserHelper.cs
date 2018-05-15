@@ -105,7 +105,7 @@ namespace C8.Lottery.Portal
 	                        where br.UserId = @UserId
 	                        group by lt.Name
                         ) as tab 
-                        where tab.Score>=10
+                        where tab.Score>=100
                         order by score desc";
 
                 userState.MasterLottery = Convert.ToString(SqlHelper.ExecuteScalar(usersql, sp)).Replace("(PC蛋蛋)", "");
