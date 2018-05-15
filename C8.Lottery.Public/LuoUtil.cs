@@ -72,7 +72,7 @@ namespace C8.Lottery.Public
             //step1.1查询当日第一期
 
             var calcDay = new DateTime(2018, 05, 01);
-            int days = (nowTime - new DateTime(2018, 05, 01)).Days;
+            int days = (nowTime - calcDay).Days;
             if (lType == 10)
             {
                 //2018年5月1日前，累计期号为0264968期，
@@ -171,6 +171,16 @@ namespace C8.Lottery.Public
                 }
             }
 
+
+            if (lType == 10 || lType == 39 || lType == 54 || lType == 63 || lType == 65)
+            {
+                if (lType == 10)
+                {
+                    return intervalCount.ToString("D7");
+                }
+
+                return intervalCount.ToString();
+            }
 
             //step6.判断彩种类型，返回不同长度的期号
             if ((lType >= 9 && lType <= 14) || lType == 64)
