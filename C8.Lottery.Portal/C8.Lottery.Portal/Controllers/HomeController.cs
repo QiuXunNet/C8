@@ -10,6 +10,7 @@ using C8.Lottery.Portal;
 using CryptSharp;
 using C8.Lottery.Model.Enum;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -24,32 +25,68 @@ namespace C8.Lottery.Portal.Controllers
             //1.最后一期开奖号码
             string sql = "";
 
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             List<LotteryRecord> list = new List<LotteryRecord>();
 
-            for (int i = 0; i < 65; i++)
-            {
-                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Issue desc";
-                list.Add(Util.ReaderToModel<LotteryRecord>(sql));
-            }
+            sql = @"select lr.* from LotteryRecord lr
+                    join(
+                    select lType, max(SubTime) SubTime from lotteryRecord group by lType
+                    ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime";
 
+            list = Util.ReaderToList<LotteryRecord>(sql);
 
-            string strsql = @"SELECT top 5 * FROM ( 
-SELECT
-[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM[dbo].[Comment]
-        WHERE[ArticleId]=a.Id and RefCommentId=0) as CommentCount
-FROM[dbo].[News]
-        a
-WHERE   DeleteMark=0 and EnabledMark = 1 ) T
-Order by CommentCount desc";
-            List<News> newlist = Util.ReaderToList<News>(strsql);
-            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
-            newlist.ForEach(x =>
-            {
-                x.ThumbList = GetResources(sourceType, x.Id)
-                                .Select(n => n.RPath).ToList();
-            });
+            //sw.Stop();
+
+            //var ts1 = sw.ElapsedMilliseconds;
+
+            //sw.Reset();
+            //sw.Start();
+
+            //            string strsql = @"SELECT top 5 * FROM ( 
+            //SELECT
+            //[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM[dbo].[Comment]
+            //        WHERE[ArticleId]=a.Id and RefCommentId=0) as CommentCount
+            //FROM[dbo].[News]
+            //        a
+            //WHERE   DeleteMark=0 and EnabledMark = 1 ) T
+            //Order by CommentCount desc";
+            //            List<News> newlist = Util.ReaderToList<News>(strsql);
+
+            //            sw.Stop();
+            //            var ts2 = sw.ElapsedMilliseconds;
+            //            sw.Reset();
+            //            sw.Start();
+
+            //            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
+            //            newlist.ForEach(x =>
+            //            {
+            //                x.ThumbList = GetResources(sourceType, x.Id)
+            //                                .Select(n => n.RPath).ToList();
+            //            });
+            sql = @"
+                   select top(5) * from (
+	                    select n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle,
+	                    count(c.id) as CommentCount,
+	                    STUFF(( SELECT '!'+ [RPath] 
+	                    FROM ResourceMapping rm 
+	                    WHERE rm.fkid = n.id and rm.Type = 1
+	                    FOR XML PATH('')),1 ,1, '') ThumbListStr
+	                    from News n 
+	                    left join Comment c on n.id = c.ArticleId and RefCommentId = 0
+	                    where n.DeleteMark=0 and n.EnabledMark = 1
+	                    group by n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle
+                    ) as tab order by CommentCount desc
+                    ";
+            List<News> newlist = Util.ReaderToList<News>(sql);
+
             ViewBag.NewsList = newlist;
 
+            //sw.Stop();
+            //var ts3 = sw.ElapsedMilliseconds;
+            //sw.Reset();
+            //sw.Start();
 
             ViewBag.openList = list;
             ViewBag.UserInfo = UserHelper.LoginUser;
@@ -58,6 +95,10 @@ Order by CommentCount desc";
             //彩种大分类
             sql = "select * from LotteryType2 where PId = 0 order by Position";
             ViewBag.list = Util.ReaderToList<LotteryType2>(sql);
+
+            sw.Stop();
+
+            var ts4 = sw.ElapsedMilliseconds;
 
             return View();
         }
@@ -718,6 +759,7 @@ Order by CommentCount desc";
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
+              
 
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
                 List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
@@ -765,6 +807,9 @@ Order by CommentCount desc";
                             // CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
                             CacheHelper.AddCache(guid, user.Id, 30 * 24 * 60);
 
+                         
+
+
 
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
@@ -772,6 +817,7 @@ Order by CommentCount desc";
                             string editsql = "update UserInfo set LastLoginTime=getdate(),LastLoginIP=@LastLoginIP where Mobile=@Mobile";//记录最后一次登录时间
                             SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile), new SqlParameter("@LastLoginIP", ip) };
                             SqlHelper.ExecuteNonQuery(editsql, editsp);
+                        
                         }
 
                     }
@@ -785,6 +831,7 @@ Order by CommentCount desc";
             }
             catch (Exception e)
             {
+              
                 jsonmsg.Success = false;
                 jsonmsg.Msg = e.Message;
                 throw;

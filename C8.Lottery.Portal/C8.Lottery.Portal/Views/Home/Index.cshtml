@@ -136,7 +136,7 @@
                     int i = lTypeArr[j];
 
                     lType = i;
-                    record = list[i - 1];
+                    record = list.FirstOrDefault(e=>e.lType == i);
                     string iconName = record.ShowIconName + ".png";
                     string[] numArr = record.Num.Split(',');
 
@@ -349,7 +349,7 @@
             foreach (var newse in newsList)
             {
                 <div class="hjc_news_content">
-                    @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
+                    @if (newse.ThumbListStr == "" || newse.ThumbStyle == 0)
                     {
                         //无图
                         <a href="/News/NewsDetail/@newse.Id">
@@ -376,9 +376,9 @@
                                 </div>
                             </div>
                             <div class="hjc_news_right">
-                                @if (newse.ThumbList.Count > 0)
+                                @if (newse.ThumbListStr.Split('!').Length > 0)
                                 {
-                                    <img src="@newse.ThumbList[0]" alt="@newse.FullHead" />
+                                    <img src="@newse.ThumbListStr.Split('!')[0]" alt="@newse.FullHead" />
                                 }
                             </div>
                         </a>
@@ -392,7 +392,7 @@
                                 <div class="hjc_news_subject">@newse.FullHead</div>
                                 <div class="hjc_news_thumb">
                                     <ul class="col_1">
-                                        @foreach (var thumb in newse.ThumbList)
+                                        @foreach (var thumb in newse.ThumbListStr.Split('!'))
                                         {
                                             <li><img src="@thumb" alt="@newse.FullHead" /></li>
                                         }
@@ -414,7 +414,7 @@
                                 <div class="hjc_news_subject">@newse.FullHead</div>
                                 <div class="hjc_news_thumb">
                                     <ul class="col_3">
-                                        @foreach (var thumb in newse.ThumbList)
+                                        @foreach (var thumb in newse.ThumbListStr.Split('!'))
                                         {
                                             <li><img src="@thumb" alt="@newse.FullHead" /></li>
                                         }
