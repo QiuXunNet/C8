@@ -73,20 +73,27 @@ namespace C8.Lottery.Public
 
             var list = GetLotteryTimeModelList();
 
-            var modle = list.FirstOrDefault(e => e.LType == lType &&
+            var lotteryTimeModel = list.FirstOrDefault(e => e.LType == lType &&
             nowTime > e.BeginTimeDate && nowTime < e.EndTimeDate);
 
             //如果当前时间不在配置的彩种开奖时间范围
-            if (modle == null)
+            if (lotteryTimeModel == null)
             {
                 var list2 = list.Where(e => e.LType == lType);
                 if (!list2.Any())
                     return "找不到彩种";
 
+                
+
                 //如果只有一条记录
                 if (list2.Count() == 1)
                 {
                     var model = list2.FirstOrDefault();
+
+                    if ((int)(nowTime - model.EndTimeDate).TotalSeconds < int.Parse(model.LotteryInterval))
+                    {
+                        return "正在开奖";
+                    }
 
                     if (nowTime < model.BeginTimeDate)
                     {
@@ -96,6 +103,8 @@ namespace C8.Lottery.Public
                     {
                         nextLotteryTimeSeconds = (int)(model.BeginTimeDate.AddDays(1) - nowTime).TotalSeconds;
                     }
+
+                    nextLotteryTimeSeconds += int.Parse(model.TimeInterval) * 60;
                 }
                 else //如果存在多条记录，则取离当前时间最近的一条
                 {
@@ -107,26 +116,38 @@ namespace C8.Lottery.Public
                         model.BeginTimeDate = model.BeginTimeDate.AddDays(1);
                     }
 
+                    if ((int)(nowTime - model.EndTimeDate).TotalSeconds < int.Parse(model.LotteryInterval))
+                    {
+                        return "正在开奖";
+                    }
+
                     nextLotteryTimeSeconds = (int)(model.BeginTimeDate - nowTime).TotalSeconds;
 
+                    nextLotteryTimeSeconds += int.Parse(model.TimeInterval) * 60;
                 }
                 return (nextLotteryTimeSeconds / 3600).ToString("00") + "&" + (nextLotteryTimeSeconds % 3600 / 60).ToString("00") + "&" + (nextLotteryTimeSeconds % 60).ToString("00");
             }
 
             //获取当前时间已过首次开奖计时时间的秒数
-            int timeLong = (int)(nowTime - modle.BeginTimeDate).TotalSeconds;
+            int timeLong = (int)(nowTime - lotteryTimeModel.BeginTimeDate).TotalSeconds;
 
-            if (timeLong < 0)
-            {
-                return "休奖时间";
-            }
-            //时间间隔秒数
-            int timeIntervalSeconds = int.Parse(modle.TimeInterval) * 60;
-
-            //if ((timeLong % timeIntervalSeconds) <= int.Parse(lotteryTimeModel.LotteryInterval))
+            //if (timeLong < 0)
             //{
-            //    return "正在开奖";
+            //    return "休奖时间";
             //}
+            //时间间隔秒数
+            int timeIntervalSeconds = int.Parse(lotteryTimeModel.TimeInterval) * 60;
+
+            if ((timeLong % timeIntervalSeconds) <= int.Parse(lotteryTimeModel.LotteryInterval) && timeLong/ timeIntervalSeconds>0)
+            {
+                return "正在开奖";
+            }
+
+            //特殊处理
+            if (lType =="9" && nowTime>Convert.ToDateTime(nowTimeStr +" 22:00") && nowTime < Convert.ToDateTime(nowTimeStr + " 22:01"))
+            {
+                return "正在开奖";
+            }
 
             nextLotteryTimeSeconds = timeIntervalSeconds - (timeLong % timeIntervalSeconds);
 
@@ -138,7 +159,6 @@ namespace C8.Lottery.Public
             var nowTime = DateTime.Now;
             var nowTimeStr = nowTime.ToString("yyyy-MM-dd");
 
-            LotteryTimeModel lotteryTimeModel;
             var list = GetLotteryTimeList().Where(e => e.IsStop == "0");
             list.ToList().ForEach(e => e.EndTime = e.EndTime == "24:00" ? "00:00" : e.EndTime);
             foreach (var model in list)
