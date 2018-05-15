@@ -88,7 +88,8 @@ namespace C8.Lottery.Public
                 //step4.获取当前彩种当前阶段开始时间，并计算当前时间与开始时间的间隔（秒）
 
                 //获取当前彩种当前阶段开始时间（重庆时时彩 9 会分多个阶段）
-                DateTime lotteryBeginTime = DateTime.Parse(lotteryTimeModel.BeginTime);
+                //DateTime lotteryBeginTime = DateTime.Parse(lotteryTimeModel.BeginTime);
+                DateTime lotteryBeginTime = lotteryTimeModel.BeginTimeDate;
 
 
                 #region 处理重庆时时彩 重庆快乐十分跨天的期号 凌晨为第一期

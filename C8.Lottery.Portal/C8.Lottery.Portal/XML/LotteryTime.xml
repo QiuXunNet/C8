@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LotteryRule>
-  <Rule BeginIssue ="23" Name="重庆时时彩" LType="9" BeginTime="09:50" EndTime="22:00" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
-  <Rule BeginIssue ="96" Name="重庆时时彩" LType="9" BeginTime="22:00" EndTime="02:00" TimeInterval="5" LotteryInterval="60" IsStop="0"></Rule>
+  <Rule BeginIssue ="24" Name="重庆时时彩" LType="9" BeginTime="09:50" EndTime="22:00" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
+  <Rule BeginIssue ="97" Name="重庆时时彩" LType="9" BeginTime="22:00" EndTime="02:00" TimeInterval="5" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="黑龙江时时彩" LType="10" BeginTime="08:41" EndTime="23:21" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
   <Rule BeginIssue ="1" Name="内蒙古时时彩" LType="11" BeginTime="" EndTime="" TimeInterval="" LotteryInterval="60" IsStop="1"></Rule>
   <Rule BeginIssue ="1" Name="天津时时彩" LType="12" BeginTime="09:00" EndTime="23:00" TimeInterval="10" LotteryInterval="60" IsStop="0"></Rule>
