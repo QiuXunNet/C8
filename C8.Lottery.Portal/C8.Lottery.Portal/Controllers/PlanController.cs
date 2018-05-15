@@ -147,7 +147,7 @@ namespace C8.Lottery.Portal.Controllers
             //{
             //    result = LuoUtil.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
             //}
-            result = LuoUtil.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + LotteryTime.GetTime(lType.ToString());
+            result = LuoUtil.GetCurrentIssue(lType) + "|" + LuoUtil.GetRemainingTime(lType) + "|" + LotteryTime.GetTime(lType.ToString());
 
             return Content(result);
         }
