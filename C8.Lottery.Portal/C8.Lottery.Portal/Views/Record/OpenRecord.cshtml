@@ -26,6 +26,7 @@
     <script type="text/javascript" src="~/Mdate/iScroll.js"></script>
     <script type="text/javascript" src="~/Mdate/Mdate.js"></script>
 
+
 </head>
 <body style="background: #F4F4F5;">
     <header class="hjc_header">
@@ -256,18 +257,22 @@
     <script type="text/javascript">
 new Mdate("dateSelectorOne");
 
-new Mdate("dateShowBtn", {
-    acceptId: "dateSelectorTwo",
-    beginYear: "2002",
-    beginMonth: "10",
-    beginDay: "24",
-    endYear: "2017",
-    endMonth: "1",
-    endDay: "1",
-    format: "-"
-})
+//new Mdate("dateShowBtn", 
+//    {
+//    acceptId: "dateSelectorOne",
+//    beginYear: "2002",
+//    beginMonth: "10",
+//    beginDay: "24",
+//    endYear: "2017",
+//    endMonth: "1",
+//    endDay: "1",
+//    format: "-"
+  
+//})
     </script>
-
 </body>
+
 @{Html.RenderAction("index", "PvUvIp");}
+
+
 </html>
