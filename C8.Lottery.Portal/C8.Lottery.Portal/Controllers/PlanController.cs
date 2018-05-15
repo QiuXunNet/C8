@@ -250,7 +250,7 @@ namespace C8.Lottery.Portal.Controllers
 
             //获取当前最新期
             string currentLastIssue = LuoUtil.GetCurrentIssue(lType);
-            if (string.IsNullOrEmpty(currentLastIssue) || currentIssue != currentLastIssue)
+            if (string.IsNullOrEmpty(currentLastIssue) && currentIssue != currentLastIssue)
             {
                 return Content("发帖失败，当期已封盘");
             }
@@ -816,7 +816,8 @@ from (
                         LotteryNum l = new LotteryNum();
                         l.Issue = item.Issue;
                         l.Num = item.Num;
-                        l.SubTime = Convert.ToDateTime(item.SubTime).ToString("MM-dd HH:mm");
+                        l.SubTime = item.SubTime;
+
                         model.LotteryNum = l;
                         if (listbet.Count() > 0)
                             model.BettingRecord = listbet.Where(x => x.Issue == item.Issue).ToList();

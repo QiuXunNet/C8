@@ -32,7 +32,8 @@
     var yearScroll = null;
     var monthScroll = null;
     var dayScroll = null;
-    var Mdate = function (el, opts) {
+    var Mdate = function (el, opts)
+    {
         if (!opts) {
             opts = {}
         }
