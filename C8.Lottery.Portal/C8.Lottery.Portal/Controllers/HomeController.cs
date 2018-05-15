@@ -718,6 +718,7 @@ Order by CommentCount desc";
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
+              
 
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
                 List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
@@ -765,6 +766,9 @@ Order by CommentCount desc";
                             // CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
                             CacheHelper.AddCache(guid, user.Id, 30 * 24 * 60);
 
+                         
+
+
 
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
@@ -772,6 +776,7 @@ Order by CommentCount desc";
                             string editsql = "update UserInfo set LastLoginTime=getdate(),LastLoginIP=@LastLoginIP where Mobile=@Mobile";//记录最后一次登录时间
                             SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile), new SqlParameter("@LastLoginIP", ip) };
                             SqlHelper.ExecuteNonQuery(editsql, editsp);
+                        
                         }
 
                     }
@@ -785,6 +790,7 @@ Order by CommentCount desc";
             }
             catch (Exception e)
             {
+              
                 jsonmsg.Success = false;
                 jsonmsg.Msg = e.Message;
                 throw;
