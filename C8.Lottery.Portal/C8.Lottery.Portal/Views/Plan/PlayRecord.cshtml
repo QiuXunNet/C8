@@ -655,7 +655,7 @@
 
 
                     }
-                    var time1= timeStamp2String(item.LotteryNum.SubTime,"MM-dd HH:mm:ss");  
+                    var time1= timeStamp2String(item.LotteryNum.SubTime,"MM-dd HH:mm");  
                 
                   
                     var itemHtml = '<table class="Forecast_tableA" width="100%" bordercolor="#ccc" border="1"> <tr>'
@@ -697,6 +697,9 @@
             }else if(format=="MM-dd HH:mm:ss")
             {
                 return month + "-" + date+" "+hour+":"+minute+":"+second;
+            }else if(format=="MM-dd HH:mm")
+            {
+                return month + "-" + date+" "+hour+":"+minute;
             }
            
 
