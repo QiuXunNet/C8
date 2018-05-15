@@ -413,7 +413,7 @@ UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
             string sql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] > @CurrentId 
+WHERE [TypeId]=@TypeId AND DeleteMark=0 AND EnabledMark=1 AND [Id] > @CurrentId 
 ORDER BY SortCode,Id";
             SqlParameter[] parameters =
             {
@@ -433,7 +433,7 @@ ORDER BY SortCode,Id";
             string nextsql = @"SELECT TOP 1
 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle]
 FROM [dbo].[News] 
-WHERE [TypeId]=@TypeId AND [Id] < @CurrentId 
+WHERE [TypeId]=@TypeId AND DeleteMark=0 AND EnabledMark=1 AND [Id] < @CurrentId 
 ORDER BY SortCode desc,Id DESC";
             SqlParameter[] nextparameters =
             {
