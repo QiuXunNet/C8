@@ -40,7 +40,7 @@ namespace C8.Lottery.Model
                 string result = "";
                 int length = Issue.Length;
 
-                if (lType == 10 || lType == 63 || lType == 65)
+                if (lType == 10 || lType == 63 || lType == 65 ||  lType == 39 || lType == 54 )
                 {
                     result = Issue;
                 }
