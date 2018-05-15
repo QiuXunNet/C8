@@ -73,14 +73,27 @@ namespace C8.Lottery.Public
                 lotteryTimeModel = LotteryTime.GetModelUseIssue(lotteryType);
                 intervalCount = lotteryTimeModel.BeginIssue.ToInt32();
 
-                if (lotteryTimeModel.BeginTimeDate > nowTime)
+                var endTime = DateTime.Parse(lotteryTimeModel.EndTime);
+
+                if (lType != 13 && lType != 35 && lType != 51)
                 {
-                    dateStr = lotteryTimeModel.BeginTimeDate.ToString("yyyyMMdd");
+                    if (endTime < nowTime)
+                    {
+                        dateStr = endTime.AddDays(1).ToString("yyyyMMdd");
+                    }
                 }
+
+                //dateStr = lotteryTimeModel.BeginTimeDate.ToString("yyyyMMdd");
 
             }
             else
             {
+
+                if (lType != 9 && lType != 51)
+                {
+                    dateStr = lotteryTimeModel.BeginTimeDate.ToString("yyyyMMdd");
+                }
+
                 //获取当前阶段初始期号
                 if (lType == 9)
                 {
