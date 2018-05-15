@@ -93,7 +93,7 @@ namespace C8.Lottery.Public
 
 
                 #region 处理重庆时时彩 重庆快乐十分跨天的期号 凌晨为第一期
-                if ((lType == 9 || lType==51) && lotteryTimeModel.BeginTimeDate.Day != lotteryTimeModel.EndTimeDate.Day)
+                if ((lType == 9 || lType == 51) && lotteryTimeModel.BeginTimeDate.Day != lotteryTimeModel.EndTimeDate.Day)
                 {
                     //处理 0点到2点
                     if (nowTime > lotteryTimeModel.EndTimeDate.Date)
@@ -194,44 +194,34 @@ namespace C8.Lottery.Public
             #endregion
 
 
-            int hour = d.Hour;
-            int min = d.Minute;
-            int sec = d.Second;
-
-            #region 时时彩
-
             var lotterySetting = LotteryTime.GetModelUseIssue(lType.ToString());
-            if (lType >= 9 && lType < 15)
+
+            //开奖前30秒封盘
+
+            //step1.当期开奖时间和当前时间差，获取相差总时长（毫秒）
+            TimeSpan diff = d - lotterySetting.BeginTimeDate;
+
+            int totalMilliseconds = (int)diff.TotalMilliseconds;
+
+            //step2.计算除数
+            int divisorMilliseconds = lotterySetting.TimeInterval.ToInt32() * 60 * 1000;
+
+            //step3.计算余数
+            int diffCount = totalMilliseconds / divisorMilliseconds;
+            int remainderMilliseconds = totalMilliseconds % divisorMilliseconds;
+
+            //step4.判断是否封盘的30秒
+            int disableMilliseconds = divisorMilliseconds - remainderMilliseconds;
+
+            if (0 <= disableMilliseconds && disableMilliseconds <= 30000)
             {
-
-                //开奖前30秒封盘
-
-                //step1.当期开奖时间和当前时间差，获取相差总时长（毫秒）
-                TimeSpan diff = d - lotterySetting.BeginTimeDate;
-
-                int totalMilliseconds = (int)diff.TotalMilliseconds;
-
-                //step2.计算除数
-                int divisorMilliseconds = lotterySetting.TimeInterval.ToInt32() * 60 * 1000;
-
-                //step3.计算余数
-                int diffCount = totalMilliseconds / divisorMilliseconds;
-                int remainderMilliseconds = totalMilliseconds % divisorMilliseconds;
-
-                //step4.判断是否封盘的30秒
-                int disableMilliseconds = divisorMilliseconds - remainderMilliseconds;
-
-                if (0 <= disableMilliseconds && disableMilliseconds <= 30000)
-                {
-                    return "已封盘";
-                }
-
-                //return GetDiffTime();
-
+                return "已封盘";
             }
-            #endregion
 
-            return string.Empty;
+            //封盘开始时间
+            DateTime disableTime = lotterySetting.BeginTimeDate.AddMilliseconds((diffCount + 1) * divisorMilliseconds - 30000);
+            var disableDiff = disableTime - lotterySetting.BeginTimeDate;
+            return GetDiffTime(disableDiff);
         }
 
         /// <summary>
