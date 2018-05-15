@@ -140,7 +140,7 @@
                 }
                 else
                 {
-                    if (lType < 9)
+                    if (int.Parse(ViewBag.hour) != 0)
                     {
                         <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
                     }

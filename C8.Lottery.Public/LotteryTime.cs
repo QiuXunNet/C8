@@ -11,6 +11,7 @@ namespace C8.Lottery.Public
     {
         public static List<LotteryTimeModel> GetLotteryTimeList()
         {
+
             var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
             
             if (list == null || list.Count == 0)
@@ -90,7 +91,7 @@ namespace C8.Lottery.Public
                 {
                     var model = list2.FirstOrDefault();
 
-                    if ((int)(nowTime - model.EndTimeDate).TotalSeconds < int.Parse(model.LotteryInterval))
+                    if (Math.Abs((int)(nowTime - model.EndTimeDate).TotalSeconds) < int.Parse(model.LotteryInterval))
                     {
                         return "正在开奖";
                     }
@@ -116,7 +117,7 @@ namespace C8.Lottery.Public
                         model.BeginTimeDate = model.BeginTimeDate.AddDays(1);
                     }
 
-                    if ((int)(nowTime - model.EndTimeDate).TotalSeconds < int.Parse(model.LotteryInterval))
+                    if (Math.Abs((int)(nowTime - model.EndTimeDate).TotalSeconds) < int.Parse(model.LotteryInterval))
                     {
                         return "正在开奖";
                     }
@@ -186,12 +187,12 @@ namespace C8.Lottery.Public
                 if (model.BeginTimeDate > model.EndTimeDate)
                 {
                     //如果当前时间小于23:59:59  说明还在跨天的前一天，则EndTime加一天
-                    if (nowTime <= Convert.ToDateTime(nowTimeStr + " 23:59:59"))
+                    if (nowTime >= Convert.ToDateTime(nowTimeStr + " " + model.EndTime))
                     {
                         model.EndTimeDate = model.EndTimeDate.AddDays(1);
                     }
                     //如果当前时间小于01:00:00  说明在跨天的后一天，则BeginTime减一天
-                    if (nowTime <= Convert.ToDateTime(nowTimeStr +" "+ model.EndTime))
+                    if (nowTime < Convert.ToDateTime(nowTimeStr + " " + model.EndTime))
                     {
                         model.BeginTimeDate = model.BeginTimeDate.AddDays(-1);
                     }
@@ -204,6 +205,7 @@ namespace C8.Lottery.Public
         public static LotteryTimeModel GetModelUseIssue(string lType)
         {
             var nowTime = DateTime.Now;
+            var nowTimeStr = nowTime.ToString("yyyy-MM-dd");
 
             var list = GetLotteryTimeModelList().Where(e => e.LType == lType);
             if (!list.Any())

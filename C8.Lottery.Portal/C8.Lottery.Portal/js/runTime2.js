@@ -30,12 +30,12 @@ function handtimeRunForOpen() {
     //    return;
     //}
 
-    if (lType == 1 || lType == 3 || lType == 11) {      //带小时的
+    //if (lType == 1 || lType == 3 || lType == 11) {      //带小时的
         timeRunForOpen2();
-    }
-    else {
-        timeRunForOpen();
-    }
+    //}
+    //else {
+    //    timeRunForOpen();
+    //}
 
 }
 

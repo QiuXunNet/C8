@@ -179,10 +179,10 @@ namespace C8.Lottery.Portal.Controllers
                 ViewBag.min = timeArr[1];
                 ViewBag.sec = timeArr[2];
 
-                if (lType < 9)
-                {
+                //if (lType < 9)
+                //{
                     ViewBag.hour = timeArr[0];
-                }
+               // }
 
             }
             else
@@ -229,7 +229,7 @@ namespace C8.Lottery.Portal.Controllers
             #region 校验
             //获取当前状态
             //string time = Util.GetOpenRemainingTime(lType);
-            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
+            string time = LotteryTime.GetTime(lType.ToString());
             if (time == "正在开奖")
             {
                 return Content("发帖失败，当期已封盘");
