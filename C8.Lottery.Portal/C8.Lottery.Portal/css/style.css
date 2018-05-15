@@ -8817,6 +8817,13 @@ footer {
 
 
 
+/*开奖历史 记录*/
+.demo{height:28px;display:inline-block; position:absolute; top:10px; right:10px;border:1px solid #fff; border-radius:2px; padding-right:5px;}
+.demo>p{display: block;padding:0 12px 0 3px;height:26px; min-width:50px;font-size:12px;color:#fff; background:url(../images/67_5.png) no-repeat right center; background-size:10px; line-height:26px; text-align:left;}
+.demo>button{background-color:#00c599;color:#fff;border:0;height:100%;margin-left:8px;padding:0 15px;border-radius:3px;font-size:12px;}
+
+
+
 
 
 

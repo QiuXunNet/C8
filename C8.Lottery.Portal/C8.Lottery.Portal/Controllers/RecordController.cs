@@ -51,9 +51,11 @@ namespace C8.Lottery.Portal.Controllers
                 }
                 else
                 {
-                    currentDate = date;
-                    string[] dateStrs = date.Split('-');
-                    date = new DateTime(int.Parse(dateStrs[0]), int.Parse(dateStrs[1]), int.Parse(dateStrs[2])).ToString("MM月dd日");
+                    //currentDate = date;
+                    //string[] dateStrs = date.Split('-');
+                    //date = new DateTime(int.Parse(dateStrs[0]), int.Parse(dateStrs[1]), int.Parse(dateStrs[2])).ToString("MM月dd日");
+                    currentDate = Convert.ToDateTime(date).ToString("yyyy-MM-dd");
+                    date = Convert.ToDateTime(date).ToString("MM月dd日");
                 }  
 
                 string time1 = currentDate;
@@ -68,15 +70,22 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     currentDate = DateTime.Now.ToString("yyyy");
                     date = DateTime.Now.ToString("yyyy年");
-                   
+                    sql = "select * from LotteryRecord where lType=" + lType + " and YEAR(SubTime) ='" + currentDate + "' order by Issue desc";
+
                 }
                 else
                 {
-                    currentDate = date;
-                    date = date.Substring(0, 4) +"年";
+                    //currentDate = date;
+                    //date = date.Substring(0, 4) +"年";
+                    currentDate = Convert.ToDateTime(date).ToString("yyyy-MM-dd");
+                    date = Convert.ToDateTime(date).ToString("MM月dd日");
+                    string time1 = currentDate;
+                    string time2 = currentDate + " 23:59:59";
+                    sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' and SubTime < '" + time2 + "' order by Issue desc";
+
                 }
-                var time1 = currentDate.Substring(0, 4);
-                sql = "select * from LotteryRecord where lType=" + lType + " and YEAR(SubTime) ='" + time1 + "' order by Issue desc";
+                //var time1 = currentDate.Substring(0, 4);
+
             }
 
           
