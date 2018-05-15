@@ -250,7 +250,7 @@ namespace C8.Lottery.Portal.Controllers
 
             //获取当前最新期
             string currentLastIssue = LuoUtil.GetCurrentIssue(lType);
-            if (string.IsNullOrEmpty(currentLastIssue) || currentIssue != currentLastIssue)
+            if (string.IsNullOrEmpty(currentLastIssue) && currentIssue != currentLastIssue)
             {
                 return Content("发帖失败，当期已封盘");
             }
