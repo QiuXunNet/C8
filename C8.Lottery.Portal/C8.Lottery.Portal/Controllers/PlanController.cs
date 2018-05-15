@@ -816,7 +816,8 @@ from (
                         LotteryNum l = new LotteryNum();
                         l.Issue = item.Issue;
                         l.Num = item.Num;
-                        l.SubTime = Convert.ToDateTime(item.SubTime).ToString("MM-dd HH:mm");
+                        l.SubTime = item.SubTime;
+
                         model.LotteryNum = l;
                         if (listbet.Count() > 0)
                             model.BettingRecord = listbet.Where(x => x.Issue == item.Issue).ToList();

@@ -32,6 +32,7 @@
     <script type="text/javascript" src="/js/TouchSlide.1.1.js"></script>
     <script type="text/javascript" src="~/js/runTime2.js"></script>
     <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script src="~/js/6caiSX.js"></script>
     <script>
         function unorfollow(obj, follow_uid) {
 
@@ -480,6 +481,7 @@
                     var num = item.LotteryNum.Num.split(',');
                     var bethtml = '';
                     var cl1 = "hdM_ddcon";
+                    var dttime=timeStamp2String(item.LotteryNum.SubTime,"yyyy-MM-dd");  
 
                     if (item.BettingRecord.length > 0)
                     {
@@ -653,9 +655,12 @@
 
 
                     }
+                    var time1= timeStamp2String(item.LotteryNum.SubTime,"MM-dd HH:mm:ss");  
+                
+                  
                     var itemHtml = '<table class="Forecast_tableA" width="100%" bordercolor="#ccc" border="1"> <tr>'
                         + ' <td align="center" valign="middle"> <p class="Forecast_Ptit">' + item.LotteryNum.Issue + '期</p>'
-                        + '    <p class="Forecast_Ptit">' + item.LotteryNum.SubTime + '</p> </td>'
+                        + '    <p class="Forecast_Ptit">' + time1 + '</p> </td>'
                         + ' <td colspan="2" align="left" valign="middle">';
                     //if (item.lType == 5)
                     //{
@@ -670,6 +675,32 @@
 
             $(".Gues_Ctext").empty().html(html);
         }
+
+
+
+        //在Jquery里格式化Date日期时间数据
+        function timeStamp2String(time,format){
+            var datetime = new Date();
+            datetime.getTime(time);
+            var year = datetime.getFullYear();
+            var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+            var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+            var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+            var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+            var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+            if(format=="yyyy-MM-dd HH:mm:ss")
+            {
+                return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+            }else if(format=="yyyy-MM-dd")
+            {
+                return year + "-" + month + "-" + date;
+            }else if(format=="MM-dd HH:mm:ss")
+            {
+                return month + "-" + date+" "+hour+":"+minute+":"+second;
+            }
+           
+
+        } 
 
         //生肖
         function get6caiSx(num,subtime)
