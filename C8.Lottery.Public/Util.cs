@@ -22761,6 +22761,11 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
         public static string GetOpenRemainingTimeWithHour(int lType)
         {
             int showHour = 0;
@@ -23322,6 +23327,11 @@ namespace C8.Lottery.Public
             return showHourFormat + "&" + showMinuteFormat + "&" + showSecondFormat;
         }
 
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
         public static string GetRemainingTime(int lType)
         {
             int showHour = 0;
@@ -24113,6 +24123,11 @@ namespace C8.Lottery.Public
             return showHourFormat + "&" + showMinuteFormat + "&" + showSecondFormat;
         }
 
+        /// <summary>
+        /// 弃用 弃用 弃用
+        /// </summary>
+        /// <param name="lType"></param>
+        /// <returns></returns>
         public static string GetOpenRemainingTime(int lType)
         {
             int showHour = 0;

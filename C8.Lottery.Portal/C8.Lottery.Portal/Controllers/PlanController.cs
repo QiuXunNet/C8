@@ -48,7 +48,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lastNum = lr.Num;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(lType);
+            //string time = Util.GetOpenRemainingTime(lType);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
 
             if (time != "正在开奖")
             {
@@ -124,7 +125,8 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult GetOpenRemainingTime(int lType)
         {
-            string result = Util.GetOpenRemainingTime(lType);
+            //string result = Util.GetOpenRemainingTime(lType);
+            string result = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
             return Content(result);
         }
 
@@ -133,18 +135,19 @@ namespace C8.Lottery.Portal.Controllers
         {
             string result = "";
 
-            if (lType == 63)
-            {
-                result = LuoUtil.GetCurrentIssue(lType)+ "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
-            }
-            else if (lType < 9)
-            {
-                result = LuoUtil.GetCurrentIssue(lType) + "||" + Util.GetOpenRemainingTime(lType);
-            }
-            else
-            {
-                result = LuoUtil.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
-            }
+            //if (lType == 63)
+            //{
+            //    result = LuoUtil.GetCurrentIssue(lType)+ "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
+            //}
+            //else if (lType < 9)
+            //{
+            //    result = LuoUtil.GetCurrentIssue(lType) + "||" + Util.GetOpenRemainingTime(lType);
+            //}
+            //else
+            //{
+            //    result = LuoUtil.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + Util.GetOpenRemainingTime(lType);
+            //}
+            result = LuoUtil.GetCurrentIssue(lType) + "|" + Util.GetRemainingTime(lType) + "|" + LotteryTime.GetTime(lType.ToString());
 
             return Content(result);
         }
@@ -166,7 +169,8 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.title = "发布计划-" + lotteryName;
 
             //剩余时间
-            string time = Util.GetOpenRemainingTime(lType);
+           // string time = Util.GetOpenRemainingTime(lType);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
 
             if (time != "正在开奖")
             {
@@ -224,7 +228,8 @@ namespace C8.Lottery.Portal.Controllers
 
             #region 校验
             //获取当前状态
-            string time = Util.GetOpenRemainingTime(lType);
+            //string time = Util.GetOpenRemainingTime(lType);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
             if (time == "正在开奖")
             {
                 return Content("发帖失败，当期已封盘");
@@ -344,7 +349,8 @@ namespace C8.Lottery.Portal.Controllers
 
             #region step3.查询开奖时间
             //step3.查询开奖时间
-            string time = Util.GetOpenRemainingTime(id);
+           // string time = Util.GetOpenRemainingTime(id);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(id.ToString());
 
 
             if (time != "正在开奖")
@@ -571,7 +577,8 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             ViewBag.Followed = obj != null && Convert.ToInt32(obj) > 0;
 
             //step6.查询是否开奖
-            string time = Util.GetOpenRemainingTime(id);
+           // string time = Util.GetOpenRemainingTime(id);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(id.ToString());
             if (time != "正在开奖")
             {
                 time = "未开奖";
@@ -1007,7 +1014,8 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             string currentIssue = DateTime.Now.Year + LuoUtil.GetCurrentIssue(lType);
 
             //2.倒计时
-            string time = Util.GetOpenRemainingTime(lType);
+            //string time = Util.GetOpenRemainingTime(lType);
+            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
 
             if (time != "正在开奖")
             {
