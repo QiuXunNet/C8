@@ -138,6 +138,11 @@ namespace C8.Lottery.Model
         public int ThumbStyle { get; set; }
 
         public List<string> ThumbList { get; set; }
+
+        /// <summary>
+        /// 新闻图像拼接结果
+        /// </summary>
+        public string ThumbListStr { get; set; }
         /// <summary>
         /// 完整期号
         /// </summary>
