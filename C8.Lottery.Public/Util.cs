@@ -353,6 +353,13 @@ namespace C8.Lottery.Public
 
             #endregion
 
+            #region 黑龙江时时彩，8位数字，不足补零
+            if (lType == 10)
+            {
+                return nextIssue.ToString("D7");
+            }
+            #endregion
+
             return nextIssue.ToString();
         }
 
@@ -22661,6 +22668,12 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 比较两个时间之间的时间差
+        /// </summary>
+        /// <param name="dTemp"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public static string GetTwoDateCha(DateTime dTemp, DateTime target)
         {
             int seconds = (int)((target - dTemp).TotalSeconds);
