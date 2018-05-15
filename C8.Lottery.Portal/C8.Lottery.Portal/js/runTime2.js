@@ -40,7 +40,7 @@ function handtimeRunForOpen() {
         var curIssue = arr[0];
         $('#currentIssue').html(arr[0]);       //期号
 
-        if (curIssue == '已封盘' || arr[1] == '已封盘') {
+        if (curIssue == '已封盘' || arr[1] == '已封盘' || dateTime =="正在开奖") {
             $('#fenpanTime').html('已封盘');
             $('#fengpan').show();               //底部的封盘遮罩
         }

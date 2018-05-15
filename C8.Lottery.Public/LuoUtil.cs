@@ -36,6 +36,7 @@ namespace C8.Lottery.Public
         }
 
 
+
         /// <summary>
         /// 查询指定时间的期号，（期号一直递增的则查询最新一期期号）
         /// </summary>
@@ -48,7 +49,7 @@ namespace C8.Lottery.Public
             string issue = "";
 
 
-            if (lType <= 8 || lType == 10 || lType == 39 || lType == 54 || lType == 63 || lType == 65)
+            if (lType <= 8)
 
             {
                 //期号一直递增,获取最后一次开奖号码+1
@@ -66,6 +67,41 @@ namespace C8.Lottery.Public
 
 
             int intervalCount = 0;
+
+            #region 处理高频彩，期号一直递增
+            //step1.1查询当日第一期
+
+            var calcDay = new DateTime(2018, 05, 01);
+            int days = (nowTime - calcDay).Days;
+            if (lType == 10)
+            {
+                //2018年5月1日前，累计期号为0264968期，
+                //则，当前初始期号 = 264968 + 相差天数 * 每天多少期
+                int totalIssues = days * 84;
+                intervalCount = 264968 + totalIssues;
+            }
+            else if (lType == 39)
+            {
+                int totalIssues = days * 89;
+                intervalCount = 108121 + totalIssues;
+            }
+            else if (lType == 54)
+            {
+                int totalIssues = days * 84;
+                intervalCount = 204856 + totalIssues;
+            }
+            else if (lType == 63)
+            {
+                int totalIssues = days * 179;
+                intervalCount = 679450 + totalIssues;
+            }
+            else if (lType == 65)
+            {
+                int totalIssues = days * 178;
+                intervalCount = 885428 + totalIssues;
+            }
+            #endregion
+
             //step2.判断是否获取到开奖配置，未获取到则查询最近的将要开奖的配置
             if (lotteryTimeModel == null)
             {
@@ -82,8 +118,6 @@ namespace C8.Lottery.Public
                         dateStr = endTime.AddDays(1).ToString("yyyyMMdd");
                     }
                 }
-
-                //dateStr = lotteryTimeModel.BeginTimeDate.ToString("yyyyMMdd");
 
             }
             else
@@ -137,6 +171,16 @@ namespace C8.Lottery.Public
                 }
             }
 
+
+            if (lType == 10 || lType == 39 || lType == 54 || lType == 63 || lType == 65)
+            {
+                if (lType == 10)
+                {
+                    return intervalCount.ToString("D7");
+                }
+
+                return intervalCount.ToString();
+            }
 
             //step6.判断彩种类型，返回不同长度的期号
             if ((lType >= 9 && lType <= 14) || lType == 64)
