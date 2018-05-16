@@ -22696,87 +22696,89 @@ namespace C8.Lottery.Public
         {
             int seconds = (int)((target - dTemp).TotalSeconds);
 
-            int showMinute = 0;
-            int showSecond = 0;
-            int showHour = 0;
 
-            if (seconds < 60)
-            {
-                showSecond = seconds;
-            }
-            else
-            {
-                showMinute = seconds / 60;
-                showSecond = seconds % 60;
-            }
+            return (seconds / 3600).ToString("00") + "&" + (seconds % 3600 / 60).ToString("00") + "&" + (seconds % 60).ToString("00");
+            //int showMinute = 0;
+            //int showSecond = 0;
+            //int showHour = 0;
 
-
-
-            if (showMinute < 60)
-            {
-                showHour = 0;
-            }
-            else
-            {
-                showHour = showMinute / 60;
-                showMinute = showMinute % 60;
-            }
+            //if (seconds < 60)
+            //{
+            //    showSecond = seconds;
+            //}
+            //else
+            //{
+            //    showMinute = seconds / 60;
+            //    showSecond = seconds % 60;
+            //}
 
 
-            if (showSecond >= 10)
-            {
+
+            //if (showMinute < 60)
+            //{
+            //    showHour = 0;
+            //}
+            //else
+            //{
+            //    showHour = showMinute / 60;
+            //    showMinute = showMinute % 60;
+            //}
 
 
-                if (showMinute >= 10)
-                {
-                    if (showHour >= 10)
-                    {
-                        return showHour + "&" + showMinute + "&" + showSecond;
-                    }
-                    else
-                    {
-                        return "0" + showHour + "&" + showMinute + "&" + showSecond;
-                    }
+            //if (showSecond >= 10)
+            //{
 
-                }
-                else
-                {
-                    if (showHour >= 10)
-                    {
-                        return showHour + "&0" + showMinute + "&" + showSecond;
-                    }
-                    else
-                    {
-                        return "0" + showHour + "&0" + showMinute + "&" + showSecond;
-                    }
-                }
-            }
-            else
-            {
-                if (showMinute >= 10)
-                {
-                    if (showHour >= 10)
-                    {
-                        return showHour + "&" + showMinute + "&0" + showSecond;
-                    }
-                    else
-                    {
-                        return "0" + showHour + "&" + showMinute + "&0" + showSecond;
-                    }
 
-                }
-                else
-                {
-                    if (showHour >= 10)
-                    {
-                        return showHour + "&0" + showMinute + "&0" + showSecond;
-                    }
-                    else
-                    {
-                        return "0" + showHour + "&0" + showMinute + "&0" + showSecond;
-                    }
-                }
-            }
+            //    if (showMinute >= 10)
+            //    {
+            //        if (showHour >= 10)
+            //        {
+            //            return showHour + "&" + showMinute + "&" + showSecond;
+            //        }
+            //        else
+            //        {
+            //            return "0" + showHour + "&" + showMinute + "&" + showSecond;
+            //        }
+
+            //    }
+            //    else
+            //    {
+            //        if (showHour >= 10)
+            //        {
+            //            return showHour + "&0" + showMinute + "&" + showSecond;
+            //        }
+            //        else
+            //        {
+            //            return "0" + showHour + "&0" + showMinute + "&" + showSecond;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (showMinute >= 10)
+            //    {
+            //        if (showHour >= 10)
+            //        {
+            //            return showHour + "&" + showMinute + "&0" + showSecond;
+            //        }
+            //        else
+            //        {
+            //            return "0" + showHour + "&" + showMinute + "&0" + showSecond;
+            //        }
+
+            //    }
+            //    else
+            //    {
+            //        if (showHour >= 10)
+            //        {
+            //            return showHour + "&0" + showMinute + "&0" + showSecond;
+            //        }
+            //        else
+            //        {
+            //            return "0" + showHour + "&0" + showMinute + "&0" + showSecond;
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
