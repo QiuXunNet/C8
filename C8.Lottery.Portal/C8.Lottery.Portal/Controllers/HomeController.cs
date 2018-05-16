@@ -831,7 +831,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             catch (Exception e)
             {
-              
+                
                 jsonmsg.Success = false;
                 jsonmsg.Msg = e.Message;
                 throw;
