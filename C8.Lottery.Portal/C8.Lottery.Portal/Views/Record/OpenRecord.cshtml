@@ -5,11 +5,13 @@
     Layout = null;
     Dictionary<string, string> queryDate = ViewBag.queryDate as Dictionary<string, string>;
 
-    string desc = @ViewBag.date + "开奖记录";
+    //string desc = @ViewBag.date + "开奖记录";
     int lType = ViewBag.lType;
     string currentDate = ViewBag.currentDate;
-  
-    
+
+    string desc = currentDate + "开奖记录";
+
+
 }
 <!DOCTYPE html>
 
@@ -32,10 +34,12 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">开奖记录</a>
-        <div class="demo">
-            @*<input type="text" value="@currentDate" id="dateSelectorOne" placeholder="">*@
+        @*<div class="demo">
+            <input type="text" value="@currentDate" id="dateSelectorOne" placeholder="">
             <p id="dateSelectorOne" >@currentDate</p>
-        </div>
+        </div>*@
+            <a  id="dateSelectorOne" href="javascript:;" class="SX_A SX_pop">筛选日期</a>
+  
         @*@if (lType >= 9)
         {*@
         @*@{
