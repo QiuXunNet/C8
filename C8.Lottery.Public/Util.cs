@@ -210,11 +210,11 @@ namespace C8.Lottery.Public
             return result;
         }
 
-        public static string HandWinNumColorFor6(string num, string openNum, int sort,DateTime dt)
+        public static string HandWinNumColorFor6(string num, string openNum, int sort,string issue)
         {
             string[] numArr = num.Split(' ');
             string[] openArr = openNum.Split(',');
-
+            DateTime dt = Get6Caidt(issue);
             string result = "";
 
             //重新组装
@@ -303,6 +303,20 @@ namespace C8.Lottery.Public
             }
         }
 
+        /// <summary>
+        /// 获取6彩开奖时间 针对6彩
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime Get6Caidt(string issue)
+        {
+            string sql = "select [SubTime] from [dbo].[LotteryRecord] where lType=5 and Issue=@issue ";
+            SqlParameter[] sp = new SqlParameter[] {
+                new SqlParameter("@issue",issue)
+            };
+            return Convert.ToDateTime(SqlHelper.ExecuteScalar(sql, sp));
+        }
+
+        
         public static string HandWinNumColor(string num, string openNum, int index)
         {
             string[] numArr = num.Split(' ');
