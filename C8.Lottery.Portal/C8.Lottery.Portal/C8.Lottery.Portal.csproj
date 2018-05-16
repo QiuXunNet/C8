@@ -181,6 +181,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="css\style.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="css\c8-icon.css" />
     <Content Include="css\Chat\base.css" />
