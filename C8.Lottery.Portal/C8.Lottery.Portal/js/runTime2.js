@@ -4,10 +4,9 @@ var time2;
 var time3;
 var dateTime = "";
 
-$(function () {
-    handtimeRunForOpen();
+$(function () {    
     lType = $('#lType').val();
-
+    handtimeRunForOpen();
     time1 = setInterval("handtimeRunForOpen()", 10000);
 
     time3 = setInterval("runTime()", 1000);
@@ -53,18 +52,21 @@ function handtimeRunForOpen() {
 function runTime() {
     if (dateTime.length > 0) {
         var str = dateTime.replace(/&/g, ":");
+        var arr = str.split(':');        
 
-        var date = new Date((new Date()).toLocaleDateString() + " " + str);
+        var date = new Date((new Date()).toLocaleDateString() + " " + (arr[0]%24)+":"+ arr[1] + ":" + arr[2]);
 
         var t = date.getTime();
         t = t - 1000;
         date = new Date(t);
 
-        var h = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var h = parseInt(arr[0] / 24) * 24 + date.getHours();
+        h = h < 10 ? "0" + h : h;
         var m = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 
-        if (h == 23) {
+        //特殊处理  除8大彩外,高频彩倒计时不可能跨天
+        if (lType>=9 && h == 23) {
             $('#openTime').html("正在开奖");
         } else {
             if (Number(h) > 0) {
@@ -79,6 +81,6 @@ function runTime() {
             }
         }
 
-        dateTime = date.getHours() + "&" + date.getMinutes() + "&" + date.getSeconds();
+        dateTime = h + "&" + m + "&" + s;
     }
 }
