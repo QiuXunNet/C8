@@ -97,7 +97,7 @@ namespace C8.Lottery.Public
             }
             else if (lType == 65)
             {
-                int totalIssues = days * 178;
+                int totalIssues = days * 179;
                 intervalCount = 885428 + totalIssues;
             }
             #endregion
@@ -107,7 +107,7 @@ namespace C8.Lottery.Public
             {
                 //查询初始期号
                 lotteryTimeModel = LotteryTime.GetModelUseIssue(lotteryType);
-                intervalCount = lotteryTimeModel.BeginIssue.ToInt32();
+                intervalCount += lotteryTimeModel.BeginIssue.ToInt32();
 
                 var endTime = DateTime.Parse(lotteryTimeModel.EndTime);
 
@@ -178,7 +178,7 @@ namespace C8.Lottery.Public
                 {
                     return intervalCount.ToString("D7");
                 }
-
+                 
                 return intervalCount.ToString();
             }
 
