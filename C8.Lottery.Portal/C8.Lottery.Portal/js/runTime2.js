@@ -60,10 +60,10 @@ function runTime() {
         t = t - 1000;
         date = new Date(t);
 
-        var h = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var h = parseInt(arr[0] / 24) * 24 + date.getHours();
+        h = h < 10 ? "0" + h : h;
         var m = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-        h = h + parseInt(arr[0] / 24) * 24;
 
         //特殊处理  除8大彩外,高频彩倒计时不可能跨天
         if (lType>=9 && h == 23) {
