@@ -92,7 +92,7 @@ namespace C8.Lottery.Portal.Controllers
             List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite"+ pId);
             if (list == null)
             {
-                sql = "select lType from LotteryType2 where PId = " + pId + " order by Position";
+                sql = "select lType,Id from LotteryType2 where PId = " + pId + " order by Position";
 
                 list = Util.ReaderToList<LotteryType2>(sql);
 
