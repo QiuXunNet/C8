@@ -680,8 +680,7 @@
 
         //在Jquery里格式化Date日期时间数据
         function timeStamp2String(time,format){
-            var datetime = new Date();
-            datetime.getTime(time);
+            var datetime = new Date(time);
             var year = datetime.getFullYear();
             var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
             var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
