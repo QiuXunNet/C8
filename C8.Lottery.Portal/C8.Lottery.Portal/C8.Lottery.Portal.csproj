@@ -780,7 +780,6 @@
     <Content Include="Mdate\Mdate.js" />
     <Content Include="Mdate\needcss\Mdate.css" />
     <Content Include="XML\LotteryTime.xml" />
-    <Content Include="下载页面.html" />
     <None Include="Properties\PublishProfiles\1.pubxml" />
     <None Include="Properties\PublishProfiles\C8 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\C8 - Web Deploy.pubxml" />
