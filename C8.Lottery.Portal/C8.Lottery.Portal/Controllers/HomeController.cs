@@ -1036,5 +1036,14 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.SiteSetting = GetSiteSetting();
             return View();
         }
+
+        /// <summary>
+        /// 苹果安装说明
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Explain()
+        {
+            return View();
+        }
     }
 }
