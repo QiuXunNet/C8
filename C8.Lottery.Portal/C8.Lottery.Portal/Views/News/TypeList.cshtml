@@ -74,7 +74,7 @@
                         if (entity.Id == currentLotteryTypeId)
                         {
                             <li class="current" data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
+                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
 
                             </li>
                         }
