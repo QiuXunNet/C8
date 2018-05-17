@@ -50,13 +50,17 @@
             $(".hdNav_cai li").on('click', function () {
                 var _this = $(this);
                 var _index = _this.attr("data-id");
-                $("#lottery_type ul_" + _index).hide();
-                id = $(".hdNav_cai_lhs .current").attr("data-id");
+                //$("#lottery_type ul_" + _index).hide();
+                //id = $(".hdNav_cai_lhs .current").attr("data-id");
+                var id = _index;
                 var gid = $("#ul_" + id + " .current").attr("data-type-id");
-                if (gid == undefined) {
+                var cid = $("#ul_" + id + " .current").attr("data-cid");
+                if (gid == undefined)
+                {
                     $(".wrapper-container .Grades").hide();
-                } else {
-                    $(".wrapper-container .Grades_" + gid).show().siblings().hide();
+                } else
+                {
+                    $(".wrapper-container .Grades_" + id + gid).show().siblings().hide();
                 }
                 pager($(".wrapper-container .Grades_" + id + gid + " .current"));
             });
