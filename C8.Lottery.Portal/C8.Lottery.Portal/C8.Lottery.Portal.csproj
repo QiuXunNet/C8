@@ -710,6 +710,9 @@
     <Content Include="images\w1.png" />
     <Content Include="images\w10_1.png" />
     <Content Include="images\w10_2.png" />
+    <Content Include="images\w14_1.png" />
+    <Content Include="images\w14_2.png" />
+    <Content Include="images\w14_3.png" />
     <Content Include="images\w2_1.png" />
     <Content Include="images\w2_2.png" />
     <Content Include="images\w3_1.png" />
