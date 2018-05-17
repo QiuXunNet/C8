@@ -389,6 +389,47 @@ $(function () {
         }
     };
 
+
+    $(".hdNav_cai_collect").on("click", "li", function () {
+
+        if (typeof (getChildLotteryType)=="function") {
+            var pId = $(this).attr("data-Id");
+            getChildLotteryType(pId);
+        }
+        $(this).addClass("current").siblings().removeClass("current");
+
+        var zhi = $(this).index();
+
+        var lType = $(this).attr("data-Id");
+
+        //$("#mainUl2" + lType).closest("div").find("ul").hide();
+        //$("#mainUl2" + lType).show();
+        $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
+
+        //展开项添加选中
+        $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
+        $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+
+        $(".hdNav_cai_expand").hide();
+        $(".mask").hide();
+    });
+
+    /* 展开项点击 */
+    $(".hdNav_cai_expand").on("click", "li", function () {
+        if (typeof (getChildLotteryType) == "function") {
+            var pId = $(this).attr("data-Id");
+            getChildLotteryType(pId);
+        }
+
+        $(this).addClass("current").siblings().removeClass("current");
+
+        var zhi = $(this).index();
+        $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
+
+        $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
+        $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+    });
+
     /**我的成绩 彩种切换 */
     //$("#lottery_type li").on('click', function () {
     //    var _this = $(this);

@@ -39,7 +39,6 @@
             }
         </div>
     </header>
-
     <div class="" style="margin-top:50px;">
         <ul class="hdNav_ul">
             <li>
@@ -93,9 +92,7 @@
             <div style="clear:both;"></div>
         </ul>
 
-
     </div>
-
     <div class="hjc_CZQieBox">
         <div class="hdNav_cai_collect" style="display: block;">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
@@ -103,9 +100,7 @@
                 <div style="clear:both;"></div>
             </ul>
         </div>
-
         <div class="hdNav_cai_expand" style="border-bottom: 1px solid rgb(238, 238, 238); display: none;">
-
             <ul class="hdNav_cai">
                 <div style="clear:both;"></div>
             </ul>
@@ -114,7 +109,6 @@
     <div style="height:500px; display:none" id="kongbaiDiv"></div>
     <div class="hjc_indexmain">
     </div>
-
     <div class="hjc_news_lhs">
         <div class="hjc_news_title" style="text-align:left;">
             <span class="icon-fire hjc_news_title_info">精彩资讯</span>
@@ -222,9 +216,7 @@
             }
         }
     </div>
-
     @Html.Partial("Footer")
-
     <script type="text/javascript">
         $(function () {
             $.post("/Home/GetFatherLotteryType", {}, function (data) {
@@ -396,46 +388,6 @@
             //    ys = "HYJP_LhGreen";
             //    break;
         }
-    </script>
-    <script type="text/javascript">
-
-        /*** Added By LHS 2018-3-1  */
-        $(".hdNav_cai_collect").on("click", "li", function () {
-            var pId = $(this).attr("data-Id");
-            getChildLotteryType(pId);
-
-            $(this).addClass("current").siblings().removeClass("current");
-
-            var zhi = $(this).index();
-
-            var lType = $(this).attr("data-Id");
-
-            $("#mainUl2" + lType).closest("div").find("ul").hide();
-            $("#mainUl2" + lType).show();
-            // $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-
-            //展开项添加选中
-            $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
-            $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
-
-            $(".hdNav_cai_expand").hide();
-            $(".mask").hide();
-        });
-
-        /* 展开项点击 */
-        $(".hdNav_cai_expand").on("click", "li", function () {
-            var pId = $(this).attr("data-Id");
-            getChildLotteryType(pId);
-
-            $(this).addClass("current").siblings().removeClass("current");
-
-            var zhi = $(this).index();
-            $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-
-            $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
-            $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
-        });
-
     </script>
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
