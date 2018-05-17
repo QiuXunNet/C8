@@ -240,20 +240,20 @@
 
                                             <span class="hdM_spssc HYJP_Red">@numArr[0]</span>
                                             <span class="hdM_spssc HYJP_PcHao">+</span>
-                                                <span class="hdM_spssc HYJP_Red">@numArr[1]</span>
-                                                <span class="hdM_spssc HYJP_PcHao">+</span>
-                                                <span class="hdM_spssc HYJP_Red">@numArr[2]</span>
-                                                <span class="hdM_spssc HYJP_PcHao">=</span>
-                                                <span class="hdM_spssc HYJP_Red">@sum</span>
+                                            <span class="hdM_spssc HYJP_Red">@numArr[1]</span>
+                                            <span class="hdM_spssc HYJP_PcHao">+</span>
+                                            <span class="hdM_spssc HYJP_Red">@numArr[2]</span>
+                                            <span class="hdM_spssc HYJP_PcHao">=</span>
+                                            <span class="hdM_spssc HYJP_Red">@sum</span>
                                             break;
                                         }
 
                                         else
                                         {
-                                          <span class="hdM_spssc HYJP_Red">@s</span>
+                                            <span class="hdM_spssc HYJP_Red">@s</span>
                                         }
 
-                                }
+                                    }
                                 }
                             }
                         </div>
@@ -318,9 +318,9 @@
             else
             {
                 <div class="hjc_news_lhs newslist" style="display: @enable;" id="news_@item.Id" data-id="@item.Id">
-               
+
                 </div>
-              
+
 
             }
         }
@@ -333,7 +333,6 @@
             var url = "@socketUrl/LhcHandler.ashx";
             var ws;
             $(function () {
-                if ("@ViewBag.time" == "正在开奖") {
 
                     ws = new WebSocket(url);
 
@@ -352,7 +351,6 @@
                     ws.onclose = function () {
                         wsOnclose()
                     }
-                }
                 //else {
 
                 //}
@@ -424,25 +422,6 @@
                     var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
                     $("#ballListDiv").append('<span class="hdM_spliu ' + getColor(num) + '">' + num + '</span>&nbsp;');
 
-                }
-            }
-
-            //获取球的颜色
-            function getColor(num) {
-                num = "," + num + ",";
-
-                var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";
-                var blue = ",03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48,";
-                var green = ",05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49,";
-
-                if (red.indexOf(num)>-1) {
-                    return "hdM_spliured";
-                }
-                else if (blue.indexOf(num)>-1) {
-                    return "hdM_spliublue";
-                }
-                else {
-                    return "hdM_spliugreen";
                 }
             }
         </script>
@@ -628,8 +607,8 @@
                 }
             });
         }
-    
-    
+
+
         function getadlist(location)
         {
             $.get("/News/GetAdvertisementListJson",
@@ -655,7 +634,7 @@
             var cityid=@CityId;
             var city;
             var idx=-1;
-           
+
             $.each(data, function (index, item)
             {
                 if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
@@ -669,16 +648,16 @@
                     if(!IsPC())
                     {
                         if(item.Layer==1)
-                        {      
+                        {
                             $(".Plan_content").prepend(itemhtml(item))
                         }else if(item.Layer==2)
                         {
-                            $(".CZ_hdMain").after(itemhtml(item))    
+                            $(".CZ_hdMain").after(itemhtml(item))
                         }
                     }
-                  
+
                 }
-               
+
             });
         }
         function itemhtml(item)
@@ -776,9 +755,9 @@
 
             return html;
         }
-    
-    
-    
+
+
+
     </script>
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
