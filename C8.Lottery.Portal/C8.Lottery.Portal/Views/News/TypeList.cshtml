@@ -5,19 +5,13 @@
 
 @{
     Layout = null;
-
-    int currentLotteryTypeId = ViewBag.CurrentLotteryType;
-
     int lType = ViewBag.lType;
-
     var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
     string CityId = ViewBag.CityId;
 }
 
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -40,59 +34,16 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1)" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo  hjc_HeaderXL">@Model.TypeName<span class="select_sign"></span></a>
-        @*<a href="/Home/Index" class="hjc_home_right"></a>*@
         <a href="javascript:;" class="ZX_Sidebar"></a>
     </header>
 
     <div class="hjc_hdNav fixed" style="display:none">
-
         <input type="hidden" id="lType" value="@lType" />
         <div class="hdNav_cai_expand">
-            <ul class="hdNav_cai">
-                @foreach (LotteryType entity in ViewBag.LotteryTypeList)
-                {
-                    if (entity.TypeName == "六合彩")
-                    {
-                        if (entity.Id == currentLotteryTypeId)
-                        {
-                            <li class="current" data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
-
-                            </li>
-                        }
-                        else
-                        {
-
-                            <li data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
-
-                            </li>
-                        }
-                    }
-                    else
-                    {
-                        if (entity.Id == currentLotteryTypeId)
-                        {
-                            <li class="current" data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
-
-                            </li>
-                        }
-                        else
-                        {
-
-                            <li data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
-
-                            </li>
-                        }
-                    }
-                }
-            </ul>
+            <ul class="hdNav_cai"></ul>
             <div style="clear: both;"></div>
         </div>
     </div>
-
 
     <div class="Plan_content top50">
         <div class="Plan_CInfo">
@@ -100,90 +51,17 @@
                 <dl class="CZ_hdMain info_LHC">
                     <dt><a href="javascript:;"><img src="/images/logo5.png"></a></dt>
                     <dd>
-
                         <div class="hdM_ddtit">
                             <h3 class="hdM_ddtqi f-l">
                                 第<span id="txtIssue">@ViewBag.lastIssue</span>期
                             </h3>
                             <p class="hdM_ddtime f-r">
-                                下期开奖：
-
-                                @if (ViewBag.time == "正在开奖")
-                                {
-                                    <span id="openTime">正在开奖</span>
-                                }
-                                else
-                                {
-                                    if (currentLotteryTypeId < 9)
-                                    {
-                                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                    }
-                                    else
-                                    {
-                                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                    }
-
-                                }
+                                下期开奖：@Html.Raw(ViewBag.time)
                             </p>
-
                             <div style="clear:both;"></div>
                         </div>
-
-                        <div class="Forecast_LHC" id="ballListDiv">
-
-                            @{
-                                int countFor6 = 0;
-
-
-                                string num = ViewBag.lastNum;
-                                string[] numArr = num.Split(',');
-
-
-
-                                foreach (string s in numArr)
-                                {
-                                    countFor6++;
-
-                                    string color = Util.GetColor(s);
-                                    string cl = "";
-                                    if (color == "red")
-                                    {
-                                        cl = "LHC_spA LHC_spAred";
-                                    }
-                                    else if (color == "green")
-                                    {
-                                        cl = "LHC_spA LHC_spAgreen";
-                                    }
-                                    else
-                                    {
-                                        cl = "LHC_spA LHC_spAblue";
-                                    }
-
-                                    <span class="@cl">@s</span>
-
-                                    if (countFor6 == 6)
-                                    {
-                                        <span class="LHC_spAjia">+</span>
-                                    }
-                                }
-                            }
-                        </div>
-                        @{
-                            int countFor63 = 0;
-
-                            <div class="Forecast_LHC" id="shengXiaoListDiv">
-                                @foreach (string s in ViewBag.showInfo.Split(','))
-                                {
-                                    countFor63++;
-                                    <span class="LHC_spA">@s</span>
-                                    if (countFor63 == 6)
-                                    {
-                                        <span class="LHC_spAjia">+</span>
-                                    }
-                                }
-                            </div>
-                        }
-
+                        <div class="Forecast_LHC" id="ballListDiv"></div>
+                        <div class="Forecast_LHC" id="shengXiaoListDiv"></div>
                     </dd>
                 </dl>
             </div>
@@ -193,7 +71,7 @@
     <div class="info_LHC_nav">
         <ul class="hdNav_ul">
             <li>
-                <a href="/Record/OpenRecord/?lType=@currentLotteryTypeId">
+                <a href="/Record/OpenRecord/?lType=@lType">
                     <i><img src="/images/icon_info_01.png"></i>
                     <p>开奖</p>
                 </a>
@@ -232,24 +110,15 @@
     </div>
 
     <div class="info_LHC_category col3">
-        <dl>
+        <dl id="newsTypeListDiv">
             <dt>
                 <p>
                     <span class="spec"></span>免费资料
                 </p>
             </dt>
-
-            @foreach (NewsType item in ViewBag.NewsTypeList)
-            {
-                <dd>
-                    @Html.ActionLink(@item.TypeName, "Index", new { id = @item.LType, ntype = @item.Id })
-                </dd>
-            }
-
         </dl>
         <div class="clearfix"></div>
     </div>
-
 
     <!--侧边栏-->
     <div class="ZX_CLBox">
@@ -357,15 +226,19 @@
         </div>
     </div>
 
-
-
     <div class="mask" style="display:none;"></div>
     <div class="mask2" style="display:none;"></div>
 
     <script type="text/javascript">
-        var CityId=@CityId;
+        var newsTypeList = eval("@ViewBag.NewsTypeList".replace(/&quot;/g, "'"));
+        var lastNum = "@ViewBag.lastNum";
+        var showInfo = "@ViewBag.showInfo";
+        var lotteryTypeList = eval("@ViewBag.LotteryTypeList".replace(/&quot;/g, "'"));
+
         var url = "@socketUrl/LhcHandler.ashx";
         var ws;
+
+        var cityid = @CityId;
     </script>
     <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/TypeList.js"></script>
 </body>
