@@ -1,6 +1,8 @@
 ﻿$(function () {
     var location = -1;
     getadlist(location);
+
+    initialization();
     //if ("ViewBag.time" == "正在开奖") {*
     ws = new WebSocket(url);
     //链接成功回调
@@ -35,7 +37,6 @@ function getadlist(location) {
 }
 
 function inadHtml(data) {
-    var cityid = CityId;
     var city;
     var idx = -1;
     $.each(data, function (index, item) {
@@ -125,27 +126,6 @@ function wsOnmessage(evt) {
     }
 }
 
-//开始开奖
-function startLottery() {
-    if (ws == undefined || ws == null || ws.readyState != WebSocket.OPEN) {
-        ws = new WebSocket(url);
-        //链接成功回调
-        ws.onopen = function () {
-            wsOnopen();
-        };
-        //收到消息回调
-        ws.onmessage = function (evt) {
-            wsOnmessage(evt);
-        };
-        //链接失败回调
-        ws.onerror = function (evt) { };
-        //链接关闭回调
-        ws.onclose = function () {
-            wsOnclose();
-        };
-    }
-}
-
 //链接关闭回调
 function wsOnclose() { }
 
@@ -165,4 +145,48 @@ function showBall(data) {
         console.log(data.SubTime);
         $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content) + "</span>&nbsp;");
     }
+}
+
+function initialization() {
+    var lotteryTypeListHtml = "";
+    $(lotteryTypeList).each(function () {
+        if (this.Id == 5) {
+            lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeIndex/" + this.Id + "'>" + this.TypeName + "</a></li>"
+        }
+        else {
+            lotteryTypeListHtml += "<li data-id='" + this.Id + "'><a href='/News/Index/" + this.Id + "'>" + this.TypeName + "</a></li>"
+        }
+    });
+    $(".hdNav_cai").empty().append(lotteryTypeListHtml);
+
+
+    var showInfoHtml = "";
+    $(showInfo.split(',')).each(function (i) {
+        if (this.length > 0) {
+            if (i == showInfo.split(',').length - 1) {
+                showInfoHtml += "<span class='LHC_spAjia'>+</span>";
+            }
+            showInfoHtml += "<span class='LHC_spA'>" + this + "</span>"
+        }
+    });
+    $("#shengXiaoListDiv").empty().append(showInfoHtml);
+
+
+    var lastNumHtml = "";
+    $(lastNum.split(',')).each(function (i) {
+        if (this.length > 0) {
+            if (i == lastNum.split(',').length - 1) {
+                lastNumHtml += "<span class='LHC_spAjia'>+</span>";
+            }
+            lastNumHtml += "<span class='LHC_spA " + getColor(this) + "'>" + this + "</span>"
+        }
+    });
+    $("#ballListDiv").empty().append(lastNumHtml);
+
+
+    var newsTypeListHtml = "";
+    $(newsTypeList).each(function () {
+        newsTypeListHtml += "<dd><a href='/News/Index/" + this.LType + "/" + this.Id + "'>" + this.TypeName + "</a></dd>";
+    });
+    $("#newsTypeListDiv").append(newsTypeListHtml);
 }
