@@ -12,13 +12,13 @@
     <title>@ViewBag.title</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/css/dialog.css" />
-    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="/js/dialog.min.js"></script>
-    <script type="text/javascript" src="/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/public.js"></script>
-    <script type="text/javascript" src="/js/bet.js"></script>
-    <script type="text/javascript" src="/js/runTime2.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/public.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/bet.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/runTime2.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
 </head>
 <body style="background:#F4F4F5;">
     <input type="hidden" value="@ViewBag.lType" id="lType" />
@@ -1188,7 +1188,7 @@
         </table>
     </div>
     @RenderPage("../Public/Tan.cshtml")
-    <script type="text/javascript" src="/js/luo/play.js?20180425"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/luo/play.js?20180425"></script>
     <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Post.js"></script>
 
 </body>
