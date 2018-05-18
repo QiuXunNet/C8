@@ -33,6 +33,8 @@ function getList(clickElement) {
                 var html = '<table width="100%" border="0" class="Ranking_table1">';
                 var headHtml = '<table width="100%" border="0" class="Ranking_table2"><tbody><tr>';
                 $(data.List).each(function (i) {
+                    this.HeadPath = this.HeadPath == null ? "/images/default_avater.png" : this.HeadPath;
+
                     //总榜头部
                     if (i < 3 && Number(id) == 4) {
                         headHtml += "<td width='33%' class='rank_33_" + this.Rank + "' align='center' valign='middle'>";

@@ -640,6 +640,7 @@ where RowNumber BETWEEN @Start AND @End ";
             int userId = UserHelper.GetByUserId();
             UserInfo u = UserHelper.GetUser(userId);
             FansBangListModel my = list.Where(x => x.Followed_UserId == userId).FirstOrDefault();
+            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? "/images/default_avater.png" : u.Headpath;
 
             if (my != null)
             {

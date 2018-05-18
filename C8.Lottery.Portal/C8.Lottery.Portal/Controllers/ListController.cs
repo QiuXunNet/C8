@@ -225,6 +225,7 @@ namespace C8.Lottery.Portal.Controllers
 
             MyRankMonyModel my = new MyRankMonyModel();
             UserInfo user = UserHelper.GetUser();
+            user.Headpath = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;
 
             if (model != null)
             {
@@ -356,7 +357,7 @@ order by Money desc,NickName asc
             int userId = UserHelper.GetByUserId();
             RankIntegralModel my = list.Where(x => x.UserId == userId).FirstOrDefault();            
             UserInfo u = UserHelper.GetUser(userId);
-
+            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? "/images/default_avater.png" : u.Headpath;
             if (my != null)
             {
                 my.Avater = u.Headpath;              
