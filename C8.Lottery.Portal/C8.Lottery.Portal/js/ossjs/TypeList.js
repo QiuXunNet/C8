@@ -151,7 +151,7 @@ function initialization() {
     var lotteryTypeListHtml = "";
     $(lotteryTypeList).each(function () {
         if (this.Id == 5) {
-            lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeIndex/" + this.Id + "'>" + this.TypeName + "</a></li>"
+            lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeList/" + this.Id + "'>" + this.TypeName + "</a></li>"
         }
         else {
             lotteryTypeListHtml += "<li data-id='" + this.Id + "'><a href='/News/Index/" + this.Id + "'>" + this.TypeName + "</a></li>"
