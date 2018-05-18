@@ -19,18 +19,18 @@
     <title>@Model.Name-@newsType.TypeName</title>
     <meta name="keywords" content="@newsType.SeoKeyword">
     <meta name="description" content="@newsType.SeoDescription">
-    <script type="text/javascript" src="~/js/fontSize.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/fontSize.js"></script>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
     <link rel="stylesheet" type="text/css" href="~/css/paper.css" />
-    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
-    <script src="~/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
     <script>
         var newstypeid=@newsType.Id;
         var CityId=@CityId;
     </script>
-    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Gallery.js"></script>
+   
 
 </head>
 
@@ -230,6 +230,7 @@
             </ul>
         </div>
     </div>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Gallery.js"></script>
 </body>
 
 @{Html.RenderAction("index", "PvUvIp");}
