@@ -1,6 +1,5 @@
 ﻿@{
     Layout = null;
-    string ossHost = System.Configuration.ConfigurationManager.AppSettings["osshost"];
     string socketUrl = System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"];
 }
 
@@ -13,10 +12,10 @@
     <title>@ViewBag.SEOInfo[0]</title>
     <meta name="keywords" content="@ViewBag.SEOInfo[1]">
     <meta name="description" content="@ViewBag.SEOInfo[2]">
-    <link rel="stylesheet" href="@ossHost/css/dropload.css" />
-    <link rel="stylesheet" type="text/css" href="@ossHost/css/dialog.css" />
-    <link rel="stylesheet" type="text/css" href="@ossHost/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="@ossHost/css/c8-icon.css" />
+    <link rel="stylesheet" href="@ViewBag.osshost/css/dropload.css" />
+    <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/c8-icon.css" />
 </head>
 <body style="background:#F4F4F5;">
     <input type="hidden" id="lType" value="@ViewBag.ChildlType" />
@@ -183,16 +182,16 @@
     </div>
     <div class="mask" style="display:none;"></div>
     <div class="mask2" style="display:none;"></div>
-    <script type="text/javascript" src="@ossHost/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="@ossHost/js/luo/dropload.js"></script>
-    <script type="text/javascript" src="@ossHost/js/dialog.min.js"></script>
-    <script type="text/javascript" src="@ossHost/js/yjp.js"></script>
-    <script type="text/javascript" src="@ossHost/js/runTime2.js"></script>
-    <script type="text/javascript" src="@ossHost/js/baidu-statistics.js"></script>
-    <script src="@ossHost/js/news/index.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/luo/dropload.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/runTime2.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
+    <script src="@ViewBag.osshost/js/news/index.js"></script>
     @if (ViewBag.lType == 5)
     {
-        <script src="@ossHost/js/news/dynamic.js"></script>
+        <script src="@ViewBag.osshost/js/news/dynamic.js"></script>
     }
 </body>
 </html>
