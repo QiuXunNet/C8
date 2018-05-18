@@ -1,6 +1,7 @@
 ﻿$(function () {
     var location = -1;
     getadlist(location);
+
     initialization();
     //if ("ViewBag.time" == "正在开奖") {*
     ws = new WebSocket(url);
@@ -19,6 +20,7 @@
         wsOnclose();
     };
 });
+
 //广告位
 function getadlist(location) {
     $.get("/News/GetAdvertisementListJson", {
@@ -93,11 +95,11 @@ function itemhtml(item) {
     }
     return html;
 }
+
 //链接成功回调
-
 function wsOnopen() { }
-//收到消息回调
 
+//收到消息回调
 function wsOnmessage(evt) {
     var msg = evt.data;
     var data = eval("(" + msg + ")");
@@ -106,25 +108,28 @@ function wsOnmessage(evt) {
         case 11:
             //开始命令
             break;
+
         case 12:
             //结束命令
             ws.close();
             //结束后，主动断开链接
             break;
+
         case 21:
             //消息
             showBall(data);
             break;
+
         case 31:
             //心跳包
             break;
     }
 }
+
 //链接关闭回调
-
 function wsOnclose() { }
-//显示球
 
+//显示球
 function showBall(data) {
     if (data.IsPeriod == 1) {
         // 如果是期数消息
@@ -146,12 +151,15 @@ function initialization() {
     var lotteryTypeListHtml = "";
     $(lotteryTypeList).each(function () {
         if (this.Id == 5) {
-            lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeIndex/" + this.Id + "'>" + this.TypeName + "</a></li>"
-        } else {
+            lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeList/" + this.Id + "'>" + this.TypeName + "</a></li>"
+        }
+        else {
             lotteryTypeListHtml += "<li data-id='" + this.Id + "'><a href='/News/Index/" + this.Id + "'>" + this.TypeName + "</a></li>"
         }
     });
     $(".hdNav_cai").empty().append(lotteryTypeListHtml);
+
+
     var showInfoHtml = "";
     $(showInfo.split(',')).each(function (i) {
         if (this.length > 0) {
@@ -162,6 +170,8 @@ function initialization() {
         }
     });
     $("#shengXiaoListDiv").empty().append(showInfoHtml);
+
+
     var lastNumHtml = "";
     $(lastNum.split(',')).each(function (i) {
         if (this.length > 0) {
@@ -172,6 +182,8 @@ function initialization() {
         }
     });
     $("#ballListDiv").empty().append(lastNumHtml);
+
+
     var newsTypeListHtml = "";
     $(newsTypeList).each(function () {
         newsTypeListHtml += "<dd><a href='/News/Index/" + this.LType + "/" + this.Id + "'>" + this.TypeName + "</a></dd>";
