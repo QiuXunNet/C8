@@ -1,5 +1,7 @@
 ﻿@{
     Layout = null;
+    string ossHost = System.Configuration.ConfigurationManager.AppSettings["osshost"];
+    string socketUrl = System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"];
 }
 
 <!DOCTYPE html>
@@ -11,16 +13,17 @@
     <title>@ViewBag.SEOInfo[0]</title>
     <meta name="keywords" content="@ViewBag.SEOInfo[1]">
     <meta name="description" content="@ViewBag.SEOInfo[2]">
-    <link rel="stylesheet" href="~/css/dropload.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
+    <link rel="stylesheet" href="@ossHost/css/dropload.css" />
+    <link rel="stylesheet" type="text/css" href="@ossHost/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="@ossHost/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="@ossHost/css/c8-icon.css" />
 </head>
 <body style="background:#F4F4F5;">
     <input type="hidden" id="lType" value="@ViewBag.ChildlType" />
     <input type="hidden" id="ChannelId" value="@ViewBag.ChannelId" />
     <input type="hidden" id="PlType" value="@ViewBag.lType" />
     <input type="hidden" id="CityId" value="@ViewBag.CityId" />
+    <input type="hidden" id="socketUrl" value="@socketUrl" />
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo hjc_HeaderXL">@ViewBag.SEOInfo[3]<span class="select_sign"></span></a>
@@ -180,12 +183,16 @@
     </div>
     <div class="mask" style="display:none;"></div>
     <div class="mask2" style="display:none;"></div>
-    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="~/js/luo/dropload.js"></script>
-    <script type="text/javascript" src="~/js/dialog.min.js"></script>
-    <script type="text/javascript" src="~/js/yjp.js"></script>
-    <script type="text/javascript" src="~/js/runTime2.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
-    <script src="~/js/news/index.js"></script>
+    <script type="text/javascript" src="@ossHost/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="@ossHost/js/luo/dropload.js"></script>
+    <script type="text/javascript" src="@ossHost/js/dialog.min.js"></script>
+    <script type="text/javascript" src="@ossHost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ossHost/js/runTime2.js"></script>
+    <script type="text/javascript" src="@ossHost/js/baidu-statistics.js"></script>
+    <script src="@ossHost/js/news/index.js"></script>
+    @if (ViewBag.lType == 5)
+    {
+        <script src="@ossHost/js/news/dynamic.js"></script>
+    }
 </body>
 </html>
