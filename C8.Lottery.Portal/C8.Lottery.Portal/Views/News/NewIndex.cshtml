@@ -1,0 +1,191 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>@ViewBag.SEOInfo[0]</title>
+    <meta name="keywords" content="@ViewBag.SEOInfo[1]">
+    <meta name="description" content="@ViewBag.SEOInfo[2]">
+    <link rel="stylesheet" href="~/css/dropload.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
+</head>
+<body style="background:#F4F4F5;">
+    <input type="hidden" id="lType" value="@ViewBag.ChildlType" />
+    <input type="hidden" id="ChannelId" value="@ViewBag.ChannelId" />
+    <input type="hidden" id="PlType" value="@ViewBag.lType" />
+    <input type="hidden" id="CityId" value="@ViewBag.CityId" />
+    <header class="hjc_header">
+        <a href="javascript:history.go(-1);" class="hjc_back"></a>
+        <a href="javascript:;" class="hjc_logo hjc_HeaderXL">@ViewBag.SEOInfo[3]<span class="select_sign"></span></a>
+        <a href="javascript:;" class="ZX_Sidebar"></a>
+    </header>
+    <div class="hjc_hdNav fixed" style="display: none">
+        <div class="hdNav_cai_expand">
+            <ul class="hdNav_cai"></ul>
+        </div>
+    </div>
+    <!--侧边栏-->
+    <div class="ZX_CLBox">
+        <div class="CLB_YY"></div>
+        <div class="CLB_con">
+            <ul class="CLB_cNav">
+                <!--cNav_current-->
+                <li>
+                    <a href="/Home/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_1.png"></dt>
+                            <dd>
+                                <p>首页</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Open">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_2.png"></dt>
+                            <dd>
+                                <p>开奖</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                @*<li>
+                        <a href="JavaScript:;">
+                            <dl class="cNav_Dl">
+                                <dt><img src="/images/w6_4.png"></dt>
+                                <dd>
+                                    <p>走势</p>
+                                    <img src="/images/w7.png">
+                                    <div style="clear:both;"></div>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>*@
+                <li>
+                    <a href="/Home/Plan">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_3.png"></dt>
+                            <dd>
+                                <p>计划</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_04.png"></dt>
+                            <dd>
+                                <p>排行</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Talking/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_5.png"></dt>
+                            <dd>
+                                <p>聊天</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Expert">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_06.png"></dt>
+                            <dd>
+                                <p>高手</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/News/Index/2">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_07.png"></dt>
+                            <dd>
+                                <p>资讯</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="Plan_content top50">
+        <div class="Plan_CInfo">
+            <div class="CZ_hdtit" onclick="location.href='/Record/OpenRecord/?lType=@ViewBag.ChildlType'">
+                <dl class="CZ_hdMain">
+                    <dt><a href="javascript:;"><img src="~/images/@ViewBag.icon"></a></dt>
+                    <dd>
+                        <div class="hdM_ddtit">
+                            <h3 class="hdM_ddtqi f-l">第<span id="txtIssue">------</span>期</h3>
+                            <p class="hdM_ddtime f-r">
+                                下期开奖：
+                                <span id="openTime">-----</span>
+                            </p>
+                            <div style="clear:both;"></div>
+
+                        </div>
+                        <div class="hdM_ddcon" id="ballListDiv">
+
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="info_hdnav LHC_info_YLZB_nav">
+        <div class="info_hdNav_cai_collect ">
+            <div class="info_hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
+            <ul class="info_hdNav_cai_lhs"></ul>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="info_hdNav_cai_expand" style="display:none">
+            <ul class="info_hdNav_cai"></ul>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="hjc_news_tabContent">
+        <div class="hjc_news_lhs newslist" id="news">
+
+        </div>
+    </div>
+    <div class="mask" style="display:none;"></div>
+    <div class="mask2" style="display:none;"></div>
+    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/js/luo/dropload.js"></script>
+    <script type="text/javascript" src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+    <script type="text/javascript" src="~/js/runTime2.js"></script>
+    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script src="~/js/news/index.js"></script>
+</body>
+</html>
