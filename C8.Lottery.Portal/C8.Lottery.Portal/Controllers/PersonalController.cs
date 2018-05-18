@@ -604,7 +604,6 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <returns></returns>
         public ActionResult FansBang()
         {
-
             return View();
         }
 
@@ -617,98 +616,48 @@ where RowNumber BETWEEN @Start AND @End ";
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        [HttpGet]
-        public PartialViewResult FansBangList(int typeId, string type, int pageIndex = 1, int pageSize = 20)
+        public ActionResult FansBangList(string type)
         {
+            List<FansBangListModel> list;
+            list = CacheHelper.GetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type);
 
-            try
+            if (list == null)
             {
+                string strsql = string.Format(@"select top 100 row_number() over(order by count(1) desc) as Rank, count(1)as Number,Followed_UserId,Name,RPath as HeadPath
+                         from Follow f 
+                         left join UserInfo u on f.Followed_UserId=u.id
+                         left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
+                         where  f.Status=1  {0}
+                         group by Followed_UserId,Name,RPath
+                        ", Tool.GetTimeWhere("FollowTime", type));
 
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@ResourceType", (int)ResourceTypeEnum.用户头像) };
+                list = Util.ReaderToList<FansBangListModel>(strsql, sp);
 
-
-
-                string strsql = string.Format(@"select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
-where  f.Status=1  {0}
- group by Followed_UserId,Name,RPath
-)t
-WHERE Rank BETWEEN @Start AND @End", Tool.GetTimeWhere("FollowTime", type));
-
-
-                SqlParameter[] sp = new SqlParameter[] {
-                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
-                new SqlParameter("@Start", (pageIndex - 1) * pageSize + 1),
-                new SqlParameter("@End", pageSize * pageIndex)
-            };
-                var list = Util.ReaderToList<FansBangListModel>(strsql, sp) ?? new List<FansBangListModel>();
-                ViewBag.FansBangList = list;
-                ViewBag.typeId = typeId;
-            }
-            catch (Exception)
-            {
-
-                throw;
+                CacheHelper.SetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type,list,DateTime.Parse("23:59:59"));
             }
 
-
-            return PartialView("FansBangList");
-        }
-
-        [HttpGet]
-        public JsonResult MyRank(string type)
-        {
-            ReturnMessageJson jsonmsg = new ReturnMessageJson();
             int userId = UserHelper.GetByUserId();
+            UserInfo u = UserHelper.GetUser(userId);
+            FansBangListModel my = list.Where(x => x.Followed_UserId == userId).FirstOrDefault();
 
-
-            string strsql = string.Format(@" select  * from ( select top 100 row_number() over(order by count(1) desc  ) as Rank, count(1)as Number,Followed_UserId,Name,isnull(RPath,'/images/default_avater.png') as HeadPath
- from Follow f 
- left join UserInfo u on f.Followed_UserId=u.id
- left join ResourceMapping r on (r.FkId=f.Followed_UserId and r.Type=@ResourceType)
-where  f.Status=1  {0}
- group by Followed_UserId,Name,RPath
-)t
-where t.Followed_UserId=@Followed_UserId", Tool.GetTimeWhere("FollowTime", type));
-
-            SqlParameter[] sp = new SqlParameter[] {
-                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
-                new SqlParameter("@Followed_UserId",userId)
-            };
-            try
+            if (my != null)
             {
-
-                FansBangListModel fansbang = Util.ReaderToModel<FansBangListModel>(strsql, sp);
-                if (fansbang == null)
-                {
-                    FansBangListModel fansbangs = new FansBangListModel();
-                    string countsql = string.Format("select count(1) from Follow where Followed_UserId={0}  {1} and Status=1 ", userId, Tool.GetTimeWhere("FollowTime", type));
-                    int number = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
-
-                    UserInfo user = UserHelper.GetUser(userId);
-                    fansbangs.Followed_UserId = Convert.ToInt32(user.Id);
-                    fansbangs.Name = user.Name;
-                    fansbangs.Rank = 0;
-                    fansbangs.Number = number;
-                    fansbangs.HeadPath = user.Headpath;
-                    fansbang = fansbangs;
-                }
-
-                jsonmsg.Success = true;
-                jsonmsg.data = fansbang;
-
+                my.HeadPath = u.Headpath;
             }
-            catch (Exception e)
+            else
             {
-                jsonmsg.Success = false;
-                jsonmsg.Msg = e.Message;
-                throw;
-            }
-            return Json(jsonmsg, JsonRequestBehavior.AllowGet);
+                my = new FansBangListModel();
 
+                my.HeadPath = u.Headpath;
+                my.Name = u.Name;
+                my.Rank = 0;
+                my.Number = 0;
+                my.Followed_UserId = userId;
+            }
+
+            return Json(new { List = list, My = my });
         }
-
 
         /// <summary>
         /// 上传头像
@@ -2019,17 +1968,17 @@ inner join UserInfo u on  c.UserId=u.Id
             try
             {
                 List<BetModel> list = new List<BetModel>();
-          
+
                 string strsql = @"  select 
      (select isnull(sum(Score), '0')  from BettingRecord where[UserId] =@UserId
      and lType = l.lType) as Score,* from LotteryType2 l
      where PId = @PId";
-            
+
                 SqlParameter[] sp = new SqlParameter[]
                 {
                         new SqlParameter("@PId",PId),
                         new SqlParameter("@UserId",userId),
-                    
+
 
                  };
 

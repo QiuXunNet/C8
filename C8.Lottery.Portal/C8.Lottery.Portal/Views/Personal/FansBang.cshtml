@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/dropload.css" />
     <link rel="stylesheet" type="text/css" href="~/css/dialog.css" />
+    <link href="~/css/null.css" rel="stylesheet" />
     <script src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
 
     <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
@@ -21,7 +22,6 @@
 </head>
 
 <body style="background:#F4F4F5;">
-
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo">粉丝榜</a>
@@ -29,26 +29,19 @@
 
     <div class="guessing_header">
         <ul class="C8_nav2 C8_bang">
-            <li data-type="day" data-id="1" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>日榜</p><span></span></a></li>
-            <li data-id="2" data-type="week" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>周榜</p><span></span></a></li>
-            <li data-id="3" data-type="month" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>月榜</p><span></span></a></li>
-            <li class="current" data-id="4" data-type="all" data-pageIndex="1" data-pageSize="100"><a href="javascript:;"><p>总榜</p><span></span></a></li>
+            <li data-type="day" data-id="1" ><a href="javascript:;"><p>日榜</p><span></span></a></li>
+            <li data-id="2" data-type="week" ><a href="javascript:;"><p>周榜</p><span></span></a></li>
+            <li data-id="3" data-type="month" ><a href="javascript:;"><p>月榜</p><span></span></a></li>
+            <li class="current" data-id="4" data-type="all" ><a href="javascript:;"><p>总榜</p><span></span></a></li>
             <div style="clear:both;"></div>
         </ul>
     </div>
 
     <div class="Ranking_content">
-        <div id="bang_1" class="Ranking_Cinfo">
-
-        </div>
-        <div id="bang_2" class="Ranking_Cinfo">
-        </div>
-        <div id="bang_3" class="Ranking_Cinfo">
-        </div>
-        <div id="bang_4" class="Ranking_Cinfo">
-        </div>
-
-
+        <div id="bang_1" class="Ranking_Cinfo"></div>
+        <div id="bang_2" class="Ranking_Cinfo"></div>
+        <div id="bang_3" class="Ranking_Cinfo"></div>
+        <div id="bang_4" class="Ranking_Cinfo"></div>
     </div>
 
 
@@ -66,7 +59,6 @@
         </dl>
     </div>
     <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/FansBang.js"></script>
-
 </body>
 
 @{Html.RenderAction("index", "PvUvIp");}
