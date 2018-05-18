@@ -14,35 +14,8 @@
     <script src="~/js/dialog.min.js"></script>
     <script src="~/js/yjp.js"></script>
     <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/SetSex.js"></script>
 
-    <script>
-        $(function () {
-
-            set();
-        });
-
-        function set() {
-            $("#btnsub").click(function () {
-                var selectvalue = $(".current").text().trim();
-                var sexvalue;
-
-                if (selectvalue == "男") {
-                    sexvalue = 0;
-                } else {
-                    sexvalue = 1;
-                }
-                $.post('/Personal/EditUser', { value: sexvalue, type: 3 }, function (data) {
-                    if (data.Success != true) {
-                        alertmsg(data.Msg);
-                    } else {
-                        location.href = '/Personal/Set';
-                    }
-                });
-
-            });
-        }
-
-    </script>
 </head>
 
 <body style="background:#F4F4F5;">

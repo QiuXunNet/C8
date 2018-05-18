@@ -20,7 +20,7 @@ namespace C8.Lottery.Portal.Controllers
     /// <summary>
     /// 充值控制器
     /// </summary>
-    public class RechargeController : Controller
+    public class RechargeController : BaseController
     {
         // private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static object _lock = new object();

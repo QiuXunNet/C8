@@ -9,39 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>个人中心-设置-设置签名</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <link href="~/css/dialog.css" rel="stylesheet" />
     <script src="~/js/dialog.min.js"></script>
     <script src="~/js/yjp.js"></script>
     <script type="text/javascript" src="/js/baidu-statistics.js"></script>
-    <script>
-        $(function () {
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/SetAutograph.js"></script>
 
-            set();
-        });
-
-        function set() {
-            $("#btnsub").click(function () {
-                var autograph = $("#autograph").val();
-
-                if (autograph.trim().length > 20) {
-                    alertmsg("签名长度不能超过20");
-                    return false;
-                }
-
-                $.post('/Personal/EditUser', { value: autograph, type: 2 }, function (data) {
-                    if (data.Success != true) {
-                        alertmsg(data.Msg);
-                    } else {
-                        location.href = '/Personal/Set';
-                    }
-                });
-            });
-
-        }
-
-    </script>
 </head>
 
 <body style="background:#F4F4F5;">

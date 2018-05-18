@@ -13,7 +13,7 @@ namespace C8.Lottery.Portal.Controllers
     /// <summary>
     /// 现金类控制器（绑卡、提现等）
     /// </summary>
-    public class AmountController : Controller
+    public class AmountController : BaseController
     {
         /// <summary>
         /// 绑定银行卡页面

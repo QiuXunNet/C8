@@ -8,7 +8,7 @@ using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class RecordController : Controller
+    public class RecordController : BaseController
     {
         //
         // GET: /Record/

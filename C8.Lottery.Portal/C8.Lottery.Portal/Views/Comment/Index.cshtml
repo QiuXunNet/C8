@@ -51,43 +51,13 @@
         @*<a href="javascript:;" class="Com_FtA"><img src="/images/53_2.png"></a>*@
     </div>
     <script type="text/javascript">
-
-        $(function() {
-            $("#editor").initEmoji();
-        });
-
-        function publish() {
-            var content = $.trim($("#editor").val());
-
-            if (content.length <= 0) {
-                alertmsg("请输入内容");
-            }
-
-            $.post("/Comment/Publish",
-            {
-                id: @Model.Id,
-                ctype: @Model.OperateType,
-                type: @Model.CommentType,
-                content:content,
-                refUid:@Model.RefUserId
-                }, function(result) {
-                    if (result) {
-                        if (result.Code === 401) {
-                            location.href = "/Home/Login";
-                        }
-                        if (result.IsSuccess) {
-
-                            alertmsg("发表成功");
-                            location.href = document.referrer;
-                        } else {
-                            alertmsg(result.Message);
-                        }
-                    } else {
-                        alertmsg("服务器繁忙");
-                    }
-                });
-        }
+        var Id= @Model.Id;
+        var OperateType=@Model.OperateType;
+        var CommentType=@Model.CommentType;
+        var RefUserId=@Model.RefUserId;
     </script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/CommentIndex.js"></script>
+
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
