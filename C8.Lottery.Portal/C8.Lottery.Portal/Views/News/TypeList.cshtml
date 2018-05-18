@@ -5,19 +5,13 @@
 
 @{
     Layout = null;
-
-    int currentLotteryTypeId = ViewBag.CurrentLotteryType;
-
     int lType = ViewBag.lType;
-
     var socketUrl = ConfigurationManager.AppSettings["WebSocketUrl"];
     string CityId = ViewBag.CityId;
 }
 
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -40,59 +34,16 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1)" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo  hjc_HeaderXL">@Model.TypeName<span class="select_sign"></span></a>
-        @*<a href="/Home/Index" class="hjc_home_right"></a>*@
         <a href="javascript:;" class="ZX_Sidebar"></a>
     </header>
 
     <div class="hjc_hdNav fixed" style="display:none">
-
         <input type="hidden" id="lType" value="@lType" />
         <div class="hdNav_cai_expand">
-            <ul class="hdNav_cai">
-                @foreach (LotteryType entity in ViewBag.LotteryTypeList)
-                {
-                    if (entity.TypeName == "六合彩")
-                    {
-                        if (entity.Id == currentLotteryTypeId)
-                        {
-                            <li class="current" data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
-
-                            </li>
-                        }
-                        else
-                        {
-
-                            <li data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
-
-                            </li>
-                        }
-                    }
-                    else
-                    {
-                        if (entity.Id == currentLotteryTypeId)
-                        {
-                            <li class="current" data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
-
-                            </li>
-                        }
-                        else
-                        {
-
-                            <li data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
-
-                            </li>
-                        }
-                    }
-                }
-            </ul>
+            <ul class="hdNav_cai"></ul>
             <div style="clear: both;"></div>
         </div>
     </div>
-
 
     <div class="Plan_content top50">
         <div class="Plan_CInfo">
@@ -100,90 +51,17 @@
                 <dl class="CZ_hdMain info_LHC">
                     <dt><a href="javascript:;"><img src="/images/logo5.png"></a></dt>
                     <dd>
-
                         <div class="hdM_ddtit">
                             <h3 class="hdM_ddtqi f-l">
                                 第<span id="txtIssue">@ViewBag.lastIssue</span>期
                             </h3>
                             <p class="hdM_ddtime f-r">
-                                下期开奖：
-
-                                @if (ViewBag.time == "正在开奖")
-                                {
-                                    <span id="openTime">正在开奖</span>
-                                }
-                                else
-                                {
-                                    if (currentLotteryTypeId < 9)
-                                    {
-                                        <span id="openTime"><t id="hour2">@ViewBag.hour</t>:<t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                    }
-                                    else
-                                    {
-                                        <span id="openTime"><t id="minute2">@ViewBag.min</t>:<t id="second2">@ViewBag.sec</t></span>
-                                    }
-
-                                }
+                                下期开奖：@Html.Raw(ViewBag.time)  
                             </p>
-
                             <div style="clear:both;"></div>
                         </div>
-
-                        <div class="Forecast_LHC" id="ballListDiv">
-
-                            @{
-                                int countFor6 = 0;
-
-
-                                string num = ViewBag.lastNum;
-                                string[] numArr = num.Split(',');
-
-
-
-                                foreach (string s in numArr)
-                                {
-                                    countFor6++;
-
-                                    string color = Util.GetColor(s);
-                                    string cl = "";
-                                    if (color == "red")
-                                    {
-                                        cl = "LHC_spA LHC_spAred";
-                                    }
-                                    else if (color == "green")
-                                    {
-                                        cl = "LHC_spA LHC_spAgreen";
-                                    }
-                                    else
-                                    {
-                                        cl = "LHC_spA LHC_spAblue";
-                                    }
-
-                                    <span class="@cl">@s</span>
-
-                                    if (countFor6 == 6)
-                                    {
-                                        <span class="LHC_spAjia">+</span>
-                                    }
-                                }
-                            }
-                        </div>
-                        @{
-                            int countFor63 = 0;
-
-                            <div class="Forecast_LHC" id="shengXiaoListDiv">
-                                @foreach (string s in ViewBag.showInfo.Split(','))
-                                {
-                                    countFor63++;
-                                    <span class="LHC_spA">@s</span>
-                                    if (countFor63 == 6)
-                                    {
-                                        <span class="LHC_spAjia">+</span>
-                                    }
-                                }
-                            </div>
-                        }
-
+                        <div class="Forecast_LHC" id="ballListDiv"></div>
+                        <div class="Forecast_LHC" id="shengXiaoListDiv"></div>
                     </dd>
                 </dl>
             </div>
@@ -193,7 +71,7 @@
     <div class="info_LHC_nav">
         <ul class="hdNav_ul">
             <li>
-                <a href="/Record/OpenRecord/?lType=@currentLotteryTypeId">
+                <a href="/Record/OpenRecord/?lType=@lType">
                     <i><img src="/images/icon_info_01.png"></i>
                     <p>开奖</p>
                 </a>
@@ -232,24 +110,15 @@
     </div>
 
     <div class="info_LHC_category col3">
-        <dl>
+        <dl id="newsTypeListDiv">
             <dt>
                 <p>
                     <span class="spec"></span>免费资料
                 </p>
             </dt>
-
-            @foreach (NewsType item in ViewBag.NewsTypeList)
-            {
-                <dd>
-                    @Html.ActionLink(@item.TypeName, "Index", new { id = @item.LType, ntype = @item.Id })
-                </dd>
-            }
-
         </dl>
         <div class="clearfix"></div>
     </div>
-
 
     <!--侧边栏-->
     <div class="ZX_CLBox">
@@ -357,43 +226,139 @@
         </div>
     </div>
 
-
-
     <div class="mask" style="display:none;"></div>
     <div class="mask2" style="display:none;"></div>
 
     <script type="text/javascript">
+        var newsTypeList = eval("@ViewBag.NewsTypeList".replace(/&quot;/g, "'"));
+        var lastNum = "@ViewBag.lastNum";
+        var showInfo = "@ViewBag.showInfo";
+        var lotteryTypeList = eval("@ViewBag.LotteryTypeList".replace(/&quot;/g, "'"));
+
+        var lotteryTypeListHtml = "";
+        $(lotteryTypeList).each(function () {
+            if (this.Id == 5) {
+                lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeIndex/" + this.Id + "'>" + this.TypeName + "</a></li>"
+            }
+            else {
+                lotteryTypeListHtml += "<li data-id='" + this.Id + "'><a href='/News/Index/" + this.Id + "'>" + this.TypeName + "</a></li>"
+            }
+        });
+        $(".hdNav_cai").empty().append(lotteryTypeListHtml);
+
+
+        var showInfoHtml = "";
+        $(showInfo.split(',')).each(function (i) {
+            if (this.length > 0) {
+                if (i == showInfo.split(',').length - 1) {
+                    showInfoHtml += "<span class='LHC_spAjia'>+</span>";
+                }
+                showInfoHtml += "<span class='LHC_spA'>"+this+"</span>"
+            }
+        });
+        $("#shengXiaoListDiv").empty().append(showInfoHtml);
+
+
+        var lastNumHtml = "";
+        $(lastNum.split(',')).each(function (i) {
+            if (this.length > 0) {
+                if (i == lastNum.split(',').length - 1) {
+                    lastNumHtml += "<span class='LHC_spAjia'>+</span>";
+                }
+                lastNumHtml += "<span class='LHC_spA " + getColor(this)+"'>"+this+"</span>"
+            }
+        });
+        $("#ballListDiv").empty().append(lastNumHtml);
+
+
+        var newsTypeListHtml = "";
+        $(newsTypeList).each(function () {
+            newsTypeListHtml += "<dd><a href='/News/Index/" + this.LType + "/" + this.Id + "'>" + this.TypeName+"</a></dd>";
+        });
+        $("#newsTypeListDiv").append(newsTypeListHtml);
+
+    </script>
+
+    @*实时开奖*@
+    <script type="text/javascript">
         var url = "@socketUrl/LhcHandler.ashx";
         var ws;
-        $(function ()
-        {
-            var location=-1;
-            getadlist(location);
-            @*if ("@ViewBag.time" == "正在开奖") {*@
+        $(function () {
+            ws = new WebSocket(url);
 
-                ws = new WebSocket(url);
-
-                //链接成功回调
-                ws.onopen = function () {
-                    wsOnopen();
-                }
-                //收到消息回调
-                ws.onmessage = function (evt) {
-                    wsOnmessage(evt);
-                }
-                //链接失败回调
-                ws.onerror = function (evt) {
-                }
-                //链接关闭回调
-                ws.onclose = function () {
-                    wsOnclose()
-                }
-            //}
-            //else {
-
-            //}
+            //链接成功回调
+            ws.onopen = function () {
+                wsOnopen();
+            }
+            //收到消息回调
+            ws.onmessage = function (evt) {
+                wsOnmessage(evt);
+            }
+            //链接失败回调
+            ws.onerror = function (evt) {
+            }
+            //链接关闭回调
+            ws.onclose = function () {
+                wsOnclose()
+            }
         });
-        //广告位
+
+        //链接成功回调
+        function wsOnopen() {
+
+        }
+
+        //收到消息回调
+        function wsOnmessage(evt) {
+            var msg = evt.data;
+            var data = eval("(" + msg + ")");
+            if (data == undefined || data == null)
+                return;
+            switch (data.MsgTypeChild) {
+                case 11: //开始命令
+                    break;
+                case 12: //结束命令
+                    ws.close()  //结束后，主动断开链接
+                    break;
+                case 21: //消息
+                    showBall(data);
+                    break;
+                case 31: //心跳包
+
+                    break;
+            }
+        }
+
+        //链接关闭回调
+        function wsOnclose() {
+
+        }
+
+        //显示球
+        function showBall(data) {
+            if (data.IsPeriod == 1) { // 如果是期数消息
+                $("#txtIssue").text(data.Content);
+                $("#ballListDiv,#shengXiaoListDiv").empty();
+            } else {
+                if (data.IsTM == 1) {//如果是特码
+                    $("#ballListDiv,#shengXiaoListDiv").append('<span class="LHC_spAjia">+</span>&nbsp;');
+                }
+                var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
+                $("#ballListDiv").append('<span class="LHC_spA ' + getColor(num) + '">' + num + '</span>&nbsp;');
+                console.log(data.SubTime);
+                $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content) +'</span>&nbsp;');
+            }
+        }
+    </script>
+
+    @*广告位*@
+    <script type="text/javascript">
+        $(function () {
+            var location = -1;
+            getadlist(location);
+        });
+
+          //广告位
         function getadlist(location) {
             $.get("/News/GetAdvertisementListJson",
                 {
@@ -403,13 +368,10 @@
                function (data) {
                    if (data.Success == true) {
                        inadHtml(data.data);
-                       console.log(data.data);
-                   } else {
-                       alert("Data Loaded: " + data.Msg);
-                   }
-
+                   } 
                });
         }
+
         function inadHtml(data) {
             var cityid=@CityId;
             var city;
@@ -447,8 +409,6 @@
                             //$(".GG_Box").addClass("GG_Box1")
                         }
                     }
-
-                   
                 }
             });
         }
@@ -456,14 +416,10 @@
             var html = '';
             if (item.ThumbStyle == 0) {
                 html = '<div class="GG_Box  GG_Box1 GG_Box2">'
-	  + '<a href="' + item.TransferUrl + '">'
-    	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
-       //+ '<div class="GG_BbtFont">'
-       // 	+ '<b>广告</b>'
-       //   + '<span>' + item.Company + '</span>'
-       //+ '</div>'
-         + '</a>'
-            + '</div>'
+                    + '<a href="' + item.TransferUrl + '">'
+                    + '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+                    + '</a>'
+                    + '</div>';
 
             } else if (item.ThumbStyle == 1) {
                 var img = '';
@@ -471,19 +427,14 @@
                     img = '<img src="' + item.ThumbList[0] + '">'
                 }
 
-
                 html = '<div class="GG_Box GG_Box1">'
-	+ '<a href="' + item.TransferUrl + '">'
-    	+ '<div class="GG_B2Left f-l">'
-        	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
-          //+ '<div class="GG_BbtFont">'
-          //  + ' <b>广告</b>'
-          // + ' <span>' + item.Company + '</span>'
-          //+ '</div>'
-       + '</div>'
-    	+ '<div class="GG_B2Right">' + img + '</div>'
-    + '</a>'
-    + '</div>'
+                    + '<a href="' + item.TransferUrl + '">'
+                    + '<div class="GG_B2Left f-l">'
+                    + '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+                    + '</div>'
+                    + '<div class="GG_B2Right">' + img + '</div>'
+                    + '</a>'
+                    + '</div>';
 
             } else if (item.ThumbStyle == 2) {
                 var img = '';
@@ -491,15 +442,11 @@
                     img = '<img src="' + item.ThumbList[0] + '">'
                 }
                 html = '<div class="GG_Box GG_Box1">'
-	+ '<a href="' + item.TransferUrl + '">'
-    	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
-       + '<div class="GG_B4Tu">' + img + '</div>'
-     //  + '<div class="GG_BbtFont">'
-     // + '<b>广告</b>'
-     // + '<span>' + item.Company + '</span>'
-     //+ '</div>'
-   + '</a>'
-+ '</div>'
+                    + '<a href="' + item.TransferUrl + '">'
+                    + '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+                    + '<div class="GG_B4Tu">' + img + '</div>'
+                    + '</a>'
+                    + '</div>';
 
             } else if (item.ThumbStyle == 3) {
                 var img = '';
@@ -510,101 +457,24 @@
                 }
 
                 html = '<div class="GG_Box GG_Box1">'
-	+ '<a href="' + item.TransferUrl + '">'
-    	+ '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
-        + '<ul class="GG_B3Tu">'
-        	+ img
-            + '<div style="clear:both;"></div>'
-        + '</ul>'
-
-        //+ '<div class="GG_BbtFont">'
-        //	+ '<b>广告</b>'
-        //    + '<span>' + item.Company + '</span>'
-        //+ '</div>'
-    + '</a>'
-+ '</div>'
+                    + '<a href="' + item.TransferUrl + '">'
+                    + '<h3 class="GG_B1Tit">' + item.Title + '</h3>'
+                    + '<ul class="GG_B3Tu">'
+                    + img
+                    + '<div style="clear:both;"></div>'
+                    + '</ul>'
+                    + '</a>'
+                    + '</div>';
             } else if (item.ThumbStyle == 4) {
                 var img = '';
                 if (item.ThumbList != null && item.ThumbList.length > 0) {
                     img = '<img src="' + item.ThumbList[0] + '"  class="GG_B5Tu">'
                 }
                 html = '  <div class="GG_Box GG_Box1 PD3">'
-               + ' <a href="' + item.TransferUrl + '">' + img + '</a>'
-               + '   </div>'
+                    + ' <a href="' + item.TransferUrl + '">' + img + '</a>'
+                    + '   </div>';
             }
-
-
             return html;
-        }
-
-        //链接成功回调
-        function wsOnopen() {
-
-        }
-
-        //收到消息回调
-        function wsOnmessage(evt) {
-            var msg = evt.data;
-            var data = eval("(" + msg + ")");
-            if (data == undefined || data == null)
-                return;
-            switch (data.MsgTypeChild) {
-                case 11: //开始命令
-                    break;
-                case 12: //结束命令
-                    ws.close()  //结束后，主动断开链接
-                    break;
-                case 21: //消息
-                    showBall(data);
-                    break;
-                case 31: //心跳包
-
-                    break;
-            }
-        }
-
-        //开始开奖
-        function startLottery() {
-            if (ws == undefined || ws == null || ws.readyState != WebSocket.OPEN) {
-                ws = new WebSocket(url);
-
-                //链接成功回调
-                ws.onopen = function () {
-                    wsOnopen();
-                }
-                //收到消息回调
-                ws.onmessage = function (evt) {
-                    wsOnmessage(evt);
-                }
-                //链接失败回调
-                ws.onerror = function (evt) {
-                }
-                //链接关闭回调
-                ws.onclose = function () {
-                    wsOnclose()
-                }
-            }
-        }
-
-        //链接关闭回调
-        function wsOnclose() {
-
-        }
-
-        //显示球
-        function showBall(data) {
-            if (data.IsPeriod == 1) { // 如果是期数消息
-                $("#txtIssue").text(data.Content);
-                $("#ballListDiv,#shengXiaoListDiv").empty();
-            } else {
-                if (data.IsTM == 1) {//如果是特码
-                    $("#ballListDiv,#shengXiaoListDiv").append('<span class="LHC_spAjia">+</span>&nbsp;');
-                }
-                var num = (data.Content.length < 2) ? "0" + data.Content : data.Content;
-                $("#ballListDiv").append('<span class="LHC_spA ' + getColor(num) + '">' + num + '</span>&nbsp;');
-                console.log(data.SubTime);
-                $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content) +'</span>&nbsp;');
-            }
         }
     </script>
 
