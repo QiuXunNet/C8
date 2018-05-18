@@ -12,11 +12,6 @@ $(function () {
             $(".dropload-down").remove();
         }
 
-        var div = $("#bang_" + $(this).attr("data-id"));
-        if (div.find("table").length == 0) {
-            $(".Rank_ftDL").empty();
-        }
-
         getList($(this));
     });
 });
@@ -27,7 +22,7 @@ function getList(clickElement) {
 
     var div = $("#bang_" + id);
 
-    if (!id || div.find("table").length > 0) return;
+    if (!id) return;
 
     $.ajax({
         type: "post",
@@ -78,7 +73,7 @@ function getList(clickElement) {
                     html = headHtml + html;
                 }
 
-                div.append(html);
+                div.empty().append(html);
             }
             else {
                 div.empty().append('<div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>');
@@ -91,7 +86,7 @@ function getList(clickElement) {
                 } else {
                     text = data.My.Rank;
                 }
-                $(".Rank_ftDL").html("<dt><a href='javascript:;'><img src='" + (data.My.HeadPath == null ? "/images/default_avater.png" : data.My.HeadPath) + "'></a></dt> <dd> <p class='Ds_money1 Fs_money1 f-r'>" + data.My.Number + "</p> <div class='Rank_ftL'>" + "<h3><a href='javascript:;'>" + data.My.Name + "</a></h3>" + "<P>当前排名：<span id='myrank'>" + text + "</span></P> </div> </dd>");
+                $(".Rank_ftDL").empty().html("<dt><a href='javascript:;'><img src='" + (data.My.HeadPath == null ? "/images/default_avater.png" : data.My.HeadPath) + "'></a></dt> <dd> <p class='Ds_money1 Fs_money1 f-r'>" + data.My.Number + "</p> <div class='Rank_ftL'>" + "<h3><a href='javascript:;'>" + data.My.Name + "</a></h3>" + "<P>当前排名：<span id='myrank'>" + text + "</span></P> </div> </dd>");
             }
         }
     });
