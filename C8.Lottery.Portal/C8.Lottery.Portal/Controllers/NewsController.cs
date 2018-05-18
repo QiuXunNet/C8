@@ -270,13 +270,13 @@ namespace C8.Lottery.Portal.Controllers
             string strsql = "";
             if (location == -1)//针对6彩栏目
             {
-                strsql = string.Format(@"select  AdType, Location, Title, Layer, ThumbStyle, BeginTime, EndTime, State, SubTime, Company, Where, TransferUrl, CommentsNumber, RestrictedAreas from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and 
+                strsql = string.Format(@"select  * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and 
                    AdType={1} and (State=1 or (State=0 and getdate()>=BeginTime and EndTime>getdate()))", location, adtype);
 
             }
             else
             {
-                strsql = string.Format(@"select  AdType, Location, Title, Layer, ThumbStyle, BeginTime, EndTime, State, SubTime, Company, Where, TransferUrl, CommentsNumber, RestrictedAreas from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0   
+                strsql = string.Format(@"select  * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0   
             and charindex(',{0},',','+[Location]+',')>0 and AdType={1} and (State=1 or (State=0 and getdate()>=BeginTime and EndTime>getdate()))", location, adtype);
 
             }
