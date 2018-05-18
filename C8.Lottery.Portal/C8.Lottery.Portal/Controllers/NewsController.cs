@@ -217,12 +217,13 @@ namespace C8.Lottery.Portal.Controllers
             }
 
             string sql = @"SELECT * FROM ( 
-SELECT row_number() over(order by SortCode ASC, LotteryNumber DESC, ReleaseTime DESC ) as rowNumber,
-[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
-FROM [dbo].[News] a
-WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
-WHERE rowNumber BETWEEN @Start AND @End 
-ORDER BY rowNumber";
+                            SELECT row_number() over(order by SortCode ASC, LotteryNumber DESC, ReleaseTime DESC ) as rowNumber,
+                            [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
+                            ,STUFF((SELECT ',' + RPath FROM  dbo.ResourceMapping WHERE  Type=1 AND FkId=a.Id FOR XML PATH('')), 1, 1, '') AS Paths
+                            FROM [dbo].[News] a
+                            WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
+                            WHERE rowNumber BETWEEN @Start AND @End 
+                            ORDER BY rowNumber";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -237,8 +238,7 @@ ORDER BY rowNumber";
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
             list.ForEach(x =>
             {
-                x.ThumbList = GetResources(sourceType, x.Id)
-                                .Select(n => n.RPath).ToList();
+                x.ThumbList = !(string.IsNullOrWhiteSpace(x.Paths)) ? x.Paths.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
             });
 
 
