@@ -108,7 +108,9 @@ namespace C8.Lottery.Portal.Controllers
             sql = @"select lr.* from LotteryRecord lr
                     join(
                     select lType, max(SubTime) SubTime from lotteryRecord where lType in("+ lTypes + ") and SubTime >'"+ dateTime + @"' group by lType
-                    ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime";
+                    ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime
+                    left join LotteryType2 lt on lr.lType = lt.lType
+                    order by Position";
 
             return Json (Util.ReaderToList<LotteryRecord>(sql));
         }

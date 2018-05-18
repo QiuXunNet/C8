@@ -880,7 +880,6 @@
     <Content Include="Views\Home\Plan.cshtml" />
     <Content Include="Views\Personal\MyPlan.cshtml" />
     <Content Include="Views\Personal\FansBang.cshtml" />
-    <Content Include="Views\Personal\FansBangList.cshtml" />
     <Content Include="Views\Personal\Set111.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
