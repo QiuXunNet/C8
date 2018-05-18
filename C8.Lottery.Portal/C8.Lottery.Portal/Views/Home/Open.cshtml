@@ -2,18 +2,17 @@
 @using C8.Lottery.Model
 @{
     Layout = null;
-    List<LotteryRecord> list = ViewBag.openList;
-    LotteryRecord record = null;
-    int lType = 0;
+    UserInfo user = ViewBag.UserInfo;
+    SiteSetting site = ViewBag.SiteSetting;
 }
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>彩票开奖查询_双色球开奖结果_3d开奖结果_大乐透开奖结果_排列五开奖结果_七星彩开奖结果_王中王铁算盘开奖结果_六开彩开奖现场直播_香港最快-万彩吧</title>
-    <meta name="keywords" content="彩票开奖查询_双色球开奖结果_3d开奖结果_大乐透开奖结果_排列五开奖结果_七星彩开奖结果_王中王铁算盘开奖结果_六开彩开奖现场直播_香港最快,万彩吧">
-    <meta name="description" content="万彩吧彩票开奖查询_双色球开奖结果_3d开奖结果_大乐透开奖结果_排列五开奖结果_七星彩开奖结果_王中王铁算盘开奖结果_六开彩开奖现场直播_香港最快">
+    <title>@site.Name</title>
+    <meta name="keywords" content="@site.KeyWord">
+    <meta name="description" content="@site.Description">
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/yjp.js"></script>
@@ -37,237 +36,19 @@
         <div class="hdNav_cai_collect">
             <div class="hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
-                @foreach (LotteryType2 lotteryType in ViewBag.list)
-                {
-                    <li><a href="javascript:;">@lotteryType.Name</a></li>
-                }
                 <div style="clear:both;"></div>
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            @*<div class="hdNav_cai_title">
-                    <span>切换分类</span>
-                    <span class="collect"><img src="/images/icon-collect.png"  alt=""/></span>
-                </div>*@
             <ul class="hdNav_cai">
-                @foreach (LotteryType2 lotteryType in ViewBag.list)
-                {
-                    <li><a href="javascript:;">@lotteryType.Name</a></li>
-                }
+
                 <div style="clear:both;"></div>
             </ul>
         </div>
     </div>
-
+    <div style="height:500px; display:none" id="kongbaiDiv"></div>
     <div class="hjc_indexmain" style="margin-top:91px;">
-        @foreach (LotteryType2 lotteryType in ViewBag.list)
-        {
-            int[] lTypeArr = lotteryType.SonIdArr;
 
-            <ul class="ind_mainUl2">
-
-                @for (int j = 0; j < lTypeArr.Length; j++)
-                {
-                    int i = lTypeArr[j];
-
-                    lType = i;
-                    record = list[i - 1];
-                    string iconName = record.ShowIconName + ".png";
-                    string[] numArr = record.Num.Split(',');
-
-                    <li>
-                        <div class="UL2_hd">
-                            <a href="javascript:;">
-                                <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
-                                <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
-                                <span class="UL2_hdicon"></span>
-                            </a>
-                        </div>
-                        <div class="UL2_bd">
-                            <div class="UL3_bdinfo1">
-                                <p lType="@record.lType">
-                                    <font>第<span>@record.Issue</span>期</font>
-                                    <font>
-                                        下期开奖：
-
-                                        @if (record.ShowOpenTime == "正在开奖")
-                                        {
-                                            <span>正在开奖</span>
-                                        }
-                                        else
-                                        {
-                                            string openTime = record.ShowOpenTime;
-                                            string[] timeArr = openTime.Split('&');
-
-                                            string hour = timeArr[0];
-                                            string min = timeArr[1];
-                                            string sec = timeArr[2];
-
-                                            <span><t class="hour">@hour</t>:<t class="minute">@min</t>:<t class="second">@sec</t></span>
-                                        }
-                                    </font>
-                                </p>
-                            </div>
-                            <div class="UL3_bdinfo2">
-                                <div class="ball_wrap">
-
-                                    @if (lType <= 62 && lType != 5 && lType != 2 && lType != 8 && lType != 4)
-                                    {
-                                        foreach (string s in numArr)
-                                        {
-
-                                            <span class="ball_spB ball_red HYJP_Red">@s</span>
-
-                                        }
-                                    }
-                                    else if (lType == 2)
-                                    {
-                                        int x = -1;
-                                        foreach (string s in numArr)
-                                        {
-                                            x++;
-                                           
-
-                                            if (x == 6)
-                                            {
-                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
-                                            }
-
-                                        }
-                                    }
-                                    else if (lType == 4)
-                                    {
-                                        int x1 = -1;
-                                        foreach (string s in numArr)
-                                        {
-                                            x1++;
-
-
-                                            if (x1 == 5 || x1 == 6)
-                                            {
-                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
-                                            }
-
-                                        }
-
-
-                                    }
-                                    else if (lType == 5)
-                                    {
-
-                                        int x3 = -1;
-                                        foreach (string s in numArr)
-                                        {
-                                            x3++;
-                                            string Color = Util.GetColor(s);
-                                            string ys = string.Empty;
-                                            switch (Color)
-                                            {
-                                                case "red":
-                                                    ys = "HYJP_LhRed";
-                                                    break;
-                                                case "blue":
-                                                    ys = "HYJP_LhBlue";
-                                                    break;
-                                                case "green":
-                                                    ys = "HYJP_LhGreen";
-                                                    break;
-                                            }
-                                            if (x3 == 6)
-                                            {
-                                                <span class="ball_spB ball_blue HYJP_PcHao">+</span>
-
-                                            }
-                                            <span class="ball_spB ball_blue @ys">@s</span>
-                                        }
-                                    }
-                                    else if (lType == 8)
-                                    {
-                                        int x2 = -1;
-                                        foreach (string s in numArr)
-                                        {
-                                            x2++;
-
-
-                                            if (x2 == 7)
-                                            {
-                                                <span class="ball_spB ball_red HYJP_Blue">@s</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="ball_spB ball_red HYJP_Red">@s</span>
-                                            }
-                                        }
-                                    }
-                                    else if (lType == 65)
-                                    {
-                                        int a = int.Parse(numArr[0]);
-                                        int b = int.Parse(numArr[1]);
-                                        int c = int.Parse(numArr[2]);
-                                        int sum = a + b + c;
-
-
-                                        <span class="ball_spB ball_blue HYJP_Red">@numArr[0]</span>
-                                        <span class="ball_spB ball_blue HYJP_PcHao">+</span>
-                                        <span class="ball_spB ball_blue HYJP_Red">@numArr[1]</span>
-                                        <span class="ball_spB ball_blue HYJP_PcHao">+</span>
-                                        <span class="ball_spB ball_blue HYJP_Red">@numArr[2]</span>
-                                        <span class="ball_spB ball_blue HYJP_PcHao">=</span>
-                                        <span class="ball_spB ball_blue HYJP_Red">@sum</span>
-                                    }
-                                    else if (lType == 63 || lType == 64)
-                                    {
-                                        foreach (string s in numArr)
-                                        {
-                                            string clazz = "ball_spA No" + s;
-                                            <span class="@clazz">@s</span>
-                                        }
-                                    }
-
-                                </div>
-                                <div class="UL3_ZZKJ">
-                                    <p>正在开奖中...</p>
-                                </div>
-                            </div>
-                            <div class="UL3_bdinfo3">
-                                <a href="/Plan/Index/@record.lType" class="UL2_baif3a">计划</a>
-                                @*<a href="javascript:;" class="UL2_baif3a">双面</a>
-                                    <a href="javascript:;" class="UL2_baif3a">长龙</a>
-                                    <a href="javascript:;" class="UL2_baif3a">走势</a>*@
-                                <a href="/Record/OpenRecord/?lType=@record.lType" class="UL2_baif3a">历史</a>
-                                <a href="/Plan/Post/@record.lType" class="UL2_baif3a">发帖</a>
-                                <a href="/Plan/Index/@record.lType?cur=2" class="UL2_baif3a">排行</a>
-                                <a href="/News/Index/@Tool.GetLotterylType(record.lType)" class="UL2_baif3a">资讯</a>
-
-                                <div style="clear:both;"></div>
-                            </div>
-                        </div>
-                    </li>
-
-
-                }
-
-
-            </ul>
-
-        }
-
-        <script>
-            $(function () {
-                $('.hdNav_cai_lhs li').eq(0).addClass('current');
-                $('.hdNav_cai li').eq(0).addClass('current');
-                $('.ind_mainUl2').eq(0).show();
-            });
-
-        </script>
     </div>
 
 
@@ -302,17 +83,17 @@
                     </a>
                 </li>
                 @*<li>
-                    <a href="JavaScript:;">
-                        <dl class="cNav_Dl">
-                            <dt><img src="/images/w6_4.png"></dt>
-                            <dd>
-                                <p>走势</p>
-                                <img src="/images/w7.png">
-                                <div style="clear:both;"></div>
-                            </dd>
-                        </dl>
-                    </a>
-                </li>*@
+                        <a href="JavaScript:;">
+                            <dl class="cNav_Dl">
+                                <dt><img src="/images/w6_4.png"></dt>
+                                <dd>
+                                    <p>走势</p>
+                                    <img src="/images/w7.png">
+                                    <div style="clear:both;"></div>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>*@
                 <li>
                     <a href="/Home/Plan">
                         <dl class="cNav_Dl">
@@ -377,9 +158,220 @@
             </ul>
         </div>
     </div>
-
     @Html.Partial("Footer")
-    <div class="mask" style="display:none;"></div>
+
+    <script type="text/javascript">
+        $(function () {
+            $.post("/Home/GetFatherLotteryType", {}, function (data) {
+                if (data != null && data.length != 0) {
+                    var lis = "";
+                    var uls = "";
+
+                    $(data).each(function (i) {
+                        if (i == 0) {
+                            lis += "<li data-Id='" + this.Id + "' class = 'current'><a href='javascript:;'>" + this.Name + "</a></li>";
+                            uls += "<ul class='ind_mainUl2' id='mainUl2" + this.Id + "'></ul>"
+                        }
+                        else {
+                            lis += "<li data-Id='" + this.Id + "'><a href='javascript:;'>" + this.Name + "</a></li>";
+                            uls += "<ul class='ind_mainUl2' id='mainUl2" + this.Id + "' style='display: none;'></ul>"
+                        }
+                    });
+
+                    $(".hdNav_cai_lhs,.hdNav_cai").prepend(lis);
+                    $(".hjc_indexmain").append(uls);
+
+                    getChildLotteryType($(".hdNav_cai_lhs").find(".current").attr("data-Id"));
+                }
+            });
+        });
+
+        function getChildLotteryType(pId) {
+            if ($.trim($("#mainUl2" + pId).html()).length != 0)
+                return;
+            $("#kongbaiDiv").show();
+            $.post("/Home/GetChildLotteryType", { pId: pId }, function (data) {
+                var lis = "";
+                $(data).each(function () {
+                    lis += "<li>";
+                    lis += "     <div class='UL2_hd'>";
+                    lis += "         <a href='javascript:;'>";
+                    lis += "             <div class='UL2_hdtu f-l'><img src='/images/" + this.ShowIconName + ".png'></div>";
+                    lis += "             <div class='UL2_hdtit'><h3>" + this.ShowTypeName + "</h3></div>";
+                    lis += "             <span class='UL2_hdicon'></span>";
+                    lis += "         </a>";
+                    lis += "     </div>";
+                    lis += "     <div class='UL2_bd'>";
+                    lis += "         <div class='UL3_bdinfo1'>";
+                    lis += "           <p lType='" + this.lType + "'>";
+                    lis += "                 <font>第<span>" + this.Issue + "</span>期</font>";
+                    lis += "                 <font>下期开奖：";
+                    if (this.ShowOpenTime == "正在开奖" || this.ShowOpenTime == "休奖时间") {
+                        lis += "                 <span>" + this.ShowOpenTime + "</span>";
+                    }
+                    else {
+                        var arr = this.ShowOpenTime.split('&');
+                        lis += "                 <span><t class='hour'>" + arr[0] + "</t>:<t class='minute'>" + arr[1] + "</t>:<t class='second'>" + arr[2] + "</t></span>";
+                    }
+
+                    lis += "                   </font>";
+                    lis += "             </p>";
+                    lis += "         </div>";
+                    lis += "         <div class='UL3_bdinfo2'>";
+                    lis += "             <div class='ball_wrap'>";
+
+                    lis += getHtml(this);
+
+                    lis += "              </div>";
+                    //lis+="             <div class='UL3_ZZKJ'>";
+                    //lis+="                 <p>正在开奖中...</p>";
+                    //lis+="             </div>";
+                    lis += "         </div>";
+                    lis += "         <div class='UL3_bdinfo3'>";
+                    lis += "          <a href='/Plan/Index/" + this.lType + "' class='UL2_baif3a'>计划</a>";
+                    lis += "          <a href='/Record/OpenRecord/?lType=" + this.lType + "' class='UL2_baif3a'>历史</a>";
+                    lis += "          <a href='/Plan/Post/" + this.lType + "' class='UL2_baif3a'>发帖</a>";
+                    lis += "          <a href='/Plan/Index/" + this.lType + "?cur=2' class='UL2_baif3a'>排行</a>";
+                    lis += "          <a href='/News/Index/" + this.lType + "' class='UL2_baif3a'>资讯</a>";
+                    lis += "             <div style='clear: both;'></div>";
+                    lis += "         </div>";
+                    lis += "     </div>";
+                    lis += " </li>";
+                });
+
+                $("#mainUl2" + pId).empty().append(lis).show();
+                $("#kongbaiDiv").hide();
+            });
+        }
+
+        function getHtml(data) {
+            var html = "";
+            var lType = data.lType;
+
+            var numArr = data.Num.split(',')
+
+            if (lType <= 62 && lType != 5 && lType != 2 && lType != 8 && lType != 4) {
+                $(numArr).each(function () {
+                    var num = $.trim(this);
+                    if (num.length > 0) {
+                        html += "<span class='ball_spB ball_red HYJP_Red'>" + num + "</span>";
+                    }
+                });
+            }
+
+            if (lType == 2 || lType == 8) {
+                $(numArr).each(function (i) {
+                    var num = $.trim(this);
+                    if (num.length > 0) {
+                        if (i == numArr.length - 1) {
+                            html += "<span class='ball_spB ball_red HYJP_Blue'>" + num + "</span>";
+                        }
+                        else {
+                            html += "<span class='ball_spB ball_red HYJP_Red'>" + num + "</span>";
+                        }
+                    }
+                });
+            }
+
+            if (lType == 4 ) {
+                $(numArr).each(function (i) {
+                    var num = $.trim(this);
+                    if (num.length > 0) {
+                        if (i >= numArr.length - 2) {
+                            html += "<span class='ball_spB ball_red HYJP_Blue'>" + num + "</span>";
+                        }
+                        else {
+                            html += "<span class='ball_spB ball_red HYJP_Red'>" + num + "</span>";
+                        }
+                    }
+                });
+            }
+
+            if (lType == 5) {
+                $(numArr).each(function (i) {
+                    var num = $.trim(this);
+                    if (num.length > 0) {
+                        var color = getColor(num);
+
+                        if (i == numArr.length - 1) {
+                            html += "<span class='ball_spB ball_blue HYJP_PcHao'>+</span>";
+                        }
+                        html += "<span class='ball_spB ball_blue " + color + "'>" + num + "</span>";
+                    }
+                });
+            }
+
+            if (lType == 65) {
+                html += "<span class='ball_spB ball_blue HYJP_Red'>" + numArr[0] + "</span>";
+                html += "<span class='ball_spB ball_blue HYJP_PcHao'>+</span>";
+                html += "<span class='ball_spB ball_blue HYJP_Red'>" + numArr[1] + "</span>";
+                html += "<span class='ball_spB ball_blue HYJP_PcHao'>+</span>";
+                html += "<span class='ball_spB ball_blue HYJP_Red'>" + numArr[2] + "</span>";
+                html += "<span class='ball_spB ball_blue HYJP_PcHao'>=</span>";
+                html += "<span class='ball_spB ball_blue HYJP_Red'>" + (Number(numArr[0]) + Number(numArr[1]) + Number(numArr[2])) + "</span>";
+            }
+            if (lType == 63 || lType == 64) {
+                $(numArr).each(function () {
+                    var num = $.trim(this);
+                    if (num.length > 0) {
+                        var clazz = "ball_spA No" + num;
+                        html += "<span class='" + clazz + "'>" + num + "</span>";
+                    }
+                });
+            }
+
+            return html;
+            //case "red":
+            //    ys = "HYJP_LhRed";
+            //    break;
+            //case "blue":
+            //    ys = "HYJP_LhBlue";
+            //    break;
+            //case "green":
+            //    ys = "HYJP_LhGreen";
+            //    break;
+        }
+    </script>
+    <script type="text/javascript">
+
+        /*** Added By LHS 2018-3-1  */
+        $(".hdNav_cai_collect").on("click", "li", function () {
+            var pId = $(this).attr("data-Id");
+            getChildLotteryType(pId);
+
+            $(this).addClass("current").siblings().removeClass("current");
+
+            var zhi = $(this).index();
+
+            var lType = $(this).attr("data-Id");
+
+            $("#mainUl2" + lType).closest("div").find("ul").hide();
+            $("#mainUl2" + lType).show();
+            // $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
+
+            //展开项添加选中
+            $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
+            $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+
+            $(".hdNav_cai_expand").hide();
+            $(".mask").hide();
+        });
+
+        /* 展开项点击 */
+        $(".hdNav_cai_expand").on("click", "li", function () {
+            var pId = $(this).attr("data-Id");
+            getChildLotteryType(pId);
+
+            $(this).addClass("current").siblings().removeClass("current");
+
+            var zhi = $(this).index();
+            $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
+
+            $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
+            $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+        });
+
+    </script>
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

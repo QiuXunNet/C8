@@ -100,47 +100,6 @@ $(function () {
         $(".fans_box .fans_Bkuai").eq(zhi).show().siblings().hide();
     });
 
-
-    /*index-切换彩种*/
-    $(".hdNav_cai li").click(function () {
-        $(this).addClass("current").siblings().removeClass("current");
-        var zhi = $(this).index();
-        $(".hjc_indexmain .ind_mainUl2").eq(zhi).show().siblings().hide();
-
-        $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
-
-        $(".hdNav_cai_expand").hide();
-        $(".mask").hide();
-
-    });
-
-    /*** Added By LHS 2018-3-1  */
-    $(".hdNav_cai_collect .hdNav_cai_lhs li").click(function () {
-        $(this).addClass("current").siblings().removeClass("current");
-
-        var zhi = $(this).index();
-
-        $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-
-        //展开项添加选中
-        $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
-        $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
-
-        $(".hdNav_cai_expand").hide();
-        $(".mask").hide();
-
-    });
-
-    /* 展开项点击 */
-    $(".hdNav_cai_expand .hdNav_cai li").click(function () {
-        $(this).addClass("current").siblings().removeClass("current");
-
-        var zhi = $(this).index();
-        $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
-
-        $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
-        $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
-    });
     $(".info_hdNav_cai_collect .info_hdNav_cai_lhs li").click(function () {
         $(this).addClass("current").siblings().removeClass("current");
 
@@ -429,6 +388,47 @@ $(function () {
             }
         }
     };
+
+
+    $(".hdNav_cai_collect").on("click", "li", function () {
+
+        if (typeof (getChildLotteryType)=="function") {
+            var pId = $(this).attr("data-Id");
+            getChildLotteryType(pId);
+        }
+        $(this).addClass("current").siblings().removeClass("current");
+
+        var zhi = $(this).index();
+
+        var lType = $(this).attr("data-Id");
+
+        //$("#mainUl2" + lType).closest("div").find("ul").hide();
+        //$("#mainUl2" + lType).show();
+        $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
+
+        //展开项添加选中
+        $(".hdNav_cai_expand .hdNav_cai li").eq(zhi).addClass("current").siblings().removeClass("current");
+        $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+
+        $(".hdNav_cai_expand").hide();
+        $(".mask").hide();
+    });
+
+    /* 展开项点击 */
+    $(".hdNav_cai_expand").on("click", "li", function () {
+        if (typeof (getChildLotteryType) == "function") {
+            var pId = $(this).attr("data-Id");
+            getChildLotteryType(pId);
+        }
+
+        $(this).addClass("current").siblings().removeClass("current");
+
+        var zhi = $(this).index();
+        $(".hjc_indexmain .ind_mainUl2,.hjc_indexmain .list_mainUl2,.hjc_news_tabContent .hjc_news_lhs").eq(zhi).show().siblings().hide();
+
+        $(".hdNav_cai_collect .hdNav_cai_lhs li").eq(zhi).addClass("current").siblings().removeClass("current");
+        $(".GS_box .GS_nav").eq(zhi).show().siblings().hide();
+    });
 
     /**我的成绩 彩种切换 */
     //$("#lottery_type li").on('click', function () {
@@ -952,3 +952,67 @@ $.extend({
     }
 });
 /**评论End by LHS */
+
+
+//获取六合彩球的颜色
+function getColor(num) {
+    num = "," + num + ",";
+
+    var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";
+    var blue = ",03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48,";
+    var green = ",05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49,";
+
+    if (red.indexOf(num) > -1) {
+        return "LHC_spAred HYJP_LhRed";
+    }
+    else if (blue.indexOf(num) > -1) {
+        return "LHC_spAblue HYJP_LhBlue";
+    }
+    else {
+        return "LHC_spAgreen HYJP_LhGreen";
+    }
+}
+
+//获取六合彩球的生肖
+function getShengXiao(digit) {
+    var result = "鸡";
+
+    if (digit == 11 || digit == 23 || digit == 35 || digit == 47) {
+        result = "鼠";
+    }
+    else if (digit == 10 || digit == 22 || digit == 34 || digit == 46) {
+        result = "牛";
+    }
+    else if (digit == 9 || digit == 21 || digit == 33 || digit == 45) {
+        result = "虎";
+    }
+    else if (digit == 8 || digit == 20 || digit == 32 || digit == 44) {
+        result = "兔";
+    }
+    else if (digit == 7 || digit == 19 || digit == 31 || digit == 43) {
+        result = "龙";
+    }
+    else if (digit == 6 || digit == 18 || digit == 30 || digit == 42) {
+        result = "蛇";
+    }
+    else if (digit == 5 || digit == 17 || digit == 29 || digit == 41) {
+        result = "马";
+    }
+    else if (digit == 4 || digit == 16 || digit == 28 || digit == 40) {
+        result = "羊";
+    }
+    else if (digit == 3 || digit == 15 || digit == 27 || digit == 39) {
+        result = "猴";
+    }
+    else if (digit == 2 || digit == 14 || digit == 26 || digit == 38) {
+        result = "鸡";
+    }
+    else if (digit == 1 || digit == 13 || digit == 25 || digit == 37 || digit == 49) {
+        result = "狗";
+    }
+    else if (digit == 12 || digit == 24 || digit == 36 || digit == 48) {
+        result = "猪";
+    }
+
+    return result;
+}

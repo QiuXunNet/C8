@@ -1,10 +1,47 @@
-﻿
+﻿var t1;
+var t2;
+var t3;
+
 $(function () {
-
-    setInterval("handtimeRun()", 1000);
-
+    t1 = setInterval("handtimeRun()", 1000);
+    //getTime()
+    t2 = setInterval("getTime()", 2*60*1000);
 });
 
+
+function getTime() {
+    var ltypes = "";
+
+    $.ajax({
+        url: '/Home/GetRemainOpenTime',
+        type: "post",
+        data: {},
+        async:false,
+        success: function (data) {
+            var arr = eval("(" + data + ")");
+            var lty
+            $(arr).each(function () {
+                if (this.value == "正在开奖") {
+                    ltypes = this.lType + "!";
+                }
+                $('p[lType=' + this.lType + ']').find('span').eq(1).html(this.value);
+            });
+        }
+    });
+
+    for (var i in ltypes.split('!')) {
+        if (i != "") {
+            setTimeout(function () { getTimeBylType(i) }, 1000 * 32);
+        }
+    }    
+}
+
+
+function getTimeBylType(lType) {
+    $.post('/Home/GetRemainOpenTimeByType', { lType: lType }, function (data) {
+        $('p[lType=' + lType + ']').find('span').eq(1).html(data);
+    });
+}
 
 //处理时间倒计时
 function handtimeRun() {
@@ -19,15 +56,6 @@ function handtimeRun() {
             timeRun(i);
         }
     }
-
-    //timeRun(9);
-    //timeRun(10);
-    //timeRun(12);
-    //timeRun(13);
-    //timeRun(14);
-    //timeRun(13);
-    //timeRun(15);
-    //timeRun(21);
 }
 
 
@@ -39,29 +67,10 @@ function timeRun(cid) {
     var hourSpan = $('p[lType=' + cid + ']').find(".hour");
     var openSpan = $('p[lType=' + cid + ']').find('span').eq(1);
 
-
     var second = secondSpan.html();
-    //时间跑完 正在开奖
-    if (second == undefined) {
-        //alert(cid);
 
-        var d = new Date();
-        var sec2 = d.getSeconds();
-        if (sec2 % 2 == 0) {                //2秒更新一次
-            $.post('/Home/GetRemainOpenTimeByType', { lType: cid }, function (data) {
-
-                openSpan.html(data);
-
-                //JudgeReturnIsLogin(data);  //
-                //openSpan.html(data);
-
-
-            });
-        }
-
+    if (second == undefined)
         return;
-    }
-
 
     //临时变量
     var sec = -1;
@@ -75,12 +84,7 @@ function timeRun(cid) {
     }
     //秒数减一
     sec = sec - 1;
-
-    //更新时间
-    if (sec == 5 || sec == 35) {
-        updateTime(cid);
-    }
-
+ 
     if (sec < 10) {
         if (sec == -1) {
             //秒数用完了 取分钟数
@@ -125,20 +129,9 @@ function timeRun(cid) {
                     secondSpan.html(59);
                 }
                 else {
-                    //小时数用完
-                    //分钟数用完 重置时间
-                    //var yanchi = 60000;
-                    //if (lType == 11) {
-                    //    yanchi = 60000;
-                    //}
-
-                    //setTimeout('resetTimeForOpen2();', yanchi);
-
-
                     openSpan.html('正在开奖');
 
-                    //时间用完后的处理
-                    //timeOverForOpen();
+                    setTimeout(function () { getTimeBylType(cid) }, 1000 * 32);
                 }
             }
         }
@@ -149,17 +142,4 @@ function timeRun(cid) {
     else {
         secondSpan.html(second - 1);
     }
-}
-
-
-
-
-
-//5s和35s的时候更新时间
-function updateTime(lType) {
-    $.post('/Home/GetRemainOpenTimeByType', { lType: lType }, function (data) {
-
-        $('p[lType=' + lType + ']').find('span').eq(1).html(data);
-
-    });
 }

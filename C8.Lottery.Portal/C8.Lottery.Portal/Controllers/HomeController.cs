@@ -11,6 +11,7 @@ using CryptSharp;
 using C8.Lottery.Model.Enum;
 using System.Configuration;
 using System.Diagnostics;
+using System.Text;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -21,51 +22,42 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.UserInfo = UserHelper.LoginUser;
+            ViewBag.SiteSetting = GetSiteSetting();
 
-            //1.最后一期开奖号码
-            string sql = "";
+            ViewBag.NewsList = GetNewList();
+            return View();
+        }
 
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+        /// <summary>
+        /// 获取父彩种（大彩种）
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetFatherLotteryType()
+        {
+            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetFatherLotteryTypeToWebSite");
+            if (list == null)
+            {
+                string sql = "select * from LotteryType2 where PId = 0 order by Position";
+                list = Util.ReaderToList<LotteryType2>(sql);
 
-            List<LotteryRecord> list = new List<LotteryRecord>();
+                CacheHelper.AddCache<List<LotteryType2>>("GetFatherLotteryTypeToWebSite",list,30*24*60);
+            }
 
-            sql = @"select lr.* from LotteryRecord lr
-                    join(
-                    select lType, max(SubTime) SubTime from lotteryRecord group by lType
-                    ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime";
+            return Json(list);
+        }
 
-            list = Util.ReaderToList<LotteryRecord>(sql);
+        /// <summary>
+        /// 获取首页新闻
+        /// </summary>
+        /// <returns></returns>
+        public List<News> GetNewList()
+        {
+            List<News> list = CacheHelper.GetCache<List<News>>("GetNewListToWebSite");
+            if (list == null)
+            {
 
-            //sw.Stop();
-
-            //var ts1 = sw.ElapsedMilliseconds;
-
-            //sw.Reset();
-            //sw.Start();
-
-            //            string strsql = @"SELECT top 5 * FROM ( 
-            //SELECT
-            //[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM[dbo].[Comment]
-            //        WHERE[ArticleId]=a.Id and RefCommentId=0) as CommentCount
-            //FROM[dbo].[News]
-            //        a
-            //WHERE   DeleteMark=0 and EnabledMark = 1 ) T
-            //Order by CommentCount desc";
-            //            List<News> newlist = Util.ReaderToList<News>(strsql);
-
-            //            sw.Stop();
-            //            var ts2 = sw.ElapsedMilliseconds;
-            //            sw.Reset();
-            //            sw.Start();
-
-            //            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
-            //            newlist.ForEach(x =>
-            //            {
-            //                x.ThumbList = GetResources(sourceType, x.Id)
-            //                                .Select(n => n.RPath).ToList();
-            //            });
-            sql = @"
+                string sql = @"
                    select top(5) * from (
 	                    select n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle,
 	                    count(c.id) as CommentCount,
@@ -79,52 +71,81 @@ namespace C8.Lottery.Portal.Controllers
 	                    group by n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle
                     ) as tab order by CommentCount desc
                     ";
-            List<News> newlist = Util.ReaderToList<News>(sql);
+                list = Util.ReaderToList<News>(sql);
 
-            ViewBag.NewsList = newlist;
+                //新闻缓存2小时
+                CacheHelper.AddCache<List<News>>("GetNewListToWebSite",list,2*60);
+            }
 
-            //sw.Stop();
-            //var ts3 = sw.ElapsedMilliseconds;
-            //sw.Reset();
-            //sw.Start();
+            return list;
+        }
 
-            ViewBag.openList = list;
-            ViewBag.UserInfo = UserHelper.LoginUser;
-            ViewBag.SiteSetting = GetSiteSetting();
+        /// <summary>
+        /// 根据父彩种获取子彩种列表
+        /// </summary>
+        /// <param name="pId"></param>
+        /// <returns></returns>
+        public ActionResult GetChildLotteryType(int pId)
+        {
+            string sql = "";
 
-            //彩种大分类
-            sql = "select * from LotteryType2 where PId = 0 order by Position";
-            ViewBag.list = Util.ReaderToList<LotteryType2>(sql);
+            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite"+ pId);
+            if (list == null)
+            {
+                sql = "select lType,Id from LotteryType2 where PId = " + pId + " order by Position";
 
-            sw.Stop();
+                list = Util.ReaderToList<LotteryType2>(sql);
 
-            var ts4 = sw.ElapsedMilliseconds;
+                CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite"+pId,list,30*24*60);
+            }
 
-            return View();
+            string lTypes = "";
+            list.ForEach(e => lTypes += e.lType + ",");
+            lTypes = lTypes.Trim(',');
+
+            var dateTime = DateTime.Now.AddDays(-5);
+
+            sql = @"select lr.* from LotteryRecord lr
+                    join(
+                    select lType, max(SubTime) SubTime from lotteryRecord where lType in("+ lTypes + ") and SubTime >'"+ dateTime + @"' group by lType
+                    ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime";
+
+            return Json (Util.ReaderToList<LotteryRecord>(sql));
         }
 
         //object obj = new object();
 
+        public ActionResult GetRemainOpenTime()
+        {
+            StringBuilder str = new StringBuilder("[");
+            for (int i = 1; i <= 65; i++)
+            {
+                var time = LotteryTime.GetTime(i.ToString());
+                string[] arr = time.Split('&');
+                if (arr.Length == 3)
+                {
+                    time = "<t class='hour'>" + arr[0] + "</t>:<t class='minute'>" + arr[1] + "</t>:<t class='second'>" + arr[2] + "</t>";
+                }
+
+                str.Append("{\"lType\":\""+i+"\",\"value\":\""+ time + "\"},");
+            }
+            string s = str.ToString().Trim(',');
+            s += "]";
+            return Content(s);
+        }
+
         public ActionResult GetRemainOpenTimeByType(int lType)
         {
-            string time = "3";
-            //lock (obj)
-            //{
-                time = LotteryTime.GetTime(lType.ToString());
-            //}
-            //time = Util.GetOpenRemainingTimeWithHour(lType);
-
-
+            string time = "";
+            time = LotteryTime.GetTime(lType.ToString());
             string[] arr = time.Split('&');
 
             if (arr.Length == 3)
             {
                 time = "<t class='hour'>" + arr[0] + "</t>:<t class='minute'>" + arr[1] + "</t>:<t class='second'>" + arr[2] + "</t>";
             }
-
             return Content(time);
         }
-
 
         /// <summary>
         /// app下载页
@@ -1011,28 +1032,18 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult Open()
         {
 
-            string sql = "";
-
-            List<LotteryRecord> list = new List<LotteryRecord>();
-
-            for (int i = 0; i < 65; i++)
-            {
-                sql = "select top(1)* from LotteryRecord where lType = " + (i + 1) + " order by Issue desc";
-                list.Add(Util.ReaderToModel<LotteryRecord>(sql));
-            }
-
-            ViewBag.openList = list;
-
-
-            sql = "select * from LotteryType2 where PId = 0 order by Position";
-            ViewBag.list = Util.ReaderToList<LotteryType2>(sql);
-
+            ViewBag.UserInfo = UserHelper.LoginUser;
+            ViewBag.SiteSetting = GetSiteSetting();
             return View();
         }
 
-
-
-
-
+        /// <summary>
+        /// 苹果安装说明
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Explain()
+        {
+            return View();
+        }
     }
 }

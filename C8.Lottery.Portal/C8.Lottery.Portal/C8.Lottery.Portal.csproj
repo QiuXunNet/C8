@@ -181,6 +181,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="css\null.css" />
     <Content Include="css\style.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="css\c8-icon.css" />
@@ -709,6 +710,14 @@
     <Content Include="images\w1.png" />
     <Content Include="images\w10_1.png" />
     <Content Include="images\w10_2.png" />
+    <Content Include="images\w15_1.png" />
+    <Content Include="images\w15_2.png" />
+    <Content Include="images\w15_3.png" />
+    <Content Include="images\w15_4.png" />
+    <Content Include="images\w15_5.png" />
+    <Content Include="images\w15_6.png" />
+    <Content Include="images\w15_7.png" />
+    <Content Include="images\w15_8.png" />
     <Content Include="images\w2_1.png" />
     <Content Include="images\w2_2.png" />
     <Content Include="images\w3_1.png" />
@@ -870,6 +879,7 @@
     <Content Include="Views\PvUvIp\Index.cshtml" />
     <Content Include="Views\Personal\MyIntegral.cshtml" />
     <Content Include="Views\Home\down.cshtml" />
+    <Content Include="Views\Home\Explain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />

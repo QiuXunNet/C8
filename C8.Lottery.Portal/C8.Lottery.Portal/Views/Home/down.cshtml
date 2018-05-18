@@ -1,34 +1,45 @@
 ﻿@{
     ViewBag.Title = "down";
 }
-<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
-<link href="~/css/dialog.css" rel="stylesheet" />
-<script src="~/js/dialog.min.js"></script>
-<script type="text/javascript" src="~/js/yjp.js"></script>
 
-<script>
-    $(function ()
+
+
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>下载页面</title>
+    
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <link href="~/css/dialog.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <script src="~/js/dialog.min.js"></script>
+    <script type="text/javascript" src="~/js/yjp.js"></script>
+
+    <script>
+  
+   
+    function getdown(type)
     {
-     
-        var u = navigator.userAgent;
-        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 || u.indexOf('Adr') > -1)
-        {//安卓手机
-            var url=getdata(1);
- 
-            window.location.href=url;
-        } else if (u.indexOf('iPhone') > -1 || !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {//苹果手机
-            var url = getdata(2);
-            console.log(url);
-          
-            window.location.href=url;
-           // alertmsg("苹果手机：" + url);
-           
-        } else if (u.indexOf('Windows Phone') > -1)
+        if (type == 2)
         {
-            alertmsg("暂无下载数据包");
-            
+            if (navigator.userAgent.indexOf('UCBrowser') > -1)
+            {
+                alert("不支持uc浏览器下载,建议使用系统自带浏览器");
+                return;
+            }
         }
-    });
+          
+        var url = getdata(type);
+
+        window.location.href = url;
+
+     
+    }
+
+ 
 
     function getdata(ClientSource) {
         var url;
@@ -57,5 +68,27 @@
         return url;
     }
 
-</script>
+    </script>
+</head>
+
+<body>
+   
+    <div class="XZ_Pag">
+        <img src="http://oss.c8.cn/c8/res/img/w14_1.png" class="Pag_BGtu">
+        <div class="Pag_LJ">
+            <ul class="LJ_ul">
+                <li class="LJ_Left f-l"><a onclick="getdown(1);" href="javascript:;"><img src="http://oss.c8.cn/c8/res/img/w14_2.png"></a></li>
+                <li class="LJ_Right f-r"><a onclick="getdown(2);" href="javascript:;"><img src="http://oss.c8.cn/c8/res/img/w14_3.png"></a></li>
+                <div style="clear:both;"></div>
+            </ul>
+            <p class="LJ_Font">
+                <a href="/Home/Explain" style="text-decoration:none;">苹果安装说明</a>
+                <br><a href="/Home/Index" style="font-size:16px;line-height:30px;">直接进入网页版</a>
+            </p>
+        </div>
+    </div>
+
+
+</body>
+</html>
 

@@ -1,0 +1,14 @@
+﻿.mescroll-empty {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+}
+.mescroll-empty .empty-icon {
+    width: 45%;
+    margin: 0 auto;
+}
+.mescroll-empty .empty-tip {
+    margin-top: 6px;
+    font-size: 14px;
+    color: gray;
+}

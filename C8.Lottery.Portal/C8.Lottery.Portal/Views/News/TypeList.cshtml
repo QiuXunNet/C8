@@ -40,7 +40,8 @@
     <header class="hjc_header">
         <a href="javascript:history.go(-1)" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo  hjc_HeaderXL">@Model.TypeName<span class="select_sign"></span></a>
-        <a href="/Home/Index" class="hjc_home_right"></a>
+        @*<a href="/Home/Index" class="hjc_home_right"></a>*@
+        <a href="javascript:;" class="ZX_Sidebar"></a>
     </header>
 
     <div class="hjc_hdNav fixed" style="display:none">
@@ -73,7 +74,7 @@
                         if (entity.Id == currentLotteryTypeId)
                         {
                             <li class="current" data-id="@entity.Id">
-                                @Html.ActionLink(@entity.TypeName, "Index", new { id = @entity.Id })
+                                @Html.ActionLink(@entity.TypeName, "TypeList", new { id = @entity.Id })
 
                             </li>
                         }
@@ -248,6 +249,115 @@
         </dl>
         <div class="clearfix"></div>
     </div>
+
+
+    <!--侧边栏-->
+    <div class="ZX_CLBox">
+        <div class="CLB_YY"></div>
+        <div class="CLB_con">
+            <ul class="CLB_cNav">
+                <!--cNav_current-->
+                <li>
+                    <a href="/Home/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_1.png"></dt>
+                            <dd>
+                                <p>首页</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Open">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_2.png"></dt>
+                            <dd>
+                                <p>开奖</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                @*<li>
+                        <a href="JavaScript:;">
+                            <dl class="cNav_Dl">
+                                <dt><img src="/images/w6_4.png"></dt>
+                                <dd>
+                                    <p>走势</p>
+                                    <img src="/images/w7.png">
+                                    <div style="clear:both;"></div>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>*@
+                <li>
+                    <a href="/Home/Plan">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_3.png"></dt>
+                            <dd>
+                                <p>计划</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_04.png"></dt>
+                            <dd>
+                                <p>排行</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Talking/Index">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/w6_5.png"></dt>
+                            <dd>
+                                <p>聊天</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/List/Expert">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_06.png"></dt>
+                            <dd>
+                                <p>高手</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <li>
+                    <a href="/News/Index/2">
+                        <dl class="cNav_Dl">
+                            <dt><img src="/images/grids_icon_07.png"></dt>
+                            <dd>
+                                <p>资讯</p>
+                                <img src="/images/w7.png">
+                                <div style="clear:both;"></div>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
 
     <div class="mask" style="display:none;"></div>
     <div class="mask2" style="display:none;"></div>
@@ -495,69 +605,6 @@
                 console.log(data.SubTime);
                 $("#shengXiaoListDiv").append('<span class="LHC_spA">' + getShengXiao(data.Content) +'</span>&nbsp;');
             }
-        }
-
-        //获取球的颜色
-        function getColor(num) {
-            num = "," + num + ",";
-
-            var red = ",01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46,";
-            var blue = ",03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48,";
-            var green = ",05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49,";
-
-            if (red.indexOf(num)>-1) {
-                return "LHC_spAred";
-            }
-            else if (blue.indexOf(num)>-1) {
-                return "LHC_spAblue";
-            }
-            else {
-                return "LHC_spAgreen";
-            }
-        }
-
-        //获取球的生肖
-        function getShengXiao(digit) {
-            var result = "鸡";
-
-            if (digit == 11 || digit == 23 || digit == 35 || digit == 47) {
-                result = "鼠";
-            }
-            else if (digit == 10 || digit == 22 || digit == 34 || digit == 46) {
-                result = "牛";
-            }
-            else if (digit == 9 || digit == 21 || digit == 33 || digit == 45) {
-                result = "虎";
-            }
-            else if (digit == 8 || digit == 20 || digit == 32 || digit == 44) {
-                result = "兔";
-            }
-            else if (digit == 7 || digit == 19 || digit == 31 || digit == 43) {
-                result = "龙";
-            }
-            else if (digit == 6 || digit == 18 || digit == 30 || digit == 42) {
-                result = "蛇";
-            }
-            else if (digit == 5 || digit == 17 || digit == 29 || digit == 41) {
-                result = "马";
-            }
-            else if (digit == 4 || digit == 16 || digit == 28 || digit == 40) {
-                result = "羊";
-            }
-            else if (digit == 3 || digit == 15 || digit == 27 || digit == 39) {
-                result = "猴";
-            }
-            else if (digit == 2 || digit == 14 || digit == 26 || digit == 38) {
-                result = "鸡";
-            }
-            else if (digit == 1 || digit == 13 || digit == 25 || digit == 37 || digit == 49) {
-                result = "狗";
-            }
-            else if (digit == 12 || digit == 24 || digit == 36 || digit == 48) {
-                result = "猪";
-            }
-
-            return result;
         }
     </script>
 
