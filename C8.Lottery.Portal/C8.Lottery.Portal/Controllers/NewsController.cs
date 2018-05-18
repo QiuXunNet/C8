@@ -238,7 +238,7 @@ namespace C8.Lottery.Portal.Controllers
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
             list.ForEach(x =>
             {
-                x.ThumbList = !(string.IsNullOrWhiteSpace(x.Paths)) ? x.Paths.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : null;
+                x.ThumbList = !(string.IsNullOrWhiteSpace(x.Paths)) ? x.Paths.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
             });
 
 
