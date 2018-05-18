@@ -245,16 +245,8 @@
     </div>
 
     <div class="mask" style="display: none;"></div>
-    <script>
-        $(function () {
-            $(".C8_bang li").click(function () {
-                var id = $(this).attr("data-idx");
-                $(".Ranking_footer #" + id).show().siblings().hide();
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Expert.js"></script>
 
-            })
-        });
-
-    </script>
 </body>
 
 @{Html.RenderAction("index", "PvUvIp");}

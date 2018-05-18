@@ -14,46 +14,9 @@
     <script src="~/js/jquery-1.8.3.min.js"></script>
     <script src="~/js/dialog.min.js"></script>
     <script src="~/js/yjp.js"></script>
-
     <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Login.js"></script>
 
-    <script>
-        $(function () {
-            login();
-        });
-
-        function login() {
-            $("#btnlogin").click(function () {
-                var mobile = $("#mobile").val();
-                var password = $("#password").val();
-                if (mobile.length == 0) {
-
-                    alertmsg("手机号不能为空");
-                    return false;
-                }
-                if (password.length == 0) {
-
-                    alertmsg("密码不能为空");
-                    return false;
-                }
-                $.post('/Home/Logins', { mobile: mobile, password: password }, function (data) {
-                    if (data.Success != true) {
-                        alertmsg(data.Msg);
-
-                    } else {
-                        location.href = '/Personal/Index'//跳转地址
-                    }
-
-                });
-
-
-            })
-
-
-        }
-
-
-    </script>
 </head>
 
 <body style="background:#F4F4F5;">

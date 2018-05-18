@@ -132,7 +132,6 @@
             53: "zhuakuang",
             54: "zuohengheng"
         };
-
         //解压表情
         function unZipFace(str) {
             for (var i = 1; i <= 54; i++) {
@@ -141,53 +140,51 @@
             }
             return str;
         }
-
-
         $(function () {
-
             //初始化表情
             faceInit();
-
             //大图展示
             showPic();
-
             var imgs = "";
             for (var i = 1; i <= 54; i++) {
                 imgs += "<li><img data-py='" + faceObj[i] + "' src='/images/emoji/Face/" + i + ".png' /></li>";
             }
-
             $("#faceUl").append(imgs);
-
-
             $("#faceUl img").click(function () {
                 $("#MessageContent").val($("#MessageContent").val() + "#" + $(this).attr("data-py") + "#");
             });
         });
-
         //表情功能
         function faceInit() {
             //弹出和隐藏表情
             $(".btn_face").on("click", function () {
                 if (!$(this).hasClass("active")) {
                     $(this).addClass("active");
-                    $(".footer_face").css({ "height": "10.0rem", "transition": "height 0.5s" });
+                    $(".footer_face").css({
+                        "height": "10.0rem",
+                        "transition": "height 0.5s"
+                    });
                 } else {
                     $(this).removeClass("active");
-                    $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
+                    $(".footer_face").css({
+                        "height": "0",
+                        "transition": "height 0.5s"
+                    });
                 }
             });
-
             //表情隐藏
             $("#MessageContent").on("click", function () {
                 $(".btn_face").removeClass("active");
-                $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
-
+                $(".footer_face").css({
+                    "height": "0",
+                    "transition": "height 0.5s"
+                });
                 //var t = $(this).val();
                 //$(this).val("").focus().val(t);
             });
         }
-
         //大图展示
+
         function showPic() {
             //点击图片显示大图
             $(document).on("click", '.img_pic', function () {
@@ -195,7 +192,6 @@
                 $("#model_pic img").attr("src", $_this.attr("data-pic"));
                 $("#model_pic").fadeIn();
             });
-
             //关闭显示大图
             $("#model_pic").on("click", function () {
                 $("#model_pic").fadeOut(function () {
@@ -220,453 +216,406 @@
         var isBlack = @ViewBag.IsBlack;//是否在后台被拉黑
         var masterLottery = "@ViewBag.MasterLottery";//积分最高的彩种名称
 
-        var heartbeatT = setInterval("heartbeat()", 3000);//心跳包定时器
-        var isLink = true; //是否已经链接上
-        var heartbeatNum = 2; //可用心跳次数，如果次数为0，则发起一次重连。
-        var linkNum = 0; //用于记录重连次数
-
-        if (blackListStr.length == 0) {
-            blackListStr = ",";
-        }
-
-        $(function () {
-            //首次加载添加聊天记录
-            getChatRecord(0);
-            url = "@socketUrl/Handler1.ashx?userId=" + userId +
-                "&roomId=" + roomId + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin + "&masterLottery=" + masterLottery
-            ws = new WebSocket(url);
-
-            //链接成功回调
-            ws.onopen = function () {
-                wsOnopen();
-            }
-            //收到消息回调
-            ws.onmessage = function (evt) {
-                wsOnmessage(evt);
-            }
-            //链接失败回调
-            ws.onerror = function (evt) {
+    var heartbeatT = setInterval("heartbeat()", 3000); //心跳包定时器
+   var isLink = true; //是否已经链接上
+   var heartbeatNum = 2; //可用心跳次数，如果次数为0，则发起一次重连。
+   var linkNum = 0; //用于记录重连次数
+   if (blackListStr.length == 0) {
+       blackListStr = ",";
+   }
+   $(function () {
+       //首次加载添加聊天记录
+       getChatRecord(0);
+       url = "@socketUrl/Handler1.ashx?userId=" + userId + "&roomId=" + roomId + "&photoImg=" + photoImg + "&isAdmin=" + isAdmin + "&masterLottery=" + masterLottery
+       ws = new WebSocket(url);
+       //链接成功回调
+       ws.onopen = function () {
+               wsOnopen();
+           }
+           //收到消息回调
+       ws.onmessage = function (evt) {
+               wsOnmessage(evt);
+           }
+           //链接失败回调
+       ws.onerror = function (evt) {
                // $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
-            }
-            //链接关闭回调
-            ws.onclose = function () {
-                wsOnclose()
-            }
+           }
+           //链接关闭回调
+       ws.onclose = function () {
+           wsOnclose()
+       }
+       $("#SendMessageBtn").click(function () {
+           sendMessage();
+           $(".btn_face").removeClass("active");
+           $(".footer_face").css({
+               "height": "0",
+               "transition": "height 0.5s"
+           });
+       });
+       //滚动条滚动事件
+       $(".wrapper").bind("scroll", function () {
+           var sTop = $(".wrapper").scrollTop();
+           var sTop = parseInt(sTop);
+           if (sTop == 0) {
+               getChatRecord(1);
+               $(".wrapper").scrollTop(1);
+           }
+       });
+       if (blackListStr.indexOf("," + userId + ",") > -1 || isBlack == 1) {
+           $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
+           $("#inputImage").attr("disabled", "disabled");
+           $("#SendMessageBtn").unbind();
+           $(".btn_face").unbind();
+       }
+   });
+    //成功连接方法
+   function wsOnopen() {
+           if (isLink == false) {
+               alert("连接成功");
+           }
+           isLink = true;
+           //链接成功后初始化有效心跳数和链接次数
+           heartbeatNum = 2;
+           linkNum = 0;
+       }
+       //收到信息推送方法
 
-            $("#SendMessageBtn").click(function () {
-                sendMessage();
+   function wsOnmessage(evt) {
+           var msg = evt.data;
+           var data = eval("(" + msg + ")");
+           if (data == undefined || data == null) return;
+           switch (data.MsgTypeChild) {
+           case 11: //删除命令
+               delMessage2(data);
+               break;
+           case 12: //拉黑命令
+               blacklisted2(data);
+               break;
+           case 13: //全部删除
+               delMessageAll2(data);
+               break;
+           case 21: //文字消息
+           case 22: //图片消息
+           case 23: //表情包消息
+               insertMessage(data, 1);
+               if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
+               }
+               $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
+               setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
+               break;
+           case 31: //心跳包
+               //链接成功后初始化有效心跳数和链接次数
+               heartbeatNum = 2;
+               linkNum = 0;
+               break;
+           case 41: //获取在线人数
+               $("#lineNumber").text(data.RoomManNum);
+               break;
+           }
+       }
+       //发送失败方法
 
-                $(".btn_face").removeClass("active");
-                $(".footer_face").css({ "height": "0", "transition": "height 0.5s" });
-            });
+   function wsOnerror() {}
+       //连接被关闭方法
 
-            //滚动条滚动事件
-            $(".wrapper").bind("scroll", function () {
-                var sTop = $(".wrapper").scrollTop();
-                var sTop = parseInt(sTop);
-                if (sTop == 0) {
-                    getChatRecord(1);
-                    $(".wrapper").scrollTop(1);
-                }
-            });
+   function wsOnclose() {
+           isLink = false;
+           setTimeout("reconnection()", 2000);
+           alert("网络已中断,正在为您重连");
+       }
+       //重连
 
-            if (blackListStr.indexOf("," + userId + ",") > -1 || isBlack == 1) {
-                $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
-                $("#inputImage").attr("disabled", "disabled");
-                $("#SendMessageBtn").unbind();
-                $(".btn_face").unbind();
-            }
-        });
+   function reconnection() {
+           if (linkNum > 5) {
+               clearInterval(heartbeatT);
+               alert("您已失去链接,请重新进入聊天室")
+               return;
+           }
+           heartbeatNum = 2;
+           //  window.clearInterval(t);
+           if (isLink == false) {
+               linkNum++;
+               ws = new WebSocket(url);
+               //链接成功回调
+               ws.onopen = function () {
+                       wsOnopen();
+                   }
+                   //收到消息回调
+               ws.onmessage = function (evt) {
+                       wsOnmessage(evt);
+                   }
+                   //链接失败回调
+               ws.onerror = function (evt) {
+                       // $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
+                   }
+                   //链接关闭回调
+               ws.onclose = function () {
+                   wsOnclose()
+               }
+           }
+       }
+       //心跳包发送
 
-        //成功连接方法
-        function wsOnopen() {
-            if (isLink == false) {
-                alert("连接成功");
-            }
+   function heartbeat() {
+           if (heartbeatNum <= 0) {
+               isLink = false;
+               reconnection();
+           }
+           var data = {};
+           data.MsgType = 3;
+           data.MsgTypeChild = 31;
+           var json = JSON.stringify(data);
+           if (ws.readyState == WebSocket.OPEN) {
+               ws.send(json);
+           }
+           heartbeatNum--;
+       }
+       //回调删除方法
 
-            isLink = true;
+   function delMessage2(data) {
+           var guid = data.Guid;
+           $("#" + guid).remove();
+       }
+       //回调拉黑方法
 
-            //链接成功后初始化有效心跳数和链接次数
-            heartbeatNum = 2;
-            linkNum = 0;
-        }
+   function blacklisted2(data) {
+           blackListStr += data.BlackPeople + ","
+           if (data.BlackPeople == userId) {
+               $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
+               $("#inputImage").attr("disabled", "disabled");
+               $("#SendMessageBtn").unbind();
+               $(".btn_face").unbind();
+           }
+           if (isAdmin == "True") {
+               var lis = $(".messageOption");
+               $(lis).each(function () {
+                   if ($(this).attr("data-UserId") == data.BlackPeople) {
+                       $(this).find(".defriend").text("已拉黑").removeClass("i_lh").addClass("i_ylh").unbind();
+                   }
+               })
+           }
+       }
+       //回调删除全部方法
 
-        //收到信息推送方法
-        function wsOnmessage(evt) {
-            var msg = evt.data;
-            var data = eval("(" + msg + ")");
-            if (data == undefined || data == null)
-                return;
-            switch (data.MsgTypeChild) {
-                case 11: //删除命令
-                    delMessage2(data);
-                    break;
-                case 12: //拉黑命令
-                    blacklisted2(data);
-                    break;
-                case 13: //全部删除
-                    delMessageAll2(data);
-                    break;
-                case 21: //文字消息
-                case 22: //图片消息
-                case 23: //表情包消息
-                    insertMessage(data, 1);
-                    if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
+   function delMessageAll2(data) {
+           var userId = data.BlackPeople;
+           $(".messageOption").each(function () {
+               if ($(this).attr("data-UserId") == userId) {
+                   $(this).remove();
+               }
+           });
+       }
+       //获取历史聊天记录
 
-                    }
-                    $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
-                    setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
-                    break;
-                case 31: //心跳包
-                    //链接成功后初始化有效心跳数和链接次数
-                    heartbeatNum = 2;
-                    linkNum = 0;
-                    break;
-                case 41: //获取在线人数
-                    $("#lineNumber").text(data.RoomManNum);
-                    break;
-            }
-        }
+   function getChatRecord(source) {
+           if (isTop == true) return;
+           var guid;
+           if ($("#ChatList").children().length == 0) {
+               guid = "";
+           } else {
+               guid = $("#ChatList").children().eq(0).attr("Id")
+           }
+           $.post("/Talking/GetMessageList", {
+               roomId: roomId,
+               guid: guid
+           }, function (data) {
+               if (data.Status == 1) {
+                   if (data.DataList.length < 20) isTop = true;
+                   $(data.DataList).each(function () {
+                       insertMessage(this, 2);
+                   });
+                   if (source == 0) {
+                       $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)
+                       setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 200);
+                   }
+               }
+           });
+       }
+       //插入聊天信息
 
-        //发送失败方法
-        function wsOnerror() {
-        }
+   function insertMessage(data, insertType) { //insertType添加方式： 1:聊天  2:加载历史记录
+           var html = "";
+           var photoHtml = "";
+           var msgHtml = "";
+           var contentHtml = "";
+           var timeHtml = "";
+           var nameHtml = "";
+           var tagHtml = "";
+           switch (data.MsgTypeChild) {
+           case 21:
+               contentHtml += "<div class='c_main'>" + data.Content.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</div>";
+               break;
+           case 23:
+               var message = "/images/emoji/Face/" + data.Content.substr(7, data.Content.length - 8) + ".png";
+               contentHtml += "<div class='c_main c_pic'>";
+               contentHtml += "   <img src='" + message + "' alt='' class='img_pic'/>";
+               contentHtml += "</div >";
+               break;
+           case 22:
+               var bigImg = data.Content.substr(0, data.Content.length - 8) + ".jpg"
+               contentHtml += "<div class='c_main c_pic'>";
+               contentHtml += "   <img src='" + data.Content + "' alt='' class='img_pic' data-pic='" + bigImg + "'/>";
+               contentHtml += "</div >";
+               break;
+           }
+           photoHtml += "    <div class='c_profile'>";
+           photoHtml += "        <img src='" + data.PhotoImg + "' alt='' />";
+           photoHtml += "    </div>";
+           msgHtml += "    <div class='c_cnt'>";
+           msgHtml += "        <h3>";
+           if (data.IsAdmin) {
+               tagHtml += "<i class='i_tag'>管理员</i>";
+           } else if (data.MasterLottery != null && data.MasterLottery.length > 0) {
+               tagHtml += "<b class='C_GsaoShou'>" + data.MasterLottery + "高手</b>";
+           }
+           nameHtml += "<span class='nickname' style='color: #999;margin: 0px 5px;'>" + data.UserName + "</span>";
+           timeHtml += "<s>" + data.SendTimeStr + "</s>";
+           if (data.UserId == userId) {
+               msgHtml += timeHtml + nameHtml + tagHtml;
+           } else {
+               msgHtml += tagHtml + nameHtml + timeHtml;
+           }
+           msgHtml += "        </h3>";
+           if (isAdmin == "True" && data.UserId == userId) {
+               msgHtml += "        <div class='c_do'>";
+               msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
+               msgHtml += "        </div > ";
+           }
+           msgHtml += contentHtml;
+           if (isAdmin == "True" && data.UserId != userId) {
+               msgHtml += "        <div class='c_do'>";
+               msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
+               msgHtml += "            <i class='i_mv' onclick = 'delMessageAll(this)' > 全删</i>";
+               if (blackListStr.indexOf("," + data.UserId + ",") > -1 || isBlack == 1) {
+                   msgHtml += "        <i class='i_ylh defriend'>已拉黑</i>";
+               } else {
+                   msgHtml += "        <i class='i_lh defriend' onclick = 'blacklisted(this)'>拉黑</i>";
+               }
+               msgHtml += "        </div > ";
+           }
+           msgHtml += "    </div>";
+           html += "<div class='messageOption " + ((userId == data.UserId) ? "c_right" : "c_left") + "' id ='" + data.Guid + "' data-UserId='" + data.UserId + "'>";
+           if (userId == data.UserId) {
+               html += msgHtml;
+               html += photoHtml;
+           } else {
+               html += photoHtml;
+               html += msgHtml;
+           }
+           html += "</div>";
+           html = unZipFace(html);
+           if (insertType == 1) {
+               $("#ChatList").append(html);
+           } else {
+               $("#ChatList").prepend(html);
+           }
+       }
+       //发送消息
 
-        //连接被关闭方法
-        function wsOnclose() {
-            isLink = false;
-            setTimeout("reconnection()", 2000);
-            alert("网络已中断,正在为您重连");
-        }
+   function sendMessage() {
+           var message = $("#MessageContent").val();
+           if ($.trim(message)) {
+               $("#MessageContent").val("");
+               var guid = newGuid();
+               var message = message;
+               var obj = {};
+               obj.Content = message;
+               obj.UserId = userId;
+               obj.UserName = userName;
+               obj.PhotoImg = photoImg;
+               obj.RoomId = roomId;
+               obj.MsgTypeChild = 21;
+               obj.Guid = guid;
+               obj.IsAdmin = "@ViewBag.IsAdmin" == "True";
+               obj.MasterLottery = masterLottery;
+               addMessage(obj);
+               var data = {};
+               data.MsgType = 2;
+               data.MsgTypeChild = 21;
+               data.Content = message;
+               data.UserName = userName;
+               data.Guid = guid;
+               var json = JSON.stringify(data);
+               if (ws.readyState == WebSocket.OPEN) {
+                   ws.send(json);
+               }
+           }
+       }
+       //添加聊天记录到数据库
 
+   function addMessage(data) {
+           $.post("/Talking/AddMessage", data, function (data) {});
+       }
+       //删除聊天记录
 
-        //重连
-        function reconnection() {
-            if (linkNum > 5) {
-                clearInterval(heartbeatT);
-                alert("您已失去链接,请重新进入聊天室")
-                return;
-            }
+   function delMessage(a) {
+       var guid = $(a).closest(".messageOption").attr("id");
+       var userId = $(a).closest(".messageOption").attr("data-UserId");
+       var userName = $(a).closest(".messageOption").find(".nickname").text();
+       var obj = {};
+       obj.guid = guid;
+       obj.userId = userId;
+       obj.userName = userName;
+       obj.roomId = roomId;
+       $.post("/Talking/DelMessage", obj, function (data) {});
+       var data = {};
+       data.MsgType = 1;
+       data.MsgTypeChild = 11;
+       data.Guid = guid;
+       var json = JSON.stringify(data);
+       if (ws.readyState == WebSocket.OPEN) {
+           ws.send(json);
+       }
+   }
 
-            heartbeatNum = 2;
+   function delMessageAll(a) {
+           var guid = $(a).closest(".messageOption").attr("id");
+           var userId = $(a).closest(".messageOption").attr("data-UserId");
+           var userName = $(a).closest(".messageOption").find(".nickname").text();
+           var obj = {};
+           obj.userId = userId;
+           obj.userName = userName;
+           obj.roomId = roomId;
+           $.post("/Talking/DelMessageAll", obj, function (data) {});
+           var data = {};
+           data.MsgType = 1;
+           data.MsgTypeChild = 13;
+           data.BlackPeople = userId; //被删除人Id
+           var json = JSON.stringify(data);
+           if (ws.readyState == WebSocket.OPEN) {
+               ws.send(json);
+           }
+       }
+       //拉入黑名单
 
-          //  window.clearInterval(t);
-            if (isLink == false) {
-                linkNum++;
-                ws = new WebSocket(url);
+   function blacklisted(a) {
+           if ($(a).hasClass("i_ylh")) return;
+           var userId = $(a).closest(".messageOption").attr("data-UserId");
+           var userName = $(a).closest(".messageOption").find(".nickname").text();
+           var obj = {};
+           obj.UserId = userId;
+           obj.RoomId = roomId;
+           obj.userName = userName;
+           $.post("/Talking/AddBlackList", obj, function (data) {});
+           var data = {};
+           data.MsgType = 1;
+           data.MsgTypeChild = 12;
+           data.BlackPeople = userId;
+           var json = JSON.stringify(data);
+           if (ws.readyState == WebSocket.OPEN) {
+               ws.send(json);
+           }
+       }
+       //生成32位GUID
 
-                //链接成功回调
-                ws.onopen = function () {
-                    wsOnopen();
-                }
-                //收到消息回调
-                ws.onmessage = function (evt) {
-                    wsOnmessage(evt);
-                }
-                //链接失败回调
-                ws.onerror = function (evt) {
-                    // $('#msg').append('<p>' + JSON.stringify(evt) + '</p>');
-                }
-                //链接关闭回调
-                ws.onclose = function () {
-                    wsOnclose()
-                }
-            }
-        }
-
-        //心跳包发送
-        function heartbeat() {
-            if (heartbeatNum <= 0) {
-                isLink = false;
-                reconnection();
-            }
-
-            var data = {};
-            data.MsgType = 3;
-            data.MsgTypeChild = 31;
-            var json = JSON.stringify(data);
-            if (ws.readyState == WebSocket.OPEN) {
-                ws.send(json);
-            }
-            heartbeatNum--;
-        }
-
-        //回调删除方法
-        function delMessage2(data) {
-            var guid = data.Guid;
-            $("#" + guid).remove();
-        }
-
-        //回调拉黑方法
-        function blacklisted2(data) {
-            blackListStr += data.BlackPeople + ","
-            if (data.BlackPeople == userId) {
-                $("#MessageContent").attr("disabled", "disabled").val("你已经被管理员禁言");
-                $("#inputImage").attr("disabled", "disabled");
-                $("#SendMessageBtn").unbind();
-                $(".btn_face").unbind();
-            }
-            if (isAdmin == "True") {
-                var lis = $(".messageOption");
-                $(lis).each(function () {
-                    if ($(this).attr("data-UserId") == data.BlackPeople) {
-                        $(this).find(".defriend").text("已拉黑").removeClass("i_lh").addClass("i_ylh").unbind();
-                    }
-                })
-            }
-        }
-
-        //回调删除全部方法
-        function delMessageAll2(data) {
-            var userId = data.BlackPeople;
-            $(".messageOption").each(function () {
-                if ($(this).attr("data-UserId") == userId) {
-                    $(this).remove();
-                }
-            });
-        }
-
-        //获取历史聊天记录
-        function getChatRecord(source) {
-            if (isTop == true)
-                return;
-            var guid;
-            if ($("#ChatList").children().length == 0) {
-                guid = "";
-            }
-            else {
-                guid = $("#ChatList").children().eq(0).attr("Id")
-            }
-
-            $.post("/Talking/GetMessageList", { roomId: roomId, guid: guid }, function (data) {
-                if (data.Status == 1) {
-                    if (data.DataList.length < 20)
-                        isTop = true;
-                    $(data.DataList).each(function () {
-                        insertMessage(this, 2);
-                    });
-                    if (source == 0) {
-                        $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)
-                        setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 200);
-                    }
-                }
-            });
-        }
-
-        //插入聊天信息
-        function insertMessage(data, insertType) { //insertType添加方式： 1:聊天  2:加载历史记录
-
-            var html = "";
-            var photoHtml = "";
-            var msgHtml = "";
-            var contentHtml = "";
-            var timeHtml = "";
-            var nameHtml = "";
-            var tagHtml = "";
-
-            switch (data.MsgTypeChild) {
-                case 21:
-                    contentHtml += "<div class='c_main'>" + data.Content.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</div>";
-                    break;
-                case 23:
-                    var message = "/images/emoji/Face/" + data.Content.substr(7, data.Content.length - 8) + ".png";
-                    contentHtml += "<div class='c_main c_pic'>";
-                    contentHtml += "   <img src='" + message + "' alt='' class='img_pic'/>";
-                    contentHtml += "</div >";
-                    break;
-                case 22:
-                    var bigImg = data.Content.substr(0, data.Content.length - 8) + ".jpg"
-                    contentHtml += "<div class='c_main c_pic'>";
-                    contentHtml += "   <img src='" + data.Content + "' alt='' class='img_pic' data-pic='" + bigImg+"'/>";
-                    contentHtml += "</div >";
-                    break;
-            }
-
-
-            photoHtml += "    <div class='c_profile'>";
-            photoHtml += "        <img src='" + data.PhotoImg + "' alt='' />";
-            photoHtml += "    </div>";
-
-            msgHtml += "    <div class='c_cnt'>";
-            msgHtml += "        <h3>";
-            if (data.IsAdmin) {
-                tagHtml += "<i class='i_tag'>管理员</i>";
-            }
-            else if (data.MasterLottery !=null && data.MasterLottery.length>0) {
-                tagHtml += "<b class='C_GsaoShou'>" + data.MasterLottery+"高手</b>";
-            }
-            nameHtml += "<span class='nickname' style='color: #999;margin: 0px 5px;'>" + data.UserName + "</span>";
-            timeHtml += "<s>" + data.SendTimeStr + "</s>";
-
-            if (data.UserId == userId) {
-                msgHtml += timeHtml + nameHtml + tagHtml;
-            }
-            else {
-                msgHtml += tagHtml + nameHtml + timeHtml;
-            }
-
-            msgHtml += "        </h3>";
-            if (isAdmin == "True" && data.UserId == userId) {
-                msgHtml += "        <div class='c_do'>";
-                msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
-                msgHtml += "        </div > ";
-            }
-            msgHtml += contentHtml;
-            if (isAdmin == "True" && data.UserId != userId) {
-                msgHtml += "        <div class='c_do'>";
-                msgHtml += "            <i class='i_mv' onclick = 'delMessage(this)' > 删除</i>";
-                msgHtml += "            <i class='i_mv' onclick = 'delMessageAll(this)' > 全删</i>";
-                if (blackListStr.indexOf("," + data.UserId + ",") > -1 || isBlack ==1) {
-                    msgHtml += "        <i class='i_ylh defriend'>已拉黑</i>";
-                }
-                else {
-                    msgHtml += "        <i class='i_lh defriend' onclick = 'blacklisted(this)'>拉黑</i>";
-                }
-                msgHtml += "        </div > ";
-            }
-            msgHtml += "    </div>";
-
-
-            html += "<div class='messageOption " + ((userId == data.UserId) ? "c_right" : "c_left") + "' id ='" + data.Guid + "' data-UserId='" + data.UserId +"'>";
-            if (userId == data.UserId) {
-                html += msgHtml;
-                html += photoHtml;
-            }
-            else {
-                html += photoHtml;
-                html += msgHtml;
-            }
-            html += "</div>";
-
-            html = unZipFace(html);
-            if (insertType == 1) {
-                $("#ChatList").append(html);
-            }
-            else {
-                $("#ChatList").prepend(html);
-            }
-
-
-        }
-
-        //发送消息
-        function sendMessage() {
-            var message = $("#MessageContent").val();
-            if ($.trim(message)) {
-                $("#MessageContent").val("");
-                var guid = newGuid();
-                var message = message;
-
-                var obj = {};
-                obj.Content = message;
-                obj.UserId = userId;
-                obj.UserName = userName;
-                obj.PhotoImg = photoImg;
-                obj.RoomId = roomId;
-                obj.MsgTypeChild = 21;
-                obj.Guid = guid;
-                obj.IsAdmin = "@ViewBag.IsAdmin" == "True";
-                obj.MasterLottery = masterLottery;
-                addMessage(obj);
-
-                var data = {};
-                data.MsgType = 2;
-                data.MsgTypeChild = 21;
-                data.Content = message;
-                data.UserName = userName;
-                data.Guid = guid;
-                var json = JSON.stringify(data);
-                if (ws.readyState == WebSocket.OPEN) {
-                    ws.send(json);
-                }
-            }
-        }
-
-        //添加聊天记录到数据库
-        function addMessage(data) {
-            $.post("/Talking/AddMessage", data, function (data) {});
-        }
-
-        //删除聊天记录
-        function delMessage(a) {
-            var guid = $(a).closest(".messageOption").attr("id");
-            var userId = $(a).closest(".messageOption").attr("data-UserId");
-            var userName = $(a).closest(".messageOption").find(".nickname").text();
-
-            var obj = {};
-            obj.guid = guid;
-            obj.userId = userId;
-            obj.userName = userName;
-            obj.roomId = roomId;
-
-            $.post("/Talking/DelMessage", obj, function (data) { });
-
-            var data = {};
-            data.MsgType = 1;
-            data.MsgTypeChild = 11;
-            data.Guid = guid;
-            var json = JSON.stringify(data);
-            if (ws.readyState == WebSocket.OPEN) {
-                ws.send(json);
-            }
-        }
-
-        function delMessageAll(a) {
-            var guid = $(a).closest(".messageOption").attr("id");
-            var userId = $(a).closest(".messageOption").attr("data-UserId");
-            var userName = $(a).closest(".messageOption").find(".nickname").text();
-
-            var obj = {};
-            obj.userId = userId;
-            obj.userName = userName;
-            obj.roomId = roomId;
-
-            $.post("/Talking/DelMessageAll", obj, function (data) { });
-
-            var data = {};
-            data.MsgType = 1;
-            data.MsgTypeChild = 13;
-            data.BlackPeople = userId; //被删除人Id
-            var json = JSON.stringify(data);
-            if (ws.readyState == WebSocket.OPEN) {
-                ws.send(json);
-            }
-        }
-
-        //拉入黑名单
-        function blacklisted(a) {
-            if ($(a).hasClass("i_ylh"))
-                return;
-
-            var userId = $(a).closest(".messageOption").attr("data-UserId");
-            var userName = $(a).closest(".messageOption").find(".nickname").text();
-
-            var obj = {};
-            obj.UserId = userId;
-            obj.RoomId = roomId;
-            obj.userName = userName;
-
-            $.post("/Talking/AddBlackList", obj, function (data) { });
-
-            var data = {};
-            data.MsgType = 1;
-            data.MsgTypeChild = 12;
-            data.BlackPeople = userId;
-            var json = JSON.stringify(data);
-            if (ws.readyState == WebSocket.OPEN) {
-                ws.send(json);
-            }
-        }
-
-        //生成32位GUID
-        function newGuid() {
-            var guid = "";
-            for (var i = 1; i <= 32; i++) {
-                var n = Math.floor(Math.random() * 16.0).toString(16);
-                guid += n;
-            }
-            return guid;
-        }
+   function newGuid() {
+       var guid = "";
+       for (var i = 1; i <= 32; i++) {
+           var n = Math.floor(Math.random() * 16.0).toString(16);
+           guid += n;
+       }
+       return guid;
+   }
     </script>
 
     <!-- 图片前端压缩处理 -->
