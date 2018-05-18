@@ -11,8 +11,7 @@ using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
 using C8.Lottery.Portal.Models;
-using Newtonsoft.Json;
-
+using Newtonsoft.Json;using C8.Lottery.Portal.Business;
 namespace C8.Lottery.Portal.Controllers
 {
     /// <summary>
@@ -24,6 +23,50 @@ namespace C8.Lottery.Portal.Controllers
     /// </summary>
     public class NewsController : BaseController
     {
+        private static NewsService _newsservice = new NewsService();
+        /// <summary>
+        /// 新闻首页（改） 20180518 ZZH
+        /// </summary>
+        /// <param name="id">彩种ID</param>
+        /// <param name="ntype">栏目类型ID</param>
+        /// <returns></returns>
+        public ActionResult NewIndex(int id, int ntype = 0)
+        {
+            //NewsService _newsservice = new NewsService();
+            ViewBag.SEOInfo = _newsservice.GetSEOInfo(id, ntype);
+            int ChildlType = Util.GetlTypeById(id);
+            string icon = Util.GetLotteryIcon(ChildlType) + ".png";
+            ViewBag.lType = id;
+            ViewBag.ChannelId = ntype;
+            ViewBag.icon = icon;
+            ViewBag.ChildlType = ChildlType;
+            ViewBag.CityId = Tool.GetCityId();
+            return View();
+        }
+
+        /// <summary>
+        /// 获取大彩种数据 20180518 ZZH
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult LoadlTypesAndChannel(int lType)
+        {
+            //NewsService _newsservice = new NewsService();
+            List<Business.BusinessData.LotteryType> list = _newsservice.GetLotteryTypeList();
+            List<Business.BusinessData.LotteryNewsChannel> list2 = _newsservice.GetLotteryNewsChannelList(lType);
+            return Json(new { TypeList = list, ChannelList = list2 });
+        }
+
+        /// <summary>
+        /// 获取最后一期开奖期号、号码
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetLastBetInfo(int lType)
+        {
+            Dictionary<string,string> dic = _newsservice.GetLastBetInfo(lType);
+            return Json(dic);
+        }
+
         /// <summary>
         /// 新闻首页
         /// </summary>
@@ -168,18 +211,19 @@ namespace C8.Lottery.Portal.Controllers
                 return PartialView("NewsList");
             }
 
-            //if (newsType.TypeName == "玄机图库")
-            //{
-            //    return NewsGalleryCategoryList(newsType.LType, typeId);
-            //}
+            if (newsType.ShowType == 2)
+            {
+                return NewsGalleryCategoryList(newsType.LType, typeId);
+            }
 
             string sql = @"SELECT * FROM ( 
-SELECT row_number() over(order by SortCode ASC, LotteryNumber DESC, ReleaseTime DESC ) as rowNumber,
-[Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
-FROM [dbo].[News] a
-WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
-WHERE rowNumber BETWEEN @Start AND @End 
-ORDER BY rowNumber";
+                            SELECT row_number() over(order by SortCode ASC, LotteryNumber DESC, ReleaseTime DESC ) as rowNumber,
+                            [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
+                            ,STUFF((SELECT ',' + RPath FROM  dbo.ResourceMapping WHERE  Type=1 AND FkId=a.Id FOR XML PATH('')), 1, 1, '') AS Paths
+                            FROM [dbo].[News] a
+                            WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
+                            WHERE rowNumber BETWEEN @Start AND @End 
+                            ORDER BY rowNumber";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -194,8 +238,7 @@ ORDER BY rowNumber";
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
             list.ForEach(x =>
             {
-                x.ThumbList = GetResources(sourceType, x.Id)
-                                .Select(n => n.RPath).ToList();
+                x.ThumbList = !(string.IsNullOrWhiteSpace(x.Paths)) ? x.Paths.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
             });
 
 
@@ -227,13 +270,13 @@ ORDER BY rowNumber";
             string strsql = "";
             if (location == -1)//针对6彩栏目
             {
-                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and 
+                strsql = string.Format(@"select  * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0 and 
                    AdType={1} and (State=1 or (State=0 and getdate()>=BeginTime and EndTime>getdate()))", location, adtype);
 
             }
             else
             {
-                strsql = string.Format(@"select * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0   
+                strsql = string.Format(@"select  * from [dbo].[Advertisement] where charindex(',1,',','+[where]+',')>0   
             and charindex(',{0},',','+[Location]+',')>0 and AdType={1} and (State=1 or (State=0 and getdate()>=BeginTime and EndTime>getdate()))", location, adtype);
 
             }
