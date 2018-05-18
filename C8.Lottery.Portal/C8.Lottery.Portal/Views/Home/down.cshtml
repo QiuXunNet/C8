@@ -16,59 +16,10 @@
     <link href="~/css/dialog.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <script src="~/js/dialog.min.js"></script>
-    <script type="text/javascript" src="~/js/yjp.js"></script>
-
-    <script>
-  
-   
-    function getdown(type)
-    {
-        if (type == 2)
-        {
-            if (navigator.userAgent.indexOf('UCBrowser') > -1)
-            {
-                alert("不支持uc浏览器下载,建议使用系统自带浏览器");
-                return;
-            }
-        }
-          
-        var url = getdata(type);
-
-        window.location.href = url;
-
-     
-    }
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/down.js"></script>
 
  
-
-    function getdata(ClientSource) {
-        var url;
-
-        $.ajax({
-            type: "Get",
-            url: "/Home/GetDown",
-            data: "ClientSource=" + ClientSource,
-            async: false,
-            success: function (data) {
-                if (data.Success == true)
-                {
-                    if (data.data.length > 0)
-                    {
-                        url = data.data[0].UpdateLink;
-
-                    }
-
-                } else {
-                    alertmsg("暂无下载数据包")
-                }
-
-
-            }
-        });
-        return url;
-    }
-
-    </script>
 </head>
 
 <body>

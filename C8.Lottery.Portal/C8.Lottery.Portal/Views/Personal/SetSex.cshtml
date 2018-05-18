@@ -9,40 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>个人中心-设置-设置性别</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
     <link href="~/css/dialog.css" rel="stylesheet" />
-    <script src="~/js/dialog.min.js"></script>
-    <script src="~/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/SetSex.js"></script>
 
-    <script>
-        $(function () {
-
-            set();
-        });
-
-        function set() {
-            $("#btnsub").click(function () {
-                var selectvalue = $(".current").text().trim();
-                var sexvalue;
-
-                if (selectvalue == "男") {
-                    sexvalue = 0;
-                } else {
-                    sexvalue = 1;
-                }
-                $.post('/Personal/EditUser', { value: sexvalue, type: 3 }, function (data) {
-                    if (data.Success != true) {
-                        alertmsg(data.Msg);
-                    } else {
-                        location.href = '/Personal/Set';
-                    }
-                });
-
-            });
-        }
-
-    </script>
 </head>
 
 <body style="background:#F4F4F5;">

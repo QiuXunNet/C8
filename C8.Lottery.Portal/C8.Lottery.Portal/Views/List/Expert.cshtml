@@ -18,9 +18,9 @@
 
     <link rel="stylesheet" type="text/css" href="/css/mescroll.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
 </head>
 
 <body style="background:#F4F4F5;">
@@ -245,16 +245,8 @@
     </div>
 
     <div class="mask" style="display: none;"></div>
-    <script>
-        $(function () {
-            $(".C8_bang li").click(function () {
-                var id = $(this).attr("data-idx");
-                $(".Ranking_footer #" + id).show().siblings().hide();
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Expert.js"></script>
 
-            })
-        });
-
-    </script>
 </body>
 
 @{Html.RenderAction("index", "PvUvIp");}

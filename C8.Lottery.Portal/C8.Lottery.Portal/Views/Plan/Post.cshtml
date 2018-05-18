@@ -12,13 +12,13 @@
     <title>@ViewBag.title</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/css/dialog.css" />
-    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="/js/dialog.min.js"></script>
-    <script type="text/javascript" src="/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/public.js"></script>
-    <script type="text/javascript" src="/js/bet.js"></script>
-    <script type="text/javascript" src="/js/runTime2.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/public.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/bet.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/runTime2.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
 </head>
 <body style="background:#F4F4F5;">
     <input type="hidden" value="@ViewBag.lType" id="lType" />
@@ -1188,65 +1188,9 @@
         </table>
     </div>
     @RenderPage("../Public/Tan.cshtml")
-    <script type="text/javascript" src="/js/luo/play.js?20180425"></script>
-    <script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/luo/play.js?20180425"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Post.js"></script>
 
-        $(function () {
-
-            var lType = $('#lType').val();
-
-            var target;
-            var targetName;
-
-            $.post('/Plan/AlreadyPostData', { id: lType }, function (data) {
-
-                initBetting(qiu, data);
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    var playName = d.BigPlayName;
-                    var betNum = d.BetNum;
-
-                    if (d.lType == 5) {
-                        if (d.BigPlayName == "二十码中特" || d.BigPlayName == "十码中特" || d.BigPlayName == "平五码" || d.BigPlayName == "五不中" || d.BigPlayName == "六不中") {
-                            var betNumArr = betNum.split(',');
-                            var betNumResArr = [];
-                            $.each(betNumArr, function (index, item) {
-
-                                var num = GetColorByLhc(item);
-                                betNumResArr.push(num);
-                            });
-                            betNum = betNumResArr.join(' ');
-                        }
-                    }
-
-                    targetName = $('.WanFa_TableA h3:contains(' + playName + ')');
-
-                    $.each(targetName, function (index, item) {
-                        var curItem = $(item);
-                        var itemName = curItem.html();
-                        if (itemName != playName) return true;
-
-                        target = curItem.parent().next();
-                        var html = target.html();
-                        if (html == '') {
-                            target.html(betNum);
-                        }
-                        else {
-                            target.html(html + '|' + betNum);
-                        }
-                    });
-
-
-                }
-
-
-
-            });
-
-        });
-
-
-    </script>
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
 </html>

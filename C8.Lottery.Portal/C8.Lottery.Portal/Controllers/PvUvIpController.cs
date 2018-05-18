@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class PvUvIpController : Controller
+    public class PvUvIpController : BaseController
     {
         
         string interfaceUrl = ConfigurationManager.AppSettings["InterfaceUrl"];

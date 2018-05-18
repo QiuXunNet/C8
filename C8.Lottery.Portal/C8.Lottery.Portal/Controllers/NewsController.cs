@@ -11,8 +11,7 @@ using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
 using C8.Lottery.Portal.Models;
-using C8.Lottery.Portal.Business;
-
+using Newtonsoft.Json;using C8.Lottery.Portal.Business;
 namespace C8.Lottery.Portal.Controllers
 {
     /// <summary>
@@ -155,10 +154,8 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult TypeList(int id)
         {
-            ViewBag.CurrentLotteryType = id;
             var lotteryTypeList = GetLotteryTypeList();
-            //step1.查询彩种分类列表
-            ViewBag.LotteryTypeList = lotteryTypeList;
+
             //step2.查询当前彩种下的新闻栏目
             var list = GetNewsTypeList(id)
                 .Where(x => x.TypeName != "看图解码"
@@ -168,44 +165,30 @@ namespace C8.Lottery.Portal.Controllers
                     && x.TypeName != "香港挂牌"
                     && x.TypeName != "跑狗玄机"
                     ).ToList();
-            //ViewBag.CurrentNewsTypeId = list.Any() ? list.First().Id : 0;
-            ViewBag.NewsTypeList = list;
-
-            int lType = Util.GetlTypeById(id);
-            ViewBag.lType = lType;
 
             var model = lotteryTypeList.FirstOrDefault(x => x.Id == id);
 
-            // string sql = "select top(1)* from LotteryRecord where lType =" + id + " order by Issue desc";
             string sql = "select top(1)* from LotteryRecordToLhc";
             LotteryRecord lr = Util.ReaderToModel<LotteryRecord>(sql);
 
-            ViewBag.lastIssue = lr.Issue;
-            ViewBag.lastNum = lr.Num;
-            ViewBag.showInfo = lr.ShowInfo;
-
             //剩余时间
-            //string time = Util.GetOpenRemainingTime(lType);
-            string time = C8.Lottery.Public.LotteryTime.GetTime(lType.ToString());
-
+            string time = C8.Lottery.Public.LotteryTime.GetTime(id.ToString());
             if (time != "正在开奖")
             {
                 string[] timeArr = time.Split('&');
-
-                ViewBag.min = timeArr[1];
-                ViewBag.sec = timeArr[2];
-
-                if (id < 9)
-                {
-                    ViewBag.hour = timeArr[0];
-                }
-
+                ViewBag.time = "<span id='openTime'><t id='hour2'>"+ timeArr[0] + "</t>:<t id='minute2'>"+ timeArr[1] + "</t>:<t id='second2'>"+ timeArr[2] + "</t></span>";
             }
-            //else
-            //{
-            ViewBag.time = time;
-            //  }
+            else
+            {
+                ViewBag.time = "<span id='openTime'>"+ time + "</span>";
+            }
 
+            ViewBag.NewsTypeList = JsonConvert.SerializeObject(list.Select(e=>new { e.Id,e.LType ,e.TypeName }));
+            ViewBag.lType = id;
+            ViewBag.lastIssue = lr.Issue;
+            ViewBag.lastNum = lr.Num;
+            ViewBag.showInfo = lr.ShowInfo;
+            ViewBag.LotteryTypeList = JsonConvert.SerializeObject(lotteryTypeList.Select(e => new { e.Id, e.TypeName }));
             ViewBag.CityId = Tool.GetCityId();
 
             return View("TypeList", model);

@@ -14,12 +14,12 @@
     <link href="~/css/jquery.emoji.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
-    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="~/js/dialog.min.js"></script>
-    <script src="~/js/luo/jquery.mCustomScrollbar.min.js"></script>
-    <script src="~/js/luo/jquery.emoji.min.js"></script>
-    <script type="text/javascript" src="~/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script src="@ViewBag.osshost/js/luo/jquery.mCustomScrollbar.min.js"></script>
+    <script src="@ViewBag.osshost/js/luo/jquery.emoji.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
 </head>
 <body style="overflow: hidden">
     <header class="hjc_header">
@@ -51,43 +51,13 @@
         @*<a href="javascript:;" class="Com_FtA"><img src="/images/53_2.png"></a>*@
     </div>
     <script type="text/javascript">
-
-        $(function() {
-            $("#editor").initEmoji();
-        });
-
-        function publish() {
-            var content = $.trim($("#editor").val());
-
-            if (content.length <= 0) {
-                alertmsg("请输入内容");
-            }
-
-            $.post("/Comment/Publish",
-            {
-                id: @Model.Id,
-                ctype: @Model.OperateType,
-                type: @Model.CommentType,
-                content:content,
-                refUid:@Model.RefUserId
-                }, function(result) {
-                    if (result) {
-                        if (result.Code === 401) {
-                            location.href = "/Home/Login";
-                        }
-                        if (result.IsSuccess) {
-
-                            alertmsg("发表成功");
-                            location.href = document.referrer;
-                        } else {
-                            alertmsg(result.Message);
-                        }
-                    } else {
-                        alertmsg("服务器繁忙");
-                    }
-                });
-        }
+        var Id= @Model.Id;
+        var OperateType=@Model.OperateType;
+        var CommentType=@Model.CommentType;
+        var RefUserId=@Model.RefUserId;
     </script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/CommentIndex.js"></script>
+
 </body>
 @{Html.RenderAction("index", "PvUvIp");}
 </html>
