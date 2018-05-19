@@ -154,7 +154,7 @@ function initialization() {
             lotteryTypeListHtml += "<li class='current' data-id='" + this.Id + "'><a href='/News/TypeList/" + this.Id + "'>" + this.TypeName + "</a></li>"
         }
         else {
-            lotteryTypeListHtml += "<li data-id='" + this.Id + "'><a href='/News/Index/" + this.Id + "'>" + this.TypeName + "</a></li>"
+            lotteryTypeListHtml += "<li data-id='" + this.Id + "'><a href='/News/NewIndex/" + this.Id + "'>" + this.TypeName + "</a></li>"
         }
     });
     $(".hdNav_cai").empty().append(lotteryTypeListHtml);
@@ -186,7 +186,7 @@ function initialization() {
 
     var newsTypeListHtml = "";
     $(newsTypeList).each(function () {
-        newsTypeListHtml += "<dd><a href='/News/Index/" + this.LType + "/" + this.Id + "'>" + this.TypeName + "</a></dd>";
+        newsTypeListHtml += "<dd><a href='/News/NewIndex/" + this.LType + "/" + this.Id + "'>" + this.TypeName + "</a></dd>";
     });
     $("#newsTypeListDiv").append(newsTypeListHtml);
 }

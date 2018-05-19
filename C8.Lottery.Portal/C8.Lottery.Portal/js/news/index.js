@@ -1,6 +1,6 @@
 ﻿var dropload;
 var pageIndex =  1,
-   pageSize = 10;
+   pageSize = 30;
 $(function () {
     newsManager.GetLastBetInfo();
     newsManager.LoadlTypesAndChannel();
@@ -73,12 +73,12 @@ var newsManager = {
                     for (var i = 0; i < data.ChannelList.length; i++) {
                         var item = data.ChannelList[i];
                         if (item.Id == currentChannelId) {
-                            tempHtml += ' <li class="current" data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="10">';
+                            tempHtml += ' <li class="current" data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="30">';
                             tempHtml += '<a href="/News/NewIndex/' + item.lType + '/' + item.Id + '">' + item.TypeName + '</a>';
                             tempHtml += '</li>';
                         }
                         else {
-                            tempHtml += ' <li data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="10">';
+                            tempHtml += ' <li data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="30">';
                             tempHtml += '<a href="/News/NewIndex/' + item.lType + '/' + item.Id + '">' + item.TypeName + '</a>';
                             tempHtml += ' </li>';
                         }

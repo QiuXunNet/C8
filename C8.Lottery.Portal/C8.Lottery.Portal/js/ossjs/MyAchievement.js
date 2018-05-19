@@ -123,7 +123,7 @@
                 page: {
                     num: 0,
                     //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-                    size: 20,
+                    size: 30,
                     //每页数据条数
                     time: null
                 },
@@ -251,14 +251,15 @@ function buildHtml(data, curNavIndex, ltype) {
                 } else {
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
                 }
-            } else if (ltype == 4) {
+            } else if (ltype == 8)
+            {
                 if (i == 7) {
                     cl = "hdM_spssc HYJP_Blue";
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
                 } else {
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
                 }
-            } else if (ltype == 8) {
+            } else if (ltype == 4) {
                 if (i == 5 || i == 6) {
                     cl = "hdM_spssc HYJP_Blue";
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
@@ -348,11 +349,11 @@ function getShengxiaoByDigit(digit) {
 
 function getwanfa(playName) {
     var i = -1;
-    var p0 = ["第一球五码", "冠军五码", "第一球", "冠军", "第一名"];
-    var p1 = ["第二球五码", "第二名五码", "第二球", "亚军", "第二名", "亚军五码"];
-    var p2 = ["第三球五码", "第三名五码", "第三球", "第三名"];
-    var p3 = ["第四球五码", "第四名五码", "第四球", "第四名"];
-    var p4 = ["第五球五码", "第五名五码", "第五球", "第五名"];
+    var p0 = ["第一球五码", "第一球六码", "冠军五码", "第一球", "冠军", "第一名"];
+    var p1 = ["第二球五码", "第二球六码", "第二名五码", "第二球", "亚军", "第二名", "亚军五码"];
+    var p2 = ["第三球五码", "第三球六码", "第三名五码", "第三球", "第三名"];
+    var p3 = ["第四球五码", "第四球六码", "第四名五码", "第四球", "第四名"];
+    var p4 = ["第五球五码", "第五球六码", "第五名五码", "第五球", "第五名"];
     var p5 = ["第六球五码", "第六名五码", "第六球", "第六名"];
     var p6 = ["第七球五码", "第七名五码", "第七球", "第七名", "十码中特", "二十码中特", "四肖中特", "六肖中特", "蓝5码", "蓝8码"];
     var p7 = ["第八球五码", "第八名五码", "第八球", "第八名"];

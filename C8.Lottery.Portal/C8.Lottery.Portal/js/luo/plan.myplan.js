@@ -89,7 +89,7 @@ $(function () {
                     //}
                 },
                 page: {
-                    size: 10
+                    size: 30
                 },
                 clearEmptyId: clearEmptyId
             }

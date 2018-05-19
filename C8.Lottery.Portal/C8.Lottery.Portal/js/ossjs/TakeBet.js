@@ -57,7 +57,7 @@
                 },
                 page: {
                     num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-                    size: 20, //每页数据条数
+                    size: 30, //每页数据条数
                     time: null //加载第一页数据服务器返回的时间; 防止用户翻页时,后台新增了数据从而导致下一页数据重复;
                 },
                 clearEmptyId: clearEmptyId
