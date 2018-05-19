@@ -25,25 +25,29 @@ function getChildLotteryType(pId) {
     $.post("/Home/GetChildLotteryType", {
         pId: pId
     }, function (data) {
+        data = eval("(" + data + ")");
+        if (data.Code != 100)
+            return;
+
         var lis = "";
-        $(data).each(function () {
+        $(data.Data).each(function () {
             lis += "<li>";
             lis += "     <div class='UL2_hd'>";
             lis += "         <a href='javascript:;'>";
-            lis += "             <div class='UL2_hdtu f-l'><img src='/images/" + this.ShowIconName + ".png'></div>";
-            lis += "             <div class='UL2_hdtit'><h3>" + this.ShowTypeName + "</h3></div>";
+            lis += "             <div class='UL2_hdtu f-l'><img src='" + this.Logo+"'></div>";
+            lis += "             <div class='UL2_hdtit'><h3>" + this.LTypeName + "</h3></div>";
             lis += "             <span class='UL2_hdicon'></span>";
             lis += "         </a>";
             lis += "     </div>";
             lis += "     <div class='UL2_bd'>";
             lis += "         <div class='UL3_bdinfo1'>";
-            lis += "           <p lType='" + this.lType + "'>";
+            lis += "           <p lType='" + this.LType + "'>";
             lis += "                 <font>第<span>" + this.Issue + "</span>期</font>";
             lis += "                 <font>下期开奖：";
-            if (this.ShowOpenTime == "正在开奖" || this.ShowOpenTime == "休奖时间") {
-                lis += "                 <span>" + this.ShowOpenTime + "</span>";
+            if (this.OpenTime == "正在开奖" || this.OpenTime == "休奖时间") {
+                lis += "                 <span>" + this.OpenTime + "</span>";
             } else {
-                var arr = this.ShowOpenTime.split("&");
+                var arr = this.OpenTime.split("&");
                 lis += "                 <span><t class='hour'>" + arr[0] + "</t>:<t class='minute'>" + arr[1] + "</t>:<t class='second'>" + arr[2] + "</t></span>";
             }
             lis += "                   </font>";
@@ -58,11 +62,11 @@ function getChildLotteryType(pId) {
             //lis+="             </div>";
             lis += "         </div>";
             lis += "         <div class='UL3_bdinfo3'>";
-            lis += "          <a href='/Plan/Index/" + this.lType + "' class='UL2_baif3a'>计划</a>";
-            lis += "          <a href='/Record/OpenRecord/?lType=" + this.lType + "' class='UL2_baif3a'>历史</a>";
-            lis += "          <a href='/Plan/Post/" + this.lType + "' class='UL2_baif3a'>发帖</a>";
-            lis += "          <a href='/Plan/Index/" + this.lType + "?cur=2' class='UL2_baif3a'>排行</a>";
-            lis += "          <a href='/News/Index/" + this.lType + "' class='UL2_baif3a'>资讯</a>";
+            lis += "          <a href='/Plan/Index/" + this.LType + "' class='UL2_baif3a'>计划</a>";
+            lis += "          <a href='/Record/OpenRecord/?lType=" + this.LType + "' class='UL2_baif3a'>历史</a>";
+            lis += "          <a href='/Plan/Post/" + this.LType + "' class='UL2_baif3a'>发帖</a>";
+            lis += "          <a href='/Plan/Index/" + this.LType + "?cur=2' class='UL2_baif3a'>排行</a>";
+            lis += "          <a href='/News/Index/" + this.LType + "' class='UL2_baif3a'>资讯</a>";
             lis += "             <div style='clear: both;'></div>";
             lis += "         </div>";
             lis += "     </div>";
@@ -75,8 +79,8 @@ function getChildLotteryType(pId) {
 
 function getHtml(data) {
     var html = "";
-    var lType = data.lType;
-    var numArr = data.Num.split(",");
+    var lType = data.LType;
+    var numArr = data.OpenNum.split(",");
     if (lType <= 62 && lType != 5 && lType != 2 && lType != 8 && lType != 4) {
         $(numArr).each(function () {
             var num = $.trim(this);

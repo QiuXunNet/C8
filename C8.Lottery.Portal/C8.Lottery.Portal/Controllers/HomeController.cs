@@ -85,48 +85,53 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="pId"></param>
         /// <returns></returns>
-        public ActionResult GetChildLotteryType(int pId)
+        public string GetChildLotteryType(int pId)
         {
-            string sql = "";
+            string interfaceUrl = ConfigurationManager.AppSettings["InterfaceUrl"];
+            var url = interfaceUrl + "/Common/GetIndexLotteryList?parentId=" + pId;
+            var data = HttpCommon.HttpGet(url);
 
-            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId);
-            if (list == null)
-            {
-                sql = "select lType,Id from LotteryType2 where PId = " + pId + " order by Position";
+            //string sql = "";
 
-                list = Util.ReaderToList<LotteryType2>(sql);
+            //List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId);
+            //if (list == null)
+            //{
+            //    sql = "select * from LotteryType2 where PId = " + pId + " order by Position";
 
-                CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId, list, 30 * 24 * 60);
-            }
+            //    list = Util.ReaderToList<LotteryType2>(sql);
 
-            string lTypes = "";
-            list.ForEach(e => lTypes += e.lType + ",");
-            lTypes = lTypes.Trim(',');
+            //    CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId, list, 30 * 24 * 60);
+            //}
 
-            var dateTime = DateTime.Now.AddDays(-5);
+            //string lTypes = "";
+            //list.ForEach(e => lTypes += e.lType + ",");
+            //lTypes = lTypes.Trim(',');
 
-            sql = @"select lr.* from LotteryRecord lr
-                    join(
-                    select lType, max(SubTime) SubTime from lotteryRecord where lType in(" + lTypes + ") and SubTime >'" + dateTime + @"' group by lType
-                    ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime
-                    left join LotteryType2 lt on lr.lType = lt.lType
-                    order by Position";
+            //var dateTime = DateTime.Now.AddDays(-5);
 
-            var newList = new List<LotteryRecordToJson>();
+            //sql = @"select lr.* from LotteryRecord lr
+            //        join(
+            //        select lType, max(SubTime) SubTime from lotteryRecord where lType in(" + lTypes + ") and SubTime >'" + dateTime + @"' group by lType
+            //        ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime
+            //        left join LotteryType2 lt on lr.lType = lt.lType
+            //        order by Position";
 
-            Util.ReaderToList<LotteryRecord>(sql).ForEach(e=> {
-                LotteryRecordToJson newModel = new LotteryRecordToJson();
-                newModel.Id = e.Id;
-                newModel.Issue = e.Issue;
-                newModel.lType = e.lType;
-                newModel.Num = e.Num;
-                newModel.ShowIconName = e.ShowIconName;
-                newModel.ShowOpenTime = e.ShowOpenTime;
-                newModel.ShowTypeName = e.ShowTypeName;
-                newList.Add(newModel);
-            });
+            //var newList = new List<LotteryRecordToJson>();
 
-            return Json(newList);
+            //Util.ReaderToList<LotteryRecord>(sql).ForEach(e=> {
+            //    LotteryRecordToJson newModel = new LotteryRecordToJson();
+            //    newModel.Id = e.Id;
+            //    newModel.Issue = e.Issue;
+            //    newModel.lType = e.lType;
+            //    newModel.Num = e.Num;
+            //    newModel.ShowIconName = e.ShowIconName;
+            //    newModel.ShowOpenTime = e.ShowOpenTime;
+            //    newModel.ShowTypeName = e.ShowTypeName;
+            //    newList.Add(newModel);
+            //});
+
+            //return Json(newList);
+            return data;
         }
 
         //object obj = new object();
