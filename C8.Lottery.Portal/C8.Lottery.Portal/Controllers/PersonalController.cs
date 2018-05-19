@@ -679,13 +679,20 @@ where RowNumber BETWEEN @Start AND @End ";
                 try
                 {
                     string RPath = url + FilePath + p.ImgName + p.Extension;
+                    RPath = Tool.UploadFileToOss(FilePath + p.ImgName + p.Extension);
+                    if (string.IsNullOrWhiteSpace(RPath))
+                    {
+                        msg.Msg = "上传头像失败";
+                        msg.Success = false;
+                        return Json(msg);
+                    }
                     string strsql = string.Empty;
                     string countsql = "select * from ResourceMapping where  FkId=@FkId and Type=@Type";
                     SqlParameter[] countsp = new SqlParameter[] {
-                    new SqlParameter("@FkId",UserId),
-                    new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像)
+                            new SqlParameter("@FkId",UserId),
+                            new SqlParameter("@Type",(int)ResourceTypeEnum.用户头像)
 
-                };
+                    };
                     ResourceMapping rsmodel = Util.ReaderToModel<ResourceMapping>(countsql, countsp);
                     if (rsmodel != null)
                     {
@@ -710,9 +717,12 @@ where RowNumber BETWEEN @Start AND @End ";
                     int data = SqlHelper.ExecuteNonQuery(strsql, sp);
                     if (data > 0)
                     {
-                        Uri uri = new Uri(rsmodel.RPath);
-                        string oldpath = uri.PathAndQuery;//旧头像地址
-                        Tool.DeleteFile(Server.MapPath(oldpath));
+                        if (!rsmodel.RPath.Contains(".aliyuncs.com"))
+                        {
+                            Uri uri = new Uri(rsmodel.RPath);
+                            string oldpath = uri.PathAndQuery;//旧头像地址
+                            Tool.DeleteFile(Server.MapPath(oldpath));
+                        }
                         msg.Success = true;
                         p.RPath = RPath;
                         msg.data = p;
