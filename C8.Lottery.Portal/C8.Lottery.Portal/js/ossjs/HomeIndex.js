@@ -72,7 +72,7 @@ function getChildLotteryType(pId) {
             lis += "     </div>";
             lis += " </li>";
         });
-        $("#mainUl2" + pId).empty().append(lis);
+        $("#mainUl2" + pId).empty().append(lis).show();
         $("#kongbaiDiv").hide();
     });
 }
