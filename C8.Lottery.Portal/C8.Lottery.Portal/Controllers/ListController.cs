@@ -364,6 +364,8 @@ order by Money desc,NickName asc
             }
             else
             {
+                my = new RankIntegralModel();
+
                 my.Avater = u.Headpath;
                 my.NickName = u.Name;
                 my.Rank = 0;
