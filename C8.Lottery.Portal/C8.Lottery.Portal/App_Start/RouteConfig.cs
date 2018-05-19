@@ -12,6 +12,11 @@ namespace C8.Lottery.Portal
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //routes.MapRoute(
+            //        name: "hk6",
+            //        url: "hk6/202.html",
+            //        defaults: new { controller = "News", action = "TypeList", id = 5 }
+            //    );
 
             routes.MapRoute(
                     name: "In",
