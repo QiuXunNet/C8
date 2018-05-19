@@ -15,7 +15,7 @@
             page: {
                 num: 0,
                 //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-                size: 100,
+                size: 30,
                 //每页数据条数
                 time: null
             },
