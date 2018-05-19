@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aliyun.OSS, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\C8.Lottery.Portal\packages\Aliyun.OSS.SDK.2.8.0\lib\Aliyun.OSS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\C8.Lottery.Portal\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
