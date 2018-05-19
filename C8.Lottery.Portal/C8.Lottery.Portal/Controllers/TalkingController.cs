@@ -166,7 +166,14 @@ namespace C8.Lottery.Portal.Controllers
                 image2.Dispose();
                 ms2.Close();
 
-                return Json(new { Status=1,imgUrl= "http://"+ HttpContext.Request.Url.Host+":"+HttpContext.Request.Url.Port+xPath + datePath + fileName + "_Min.jpg" } );
+                string path1 = Tool.UploadFileToOss(xPath + datePath + fileName + "_Min.jpg");
+                string path2 = Tool.UploadFileToOss(xPath + datePath + fileName + ".jpg");
+                if (string.IsNullOrWhiteSpace(path1) || string.IsNullOrWhiteSpace(path2))
+                {
+                    return Json(new { Status = 0 });
+                }
+
+                return Json(new { Status=1,imgUrl= path1 } );
             }
             catch (Exception ex)
             {
