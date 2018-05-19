@@ -111,11 +111,8 @@ namespace C8.Lottery.Portal.Controllers
                     ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime
                     left join LotteryType2 lt on lr.lType = lt.lType
                     order by Position";
-            object obj = SqlHelper.ExecuteScalar(sql);
-            LogHelper.WriteLog("SQL完成时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"));
-            List<LotteryRecord> listR = Util.ReaderToList<LotteryRecord>(sql);
-            LogHelper.WriteLog("对象完成时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"));
-            return Json (listR);
+
+            return Json (Util.ReaderToList<LotteryRecord>(sql));
         }
 
         //object obj = new object();
