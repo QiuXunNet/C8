@@ -41,7 +41,7 @@ namespace C8.Lottery.Portal.Controllers
                 string sql = "select * from LotteryType2 where PId = 0 order by Position";
                 list = Util.ReaderToList<LotteryType2>(sql);
 
-                CacheHelper.AddCache<List<LotteryType2>>("GetFatherLotteryTypeToWebSite",list,30*24*60);
+                CacheHelper.AddCache<List<LotteryType2>>("GetFatherLotteryTypeToWebSite", list, 30 * 24 * 60);
             }
 
             return Json(list);
@@ -74,7 +74,7 @@ namespace C8.Lottery.Portal.Controllers
                 list = Util.ReaderToList<News>(sql);
 
                 //新闻缓存2小时
-                CacheHelper.AddCache<List<News>>("GetNewListToWebSite",list,2*60);
+                CacheHelper.AddCache<List<News>>("GetNewListToWebSite", list, 2 * 60);
             }
 
             return list;
@@ -89,14 +89,15 @@ namespace C8.Lottery.Portal.Controllers
         {
             string sql = "";
 
-            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite"+ pId);
+            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId);
             if (list == null)
             {
                 sql = "select lType,Id from LotteryType2 where PId = " + pId + " order by Position";
 
                 list = Util.ReaderToList<LotteryType2>(sql);
 
-                CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite"+pId,list,30*24*60);
+
+                CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId, list, 30 * 24 * 60);
             }
 
             string lTypes = "";
@@ -107,15 +108,26 @@ namespace C8.Lottery.Portal.Controllers
 
             sql = @"select lr.* from LotteryRecord lr
                     join(
-                    select lType, max(SubTime) SubTime from lotteryRecord where lType in("+ lTypes + ") and SubTime >'"+ dateTime + @"' group by lType
+
+                    select lType, max(SubTime) SubTime from lotteryRecord where lType in(" + lTypes + ") and SubTime >'" + dateTime + @"' group by lType
                     ) tab on lr.lType = tab.lType and lr.SubTime = tab.SubTime
                     left join LotteryType2 lt on lr.lType = lt.lType
                     order by Position";
-            object obj = SqlHelper.ExecuteScalar(sql);
-            LogHelper.WriteLog("SQL完成时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"));
-            List<LotteryRecord> listR = Util.ReaderToList<LotteryRecord>(sql);
-            LogHelper.WriteLog("对象完成时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"));
-            return Json (listR);
+            var newList = new List<LotteryRecordToJson>();
+
+            Util.ReaderToList<LotteryRecord>(sql).ForEach(e=> {
+                LotteryRecordToJson newModel = new LotteryRecordToJson();
+                newModel.Id = e.Id;
+                newModel.Issue = e.Issue;
+                newModel.lType = e.lType;
+                newModel.Num = e.Num;
+                newModel.ShowIconName = e.ShowIconName;
+                newModel.ShowOpenTime = e.ShowOpenTime;
+                newModel.ShowTypeName = e.ShowTypeName;
+                newList.Add(newModel);
+            });
+
+            return Json(newList);
         }
 
         //object obj = new object();
@@ -132,7 +144,7 @@ namespace C8.Lottery.Portal.Controllers
                     time = "<t class='hour'>" + arr[0] + "</t>:<t class='minute'>" + arr[1] + "</t>:<t class='second'>" + arr[2] + "</t>";
                 }
 
-                str.Append("{\"lType\":\""+i+"\",\"value\":\""+ time + "\"},");
+                str.Append("{\"lType\":\"" + i + "\",\"value\":\"" + time + "\"},");
             }
             string s = str.ToString().Trim(',');
             s += "]";
@@ -785,7 +797,7 @@ namespace C8.Lottery.Portal.Controllers
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             try
             {
-              
+
 
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@Mobile", mobile) };
                 List<UserInfo> list = Util.ReaderToList<UserInfo>(usersql, sp);
@@ -833,7 +845,7 @@ namespace C8.Lottery.Portal.Controllers
                             // CacheHelper.SetCache(guid, user.Id, DateTime.Now.AddMonths(1));
                             CacheHelper.AddCache(guid, user.Id, 30 * 24 * 60);
 
-                         
+
 
 
 
@@ -843,7 +855,7 @@ namespace C8.Lottery.Portal.Controllers
                             string editsql = "update UserInfo set LastLoginTime=getdate(),LastLoginIP=@LastLoginIP where Mobile=@Mobile";//记录最后一次登录时间
                             SqlParameter[] editsp = new SqlParameter[] { new SqlParameter("@Mobile", mobile), new SqlParameter("@LastLoginIP", ip) };
                             SqlHelper.ExecuteNonQuery(editsql, editsp);
-                        
+
                         }
 
                     }
@@ -857,7 +869,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             catch (Exception e)
             {
-                
+
                 jsonmsg.Success = false;
                 jsonmsg.Msg = e.Message;
                 throw;

@@ -198,11 +198,12 @@ namespace C8.Lottery.Public
         {
             var nowTime = DateTime.Now;
             var nowTimeStr = nowTime.ToString("yyyy-MM-dd");
-
             var list = GetLotteryTimeList().Where(e => e.IsStop == "0");
-            list.ToList().ForEach(e => e.EndTime = e.EndTime == "24:00" ? "00:00" : e.EndTime);
+
             foreach (var model in list)
             {
+                model.EndTime = model.EndTime == "24:00" ? "00:00" : model.EndTime;
+
                 model.BeginTimeDate = Convert.ToDateTime(nowTimeStr + " " + model.BeginTime);
                 model.EndTimeDate = Convert.ToDateTime(nowTimeStr + " " + model.EndTime);
 

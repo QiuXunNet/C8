@@ -65,6 +65,7 @@
     <Compile Include="LinkVisitRecord.cs" />
     <Compile Include="Lottery.cs" />
     <Compile Include="LotteryCharge.cs" />
+    <Compile Include="ToJson\LotteryRecordToJson.cs" />
     <Compile Include="LotteryType2.cs" />
     <Compile Include="MakeMoneyTask.cs" />
     <Compile Include="News\Comment.cs" />
