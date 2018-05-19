@@ -54,6 +54,9 @@
                     //    alertmsg("去逛逛");
                     //}
                 },
+                page: {
+                    size: 30
+                },
                 clearEmptyId: clearEmptyId
             }
         });

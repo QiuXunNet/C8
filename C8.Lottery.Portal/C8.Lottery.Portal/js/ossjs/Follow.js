@@ -1,4 +1,4 @@
-﻿var pageIndex = 1, pageSize = 10;
+﻿var pageIndex = 1, pageSize = 30;
 
 $(function () {
     var dropload = $(".fans_Box").dropload({

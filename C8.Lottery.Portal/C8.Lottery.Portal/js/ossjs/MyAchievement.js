@@ -123,7 +123,7 @@
                 page: {
                     num: 0,
                     //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-                    size: 20,
+                    size: 30,
                     //每页数据条数
                     time: null
                 },
@@ -251,14 +251,15 @@ function buildHtml(data, curNavIndex, ltype) {
                 } else {
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
                 }
-            } else if (ltype == 4) {
+            } else if (ltype == 8)
+            {
                 if (i == 7) {
                     cl = "hdM_spssc HYJP_Blue";
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
                 } else {
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
                 }
-            } else if (ltype == 8) {
+            } else if (ltype == 4) {
                 if (i == 5 || i == 6) {
                     cl = "hdM_spssc HYJP_Blue";
                     kjhtml += '<span class="' + cl + '">' + num[i] + "</span>";
