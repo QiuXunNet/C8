@@ -10,7 +10,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.title1</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/style.css" />
     <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
 </head>
 <body>
@@ -1856,6 +1856,8 @@
             <p class="Rule_font1">（十）第四球  大小</p>
             <p class="Rule_font1">（十一）第五球  单双</p>
             <p class="Rule_font1">（十二）第五球  大小</p>
+            <p class="Rule_font1">（十三）总和 单双</p>
+            <p class="Rule_font1">（十四）总和 大小</p>
             <br>
             <h3 class="Rule_title">快乐12分玩法积分规则:</h3>
             <table width="100%" border="1" bordercolor="#999" class="Rule_tableA">
@@ -1937,30 +1939,43 @@
                     <td align="center" valign="middle">-10</td>
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
-                @*<tr>
-                    <th align="center" valign="middle" scope="row">连中2期</th>
-                    <td align="center" valign="middle">+1</td>
-                    <td align="center" valign="middle">&nbsp;</td>
+                <tr>
+                    <th align="center" valign="middle" scope="row">总和单双</th>
+                    <td align="center" valign="middle">+10</td>
+                    <td align="center" valign="middle">-10</td>
                     <td align="center" valign="middle">&nbsp;</td>
                 </tr>
-                <tr>
-                    <th align="center" valign="middle" scope="row">连中3期</th>
-                    <td align="center" valign="middle">+2</td>
-                    <td align="center" valign="middle">&nbsp;</td>
-                    <td align="center" valign="middle">&nbsp;</td>
-                </tr>
-                <tr>
-                    <th align="center" valign="middle" scope="row">连中4期</th>
-                    <td align="center" valign="middle">+3</td>
-                    <td align="center" valign="middle">&nbsp;</td>
-                    <td align="center" valign="middle">&nbsp;</td>
-                </tr>
-                <tr>
-                    <th align="center" valign="middle" scope="row">以此类推</th>
-                    <td align="center" valign="middle">+(N-1)</td>
-                    <td align="center" valign="middle">&nbsp;</td>
-                    <td align="center" valign="middle">&nbsp;</td>
-                </tr>*@
+     <tr>
+        <th align="center" valign="middle" scope="row">总和大小</th>
+         <td align="center" valign="middle">+10</td>
+         <td align="center" valign="middle">-10</td>
+        <td align="center" valign="middle">&nbsp;</td>
+    </tr>
+   
+    @*<tr>
+        <th align="center" valign="middle" scope="row">连中2期</th>
+        <td align="center" valign="middle">+1</td>
+        <td align="center" valign="middle">&nbsp;</td>
+        <td align="center" valign="middle">&nbsp;</td>
+    </tr>
+    <tr>
+        <th align="center" valign="middle" scope="row">连中3期</th>
+        <td align="center" valign="middle">+2</td>
+        <td align="center" valign="middle">&nbsp;</td>
+        <td align="center" valign="middle">&nbsp;</td>
+    </tr>
+    <tr>
+        <th align="center" valign="middle" scope="row">连中4期</th>
+        <td align="center" valign="middle">+3</td>
+        <td align="center" valign="middle">&nbsp;</td>
+        <td align="center" valign="middle">&nbsp;</td>
+    </tr>
+    <tr>
+        <th align="center" valign="middle" scope="row">以此类推</th>
+        <td align="center" valign="middle">+(N-1)</td>
+        <td align="center" valign="middle">&nbsp;</td>
+        <td align="center" valign="middle">&nbsp;</td>
+    </tr>
             </table>
         </div>
     }
