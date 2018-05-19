@@ -22,6 +22,11 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <Use64BitIISExpress />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -147,6 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\UserHelper.cs" />
+    <Compile Include="Business\BusinessData\LotteryNewsChannel.cs" />
+    <Compile Include="Business\BusinessData\LotteryType.cs" />
+    <Compile Include="Business\NewsService.cs" />
     <Compile Include="Controllers\AmountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AuthenticationAttribute.cs" />
@@ -772,7 +780,52 @@
     <Content Include="js\luo\picmax.js" />
     <Content Include="js\luo\plan.js" />
     <Content Include="js\luo\play.js" />
+    <Content Include="js\news\dynamic.js" />
+    <Content Include="js\news\index.js" />
     <Content Include="js\opendate.js" />
+    <Content Include="js\ossjs\BindingBankCard.js" />
+    <Content Include="js\ossjs\BlackList.js" />
+    <Content Include="js\ossjs\CommentDetail.js" />
+    <Content Include="js\ossjs\CommentIndex.js" />
+    <Content Include="js\ossjs\CommentList.js" />
+    <Content Include="js\ossjs\down.js" />
+    <Content Include="js\ossjs\Expert.js" />
+    <Content Include="js\ossjs\ExpertSearch.js" />
+    <Content Include="js\ossjs\ExtractCash.js" />
+    <Content Include="js\ossjs\Fans.js" />
+    <Content Include="js\ossjs\FansBang.js" />
+    <Content Include="js\ossjs\Follow.js" />
+    <Content Include="js\ossjs\Forget.js" />
+    <Content Include="js\ossjs\Gallery.js" />
+    <Content Include="js\ossjs\Gratuity.js" />
+    <Content Include="js\ossjs\HomeIndex.js" />
+    <Content Include="js\ossjs\Integral.js" />
+    <Content Include="js\ossjs\InvitationReg.js" />
+    <Content Include="js\ossjs\Login.js" />
+    <Content Include="js\ossjs\ManagementList.js" />
+    <Content Include="js\ossjs\ModifyPassword.js" />
+    <Content Include="js\ossjs\MyAchievement.js" />
+    <Content Include="js\ossjs\MyCommission.js" />
+    <Content Include="js\ossjs\MyIntegral.js" />
+    <Content Include="js\ossjs\NewsDetail.js" />
+    <Content Include="js\ossjs\NewsIndex.js" />
+    <Content Include="js\ossjs\Open.js" />
+    <Content Include="js\ossjs\PlanIndex.js" />
+    <Content Include="js\ossjs\PlayRecord.js" />
+    <Content Include="js\ossjs\Post.js" />
+    <Content Include="js\ossjs\Profit.js" />
+    <Content Include="js\ossjs\PvUvIpIndex.js" />
+    <Content Include="js\ossjs\RechargeIndex.js" />
+    <Content Include="js\ossjs\Register.js" />
+    <Content Include="js\ossjs\Set.js" />
+    <Content Include="js\ossjs\SetAutograph.js" />
+    <Content Include="js\ossjs\SetNickName.js" />
+    <Content Include="js\ossjs\SetPassword.js" />
+    <Content Include="js\ossjs\SetSex.js" />
+    <Content Include="js\ossjs\TakeBet.js" />
+    <Content Include="js\ossjs\TransactionRecord.js" />
+    <Content Include="js\ossjs\TypeList.js" />
+    <Content Include="js\ossjs\Voucher.js" />
     <Content Include="js\plan_scroll1.js" />
     <Content Include="js\public.js" />
     <Content Include="js\runTime2.js" />
@@ -848,7 +901,6 @@
     <Content Include="Views\Home\Plan.cshtml" />
     <Content Include="Views\Personal\MyPlan.cshtml" />
     <Content Include="Views\Personal\FansBang.cshtml" />
-    <Content Include="Views\Personal\FansBangList.cshtml" />
     <Content Include="Views\Personal\Set111.cshtml" />
     <Content Include="Views\Home\Open.cshtml" />
     <Content Include="Views\Home\副本 Index.cshtml" />
@@ -889,6 +941,7 @@
     <Content Include="Views\Personal\MyIntegral.cshtml" />
     <Content Include="Views\Home\down.cshtml" />
     <Content Include="Views\Home\Explain.cshtml" />
+    <Content Include="Views\News\NewIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="hk6\" />
@@ -945,12 +998,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>36199</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:36166/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

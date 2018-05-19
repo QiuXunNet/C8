@@ -8,98 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>忘记密码-万彩吧_快3_11选5_快乐10分_3d_彩票开奖查询</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
-    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
 
     <link href="~/css/dialog.css" rel="stylesheet" />
-    <script src="~/js/dialog.min.js"></script>
-    <script src="~/js/yjp.js"></script>
-    <script type="text/javascript" src="~/js/baidu-statistics.js"></script>
-    <script>
-        $(function () {
+    <script src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Forget.js"></script>
 
-
-            Validate();
-            setInterval('runTime();', 1000);
-            BindsendMsgClick();
-
-
-
-        });
-
-        function runTime() {
-            var text = $('#sendMsg').text();
-            if (text.indexOf('s') != -1) {
-                text = text.substr(0, text.length - 1);
-
-                var sec = parseInt(text);
-
-                if (sec == 1) {
-                    $('#sendMsg').text('点击免费获取');
-                } else {
-                    $('#sendMsg').text((sec - 1) + 's');
-                }
-            }
-        }
-
-        function BindsendMsgClick() {
-            $('#sendMsg').click(function () {
-
-                //$(this).hide();
-                var text = $(this).text();
-
-                if (text == '点击免费获取') {
-
-
-                    var mobile = $('#mobile').val();
-
-                    if (mobile != '') {
-                        $(this).text('60s');
-
-                        $.post('/Home/GetCode', { mobile: mobile }, function (data) {
-                            if (data != true) {
-                                alertmsg("验证码获取失败");
-                            }
-                        });
-                    } else {
-                        alertmsg('手机号不能为空');
-                    }
-                }
-
-
-            });
-        }
-        //验证
-        function Validate() {
-            $("#btnNext").click(function () {
-
-                var mobile = $("#mobile").val();
-                var vcode = $("#vcode").val();
-                if (mobile.length == 0) {
-                    alertmsg("手机号不能为空");
-                    return false;
-                }
-                if (vcode.length == 0) {
-                    alertmsg("验证码不能为空");
-                    return false;
-                }
-                if (mobile != '') {
-                    $.post('/Home/Validate', { mobile: mobile, vcode: vcode }, function (data) {
-
-                        if (data.Success != true) {
-                            alertmsg(data.Msg);
-                        } else {
-                            location.href = "/Home/SetPassword"
-                        }
-
-                    });
-                }
-
-
-            });
-        }
-
-
-    </script>
 </head>
 
 <body style="background:#F4F4F5;">

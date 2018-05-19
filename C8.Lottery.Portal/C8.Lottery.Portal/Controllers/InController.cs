@@ -10,7 +10,7 @@ using C8.Lottery.Public;
 
 namespace C8.Lottery.Portal.Controllers
 {
-    public class InController : Controller
+    public class InController : BaseController
     {
         /// <summary>
         /// 链接接入

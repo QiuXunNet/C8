@@ -19,186 +19,19 @@
     <title>@Model.Name-@newsType.TypeName</title>
     <meta name="keywords" content="@newsType.SeoKeyword">
     <meta name="description" content="@newsType.SeoDescription">
-    <script type="text/javascript" src="~/js/fontSize.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/fontSize.js"></script>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link rel="stylesheet" type="text/css" href="~/css/c8-icon.css" />
     <link rel="stylesheet" type="text/css" href="~/css/paper.css" />
-    <script type="text/javascript" src="~/js/jquery-1.8.3.min.js"></script>
-    <script src="~/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
     <script>
-        $(function ()
-        {
-            var location=@newsType.Id;
-            getadlist(location);
-        });
-        function getadlist(location)
-        {
-            $.get("/News/GetAdvertisementListJson",
-                {
-                    location: location,
-                    adtype: 2
-                },
-               function (data)
-               {
-                   if (data.Success == true)
-                   {
-                       inadHtml(data.data);
-                       console.log(data.data);
-                   } else
-                   {
-                       alert("Data Loaded: " + data.Msg);
-                   }
-
-               });
-        }
-        function inadHtml(data)
-        {
-            var cityid=@CityId;
-            var city;
-            var idx=-1;
-            $.each(data, function (index, item)
-            {
-                if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
-                {
-                    city=item.RestrictedAreas.split(',');
-                    idx=$.inArray(cityid.toString(),city);
-                }
-                if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
-                {
-                    if(!IsPC())
-                    {
-                        if(item.Layer==1)
-                        {
-                            $(".listdetail").prepend(itemhtml(item))
-                        }else if(item.Layer==2)
-                        {
-                            $(".listtitle").after(itemhtml(item))
-                        }else if(item.Layer==3)
-                        {
-                            $(".slick-track").after(itemhtml(item))
-                        }
-                        else if(item.Layer==4)
-                        {
-                            $(".rec-gallery dt").after(itemhtml(item))
-                        }
-                        else if(item.Layer==5)
-                        {
-                            $(".rec-gallery").after(itemhtml(item))
-                        }
-                        else if(item.Layer==6)
-                        {
-                            //$(".hjc_news_lhs").after(itemhtml(item))
-                            //$(".GG_Box").addClass("GG_Box1")
-
-                        } else if(item.Layer==7)
-                        {
-                            //$(".raking").after(itemhtml(item))
-                            //$(".GG_Box").addClass("GG_Box1")
-                        }
-                    }
-                    
-                }
-
-            });
-        }
-        function itemhtml(item)
-        {
-            var html='';
-            if(item.ThumbStyle==0)
-            {
-                html='<div class="GG_Box GG_Box1">'
-	  +'<a href="'+item.TransferUrl+'">'
-    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-       //+ '<div class="GG_BbtFont">'
-       // 	+'<b>广告</b>'
-       //   +  '<span>'+item.Company+'</span>'
-       //+ '</div>'
-         +'</a>'
-            +'</div>'
-
-            }else if(item.ThumbStyle==1)
-            {
-                var img='';
-                if(item.ThumbList!=null && item.ThumbList.length>0)
-                {
-                    img='<img src="'+item.ThumbList[0]+'">'
-                }
-
-
-                html='<div class="GG_Box GG_Box1">'
-	+'<a href="'+item.TransferUrl+'">'
-    	+'<div class="GG_B2Left f-l">'
-        	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-          //+  '<div class="GG_BbtFont">'
-          //  +   ' <b>广告</b>'
-          // +    ' <span>'+item.Company+'</span>'
-          //+  '</div>'
-       + '</div>'
-    	+'<div class="GG_B2Right">'+img+'</div>'
-    +'</a>'
-    +'</div>'
-
-            }else if(item.ThumbStyle==2)
-            {
-                var img='';
-                if(item.ThumbList!=null && item.ThumbList.length>0)
-                {
-                    img='<img src="'+item.ThumbList[0]+'">'
-                }
-                html='<div class="GG_Box GG_Box1">'
-	+'<a href="'+item.TransferUrl+'">'
-    	+'<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-       + '<div class="GG_B4Tu">'+img+'</div>'
-     //  + '<div class="GG_BbtFont">'
-     // +  	'<b>广告</b>'
-     // +      '<span>'+item.Company+'</span>'
-     //+   '</div>'
-   + '</a>'
-+'</div>'
-
-            }else if(item.ThumbStyle==3)
-            {
-                var img='';
-                if(item.ThumbList!=null && item.ThumbList.length>0)
-                {
-                    for (var i = 0; i < item.ThumbList.length; i++)
-                    {
-                        img+='<li><img src="'+item.ThumbList[i]+'"></li>'
-                    }
-                }
-
-                html='<div class="GG_Box GG_Box1">'
-	+ '<a href="'+item.TransferUrl+'">'
-    	+ '<h3 class="GG_B1Tit">'+item.Title+'</h3>'
-        + '<ul class="GG_B3Tu">'
-        	+img
-            + '<div style="clear:both;"></div>'
-        + '</ul>'
-
-        //+ '<div class="GG_BbtFont">'
-        //	+ '<b>广告</b>'
-        //    + '<span>'+item.Company+'</span>'
-        //+ '</div>'
-    + '</a>'
-+ '</div>'
-            }else if(item.ThumbStyle==4)
-            {
-                var img='';
-                if(item.ThumbList!=null && item.ThumbList.length>0)
-                {
-                    img='<img src="'+item.ThumbList[0]+'"  class="GG_B5Tu">'
-                }
-                html='  <div class="GG_Box GG_Box1 PD3">'
-               + ' <a href="' + item.TransferUrl + '">'+img+'</a>'
-               + '   </div>'
-            }
-
-
-            return html;
-        }
-
+        var newstypeid=@newsType.Id;
+        var CityId=@CityId;
     </script>
+   
+
 </head>
 
 <body style="background:#F4F4F5;">
@@ -397,6 +230,7 @@
             </ul>
         </div>
     </div>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/Gallery.js"></script>
 </body>
 
 @{Html.RenderAction("index", "PvUvIp");}

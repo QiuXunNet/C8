@@ -7,11 +7,28 @@ using System.Web;
 using System.Web.Mvc;
 using C8.Lottery.Model;
 using C8.Lottery.Public;
+using System.Configuration;
+using System.Web.Routing;
 
 namespace C8.Lottery.Portal.Controllers
 {
     public class BaseController : Controller
     {
+
+
+
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="requestContext"></param>
+        protected override void Initialize(RequestContext requestContext)
+        {
+            string osshost = ConfigurationManager.AppSettings["osshost"];
+            ViewBag.osshost = osshost;
+            base.Initialize(requestContext);
+        }
+
         /// <summary>
         /// 获取站点配置
         /// </summary>
@@ -202,6 +219,25 @@ order by a.LotteryNumber desc";
             }
             
             return list ?? new List<CommissionSetting>();
+        }
+
+
+
+        
+
+
+        /// <summary>
+        /// 获取cdn js地址
+        /// </summary>
+        /// <returns></returns>
+        protected void GetWebHot()
+        {
+         
+
+            string osshost = ConfigurationManager.AppSettings["osshost"];
+           
+            HttpContext.Application["osshost"] = osshost;
+           
         }
     }
 }

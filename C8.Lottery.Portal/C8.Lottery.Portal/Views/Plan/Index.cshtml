@@ -22,42 +22,15 @@
     <link rel="stylesheet" type="text/css" href="/css/dialog.css" />
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
 
-    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="/js/luo/mescroll.min.js"></script>
-    <script type="text/javascript" src="/js/dialog.min.js"></script>
-    <script type="text/javascript" src="/js/yjp.js"></script>
-    <script type="text/javascript" src="/js/runTime2.js"></script>
-    <script type="text/javascript" src="/js/plan_scroll1.js"></script>
-    <script type="text/javascript" src="/js/baidu-statistics.js"></script>
-    <script>
-        $(function () {
-            var cur = GetQueryString("cur");
-            if (cur != null) {
-                $(".C8_nav5 #g2").first().addClass("current").siblings().removeClass("current");
-                $(".C8_nav5 #g2").click();
+    <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/luo/mescroll.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/dialog.min.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/yjp.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/runTime2.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/plan_scroll1.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
+    <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/PlanIndex.js"></script>
 
-            }
-
-            $(".hjc_back").click(function () {
-                var ref = document.referrer;
-                if (ref.length == 0) {
-                    $(this).attr('href', '/Home/Index');
-                } else {
-                    $(this).attr('href', ref);
-                }
-
-            })
-
-
-
-        });
-
-        function GetQueryString(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        }
-    </script>
     <style>
         .mscroll {
             top: 200px;

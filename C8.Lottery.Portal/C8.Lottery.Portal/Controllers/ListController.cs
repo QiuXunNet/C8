@@ -127,7 +127,7 @@ namespace C8.Lottery.Portal.Controllers
 
         public int GetlType(int id)
         {
-            string strsql =string.Format("select lType from [dbo].[LotteryType2]  where Id={0}",id);
+            string strsql = string.Format("select lType from [dbo].[LotteryType2]  where Id={0}", id);
             return Convert.ToInt32(SqlHelper.ExecuteScalar(strsql));
         }
 
@@ -180,7 +180,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.LotteryList = lotteryList;
 
             return View();
-          
+
         }
         /// <summary>
         /// 佣金排行数据 （打赏、盈利）
@@ -191,48 +191,67 @@ namespace C8.Lottery.Portal.Controllers
 
         public JsonResult GetRankMoneyList(string queryType, int RType, int lType)
         {
-            RankMoneyListModel model = new RankMoneyListModel();
-            DateTime today = DateTime.Today;
-            string memberKey = "RankMoney_" + RType + "_" + queryType + "_" + lType + "_total_" + today.ToString("yyyyMMdd");
-            ReturnMessageJson msgjson = new ReturnMessageJson();
-            try
-            {
-                //   list = MemClientFactory.GetCache<List<RankMoneyListModel>>(memberKey);
-                if (model.MyRankMonyModel == null)
-                {
-                    string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
-(select 
-b.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
-left join BettingRecord b on b.Id=a.OrderId 
-left join UserInfo c on c.Id=b.UserId
-left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
-where a.Type=@RType  and b.lType=@lType
-{0}
+            List<RankMonyModel> list;
+            list = CacheHelper.GetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType);
 
-)t
-group by t.UserId ,t.NickName,t.Avater,t.lType
-order by Money desc,NickName asc
-", Tool.GetTimeWhere("a.SubTime", queryType));
-                    SqlParameter[] sp = new SqlParameter[]{
+            if (list == null)
+            {
+                string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
+                            (select 
+                            b.UserId,a.Money,b.lType,c.Name as NickName,d.RPath as Avater  from [dbo].[ComeOutRecord] a
+                            left join BettingRecord b on b.Id=a.OrderId 
+                            left join UserInfo c on c.Id=b.UserId
+                            left join ResourceMapping d on d.FkId=b.UserId and d.[Type]=@ResourceType
+                            where a.Type=@RType  and b.lType=@lType
+                            {0}
+
+                            )t
+                            group by t.UserId ,t.NickName,t.Avater,t.lType
+                            order by Money desc,NickName asc
+                            ", Tool.GetTimeWhere("a.SubTime", queryType));
+
+                SqlParameter[] sp = new SqlParameter[]{
                 new SqlParameter("@RType",RType),
                 new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
-                new SqlParameter("@lType",lType)
-            };
-                    model.RankMonyModelList = Util.ReaderToList<RankMonyModel>(strsql, sp);
-                    model.MyRankMonyModel = GetMyRankMony(queryType, RType, lType);
+                new SqlParameter("@lType",lType) };
 
+                list = Util.ReaderToList<RankMonyModel>(strsql, sp);
 
-                }
-                msgjson.Success = true;
-                msgjson.data = model;
+                CacheHelper.SetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType,list,DateTime.Parse("23:59:59"));
             }
-            catch (Exception e)
+
+            int UserId = UserHelper.GetByUserId();
+            var model = list.Where(e => e.UserId == UserId).FirstOrDefault();
+
+            MyRankMonyModel my = new MyRankMonyModel();
+            UserInfo user = UserHelper.GetUser();
+            user.Headpath = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;
+
+            if (model != null)
             {
-                msgjson.Success = false;
-                msgjson.Msg = e.Message;
-                throw;
+                my.Avater = user.Headpath;
+                my.Rank = model.Rank;
+                my.NickName = model.NickName;
+                my.Money = model.Money;
+                my.LType = model.LType;
+                my.UserId = model.UserId;
+            }
+            else
+            {
+                my.NickName = user.Name;
+                my.Avater = user.Headpath;
+                my.Rank = 0;
+                my.UserId = user.Id;
+                my.Money = 0;
             }
 
+            RankMoneyListModel rankMoneyListModel = new RankMoneyListModel();
+            rankMoneyListModel.RankMonyModelList = list;
+            rankMoneyListModel.MyRankMonyModel = my;
+
+            ReturnMessageJson msgjson = new ReturnMessageJson();
+            msgjson.Success = true;
+            msgjson.data = rankMoneyListModel;
 
             return Json(msgjson, JsonRequestBehavior.AllowGet);
 
@@ -310,71 +329,54 @@ order by Money desc,NickName asc
         [HttpGet]
         public JsonResult GetIntegralList(string queryType)
         {
-            string strsql =string.Format(@"
-select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
-(
-  SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
-  FROM dbo.SuperiorRecord a
-  left join UserInfo b on b.Id=a.UserId
-  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
- )t
- where 1=1   {0}
- group by UserId,NickName,Avater", Tool.GetTimeWhere("Date",queryType));
+            List<RankIntegralModel> list;
+            list = CacheHelper.GetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType);
+
+            if (list == null)
+            {
+                string strsql = string.Format(@"
+                select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)Score,UserId,NickName,Avater from
+                (
+                  SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
+                  FROM dbo.SuperiorRecord a
+                  left join UserInfo b on b.Id=a.UserId
+                  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
+                 )t
+                 where 1=1   {0}
+                 group by UserId,NickName,Avater", Tool.GetTimeWhere("Date", queryType));
+
+                SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@ResourceType", (int)ResourceTypeEnum.用户头像) };
+
+                list = Util.ReaderToList<RankIntegralModel>(strsql, sp);
+
+                CacheHelper.SetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType, list, DateTime.Parse("23:59:59"));
+            }
+
             ReturnMessageJson msgjson = new ReturnMessageJson();
             RankIntegralListModel rlist = new RankIntegralListModel();
-            RankIntegralModel my = new RankIntegralModel();
-            List<RankIntegralModel> list = new List<RankIntegralModel>();
-            SqlParameter[] sp = new SqlParameter[]{
-                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像)
-            };
-            try
+            int userId = UserHelper.GetByUserId();
+            RankIntegralModel my = list.Where(x => x.UserId == userId).FirstOrDefault();            
+            UserInfo u = UserHelper.GetUser(userId);
+            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? "/images/default_avater.png" : u.Headpath;
+            if (my != null)
             {
-                list = Util.ReaderToList<RankIntegralModel>(strsql, sp);
-                int userId = UserHelper.GetByUserId();
-                UserInfo u = UserHelper.GetUser(userId);
-              
+                my.Avater = u.Headpath;              
+            }
+            else
+            {
                 my.Avater = u.Headpath;
                 my.NickName = u.Name;
                 my.Rank = 0;
                 my.Score = 0;
-                my.UserId = Convert.ToInt32(u.Id);
-
-
-
-                if (list.Count > 0)
-                {
-                    RankIntegralModel myrank = list.Where(x => x.UserId == userId).FirstOrDefault();
-                    if (myrank != null)
-                    {
-                        my.Avater = myrank.Avater;
-                        my.Date = myrank.Date;
-                        my.NickName = myrank.NickName;
-                        my.Rank = myrank.Rank;
-                        my.Score = myrank.Score;
-                        my.UserId = myrank.UserId;
-
-                    }
-                }
-              
-                rlist.MyRankIntegralModel = my;
-                rlist.RankIntegralList = list;
-                msgjson.Success = true;
-                msgjson.data = rlist;
+                my.UserId = userId;
             }
-            catch (Exception ex)
-            {
 
-                msgjson.Success = false;
-                msgjson.Msg = ex.Message;
-                throw;
-            }
-           
-         
+            rlist.MyRankIntegralModel = my;
+            rlist.RankIntegralList = list;
+            msgjson.Success = true;
+            msgjson.data = rlist;
 
             return Json(msgjson, JsonRequestBehavior.AllowGet);
-             
-            
-
         }
 
         /// <summary>
@@ -406,7 +408,7 @@ select top 100 row_number() over(order by Sum(Score) DESC) as [Rank],Sum(Score)S
             DateTime today = DateTime.Today;
             string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
 
-           // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
+            // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
 
             if (list == null || list.Count < 1)

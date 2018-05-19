@@ -36,6 +36,12 @@ namespace C8.Lottery.Portal
                 );
 
             routes.MapRoute(
+                    name: "newarticle",
+                    url: "News/NewIndex/{id}/{ntype}",
+                    defaults: new { controller = "News", action = "NewIndex" }
+                );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
