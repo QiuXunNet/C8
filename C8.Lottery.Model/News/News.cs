@@ -167,10 +167,5 @@ namespace C8.Lottery.Model
         /// 评论数量
         /// </summary>
         public int CommentCount { get; set; }
-
-        /// <summary>
-        /// 缩略图集合字符串
-        /// </summary>
-        public string Paths { get; set; }
     }
 }
