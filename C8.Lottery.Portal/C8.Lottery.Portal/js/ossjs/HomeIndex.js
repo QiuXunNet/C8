@@ -62,7 +62,7 @@ function getChildLotteryType(pId) {
             lis += "          <a href='/Record/OpenRecord/?lType=" + this.lType + "' class='UL2_baif3a'>历史</a>";
             lis += "          <a href='/Plan/Post/" + this.lType + "' class='UL2_baif3a'>发帖</a>";
             lis += "          <a href='/Plan/Index/" + this.lType + "?cur=2' class='UL2_baif3a'>排行</a>";
-            lis += "          <a href='/News/Index/" + this.lType + "' class='UL2_baif3a'>资讯</a>";
+            lis += "          <a href='/News/NewIndex/" + this.lType + "' class='UL2_baif3a'>资讯</a>";
             lis += "             <div style='clear: both;'></div>";
             lis += "         </div>";
             lis += "     </div>";
