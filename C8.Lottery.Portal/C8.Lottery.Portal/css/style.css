@@ -8376,7 +8376,7 @@ footer {
 /*** 发表评论**/
 .emoji-button {
     border: 0;
-    background: url(/images/53_1.png) no-repeat;
+    background: url(../images/53_1.png) no-repeat;
     background-size: 100%;
     width: 30px;
     height: 30px;
