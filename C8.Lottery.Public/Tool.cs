@@ -60,6 +60,33 @@ namespace C8.Lottery.Public
             return userIP;
         }
 
+        /// <summary>  
+        /// 获取客户端Ip  
+        /// </summary>  
+        /// <returns></returns>  
+        public static string GetClientIp()
+        {
+            string clientIP = "";
+            if (System.Web.HttpContext.Current != null)
+            {
+                clientIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                if (string.IsNullOrEmpty(clientIP) || (clientIP.ToLower() == "unknown"))
+                {
+                    clientIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_REAL_IP"];
+                    if (string.IsNullOrEmpty(clientIP))
+                    {
+                        clientIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                    }
+                }
+                else
+                {
+                    clientIP = clientIP.Split(',')[0];
+                }
+            }
+            return clientIP;
+        }
+
+
         /// <summary>
         /// 获取广告位城市标识
         /// </summary>
@@ -92,19 +119,7 @@ namespace C8.Lottery.Public
             return i;
         }
 
-        /// <summary>
-        /// 广告IP
-        /// </summary>
-        /// <returns></returns>
-        public static string GetAdIp()
-        {
-            string adIp= string.Empty;
-            HttpRequest Request = System.Web.HttpContext.Current.Request;
-            adIp= Request.Headers.Get("X-real-ip");
-            return adIp;
-               
-        }
-
+   
 
         /// <summary>
         /// 获取访客ip城市
@@ -115,7 +130,7 @@ namespace C8.Lottery.Public
             try
             {
                
-                string ip = GetAdIp();
+                string ip = GetClientIp();
                 string json = HttpCommon.HttpGet("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip + "");
                 JObject jo = (JObject)JsonConvert.DeserializeObject(json);               
                 string data = jo["data"].ToString();
