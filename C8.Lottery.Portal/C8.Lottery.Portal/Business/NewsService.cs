@@ -121,7 +121,7 @@ namespace C8.Lottery.Portal.Business
                     if (lType == 63 || lType == 64)
                     {
                         string clazz = "hdM_spPK hdM_spPK" + s;
-                        tempHtml.AppendLine("<span class=\"" + clazz + "\">@s</span>");
+                        tempHtml.AppendLine("<span class=\"" + clazz + "\">" + s + "</span>");
                     }
                     else if (lType == 2)
                     {
