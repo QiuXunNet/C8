@@ -25,7 +25,7 @@
 </head>
 <body>
     <header class="hjc_header" style="text-align:left;">
-        <a href="javascript:;" class="home_logo"><img src="@(string.IsNullOrEmpty(site.LogoPath)?"/images/03.png":site.LogoPath)"></a>
+        <a href="javascript:;" class="home_logo"><img src="@(string.IsNullOrEmpty(site.LogoPath)?ViewBag.osshost+"/images/03.png":site.LogoPath)"></a>
         <div class="hjc_hdDZ">
             @if (user == null)
             {
@@ -43,49 +43,49 @@
         <ul class="hdNav_ul">
             <li>
                 <a href="/Home/Open">
-                    <i><img src="/images/grids_icon_01.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_01.png"></i>
                     <p>开奖</p>
                 </a>
             </li>
             <li>
                 <a href="javascript:;">
-                    <i><img src="/images/grids_icon_02.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_02.png"></i>
                     <p>走势</p>
                 </a>
             </li>
             <li>
                 <a href="/Home/Plan">
-                    <i><img src="/images/grids_icon_03.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_03.png"></i>
                     <p>计划</p>
                 </a>
             </li>
             <li>
                 <a href="/List/Index">
-                    <i><img src="/images/grids_icon_04.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_04.png"></i>
                     <p>排行</p>
                 </a>
             </li>
             <li>
                 <a href="/Talking/Index">
-                    <i><img src="/images/grids_icon_05.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_05.png"></i>
                     <p>聊天</p>
                 </a>
             </li>
             <li>
                 <a href="/List/Expert">
-                    <i><img src="/images/grids_icon_06.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_06.png"></i>
                     <p>高手</p>
                 </a>
             </li>
             <li>
                 <a href="/News/NewIndex/2">
-                    <i><img src="/images/grids_icon_07.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_07.png"></i>
                     <p>资讯</p>
                 </a>
             </li>
             <li>
                 <a href="/Home/down">
-                    <i><img src="/images/grids_icon_08.png"></i>
+                    <i><img src="@ViewBag.osshost/images/grids_icon_08.png"></i>
                     <p>App</p>
                 </a>
             </li>
