@@ -39,6 +39,9 @@
     function initMescroll(mescrollId, clearEmptyId) {
         var mescroll = new MeScroll(mescrollId, {
             //上拉加载的配置项
+            down: {
+                use:false
+            },
             up: {
                 callback: getListData,
                 isBounce: false, //此处禁止ios回弹
