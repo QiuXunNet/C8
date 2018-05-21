@@ -942,6 +942,7 @@
     <Content Include="Views\Home\down.cshtml" />
     <Content Include="Views\Home\Explain.cshtml" />
     <Content Include="Views\News\NewIndex.cshtml" />
+    <Content Include="Views\Shared\Sidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="hk6\" />
