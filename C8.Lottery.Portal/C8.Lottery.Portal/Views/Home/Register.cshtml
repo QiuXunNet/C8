@@ -27,7 +27,7 @@
 
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
-        <a href="javascript:;" class="hjc_logo"><img src="@(string.IsNullOrEmpty(site.LogoPath)?"/images/03.png":site.LogoPath)"></a>
+        <a href="javascript:;" class="home_logo"><img src="@(string.IsNullOrEmpty(site.LogoPath)?ViewBag.osshost+"/images/03.png":site.LogoPath)"></a>
         <a href="/Home/Login" class="hjc_login">登录</a>
     </header>
 

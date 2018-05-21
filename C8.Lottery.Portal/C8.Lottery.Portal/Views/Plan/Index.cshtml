@@ -21,7 +21,6 @@
     <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/mescroll.min.css" />
     <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/dialog.css" />
     <link rel="stylesheet" type="text/css" href="@ViewBag.osshost/css/style.css" />
-
     <script type="text/javascript" src="@ViewBag.osshost/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="@ViewBag.osshost/js/luo/mescroll.min.js"></script>
     <script type="text/javascript" src="@ViewBag.osshost/js/dialog.min.js"></script>
@@ -30,7 +29,6 @@
     <script type="text/javascript" src="@ViewBag.osshost/js/plan_scroll1.js"></script>
     <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
     <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/PlanIndex.js"></script>
-
     <style>
         .mscroll {
             top: 200px;
@@ -40,7 +38,6 @@
     </style>
 </head>
 <body style="background:#F4F4F5; overflow-y: hidden;">
-
     <input type="hidden" id="lType" value="@lType" />
     <header class="hjc_header">
         <a href="javascript:;" class="hjc_back"></a>
@@ -175,7 +172,7 @@
 
 
                                         <span class="hdM_spssc HYJP_Red">@numArr[0]</span>
-                                                <span class="hdM_spssc HYJP_PcHao">+</span>
+                                        <span class="hdM_spssc HYJP_PcHao">+</span>
                                                 <span class="hdM_spssc HYJP_Red">@numArr[1]</span>
                                                 <span class="hdM_spssc HYJP_PcHao">+</span>
                                                 <span class="hdM_spssc HYJP_Red">@numArr[2]</span>
@@ -218,7 +215,7 @@
                                             }
                                             else if (lType == 8)
                                             {
-                                                if (i ==7)
+                                                if (i == 7)
                                                 {
                                                     <span class="hdM_spssc HYJP_Blue">@s</span>
                                                 }
@@ -227,14 +224,14 @@
                                                     <span class="hdM_spssc HYJP_Red">@s</span>
                                                 }
                                             }
-                                            
+
                                             else
                                             {
                                                 <span class="hdM_spssc HYJP_Red">@s</span>
-                                        }
+                                            }
 
+                                        }
                                     }
-                                  }
 
 
                                 }
@@ -259,7 +256,6 @@
                     <!--计划列表-->
                     <div class="CZ_Minfo">
                         <div class="Mif_sy">
-
                             <div class="Mif_sykuai">
                                 <table class="Mif_syTable" width="100%" bordercolor="#d9d9d9" border="1">
                                     @*查看计划*@
@@ -272,7 +268,6 @@
                             </div>
                             <div id="mescroll5" class="mescroll mscroll">
                                 <div id="planList">
-
                                 </div>
                             </div>
                         </div>
@@ -280,13 +275,11 @@
                 </div>
             </div>
         </div>
-
         @*高手推荐*@
-        <div id="mescroll0" class="Plan_CInfo mescroll" style="display: none;">
+        <div id="mescroll0" class="Plan_CInfo mescroll" style="display:none;">
             <div id="datalist0" class="Plan_CIfBox data-list">
             </div>
         </div>
-
         @*免费专家*@
         <div id="mescroll1" class="Plan_CInfo mescroll" style="display: none;">
             <div id="datalist1" class="Plan_CIfBox data-list">
