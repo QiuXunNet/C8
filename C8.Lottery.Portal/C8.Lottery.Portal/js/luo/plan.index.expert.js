@@ -31,7 +31,7 @@ $(function () {
             },
             page: {
                 num: 0,
-                size: 20,
+                size: 30,
                 time: null
             }
         }
@@ -64,7 +64,7 @@ $(function () {
                 },
                 page: {
                     num: 0,
-                    size: 20,
+                    size: 30,
                     time: null
                 }
             }
@@ -105,18 +105,21 @@ $(function () {
             if (queryType == 1) {
                 mescroll.endSuccess(pageData.length, hasNextPage);
                 //设置高手推荐列表数据
-                buildHtml(pageData, 0, page.num);
+
+                buildHtml(pageData, 0);
             } else if (queryType == 2) {
                 mescrol2.endSuccess(pageData.length, hasNextPage);
                 //设置高手推荐列表数据
-                buildHtml(pageData, 1, page.num);
+                buildHtml(pageData, 1);
             }
 
         }, function () {
             //隐藏下拉刷新和上拉加载的状态;
-            if (queryType == 1) {
+            if (queryType == 1)
+            {
                 mescroll.endErr();
-            } else if (queryType == 2) {
+            } else if (queryType == 2)
+            {
                 mescrol2.endErr();
             }
         });
@@ -183,7 +186,8 @@ function buildHtml(data, tabtype,pageIndex) {
         var itemHtml = '<div class="CIFB_K">'
             + '<div class="CIFB_KL f-l">'
             + '<div class="KL_number f-l">';
-        if (item.RowNumber <= 3) {
+        if (item.RowNumber <= 3)
+        {
             itemHtml += '<div class="KL_nbqs">'
                 + '<img src="/images/44_' + item.RowNumber + '.png">'
                 + '</div>';
@@ -225,8 +229,14 @@ function buildHtml(data, tabtype,pageIndex) {
     });
 
     var html = itemList.join('');
-    if (pageIndex == 1) {
-        listDom.html(html);
+    if (pageIndex == 1)
+    {
+        if (html != '')
+        {
+            listDom.html(html);
+        }
+        
+
     } else {
         listDom.append(html);
     }

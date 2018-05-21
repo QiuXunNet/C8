@@ -111,11 +111,14 @@
     function initMescroll(mescrollId, clearEmptyId) {
         var mescroll = new MeScroll(mescrollId, {
             //上拉加载的配置项
+            down: {
+                use: false
+            },
             up: {
                 callback: getListData,
                 isBounce: false,
                 //此处禁止ios回弹
-                noMoreSize: 1,
+                noMoreSize: 5,
                 empty: {
                     icon: "/images/null.png",
                     tip: "暂无相关数据~"

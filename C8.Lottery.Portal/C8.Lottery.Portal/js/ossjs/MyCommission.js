@@ -3,10 +3,13 @@
     $(".sion_conInfo").height(dh);
     var mescroll = new MeScroll("mescroll", {
         //上拉加载的配置项
+        down: {
+            use: false
+        },
         up: {
             callback: getListData,
             isBounce: false,
-            noMoreSize: 1,
+            noMoreSize: 5,
             empty: {
                 icon: "/images/null.png",
                 //图标,默认null

@@ -7,7 +7,8 @@ $(function() {
     var mescrollArr = new Array(3);
     mescrollArr[0] = initMescroll("mescroll0", "datalist0");
 
-    $(".C8_Trzy li").click(function() {
+    $(".C8_Trzy li").click(function ()
+    {
         var _this = $(this),
             i = _this.attr("data-index");
 
@@ -43,12 +44,13 @@ $(function() {
         var mescroll = new MeScroll(mescrollId, {
             //上拉加载的配置项
             down: {
-                use:false
+                callback: downCallback,
+                auto: false
             },
             up: {
                 callback: getListData,
                 isBounce: false, //此处禁止ios回弹
-                noMoreSize: 1,
+                noMoreSize: 5,
                 empty: {
                     icon: "/images/null.png",
                     tip: "暂无相关数据~",
@@ -56,6 +58,13 @@ $(function() {
                     //btnClick: function() {
                     //    alertmsg("去逛逛");
                     //}
+                }, 
+                page: {
+                    num: 0,
+                    //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+                    size: 30,
+                    //每页数据条数
+                    time: null
                 },
                 clearEmptyId: clearEmptyId
             }
@@ -72,7 +81,7 @@ $(function() {
             mescrollArr[dataIndex].endSuccess(pageData.length, hasNextPage);
 
             //设置列表数据
-            buildHtml(pageData, dataIndex, page.num);
+            buildHtml(pageData, dataIndex);
         }, function() {
             //隐藏下拉刷新和上拉加载的状态;
             mescrollArr[dataIndex].endErr();
@@ -81,7 +90,7 @@ $(function() {
     /*下拉刷新*/
     function downCallback() {
         var dataIndex = curNavIndex;
-        getListDataFromNet(dataIndex, 1, 10, function(pageData, hasNextPage) {
+        getListDataFromNet(dataIndex, 1, 30, function(pageData, hasNextPage) {
             //console.log("dataIndex=" + dataIndex + ", curNavIndex=" + curNavIndex + ", page.num=" + page.num + ", page.size=" + page.size + ", pageData.length=" + pageData.length);
             mescrollArr[dataIndex].endSuccess(pageData.length, hasNextPage);
 
@@ -210,8 +219,12 @@ function buildHtml(data, tabtype,pageIndex) {
     }
 
     var html = itemList.join('');
-    if (pageIndex == 1) {
-        listDom.html(html);
+    if (pageIndex == 1 && html != '')
+    {
+      
+         listDom.html(html);
+           
+
     } else {
         listDom.append(html);
     }
