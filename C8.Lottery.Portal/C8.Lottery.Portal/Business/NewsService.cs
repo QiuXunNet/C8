@@ -25,7 +25,7 @@ namespace C8.Lottery.Portal.Business
             { 
                 string sql = "";
                 if (ntype != 0) sql = "SELECT a.SeoSubject+'&*&'+a.SeoKeyword+'&*&'+a.SeoDescription+'&*&'+b.TypeName FROM dbo.NewsType AS a LEFT JOIN dbo.LotteryType AS b ON a.lType=b.Id WHERE a.lType=@id AND a.Id=@ntype";
-                else sql = "SELECT SeoSubject+'&*&'+SeoKeyword+'&*&'+SeoDescription+'&*&'+TypeName FROM dbo.LotteryType WHERE Id IN (SELECT lType FROM dbo.Lottery WHERE LotteryCode=@id)";
+                else sql = "SELECT SeoSubject+'&*&'+SeoKeyword+'&*&'+SeoDescription+'&*&'+TypeName FROM dbo.LotteryType WHERE Id=@id";
                 SqlParameter[] paras = {
                      new SqlParameter("@id",id),
                      new SqlParameter("@ntype",ntype)
