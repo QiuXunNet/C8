@@ -79,7 +79,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.msg = "查看" + currentIssue + "期" + lotteryName + "计划";
 
             //彩种图标
-            string icon = Util.GetLotteryIcon(lType) + ".png";
+            string icon = Util.GetLotteryIcon(lType);
 
             ViewBag.icon = icon;
 
@@ -1053,7 +1053,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             ViewBag.list = Util.ReaderToList<Plan>(sql);
 
             //彩种图标
-            string icon = Util.GetLotteryIcon(lType) + ".png";
+            string icon = Util.GetLotteryIcon(lType);
 
             ViewBag.icon = icon;
 

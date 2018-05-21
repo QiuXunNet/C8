@@ -809,7 +809,6 @@
     <Content Include="js\ossjs\MyIntegral.js" />
     <Content Include="js\ossjs\NewsDetail.js" />
     <Content Include="js\ossjs\NewsIndex.js" />
-    <Content Include="js\ossjs\Open.js" />
     <Content Include="js\ossjs\PlanIndex.js" />
     <Content Include="js\ossjs\PlayRecord.js" />
     <Content Include="js\ossjs\Post.js" />

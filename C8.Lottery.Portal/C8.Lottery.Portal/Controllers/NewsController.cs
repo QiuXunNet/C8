@@ -35,7 +35,7 @@ namespace C8.Lottery.Portal.Controllers
             //NewsService _newsservice = new NewsService();
             ViewBag.SEOInfo = _newsservice.GetSEOInfo(id, ntype);
             int ChildlType = Util.GetlTypeById(id);
-            string icon = Util.GetLotteryIcon(ChildlType) + ".png";
+            string icon = Util.GetLotteryIcon(ChildlType);
             ViewBag.lType = id;
             ViewBag.ChannelId = ntype;
             ViewBag.icon = icon;
@@ -99,7 +99,7 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lType = lType;
 
             //图标
-            string icon = Util.GetLotteryIcon(lType) + ".png";
+            string icon = Util.GetLotteryIcon(lType);
             ViewBag.Icon = icon;
 
             //3.最后一期

@@ -19,7 +19,7 @@
 $(function () {
     for (var i in bankList) {
         if (bankList[i].key == bankName) {
-            $("#bankImg").attr("src", "/images/Banklogo/" + bankList[i].value + ".png");
+            $("#bankImg").attr("src", webHost+"/images/Banklogo/" + bankList[i].value + ".png");
         }
     }
 });

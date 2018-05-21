@@ -163,13 +163,12 @@
 
                 if (lType > 8 && lType != 10 && lType != 11 && lType != 53)
                 {
-                    string iconName = record.ShowIconName + ".png";
                     string[] numArr = record.Num.Split(',');
 
                     <li>
                         <div class="UL2_hd">
                             <a href="javascript:;">
-                                <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
+                                <div class="UL2_hdtu f-l"><img src="@record.ShowIconName"></div>
                                 <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
                                 <span class="UL2_hdicon"></span>
                             </a>
@@ -273,13 +272,12 @@
 
                 if (lType <= 8)
                 {
-                    string iconName = record.ShowIconName + ".png";
                     string[] numArr = record.Num.Split(',');
 
                     <li>
                         <div class="UL2_hd">
                             <a href="javascript:;">
-                                <div class="UL2_hdtu f-l"><img src="/images/@iconName"></div>
+                                <div class="UL2_hdtu f-l"><img src="@record.ShowIconName"></div>
                                 <div class="UL2_hdtit"><h3>@record.ShowTypeName</h3></div>
                                 <span class="UL2_hdicon"></span>
                             </a>

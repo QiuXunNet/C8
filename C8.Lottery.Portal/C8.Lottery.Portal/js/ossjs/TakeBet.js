@@ -109,7 +109,7 @@ function buildHtml(data, curNavIndex) {
     var itemList = [];
     var listDom = $("#datalist" + curNavIndex);
     $.each(data, function (index, item) {
-        var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></a></dt>' + '<dd><a href="/Plan/Post/' + item.lType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.Name + '</h3>  <p>' + item.Score + '</p>   </div>' + ' </a></dd> </dl>';
+        var itemHtml = '<dl class="guess_Dl"> <dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></a></dt>' + '<dd><a href="/Plan/Post/' + item.lType + '"> <span class="guess_icon_right"></span>  <div class="guess_Dlleft"> <h3>' + item.Name + '</h3>  <p>' + item.Score + '</p>   </div>' + ' </a></dd> </dl>';
         itemList.push(itemHtml);
     });
     var html = itemList.join('');

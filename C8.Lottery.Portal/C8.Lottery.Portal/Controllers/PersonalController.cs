@@ -1725,7 +1725,7 @@ on c.OrderId=b.Id
                         list.ForEach(x =>
                         {
 
-                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
+                            x.LotteryIcon = Util.GetLotteryIcon(x.lType);
                         });
                     }
                     else if (Type == 3)
@@ -1861,7 +1861,7 @@ inner join UserInfo u on  c.UserId=u.Id
                         list.ForEach(x =>
                         {
 
-                            x.LotteryIcon = "/images/" + Util.GetLotteryIcon(x.lType) + ".png";
+                            x.LotteryIcon = Util.GetLotteryIcon(x.lType);
                         });
                     }
                 }

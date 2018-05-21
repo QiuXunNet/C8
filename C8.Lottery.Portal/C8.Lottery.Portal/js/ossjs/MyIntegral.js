@@ -38,7 +38,7 @@ function buildHtml(data) {
     var itemList = [];
     var listDom = $(".points_TInfo");
     $.each(data, function (index, item) {
-        var itemHtml = '<dl class="points_Dl">' + ' <dt><a href="javascript:;"><img src="/images/' + item.LotteryIcon + '.png"></a></dt>' + "<dd>" + '<p class="TIf_fen f-r">' + item.Score + "</p>" + '<h3 class="TIf_tit"><a href="javascript:;">' + item.Name + "</a></h3>" + "</dd>" + "</dl>";
+        var itemHtml = '<dl class="points_Dl">' + ' <dt><a href="javascript:;"><img src="' + item.LotteryIcon + '"></a></dt>' + "<dd>" + '<p class="TIf_fen f-r">' + item.Score + "</p>" + '<h3 class="TIf_tit"><a href="javascript:;">' + item.Name + "</a></h3>" + "</dd>" + "</dl>";
         itemList.push(itemHtml);
     });
     listDom.html("");

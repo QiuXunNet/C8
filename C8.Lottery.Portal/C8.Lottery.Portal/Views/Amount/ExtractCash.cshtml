@@ -1,4 +1,5 @@
 ﻿@using C8.Lottery.Model;
+@using System.Configuration;
 @{
     Layout = null;
     var CardList = ViewBag.CardList as List<BankInfo>;
@@ -11,7 +12,7 @@
         bankName = CardList.FirstOrDefault().BankName;
         backId = CardList.FirstOrDefault().Id;
     }
-
+    string webHost = ConfigurationManager.AppSettings["osshost"].ToString();
 }
 
 <html>
@@ -69,8 +70,7 @@
         var MyCommission=@ViewBag.MyCommission;
         var MinExtractCash=@ViewBag.MinExtractCash;
         var backId=@backId;
-
-       
+        var webHost = "@webHost";
     </script>
 
     <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/ExtractCash.js"></script>

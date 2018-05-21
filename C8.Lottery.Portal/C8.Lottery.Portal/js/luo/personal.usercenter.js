@@ -149,7 +149,7 @@ function buildHtml(data, tabtype,pageIndex) {
         $.each(data, function (index, item) {
           
             var itemHtml = '<dl class="Other_TIfDL">'
-                + '<dt><a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + item.DefaultPlayName + '"><img src="/images/' + item.LogoIndex + '.png"></a></dt>'
+                + '<dt><a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + item.DefaultPlayName + '"><img src="' + item.LogoIndex + '"></a></dt>'
                 + '<dd>';
             if (item.WinState == 1) {
                 itemHtml += '<div class="Other_TIR"><p><strong class="sion_strH">未开奖</strong></p></div>';

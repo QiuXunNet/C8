@@ -1,4 +1,5 @@
 ﻿@using C8.Lottery.Model;
+@using System.Configuration;
 @{
     Layout = null;
 
@@ -10,8 +11,8 @@
         userName = CardList.FirstOrDefault().TrueName;
         bankAccount = CardList.FirstOrDefault().BankAccount;
     }
- 
 
+    string webHost = ConfigurationManager.AppSettings["osshost"].ToString();
 }
 
 <html>
@@ -52,9 +53,10 @@
         <p class="Success_tixing">*银行卡号必须与姓名保持一致</p>
         <p class="Success_tixing">*目前只支持 工商银行/中国银行/建设银行/农业银行/邮政储蓄银行/交通银行/光大银行/招商银行/民生银行/兴业银行/中信银行/广发银行/华夏银行/浦发银行/平安银行</p>
     </div>
+    <script type="text/javascript">
+        var webHost = "@webHost";
+    </script>
     <script src="@ViewBag.osshost/js/ossjs/BindingBankCard.js"></script>
-
-
 </body>
 
 @{Html.RenderAction("index", "PvUvIp");}

@@ -139,7 +139,7 @@ function getBackNameOrImg(bank) {
             obj.backName = "";
             break;
     }
-    obj.backImg = "/images/Banklogo/" + bank + ".png";
+    obj.backImg = webHost + "/images/Banklogo/" + bank + ".png";
     return obj;
 }
 

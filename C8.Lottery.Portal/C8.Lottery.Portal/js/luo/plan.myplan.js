@@ -160,7 +160,7 @@ function buildHtml(data, curNavIndex, pageindex) {
 
     $.each(data, function (index, item) {
         var itemHtml = '<dl class="details_DL">'
-            + '    <dt><a href="javascript:;"><img src="/images/' + item.LogoIndex + '.png"></a></dt>'
+            + '    <dt><a href="javascript:;"><img src="' + item.LogoIndex + '"></a></dt>'
             + '    <dd>'
             + '    	<div class="details_ddRight">';
         if (item.WinState == 1) {
