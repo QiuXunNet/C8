@@ -20,7 +20,7 @@ var lottery = {
     cqssc: { qName: "时时彩", ltype: 9, cqssc_q1: { playName: "第一球", num: [], numLength: 5, ds: "", dx: "" }, cqssc_q2: { playName: "第二球", num: [], numLength: 5, ds: "", dx: "" }, cqssc_q3: { playName: "第三球", num: [], numLength: 5, ds: "", dx: "" }, cqssc_q4: { playName: "第四球", num: [], numLength: 5, ds: "", dx: "" }, cqssc_q5: { playName: "第五球", num: [], numLength: 5, ds: "", dx: "" }, cqssc_total: { playName: "总和", ds: "", dx: "" } },
     gd11x5: { qName: "11选5", ltype: 10, gd11x5_q1: { playName: "第一球", num: [], numLength: 5, ds: "", dx: "" }, gd11x5_q2: { playName: "第二球", num: [], numLength: 5, ds: "", dx: "" }, gd11x5_q3: { playName: "第三球", num: [], numLength: 5, ds: "", dx: "" }, gd11x5_q4: { playName: "第四球", num: [], numLength: 5, ds: "", dx: "" }, gd11x5_q5: { playName: "第五球", num: [], numLength: 5, ds: "", dx: "" }, gd11x5_total: { playName: "总和", ds: "", dx: "" }, gd11x5_longhu: { playName: "龙虎", lh: "" } },
     k3: { qName: "快三", ltype: 11, numCount: 6, k3_q1: { playName: "和值", ds: "", dx: "" }, k3_q2: { playName: "独胆", num: [], numLength: 1 }, k3_q3: { playName: "双胆", num: [], numLength: 2 } },
-    gdkl10f: { qName: "快乐十分", ltype: 12, numCount: 2, gdkl10f_q1: { playName: "第一球  ", ds: "", dx: "", lastdan: "", totaldx: "", lh: "", direction: "", zhongfabai: "" }, gdkl10f_q2: { playName: "第二球", ds: "", dx: "", lastds: "", totaldx: "", lh: "", direction: "", zhongfabai: "" } },
+    gdkl10f: { qName: "快乐十分", ltype: 12, numCount: 2, gdkl10f_q1: { playName: "第一球  ", ds: "", dx: "", lastdan: "", totaldx: "", lh: "", direction: "", zhongfabai: "" }, gdkl10f_q2: { playName: "第二球", ds: "", dx: "", lastds: "", totaldx: "", lh: "", direction: "", zhongfabai: "" }, gdkl10f_q3: { playName: "第三球", ds: "", dx: "", lastds: "", totaldx: "", lh: "", direction: "", zhongfabai: "" }, gdkl10f_q4: { playName: "第四球", ds: "", dx: "", lastds: "", totaldx: "", lh: "", direction: "", zhongfabai: "" }, gdkl10f_q5: { playName: "第五球", ds: "", dx: "", lastds: "", totaldx: "", direction: "", zhongfabai: "" }, gdkl10f_q6: { playName: "第六球", ds: "", dx: "", lastds: "", totaldx: "", direction: "", zhongfabai: "" }, gdkl10f_q7: { playName: "第七球", ds: "", dx: "", lastds: "", totaldx: "", direction: "", zhongfabai: "" }, gdkl10f_q8: { playName: "第八球", ds: "", dx: "", lastds: "", totaldx: "", direction: "", zhongfabai: "" } },
     kl12: { qName: "快乐十二", ltype: 13, kl12_q1: { playName: "第一球", num: [], numLength: 6, ds: "", dx: "" }, kl12_q2: { playName: "第二球", num: [], numLength: 6, ds: "", dx: "" }, kl12_q3: { playName: "第三球", num: [], numLength: 6, ds: "", dx: "" }, kl12_q4: { playName: "第四球", num: [], numLength: 6, ds: "", dx: "" }, kl12_q5: { playName: "第五球", num: [], numLength: 6, ds: "", dx: "" }, kl12_total: { playName: "总和", ds: "", dx: "" }, kl12_longhu: { playName: "龙虎", lh: "" } },
     pk10: { qName: "北京赛车", ltype: 14, pk10_q1: { playName: "冠军", num: [], numLength: 5, ds: "", dx: "", lh: "" }, pk10_q2: { playName: "亚军", num: [], numLength: 5, ds: "", dx: "", lh: "" }, pk10_q3: { playName: "第三名", num: [], numLength: 5, ds: "", dx: "", lh: "" }, pk10_q4: { playName: "第四名", num: [], numLength: 5, ds: "", dx: "", lh: "" }, pk10_q5: { playName: "第五名", num: [], numLength: 5, ds: "", dx: "", lh: "" }, pk10_q6: { playName: "第六名", num: [], numLength: 5, ds: "", dx: "", }, pk10_q7: { playName: "第七名", num: [], numLength: 5, ds: "", dx: "" }, pk10_q8: { playName: "第八名", num: [], numLength: 5, ds: "", dx: "" }, pk10_q9: { playName: "第九名", num: [], numLength: 5, ds: "", dx: "" }, pk10_q10: { playName: "第十名", num: [], numLength: 5, ds: "", dx: "" } },
     xyft: { qName: "幸运飞艇", ltype: 15, xyft_q1: { playName: "冠军", num: [], numLength: 5, ds: "", dx: "", lh: "" }, xyft_q2: { playName: "亚军", num: [], numLength: 5, ds: "", dx: "", lh: "" }, xyft_q3: { playName: "第三名", num: [], numLength: 5, ds: "", dx: "", lh: "" }, xyft_q4: { playName: "第四名", num: [], numLength: 5, ds: "", dx: "", lh: "" }, xyft_q5: { playName: "第五名", num: [], numLength: 5, ds: "", dx: "", lh: "" }, xyft_q6: { playName: "第六名", num: [], numLength: 5, ds: "", dx: "", }, xyft_q7: { playName: "第七名", num: [], numLength: 5, ds: "", dx: "" }, xyft_q8: { playName: "第八名", num: [], numLength: 5, ds: "", dx: "" }, xyft_q9: { playName: "第九名", num: [], numLength: 5, ds: "", dx: "" }, xyft_q10: { playName: "第十名", num: [], numLength: 5, ds: "", dx: "" } },
@@ -802,6 +802,163 @@ function initBetting(qiu, data) {
                     qiuClone.gdkl10f.gdkl10f_q2.zhongfabai = item.BetNum;
                     setQiuHtml(qiuClone.gdkl10f.gdkl10f_q2, item.BetNum);
                     break;
+                case '第三球单双':
+                    qiuClone.gdkl10f.gdkl10f_q3.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第三球大小':
+                    qiuClone.gdkl10f.gdkl10f_q3.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第三球合单双':
+                    qiuClone.gdkl10f.gdkl10f_q3.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第三球尾大小':
+                    qiuClone.gdkl10f.gdkl10f_q3.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第三球龙虎':
+                    qiuClone.gdkl10f.gdkl10f_q3.lh = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第三球东南西北':
+                    qiuClone.gdkl10f.gdkl10f_q3.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第三球中发白':
+                    qiuClone.gdkl10f.gdkl10f_q3.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q3, item.BetNum);
+                    break;
+                case '第四球单双':
+                    qiuClone.gdkl10f.gdkl10f_q4.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第四球大小':
+                    qiuClone.gdkl10f.gdkl10f_q4.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第四球合单双':
+                    qiuClone.gdkl10f.gdkl10f_q4.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第四球尾大小':
+                    qiuClone.gdkl10f.gdkl10f_q4.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第四球龙虎':
+                    qiuClone.gdkl10f.gdkl10f_q4.lh = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第四球东南西北':
+                    qiuClone.gdkl10f.gdkl10f_q4.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第四球中发白':
+                    qiuClone.gdkl10f.gdkl10f_q4.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q4, item.BetNum);
+                    break;
+                case '第五球单双':
+                    qiuClone.gdkl10f.gdkl10f_q5.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q5, item.BetNum);
+                    break;
+                case '第五球大小':
+                    qiuClone.gdkl10f.gdkl10f_q5.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q5, item.BetNum);
+                    break;
+                case '第五球合单双':
+                    qiuClone.gdkl10f.gdkl10f_q5.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q5, item.BetNum);
+                    break;
+                case '第五球尾大小':
+                    qiuClone.gdkl10f.gdkl10f_q5.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q5, item.BetNum);
+                    break;
+                case '第五球东南西北':
+                    qiuClone.gdkl10f.gdkl10f_q5.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q5, item.BetNum);
+                    break;
+                case '第五球中发白':
+                    qiuClone.gdkl10f.gdkl10f_q5.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q5, item.BetNum);
+                    break;
+                case '第六球单双':
+                    qiuClone.gdkl10f.gdkl10f_q6.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第六球大小':
+                    qiuClone.gdkl10f.gdkl10f_q6.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第六球合单双':
+                    qiuClone.gdkl10f.gdkl10f_q6.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第六球尾大小':
+                    qiuClone.gdkl10f.gdkl10f_q6.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第六球龙虎':
+                    qiuClone.gdkl10f.gdkl10f_q6.lh = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第六球东南西北':
+                    qiuClone.gdkl10f.gdkl10f_q6.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第六球中发白':
+                    qiuClone.gdkl10f.gdkl10f_q6.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q6, item.BetNum);
+                    break;
+                case '第七球单双':
+                    qiuClone.gdkl10f.gdkl10f_q7.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q7, item.BetNum);
+                    break;
+                case '第七球大小':
+                    qiuClone.gdkl10f.gdkl10f_q7.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q7, item.BetNum);
+                    break;
+                case '第七球合单双':
+                    qiuClone.gdkl10f.gdkl10f_q7.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q7, item.BetNum);
+                    break;
+                case '第七球尾大小':
+                    qiuClone.gdkl10f.gdkl10f_q7.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q7, item.BetNum);
+                    break;
+                case '第七球东南西北':
+                    qiuClone.gdkl10f.gdkl10f_q7.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q7, item.BetNum);
+                    break;
+                case '第七球中发白':
+                    qiuClone.gdkl10f.gdkl10f_q7.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q7, item.BetNum);
+                    break;
+                case '第八球单双':
+                    qiuClone.gdkl10f.gdkl10f_q8.ds = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q8, item.BetNum);
+                    break;
+                case '第八球大小':
+                    qiuClone.gdkl10f.gdkl10f_q8.dx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q8, item.BetNum);
+                    break;
+                case '第八球合单双':
+                    qiuClone.gdkl10f.gdkl10f_q8.lastdan = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q8, item.BetNum);
+                    break;
+                case '第八球尾大小':
+                    qiuClone.gdkl10f.gdkl10f_q8.totaldx = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q8, item.BetNum);
+                    break;
+                case '第八球东南西北':
+                    qiuClone.gdkl10f.gdkl10f_q8.direction = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q8, item.BetNum);
+                    break;
+                case '第八球中发白':
+                    qiuClone.gdkl10f.gdkl10f_q8.zhongfabai = item.BetNum;
+                    setQiuHtml(qiuClone.gdkl10f.gdkl10f_q8, item.BetNum);
+                    break;
+
                 default:
                     break;
             }
@@ -1601,6 +1758,67 @@ function openModule(qNum, type, ltype) {
             }
         }
         popup.show();
+    } else if (type == "popup_kl10_5_8") {
+
+        var danSpan = popup.find(".danContainer span.C8_Qiu");
+        if (danSpan && danSpan.length > 0) {
+            for (var j = 0; j < danSpan.length; j++) {
+                var curQiu = danSpan[j];
+                if (curQiu.textContent == selectedQiu.ds) {
+                    curQiu.setAttribute("class", "C8_Qiu current");
+                }
+            }
+        }
+
+        var daxiaoSpan = popup.find(".daxiaoContainer span.C8_Qiu");
+        if (daxiaoSpan && daxiaoSpan.length > 0) {
+            for (var j = 0; j < daxiaoSpan.length; j++) {
+                var curQiu = daxiaoSpan[j];
+                if (curQiu.textContent == selectedQiu.dx) {
+                    curQiu.setAttribute("class", "C8_Qiu current");
+                }
+            }
+        }
+
+        var lastDanSpan = popup.find(".lastdanContainer span.C8_Qiu");
+        if (lastDanSpan && lastDanSpan.length > 0) {
+            for (var j = 0; j < lastDanSpan.length; j++) {
+                var curQiu = lastDanSpan[j];
+                if (curQiu.textContent == selectedQiu.lastdan) {
+                    curQiu.setAttribute("class", "C8_Qiu current");
+                }
+            }
+        }
+        var totaldaxiaoSpan = popup.find(".totaldaxiaoContainer span.C8_Qiu");
+        if (totaldaxiaoSpan && totaldaxiaoSpan.length > 0) {
+            for (var j = 0; j < totaldaxiaoSpan.length; j++) {
+                var curQiu = totaldaxiaoSpan[j];
+                if (curQiu.textContent == selectedQiu.totaldx) {
+                    curQiu.setAttribute("class", "C8_Qiu current");
+                }
+            }
+        }
+        
+        var directionSpan = popup.find(".directionContainer span.C8_Qiu");
+        if (directionSpan && directionSpan.length > 0) {
+            for (var j = 0; j < directionSpan.length; j++) {
+                var curQiu = directionSpan[j];
+                if (curQiu.textContent == selectedQiu.direction) {
+                    curQiu.setAttribute("class", "C8_Qiu current");
+                }
+            }
+        }
+
+        var zhongfabaiSpan = popup.find(".zhongfabaiContainer span.C8_Qiu");
+        if (zhongfabaiSpan && zhongfabaiSpan.length > 0) {
+            for (var j = 0; j < zhongfabaiSpan.length; j++) {
+                var curQiu = zhongfabaiSpan[j];
+                if (curQiu.textContent == selectedQiu.zhongfabai) {
+                    curQiu.setAttribute("class", "C8_Qiu current");
+                }
+            }
+        }
+        popup.show();
     }
     $(".mask").show();
 }
@@ -1689,7 +1907,7 @@ function calc() {
         count = commonCalc(count, "k3", 1, 3);
     }
     else if (lType >= 51 && lType < 60) {
-        count = commonCalc(count, "gdkl10f", 1, 2);
+        count = commonCalc(count, "gdkl10f", 1, 8);
     }
     else if (lType >= 60 && lType < 63) {
         count = commonCalc(count, "kl12", 1, 5);
@@ -2090,6 +2308,11 @@ $(function () {
         } else if (datatype == "popup_kl10") {
 
             selectedResult = (selectedQiu.ds || "") + "|" + (selectedQiu.dx || "") + "|" + (selectedQiu.lastdan || "") + "|" + (selectedQiu.totaldx || "") + "|" + (selectedQiu.lh || "") +
+                "|" + (selectedQiu.direction || "") + "|" + (selectedQiu.zhongfabai || "");
+            isClose = true;
+        } else if (datatype == "popup_kl10_5_8") {
+
+            selectedResult = (selectedQiu.ds || "") + "|" + (selectedQiu.dx || "") + "|" + (selectedQiu.lastdan || "") + "|" + (selectedQiu.totaldx || "")  +
                 "|" + (selectedQiu.direction || "") + "|" + (selectedQiu.zhongfabai || "");
             isClose = true;
         }
