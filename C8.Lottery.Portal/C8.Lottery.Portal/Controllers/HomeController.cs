@@ -422,14 +422,14 @@ namespace C8.Lottery.Portal.Controllers
 
                                                 //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
                                                 AddComeOutRecord(inviteid, data.ToString(), 7, upnum, 1);//上级得奖记录
-                                                AddUserTask(inviteid, 105);
-                                                int CompletedCount = GetCompletedCount(105, inviteid);
-                                                MakeMoneyTask mt = GetMakeMoneyTaskCount(105);
+                                                AddUserTask(inviteid, 105);//上级完成邀请任务额外奖励
+                                                //int CompletedCount = GetCompletedCount(105, inviteid);
+                                                //MakeMoneyTask mt = GetMakeMoneyTaskCount(105);
 
-                                                if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
-                                                {
-                                                    AddComeOutRecord(inviteid, Convert.ToString(105), 8, mt.Coin, 1);
-                                                }
+                                                //if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
+                                                //{
+                                                //    AddComeOutRecord(inviteid, Convert.ToString(105), 8, mt.Coin, 1);
+                                                //}
 
 
 
@@ -613,6 +613,7 @@ namespace C8.Lottery.Portal.Controllers
                             string strsqlinstask = string.Format(@"insert into ComeOutRecord(UserId, OrderId, Type, Money, SubTime)
                                    values({0}, {1}, 8, {2}, getdate())", UserId, TaskCode, mtask.Coin);
                             SqlHelper.ExecuteNonQuery(strsqlinstask);
+                            AddCoin(UserId, mtask.Coin);
 
                         }
                     }
