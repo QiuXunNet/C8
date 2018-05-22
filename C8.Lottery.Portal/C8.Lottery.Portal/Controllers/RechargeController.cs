@@ -50,6 +50,10 @@ namespace C8.Lottery.Portal.Controllers
             var redirect_url = HttpUtility.UrlEncode("http://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
             var total = (amount * 100).ToString();
 
+            LogHelper.WriteLog("微信： redirect_url="+redirect_url);
+            LogHelper.WriteLog("微信： Ip=" + Tool.GetIP());
+
+
             Senparc.Weixin.MP.TenPayLibV3.RequestHandler packageReqHandler = new Senparc.Weixin.MP.TenPayLibV3.RequestHandler(null);
             packageReqHandler.SetParameter("appid", appid);//APPID
             packageReqHandler.SetParameter("mch_id", mchid);//商户号
@@ -57,7 +61,7 @@ namespace C8.Lottery.Portal.Controllers
             packageReqHandler.SetParameter("body", "金币充值");
             packageReqHandler.SetParameter("out_trade_no", no);//订单号
             packageReqHandler.SetParameter("total_fee", total); //金额,以分为单位
-            packageReqHandler.SetParameter("spbill_create_ip", Request.UserHostAddress);//IP
+            packageReqHandler.SetParameter("spbill_create_ip",Tool.GetIP());//IP
             packageReqHandler.SetParameter("notify_url", "http://" + HttpContext.Request.Url.Host + "/Recharge/WxNotify"); //回调地址
             packageReqHandler.SetParameter("trade_type", "MWEB");//这个不可以改。固定为Mweb
             packageReqHandler.SetParameter("sign", packageReqHandler.CreateMd5Sign("key", key));
