@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -325,10 +326,12 @@ namespace C8.Lottery.Portal.Controllers
             string sql = @"insert into ComeOutRecord (UserId,OrderId,Money,Type,SubTime,PayType) 
                             values(@UserId,@OrderId,@Money,1,GETDATE(),@PayType);select @@identity;";
 
+            var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
+
             SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@UserId",userId),
                     new SqlParameter("@OrderId",no),
-                    new SqlParameter("@Money",money),
+                    new SqlParameter("@Money",money*moneyToCoin),
                     new SqlParameter("@PayType",payType)
                  };
 
@@ -357,8 +360,10 @@ namespace C8.Lottery.Portal.Controllers
                 var money = list.FirstOrDefault().Money;
                 var userId = list.FirstOrDefault().UserId;
                 var addCoin = 0;  //需要增加的金币数
+                var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
+
                 //每日任务完成充值100元任务
-                if (money >= 100)
+                if (money/moneyToCoin >= 100)
                 {
                     var makeMoneyTaskList = Util.ReaderToList<MakeMoneyTask>("select top(1) * from MakeMoneyTask where Code=100");
                     if (makeMoneyTaskList != null && makeMoneyTaskList.Any())
@@ -380,11 +385,10 @@ namespace C8.Lottery.Portal.Controllers
                             else
                             {
                                 sql += "update usertask set completedCount = completedCount +1 where UserId = @UserId and taskId = 100;";
-                            }                           
+                            }
                         }
                         catch (Exception) { }
                     }
-                    
                 }
 
                 sql += @"update ComeOutRecord set State = 3 where OrderId=@OrderId and PayType=@PayType;
