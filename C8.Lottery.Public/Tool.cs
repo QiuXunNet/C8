@@ -39,32 +39,14 @@ namespace C8.Lottery.Public
             return byte2String;
         }
 
-       
 
-        /// <summary>
-        /// 获取IP
-        /// </summary>
-        /// <returns></returns>
-        public static string GetIP()
-        {
-            string userIP = string.Empty;
-            // HttpRequest Request = HttpContext.Current.Request;  
-            HttpRequest Request = System.Web.HttpContext.Current.Request; // 如果使用代理，获取真实IP  
-            if (Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != "")
-                userIP = Request.ServerVariables["REMOTE_ADDR"];
-            else
-                userIP = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (userIP == null || userIP == "")
-                userIP = Request.UserHostAddress;
 
-            return userIP;
-        }
 
         /// <summary>  
         /// 获取客户端Ip  
         /// </summary>  
-        /// <returns></returns>  
-        public static string GetClientIp()
+        /// <returns></returns> 
+        public static string GetIP()
         {
             string clientIP = "";
             if (System.Web.HttpContext.Current != null)
@@ -86,6 +68,7 @@ namespace C8.Lottery.Public
             return clientIP;
         }
 
+      
 
         /// <summary>
         /// 获取广告位城市标识
@@ -130,7 +113,7 @@ namespace C8.Lottery.Public
             try
             {
                
-                string ip = GetClientIp();
+                string ip = GetIP();
                 string json = HttpCommon.HttpGet("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip + "");
                 JObject jo = (JObject)JsonConvert.DeserializeObject(json);               
                 string data = jo["data"].ToString();

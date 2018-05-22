@@ -1,5 +1,6 @@
 ﻿$(function () {
     $("#editor").initEmoji()
+    $("#editor").focus();
 });
 
 function publish() {
