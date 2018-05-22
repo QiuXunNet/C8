@@ -39,26 +39,36 @@ namespace C8.Lottery.Public
             return byte2String;
         }
 
-       
 
-        /// <summary>
-        /// 获取IP
-        /// </summary>
-        /// <returns></returns>
+
+
+        /// <summary>  
+        /// 获取客户端Ip  
+        /// </summary>  
+        /// <returns></returns> 
         public static string GetIP()
         {
-            string userIP = string.Empty;
-            // HttpRequest Request = HttpContext.Current.Request;  
-            HttpRequest Request = System.Web.HttpContext.Current.Request; // 如果使用代理，获取真实IP  
-            if (Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != "")
-                userIP = Request.ServerVariables["REMOTE_ADDR"];
-            else
-                userIP = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (userIP == null || userIP == "")
-                userIP = Request.UserHostAddress;
-
-            return userIP;
+            string clientIP = "";
+            if (System.Web.HttpContext.Current != null)
+            {
+                clientIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                if (string.IsNullOrEmpty(clientIP) || (clientIP.ToLower() == "unknown"))
+                {
+                    clientIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_REAL_IP"];
+                    if (string.IsNullOrEmpty(clientIP))
+                    {
+                        clientIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                    }
+                }
+                else
+                {
+                    clientIP = clientIP.Split(',')[0];
+                }
+            }
+            return clientIP;
         }
+
+      
 
         /// <summary>
         /// 获取广告位城市标识
@@ -92,6 +102,7 @@ namespace C8.Lottery.Public
             return i;
         }
 
+   
 
         /// <summary>
         /// 获取访客ip城市

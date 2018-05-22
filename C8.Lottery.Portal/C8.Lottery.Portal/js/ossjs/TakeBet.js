@@ -1,7 +1,7 @@
 ﻿$(function () {
     var curNavIndex = 1;
     var mescrollArr = new Array(17);
-    var dh = $(document).height() - 200;
+    var dh = $(document).height() - 180;
     $(".guessing_content").height(dh);
     mescrollArr[curNavIndex] = initMescroll("mescroll1", "datalist1");
 

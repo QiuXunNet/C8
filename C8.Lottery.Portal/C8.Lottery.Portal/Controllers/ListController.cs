@@ -410,7 +410,7 @@ order by Money desc,NickName asc
 
             // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
-
+      
             if (list == null || list.Count < 1)
             {
                 string sql = @"
