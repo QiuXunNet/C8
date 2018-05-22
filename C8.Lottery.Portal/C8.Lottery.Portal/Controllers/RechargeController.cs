@@ -50,8 +50,8 @@ namespace C8.Lottery.Portal.Controllers
             var redirect_url = HttpUtility.UrlEncode("http://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
             var total = (amount * 100).ToString();
 
-            LogHelper.WriteLog("微信： redirect_url="+redirect_url);
-            LogHelper.WriteLog("微信： Ip=" + Tool.GetIP());
+            //LogHelper.WriteLog("微信： redirect_url="+redirect_url);
+            //LogHelper.WriteLog("微信： Ip=" + Tool.GetIP());
 
 
             Senparc.Weixin.MP.TenPayLibV3.RequestHandler packageReqHandler = new Senparc.Weixin.MP.TenPayLibV3.RequestHandler(null);

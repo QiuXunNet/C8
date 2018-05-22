@@ -134,7 +134,7 @@ namespace C8.Lottery.Portal.Controllers
 
             var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
 
-            decimal money = Convert.ToDecimal((Convert.ToInt32(SqlHelper.ExecuteScalar(sql1, regsp))/ moneyToCoin).ToString("f2"));
+            decimal money = Convert.ToDecimal((Convert.ToDecimal(SqlHelper.ExecuteScalar(sql1, regsp))/ moneyToCoin).ToString("f2"));
 
             return money;
             ////我获取到的佣金
