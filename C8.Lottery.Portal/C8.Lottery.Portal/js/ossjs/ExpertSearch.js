@@ -1,11 +1,11 @@
 ﻿$(function () {
     $(".ttIf2_Dlicon").on("click", function () {
         var uid = $(this).attr("data-uid");
-        var lType = lType;
+    
         DeleteHistory(uid, lType);
     });
     $(".ttIf2_QK").on("click", function () {
-        var lType = lType;
+ 
         DeleteHistory(0, lType);
     });
     $(".Search_BLdel").on("click", function () {
