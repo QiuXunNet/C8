@@ -1,11 +1,11 @@
 ﻿$(function () {
     $(".ttIf2_Dlicon").on("click", function () {
         var uid = $(this).attr("data-uid");
-        var lType = lType;
+    
         DeleteHistory(uid, lType);
     });
     $(".ttIf2_QK").on("click", function () {
-        var lType = lType;
+ 
         DeleteHistory(0, lType);
     });
     $(".Search_BLdel").on("click", function () {
@@ -49,7 +49,7 @@ function buildHtml(data) {
         } else {
             text = '关注';
         }
-        li = '<li data-uid="' + value.UserId + '"><div class="ttIf1_cL f-l"><a href="javascript:;" onclick="InsertHotSearch(\'' + value.PlayName + '\',' + value.UserId + ',@lType)"><img src="' + (value.Avater == '' ? '/images/default_avater.png' : value.Avater) + '"></a></div>' + '  <a href="javascript:;"  onclick="javascript:unorfollow(this,' + value.UserId + ');" class="ttIf1_cGz f-r">' + text + '</a>' + '    <div class="ttIf1_cR" onclick="InsertHotSearch(\'' + value.PlayName + '\',' + value.UserId + ',@lType)"  data-uid="' + value.UserId + '"><a href="javascript:;">' + value.Name + '</a></div>' + ' </li>'
+        li = '<li data-uid="' + value.UserId + '"><div class="ttIf1_cL f-l"><a href="javascript:;" onclick="InsertHotSearch(\'' + value.PlayName + '\',' + value.UserId + ',' + lType + ')"><img src="' + (value.Avater == '' ? '/images/default_avater.png' : value.Avater) + '"></a></div>' + '  <a href="javascript:;"  onclick="javascript:unorfollow(this,' + value.UserId + ');" class="ttIf1_cGz f-r">' + text + '</a>' + '    <div class="ttIf1_cR" onclick="InsertHotSearch(\'' + value.PlayName + '\',' + value.UserId + ',' + lType + ')"  data-uid="' + value.UserId + '"><a href="javascript:;">' + value.Name + '</a></div>' + ' </li>'
         html.push(li);
     });
     $(".ttIf1_con").empty();
