@@ -10,6 +10,7 @@ using System.Web.Security;
 using C8.Lottery.Portal.Models;
 using C8.Lottery.Model.Enum;
 using System.Security.Policy;
+using System.Configuration;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -634,7 +635,7 @@ where RowNumber BETWEEN @Start AND @End ";
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@ResourceType", (int)ResourceTypeEnum.用户头像) };
                 list = Util.ReaderToList<FansBangListModel>(strsql, sp);
 
-                CacheHelper.SetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type,list,DateTime.Parse("23:59:59"));
+                CacheHelper.SetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type, list, DateTime.Parse("23:59:59"));
             }
 
             int userId = UserHelper.GetByUserId();
@@ -1766,20 +1767,20 @@ on c.OrderId=b.Id
             try
             {
                 int UserId = UserHelper.GetByUserId();
-                string strsql = @"select MyYj,Txing,Txleiji,XfYj,KeTx from 
- (select isnull(sum([Money]),0)as MyYj from ComeOutRecord c inner join BettingRecord b on c.OrderId=b.Id  where  b.[UserId]=@UserId and Type in(4,9))t1,
+                string strsql = @"select Txing,Txleiji,KeTx from 
  (select isnull(sum([Money]),0)as Txing from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=1)t2,
  (select isnull(sum([Money]),0)as Txleiji  from ComeOutRecord where  [UserId]=@UserId and Type=2 and State=3 )t3,
- (select isnull(sum([Money]),0)as XfYj  from ComeOutRecord where  [UserId]=@UserId and Type in(3,5))t4,
  (select isnull([Money],0)as KeTx  from UserInfo  where  [Id]=@UserId )t5";
                 SqlParameter[] sp = new SqlParameter[] {
                     new SqlParameter("@UserId",UserId)
                 };
                 DrawMoneyModel dr = Util.ReaderToModel<DrawMoneyModel>(strsql, sp);
-                ViewBag.MyYj = Tool.Rmoney(dr.KeTx + dr.Txing);
-                ViewBag.Txing = Tool.Rmoney(dr.Txing);
-                ViewBag.Txleiji = Tool.Rmoney(dr.Txleiji);
-                ViewBag.KeTx = Tool.Rmoney(dr.KeTx);
+                var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
+
+                ViewBag.MyYj = Tool.Rmoney((dr.KeTx + dr.Txing) / moneyToCoin);
+                ViewBag.Txing = Tool.Rmoney((dr.Txing) / moneyToCoin);
+                ViewBag.Txleiji = Tool.Rmoney((dr.Txleiji) / moneyToCoin);
+                ViewBag.KeTx = Tool.Rmoney((dr.KeTx) / moneyToCoin);
 
             }
             catch (Exception)
@@ -1846,24 +1847,24 @@ inner join UserInfo u on  c.UserId=u.Id
 
                 List<ComeOutRecordModel> list = Util.ReaderToList<ComeOutRecordModel>(strsql, sp);
                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql, sp));
+                var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
+
                 if (list != null)
                 {
-                    if (Type == 2)
-                    {
-                        list.ForEach(x =>
-                        {
 
+                    list.ForEach(x =>
+                    {
+                        if (Type == 2)
+                        {
                             x.LotteryIcon = "/images/41.png";
-                        });
-                    }
-                    else if (Type == 1)
-                    {
-                        list.ForEach(x =>
+                        }
+                        if (Type == 1)
                         {
-
                             x.LotteryIcon = Util.GetLotteryIcon(x.lType);
-                        });
-                    }
+                        }
+
+                        x.Money =Convert.ToDecimal((x.Money / moneyToCoin).ToString("f2"));
+                    });
                 }
                 pager.PageData = list;
                 pager.TotalCount = count;

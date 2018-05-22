@@ -116,7 +116,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private int GetMyCommission(int userId)
+        private decimal GetMyCommission(int userId)
         {
             var sql1 = @"select Money from userinfo where id = @UserId";
 
@@ -132,7 +132,9 @@ namespace C8.Lottery.Portal.Controllers
                 new SqlParameter("@UserId",userId)
             };
 
-            var money = Convert.ToInt32(SqlHelper.ExecuteScalar(sql1, regsp));
+            var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
+
+            decimal money = Convert.ToDecimal((Convert.ToInt32(SqlHelper.ExecuteScalar(sql1, regsp))/ moneyToCoin).ToString("f2"));
 
             return money;
             ////我获取到的佣金
@@ -158,7 +160,7 @@ namespace C8.Lottery.Portal.Controllers
                 lock (_lock)
                 {                    
                     int userId = UserHelper.GetByUserId();
-
+                    var moneyToCoin = Convert.ToInt32(ConfigurationManager.AppSettings["MoneyToCoin"]);
                     var minExtractCash = int.Parse(ConfigurationManager.AppSettings["minExtractCash"]);
                     var myCommission = GetMyCommission(userId);
 
@@ -179,7 +181,7 @@ namespace C8.Lottery.Portal.Controllers
                         SqlParameter[] regsp = new SqlParameter[] {
                             new SqlParameter("@UserId",userId),
                             new SqlParameter("@OrderId",backId),
-                            new SqlParameter("@Money",money)
+                            new SqlParameter("@Money",money*moneyToCoin)
                         };
 
                         SqlHelper.ExecuteTransaction(sql, regsp);
