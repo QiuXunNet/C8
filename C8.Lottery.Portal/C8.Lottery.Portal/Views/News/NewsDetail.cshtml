@@ -9,6 +9,7 @@
     List<News> recArticle = ViewBag.RecommendArticle;
     List<RankIntegralModel> RankIntegral = ViewBag.ListRankIntegral;
     string CityId = ViewBag.CityId;
+    string isshttps = ViewBag.ishttps;
     SiteSetting site = ViewBag.SiteSetting;
 
 }
@@ -314,7 +315,7 @@
             title: '@Model.FullHead',
             desc: '@Model.FullHead',
             // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
-            link: 'http://' + location.host + '/News/NewsDetail/@Model.Id',
+            link: '@isshttps://' + location.host + '/News/NewsDetail/@Model.Id',
             icon: '@Model.Thumb',
             // 不要过于依赖以下两个回调，很多浏览器是不支持的
             success: function () {

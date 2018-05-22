@@ -2,6 +2,7 @@
 @model C8.Lottery.Portal.Models.InvitationRegModel
 @{
     ViewBag.Title = "InvitationReg";
+
 }
 <!doctype html>
 <html>
@@ -80,7 +81,8 @@
         var nativeShare = new NativeShare();
         var uid=@Html.Raw(JsonConvert.SerializeObject(ViewData["uid"]));
         var host = window.location.host + "/Home/Register/"+uid;
-        var img = window.location.host + "/images/c8.png";  
+        var img = window.location.host + "/images/c8.png"; 
+        var ishttps='@ViewBag.ishttps';
     </script>
     <script type="text/javascript" src="@ViewBag.osshost/js/ossjs/InvitationReg.js"></script>
 </body>
