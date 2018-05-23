@@ -211,7 +211,7 @@ namespace C8.Lottery.Public
             return result;
         }
 
-        public static string HandWinNumColorFor6(string num, string openNum, int sort,string issue)
+        public static string HandWinNumColorFor6(string num, string openNum, int sort, string issue)
         {
             string[] numArr = num.Split(' ');
             string[] openArr = openNum.Split(',');
@@ -265,7 +265,7 @@ namespace C8.Lottery.Public
                 }
                 else if (sort == 2)
                 {
-                    string texiao = Util.GetShengxiaoByDigit(int.Parse(openArr[6]),dt);
+                    string texiao = Util.GetShengxiaoByDigit(int.Parse(openArr[6]), dt);
 
                     foreach (string s in numArr)
                     {
@@ -317,7 +317,7 @@ namespace C8.Lottery.Public
             return Convert.ToDateTime(SqlHelper.ExecuteScalar(sql, sp));
         }
 
-        
+
         public static string HandWinNumColor(string num, string openNum, int index)
         {
             string[] numArr = num.Split(' ');
@@ -21793,214 +21793,214 @@ namespace C8.Lottery.Public
         public static string GetLotteryIcon(int lType)
         {
             string result = "/images/";
-            string webHost = ConfigurationManager.AppSettings["osshost"].ToString();
-            if (!string.IsNullOrEmpty(webHost))
+            string ossHost = LuoUtil.OssHost;
+            if (!string.IsNullOrEmpty(ossHost))
             {
-                result = webHost + "/images/";
+                result = ossHost + "/images/";
             }
 
             switch (lType)
             {
                 case 1:
-                    result  += "logo1";
+                    result += "logo1";
                     break;
                 case 2:
-                    result  += "logo2";
+                    result += "logo2";
                     break;
                 case 3:
-                    result  += "logo3";
+                    result += "logo3";
                     break;
                 case 4:
-                    result  += "logo4";
+                    result += "logo4";
                     break;
                 case 5:
-                    result  += "logo5";
+                    result += "logo5";
                     break;
                 case 6:
-                    result  += "logo6";
+                    result += "logo6";
                     break;
                 case 7:
-                    result  += "logo7";
+                    result += "logo7";
                     break;
                 case 8:
-                    result  += "logo8";
+                    result += "logo8";
                     break;
                 case 9:
-                    result  += "logo57";
+                    result += "logo57";
                     break;
                 case 10:
-                    result  += "logo58";
+                    result += "logo58";
                     break;
                 case 11:
-                    result  += "logo59";
+                    result += "logo59";
                     break;
                 case 12:
-                    result  += "logo60";
+                    result += "logo60";
                     break;
                 case 13:
-                    result  += "logo61";
+                    result += "logo61";
                     break;
                 case 14:
-                    result  += "logo62";
+                    result += "logo62";
                     break;
                 case 15:
-                    result  += "logo9";
+                    result += "logo9";
                     break;
                 case 16:
-                    result  += "logo10";
+                    result += "logo10";
                     break;
                 case 17:
-                    result  += "logo11";
+                    result += "logo11";
                     break;
                 case 18:
-                    result  += "logo12";
+                    result += "logo12";
                     break;
                 case 19:
-                    result  += "logo13";
+                    result += "logo13";
                     break;
                 case 20:
-                    result  += "logo14";
+                    result += "logo14";
                     break;
                 case 21:
-                    result  += "logo15";
+                    result += "logo15";
                     break;
                 case 22:
-                    result  += "logo16";
+                    result += "logo16";
                     break;
                 case 23:
-                    result  += "logo17";
+                    result += "logo17";
                     break;
                 case 24:
-                    result  += "logo18";
+                    result += "logo18";
                     break;
                 case 25:
-                    result  += "logo19";
+                    result += "logo19";
                     break;
                 case 26:
-                    result  += "logo20";
+                    result += "logo20";
                     break;
                 case 27:
-                    result  += "logo21";
+                    result += "logo21";
                     break;
                 case 28:
-                    result  += "logo22";
+                    result += "logo22";
                     break;
                 case 29:
-                    result  += "logo23";
+                    result += "logo23";
                     break;
                 case 30:
-                    result  += "logo24";
+                    result += "logo24";
                     break;
                 case 31:
-                    result  += "logo25";
+                    result += "logo25";
                     break;
                 case 32:
-                    result  += "logo26";
+                    result += "logo26";
                     break;
                 case 33:
-                    result  += "logo27";
+                    result += "logo27";
                     break;
                 case 34:
-                    result  += "logo28";
+                    result += "logo28";
                     break;
                 case 35:
-                    result  += "logo29";
+                    result += "logo29";
                     break;
                 case 36:
-                    result  += "logo30";
+                    result += "logo30";
                     break;
                 case 37:
-                    result  += "logo31";
+                    result += "logo31";
                     break;
                 case 38:
-                    result  += "logo32";
+                    result += "logo32";
                     break;
                 case 39:
-                    result  += "logo33";
+                    result += "logo33";
                     break;
                 case 40:
-                    result  += "logo34";
+                    result += "logo34";
                     break;
                 case 41:
-                    result  += "logo35";
+                    result += "logo35";
                     break;
                 case 42:
-                    result  += "logo36";
+                    result += "logo36";
                     break;
                 case 43:
-                    result  += "logo37";
+                    result += "logo37";
                     break;
                 case 44:
-                    result  += "logo38";
+                    result += "logo38";
                     break;
                 case 45:
-                    result  += "logo39";
+                    result += "logo39";
                     break;
                 case 46:
-                    result  += "logo40";
+                    result += "logo40";
                     break;
                 case 47:
-                    result  += "logo41";
+                    result += "logo41";
                     break;
                 case 48:
-                    result  += "logo42";
+                    result += "logo42";
                     break;
                 case 49:
-                    result  += "logo43";
+                    result += "logo43";
                     break;
                 case 50:
-                    result  += "logo44";
+                    result += "logo44";
                     break;
                 case 51:
-                    result  += "logo45";
+                    result += "logo45";
                     break;
                 case 52:
-                    result  += "logo46";
+                    result += "logo46";
                     break;
                 case 53:
-                    result  += "logo47";
+                    result += "logo47";
                     break;
                 case 54:
-                    result  += "logo48";
+                    result += "logo48";
                     break;
                 case 55:
-                    result  += "logo49";
+                    result += "logo49";
                     break;
                 case 56:
-                    result  += "logo50";
+                    result += "logo50";
                     break;
                 case 57:
-                    result  += "logo51";
+                    result += "logo51";
                     break;
                 case 58:
-                    result  += "logo52";
+                    result += "logo52";
                     break;
                 case 59:
-                    result  += "logo53";
+                    result += "logo53";
                     break;
                 case 60:
-                    result  += "logo54";
+                    result += "logo54";
                     break;
                 case 61:
-                    result  += "logo55";
+                    result += "logo55";
                     break;
                 case 62:
-                    result  += "logo56";
+                    result += "logo56";
                     break;
                 case 63:
-                    result  += "logo63";
+                    result += "logo63";
                     break;
                 case 64:
-                    result  += "logo64";
+                    result += "logo64";
                     break;
                 case 65:
-                    result  += "logo65";
+                    result += "logo65";
                     break;
                 default:
-                    result  += "";
+                    result += "";
                     break;
             }
-            return result +".png";
+            return result + ".png";
         }
 
 
@@ -22167,7 +22167,7 @@ namespace C8.Lottery.Public
 
 
         //开奖号码 数字 转化为生肖
-        public static string ChangeOpenNumToShengxiao(string openNum,DateTime dt)
+        public static string ChangeOpenNumToShengxiao(string openNum, DateTime dt)
         {
             string[] arr = openNum.Split(',');
             string result = "";
@@ -22175,18 +22175,18 @@ namespace C8.Lottery.Public
             foreach (string s in arr)
             {
                 int num = int.Parse(s);
-                result += GetShengxiaoByDigit(num,dt) + ",";
+                result += GetShengxiaoByDigit(num, dt) + ",";
             }
 
             return result.TrimEnd(',');
         }
 
         //六合彩数字转生肖
-        public static string GetShengxiaoByDigit(int digit,DateTime dt)
+        public static string GetShengxiaoByDigit(int digit, DateTime dt)
         {
             //string SxJsonData = "[{ 'BeginTime':'2015 - 02 - 19','EndTime':'2016 - 02 - 07','Data':[{'Name':'羊','Nums':'01,13,25,37,49'},{'Name':'马','Nums':'02,14,26,38'},{'Name':'蛇','Nums':'03,15,27,39'},{'Name':'龙','Nums':'04,16,28,40'},{'Name':'兔','Nums':'05,17,29,41'},{'Name':'虎','Nums':'06,18,30,42'},{'Name':'牛','Nums':'07,19,31,43'},{'Name':'鼠','Nums':'08,20,32,44'},{'Name':'猪','Nums':'09,21,33,45'},{'Name':'狗','Nums':'10,22,34,46'},{'Name':'鸡','Nums':'11,23,35,47'},{'Name':'猴','Nums':'12,24,36,48'}]},{'BeginTime':'2016 - 02 - 08','EndTime':'2017 - 01 - 27','Data':[{'Name':'猴','Nums':'01,13,25,37,49'},{'Name':'羊','Nums':'02,14,26,38'},{'Name':'马','Nums':'03,15,27,39'},{'Name':'蛇','Nums':'04,16,28,40'},{'Name':'龙','Nums':'05,17,29,41'},{'Name':'兔','Nums':'06,18,30,42'},{'Name':'虎','Nums':'07,19,31,43'},{'Name':'牛','Nums':'08,20,32,44'},{'Name':'鼠','Nums':'09,21,33,45'},{'Name':'猪','Nums':'10,22,34,46'},{'Name':'狗','Nums':'11,23,35,47'},{'Name':'鸡','Nums':'12,24,36,48'}]},{'BeginTime':'2017 - 01 - 28','EndTime':'2018 - 02 - 15','Data':[{'Name':'鸡','Nums':'01,13,25,37,49'},{'Name':'猴','Nums':'02,14,26,38'},{'Name':'羊','Nums':'03,15,27,39'},{'Name':'马','Nums':'04,16,28,40'},{'Name':'蛇','Nums':'05,17,29,41'},{'Name':'龙','Nums':'06,18,30,42'},{'Name':'兔','Nums':'07,19,31,43'},{'Name':'虎','Nums':'08,20,32,44'},{'Name':'牛','Nums':'09,21,33,45'},{'Name':'鼠','Nums':'10,22,34,46'},{'Name':'猪','Nums':'11,23,35,47'},{'Name':'狗','Nums':'12,24,36,48'}]},{'BeginTime':'2018 - 02 - 16','EndTime':'2019 - 02 - 04','Data':[{'Name':'狗','Nums':'01,13,25,37,49'},{'Name':'鸡','Nums':'02,14,26,38'},{'Name':'猴','Nums':'03,15,27,39'},{'Name':'羊','Nums':'04,16,28,40'},{'Name':'马','Nums':'05,17,29,41'},{'Name':'蛇','Nums':'06,18,30,42'},{'Name':'龙','Nums':'07,19,31,43'},{'Name':'兔','Nums':'08,20,32,44'},{'Name':'虎','Nums':'09,21,33,45'},{'Name':'牛','Nums':'10,22,34,46'},{'Name':'鼠','Nums':'11,23,35,47'},{'Name':'猪','Nums':'12,24,36,48'}]},{'BeginTime':'2019 - 02 - 05','EndTime':'2020 - 01 - 24','Data':[{'Name':'猪','Nums':'01,13,25,37,49'},{'Name':'狗','Nums':'02,14,26,38'},{'Name':'鸡','Nums':'03,15,27,39'},{'Name':'猴','Nums':'04,16,28,40'},{'Name':'羊','Nums':'05,17,29,41'},{'Name':'马','Nums':'06,18,30,42'},{'Name':'蛇','Nums':'07,19,31,43'},{'Name':'龙','Nums':'08,20,32,44'},{'Name':'兔','Nums':'09,21,33,45'},{'Name':'虎','Nums':'10,22,34,46'},{'Name':'牛','Nums':'11,23,35,47'},{'Name':'鼠','Nums':'12,24,36,48'}]},{'BeginTime':'2020 - 01 - 25','EndTime':'2021 - 02 - 11','Data':[{'Name':'鼠','Nums':'01,13,25,37,49'},{'Name':'猪','Nums':'02,14,26,38'},{'Name':'狗','Nums':'03,15,27,39'},{'Name':'鸡','Nums':'04,16,28,40'},{'Name':'猴','Nums':'05,17,29,41'},{'Name':'羊','Nums':'06,18,30,42'},{'Name':'马','Nums':'07,19,31,43'},{'Name':'蛇','Nums':'08,20,32,44'},{'Name':'龙','Nums':'09,21,33,45'},{'Name':'兔','Nums':'10,22,34,46'},{'Name':'虎','Nums':'11,23,35,47'},{'Name':'牛','Nums':'12,24,36,48'}]},{'BeginTime':'2021 - 02 - 12','EndTime':'2022 - 01 - 31','Data':[{'Name':'牛','Nums':'01,13,25,37,49'},{'Name':'鼠','Nums':'02,14,26,38'},{'Name':'猪','Nums':'03,15,27,39'},{'Name':'狗','Nums':'04,16,28,40'},{'Name':'鸡','Nums':'05,17,29,41'},{'Name':'猴','Nums':'06,18,30,42'},{'Name':'羊','Nums':'07,19,31,43'},{'Name':'马','Nums':'08,20,32,44'},{'Name':'蛇','Nums':'09,21,33,45'},{'Name':'龙','Nums':'10,22,34,46'},{'Name':'兔','Nums':'11,23,35,47'},{'Name':'虎','Nums':'12,24,36,48'}]},{'BeginTime':'2022 - 02 - 01','EndTime':'2023 - 01 - 21','Data':[{'Name':'虎','Nums':'01,13,25,37,49'},{'Name':'牛','Nums':'02,14,26,38'},{'Name':'鼠','Nums':'03,15,27,39'},{'Name':'猪','Nums':'04,16,28,40'},{'Name':'狗','Nums':'05,17,29,41'},{'Name':'鸡','Nums':'06,18,30,42'},{'Name':'猴','Nums':'07,19,31,43'},{'Name':'羊','Nums':'08,20,32,44'},{'Name':'马','Nums':'09,21,33,45'},{'Name':'蛇','Nums':'10,22,34,46'},{'Name':'龙','Nums':'11,23,35,47'},{'Name':'兔','Nums':'12,24,36,48'}]}]";
 
-           return   ChineseZodiacHelper.GetChineseZodiac(dt, digit);
+            return ChineseZodiacHelper.GetChineseZodiac(dt, digit);
 
             //string result = "鸡";
 
@@ -22574,7 +22574,7 @@ namespace C8.Lottery.Public
                 new SqlParameter("@lType",lType)
 
             };
-            PlayName =Convert.ToString(SqlHelper.ExecuteScalar(strsql, sp));
+            PlayName = Convert.ToString(SqlHelper.ExecuteScalar(strsql, sp));
             return PlayName;
 
         }
@@ -23607,7 +23607,8 @@ namespace C8.Lottery.Public
                         }
                         return "00&00&0" + secTemp;
                     }
-                }else if (minute >= 9 && sec >= 59)
+                }
+                else if (minute >= 9 && sec >= 59)
                 {
                     return "已封盘";
                 }

@@ -24,7 +24,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <param name="requestContext"></param>
         protected override void Initialize(RequestContext requestContext)
         {
-            string osshost = ConfigurationManager.AppSettings["osshost"];
+            string osshost = LuoUtil.OssHost;
             string ishttps = ConfigurationManager.AppSettings["ishttps"];
             ViewBag.osshost = osshost;
             ViewBag.ishttps = ishttps;
@@ -39,7 +39,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             //var setting = MemClientFactory.GetCache<SiteSetting>("base_site_setting");
             var setting = CacheHelper.GetCache<SiteSetting>("base_site_setting");
-    
+
             if (setting == null)
             {
                 string sql = "select top 1 * from dbo.SiteSetting";
@@ -58,7 +58,7 @@ namespace C8.Lottery.Portal.Controllers
         protected IList<LotteryType> GetLotteryTypeList()
         {
 
-           // IList<LotteryType> list = MemClientFactory.GetCache<IList<LotteryType>>("base_lottery_type");
+            // IList<LotteryType> list = MemClientFactory.GetCache<IList<LotteryType>>("base_lottery_type");
             IList<LotteryType> list = CacheHelper.GetCache<IList<LotteryType>>("base_lottery_type");
             if (list == null)
             {
@@ -82,7 +82,7 @@ namespace C8.Lottery.Portal.Controllers
         protected IList<NewsType> GetNewsTypeList(long ltype, int layer = 1)
         {
             string memKey = "base_news_type_" + ltype;
-           // IList<NewsType> list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
+            // IList<NewsType> list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
             IList<NewsType> list = CacheHelper.GetCache<IList<NewsType>>(memKey);
 
             if (list != null && list.Any()) return list;
@@ -207,7 +207,7 @@ order by a.LotteryNumber desc";
         protected IList<CommissionSetting> GetCommissionSetting()
         {
             string memKey = "base_commission_settings";
-           // var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
+            // var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
             var list = CacheHelper.GetCache<IList<CommissionSetting>>(memKey);
             if (list == null || list.Count < 1)
             {
@@ -219,13 +219,13 @@ order by a.LotteryNumber desc";
                     CacheHelper.AddCache(memKey, list, 60);
                 }
             }
-            
+
             return list ?? new List<CommissionSetting>();
         }
 
 
 
-        
+
 
 
         /// <summary>
@@ -234,12 +234,12 @@ order by a.LotteryNumber desc";
         /// <returns></returns>
         protected void GetWebHot()
         {
-         
 
-            string osshost = ConfigurationManager.AppSettings["osshost"];
-           
+
+            string osshost = LuoUtil.OssHost;
+
             HttpContext.Application["osshost"] = osshost;
-           
+
         }
     }
 }

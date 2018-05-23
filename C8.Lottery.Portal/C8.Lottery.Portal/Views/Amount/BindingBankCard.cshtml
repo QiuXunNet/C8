@@ -1,5 +1,6 @@
 ﻿@using C8.Lottery.Model;
 @using System.Configuration;
+@using C8.Lottery.Public
 @{
     Layout = null;
 
@@ -12,7 +13,7 @@
         bankAccount = CardList.FirstOrDefault().BankAccount;
     }
 
-    string webHost = ConfigurationManager.AppSettings["osshost"].ToString();
+    string webHost = LuoUtil.OssHost;
 }
 
 <html>

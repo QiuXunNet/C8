@@ -30,7 +30,7 @@ namespace C8.Lottery.Portal.Controllers
                 url = friendLink.TransferUrl.ToLower();
 
                 //判断是否存在http://
-                if (url.IndexOf("http://") != 0)
+                if (!url.StartsWith("http://") || url.IndexOf("https://") != 0)
                 {
                     url = "http://" + url;
                 }

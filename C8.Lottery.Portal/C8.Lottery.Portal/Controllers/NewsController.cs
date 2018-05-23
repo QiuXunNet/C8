@@ -612,7 +612,7 @@ from Comment a
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "~/images/default_avater.png";
+                    x.Avater = LuoUtil.OssHost+ "/images/default_avater.png";
                 }
             });
 
@@ -682,7 +682,7 @@ from Comment a
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "~/images/default_avater.png";
+                    x.Avater = LuoUtil.OssHost + "/images/default_avater.png";
                 }
             });
 
@@ -812,7 +812,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "~/images/default_avater.png";
+                    x.Avater = LuoUtil.OssHost + "/images/default_avater.png";
                 }
             });
 

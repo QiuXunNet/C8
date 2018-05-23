@@ -35,7 +35,7 @@
     <div class="hjc_hdNav">
 
         <div class="hdNav_cai_collect">
-            <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
+            <div class="hdNav_cai_lhs_expand"><img src="@ViewBag.osshost/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
                 @foreach (var item in TypeList)
                 {
@@ -54,10 +54,7 @@
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            @*<div class="hdNav_cai_title">
-                    <span>切换分类</span>
-                    <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
-                </div>*@
+           
             <ul class="hdNav_cai">
                 @foreach (var item in TypeList)
                 {
@@ -77,14 +74,7 @@
         </div>
     </div>
 
-    <!-- <div class="guessing_header">
-        <ul class="C8_nav5 C8_GPQG">
-            <li class="current"><a href="javascript:;">全部</a></li>
-            <li><a href="javascript:;">高频彩</a></li>
-            <li class=""><a href="javascript:;">全国彩</a></li>
-            <div style="clear:both;"></div>
-        </ul>
-    </div> -->
+   
 
     <div class="gaoshou">
         <div class="GS_box">
@@ -129,7 +119,7 @@
             }
 
         </div>
-        <a href="javascript:;" class="GS_btn"><img src="~/images/50.png"></a>
+        <a href="javascript:;" class="GS_btn"><img src="@ViewBag.osshost/images/50.png"></a>
     </div>
 
 
@@ -161,199 +151,13 @@
 
     <div class="Ranking_content mt0">
         <div class="Ranking_Cinfo">
-            @*<table width="100%" border="0" class="Ranking_table1">
-                    <tbody>
-                        <tr>
-                            <td width="10%" align="center" valign="middle"><img src="~/images/44_1.png" class="Ranking_Btu"></td>
-                            <td width="15%" align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_5.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p class="Ysfont"><a href="javascript:;">茶之轨迹</a></p>
-                            </td>
-                            <td width="25%" align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-
-                    </tbody>
-                </table>*@
+            
         </div>
 
-
-        @*<div class="Ranking_Cinfo" style="display:none;">
-                <table width="100%" border="0" class="Ranking_table2">
-                    <tbody>
-                        <tr>
-                            <td width="33%" align="center" valign="middle">
-                                <div class="Ranking_Blogotu2">
-                                    <div class="Ranking_B2tu">
-                                        <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                    </div>
-                                    <img src="~/images/44_2.png" class="Ranking_PHtu">
-                                </div>
-                                <h3 class="Ranking_name"><a href="javascript:;">你家二狗的</a></h3>
-                                <span class="Ds_money2">20000</span>
-                            </td>
-                            <td width="33%" align="center" valign="middle">
-                                <div class="Ranking_Blogotu2">
-                                    <div class="Ranking_B2tu">
-                                        <a href="javascript:;"><img src="~/images/44_5.png"></a>
-                                    </div>
-                                    <img src="~/images/44_1.png" class="Ranking_PHtu">
-                                </div>
-                                <h3 class="Ranking_name"><a href="javascript:;">Atlantis</a></h3>
-                                <span class="Ds_money2">36800</span>
-                            </td>
-                            <td width="33%" align="center" valign="middle">
-                                <div class="Ranking_Blogotu2">
-                                    <div class="Ranking_B2tu">
-                                        <a href="javascript:;"><img src="~/images/44_6.png"></a>
-                                    </div>
-                                    <img src="~/images/44_3.png" class="Ranking_PHtu">
-                                </div>
-                                <h3 class="Ranking_name"><a href="javascript:;">阿牛哥</a></h3>
-                                <span class="Ds_money2">15300</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table width="100%" border="0" class="Ranking_table1">
-                    <tbody>
-                        <tr>
-                            <td width="10%" align="center" valign="middle">
-                                <p>4</p>
-                            </td>
-                            <td width="15%" align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td width="25%" align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>5</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>6</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>7</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>8</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>9</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-
-
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>10</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="middle">
-                                <p>11</p>
-                            </td>
-                            <td align="center" valign="middle">
-                                <div class="Ranking_Blogotu">
-                                    <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                                </div>
-                            </td>
-                            <td align="left" valign="middle">
-                                <p><a href="javascript:;">卡桑德拉</a></p>
-                            </td>
-                            <td align="center" valign="middle"><span class="Ds_money">20000</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>*@
     </div>
     <div class="Ranking_footer">
         <dl class="Rank_ftDL">
 
-            @*<dt>
-                <a href="javascript:;"><img src="~/images/44_7.png"></a>
-                </dt>
-                <dd>
-                    <p class="Ds_money1 f-r">20000</p>
-                    <div class="Rank_ftL">
-                        <h3><a href="javascript:;">一只安静的哈士奇</a></h3>
-                        <P>
-                            当前排名：<span>126</span>
-
-                        </P>
-                    </div>
-                </dd>*@
 
         </dl>
     </div>
