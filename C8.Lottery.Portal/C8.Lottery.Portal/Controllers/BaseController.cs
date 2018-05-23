@@ -25,7 +25,9 @@ namespace C8.Lottery.Portal.Controllers
         protected override void Initialize(RequestContext requestContext)
         {
             string osshost = ConfigurationManager.AppSettings["osshost"];
+            string ishttps = ConfigurationManager.AppSettings["ishttps"];
             ViewBag.osshost = osshost;
+            ViewBag.ishttps = ishttps;
             base.Initialize(requestContext);
         }
 
