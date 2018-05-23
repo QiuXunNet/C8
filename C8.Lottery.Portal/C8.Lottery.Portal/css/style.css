@@ -2515,6 +2515,7 @@ left: 0;
     }
 
 .details_ddLeft p {
+    white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
     height: 30px;
     line-height: 30px;
     font-size: 12px;
