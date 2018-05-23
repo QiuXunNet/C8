@@ -109,7 +109,7 @@ namespace C8.Lottery.Portal.Controllers
                     CacheHelper.AddCache("6cairecords", list, 1440);
                 }
 
-               list = list.Where(x => x.SubTime > Convert.ToDateTime(time1) && x.SubTime < Convert.ToDateTime(time2)).ToList();
+               list = list.Where(x => x.SubTime > Convert.ToDateTime(time1) && x.SubTime < Convert.ToDateTime(time2)).OrderByDescending(x=>x.SubTime).ToList();
 
 
             }

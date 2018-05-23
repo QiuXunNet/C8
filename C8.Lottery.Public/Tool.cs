@@ -285,8 +285,10 @@ namespace C8.Lottery.Public
        public static bool CheckSensitiveWords(string str)
         {
             string words = WebHelper.GetSensitiveWords();
-            string[] zang = words.Remove(words.Length-1,1).Split(',');
-            
+          
+
+            //string[] zang = words.Remove(words.Length-1,1).Split(',');
+            string[] zang = words.Split(new[] { ',', '，' }, StringSplitOptions.RemoveEmptyEntries);
             if (str.Trim().Length <= 0 || zang == null || zang.Count() <= 0)
             {
                 return false;
