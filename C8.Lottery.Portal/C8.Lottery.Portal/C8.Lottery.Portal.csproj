@@ -782,6 +782,7 @@
     <Content Include="js\luo\picmax.js" />
     <Content Include="js\luo\plan.js" />
     <Content Include="js\luo\play.js" />
+    <Content Include="js\news\clearuc.js" />
     <Content Include="js\news\dynamic.js" />
     <Content Include="js\news\index.js" />
     <Content Include="js\news\newsruntime.js" />

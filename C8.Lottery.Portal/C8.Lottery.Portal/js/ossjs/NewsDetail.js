@@ -1,6 +1,9 @@
 ﻿$(function () {
     var location = newstypeid;
     getadlist(location);
+
+    var pageDATA_ua = window.navigator.userAgent.toLowerCase();
+    if (pageDATA_ua.indexOf('ucbrowser') >= 0) { setInterval("CaoNiMaDeUc();", 1000); }
 });
 
 function getadlist(location) {
