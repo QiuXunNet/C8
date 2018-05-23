@@ -19,7 +19,7 @@ function getBlackList() {
     }
     $.post("/Talking/GetBlackList", {
         id: id,
-        roomId: @ViewBag.RoomId
+        roomId: roomId
     }, function (data) {
         if (data.Status == 1 && data.DataList.length > 0) {
             if (data.DataList.length < 20) isBottom = true;
