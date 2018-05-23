@@ -169,6 +169,23 @@ namespace C8.Lottery.Portal.Controllers
             return Content(time);
         }
 
+        public string GetRemainOpenTimeToLhc()
+        {
+            var returnTime = "";
+            string time = LotteryTime.GetTime("5");
+            if (time != "正在开奖")
+            {
+                string[] timeArr = time.Split('&');
+                returnTime = "<span id='openTime'><t id='hour2'>" + timeArr[0] + "</t>:<t id='minute2'>" + timeArr[1] + "</t>:<t id='second2'>" + timeArr[2] + "</t></span>";
+            }
+            else
+            {
+                returnTime = "<span id='openTime'>" + time + "</span>";
+            }
+
+            return returnTime;
+        }
+
         /// <summary>
         /// app下载页
         /// </summary>
