@@ -35,11 +35,10 @@ namespace C8.Lottery.Portal.Controllers
             ViewBag.lType = lType;
             ViewBag.lotteryTypeName = Util.GetLotteryTypeName((int)lType);
 
-            string currentDate = "";
-
-           
-
+            string currentDate = "";         
             string sql = "";
+            string time1 = "";
+            string time2 = "";
 
             if (lType >= 9)
             {
@@ -58,8 +57,8 @@ namespace C8.Lottery.Portal.Controllers
                     date = Convert.ToDateTime(date).ToString("MM月dd日");
                 }  
 
-                string time1 = currentDate;
-                string time2 = currentDate + " 23:59:59";
+                 time1 = currentDate;
+                 time2 = currentDate + " 23:59:59";
 
                 sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' and SubTime < '" + time2 + "' order by Issue desc";
             }
@@ -70,6 +69,9 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     currentDate = DateTime.Now.ToString("yyyy");
                     date = DateTime.Now.ToString("yyyy年");
+                    DateTime dt = DateTime.Now;
+                    time1 = dt.AddMonths(-dt.Month + 1).AddDays(-dt.Day + 1).ToString("yyyy-MM-dd");
+                    time2 = dt.Year + "-12-31 23:59:59";
                     sql = "select * from LotteryRecord where lType=" + lType + " and YEAR(SubTime) ='" + currentDate + "' order by Issue desc";
 
                 }
@@ -79,8 +81,8 @@ namespace C8.Lottery.Portal.Controllers
                     //date = date.Substring(0, 4) +"年";
                     currentDate = Convert.ToDateTime(date).ToString("yyyy-MM-dd");
                     date = Convert.ToDateTime(date).ToString("MM月dd日");
-                    string time1 = currentDate;
-                    string time2 = currentDate + " 23:59:59";
+                    time1 = currentDate;
+                    time2 = currentDate + " 23:59:59";
                     sql = "select * from LotteryRecord where lType=" + lType + " and SubTime >'" + time1 + "' and SubTime < '" + time2 + "' order by Issue desc";
 
                 }
@@ -93,8 +95,31 @@ namespace C8.Lottery.Portal.Controllers
 
             //查询日期
             ViewBag.queryDate = Util.GetQueryDate(lType??0);
+            List<LotteryRecord> list = new List<LotteryRecord>();
+            if (lType == 5)
+            {
+                list = CacheHelper.GetCache<List<LotteryRecord>>("6cairecords");
+                
+                if (list==null)
+                {
+                    sql = "select Id, lType, Issue, Num, SubTime from [dbo].[LotteryRecord] where lType=5";
+                    list = Util.ReaderToList<LotteryRecord>(sql);
+                    
+                   
+                    CacheHelper.AddCache("6cairecords", list, 1440);
+                }
 
-            ViewBag.list = Util.ReaderToList<LotteryRecord>(sql);
+               list = list.Where(x => x.SubTime > Convert.ToDateTime(time1) && x.SubTime < Convert.ToDateTime(time2)).ToList();
+
+
+            }
+            else
+            {
+                list = Util.ReaderToList<LotteryRecord>(sql);
+            }
+
+
+            ViewBag.list = list;
 
             ViewBag.date = date;
 

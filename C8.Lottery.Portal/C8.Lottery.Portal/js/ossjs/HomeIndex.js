@@ -22,15 +22,13 @@
 function getChildLotteryType(pId) {
     if ($.trim($("#mainUl2" + pId).html()).length != 0) return;
     $("#kongbaiDiv").show();
-    $.post("/Home/GetChildLotteryType", {
+    $.get("/api/HomeApi/GetChildLotteryType", {
         pId: pId
     }, function (data) {
         data = eval("(" + data + ")");
-        if (data.Code != 100)
-            return;
 
         var lis = "";
-        $(data.Data).each(function () {
+        $(data).each(function () {
             lis += "<li>";
             lis += "     <div class='UL2_hd'>";
             lis += "         <a href='javascript:;'>";

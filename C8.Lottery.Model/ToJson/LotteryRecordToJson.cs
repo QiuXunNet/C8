@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace C8.Lottery.Model
+{
+    [Serializable]
+    public class LotteryRecordToJson
+    {
+        /// <summary>
+        /// 彩种Logo
+        /// </summary>
+        public string Logo { get; set; }
+        /// <summary>
+        /// 彩种Id
+        /// </summary>
+        public int LType { get; set; }
+
+        /// <summary>
+        /// 大彩种ID
+        /// </summary>
+        public int BigLType { get; set; }
+
+        /// <summary>
+        /// 彩种名称
+        /// </summary>
+        public string LTypeName { get; set; }
+        /// <summary>
+        /// 期号
+        /// </summary>
+        public string Issue { get; set; }
+        /// <summary>
+        /// 开奖时间
+        /// </summary>
+        public string OpenTime { get; set; }
+        /// <summary>
+        /// 开奖号码
+        /// </summary>
+        public string OpenNum { get; set; }
+        /// <summary>
+        /// 开奖号码别名
+        /// </summary>
+        public string OpenNumAlias { get; set; }
+
+        /// <summary>
+        /// 当前期号
+        /// </summary>
+        public string CurrentIssue { get; set; }
+    }
+}

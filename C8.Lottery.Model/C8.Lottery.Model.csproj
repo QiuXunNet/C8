@@ -87,6 +87,7 @@
     <Compile Include="Talk\TalkBlackList.cs" />
     <Compile Include="Talk\TalkNotes.cs" />
     <Compile Include="SiteSetting.cs" />
+    <Compile Include="ToJson\LotteryRecordToJson.cs" />
     <Compile Include="UserCoupon.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserInternalMessage.cs" />
