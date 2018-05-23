@@ -15,6 +15,11 @@ namespace C8.Lottery.Model
         public string Num { get; set; }
         public System.DateTime SubTime { get; set; }
 
+        /// <summary>
+        /// 大彩种ID
+        /// </summary>
+        public int BigLType { get; set; }
+
 
         //扩展属性
         public string ShowTypeName

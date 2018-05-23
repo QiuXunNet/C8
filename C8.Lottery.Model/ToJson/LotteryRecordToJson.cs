@@ -9,24 +9,44 @@ namespace C8.Lottery.Model
     [Serializable]
     public class LotteryRecordToJson
     {
+        /// <summary>
+        /// 彩种Logo
+        /// </summary>
+        public string Logo { get; set; }
+        /// <summary>
+        /// 彩种Id
+        /// </summary>
+        public int LType { get; set; }
 
-        public int Id { get; set; }
-        public int lType { get; set; }
+        /// <summary>
+        /// 大彩种ID
+        /// </summary>
+        public int BigLType { get; set; }
+
+        /// <summary>
+        /// 彩种名称
+        /// </summary>
+        public string LTypeName { get; set; }
+        /// <summary>
+        /// 期号
+        /// </summary>
         public string Issue { get; set; }
-        public string Num { get; set; }
-        public System.DateTime SubTime { get; set; }
+        /// <summary>
+        /// 开奖时间
+        /// </summary>
+        public string OpenTime { get; set; }
+        /// <summary>
+        /// 开奖号码
+        /// </summary>
+        public string OpenNum { get; set; }
+        /// <summary>
+        /// 开奖号码别名
+        /// </summary>
+        public string OpenNumAlias { get; set; }
 
-
-        //扩展属性
-        public string ShowTypeName { get; set; }
-
-        public string ShowIconName { get; set; }
-
-        public string ShowOpenTime { get; set; }
-
-        public string ShowIssue { get; set; }
-
-        //开奖下面一排的信息
-        public string ShowInfo { get; set; }
+        /// <summary>
+        /// 当前期号
+        /// </summary>
+        public string CurrentIssue { get; set; }
     }
 }
