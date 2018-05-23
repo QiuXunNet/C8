@@ -25,7 +25,7 @@
                 <a href="/Personal/UserCenter/@Model.Id">
                     @if (string.IsNullOrEmpty(Model.Headpath))
                     {
-                        <img src="~/images/default_avater.png">
+                        <img src="@ViewBag.osshost/images/default_avater.png">
                     }
                     else
                     {
@@ -41,11 +41,11 @@
                         @if (Model.Sex == 0)
                         {
 
-                            <img src="~/images/37_1.png" class="nature_tu nature_tNan">
+                            <img src="@ViewBag.osshost/images/37_1.png" class="nature_tu nature_tNan">
                         }
                         else
                         {
-                            <img src="~/images/37_2.png" class="nature_tu nature_tNan">
+                            <img src="@ViewBag.osshost/images/37_2.png" class="nature_tu nature_tNan">
                         }
 
                     </div>
@@ -188,47 +188,7 @@
             </li>
         </ul>
     </div>
-    @*<div class="Personal_footer">
-            <ul class="Per_ftUl">
-                <li>
-                    <a href="/Home">
-                        <div class="per_boxtu">
-                            <img src="~/images/34_1a.png" class="per_bT1 per_bT1a">
-                            <img src="~/images/34_1b.png" class="per_bT1 per_bT1b">
-                        </div>
-                        <p>首页</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                        <div class="per_boxtu">
-                            <img src="~/images/34_2a.png" class="per_bT1 per_bT1a">
-                            <img src="~/images/34_2b.png" class="per_bT1 per_bT1b">
-                        </div>
-                        <p>走势图</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                        <div class="per_boxtu">
-                            <img src="~/images/34_3a.png" class="per_bT1 per_bT1a">
-                            <img src="~/images/34_3b.png" class="per_bT1 per_bT1b">
-                        </div>
-                        <p>发现</p>
-                    </a>
-                </li>
-                <li class="current">
-                    <a href="javascript:;">
-                        <div class="per_boxtu">
-                            <img src="~/images/34_5a.png" class="per_bT1 per_bT1a">
-                            <img src="~/images/34_5b.png" class="per_bT1 per_bT1b">
-                        </div>
-                        <p>我的</p>
-                    </a>
-                </li>
-                <div style="clear:both;"></div>
-            </ul>
-        </div>*@
+    
 
 </body>
 

@@ -51,7 +51,7 @@
                     <a href="/Personal/UserCenter/@Model.Id">
                         @if (string.IsNullOrEmpty(Model.Headpath))
                         {
-                            <img src="/images/default_avater.png" alt="" />
+                            <img src="@ViewBag.osshost/images/default_avater.png" alt="" />
                         }
                         else
                         {
@@ -145,52 +145,7 @@
 
     @Html.Action("WonderfulComment", "News", new { id = @lType, type = 1, refUid = @Model.Id })
 
-    @*<div class="Gues_expert">
-            <h3 class="Expert_title">已有<font>10025</font>人分享该专家</h3>
-            <ul class="Expert_nav">
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-                <li><a href="javascript:;"><img src="/images/36.png"></a></li>
-            </ul>
-            <div style="clear:both;"></div>
-        </div>*@
+    
 
     <!--分享-->
     <div class="Gues_share">
@@ -202,7 +157,7 @@
                 <li>
                     <a href="javascript:call('wechatFriend');">
                         <div class="Share_iNtu">
-                            <img src="/images/63_1.png">
+                            <img src="@ViewBag.osshost/images/63_1.png">
                         </div>
                         <p>微信好友</p>
                     </a>
@@ -210,7 +165,7 @@
                 <li>
                     <a href="javascript:call('wechatTimeline');">
                         <div class="Share_iNtu">
-                            <img src="/images/63_2.png">
+                            <img src="@ViewBag.osshost/images/63_2.png">
                         </div>
                         <p>朋友圈</p>
                     </a>
@@ -218,7 +173,7 @@
                 <li>
                     <a href="javascript:call('qqFriend');">
                         <div class="Share_iNtu">
-                            <img src="/images/63_3.png">
+                            <img src="@ViewBag.osshost/images/63_3.png">
                         </div>
                         <p>QQ好友</p>
                     </a>
@@ -229,27 +184,7 @@
         </div>
     </div>
 
-    @*<div class="C8_TCpopupA" style="margin-top: -80px; display: none;">
-        <div class="C8_Tcontent">
-            <p class="C8_Tcfont">@("查看此专家预测号码需要支付" + readCoin + "金币")</p>
-            <p class="C8_Tcfont">是否支付金币查看？</p>
-        </div>
-        <ul class="C8_Tbtn">
-            <li>
-                <a href="javascript:playUtil.cancel();">
-                    <img src="/images/69_1.png">
-                    <span>取消</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:playUtil.confirm();">
-                    <img src="/images/69_2.png">
-                    <span>确认</span>
-                </a>
-            </li>
-        </ul>
-        <div style="clear: both;"></div>
-    </div>*@
+    
    
     <div class="mask" style="display: none;"></div>
 
@@ -266,12 +201,12 @@
             <ul class="zfC_XZ">
                 <li data-idx="1" class="current">
                     <dl class="XZ_Dl">
-                        <dt><img src="~/images/w9_1.png"></dt>
+                        <dt><img src="@ViewBag.osshost/images/w9_1.png"></dt>
                         <dd>
                             <p><span>X @readCoin</span>(@("可用金币" + Coin + "个"))</p>
                             <div class="XZ_Qtu">
-                                <img src="~/images/w10_1.png" class="Qtu_A">
-                                <img src="~/images/w10_2.png" class="Qtu_B">
+                                <img src="@ViewBag.osshost/images/w10_1.png" class="Qtu_A">
+                                <img src="@ViewBag.osshost/images/w10_2.png" class="Qtu_B">
                             </div>
                             <div style="clear:both;"></div>
                         </dd>
@@ -281,12 +216,12 @@
                 {
                     <li data-idx="2">
                         <dl class="XZ_Dl">
-                            <dt><img src="~/images/w9_2.png"></dt>
+                            <dt><img src="@ViewBag.osshost/images/w9_2.png"></dt>
                             <dd>
                                 <p><span>X 1</span>(@("可用查看券"+ Coupon + "张"))</p>
                                 <div class="XZ_Qtu">
-                                    <img src="~/images/w10_1.png" class="Qtu_A">
-                                    <img src="~/images/w10_2.png" class="Qtu_B">
+                                    <img src="@ViewBag.osshost/images/w10_1.png" class="Qtu_A">
+                                    <img src="@ViewBag.osshost/images/w10_2.png" class="Qtu_B">
                                 </div>
                                 <div style="clear:both;"></div>
                             </dd>
@@ -326,10 +261,10 @@
             icon: '@Model.Headpath',
             // 不要过于依赖以下两个回调，很多浏览器是不支持的
             success: function() {
-                alert('success');
+                //alert('success');
             },
             fail: function() {
-                alert('fail');
+                //alert('fail');
             }
         }
         nativeShare.setShareData(shareData);

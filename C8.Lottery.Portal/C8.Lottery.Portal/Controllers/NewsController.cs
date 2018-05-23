@@ -49,12 +49,63 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult LoadlTypesAndChannel(int lType)
+        public JsonResult LoadlTypesAndChannel(int lType,int clType)
         {
             //NewsService _newsservice = new NewsService();
             List<Business.BusinessData.LotteryType> list = _newsservice.GetLotteryTypeList();
             List<Business.BusinessData.LotteryNewsChannel> list2 = _newsservice.GetLotteryNewsChannelList(lType);
-            return Json(new { TypeList = list, ChannelList = list2 });
+            Dictionary<string, string> dic = _newsservice.GetLastBetInfo(clType);
+            return Json(new { TypeList = list, ChannelList = list2, betDic = dic });
+        }
+
+        [HttpPost]
+        public JsonResult GetNewsList(int typeId, int pageIndex, int pageSize)
+        {
+            var newsType = Util.GetEntityById<NewsType>(typeId);
+            if (newsType == null)
+            {
+                ViewBag.NewsList = new List<News>();
+                return Json(new { total = 0, state = 0 });
+            }
+            string sql = @"SELECT  * ,
+                            (SELECT    COUNT(1)
+                              FROM[dbo].[Comment]
+                              WHERE[ArticleId] = S.Id
+                                        AND RefCommentId = 0
+                            ) AS CommentCount,
+                            STUFF((SELECT  ',' + RPath
+                                    FROM    dbo.ResourceMapping
+                                    WHERE   Type = 1
+                                            AND FkId = S.Id
+                                  FOR
+                                    XML PATH('')
+                                  ), 1, 1, '') AS ThumbListStr
+                    FROM(SELECT *
+                              FROM(SELECT    ROW_NUMBER() OVER(ORDER BY LotteryNumber DESC, ReleaseTime DESC) AS rowNumber,
+                                                    [Id],
+                                                    [FullHead],
+                                                    [SortCode],
+                                                    [ReleaseTime],
+                                                    [ThumbStyle]
+                                          FROM      dbo.[News]
+                                          WHERE[TypeId] = @TypeId
+                                                    AND DeleteMark = 0
+                                                    AND EnabledMark = 1
+                                        ) T
+                              WHERE     T.rowNumber >= @Start
+                                        AND T.rowNumber <= @End
+                            ) S";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@TypeId",SqlDbType.BigInt),
+                new SqlParameter("@Start",SqlDbType.Int),
+                new SqlParameter("@End",SqlDbType.Int),
+            };
+            parameters[0].Value = typeId;
+            parameters[1].Value = (pageIndex - 1) * pageSize + 1;
+            parameters[2].Value = pageSize * pageIndex;
+            var list = Util.ReaderToList<News>(sql, parameters) ?? new List<News>();
+            return Json(new { total = 1, state = 0, data = list });
         }
 
         /// <summary>
@@ -216,14 +267,34 @@ namespace C8.Lottery.Portal.Controllers
                 return NewsGalleryCategoryList(newsType.LType, typeId);
             }
 
-            string sql = @"SELECT * FROM ( 
-                            SELECT row_number() over(order by SortCode ASC, LotteryNumber DESC, ReleaseTime DESC ) as rowNumber,
-                            [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],(SELECT COUNT(1) FROM [dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
-                            ,STUFF((SELECT ',' + RPath FROM  dbo.ResourceMapping WHERE  Type=1 AND FkId=a.Id FOR XML PATH('')), 1, 1, '') AS ThumbListStr
-                            FROM [dbo].[News] a
-                            WHERE [TypeId]=@TypeId and DeleteMark=0 and EnabledMark=1 ) T
-                            WHERE rowNumber BETWEEN @Start AND @End 
-                            ORDER BY rowNumber";
+            string sql = @"SELECT  * ,
+                            (SELECT    COUNT(1)
+                              FROM[dbo].[Comment]
+                              WHERE[ArticleId] = S.Id
+                                        AND RefCommentId = 0
+                            ) AS CommentCount,
+                            STUFF((SELECT  ',' + RPath
+                                    FROM    dbo.ResourceMapping
+                                    WHERE   Type = 1
+                                            AND FkId = S.Id
+                                  FOR
+                                    XML PATH('')
+                                  ), 1, 1, '') AS ThumbListStr
+                    FROM(SELECT *
+                              FROM(SELECT    ROW_NUMBER() OVER(ORDER BY LotteryNumber DESC, ReleaseTime DESC) AS rowNumber,
+                                                    [Id],
+                                                    [FullHead],
+                                                    [SortCode],
+                                                    [ReleaseTime],
+                                                    [ThumbStyle]
+                                          FROM      dbo.[News]
+                                          WHERE[TypeId] = @TypeId
+                                                    AND DeleteMark = 0
+                                                    AND EnabledMark = 1
+                                        ) T
+                              WHERE     T.rowNumber >= @Start
+                                        AND T.rowNumber <= @End
+                            ) S";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
@@ -233,7 +304,7 @@ namespace C8.Lottery.Portal.Controllers
             parameters[0].Value = typeId;
             parameters[1].Value = (pageIndex - 1) * pageSize + 1;
             parameters[2].Value = pageSize * pageIndex;
-            var list = Util.ReaderToList<News>(sql, parameters) ?? new List<News>();
+            var list = Util.ReaderToList<Business.BusinessData.NewNews>(sql, parameters) ?? new List<Business.BusinessData.NewNews>();
 
             int sourceType = (int)ResourceTypeEnum.新闻缩略图;
             list.ForEach(x =>
@@ -612,7 +683,7 @@ from Comment a
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "~/images/default_avater.png";
+                    x.Avater = LuoUtil.OssHost+ "/images/default_avater.png";
                 }
             });
 
@@ -682,7 +753,7 @@ from Comment a
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "~/images/default_avater.png";
+                    x.Avater = LuoUtil.OssHost + "/images/default_avater.png";
                 }
             });
 
@@ -812,7 +883,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "~/images/default_avater.png";
+                    x.Avater = LuoUtil.OssHost + "/images/default_avater.png";
                 }
             });
 

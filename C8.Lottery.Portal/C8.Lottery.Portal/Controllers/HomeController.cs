@@ -22,7 +22,7 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult Index()
         {
-            
+           
             ViewBag.UserInfo = UserHelper.LoginUser;
             ViewBag.SiteSetting = GetSiteSetting();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,22 @@ namespace C8.Lottery.Public
 {
     public class LuoUtil
     {
+
+        private static string _ossHost;
+
+        public static string OssHost
+        {
+            get
+            {
+                if (_ossHost == null)
+                {
+                    _ossHost = ConfigurationManager.AppSettings["osshost"] ?? "";
+                }
+                return _ossHost;
+            }
+        }
+
+
         /// <summary>
         /// 获取用户积分
         /// </summary>
@@ -182,7 +199,7 @@ namespace C8.Lottery.Public
                 {
                     return intervalCount.ToString("D7");
                 }
-                 
+
                 return intervalCount.ToString();
             }
 

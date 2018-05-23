@@ -31,8 +31,8 @@
         <div class="Search_Box">
             <a href="javascript:;" onclick="Search(@lType)" class="Search_Bqx f-r">查询</a>
             <div class="Search_BL">
-                <div class="Search_BLsearch f-l" onclick="Search(@lType);"><img src="~/images/59_1.png"></div>
-                <a href="javascript:;" class="Search_BLdel f-r"><img src="~/images/42.png"></a>
+                <div class="Search_BLsearch f-l" onclick="Search(@lType);"><img src="@ViewBag.osshost/images/59_1.png"></div>
+                <a href="javascript:;" class="Search_BLdel f-r"><img src="@ViewBag.osshost/images/42.png"></a>
                 <div class="Search_BLtext"><input id="NickName" type="text" placeholder="请输入专家名称"></div>
             </div>
         </div>
@@ -76,11 +76,7 @@
                 {
                     <div class="mescroll-empty"><img class="empty-icon" src="/images/null.png"><p class="empty-tip">暂无相关数据~</p></div>
                 }
-                @*<li>
-                    <div class="ttIf1_cL f-l"><a href="javascript:;"><img src="~/images/36.png"></a></div>
-                    <a href="javascript:;" class="ttIf1_cGz f-r">关注</a>
-                    <div class="ttIf1_cR"><a href="javascript:;">一只安静的哈士奇</a></div>
-                                </li>*@
+                
 
                 <div style="clear:both;"></div>
             </ul>
@@ -107,7 +103,7 @@
 
                             </a>
                         </dt>
-                        <dd><i data-uid="@item.UserId" class="ttIf2_Dlicon f-r"><img src="~/images/60.png"></i><a href="javascript:;">@item.Name</a></dd>
+                        <dd><i data-uid="@item.UserId" class="ttIf2_Dlicon f-r"><img src="@ViewBag.osshost/images/60.png"></i><a href="javascript:;">@item.Name</a></dd>
                     </dl>
                 }
             }
