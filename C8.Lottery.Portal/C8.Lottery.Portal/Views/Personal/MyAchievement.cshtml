@@ -48,7 +48,7 @@
     </div> -->
     <div class="hjc_hdNav">
         <div class="hdNav_cai_collect">
-            <div class="hdNav_cai_lhs_expand"><img src="~/images/icon-expand.png"></div>
+            <div class="hdNav_cai_lhs_expand"><img src="@ViewBag.osshost/images/icon-expand.png"></div>
             <ul class="hdNav_cai_lhs">
                 @if (Model.LotteryType != null)
                 {
@@ -71,10 +71,7 @@
             </ul>
         </div>
         <div class="hdNav_cai_expand" style="display:none">
-            @*<div class="hdNav_cai_title">
-                    <span>切换分类</span>
-                    <span class="collect"><img src="~/images/icon-collect.png" alt="" /></span>
-                </div>*@
+           
             <ul class="hdNav_cai">
                 @if (Model.LotteryType != null)
                 {
@@ -120,7 +117,7 @@
             }
             <div style="clear:both;"></div>
         </div>
-        <a href="javascript:;" class="GS_btn"><img src="~/images/50.png"></a>
+        <a href="javascript:;" class="GS_btn"><img src="@ViewBag.osshost/images/50.png"></a>
     </div>
     <div class="wrapper-container">
 

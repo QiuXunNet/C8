@@ -1,5 +1,6 @@
 ﻿@using C8.Lottery.Model;
 @using System.Configuration;
+@using C8.Lottery.Public
 @{
     Layout = null;
     var CardList = ViewBag.CardList as List<BankInfo>;
@@ -12,7 +13,7 @@
         bankName = CardList.FirstOrDefault().BankName;
         backId = CardList.FirstOrDefault().Id;
     }
-    string webHost = ConfigurationManager.AppSettings["osshost"].ToString();
+    string webHost = LuoUtil.OssHost;
 }
 
 <html>
