@@ -23,6 +23,7 @@
     <input type="hidden" id="PlType" value="@ViewBag.lType" />
     <input type="hidden" id="CityId" value="@ViewBag.CityId" />
     <input type="hidden" id="socketUrl" value="@socketUrl" />
+    <input type="hidden" id="osshost" value="@ViewBag.osshost" />
     <header class="hjc_header">
         <a href="javascript:history.go(-1);" class="hjc_back"></a>
         <a href="javascript:;" class="hjc_logo hjc_HeaderXL">@ViewBag.SEOInfo[3]<span class="select_sign"></span></a>
@@ -62,7 +63,7 @@
 
     <div class="info_hdnav LHC_info_YLZB_nav">
         <div class="info_hdNav_cai_collect ">
-            <div class="info_hdNav_cai_lhs_expand"><img src="/images/icon-expand.png"></div>
+            <div class="info_hdNav_cai_lhs_expand"><img src="@ViewBag.osshost/images/icon-expand.png"></div>
             <ul class="info_hdNav_cai_lhs"></ul>
             <div style="clear:both;"></div>
         </div>

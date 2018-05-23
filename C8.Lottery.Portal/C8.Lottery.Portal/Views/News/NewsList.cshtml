@@ -1,7 +1,7 @@
 ﻿@using C8.Lottery.Model;
 @using C8.Lottery.Public;
 @{
-    var newsList = ViewBag.NewsList as List<News>;
+    var newsList = ViewBag.NewsList as List<C8.Lottery.Portal.Business.BusinessData.NewNews>;
     var adList = ViewBag.AdList as List<Advertisement>;
     var PageIndex = ViewBag.PageIndex;
     string CityId = ViewBag.CityId;
@@ -413,7 +413,7 @@
                         <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="newstime">
                             <span>@site.WebName</span>
-                            <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.ReleaseTime.ToString("MM-dd HH:mm")</span>
                             <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
@@ -427,7 +427,7 @@
                         <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="newstime">
                             <span>@site.WebName</span>
-                            <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.ReleaseTime.ToString("MM-dd HH:mm")</span>
                             <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
@@ -457,7 +457,7 @@
                         </div>
                         <div class="newstime">
                             <span>@site.WebName</span>
-                            <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.ReleaseTime.ToString("MM-dd HH:mm")</span>
                             <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
@@ -479,7 +479,7 @@
                         </div>
                         <div class="newstime">
                             <span>@site.WebName</span>
-                            <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.ReleaseTime.ToString("MM-dd HH:mm")</span>
                             <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>
@@ -492,7 +492,7 @@
                         <div class="hjc_news_subject">@newse.FullHead</div>
                         <div class="">
                             <span>@site.WebName</span>
-                            <span>@newse.ReleaseTimeStr</span>
+                            <span>@newse.ReleaseTime.ToString("MM-dd HH:mm")</span>
                             <span>@newse.CommentCount<i class="icon-comment"></i></span>
                         </div>
                     </div>

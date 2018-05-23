@@ -47,7 +47,7 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult GetWxUrl(int amount)
         {
             var no = GetRandom();// Guid.NewGuid().ToString("N");
-            var redirect_url = HttpUtility.UrlEncode(HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
+            var redirect_url = HttpUtility.UrlEncode("https://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
             var total = (amount * 100).ToString();
 
             //LogHelper.WriteLog("微信： redirect_url="+redirect_url);
@@ -62,7 +62,7 @@ namespace C8.Lottery.Portal.Controllers
             packageReqHandler.SetParameter("out_trade_no", no);//订单号
             packageReqHandler.SetParameter("total_fee", total); //金额,以分为单位
             packageReqHandler.SetParameter("spbill_create_ip",Tool.GetIP());//IP
-            packageReqHandler.SetParameter("notify_url", HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Host + "/Recharge/WxNotify"); //回调地址
+            packageReqHandler.SetParameter("notify_url", "https://" + HttpContext.Request.Url.Host + "/Recharge/WxNotify"); //回调地址
             packageReqHandler.SetParameter("trade_type", "MWEB");//这个不可以改。固定为Mweb
             packageReqHandler.SetParameter("sign", packageReqHandler.CreateMd5Sign("key", key));
             string data = packageReqHandler.ParseXML();
@@ -157,7 +157,7 @@ namespace C8.Lottery.Portal.Controllers
             var no = GetRandom();// Guid.NewGuid().ToString("N");
             IAopClient client = new DefaultAopClient(serverUrl, app_id, merchant_private_key, format, version, sign_type, alipay_public_key, charset, false);
             AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
-            string address = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Host; //获取访问域名
+            string address = "https://" + HttpContext.Request.Url.Host; //获取访问域名
                                                                        // log.Info("address:" + address);
             request.SetReturnUrl(address + "/Personal/TransactionRecord");//同步请求
             request.SetNotifyUrl(address + "/Recharge/AsyncPay");//异步请求
