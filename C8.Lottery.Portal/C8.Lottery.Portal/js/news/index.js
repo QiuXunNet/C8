@@ -4,7 +4,7 @@ var pageIndex =  1,
 $(function () {
     //newsManager.GetLastBetInfo();
     newsManager.LoadlTypesAndChannel();
-    //newsManager.calcNavScoll();
+    newsManager.calcNavScoll();
 })
 
 var newsManager = {
@@ -136,19 +136,19 @@ var newsManager = {
                     else {
                         
                         if (pageIndex <= 1) {
-                            data += "<div class='hjc_news_showmore'><button type='button' onclick='newsManager.showmore(" + id + ")' style='border: 1px solid #f3f4f4;background-color: white;width: 100%;padding: 2px 1px;'>点击加载更多</button></div>";
+                            data += '<div class="CK_Tiao" onclick="newsManager.showmore(' + id + ')"><a href="JavaScript:;"><span>查看下30条</span><img src="' + $("#osshost").val() + '/images/09.png"></a></div>';
                             $("#news").html(data);
                         } else {
-                            $(data).insertBefore(".hjc_news_showmore");
+                            $(data).insertBefore(".CK_Tiao");
                         }
 
                         var contentcount = $("<div>" + data + "</div>").find(".hjc_news_content").length;
                         if (contentcount < pageSize) {
-                            $(".hjc_news_showmore").remove();
+                            $(".CK_Tiao").remove();
                         }
                     }
                 } else {
-                    $(".hjc_news_showmore").remove();
+                    $(".CK_Tiao").remove();
                 }
             },
             error: function (xhr, type) {
