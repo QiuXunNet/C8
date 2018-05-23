@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="api\HomeApiController.cs" />
+    <Compile Include="api\LhcNewsController.cs" />
     <Compile Include="App_Code\UserHelper.cs" />
     <Compile Include="Business\BusinessData\LotteryNewsChannel.cs" />
     <Compile Include="Business\BusinessData\LotteryType.cs" />
@@ -845,6 +846,7 @@
     <Content Include="css\fonts\c8.woff" />
     <Content Include="App_Data\log4net.config" />
     <Content Include="js\luo\plan.myplan.js" />
+    <Content Include="lhcNews.html" />
     <Content Include="Mdate\iScroll.js" />
     <Content Include="Mdate\Mdate.js" />
     <Content Include="Mdate\needcss\Mdate.css" />
