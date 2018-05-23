@@ -99,17 +99,17 @@ namespace C8.Lottery.Portal.Controllers
             if (lType == 5)
             {
                 list = CacheHelper.GetCache<List<LotteryRecord>>("6cairecords");
-                list = null;
+                
                 if (list==null)
                 {
-                    sql = "select * from [dbo].[LotteryRecord] where lType=5";
+                    sql = "select Id, lType, Issue, Num, SubTime from [dbo].[LotteryRecord] where lType=5";
                     list = Util.ReaderToList<LotteryRecord>(sql);
                     
                    
                     CacheHelper.AddCache("6cairecords", list, 1440);
                 }
 
-                list = list.Where(x => x.SubTime > Convert.ToDateTime(time1) && x.SubTime < Convert.ToDateTime(time2)).ToList();
+               list = list.Where(x => x.SubTime > Convert.ToDateTime(time1) && x.SubTime < Convert.ToDateTime(time2)).ToList();
 
 
             }
