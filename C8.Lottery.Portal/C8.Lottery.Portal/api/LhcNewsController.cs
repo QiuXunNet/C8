@@ -17,21 +17,27 @@ namespace C8.Lottery.Portal.api
         /// <returns></returns>
         public string GetLhcLotteryRecord()
         {
-            string sql = "select top(1) Issue,Num from LotteryRecordToLhc";
-            LotteryRecrdToLhc lr = Util.ReaderToModel<LotteryRecrdToLhc>(sql);
+            LotteryRecrdToLhc model = CacheHelper.GetCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1");
+            if (model == null)
+            {
+                string sql = "select top(1) Issue,Num from LotteryRecordToLhc";
+                model = Util.ReaderToModel<LotteryRecrdToLhc>(sql);
+
+                CacheHelper.AddCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1", model,24*60);
+            }
 
             string time = LotteryTime.GetTime("5");
             if (time != "正在开奖")
             {
                 string[] timeArr = time.Split('&');
-                lr.Time = "<span id='openTime'><t id='hour2'>" + timeArr[0] + "</t>:<t id='minute2'>" + timeArr[1] + "</t>:<t id='second2'>" + timeArr[2] + "</t></span>";
+                model.Time = "<span id='openTime'><t id='hour2'>" + timeArr[0] + "</t>:<t id='minute2'>" + timeArr[1] + "</t>:<t id='second2'>" + timeArr[2] + "</t></span>";
             }
             else
             {
-                lr.Time = "<span id='openTime'>" + time + "</span>";
+                model.Time = "<span id='openTime'>" + time + "</span>";
             }
 
-            return lr.ToJsonString();
+            return model.ToJsonString();
         }
        
     }
