@@ -2,9 +2,9 @@
 var pageIndex =  1,
    pageSize = 30;
 $(function () {
-    newsManager.GetLastBetInfo();
+    //newsManager.GetLastBetInfo();
     newsManager.LoadlTypesAndChannel();
-    newsManager.calcNavScoll();
+    //newsManager.calcNavScoll();
 })
 
 var newsManager = {
@@ -36,7 +36,7 @@ var newsManager = {
         $.ajax({
             type: 'POST',
             url: '/News/LoadlTypesAndChannel',
-            data: { lType: $("#PlType").val() },
+            data: { lType: $("#PlType").val(), clType: $("#lType").val() },
             dataType: 'json',
             success: function (data) {
 
@@ -73,18 +73,22 @@ var newsManager = {
                     for (var i = 0; i < data.ChannelList.length; i++) {
                         var item = data.ChannelList[i];
                         if (item.Id == currentChannelId) {
-                            tempHtml += ' <li class="current" data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="30">';
-                            tempHtml += '<a href="/News/NewIndex/' + item.lType + '/' + item.Id + '">' + item.TypeName + '</a>';
+                            tempHtml += ' <li class="current" onclick="newsManager.ChangeChannel(' + item.Id + ')" data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="30">';
+                            tempHtml += '<a href="javascript:void(0)">' + item.TypeName + '</a>';
                             tempHtml += '</li>';
                         }
                         else {
-                            tempHtml += ' <li data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="30">';
-                            tempHtml += '<a href="/News/NewIndex/' + item.lType + '/' + item.Id + '">' + item.TypeName + '</a>';
+                            tempHtml += ' <li onclick="newsManager.ChangeChannel(' + item.Id + ')" data-id="' + item.Id + '" data-pageIndex="1" data-pageSize="30">';
+                            tempHtml += '<a href="javascript:void(0)">' + item.TypeName + '</a>';
                             tempHtml += ' </li>';
                         }
                     }
                     $(".info_hdNav_cai_lhs").html(tempHtml);
                     $(".info_hdNav_cai").html(tempHtml);
+                }
+                if (data && data.betDic) {
+                    $("#txtIssue").html(data.betDic.Issue);
+                    $("#ballListDiv").html(data.betDic.NumHtml);
                 }
             },
             error: function (xhr, type) {
@@ -97,6 +101,13 @@ var newsManager = {
             }
         });
     },
+    ChangeChannel: function (id) {
+        $(".info_hdNav_cai_lhs li[data-id=" + id + "]").addClass("current").siblings().removeClass("current");
+        $(".info_hdNav_cai li[data-id=" + id + "]").addClass("current").siblings().removeClass("current");
+        pageIndex = 1;
+        newsManager.initnews(id);
+        newsManager.calcNavScoll();
+    },
     calcNavScoll: function () {
         $(".info_hdNav_cai_lhs li").unbind("click");
         var index = $(".info_hdNav_cai_lhs li.current").index();
@@ -106,54 +117,53 @@ var newsManager = {
         }
     },
     initnews: function (id) {
-        dropload = $("#news").dropload({
-            scrollArea: window,
-            domDown: {
-                domClass: 'dropload-down',
-                domRefresh: '<div class="dropload-refresh">↑上拉加载更多</div>',
-                domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
-                domNoData: '<div class="dropload-noData">暂无数据</div>'
+        //$("#news").html("<center>加载中......</center>");
+        $.ajax({
+            type: 'GET',
+            url: '/News/NewsList',
+            data: {
+                typeId: id,
+                pageIndex: pageIndex,
+                pageSize: pageSize
             },
-            loadDownFn: function (me) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/News/NewsList',
-                    data: {
-                        typeId: id,
-                        pageIndex: pageIndex,
-                        pageSize: pageSize
-                    },
-                    dataType: 'html',
-                    success: function (data) {
+            dataType: 'html',
+            success: function (data) {
 
-                        if (data && data.length > 0) {
-                            if (data.indexOf('showLetter') > -1) {
-                                $("#news").html(data);
-                            }
-                            else {
-                                // 延迟0.1秒加载
-                                setTimeout(function () {
-                                    $("#news .dropload-down").before(data);
-                                    pageIndex++;
-                                    // 每次数据加载完，必须重置
-                                    dropload.resetload();
-                                }, 100);
-                            }
-                        }
-                    },
-                    error: function (xhr, type) {
-
-                        $(document).dialog({
-                            type: 'notice',
-                            infoText: '服务器繁忙',
-                            autoClose: 1500
-                        });
-                        // 即使加载出错，也得重置
-                        dropload.resetload();
+                if (data && data.indexOf('div') > -1) {
+                    if (data.indexOf('showLetter') > -1) {
+                        $("#news").html(data);
                     }
+                    else {
+                        
+                        if (pageIndex <= 1) {
+                            data += "<div class='hjc_news_showmore'><button type='button' onclick='newsManager.showmore(" + id + ")' style='border: 1px solid #f3f4f4;background-color: white;width: 100%;padding: 2px 1px;'>点击加载更多</button></div>";
+                            $("#news").html(data);
+                        } else {
+                            $(data).insertBefore(".hjc_news_showmore");
+                        }
+
+                        var contentcount = $("<div>" + data + "</div>").find(".hjc_news_content").length;
+                        if (contentcount < pageSize) {
+                            $(".hjc_news_showmore").remove();
+                        }
+                    }
+                } else {
+                    $(".hjc_news_showmore").remove();
+                }
+            },
+            error: function (xhr, type) {
+
+                $(document).dialog({
+                    type: 'notice',
+                    infoText: '服务器繁忙',
+                    autoClose: 1500
                 });
             }
         });
+    },
+    showmore: function (id) {
+        pageIndex++;
+        newsManager.initnews(id);
     },
     getadlist: function (location) {
         $.get("/News/GetAdvertisementListJson",
