@@ -401,12 +401,12 @@ var playUtil = {
     goLastPlay: function () {
         var playName = $(".SX_Ul li.current").attr("data-title") || "";
         var paytype = $(".zfC_XZ li.current").attr("data-idx");
-        location.href = "/Plan/LastPlay/" + ltype + "?uid=" + uid + "&playName=" + playName + "&paytype=" + paytype;
+        location.href = "/Plan/LastPlay/" + LType + "?uid=" + UserId + "&playName=" + playName + "&paytype=" + paytype;
     },
     giftCoin: function () {
 
         var playName = $(".SX_Ul li.current").attr("data-title") || "";
-        location.href = "/Plan/Tip?uid=" + uid + "&ltype=" + ltype + "&playName=" + playName;
+        location.href = "/Plan/Tip?uid=" + UserId + "&ltype=" + LType + "&playName=" + playName;
     },
     cancel: function () {
         $(".C8_TCpopupA").hide();
@@ -452,6 +452,8 @@ var playUtil = {
         });
     },
     view: function () {
+        var uid = UserId;
+
         if (uid == MyUid) {
             playUtil.goLastPlay();
 
