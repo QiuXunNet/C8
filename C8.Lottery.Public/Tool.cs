@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Aliyun.OSS.Util;
 using Aliyun.OSS;
+using System.Configuration;
 
 namespace C8.Lottery.Public
 {
@@ -76,7 +77,8 @@ namespace C8.Lottery.Public
         /// <returns></returns>
         public static string GetCityId()
         {
-            string city = GetByIPCity();
+            string ishttps = ConfigurationManager.AppSettings["ishttps"];
+            string city = GetByIPCity(ishttps);
             string i = "0";
          
             if (city.Contains("深圳"))
@@ -105,7 +107,7 @@ namespace C8.Lottery.Public
    
 
         /// <summary>
-        /// 获取访客ip城市
+        /// 获取访客ip城市 淘宝接口
         /// </summary>
         /// <returns></returns>
         public static string GetByIPCity()
@@ -128,6 +130,34 @@ namespace C8.Lottery.Public
                
             }
         }
+        /// <summary>
+        /// 获取访客ip城市 搜狐接口
+        /// </summary>
+        /// <returns></returns>
+        public static string GetByIPCity(string ishhtps)
+        {
+            try
+            {
+                string url = "" + ishhtps + "://pv.sohu.com/cityjson?ie=utf-8";
+                string str = HttpCommon.HttpGet(url);
+                int i = str.IndexOf("{");
+                int j = str.IndexOf("}");
+                string json = str.Substring(i,(j-i)+1);
+        
+                JObject jo = (JObject)JsonConvert.DeserializeObject(json);
+                string city = jo["cname"].ToString();
+           
+
+                return city;
+            }
+            catch (Exception e)
+            {
+                return "";
+
+            }
+        }
+
+
 
         /// <summary>
         /// 判断是否PC端

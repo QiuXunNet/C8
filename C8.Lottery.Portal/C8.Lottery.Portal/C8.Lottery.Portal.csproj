@@ -151,9 +151,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="api\HomeApiController.cs" />
     <Compile Include="App_Code\UserHelper.cs" />
     <Compile Include="Business\BusinessData\LotteryNewsChannel.cs" />
     <Compile Include="Business\BusinessData\LotteryType.cs" />
+    <Compile Include="Business\BusinessData\NewNews.cs" />
     <Compile Include="Business\NewsService.cs" />
     <Compile Include="Controllers\AmountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -782,6 +784,7 @@
     <Content Include="js\luo\play.js" />
     <Content Include="js\news\dynamic.js" />
     <Content Include="js\news\index.js" />
+    <Content Include="js\news\newsruntime.js" />
     <Content Include="js\opendate.js" />
     <Content Include="js\ossjs\BindingBankCard.js" />
     <Content Include="js\ossjs\BlackList.js" />

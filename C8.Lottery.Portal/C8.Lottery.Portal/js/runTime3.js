@@ -5,7 +5,7 @@ var t3;
 $(function () {
     t1 = setInterval("handtimeRun()", 1000);
     //getTime()
-    t2 = setInterval("getTime()", 2*60*1000);
+   // t2 = setInterval("getTime()", 2*60*1000);
 });
 
 
