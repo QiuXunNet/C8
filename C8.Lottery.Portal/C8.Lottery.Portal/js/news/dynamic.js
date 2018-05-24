@@ -84,7 +84,17 @@ function showBall(data) {
             //如果是特码
             $("#ballListDiv").append('<span class="Mif_jgC">+</span>&nbsp;');
         }
+
+        var ballNo = data.BallNo; 
+        var ballList = $(".hdM_spliu", "#ballListDiv");
+
         var num = data.Content.length < 2 ? "0" + data.Content : data.Content;
-        $("#ballListDiv").append('<span class="hdM_spliu ' + getColor(num) + '">' + num + "</span>&nbsp;");
+
+        if (ballList.eq(ballNo - 1).length == 1) {
+            ballList.eq(ballNo - 1).removeClass().addClass("hdM_spliu " + getColor(num)).text(num);
+        }
+        else {
+            $("#ballListDiv").append('<span class="hdM_spliu ' + getColor(num) + '">' + num + "</span>&nbsp;");
+        }
     }
 }
