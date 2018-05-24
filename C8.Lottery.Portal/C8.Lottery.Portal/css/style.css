@@ -8854,6 +8854,10 @@ footer {
 @-webkit-keyframes stretchdelay {0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 20% { -webkit-transform: scaleY(1.0) }}
 @keyframes stretchdelay {0%, 40%, 100% {transform: scaleY(0.4);-webkit-transform: scaleY(0.4);}  20% {transform: scaleY(1.0);-webkit-transform: scaleY(1.0);}}
 
+/*返回顶部*/
+.Back_Top{position: fixed;right: 10%;bottom: 15%;width: 30px;height: 30px;border-radius: 50%;background: rgba(241,49,49,0.8);z-index: 999999}
+.Back_Top a{display: block;width: 100%;height: 100%;background: url(../images/w16.png) no-repeat center;background-size: 16px}
+
 
 
 
