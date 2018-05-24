@@ -134,7 +134,7 @@ var newsManager = {
         }
     },
     initnews: function (id) {
-        $(".spinner").show();
+        $("#CK_Tiao_Text").html("<span>加载中......</span>");
         $.ajax({
             type: 'GET',
             url: '/News/NewsList',
@@ -145,7 +145,6 @@ var newsManager = {
             },
             dataType: 'html',
             success: function (data) {
-                $(".spinner").hide();
                 if (data && data.indexOf('div') > -1) {
                     if (data.indexOf('showLetter') > -1) {
                         $("#news").html(data);
@@ -153,7 +152,7 @@ var newsManager = {
                     else {
                         
                         if (pageIndex <= 1) {
-                            data += '<div class="CK_Tiao" onclick="newsManager.showmore(' + id + ')"><a href="JavaScript:;"><span>查看下30条</span><img src="' + $("#osshost").val() + '/images/09.png"></a></div>';
+                            data += '<div class="CK_Tiao" onclick="newsManager.showmore(' + id + ')"><a href="JavaScript:;" id="CK_Tiao_Text"><span>查看下30条</span><img src="' + $("#osshost").val() + '/images/09.png"></a></div>';
                             $("#news").html(data);
                         } else {
                             $(data).insertBefore(".CK_Tiao");
@@ -167,10 +166,10 @@ var newsManager = {
                 } else {
                     $(".CK_Tiao").remove();
                 }
-                
+                $("#CK_Tiao_Text").html('<span>查看下30条</span><img src="' + $("#osshost").val() + '/images/09.png">');
             },
             error: function (xhr, type) {
-                $(".spinner").hide();
+                $("#CK_Tiao_Text").html('<span>查看下30条</span><img src="' + $("#osshost").val() + '/images/09.png">');
                 $(document).dialog({
                     type: 'notice',
                     infoText: '服务器繁忙',

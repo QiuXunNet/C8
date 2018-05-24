@@ -26,6 +26,10 @@ $(function () {
         }
     });
 
+    /*返回顶部*/
+    $(".Back_Top").click(function (event) {
+        $("body,html").stop().animate({ "scrollTop": 0 }, 500);
+    });
 
 
 
