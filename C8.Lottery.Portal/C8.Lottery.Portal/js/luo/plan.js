@@ -10,6 +10,12 @@ var tipUtil = {
         }
 
         var coin = coininput.val() || 0;
+
+        if (coin > 10000000) {
+            alertmsg("超过最大打赏值");
+            return;
+        }
+
         if (coin.match(/^[1-9]{1}[0-9]*$/)) {
             $.ajax({
                 type: 'POST',

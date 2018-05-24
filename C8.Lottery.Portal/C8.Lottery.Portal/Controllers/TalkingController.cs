@@ -63,14 +63,14 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     ViewBag.UserId = 9998;
                     ViewBag.UserName = "测试用户";
-                    ViewBag.PhotoImg = "/images/default_avater.png";
+                    ViewBag.PhotoImg = LuoUtil.DefaultAvater;
                     ViewBag.IsAdmin = false;
                 }
                 else
                 {
                     ViewBag.UserId = user.Id;
                     ViewBag.UserName = user.Name;
-                    ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;//user.;
+                    ViewBag.PhotoImg = string.IsNullOrEmpty(user.Headpath) ? LuoUtil.DefaultAvater : user.Headpath;//user.;
                     ViewBag.IsAdmin = (userState.IsChatAD??0)==0?false:true; //
                     ViewBag.MasterLottery = userState.MasterLottery;
                 }

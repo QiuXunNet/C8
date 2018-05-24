@@ -1156,6 +1156,11 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
             if (model == null)
                 return Json(new AjaxResult(404, "该帖子不存在"));
 
+            if (model.UserId == user.Id)
+            {
+                return Json(new AjaxResult(404, "不能打赏你自己"));
+            }
+
             //step3.验证用户金币是否充足
             if (user.Coin < coin)
             {

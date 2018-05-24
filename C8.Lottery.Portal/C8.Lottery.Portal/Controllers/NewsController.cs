@@ -11,7 +11,8 @@ using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
 using C8.Lottery.Public;
 using C8.Lottery.Portal.Models;
-using Newtonsoft.Json;using C8.Lottery.Portal.Business;
+using Newtonsoft.Json;
+using C8.Lottery.Portal.Business;
 namespace C8.Lottery.Portal.Controllers
 {
     /// <summary>
@@ -49,7 +50,7 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult LoadlTypesAndChannel(int lType,int clType)
+        public JsonResult LoadlTypesAndChannel(int lType, int clType)
         {
             //NewsService _newsservice = new NewsService();
             List<Business.BusinessData.LotteryType> list = _newsservice.GetLotteryTypeList();
@@ -114,7 +115,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public JsonResult GetLastBetInfo(int lType)
         {
-            Dictionary<string,string> dic = _newsservice.GetLastBetInfo(lType);
+            Dictionary<string, string> dic = _newsservice.GetLastBetInfo(lType);
             return Json(dic);
         }
 
@@ -227,14 +228,14 @@ namespace C8.Lottery.Portal.Controllers
             if (time != "正在开奖")
             {
                 string[] timeArr = time.Split('&');
-                ViewBag.time = "<span id='openTime'><t id='hour2'>"+ timeArr[0] + "</t>:<t id='minute2'>"+ timeArr[1] + "</t>:<t id='second2'>"+ timeArr[2] + "</t></span>";
+                ViewBag.time = "<span id='openTime'><t id='hour2'>" + timeArr[0] + "</t>:<t id='minute2'>" + timeArr[1] + "</t>:<t id='second2'>" + timeArr[2] + "</t></span>";
             }
             else
             {
-                ViewBag.time = "<span id='openTime'>"+ time + "</span>";
+                ViewBag.time = "<span id='openTime'>" + time + "</span>";
             }
 
-            ViewBag.NewsTypeList = JsonConvert.SerializeObject(list.Select(e=>new { e.Id,e.LType ,e.TypeName }));
+            ViewBag.NewsTypeList = JsonConvert.SerializeObject(list.Select(e => new { e.Id, e.LType, e.TypeName }));
             ViewBag.lType = id;
             ViewBag.lastIssue = lr.Issue;
             ViewBag.lastNum = lr.Num;
@@ -355,7 +356,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             List<Advertisement> list = Util.ReaderToList<Advertisement>(strsql);
-          
+
             return list;
         }
         /// <summary>
@@ -636,7 +637,7 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
             ViewBag.RecommendGalleryList = recGalleryList;
 
             ViewBag.CityId = Tool.GetCityId();
-            
+
             return View(model);
         }
 
@@ -684,7 +685,7 @@ from Comment a
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = LuoUtil.OssHost+ "/images/default_avater.png";
+                    x.Avater = LuoUtil.DefaultAvater;
                 }
             });
 
@@ -754,7 +755,7 @@ from Comment a
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = LuoUtil.OssHost + "/images/default_avater.png";
+                    x.Avater = LuoUtil.DefaultAvater;
                 }
             });
 
@@ -884,7 +885,7 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
             {
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = LuoUtil.OssHost + "/images/default_avater.png";
+                    x.Avater = LuoUtil.DefaultAvater;
                 }
             });
 
@@ -944,7 +945,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
                 if (string.IsNullOrEmpty(x.Avater))
                 {
-                    x.Avater = "/images/default_avater.png";
+                    x.Avater = LuoUtil.DefaultAvater;
                 }
                 //查询是否有上级回复
                 // 2 40 42
