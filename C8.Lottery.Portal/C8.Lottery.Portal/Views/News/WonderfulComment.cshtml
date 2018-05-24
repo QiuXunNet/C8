@@ -14,7 +14,7 @@
         @if (Model == null || Model.Count <= 0)
         {
             <div class="notdata">
-                <img src="/images/null.png">
+                <img src="@ViewBag.osshost/images/null.png">
                 <div class="text">暂无评论</div>
             </div>
         }
@@ -80,7 +80,7 @@
 <div class="Gues_footer">
     <div class="Gues_ftTB f-r">
         <a href="/News/CommentList/@ViewBag.ArticleId?type=@ViewBag.Type&refUid=@ViewBag.RefUid" class="ftTB_A">
-            <img src="/images/62_1.png">
+            <img src="@ViewBag.osshost/images/62_1.png">
             <font>@ViewBag.CommentTotalCount</font>
         </a>
         @*<a href="javascript:showShare();" class="ftTB_A ShareBtn"><img src="/images/62_2.png"></a>*@
