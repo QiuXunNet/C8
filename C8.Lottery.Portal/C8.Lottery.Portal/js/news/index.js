@@ -117,7 +117,7 @@ var newsManager = {
         }
     },
     initnews: function (id) {
-        //$("#news").html("<center>加载中......</center>");
+        $(".spinner").show();
         $.ajax({
             type: 'GET',
             url: '/News/NewsList',
@@ -128,7 +128,7 @@ var newsManager = {
             },
             dataType: 'html',
             success: function (data) {
-
+                $(".spinner").hide();
                 if (data && data.indexOf('div') > -1) {
                     if (data.indexOf('showLetter') > -1) {
                         $("#news").html(data);
@@ -150,9 +150,10 @@ var newsManager = {
                 } else {
                     $(".CK_Tiao").remove();
                 }
+                
             },
             error: function (xhr, type) {
-
+                $(".spinner").hide();
                 $(document).dialog({
                     type: 'notice',
                     infoText: '服务器繁忙',
