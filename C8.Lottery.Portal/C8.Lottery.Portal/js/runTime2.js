@@ -9,7 +9,7 @@ $(function () {
     handtimeRunForOpen();
   //  time1 = setInterval("handtimeRunForOpen()", 10000);
 
-    time3 = setInterval("runTime()", 1000);
+    //time3 = setInterval("runTime()", 1000);
 });
 
 function handtimeRunForOpen() {
