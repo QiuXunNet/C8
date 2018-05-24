@@ -8,7 +8,7 @@ $(function () {
             domClass: "dropload-down",
             domRefresh: "",
             domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
-            domNoData: '<div class="dropload-noData"><img src="/images/null.png" alt="暂无数据" />暂无数据</div>'
+            domNoData: '<div style="height:auto;" class="dropload-noData"><img src="/images/null.png" alt="暂无数据" />暂无数据</div>'
         },
         loadDownFn: function (me) {
             $.ajax({
