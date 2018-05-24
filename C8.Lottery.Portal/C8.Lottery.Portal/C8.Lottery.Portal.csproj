@@ -846,6 +846,7 @@
     <Content Include="css\fonts\c8.woff" />
     <Content Include="App_Data\log4net.config" />
     <Content Include="js\luo\plan.myplan.js" />
+    <Content Include="lhcNews - 副本.html" />
     <Content Include="lhcNews.html" />
     <Content Include="Mdate\iScroll.js" />
     <Content Include="Mdate\Mdate.js" />
