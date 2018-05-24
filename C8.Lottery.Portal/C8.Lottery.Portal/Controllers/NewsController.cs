@@ -294,7 +294,8 @@ namespace C8.Lottery.Portal.Controllers
                                         ) T
                               WHERE     T.rowNumber >= @Start
                                         AND T.rowNumber <= @End
-                            ) S";
+                            ) S
+                    ORDER BY S.rowNumber";
             SqlParameter[] parameters =
             {
                 new SqlParameter("@TypeId",SqlDbType.BigInt),
