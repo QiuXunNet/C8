@@ -26,6 +26,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (bo == "true")
             {
+
                 List<FriendLink> list = CacheHelper.GetCache<List<FriendLink>>("FriendshipLinksControllerFriendLinkList");
 
                 if (list == null)
