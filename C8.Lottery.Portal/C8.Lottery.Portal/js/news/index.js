@@ -90,6 +90,8 @@ var newsManager = {
                     $("#txtIssue").html(data.betDic.Issue);
                     $("#ballListDiv").html(data.betDic.NumHtml);
                 }
+                if ($("#PlType").val() == 5)
+                    ws = new WebSocket(url);
             },
             error: function (xhr, type) {
 

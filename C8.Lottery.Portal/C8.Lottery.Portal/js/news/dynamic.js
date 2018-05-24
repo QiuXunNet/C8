@@ -2,7 +2,7 @@
 var ws;
 
 $(function () {
-    ws = new WebSocket(url);
+    //ws = new WebSocket(url);
     //链接成功回调
     ws.onopen = function () {
         wsOnopen();
