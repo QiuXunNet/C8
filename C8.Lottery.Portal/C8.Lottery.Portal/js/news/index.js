@@ -90,8 +90,23 @@ var newsManager = {
                     $("#txtIssue").html(data.betDic.Issue);
                     $("#ballListDiv").html(data.betDic.NumHtml);
                 }
-                if ($("#PlType").val() == 5)
+                if ($("#PlType").val() == 5) {
                     ws = new WebSocket(url);
+                    //链接成功回调
+                    ws.onopen = function () {
+                        wsOnopen();
+                    };
+                    //收到消息回调
+                    ws.onmessage = function (evt) {
+                        wsOnmessage(evt);
+                    };
+                    //链接失败回调
+                    ws.onerror = function (evt) { };
+                    //链接关闭回调
+                    ws.onclose = function () {
+                        wsOnclose();
+                    };
+                }
             },
             error: function (xhr, type) {
 
