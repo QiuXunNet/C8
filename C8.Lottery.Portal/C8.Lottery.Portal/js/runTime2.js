@@ -9,7 +9,7 @@ $(function () {
     handtimeRunForOpen();
   //  time1 = setInterval("handtimeRunForOpen()", 10000);
 
-    //time3 = setInterval("runTime()", 1000);
+    time3 = setInterval("runTime()", 1000);
 });
 
 function handtimeRunForOpen() {
@@ -20,8 +20,8 @@ function handtimeRunForOpen() {
         if (dateTime != "正在开奖") {
             clearInterval(time2);
             time2 = null;
-            if (time1 == null) {
-                time1 = setInterval("handtimeRunForOpen()", 10000);
+            if (time3 == null) {
+               // time1 = setInterval("handtimeRunForOpen()", 10000);
                 time3 = setInterval("runTime()", 1000);
             }
         }
@@ -31,7 +31,7 @@ function handtimeRunForOpen() {
             clearInterval(time3);
             time3 = null;
             if (time2 == null) {
-                time2 = setInterval("handtimeRunForOpen()", 1000);
+               // time2 = setInterval("handtimeRunForOpen()", 1000);
             }
             $('#openTime').html("正在开奖");
         }
@@ -78,6 +78,10 @@ function runTime() {
 
             if (h == 0 && m == 0 && s == 30) {
                 handtimeRunForOpen();
+            }
+
+            if (h == 0 && m == 0 && s == 1) {
+                setTimeout(function () { handtimeRunForOpen() }, 32 * 1000);
             }
         }
 
