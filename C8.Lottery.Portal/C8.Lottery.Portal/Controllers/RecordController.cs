@@ -22,15 +22,15 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult OpenRecord(int? lType, string date)
         {
 
-            //lType
-            if (lType != null)
-            {
-                Session["OpenRecordlType"] = lType;
-            }
-            else
-            {
-                lType = (int)Session["OpenRecordlType"];
-            }
+        
+            //if (lType != null)
+            //{
+            //    Session["OpenRecordlType"] = lType;
+            //}
+            //else
+            //{
+            //    lType = (int)Session["OpenRecordlType"];
+            //}
 
             ViewBag.lType = lType;
             ViewBag.lotteryTypeName = Util.GetLotteryTypeName((int)lType);
