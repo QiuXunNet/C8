@@ -90,6 +90,23 @@ var newsManager = {
                     $("#txtIssue").html(data.betDic.Issue);
                     $("#ballListDiv").html(data.betDic.NumHtml);
                 }
+                if ($("#PlType").val() == 5) {
+                    ws = new WebSocket(url);
+                    //链接成功回调
+                    ws.onopen = function () {
+                        wsOnopen();
+                    };
+                    //收到消息回调
+                    ws.onmessage = function (evt) {
+                        wsOnmessage(evt);
+                    };
+                    //链接失败回调
+                    ws.onerror = function (evt) { };
+                    //链接关闭回调
+                    ws.onclose = function () {
+                        wsOnclose();
+                    };
+                }
             },
             error: function (xhr, type) {
 
@@ -117,7 +134,7 @@ var newsManager = {
         }
     },
     initnews: function (id) {
-        //$("#news").html("<center>加载中......</center>");
+        $(".spinner").show();
         $.ajax({
             type: 'GET',
             url: '/News/NewsList',
@@ -128,7 +145,7 @@ var newsManager = {
             },
             dataType: 'html',
             success: function (data) {
-
+                $(".spinner").hide();
                 if (data && data.indexOf('div') > -1) {
                     if (data.indexOf('showLetter') > -1) {
                         $("#news").html(data);
@@ -150,9 +167,10 @@ var newsManager = {
                 } else {
                     $(".CK_Tiao").remove();
                 }
+                
             },
             error: function (xhr, type) {
-
+                $(".spinner").hide();
                 $(document).dialog({
                     type: 'notice',
                     infoText: '服务器繁忙',
