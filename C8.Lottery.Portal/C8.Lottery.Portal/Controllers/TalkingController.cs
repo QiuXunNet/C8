@@ -86,6 +86,8 @@ namespace C8.Lottery.Portal.Controllers
                 
                 ViewBag.BlackListStr = blackListStr;
                 ViewBag.IsBlack = userState.ChatBlack;//1拉黑  0 正常
+
+                ViewBag.OssUrl = LuoUtil.OssHost;
             }
             catch (Exception)
             {

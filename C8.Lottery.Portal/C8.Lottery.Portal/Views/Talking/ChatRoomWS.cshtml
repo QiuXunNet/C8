@@ -136,7 +136,7 @@
         function unZipFace(str) {
             for (var i = 1; i <= 54; i++) {
                 var reger = new RegExp("#" + faceObj[i] + "#", "g");
-                str = str.replace(reger, "<img class='img_face' src='/images/emoji/Face/" + i + ".png'/>");
+                str = str.replace(reger, "<img class='img_face' src='@ViewBag.OssUrl/images/emoji/Face/" + i + ".png'/>");
             }
             return str;
         }
