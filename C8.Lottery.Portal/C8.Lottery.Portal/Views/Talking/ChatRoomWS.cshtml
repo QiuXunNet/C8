@@ -459,7 +459,7 @@
                break;
            }
            photoHtml += "    <div class='c_profile'>";
-           photoHtml += "        <img src='" + data.PhotoImg + "' alt='' />";
+       photoHtml += "        <img src='" + (data.PhotoImg == "null" ? "/images/default_avater.png" : data.PhotoImg) + "' alt='' />";
            photoHtml += "    </div>";
            msgHtml += "    <div class='c_cnt'>";
            msgHtml += "        <h3>";
