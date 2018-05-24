@@ -31,11 +31,11 @@
         <div class="Comment_Btar">
             @if (Model.OperateType == 1)
             {
-                <textarea id="editor" placeholder="发表你的评论"></textarea>
+                <textarea     id="editor" placeholder="发表你的评论"></textarea>
             }
             else if (Model.OperateType == 2)
             {
-                <textarea id="editor" placeholder='@("回复 " + Model.RefCommentName + "：")'></textarea>
+                <textarea    id="editor" placeholder='@("回复 " + Model.RefCommentName + "：")'></textarea>
             }
         </div>
         @*<ul class="Comment_Ul">
@@ -44,6 +44,7 @@
                 <div style="clear:both;"></div>
             </ul>*@
     </div>
+
     <div class="Comment_footer">
         @*<button id="btnEmoji">aaaaa</button>*@
         <button id="btnEmoji" class="Com_FtA emoji-button"></button>

@@ -980,7 +980,8 @@ WHERE rowNumber BETWEEN @Start AND @End";
 	  left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
 	  where a.RespondentsUserId=@RespondentsUserId
 ) tt
-WHERE rowNumber BETWEEN @Start AND @End";
+WHERE rowNumber BETWEEN @Start AND @End
+   order by AccessTime desc ";
 
                 if (uid == 0)
                     uid = UserHelper.GetByUserId();

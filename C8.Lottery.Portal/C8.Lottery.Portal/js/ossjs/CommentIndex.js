@@ -1,7 +1,12 @@
 ﻿$(function () {
     $("#editor").initEmoji()
+   
     $("#editor").focus();
+    
+  
 });
+
+
 
 function publish() {
     var content = $.trim($("#editor").val());
