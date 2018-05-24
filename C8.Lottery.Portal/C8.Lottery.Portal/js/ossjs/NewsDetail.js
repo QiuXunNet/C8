@@ -3,7 +3,7 @@
     getadlist(location);
 
     var pageDATA_ua = window.navigator.userAgent.toLowerCase();
-    if (pageDATA_ua.indexOf('ucbrowser') >= 0) { setInterval("CaoNiMaDeUc();", 1000); }
+    if (pageDATA_ua.indexOf('ucbrowser') >= 0) { setInterval("CaoNiMaDeUc();", 100); }
 });
 
 function getadlist(location) {
