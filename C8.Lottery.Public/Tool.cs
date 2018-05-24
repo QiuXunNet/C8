@@ -111,7 +111,7 @@ namespace C8.Lottery.Public
         /// 获取访客ip城市 淘宝接口
         /// </summary>
         /// <returns></returns>
-        public static string GetByIPCity()
+        public static string GetTaobaoIP()
         {
             try
             {
@@ -139,19 +139,12 @@ namespace C8.Lottery.Public
         {
             try
             {
-                string ip = GetIP();
-
-                //string url = "" + ishhtps + "://pv.sohu.com/cityjson?ie=utf-8";
-                string url = "" + ishhtps + "://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip="+ip+"";
-            
-                string str = HttpCommon.HttpGet(url);
-                //int i = str.IndexOf("{");
-                //int j = str.IndexOf("}");
-                //string json = str.Substring(i,(j-i)+1);
-        
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                string city = jo["city"].ToString();
-           
+                string ip = GetIP();                          
+                string city = GetJuHeIp(ishhtps, ip);
+                if (string.IsNullOrEmpty(city))
+                {
+                    city = GetSinaIP(ishhtps, ip);
+                }
 
                 return city;
             }
@@ -160,6 +153,130 @@ namespace C8.Lottery.Public
                 return "";
 
             }
+        }
+
+        /// <summary>
+        /// 新浪IP查询
+        /// </summary>
+        /// <param name="ishhtps"></param>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static string GetSinaIP(string ishhtps, string ip)
+        {
+            //string url = "" + ishhtps + "://pv.sohu.com/cityjson?ie=utf-8";
+
+            string url = "" + ishhtps + "://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=" + ip + "";
+
+            string str = HttpCommon.HttpGet(url);
+            JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+            try
+            {
+                string city = jo["city"].ToString();
+
+                return city;
+            }
+            catch (Exception)
+            {
+                return "";
+               
+            }
+           
+
+        }
+
+        /// <summary>
+        /// 聚合IP定位查询
+        /// </summary>
+        /// <param name="ishhtps"></param>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static string GetJuHeIp(string ishhtps,string ip)
+        {
+            string appkey = "71fc234feee94e5e72f91e2dcf2758b6"; //配置您申请的appkey
+
+
+            //1.根据IP/域名查询地址
+            string url1 = ""+ishhtps+"://apis.juhe.cn/ip/ip2addr";
+
+            var parameters1 = new Dictionary<string, string>();
+
+            parameters1.Add("ip", ip); //需要查询的IP地址或域名
+            parameters1.Add("key", appkey);//你申请的key
+            parameters1.Add("dtype", "json"); //返回数据的格式,xml或json，默认json
+
+            string result1 =SendGet(url1, parameters1);
+           
+            JObject jo = (JObject)JsonConvert.DeserializeObject(result1);
+            String errorCode1 = jo["error_code"].ToString();
+            string city = "";
+            if (errorCode1 == "0")
+            {
+                JObject joresult = (JObject)JsonConvert.DeserializeObject(jo["result"].ToString());
+                city =joresult["area"].ToString() ;
+            }
+            return city;
+        }
+
+        
+
+
+        public static string SendGet(string url, IDictionary<string, string> parameters)
+        {
+            //创建请求
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + "?" + BuildQuery(parameters, "utf8"));
+
+            //GET请求
+            request.Method = "GET";
+            request.ReadWriteTimeout = 5000;
+            request.ContentType = "text/html;charset=UTF-8";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            Stream myResponseStream = response.GetResponseStream();
+            StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
+
+            //返回内容
+            string retString = myStreamReader.ReadToEnd();
+            return retString;
+        }
+
+        /// <summary>
+        /// 组装普通文本请求参数。
+        /// </summary>
+        /// <param name="parameters">Key-Value形式请求参数字典</param>
+        /// <returns>URL编码后的请求数据</returns>
+       public static string BuildQuery(IDictionary<string, string> parameters, string encode)
+        {
+            StringBuilder postData = new StringBuilder();
+            bool hasParam = false;
+            IEnumerator<KeyValuePair<string, string>> dem = parameters.GetEnumerator();
+            while (dem.MoveNext())
+            {
+                string name = dem.Current.Key;
+                string value = dem.Current.Value;
+                // 忽略参数名或参数值为空的参数
+                if (!string.IsNullOrEmpty(name))//&& !string.IsNullOrEmpty(value)
+                {
+                    if (hasParam)
+                    {
+                        postData.Append("&");
+                    }
+                    postData.Append(name);
+                    postData.Append("=");
+                    if (encode == "gb2312")
+                    {
+                        postData.Append(HttpUtility.UrlEncode(value, Encoding.GetEncoding("gb2312")));
+                    }
+                    else if (encode == "utf8")
+                    {
+                        postData.Append(HttpUtility.UrlEncode(value, Encoding.UTF8));
+                    }
+                    else
+                    {
+                        postData.Append(value);
+                    }
+                    hasParam = true;
+                }
+            }
+            return postData.ToString();
         }
 
 
