@@ -24,6 +24,17 @@ namespace C8.Lottery.Public
             }
         }
 
+        private static string _defaultAvater;
+        public static string DefaultAvater
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_defaultAvater))
+                    _defaultAvater = OssHost + "/images/default_avater.png";
+                return _defaultAvater;
+            }
+        }
+
 
         /// <summary>
         /// 获取用户积分

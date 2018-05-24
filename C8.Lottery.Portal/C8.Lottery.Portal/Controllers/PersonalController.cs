@@ -641,7 +641,7 @@ where RowNumber BETWEEN @Start AND @End ";
             int userId = UserHelper.GetByUserId();
             UserInfo u = UserHelper.GetUser(userId);
             FansBangListModel my = list.Where(x => x.Followed_UserId == userId).FirstOrDefault();
-            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? "/images/default_avater.png" : u.Headpath;
+            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? LuoUtil.DefaultAvater : u.Headpath;
 
             if (my != null)
             {
@@ -933,7 +933,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
                     }
                     if (string.IsNullOrEmpty(x.Avater))
                     {
-                        x.Avater = "/images/default_avater.png";
+                        x.Avater = LuoUtil.DefaultAvater;
                     }
 
 
@@ -1000,7 +1000,7 @@ WHERE rowNumber BETWEEN @Start AND @End
                 {
                     if (string.IsNullOrEmpty(x.Avater))
                     {
-                        x.Avater = "/images/default_avater.png";
+                        x.Avater = LuoUtil.DefaultAvater;
                     }
                 });
 
@@ -1129,7 +1129,7 @@ WHERE rowNumber BETWEEN @Start AND @End";
 
                     if (string.IsNullOrEmpty(x.FromAvater))
                     {
-                        x.FromAvater = "/images/default_avater.png";
+                        x.FromAvater = LuoUtil.DefaultAvater;
                     }
 
                     if (x.IsRead == false)
@@ -1857,14 +1857,14 @@ inner join UserInfo u on  c.UserId=u.Id
                     {
                         if (Type == 2)
                         {
-                            x.LotteryIcon = "/images/41.png";
+                            x.LotteryIcon = LuoUtil.OssHost + "/images/41.png";
                         }
                         if (Type == 1)
                         {
                             x.LotteryIcon = Util.GetLotteryIcon(x.lType);
                         }
 
-                        x.Money =Convert.ToDecimal((x.Money / moneyToCoin).ToString("f2"));
+                        x.Money = Convert.ToDecimal((x.Money / moneyToCoin).ToString("f2"));
                     });
                 }
                 pager.PageData = list;

@@ -217,7 +217,7 @@ namespace C8.Lottery.Portal.Controllers
 
                 list = Util.ReaderToList<RankMonyModel>(strsql, sp);
 
-                CacheHelper.SetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType,list,DateTime.Parse("23:59:59"));
+                CacheHelper.SetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType, list, DateTime.Parse("23:59:59"));
             }
 
             int UserId = UserHelper.GetByUserId();
@@ -225,7 +225,7 @@ namespace C8.Lottery.Portal.Controllers
 
             MyRankMonyModel my = new MyRankMonyModel();
             UserInfo user = UserHelper.GetUser();
-            user.Headpath = string.IsNullOrEmpty(user.Headpath) ? "/images/default_avater.png" : user.Headpath;
+            user.Headpath = string.IsNullOrEmpty(user.Headpath) ? LuoUtil.DefaultAvater : user.Headpath;
 
             if (model != null)
             {
@@ -339,7 +339,7 @@ order by Money desc,NickName asc
                 (
                   SELECT  UserId, Date, Score,b.Name as NickName,c.RPath as Avater 
                   FROM dbo.SuperiorRecord a
-                  left join UserInfo b on b.Id=a.UserId
+                  join UserInfo b on b.Id=a.UserId
                   left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=@ResourceType
                  )t
                  where 1=1   {0}
@@ -353,12 +353,12 @@ order by Money desc,NickName asc
             ReturnMessageJson msgjson = new ReturnMessageJson();
             RankIntegralListModel rlist = new RankIntegralListModel();
             int userId = UserHelper.GetByUserId();
-            RankIntegralModel my = list.Where(x => x.UserId == userId).FirstOrDefault();            
+            RankIntegralModel my = list.Where(x => x.UserId == userId).FirstOrDefault();
             UserInfo u = UserHelper.GetUser(userId);
-            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? "/images/default_avater.png" : u.Headpath;
+            u.Headpath = string.IsNullOrEmpty(u.Headpath) ? LuoUtil.DefaultAvater : u.Headpath;
             if (my != null)
             {
-                my.Avater = u.Headpath;              
+                my.Avater = u.Headpath;
             }
             else
             {
@@ -410,14 +410,14 @@ order by Money desc,NickName asc
 
             // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
-      
+
             if (list == null || list.Count < 1)
             {
                 string sql = @"
   select row_number() over(order by Score DESC ) as [Rank], * from (
       SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
       FROM dbo.SuperiorRecord a
-      left join UserInfo b on b.Id=a.UserId
+      join UserInfo b on b.Id=a.UserId
       left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
       WHERE a.lType=@lType 
       GROUP BY a.lType,a.UserId,b.Name,c.RPath
@@ -456,7 +456,7 @@ order by Money desc,NickName asc
   select row_number() over(order by Score DESC ) as [Rank], * from (
       SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
       FROM dbo.SuperiorRecord a
-      left join UserInfo b on b.Id=a.UserId
+      join UserInfo b on b.Id=a.UserId
       left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
       WHERE a.lType=@lType AND a.[Date] Between @StartDate and @EndDate
       GROUP BY a.lType,a.UserId,b.Name,c.RPath
@@ -498,7 +498,7 @@ order by Money desc,NickName asc
   select row_number() over(order by Score DESC ) as [Rank], * from (
       SELECT Top 100 isnull(sum(a.Score),0) as Score,a.UserId, a.lType,b.Name as NickName,c.RPath as Avater 
       FROM dbo.SuperiorRecord a
-      left join UserInfo b on b.Id=a.UserId
+      join UserInfo b on b.Id=a.UserId
       left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
       WHERE a.lType=@lType AND a.[Date] Between @StartDate and @EndDate
       GROUP BY a.lType,a.UserId,b.Name,c.RPath
@@ -535,7 +535,7 @@ order by Money desc,NickName asc
             {
                 string sql = @"SELECT Top 100 row_number() over(order by Score DESC) as [Rank],a.*,b.Name as NickName,c.RPath as Avater 
   FROM dbo.SuperiorRecord a
-  left join UserInfo b on b.Id=a.UserId
+  join UserInfo b on b.Id=a.UserId
   left join ResourceMapping c on c.FkId=a.UserId and c.[Type]=2
   WHERE a.lType=@lType AND a.[Date]=@Date AND a.Score>0";
                 SqlParameter[] paras = {

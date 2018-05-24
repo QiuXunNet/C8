@@ -1,5 +1,5 @@
 ﻿var dropload;
-var pageIndex =  1,
+var pageIndex = 1,
    pageSize = 30;
 $(function () {
     //newsManager.GetLastBetInfo();
@@ -128,7 +128,7 @@ var newsManager = {
     calcNavScoll: function () {
         $(".info_hdNav_cai_lhs li").unbind("click");
         var index = $(".info_hdNav_cai_lhs li.current").index();
-        if (index > 0) {
+        if (index > 0 ) {
             var liposition = $(".info_hdNav_cai_lhs li.current").position().left;
             $(".info_hdNav_cai_lhs").scrollLeft(liposition);
         }
@@ -150,7 +150,7 @@ var newsManager = {
                         $("#news").html(data);
                     }
                     else {
-                        
+
                         if (pageIndex <= 1) {
                             data += '<div class="CK_Tiao" onclick="newsManager.showmore(' + id + ')"><a href="JavaScript:;" id="CK_Tiao_Text"><span>查看下30条</span><img src="' + $("#osshost").val() + '/images/09.png"></a></div>';
                             $("#news").html(data);
@@ -206,24 +206,19 @@ var newsManager = {
     inadHtml: function (data) {
         var cityid = $("#CityId").val();
         var city;
-        var idx=-1;
+        var idx = -1;
 
-        $.each(data, function (index, item){
-            if(item.RestrictedAreas!=null && item.RestrictedAreas!="")
-            {
-                city=item.RestrictedAreas.split(',');
-                idx=$.inArray(cityid.toString(),city);
+        $.each(data, function (index, item) {
+            if (item.RestrictedAreas != null && item.RestrictedAreas != "") {
+                city = item.RestrictedAreas.split(',');
+                idx = $.inArray(cityid.toString(), city);
             }
 
-            if(item.RestrictedAreas==null ||item.RestrictedAreas=="" || idx==-1)
-            {
-                if(!IsPC())
-                {
-                    if(item.Layer==1)
-                    {
+            if (item.RestrictedAreas == null || item.RestrictedAreas == "" || idx == -1) {
+                if (!IsPC()) {
+                    if (item.Layer == 1) {
                         $(".Plan_content").prepend(newsManager.itemhtml(item))
-                    }else if(item.Layer==2)
-                    {
+                    } else if (item.Layer == 2) {
                         $(".CZ_hdMain").after(newsManager.itemhtml(item))
                     }
                 }
