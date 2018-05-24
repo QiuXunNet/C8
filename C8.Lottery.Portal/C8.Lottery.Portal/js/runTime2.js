@@ -6,7 +6,7 @@ var dateTime = "";
 
 $(function () {    
     lType = $('#lType').val();
-   // handtimeRunForOpen();
+    handtimeRunForOpen();
   //  time1 = setInterval("handtimeRunForOpen()", 10000);
 
     time3 = setInterval("runTime()", 1000);
