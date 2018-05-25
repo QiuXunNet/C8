@@ -282,8 +282,14 @@ namespace C8.Lottery.Portal.Controllers
         public void logOut()
         {
             string sessionId = Request["UserId"];
-            //MemClientFactory.DeleteCache(sessionId);
+            //MemClientFactory.DeleteCache(sessionId);          
             CacheHelper.DeleteCache(sessionId);
+            HttpCookie cookies = Request.Cookies["UserId"];
+            if (cookies != null)
+            {
+                HttpContext.Response.Cookies["UserId"].Expires = DateTime.Now.AddDays(-1);
+
+            }
 
             Response.Redirect("/Home/Login");
         }
