@@ -304,10 +304,12 @@
            case 22: //图片消息
            case 23: //表情包消息
                insertMessage(data, 1);
-               if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
-               }
-               $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
-               setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
+               //if (data.UserId == userId) { //如果消息是自己发送的，则插入数据库
+               //    }
+                   if ($(".wrapper")[0].scrollHeight - $(".wrapper")[0].scrollTop - 280 <= $(".wrapper").height()) {
+                       $('.wrapper').scrollTop($('.wrapper')[0].scrollHeight);
+                       setTimeout("$('.wrapper').scrollTop($('.wrapper')[0].scrollHeight)", 100);
+                   }
                break;
            case 31: //心跳包
                //链接成功后初始化有效心跳数和链接次数
