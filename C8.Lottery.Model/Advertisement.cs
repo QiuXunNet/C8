@@ -28,6 +28,7 @@ namespace C8.Lottery.Model
         private int _commentsnumber = 0;
         private string _restrictedareas;
         public List<string> ThumbList { get; set; }
+        public string ThumbListStr { get; set; }
         /// <summary>
         /// 
         /// </summary>
