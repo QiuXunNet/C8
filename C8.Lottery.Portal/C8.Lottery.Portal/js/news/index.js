@@ -47,10 +47,10 @@ var newsManager = {
                         var entity = data.TypeList[i];
                         if (entity.TypeName == "6彩") {
                             if (entity.Id == currentlType) {
-                                tempHtml += '<li class="current" data-id="' + entity.Id + '"><a href="/lhcNews.html">' + entity.TypeName + '</a></li>';
+                                tempHtml += '<li class="current" data-id="' + entity.Id + '"><a href="/lhcNews.html?v=1">' + entity.TypeName + '</a></li>';
                                 continue;
                             }
-                            tempHtml += '<li data-id="' + entity.Id + '"><a href="/lhcNews.html">' + entity.TypeName + '</a></li>';
+                            tempHtml += '<li data-id="' + entity.Id + '"><a href="/lhcNews.html?v=1">' + entity.TypeName + '</a></li>';
                         } else {
                             if (entity.Id == currentlType) {
                                 tempHtml += '<li class="current" data-id="' + entity.Id + '"><a href="/News/NewIndex/' + entity.Id + '">' + entity.TypeName + '</a></li>';
