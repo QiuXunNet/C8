@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="@ViewBag.osshost/css/Chat/libs/CSSRESET.css">
     <link rel="stylesheet" href="@ViewBag.osshost/css/Chat/common.css">
     <link rel="stylesheet" href="@ViewBag.osshost/css/Chat/chat.css">
+    <link rel="stylesheet" href="@ViewBag.osshost/css/dialog.css">
     <script type="text/javascript" src="@ViewBag.osshost/js/baidu-statistics.js"></script>
-
 
 </head>
 <body>
@@ -74,7 +74,9 @@
         <!-- 图片遮罩层 -->
 
     </div>
-    <script src="/Scripts/jquery-1.8.0.min.js"></script>
+    <script src="@ViewBag.OssUrl/Scripts/jquery-1.8.0.min.js"></script>
+    <script src="@ViewBag.OssUrl/js/dialog.min.js"></script>
+
     <script type="text/javascript">
         var faceObj = {
             1: "am",
@@ -271,7 +273,11 @@
     //成功连接方法
    function wsOnopen() {
            if (isLink == false) {
-               alert("连接成功");
+               $(document).dialog({
+                   type:"notice",
+                   infoText: "连接成功",
+                   autoClose: 1500
+               });
            }
            isLink = true;
            //链接成功后初始化有效心跳数和链接次数
@@ -318,17 +324,24 @@
    function wsOnerror() {}
        //连接被关闭方法
 
-   function wsOnclose() {
-           isLink = false;
-           setTimeout("reconnection()", 2000);
-           alert("网络已中断,正在为您重连");
-       }
+        function wsOnclose() {
+            isLink = false;
+            setTimeout("reconnection()", 3000);
+            $(document).dialog({
+                type: "notice",
+                infoText: "网络已断开,正在为您重连",
+                autoClose: 1000
+            });
+        }
        //重连
 
    function reconnection() {
            if (linkNum > 5) {
                clearInterval(heartbeatT);
-               alert("您已失去链接,请重新进入聊天室")
+               $(document).dialog({
+                   type: "notice",
+                   infoText: "您已失去链接,请重新进入聊天室"
+               });
                return;
            }
            heartbeatNum = 2;
