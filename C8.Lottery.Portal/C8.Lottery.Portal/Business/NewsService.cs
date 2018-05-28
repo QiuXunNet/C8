@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using C8.Lottery.Portal.Business.BusinessData;
 using System.Text;
+using C8.Lottery.Model;
+using System.Data;
 
 namespace C8.Lottery.Portal.Business
 {
@@ -36,13 +38,13 @@ namespace C8.Lottery.Portal.Business
             return seoInfo.Contains("&*&") ? seoInfo.Split(new string[] { "&*&" }, StringSplitOptions.RemoveEmptyEntries) : new string[4];
         }
 
-        internal List<LotteryType> GetLotteryTypeList()
+        internal List<BusinessData.LotteryType> GetLotteryTypeList()
         {
-            List<LotteryType> list = CacheHelper.GetCache<List<LotteryType>>("NEWSLTYPELIST");
+            List<BusinessData.LotteryType> list = CacheHelper.GetCache<List<BusinessData.LotteryType>>("NEWSLTYPELIST");
             if (list != null && list.Count >= 0) return list;
             string sql = "SELECT Id,TypeName FROM LotteryType";
-            list = Util.ReaderToList<LotteryType>(sql);
-            CacheHelper.AddCache<List<LotteryType>>("NEWSLTYPELIST", list, 0);
+            list = Util.ReaderToList<BusinessData.LotteryType>(sql);
+            CacheHelper.AddCache<List<BusinessData.LotteryType>>("NEWSLTYPELIST", list, 0);
             return list;
         }
 
@@ -182,6 +184,162 @@ namespace C8.Lottery.Portal.Business
                 }
             }
             return tempHtml.ToString();
+        }
+
+        internal NewsType GetNewTypeById(int typeId)
+        {
+            List<NewsType> list = CacheHelper.GetCache<List<NewsType>>("z_allnewstype");
+            NewsType temp = null;
+            if (list == null || list.Count <= 0)
+            {
+                string sql = "SELECT * FROM dbo.NewsType";
+                list = Util.ReaderToList<NewsType>(sql);
+                CacheHelper.AddCache<List<NewsType>>("z_allnewstype", list, 24 * 60 * 1000);
+            }
+            temp = list.Where(p => p.Id == typeId).FirstOrDefault();
+            if (temp == null || temp.Id <= 0) return null;
+            return temp;
+        }
+
+        internal List<NewNews> GetNewList(int typeId, int pageIndex, int pageSize)
+        {
+            List<NewNews> list = CacheHelper.GetCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex));
+            if (list == null || list.Count <= 0)
+            {
+                string sql = @"SELECT  * ,
+                            (SELECT    COUNT(1)
+                              FROM[dbo].[Comment]
+                              WHERE[ArticleId] = S.Id
+                                        AND RefCommentId = 0
+                            ) AS CommentCount,
+                            STUFF((SELECT  ',' + RPath
+                                    FROM    dbo.ResourceMapping
+                                    WHERE   Type = 1
+                                            AND FkId = S.Id
+                                  FOR
+                                    XML PATH('')
+                                  ), 1, 1, '') AS ThumbListStr
+                    FROM(SELECT *
+                              FROM(SELECT    ROW_NUMBER() OVER(ORDER BY LotteryNumber DESC, ReleaseTime DESC) AS rowNumber,
+                                                    [Id],
+                                                    [FullHead],
+                                                    [SortCode],
+                                                    [ReleaseTime],
+                                                    [ThumbStyle]
+                                          FROM      dbo.[News]
+                                          WHERE[TypeId] = @TypeId
+                                                    AND DeleteMark = 0
+                                                    AND EnabledMark = 1
+                                        ) T
+                              WHERE     T.rowNumber >= @Start
+                                        AND T.rowNumber <= @End
+                            ) S
+                    ORDER BY S.rowNumber";
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@TypeId",SqlDbType.BigInt),
+                    new SqlParameter("@Start",SqlDbType.Int),
+                    new SqlParameter("@End",SqlDbType.Int),
+                };
+                parameters[0].Value = typeId;
+                parameters[1].Value = (pageIndex - 1) * pageSize + 1;
+                parameters[2].Value = pageSize * pageIndex;
+                list = Util.ReaderToList<Business.BusinessData.NewNews>(sql, parameters) ?? new List<Business.BusinessData.NewNews>();
+                //CacheHelper.AddCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex), list, (24 * 90));
+            }
+            list.ForEach(x =>
+            {
+                x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
+            });
+            return list;
+        }
+
+        internal List<Advertisement> GetAdvertisementList(int typeId, int adType)
+        {
+            List<Advertisement> list= CacheHelper.GetCache<List<Advertisement>>("z_adlistpc");
+            if (list == null || list.Count <= 0)
+            {
+                string sql = @"SELECT  * ,
+                                    STUFF((SELECT  ',' + RPath
+                                            FROM    dbo.ResourceMapping
+                                            WHERE   Type = 20
+                                                    AND FkId = Advertisement.Id
+                                          FOR
+                                            XML PATH('')
+                                          ), 1, 1, '') AS ThumbListStr
+                            FROM dbo.Advertisement
+                            WHERE   (State = 1
+                                      OR(State = 0
+                                           AND GETDATE() >= BeginTime
+                                           AND EndTime > GETDATE()
+                                      )
+                                    )
+                                    AND CHARINDEX(',1,', ',' + [Where] + ',') > 0";
+                list = Util.ReaderToList<Advertisement>(sql) ?? new List<Advertisement>();
+                CacheHelper.AddCache<List<Advertisement>>("z_adlistpc", list, (24 * 60 * 3));
+            }
+            var searchList = list.Where(p => ("," + p.Location + ",").Contains(("," + typeId + ","))).ToList();
+            if (searchList != null && searchList.Count > 0)
+            {
+                searchList.ForEach(x =>
+                {
+                    x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
+                });
+                return searchList;
+            }
+            return new List<Advertisement>();
+        }
+
+        internal List<GalleryType> GetGalleryTypeList(long ltype, int newsTypeId)
+        {
+            List<GalleryType> list = CacheHelper.GetCache<List<GalleryType>>(string.Format("z_GalleryTypeList_{0}_{1}", ltype, newsTypeId));
+            if (list == null || list.Count <= 0)
+            {
+                string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, right(Max(a.LotteryNumber),3) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
+                             from News  a
+                             left join NewsType b on b.Id= a.TypeId
+                             where a.TypeId=@NewsTypeId and b.lType=@LType and DeleteMark=0 and EnabledMark=1
+                             group by a.FullHead,a.QuickQuery
+                             order by a.QuickQuery";
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@NewsTypeId",SqlDbType.Int),
+                    new SqlParameter("@LType",SqlDbType.BigInt)
+                };
+                parameters[0].Value = newsTypeId;
+                parameters[1].Value = ltype;
+
+                list = Util.ReaderToList<GalleryType>(sql, parameters) ?? new List<GalleryType>();
+            }
+            return list;
+        }
+
+        internal List<Gallery> GetGalleryList(long ltype, int newsTypeId)
+        {
+            List<Gallery> list = CacheHelper.GetCache<List<Gallery>>(string.Format("z_GalleryList_{0}_{1}", ltype, newsTypeId));
+            if (list == null || list.Count <= 0)
+            {
+                string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue,
+                                            STUFF(( SELECT  ',' + RPath
+                                                            FROM    dbo.ResourceMapping
+                                                            WHERE   Type = 1
+                                                                    AND FkId = a.Id
+                                                          FOR
+                                                            XML PATH('')
+                                                          ), 1, 1, '') AS Picture
+                                        FROM News a 
+                                         left join NewsType b on b.Id= a.TypeId
+                                         where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and TypeId=@NewsTypeId and b.lType=@LType order by ModifyDate DESC";
+                SqlParameter[] parameters =
+                    {
+                    new SqlParameter("@NewsTypeId",SqlDbType.Int),
+                    new SqlParameter("@LType",SqlDbType.BigInt)
+                };
+                parameters[0].Value = newsTypeId;
+                parameters[1].Value = ltype;
+                list = Util.ReaderToList<Gallery>(recGallerySql, parameters);
+            }
+            return list ?? new List<Gallery>();
         }
     }
 }

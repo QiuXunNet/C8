@@ -256,7 +256,7 @@ namespace C8.Lottery.Portal.Controllers
         [HttpGet]
         public PartialViewResult NewsList(int typeId, int pageIndex = 1, int pageSize = 20)
         {
-            var newsType = Util.GetEntityById<NewsType>(typeId);
+            NewsType newsType = _newsservice.GetNewTypeById(typeId); 
             if (newsType == null)
             {
                 ViewBag.NewsList = new List<News>();
@@ -268,62 +268,9 @@ namespace C8.Lottery.Portal.Controllers
                 return NewsGalleryCategoryList(newsType.LType, typeId);
             }
 
-            string sql = @"SELECT  * ,
-                            (SELECT    COUNT(1)
-                              FROM[dbo].[Comment]
-                              WHERE[ArticleId] = S.Id
-                                        AND RefCommentId = 0
-                            ) AS CommentCount,
-                            STUFF((SELECT  ',' + RPath
-                                    FROM    dbo.ResourceMapping
-                                    WHERE   Type = 1
-                                            AND FkId = S.Id
-                                  FOR
-                                    XML PATH('')
-                                  ), 1, 1, '') AS ThumbListStr
-                    FROM(SELECT *
-                              FROM(SELECT    ROW_NUMBER() OVER(ORDER BY LotteryNumber DESC, ReleaseTime DESC) AS rowNumber,
-                                                    [Id],
-                                                    [FullHead],
-                                                    [SortCode],
-                                                    [ReleaseTime],
-                                                    [ThumbStyle]
-                                          FROM      dbo.[News]
-                                          WHERE[TypeId] = @TypeId
-                                                    AND DeleteMark = 0
-                                                    AND EnabledMark = 1
-                                        ) T
-                              WHERE     T.rowNumber >= @Start
-                                        AND T.rowNumber <= @End
-                            ) S
-                    ORDER BY S.rowNumber";
-            SqlParameter[] parameters =
-            {
-                new SqlParameter("@TypeId",SqlDbType.BigInt),
-                new SqlParameter("@Start",SqlDbType.Int),
-                new SqlParameter("@End",SqlDbType.Int),
-            };
-            parameters[0].Value = typeId;
-            parameters[1].Value = (pageIndex - 1) * pageSize + 1;
-            parameters[2].Value = pageSize * pageIndex;
-            var list = Util.ReaderToList<Business.BusinessData.NewNews>(sql, parameters) ?? new List<Business.BusinessData.NewNews>();
+            ViewBag.NewsList = _newsservice.GetNewList(typeId, pageIndex, pageSize); 
 
-            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
-            list.ForEach(x =>
-            {
-                x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
-            });
-
-
-            ViewBag.NewsList = list;
-
-            var adlist = GetAdvertisementList(typeId, 1) ?? new List<Advertisement>();
-            int adimgtype = (int)ResourceTypeEnum.广告图;
-            adlist.ForEach(j =>
-            {
-                j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
-            });
-            ViewBag.AdList = adlist;
+            ViewBag.AdList = _newsservice.GetAdvertisementList(typeId, 1);
             ViewBag.PageIndex = pageIndex;
             ViewBag.CityId = Tool.GetCityId();
 
@@ -399,51 +346,16 @@ namespace C8.Lottery.Portal.Controllers
         [ChildActionOnly]
         public PartialViewResult NewsGalleryCategoryList(long ltype, int newsTypeId)
         {
-            //right(ISNULL(a.LotteryNumber,''),3)
-            string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, right(Max(a.LotteryNumber),3) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
- from News  a
- left join NewsType b on b.Id= a.TypeId
- where a.TypeId=@NewsTypeId and b.lType=@LType and DeleteMark=0 and EnabledMark=1
- group by a.FullHead,a.QuickQuery
- order by a.QuickQuery";
-            SqlParameter[] parameters =
-            {
-                new SqlParameter("@NewsTypeId",SqlDbType.Int),
-                new SqlParameter("@LType",SqlDbType.BigInt)
-            };
-            parameters[0].Value = newsTypeId;
-            parameters[1].Value = ltype;
 
-            var list = Util.ReaderToList<GalleryType>(sql, parameters) ?? new List<GalleryType>();
-
+            List<GalleryType> list = _newsservice.GetGalleryTypeList(ltype, newsTypeId);
             ViewBag.TypeList = list.Where(x => x.QuickQuery != "#").ToList();
             ViewBag.OtherTypeList = list.Where(x => x.QuickQuery == "#").ToList();
             ViewBag.ltype = ltype;
 
             //查询推荐图
-            string recGallerySql = @" SELECT TOP 3 a.Id,FullHead as Name,LotteryNumber as Issue FROM News a 
- left join NewsType b on b.Id= a.TypeId
- where a.RecommendMark=1 and DeleteMark=0 and EnabledMark=1 and TypeId=@NewsTypeId and b.lType=@LType order by ModifyDate DESC";
-            var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql, parameters);
+            ViewBag.RecommendGalleryList = _newsservice.GetGalleryList(ltype, newsTypeId);
 
-            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
-            recGalleryList.ForEach(x =>
-            {
-                var pic = GetResources(sourceType, x.Id);
-                if (pic.Count > 0)
-                {
-                    x.Picture = pic[0].RPath;
-                }
-            });
-            ViewBag.RecommendGalleryList = recGalleryList;
-
-            var adlist = GetAdvertisementList(newsTypeId, 1) ?? new List<Advertisement>();
-            int adimgtype = (int)ResourceTypeEnum.广告图;
-            adlist.ForEach(j =>
-            {
-                j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
-            });
-            ViewBag.AdList = adlist;
+            ViewBag.AdList = _newsservice.GetAdvertisementList(newsTypeId, 1); 
             ViewBag.CityId = Tool.GetCityId();
 
             return PartialView("NewsGalleryCategoryList");
