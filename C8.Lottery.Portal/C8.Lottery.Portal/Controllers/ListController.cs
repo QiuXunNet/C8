@@ -167,6 +167,7 @@ namespace C8.Lottery.Portal.Controllers
         /// 盈利榜=点阅佣金榜
         /// </summary>
         /// <returns></returns>
+        [Authentication]
         public ActionResult Profit()
         {   //step1.查询彩种分类列表
 
