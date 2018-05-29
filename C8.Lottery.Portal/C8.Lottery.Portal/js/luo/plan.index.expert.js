@@ -182,7 +182,7 @@ function buildHtml(data, tabtype,pageIndex) {
     var listDom = $("#datalist" + tabtype);
 
     $.each(data, function (index, item) {
-        console.log(item);
+        //console.log(item);
         var itemHtml = '<div class="CIFB_K">'
             + '<div class="CIFB_KL f-l">'
             + '<div class="KL_number f-l">';
