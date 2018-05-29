@@ -209,10 +209,10 @@ namespace C8.Lottery.Portal.Controllers
                     }
                     else
                     {
-                        if (value.Trim().Length > 20)
+                        if (value.Trim().Length > 8)
                         {
                             jsonmsg.Success = false;
-                            jsonmsg.Msg = "签名长度不能超过20";
+                            jsonmsg.Msg = "昵称长度不能超过8";
                             return Json(jsonmsg);
                         }
                         else
@@ -230,14 +230,24 @@ namespace C8.Lottery.Portal.Controllers
                 }
                 else if (type == 2)
                 {
-
-                    bool iscz = Tool.CheckSensitiveWords(value);
-                    if (iscz == true)
+                    if (value.Trim().Length > 20)
                     {
                         jsonmsg.Success = false;
-                        jsonmsg.Msg = "个性签名包含敏感字符";
+                        jsonmsg.Msg = "个性签名长度不能超过20";
                         return Json(jsonmsg);
                     }
+                    else
+                    {
+                        bool iscz = Tool.CheckSensitiveWords(value);
+                        if (iscz == true)
+                        {
+                            jsonmsg.Success = false;
+                            jsonmsg.Msg = "个性签名包含敏感字符";
+                            return Json(jsonmsg);
+                        }
+                    }
+
+                   
                 }
 
                 int data = SqlHelper.ExecuteNonQuery(usersql, sp);
