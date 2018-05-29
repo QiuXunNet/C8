@@ -89,7 +89,7 @@ function upCallback(page) {
 
 function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
     //延时一秒,模拟联网
-    setTimeout(function () {
+  //  setTimeout(function () {
         try {
             $.post('/Plan/PlanData', { id: lType, pageIndex: pageNum, pageSize: pageSize }, function (data) {
                 //联网成功的回调
@@ -101,7 +101,7 @@ function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
             //联网失败的回调
             errorCallback && errorCallback();
         }
-    }, 1000);
+   // }, 1000);
 }
 
 
