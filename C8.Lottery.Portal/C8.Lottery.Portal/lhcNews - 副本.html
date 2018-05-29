@@ -700,12 +700,6 @@
                 <h3 class="GG_B1Tit">
                     北京pk10,时时彩赔1.982,提款快.送2000免费试玩
                 </h3>
-
-                <div class="newstime">
-                    <span>万彩吧</span>
-                    <span>1-25 09:36</span>
-                    <span>5<i class="icon-comment"></i></span>
-                </div>
             </a>
         </div>
         <dl>
@@ -880,12 +874,14 @@
                 $(".mask2").toggle();
             });
         });
-    </script>
-
-    <script type="text/javascript">
+ 
         var t1;
 
         $(function () {
+            if (IsPC()) {
+                $(".GG_Box").hide();
+            }
+
             $.ajax({
                 type: "get",
                 data: {},
@@ -930,7 +926,7 @@
         });
 
         $(function () {
-            var url = "wss://socket.c8.cn:8084/LhcHandler.ashx";
+            var url = "wss://socket.c8.cn:8085/LhcHandler.ashx";
 
             ws = new WebSocket(url);
             //链接成功回调
@@ -1130,6 +1126,21 @@
             $.post('/home/GetRemainOpenTimeToLhc', { }, function (data) {
                 $("#openTime").html(data);
             });
+        }
+
+        function IsPC() {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
         }
     </script>
 </body>

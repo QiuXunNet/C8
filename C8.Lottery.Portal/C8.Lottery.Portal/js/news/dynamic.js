@@ -1,4 +1,5 @@
-﻿var url = $("#socketUrl").val() + "/LhcHandler.ashx";
+﻿//var url = $("#socketUrl").val() + "/LhcHandler.ashx";
+var url = "wss://socket.c8.cn:8085/LhcHandler.ashx";
 var ws;
 
 $(function () {
