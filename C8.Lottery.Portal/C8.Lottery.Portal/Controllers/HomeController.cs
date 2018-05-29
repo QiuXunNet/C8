@@ -58,20 +58,32 @@ namespace C8.Lottery.Portal.Controllers
             if (list == null)
             {
 
-                string sql = @"
-                   select top(5) * from (
-	                    select n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle,
-	                    count(c.id) as CommentCount,
-	                    STUFF(( SELECT '!'+ [RPath] 
-	                    FROM ResourceMapping rm 
-	                    WHERE rm.fkid = n.id and rm.Type = 1
-	                    FOR XML PATH('')),1 ,1, '') ThumbListStr
-	                    from News n 
-	                    left join Comment c on n.id = c.ArticleId and RefCommentId = 0
-	                    where n.DeleteMark=0 and n.EnabledMark = 1
-	                    group by n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle
-                    ) as tab order by CommentCount desc
-                    ";
+                //string sql = @"
+                //   select top(5) * from (
+                //     select n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle,
+                //     count(c.id) as CommentCount,
+                //     STUFF(( SELECT '!'+ [RPath] 
+                //     FROM ResourceMapping rm 
+                //     WHERE rm.fkid = n.id and rm.Type = 1
+                //     FOR XML PATH('')),1 ,1, '') ThumbListStr
+                //     from News n 
+                //     left join Comment c on n.id = c.ArticleId and RefCommentId = 0
+                //     where n.DeleteMark=0 and n.EnabledMark = 1
+                //     group by n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle
+                //    ) as tab order by CommentCount desc
+                //    ";
+                string sql = @"select n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle ,
+                    count(c.id) as CommentCount
+                    from News n
+                    left join Comment c on n.id = c.ArticleId and RefCommentId = 0
+                    where n.id in(
+                    select max(n.Id) from News n 
+                    join newsType nt on n.TypeId = nt.Id
+                    where nt.lType in (1,2,3,4,6) and nt.SortCode = 1 and n.DeleteMark=0 and n.EnabledMark = 1
+                    group by nt.lType
+                    )
+                    group by n.Id,n.FullHead,n.SortCode,n.Thumb,n.ReleaseTime,n.ThumbStyle";
+
                 list = Util.ReaderToList<News>(sql);
 
                 //新闻缓存2小时
