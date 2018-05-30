@@ -22048,6 +22048,7 @@ namespace C8.Lottery.Public
         //获取官方推荐玩法的个数
         public static int GetGFTJCount(int lType)
         {
+            //TODO:官方推荐需要核查每个彩种推荐玩法得个数
             int count = 0;
 
             if ((lType >= 9 && lType < 38) || (lType >= 60 && lType < 63))
