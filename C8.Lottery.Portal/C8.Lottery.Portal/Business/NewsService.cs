@@ -44,7 +44,7 @@ namespace C8.Lottery.Portal.Business
             if (list != null && list.Count >= 0) return list;
             string sql = "SELECT Id,TypeName FROM LotteryType";
             list = Util.ReaderToList<BusinessData.LotteryType>(sql);
-            CacheHelper.AddCache<List<BusinessData.LotteryType>>("NEWSLTYPELIST", list, 0);
+            CacheHelper.AddCache<List<BusinessData.LotteryType>>("NEWSLTYPELIST", list, 24 * 60 * 30);
             return list;
         }
 
@@ -55,7 +55,7 @@ namespace C8.Lottery.Portal.Business
             string sql = "SELECT Id,TypeName,lType FROM dbo.NewsType WHERE lType=@lType ORDER BY SortCode";
             SqlParameter[] paras = { new SqlParameter("@lType", lType) };
             list = Util.ReaderToList<LotteryNewsChannel>(sql, paras);
-            CacheHelper.AddCache<List<LotteryNewsChannel>>(string.Format("NEWSCHANNELLIST_{0}", lType), list, 0);
+            CacheHelper.AddCache<List<LotteryNewsChannel>>(string.Format("NEWSCHANNELLIST_{0}", lType), list, 24 * 60 * 30);
             return list;
         }
 
