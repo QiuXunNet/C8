@@ -149,7 +149,7 @@
             showPic();
             var imgs = "";
             for (var i = 1; i <= 54; i++) {
-                imgs += "<li><img data-py='" + faceObj[i] + "' src='/images/emoji/Face/" + i + ".png' /></li>";
+                imgs += "<li><img data-py='" + faceObj[i] + "' src='@ViewBag.OssUrl/images/emoji/Face/" + i + ".png' /></li>";
             }
             $("#faceUl").append(imgs);
             $("#faceUl img").click(function () {

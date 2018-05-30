@@ -10,6 +10,7 @@ using C8.Lottery.Model;
 using C8.Lottery.Model.Enum;
 using C8.Lottery.Portal.Models;
 using C8.Lottery.Public;
+using ServiceStack;
 
 namespace C8.Lottery.Portal.Controllers
 {
@@ -102,21 +103,54 @@ namespace C8.Lottery.Portal.Controllers
             int lType = id;
             ViewBag.lType = lType;
 
+            //0.设置缓存时长（分）
+            int cacheTimeout = 4;
+            if (lType < 9)
+            {
+                cacheTimeout = 1440;//12小时
+            }
+
 
             //1.获取数据
             int count = Util.GetGFTJCount(lType);
             int totalSize = (pageSize + 1) * count;
 
+            //低频彩
+            string memcacheKey = string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
+            var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
+            
+            if (planList == null)
+            {
+                string sql = "select top " + totalSize +
+                             " temp.* from ( select row_number() over(order by Id desc) as rownumber,* from [Plan] where lType = " +
+                             lType + ")as temp where rownumber>" + ((pageIndex - 1) * totalSize);
+                planList = Util.ReaderToList<Plan>(sql);
 
-            string sql = "select top " + totalSize + " temp.* from ( select row_number() over(order by Id desc) as rownumber,* from [Plan] where lType = " + lType + ")as temp where rownumber>" + ((pageIndex - 1) * totalSize);
-            ViewBag.list2 = Util.ReaderToList<Plan>(sql);        //计划列表
-
+                if (planList != null && planList.Any())
+                {
+                    CacheHelper.AddCache(memcacheKey, planList, cacheTimeout);
+                }
+            }
+            ViewBag.list2 = planList; //计划列表
 
 
             //2.取最新10期开奖号
-            string pageSql = "select top " + pageSize + " temp.* from ( select row_number() over(order by Issue desc) as rownumber,* from LotteryRecord where lType = " + lType + ")as temp where rownumber>" + ((pageIndex - 1) * pageSize);
-            ViewBag.list = Util.ReaderToList<LotteryRecord>(pageSql);
+            string memcacheKey2 = string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
+            var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
+            
+            if (lotteryRecordList == null)
+            {
+                string pageSql = "select top " + pageSize +
+                                 " temp.* from ( select row_number() over(order by Issue desc) as rownumber,* from LotteryRecord where lType = " +
+                                 lType + ")as temp where rownumber>" + ((pageIndex - 1) * pageSize);
+                lotteryRecordList = Util.ReaderToList<LotteryRecord>(pageSql);
 
+                if (lotteryRecordList != null && lotteryRecordList.Any())
+                {
+                    CacheHelper.AddCache(memcacheKey2, lotteryRecordList, cacheTimeout);
+                }
+            }
+            ViewBag.list = lotteryRecordList;
 
 
             return View();
@@ -652,24 +686,36 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
         /// 获取专家列表
         /// </summary>
         /// <param name="lType">彩种Id</param>
-        /// <param name="playName">玩法名称</param>
+        /// <param name="playNameId">玩法名称</param>
         /// <param name="type">类型 1=高手推荐 2=免费专家</param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult ExpertList(int lType, string playName, int type = 1, int pageIndex = 1, int pageSize = 20)
+        public JsonResult ExpertList(int lType, int playNameId, int type = 1, int pageIndex = 1, int pageSize = 20)
         {
             var result = new AjaxResult<PagedList<Expert>>();
-
             var pager = new PagedList<Expert>();
             pager.PageIndex = pageIndex;
             pager.PageSize = pageSize;
 
-            string sqlWhere = type == 1 ? ">=" : "<";
+            string memcacheKey = string.Format("expertList_{0}_{1}_{2}", lType, playNameId, type);
+            var list = CacheHelper.GetCache<List<Expert>>(memcacheKey);
 
-            #region 分页查询专家排行数据行--CPU高
-            string sql = string.Format(@"select * from (
+            if (list == null)
+            {
+                var playNames = GetPlayNames(lType);
+
+                if (playNames == null || playNames.Count < 1)
+                {
+                    result.Data = pager;
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+
+                string playName = playNames.FirstOrDefault(x => x.Id == playNameId)?.PlayName;
+
+                string sqlWhere = type == 1 ? ">=" : "<";
+                string sql = string.Format(@"
  select top 100 row_number() over(order by a.playTotalScore DESC ) as rowNumber,
     a.*,b.ltypeTotalScore,c.MinIntegral,isnull(d.Name,'') as Name,isnull(e.RPath,'') as avater 
 from (
@@ -692,59 +738,45 @@ from (
   left join ResourceMapping e on e.FkId =a.UserId and e.[Type]=@ResourceType
 
   where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName and a.lType=@lType 
-  ) tt
-  where tt.rowNumber between @Start and  @End", sqlWhere);
+  ", sqlWhere);
 
-            var sqlParameter = new[]
-            {
-                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
-                new SqlParameter("@PlayName",playName),
-                new SqlParameter("@lType",lType),
-                new SqlParameter("@Start",pager.StartIndex),
-                new SqlParameter("@End",pager.EndIndex),
+                var sqlParameter = new[]
+                {
+                    new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                    new SqlParameter("@PlayName",playName),
+                    new SqlParameter("@lType",lType),
 
-            };
-            pager.PageData = Util.ReaderToList<Expert>(sql, sqlParameter);
+                };
+                list = Util.ReaderToList<Expert>(sql, sqlParameter);
 
-            pager.PageData.ForEach(x =>
-            {
-                GetLastBettingRecord(x);
-            });
+                if (list == null)
+                {
+                    result.Data = pager;
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
 
-            #endregion
+                list.ForEach(x =>
+                {
+                    GetLastBettingRecord(x, 10);
+                });
 
-            #region 数据总行数--CPU高
-            //查询分页总数量
-            string countSql = string.Format(@"select count(1) from (
-  select UserId,lType,PlayName, isnull( sum(score),0) AS playTotalScore from [dbo].[BettingRecord]
-  where WinState>1 and lType=@lType and PlayName=@PlayName
-  group by UserId, lType, PlayName
- ) a
-  left join (
-   select UserId,lType, isnull( sum(score),0) AS ltypeTotalScore from [dbo].[BettingRecord]
-   where WinState>1 and lType=@lType
-   group by UserId, lType
-  ) b on b.lType=a.lType and b.UserId=a.UserId
-  left join ( 
-	select lType, isnull( min(MinIntegral),0) as MinIntegral 
-	from [dbo].[LotteryCharge]
-    where lType=@lType
-    group by lType
-  ) c on c.lType=a.lType
+                CacheHelper.AddCache(memcacheKey, list, 120);
+            }
 
-  where b.ltypeTotalScore {0} c.MinIntegral and a.PlayName=@PlayName and a.lType=@lType", sqlWhere);
 
-            var countSqlParameter = new[]
-            {
-                new SqlParameter("@PlayName",playName),
-                new SqlParameter("@lType",lType),
-            };
-            object obj = SqlHelper.ExecuteScalar(countSql, countSqlParameter);
-            int totalCount = Convert.ToInt32(obj ?? 0);
-            pager.TotalCount = totalCount > 100 ? 100 : totalCount;
-            #endregion
+            #region 分页查询专家排行数据行
 
+            pager.PageData = list.Skip(pager.StartIndex - 1).Take(pageSize).ToList();
+
+            //pager.PageData.ForEach(x =>
+            //{
+            //    GetLastBettingRecord(x);
+            //});
+
+            pager.TotalCount = list.Count;
             result.Data = pager;
+            #endregion
+
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }

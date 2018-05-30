@@ -12,21 +12,21 @@ $(function () {
             callback: downCallback
         },
         up: {
+            auto: false,
             callback: getListData,
             isBounce: false, //此处禁止ios回弹
             noMoreSize: 5,
             empty: {
-                icon: "/images/null.png",
+                icon: "https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/null.png",
                 tip: "暂无高手推荐~",
                 btntext: "去看看免费专家 >", //按钮,默认""
                 btnClick: function () {
                     $(".C8_nav5 li:eq(2)").trigger("click");
-                    //alertmsg("点击免费专家切换");
                 }
             },
             clearEmptyId: "datalist0",
             toTop: {
-                src: "/images/totop.png",
+                src: "https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/totop.png",
                 offset: 1000
             },
             page: {
@@ -37,39 +37,39 @@ $(function () {
         }
     });
     var mescrol2;
-    setTimeout(function () {
-        queryType = 2;
-        mescrol2 = new MeScroll("mescroll1", {
-            down: {
-                auto: false,
-                callback: downCallback
-            },
-            up: {
-                callback: getListData,
-                isBounce: false, //此处禁止ios回弹
-                noMoreSize: 5,
-                empty: {
-                    icon: "/images/null.png",
-                    tip: "暂无免费专家~",
-                    btntext: "去看看高手推荐 >",
-                    btnClick: function () {
-                        $(".C8_nav5 li:eq(1)").trigger("click");
-                        //alertmsg("点击高手推荐切换");
-                    }
-                },
-                clearEmptyId: "datalist1",
-                toTop: {
-                    src: "/images/totop.png",
-                    offset: 1000
-                },
-                page: {
-                    num: 0,
-                    size: 30,
-                    time: null
+    //setTimeout(function () {
+    queryType = 2;
+    mescrol2 = new MeScroll("mescroll1", {
+        down: {
+            auto: false,
+            callback: downCallback
+        },
+        up: {
+            auto: false,
+            callback: getListData,
+            isBounce: false, //此处禁止ios回弹
+            noMoreSize: 5,
+            empty: {
+                icon: "https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/null.png",
+                tip: "暂无免费专家~",
+                btntext: "去看看高手推荐 >",
+                btnClick: function () {
+                    $(".C8_nav5 li:eq(1)").trigger("click");
                 }
+            },
+            clearEmptyId: "datalist1",
+            toTop: {
+                src: "https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/totop.png",
+                offset: 1000
+            },
+            page: {
+                num: 0,
+                size: 30,
+                time: null
             }
-        });
-    }, 2000);
+        }
+    });
+    //}, 2000);
 
     $(".GS_nav li").click(function () {
         var _this = $(this),
@@ -78,22 +78,21 @@ $(function () {
 
         if (!queryType || queryType < 1) return;
 
-        if (playType != i) {
-            playType = i;
-            _this.addClass("current").siblings().removeClass("current");
+        //if (playType != i) {
+        playType = i;
+        _this.addClass("current").siblings().removeClass("current");
 
-            if (queryType == 1)
-            {
-                mescroll.resetUpScroll();
-                //隐藏回到顶部按钮
-                mescroll.hideTopBtn();
-            } else if (queryType == 2) {
+        if (queryType == 1) {
+            mescroll.resetUpScroll();
+            //隐藏回到顶部按钮
+            mescroll.hideTopBtn();
+        } else if (queryType == 2) {
 
-                mescrol2.resetUpScroll();
-                //隐藏回到顶部按钮
-                mescrol2.hideTopBtn();
-            }
+            mescrol2.resetUpScroll();
+            //隐藏回到顶部按钮
+            mescrol2.hideTopBtn();
         }
+        //}
     });
 
     /*加载列表数据 */
@@ -115,11 +114,9 @@ $(function () {
 
         }, function () {
             //隐藏下拉刷新和上拉加载的状态;
-            if (queryType == 1)
-            {
+            if (queryType == 1) {
                 mescroll.endErr();
-            } else if (queryType == 2)
-            {
+            } else if (queryType == 2) {
                 mescrol2.endErr();
             }
         });
@@ -153,7 +150,7 @@ $(function () {
             type: 'GET',
             data: {
                 lType: $("#lType").val(),
-                playName: $("#gsnav li[data-index='" + playType + "']").attr("data-title"),
+                playNameId: $("#gsnav li[data-index='" + playType + "']").attr("data-id"),
                 type: queryType,
                 pageIndex: pageIndex,
                 pageSize: pageSize
@@ -176,7 +173,7 @@ $(function () {
 
 });
 
-function buildHtml(data, tabtype,pageIndex) {
+function buildHtml(data, tabtype, pageIndex) {
 
     var itemList = [];
     var listDom = $("#datalist" + tabtype);
@@ -186,10 +183,9 @@ function buildHtml(data, tabtype,pageIndex) {
         var itemHtml = '<div class="CIFB_K">'
             + '<div class="CIFB_KL f-l">'
             + '<div class="KL_number f-l">';
-        if (item.RowNumber <= 3)
-        {
+        if (item.RowNumber <= 3) {
             itemHtml += '<div class="KL_nbqs">'
-                + '<img src="/images/44_' + item.RowNumber + '.png">'
+                + '<img src="https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/44_' + item.RowNumber + '.png">'
                 + '</div>';
         } else {
             itemHtml += '<span class="KL_nbsp">' + item.RowNumber + '</span>';
@@ -197,10 +193,10 @@ function buildHtml(data, tabtype,pageIndex) {
         itemHtml += '</div>'
             + '<div class="KL_port f-l">'
             + '<div class="port_tu">'
-            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + encodeURI(item.PlayName) + '"><img src="' + (item.Avater.length < 1 ? "/images/default_avater.png" : item.Avater) + '" /></a>'
+            + '<a href="/Plan/PlayRecord/' + item.lType + '?uid=' + item.UserId + '&p=' + encodeURI(item.PlayName) + '"><img src="' + (item.Avater.length < 1 ? "https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/default_avater.png" : item.Avater) + '" /></a>'
             + '</div>';
         if (item.RowNumber <= 3) {
-            itemHtml += '<i class="port_sf"><img src="/images/66.png"></i>';
+            itemHtml += '<i class="port_sf"><img src="https://c8-public.oss-cn-shenzhen.aliyuncs.com/c8/res/images/66.png"></i>';
         }
 
         itemHtml += '</div>'
@@ -229,13 +225,11 @@ function buildHtml(data, tabtype,pageIndex) {
     });
 
     var html = itemList.join('');
-    if (pageIndex == 1)
-    {
-        if (html != '')
-        {
+    if (pageIndex == 1) {
+        if (html != '') {
             listDom.html(html);
         }
-        
+
 
     } else {
         listDom.append(html);

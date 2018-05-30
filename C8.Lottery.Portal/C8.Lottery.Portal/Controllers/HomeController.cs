@@ -215,16 +215,23 @@ namespace C8.Lottery.Portal.Controllers
         public JsonResult GetDown(int ClientSource)
         {
             ReturnMessageJson msg = new ReturnMessageJson();
-            string strsql = @"
+            List<ClientSourceVersion> list = CacheHelper.GetCache<List<ClientSourceVersion>>("SourceVersion"+ClientSource);
+            if (list == null)
+            {
+                string strsql = @"
                     select top 1 * from ClientSourceVersion where ClientSource =@ClientSource and ClientType =@ClientSource
                     order by VersionCode desc";
-            SqlParameter[] sp = new SqlParameter[]
-            {
+                SqlParameter[] sp = new SqlParameter[]
+                {
                 new SqlParameter("@ClientSource",ClientSource)
-            };
+                };
+                list = Util.ReaderToList<ClientSourceVersion>(strsql, sp);
+                CacheHelper.AddCache<List<ClientSourceVersion>>("SourceVersion"+ClientSource, list, 60 * 24);
+            }
+          
             try
             {
-                List<ClientSourceVersion> list = Util.ReaderToList<ClientSourceVersion>(strsql, sp);
+               
                 msg.data = list;
                 msg.Success = true;
             }

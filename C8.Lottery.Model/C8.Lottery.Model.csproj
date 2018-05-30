@@ -76,6 +76,7 @@
     <Compile Include="News\LikeRecord.cs" />
     <Compile Include="News\News.cs" />
     <Compile Include="News\NewsType.cs" />
+    <Compile Include="PageView.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="Play.cs" />
     <Compile Include="RankingList.cs" />
