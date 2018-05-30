@@ -46,7 +46,7 @@ namespace C8.Lottery.Portal.Controllers
                 setting = Util.ReaderToList<SiteSetting>(sql).FirstOrDefault();
                 if (setting != null)
                     // MemClientFactory.WriteCache("base_site_setting", setting, 60 * 24);
-                    CacheHelper.AddCache("base_site_setting", setting, 60 * 24);
+                    CacheHelper.AddCache("base_site_setting", setting, 60 * 24 * 1000);
             }
             return setting ?? new SiteSetting();
         }
