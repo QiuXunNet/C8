@@ -50,7 +50,14 @@ namespace C8.Lottery.Portal.api
             //如果是热门彩
             if (pId == 1)
             {
-                 rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite");
+                rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite");
+                if (rmcList != null)
+                {
+                    rmcList.ForEach(e =>
+                    {
+                        e.OpenTime = LotteryTime.GetTime(e.LType.ToString());
+                    });
+                }
             }
 
             if (rmcList == null)
