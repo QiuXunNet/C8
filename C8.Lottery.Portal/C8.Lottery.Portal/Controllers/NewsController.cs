@@ -256,7 +256,7 @@ namespace C8.Lottery.Portal.Controllers
         [HttpGet]
         public PartialViewResult NewsList(int typeId, int pageIndex = 1, int pageSize = 20)
         {
-            NewsType newsType = _newsservice.GetNewTypeById(typeId); 
+            NewsType newsType = _newsservice.GetNewTypeById(typeId);
             if (newsType == null)
             {
                 ViewBag.NewsList = new List<News>();
@@ -268,7 +268,7 @@ namespace C8.Lottery.Portal.Controllers
                 return NewsGalleryCategoryList(newsType.LType, typeId);
             }
 
-            ViewBag.NewsList = _newsservice.GetNewList(typeId, pageIndex, pageSize); 
+            ViewBag.NewsList = _newsservice.GetNewList(typeId, pageIndex, pageSize);
 
             ViewBag.AdList = _newsservice.GetAdvertisementList(typeId, 1);
             ViewBag.PageIndex = pageIndex;
@@ -355,7 +355,7 @@ namespace C8.Lottery.Portal.Controllers
             //查询推荐图
             ViewBag.RecommendGalleryList = _newsservice.GetGalleryList(ltype, newsTypeId);
 
-            ViewBag.AdList = _newsservice.GetAdvertisementList(newsTypeId, 1); 
+            ViewBag.AdList = _newsservice.GetAdvertisementList(newsTypeId, 1);
             ViewBag.CityId = Tool.GetCityId();
 
             return PartialView("NewsGalleryCategoryList");
@@ -378,35 +378,36 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult NewsDetail(int id)
         {
-            new Task(() =>
-            {
-                try
-                {
-                    string pvSql = @"if exists(
-	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  )
-  begin
-   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  end
-  else
-  begin
-  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
-  end;
-UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
-                    var pvParam = new[]
-                    {
-                        new SqlParameter("@Type",1),//新闻类型=1
-                        new SqlParameter("@Id",id),
-                        new SqlParameter("@ViewDate",DateTime.Today),
-                    };
-                    SqlHelper.ExecuteScalar(pvSql, pvParam);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
-                }
+            AddPv(id);
+            //            new Task(() =>
+            //            {
+            //                try
+            //                {
+            //                    string pvSql = @"if exists(
+            //	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  )
+            //  begin
+            //   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  end
+            //  else
+            //  begin
+            //  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
+            //  end;
+            //UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
+            //                    var pvParam = new[]
+            //                    {
+            //                        new SqlParameter("@Type",1),//新闻类型=1
+            //                        new SqlParameter("@Id",id),
+            //                        new SqlParameter("@ViewDate",DateTime.Today),
+            //                    };
+            //                    SqlHelper.ExecuteScalar(pvSql, pvParam);
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
+            //                }
 
-            }).Start();
+            //            }).Start();
 
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
@@ -465,25 +466,30 @@ ORDER BY SortCode desc,Id DESC";
 
             #region 查询推荐阅读
             //查询推荐阅读
-            string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
-(SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
-FROM [dbo].[News] a
-WHERE [TypeId] = @TypeId AND DeleteMark=0 AND EnabledMark=1
-ORDER BY ModifyDate DESC,SortCode ASC ";
-            //AND RecommendMark = 1
-
-            var recommendArticleParameters = new[]
+            List<News> list = CacheHelper.GetCache<List<News>>(("z_newstop3list_" + model.TypeId));
+            if (list == null || list.Count <= 0)
             {
-                new SqlParameter("@TypeId",model.TypeId),
-            };
+                string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
+                            (SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
+                            FROM [dbo].[News] a
+                            WHERE [TypeId] = @TypeId AND DeleteMark=0 AND EnabledMark=1
+                            ORDER BY ModifyDate DESC,SortCode ASC ";
+                //AND RecommendMark = 1
 
-            var list = Util.ReaderToList<News>(recommendArticlesql, recommendArticleParameters);
-            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
-            list.ForEach(x =>
-            {
-                x.ThumbList = GetResources(sourceType, x.Id)
-                                .Select(n => n.RPath).ToList();
-            });
+                var recommendArticleParameters = new[]
+                {
+                    new SqlParameter("@TypeId",model.TypeId),
+                };
+
+                list = Util.ReaderToList<News>(recommendArticlesql, recommendArticleParameters);
+                int sourceType = (int)ResourceTypeEnum.新闻缩略图;
+                list.ForEach(x =>
+                {
+                    x.ThumbList = GetResources(sourceType, x.Id)
+                                    .Select(n => n.RPath).ToList();
+                });
+                CacheHelper.AddCache<List<News>>(("z_newstop3list_" + model.TypeId), list, 120);
+            }
             ViewBag.RecommendArticle = list;
             #endregion
 
@@ -527,35 +533,37 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         /// <returns></returns>
         public ActionResult Gallery(int id)
         {
-            new Task(() =>
-            {
-                try
-                {
-                    string pvSql = @"if exists(
-	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  )
-  begin
-   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  end
-  else
-  begin
-  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
-  end;
-UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
-                    var pvParam = new[]
-                    {
-                        new SqlParameter("@Type",1),//新闻类型=1
-                        new SqlParameter("@Id",id),
-                        new SqlParameter("@ViewDate",DateTime.Today),
-                    };
-                    SqlHelper.ExecuteScalar(pvSql, pvParam);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
-                }
+            AddPv(id);
 
-            }).Start();
+            //            new Task(() =>
+            //            {
+            //                try
+            //                {
+            //                    string pvSql = @"if exists(
+            //	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  )
+            //  begin
+            //   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  end
+            //  else
+            //  begin
+            //  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
+            //  end;
+            //UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
+            //                    var pvParam = new[]
+            //                    {
+            //                        new SqlParameter("@Type",1),//新闻类型=1
+            //                        new SqlParameter("@Id",id),
+            //                        new SqlParameter("@ViewDate",DateTime.Today),
+            //                    };
+            //                    SqlHelper.ExecuteScalar(pvSql, pvParam);
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
+            //                }
+
+            //            }).Start();
 
 
             var news = Util.GetEntityById<News>(id);
@@ -575,18 +583,49 @@ UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
             ViewBag.GalleryList = galleryList;
 
             //查询推荐图
-            string recGallerySql = @" SELECT TOP 10   FullHead as Name, Id,LotteryNumber as Issue 
- from News where Id  in(
-	select max(id) from News where TypeId=" + model.TypeId + @" group by FullHead having count(FullHead)>=1
- )
- and DeleteMark=0 and EnabledMark=1 
- order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
-            var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
+            List<Gallery> recGalleryList = CacheHelper.GetCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId));
+            if (recGalleryList == null || recGalleryList.Count <= 0)
+            {
+                string recGallerySql = @" SELECT TOP 10   FullHead as Name, Id,LotteryNumber as Issue 
+                                         from News where Id  in(
+	                                        select max(id) from News where TypeId=" + model.TypeId + @" group by FullHead having count(FullHead)>=1
+                                         )
+                                         and DeleteMark=0 and EnabledMark=1 
+                                         order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
+                recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
+                CacheHelper.AddCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId), recGalleryList, 60);
+            }
             ViewBag.RecommendGalleryList = recGalleryList;
 
             ViewBag.CityId = Tool.GetCityId();
 
             return View(model);
+        }
+
+        public void AddPv(int id)
+        {
+            var pageViewList = CacheHelper.GetCache<List<PageView>>("SavePageViewList");
+
+            if (pageViewList == null || !pageViewList.Any(e => e.FkId == id && e.Type == 1))
+            {
+                var pageView = new PageView()
+                {
+                    FkId = id,
+                    Type = 1,
+                    ViewTotal = 1
+                };
+
+                if (pageViewList == null)
+                    pageViewList = new List<PageView>();
+
+                pageViewList.Add(pageView);
+            }
+            else
+            {
+                pageViewList.FirstOrDefault(e => e.FkId == id && e.Type == 1).ViewTotal++;
+            }
+
+            CacheHelper.SetCache<List<PageView>>("SavePageViewList", pageViewList, DateTime.Now.AddDays(2));
         }
 
         /// <summary>
@@ -599,36 +638,42 @@ UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
         [ChildActionOnly]
         public PartialViewResult WonderfulComment(int id, int type = 2, int refUid = 0)
         {
-            string sql = string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,
-(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes,
-(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount 
-from Comment a
-  left join UserInfo b on b.Id = a.UserId
-  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.IsDeleted = 0 and a.RefCommentId=0  and a.ArticleId = @ArticleId {0} and a.Type=@Type
-  order by StarCount desc", type == 1 ? " and a.ArticleUserId = @ArticleUserId" : "");
-
-            var parameters = new[]
+            string cachekey = string.Format("z_WonderfulComment_{0}_{1}_{2}", id, type, refUid);
+            List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
+            if (list == null)
             {
+                string sql = string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,
+                                            (select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes,
+                                            (select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount 
+                                            from Comment a
+                                              left join UserInfo b on b.Id = a.UserId
+                                              left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+                                              where a.IsDeleted = 0 and a.RefCommentId=0  and a.ArticleId = @ArticleId {0} and a.Type=@Type
+                                              order by StarCount desc", type == 1 ? " and a.ArticleUserId = @ArticleUserId" : "");
+
+                var parameters = new[]
+                {
                 new SqlParameter("@UserId",SqlDbType.BigInt),
                 new SqlParameter("@ResourceType",SqlDbType.BigInt),
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
                 new SqlParameter("@ArticleUserId",SqlDbType.Int),
             };
-            long userId = 0;
-            if (UserHelper.LoginUser != null)
-            {
-                userId = UserHelper.LoginUser.Id;
+                long userId = 0;
+                if (UserHelper.LoginUser != null)
+                {
+                    userId = UserHelper.LoginUser.Id;
+                }
+
+                parameters[0].Value = userId;
+                parameters[1].Value = (int)ResourceTypeEnum.用户头像;
+                parameters[2].Value = id;
+                parameters[3].Value = type;
+                parameters[4].Value = refUid;
+
+                list = Util.ReaderToList<Comment>(sql, parameters);
+                CacheHelper.AddCache<List<Comment>>(cachekey, list, 60);
             }
-
-            parameters[0].Value = userId;
-            parameters[1].Value = (int)ResourceTypeEnum.用户头像;
-            parameters[2].Value = id;
-            parameters[3].Value = type;
-            parameters[4].Value = refUid;
-
-            var list = Util.ReaderToList<Comment>(sql, parameters);
             list.ForEach(x =>
             {
                 if (string.IsNullOrEmpty(x.Avater))
@@ -671,34 +716,40 @@ from Comment a
         /// <returns></returns>
         public ActionResult CommentList(int id, int type = 2, int refUid = 0)
         {
-            string sql =
-               string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
-  from Comment a
-  left join UserInfo b on b.Id = a.UserId
-  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.ArticleId = @ArticleId {0} and a.RefCommentId=0 and a.IsDeleted = 0  and a.Type=@Type
-  order by StarCount desc", type == 1 ? " and a.ArticleUserId = @ArticleUserId" : "");
-            var parameters = new[]
+            string cachekey = string.Format("z_WonderfulComment_{0}_{1}_{2}", id, type, refUid);
+            List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
+            if (list == null)
             {
+                string sql =
+               string.Format(@"select top 3  a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+                            ,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
+                              from Comment a
+                              left join UserInfo b on b.Id = a.UserId
+                              left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+                              where a.ArticleId = @ArticleId {0} and a.RefCommentId=0 and a.IsDeleted = 0  and a.Type=@Type
+                              order by StarCount desc", type == 1 ? " and a.ArticleUserId = @ArticleUserId" : "");
+                var parameters = new[]
+                {
                 new SqlParameter("@UserId",SqlDbType.BigInt),
                 new SqlParameter("@ResourceType",SqlDbType.Int),
                 new SqlParameter("@ArticleId",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
                 new SqlParameter("@ArticleUserId",SqlDbType.Int),
             };
-            long userId = 0;
-            if (UserHelper.LoginUser != null)
-            {
-                userId = UserHelper.LoginUser.Id;
-            }
-            parameters[0].Value = userId;
-            parameters[1].Value = (int)ResourceTypeEnum.用户头像;
-            parameters[2].Value = id;
-            parameters[3].Value = type;
-            parameters[4].Value = refUid;
+                long userId = 0;
+                if (UserHelper.LoginUser != null)
+                {
+                    userId = UserHelper.LoginUser.Id;
+                }
+                parameters[0].Value = userId;
+                parameters[1].Value = (int)ResourceTypeEnum.用户头像;
+                parameters[2].Value = id;
+                parameters[3].Value = type;
+                parameters[4].Value = refUid;
 
-            var list = Util.ReaderToList<Comment>(sql, parameters);
+                list = Util.ReaderToList<Comment>(sql, parameters);
+                CacheHelper.AddCache<List<Comment>>(cachekey, list, 60);
+            }
             list.ForEach(x =>
             {
                 if (string.IsNullOrEmpty(x.Avater))
@@ -745,29 +796,32 @@ from Comment a
         {
 
             var result = new AjaxResult<PagedList<Comment>>();
-
-            string sql = string.Format(@"SELECT * FROM ( 
-select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
-,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
-from Comment a
-  left join UserInfo b on b.Id = a.UserId
-  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.ArticleId = @ArticleId {0} and a.IsDeleted = 0 and a.RefCommentId=0 and a.Type=@Type 
-  ) T
-WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @ArticleUserId" : "");
-            var parameters = new[]
+            string cachekey = string.Format("z_LastComment_{0}_{1}_{2}_{3}", id, type, refUid, pageIndex);
+            List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
+            if (list == null)
             {
-                new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
-                new SqlParameter("@ArticleId",id),
-                new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
-                new SqlParameter("@End",pageSize * pageIndex),
-                new SqlParameter("@Type",type),
-                new SqlParameter("@ArticleUserId",refUid),
-            };
+                string sql = string.Format(@"SELECT * FROM ( 
+                                select row_number() over(order by a.SubTime DESC ) as rowNumber,a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater 
+                                ,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
+                                from Comment a
+                                  left join UserInfo b on b.Id = a.UserId
+                                  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+                                  where a.ArticleId = @ArticleId {0} and a.IsDeleted = 0 and a.RefCommentId=0 and a.Type=@Type 
+                                  ) T
+                                WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @ArticleUserId" : "");
+                var parameters = new[]
+                {
+                    new SqlParameter("@ResourceType",(int)ResourceTypeEnum.用户头像),
+                    new SqlParameter("@ArticleId",id),
+                    new SqlParameter("@Start",pageSize *( pageIndex-1)+1),
+                    new SqlParameter("@End",pageSize * pageIndex),
+                    new SqlParameter("@Type",type),
+                    new SqlParameter("@ArticleUserId",refUid),
+                };
 
-            var list = Util.ReaderToList<Comment>(sql, parameters);
-
-
+                list = Util.ReaderToList<Comment>(sql, parameters);
+                CacheHelper.AddCache<List<Comment>>(cachekey, list, 60);
+            }
             string countSql = "select count(1) from Comment where IsDeleted = 0 and RefCommentId=0 and Type=" + type + " and ArticleId=" + id;
             if (type == 1)
             {
@@ -794,35 +848,40 @@ WHERE rowNumber BETWEEN @Start AND @End", type == 1 ? " and a.ArticleUserId = @A
         /// <returns></returns>
         public ActionResult CommentDetail(int id, int type = 2)
         {
-            string sql =
-               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater
-,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
-,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
-  from Comment a
-  left join UserInfo b on b.Id = a.UserId
-  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
-  where a.Id = @Id and a.IsDeleted = 0 and a.Type=@Type
-  order by StarCount desc";
-            var parameters = new[]
+            string cachekey = string.Format("z_CommentDetail_{0}_{1}", id, type);
+            List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
+            if (list == null)
             {
+                string sql =
+               @"select a.*,isnull(b.Name,'') as NickName,isnull(c.RPath,'') as Avater
+                ,(select count(1) from LikeRecord where [Status]=1 and [Type]=a.[Type] and CommentId=a.Id and UserId=@UserId) as CurrentUserLikes 
+                ,(select count(1) from Comment where RefCommentId = a.Id ) as ReplayCount
+                  from Comment a
+                  left join UserInfo b on b.Id = a.UserId
+                  left join ResourceMapping c on c.FkId = a.UserId and c.Type = @ResourceType
+                  where a.Id = @Id and a.IsDeleted = 0 and a.Type=@Type
+                  order by StarCount desc";
+                var parameters = new[]
+                {
                 new SqlParameter("@UserId",SqlDbType.BigInt),
                 new SqlParameter("@ResourceType",SqlDbType.Int),
                 new SqlParameter("@Id",SqlDbType.BigInt),
                 new SqlParameter("@Type",SqlDbType.Int),
             };
-            long userId = 0;
-            if (UserHelper.LoginUser != null)
-            {
-                userId = UserHelper.LoginUser.Id;
+                long userId = 0;
+                if (UserHelper.LoginUser != null)
+                {
+                    userId = UserHelper.LoginUser.Id;
+                }
+
+                parameters[0].Value = userId;
+                parameters[1].Value = (int)ResourceTypeEnum.用户头像;
+                parameters[2].Value = id;
+                parameters[3].Value = type;
+
+                list = Util.ReaderToList<Comment>(sql, parameters);
+                CacheHelper.AddCache<List<Comment>>(cachekey, list, 60);
             }
-
-            parameters[0].Value = userId;
-            parameters[1].Value = (int)ResourceTypeEnum.用户头像;
-            parameters[2].Value = id;
-            parameters[3].Value = type;
-
-            var list = Util.ReaderToList<Comment>(sql, parameters);
-
             if (!list.Any())
             {
                 Response.Redirect("/News/CommentList/" + id);

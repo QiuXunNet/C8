@@ -401,9 +401,13 @@ namespace C8.Lottery.Public
         /// <returns></returns>
        public static bool CheckSensitiveWords(string str)
         {
-            string words = WebHelper.GetSensitiveWords();
-          
 
+            string words = CacheHelper.GetCache<string>("SWords");
+            if (string.IsNullOrEmpty(words))
+            {
+                words = WebHelper.GetSensitiveWords();
+                CacheHelper.AddCache("SWords", words);
+            }
             //string[] zang = words.Remove(words.Length-1,1).Split(',');
             string[] zang = words.Split(new[] { ',', '，' }, StringSplitOptions.RemoveEmptyEntries);
             if (str.Trim().Length <= 0 || zang == null || zang.Count() <= 0)
