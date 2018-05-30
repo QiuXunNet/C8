@@ -51,13 +51,10 @@ namespace C8.Lottery.Portal.api
             if (pId == 1)
             {
                 rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite");
-                if (rmcList != null)
-                {
-                    rmcList.ForEach(e =>
-                    {
-                        e.OpenTime = LotteryTime.GetTime(e.LType.ToString());
-                    });
-                }
+            }
+            else
+            {
+                rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInGpcToWebSite"+ pId);
             }
 
             if (rmcList == null)
@@ -81,11 +78,19 @@ namespace C8.Lottery.Portal.api
                 //如果是热门彩，则写入缓存
                 if (pId == 1)
                 {
-                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite", newList,24*60);
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite", newList, 24 * 60);
+                }
+                else
+                {
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInGpcToWebSite" + pId, newList,3);
                 }
             }
             else
             {
+                rmcList.ForEach(e =>
+                {
+                    e.OpenTime = LotteryTime.GetTime(e.LType.ToString());
+                });
                 newList = rmcList;
             }
 

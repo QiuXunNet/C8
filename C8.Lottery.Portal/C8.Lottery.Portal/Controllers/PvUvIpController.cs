@@ -49,7 +49,7 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     var endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
 
-                    var ipsObj = CacheHelper.GetCache<string>("FriendshipLinksControllerIp" + linkCode);
+                    var ipsObj = CacheHelper.GetCache<string>("" + linkCode);
                     var ips = ipsObj == null ? "" : ipsObj.ToString();
                     if (string.IsNullOrEmpty(ips) || ips.IndexOf("," + ip + ",") == -1)
                     {

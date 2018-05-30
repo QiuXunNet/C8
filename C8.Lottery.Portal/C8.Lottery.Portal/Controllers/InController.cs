@@ -33,7 +33,7 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     list = Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 ");
 
-                    CacheHelper.SetCache("FriendshipLinksControllerFriendLinkList", list, DateTime.Now.AddHours(2));
+                    CacheHelper.AddCache("FriendshipLinksControllerFriendLinkList", list, 2*60);
                 }
 
                 var friendLink = list.FirstOrDefault();

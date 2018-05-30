@@ -105,7 +105,7 @@ namespace C8.Lottery.Public
             {
                 var timeSpan = date - DateTime.Now;
 
-                cs.Set(GetCacheKey(cacheKey), obj, timeSpan.Minutes);
+                cs.Set(GetCacheKey(cacheKey), obj, (int)timeSpan.TotalMinutes);
             }
         }
 
