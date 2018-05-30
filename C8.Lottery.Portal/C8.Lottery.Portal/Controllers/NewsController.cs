@@ -465,25 +465,30 @@ ORDER BY SortCode desc,Id DESC";
 
             #region 查询推荐阅读
             //查询推荐阅读
-            string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
-(SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
-FROM [dbo].[News] a
-WHERE [TypeId] = @TypeId AND DeleteMark=0 AND EnabledMark=1
-ORDER BY ModifyDate DESC,SortCode ASC ";
-            //AND RecommendMark = 1
-
-            var recommendArticleParameters = new[]
+            List<News> list = CacheHelper.GetCache<List<News>>(("z_newstop3list_" + model.TypeId));
+            if (list == null || list.Count <= 0)
             {
-                new SqlParameter("@TypeId",model.TypeId),
-            };
+                string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
+                            (SELECT COUNT(1) FROM[dbo].[Comment] WHERE [ArticleId]=a.Id and RefCommentId=0) as CommentCount
+                            FROM [dbo].[News] a
+                            WHERE [TypeId] = @TypeId AND DeleteMark=0 AND EnabledMark=1
+                            ORDER BY ModifyDate DESC,SortCode ASC ";
+                //AND RecommendMark = 1
 
-            var list = Util.ReaderToList<News>(recommendArticlesql, recommendArticleParameters);
-            int sourceType = (int)ResourceTypeEnum.新闻缩略图;
-            list.ForEach(x =>
-            {
-                x.ThumbList = GetResources(sourceType, x.Id)
-                                .Select(n => n.RPath).ToList();
-            });
+                var recommendArticleParameters = new[]
+                {
+                    new SqlParameter("@TypeId",model.TypeId),
+                };
+
+                list = Util.ReaderToList<News>(recommendArticlesql, recommendArticleParameters);
+                int sourceType = (int)ResourceTypeEnum.新闻缩略图;
+                list.ForEach(x =>
+                {
+                    x.ThumbList = GetResources(sourceType, x.Id)
+                                    .Select(n => n.RPath).ToList();
+                });
+                CacheHelper.AddCache<List<News>>(("z_ListRankIntegral_" + model.TypeId), list, 120);
+            }
             ViewBag.RecommendArticle = list;
             #endregion
 
