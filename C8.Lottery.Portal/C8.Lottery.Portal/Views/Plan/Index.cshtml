@@ -75,12 +75,11 @@
                     {
                         if (i == 0)
                         {
-                            <li class="current" data-index="@i" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                            <li class="current" data-index="@i" data-id="@play.Id" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
                         }
                         else
                         {
-
-                            <li data-index="@i" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
+                            <li data-index="@i" data-id="@play.Id" data-title="@play.PlayName"><a href="javascript:;">@play.PlayName</a></li>
                         }
                         i++;
                     }
