@@ -406,7 +406,7 @@ namespace C8.Lottery.Public
             if (string.IsNullOrEmpty(words))
             {
                 words = WebHelper.GetSensitiveWords();
-                CacheHelper.AddCache("SWords", words,120);
+                CacheHelper.AddCache("SWords", words);
             }
             //string[] zang = words.Remove(words.Length-1,1).Split(',');
             string[] zang = words.Split(new[] { ',', '，' }, StringSplitOptions.RemoveEmptyEntries);
