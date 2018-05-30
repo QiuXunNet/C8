@@ -45,23 +45,42 @@ namespace C8.Lottery.Portal.api
                     order by Position";
 
             var newList = new List<LotteryRecordToJson>();
+            List<LotteryRecordToJson> rmcList = null;
 
-            Util.ReaderToList<LotteryRecord>(sql).ForEach(e =>
+            //如果是热门彩
+            if (pId == 1)
             {
-                LotteryRecordToJson newModel = new LotteryRecordToJson();
-                newModel.OpenNum = e.Num;
-                newModel.Issue = e.Issue;
-                newModel.OpenTime = e.ShowOpenTime;
-                newModel.OpenNumAlias = "";
-                newModel.CurrentIssue = "";
-                newModel.LType = e.lType;
-                newModel.LTypeName = Util.GetLotteryTypeName(e.lType);
-                newModel.Logo = Util.GetLotteryIcon(e.lType);
-                newModel.BigLType = e.BigLType;
+                 rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite");
+            }
 
-                newList.Add(newModel);
-            });
+            if (rmcList == null)
+            {
+                Util.ReaderToList<LotteryRecord>(sql).ForEach(e =>
+                {
+                    LotteryRecordToJson newModel = new LotteryRecordToJson();
+                    newModel.OpenNum = e.Num;
+                    newModel.Issue = e.Issue;
+                    newModel.OpenTime = e.ShowOpenTime;
+                    newModel.OpenNumAlias = "";
+                    newModel.CurrentIssue = "";
+                    newModel.LType = e.lType;
+                    newModel.LTypeName = Util.GetLotteryTypeName(e.lType);
+                    newModel.Logo = Util.GetLotteryIcon(e.lType);
+                    newModel.BigLType = e.BigLType;
 
+                    newList.Add(newModel);
+                });
+
+                //如果是热门彩，则写入缓存
+                if (pId == 1)
+                {
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite", newList,24*60);
+                }
+            }
+            else
+            {
+                newList = rmcList;
+            }
 
             return newList.ToJsonString();
         }

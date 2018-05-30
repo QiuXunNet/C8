@@ -378,35 +378,36 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult NewsDetail(int id)
         {
-            new Task(() =>
-            {
-                try
-                {
-                    string pvSql = @"if exists(
-	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  )
-  begin
-   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  end
-  else
-  begin
-  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
-  end;
-UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
-                    var pvParam = new[]
-                    {
-                        new SqlParameter("@Type",1),//新闻类型=1
-                        new SqlParameter("@Id",id),
-                        new SqlParameter("@ViewDate",DateTime.Today),
-                    };
-                    SqlHelper.ExecuteScalar(pvSql, pvParam);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
-                }
+            AddPv(id);
+            //            new Task(() =>
+            //            {
+            //                try
+            //                {
+            //                    string pvSql = @"if exists(
+            //	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  )
+            //  begin
+            //   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  end
+            //  else
+            //  begin
+            //  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
+            //  end;
+            //UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
+            //                    var pvParam = new[]
+            //                    {
+            //                        new SqlParameter("@Type",1),//新闻类型=1
+            //                        new SqlParameter("@Id",id),
+            //                        new SqlParameter("@ViewDate",DateTime.Today),
+            //                    };
+            //                    SqlHelper.ExecuteScalar(pvSql, pvParam);
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
+            //                }
 
-            }).Start();
+            //            }).Start();
 
             //获取新闻实体
             var model = Util.GetEntityById<News>(id);
@@ -527,35 +528,37 @@ ORDER BY ModifyDate DESC,SortCode ASC ";
         /// <returns></returns>
         public ActionResult Gallery(int id)
         {
-            new Task(() =>
-            {
-                try
-                {
-                    string pvSql = @"if exists(
-	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  )
-  begin
-   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
-  end
-  else
-  begin
-  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
-  end;
-UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
-                    var pvParam = new[]
-                    {
-                        new SqlParameter("@Type",1),//新闻类型=1
-                        new SqlParameter("@Id",id),
-                        new SqlParameter("@ViewDate",DateTime.Today),
-                    };
-                    SqlHelper.ExecuteScalar(pvSql, pvParam);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
-                }
+            AddPv(id);
 
-            }).Start();
+            //            new Task(() =>
+            //            {
+            //                try
+            //                {
+            //                    string pvSql = @"if exists(
+            //	select 1 from dbo.PageView where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  )
+            //  begin
+            //   update dbo.PageView set ViewTotal+=1 where [Type]=@Type and FkId=@Id and ViewDate=@ViewDate
+            //  end
+            //  else
+            //  begin
+            //  insert into dbo.PageView(ViewDate,ViewTotal,[Type],FkId) values(GETDATE(),1,@Type,@Id)
+            //  end;
+            //UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
+            //                    var pvParam = new[]
+            //                    {
+            //                        new SqlParameter("@Type",1),//新闻类型=1
+            //                        new SqlParameter("@Id",id),
+            //                        new SqlParameter("@ViewDate",DateTime.Today),
+            //                    };
+            //                    SqlHelper.ExecuteScalar(pvSql, pvParam);
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    LogHelper.WriteLog(string.Format("新闻PV增加异常，Message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
+            //                }
+
+            //            }).Start();
 
 
             var news = Util.GetEntityById<News>(id);
@@ -576,17 +579,43 @@ UPDATE dbo.News SET PV+=1 WHERE Id=@Id";
 
             //查询推荐图
             string recGallerySql = @" SELECT TOP 10   FullHead as Name, Id,LotteryNumber as Issue 
- from News where Id  in(
-	select max(id) from News where TypeId=" + model.TypeId + @" group by FullHead having count(FullHead)>=1
- )
- and DeleteMark=0 and EnabledMark=1 
- order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
+                                         from News where Id  in(
+	                                        select max(id) from News where TypeId=" + model.TypeId + @" group by FullHead having count(FullHead)>=1
+                                         )
+                                         and DeleteMark=0 and EnabledMark=1 
+                                         order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
             var recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
             ViewBag.RecommendGalleryList = recGalleryList;
 
             ViewBag.CityId = Tool.GetCityId();
 
             return View(model);
+        }
+
+        public void AddPv(int id)
+        {
+            var pageViewList = CacheHelper.GetCache<List<PageView>>("SavePageViewList");
+
+            if (pageViewList == null || !pageViewList.Any(e => e.FkId == id && e.Type == 1))
+            {
+                var pageView = new PageView()
+                {
+                    FkId = id,
+                    Type = 1,
+                    ViewTotal = 1
+                };
+
+                if (pageViewList == null)
+                    pageViewList = new List<PageView>();
+
+                pageViewList.Add(pageView);
+            }
+            else
+            {
+                pageViewList.FirstOrDefault(e => e.FkId == id && e.Type == 1).ViewTotal++;
+            }
+
+            CacheHelper.SetCache<List<PageView>>("SavePageViewList", pageViewList, DateTime.Now.AddDays(2));
         }
 
         /// <summary>

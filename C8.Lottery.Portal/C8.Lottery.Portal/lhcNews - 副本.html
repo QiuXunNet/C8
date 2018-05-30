@@ -874,7 +874,7 @@
                 $(".mask2").toggle();
             });
         });
- 
+
         var t1;
 
         $(function () {
@@ -1036,7 +1036,7 @@
 
             return s;
         }
-        
+
         //带小时的处理
         function timeRun() {
 
@@ -1109,7 +1109,7 @@
                         else {
                             openSpan.html('正在开奖');
 
-                            setTimeout(function () { getTimeBylType() },  2*60*1000);
+                            setTimeout(function () { getTimeBylType() }, 2 * 60 * 1000);
                         }
                     }
                 }
@@ -1123,7 +1123,7 @@
         }
 
         function getTimeBylType() {
-            $.post('/home/GetRemainOpenTimeToLhc', { }, function (data) {
+            $.post('/home/GetRemainOpenTimeToLhc', {}, function (data) {
                 $("#openTime").html(data);
             });
         }
@@ -1142,6 +1142,16 @@
             }
             return flag;
         }
+
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?80532a5c274806ae8e7937f925fb2b0e";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
 </body>
 </html>
