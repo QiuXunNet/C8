@@ -969,9 +969,9 @@ namespace C8.Lottery.Portal.Controllers
                         }
                         else
                         {
-                            //Session["Mobile"] = mobile;
+                            Session["Mobile"] = mobile;
                            
-                            CacheHelper.AddCache("Mobile", mobile, 5);
+                           
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
                         }
@@ -1001,7 +1001,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetPassword()
         {
-            string Mobile = CacheHelper.GetCache<string>("Mobile");
+            string Mobile =Convert.ToString(Session["Mobile"]);
             if (string.IsNullOrEmpty(Mobile))
             {
                 return RedirectToAction("Forget");
@@ -1020,7 +1020,7 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult SetPw(string password)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
-            string Mobile = CacheHelper.GetCache<string>("Mobile");
+            string Mobile = Convert.ToString(Session["Mobile"]);
             if (!string.IsNullOrEmpty(Mobile))
             {
                 try
@@ -1053,9 +1053,9 @@ namespace C8.Lottery.Portal.Controllers
                                 jsonmsg.Msg = "fail";
 
                             }
-                            //Session.Remove("Mobile");
+                            Session.Remove("Mobile");
 
-                            CacheHelper.DeleteCache("Mobile");
+                            //CacheHelper.DeleteCache("Mobile");
 
                         }
                     }
