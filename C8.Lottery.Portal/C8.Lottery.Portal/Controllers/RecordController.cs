@@ -21,8 +21,6 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult OpenRecord(int? lType, string date)
         {
-
-        
             //if (lType != null)
             //{
             //    Session["OpenRecordlType"] = lType;
@@ -31,7 +29,6 @@ namespace C8.Lottery.Portal.Controllers
             //{
             //    lType = (int)Session["OpenRecordlType"];
             //}
-
             ViewBag.lType = lType;
             ViewBag.lotteryTypeName = Util.GetLotteryTypeName((int)lType);
 
@@ -39,7 +36,8 @@ namespace C8.Lottery.Portal.Controllers
             string sql = "";
             string time1 = "";
             string time2 = "";
-
+            string Iddate = date;
+            List<LotteryRecord> list = new List<LotteryRecord>();
             if (lType >= 9)
             {
                 //date
@@ -95,7 +93,7 @@ namespace C8.Lottery.Portal.Controllers
 
             //查询日期
             ViewBag.queryDate = Util.GetQueryDate(lType??0);
-            List<LotteryRecord> list = new List<LotteryRecord>();
+
             if (lType == 5)
             {
                 list = CacheHelper.GetCache<List<LotteryRecord>>("6cairecords");
@@ -115,7 +113,33 @@ namespace C8.Lottery.Portal.Controllers
             }
             else
             {
-                list = Util.ReaderToList<LotteryRecord>(sql);
+                if (string.IsNullOrEmpty(Iddate))
+                {
+                    if (lType < 9 && lType!=5)
+                    {
+                        list = CacheHelper.GetCache<List<LotteryRecord>>("HotLotteryRecords"+lType);
+                        if (list == null)
+                        {
+                            list = Util.ReaderToList<LotteryRecord>(sql);
+                            CacheHelper.AddCache<List<LotteryRecord>>("HotLotteryRecords"+lType, list, 1440);
+
+                        }
+
+                    }else if (lType >= 9)
+                    {
+                        list = CacheHelper.GetCache<List<LotteryRecord>>("HighLotteryRecords"+lType);
+                        if (list == null)
+                        {
+                            list = Util.ReaderToList<LotteryRecord>(sql);
+                            CacheHelper.AddCache<List<LotteryRecord>>("HighLotteryRecords"+lType, list, 4);
+
+                        }
+                    }
+                }else
+                {
+                    list = Util.ReaderToList<LotteryRecord>(sql);
+                }
+               
             }
 
 
