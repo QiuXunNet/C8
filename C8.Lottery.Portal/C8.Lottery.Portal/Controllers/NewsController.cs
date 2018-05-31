@@ -593,7 +593,7 @@ ORDER BY SortCode desc,Id DESC";
                                          and DeleteMark=0 and EnabledMark=1 
                                          order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
                 recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
-                CacheHelper.AddCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId), recGalleryList, 60);
+                CacheHelper.AddCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId), recGalleryList, 120);
             }
             ViewBag.RecommendGalleryList = recGalleryList;
 

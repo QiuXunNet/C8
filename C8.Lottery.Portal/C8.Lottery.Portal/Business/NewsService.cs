@@ -33,7 +33,7 @@ namespace C8.Lottery.Portal.Business
                      new SqlParameter("@ntype",ntype)
                 };
                 object result = SqlHelper.ExecuteScalar(sql, paras);
-                if (result != null) seoInfo = Convert.ToString(result); CacheHelper.AddCache<string>(string.Format("SEOINFO_{0}_{1}", id, ntype), seoInfo);
+                if (result != null) seoInfo = Convert.ToString(result); CacheHelper.AddCache<string>(string.Format("SEOINFO_{0}_{1}", id, ntype), seoInfo, 24 * 60 * 30);
             }
             return seoInfo.Contains("&*&") ? seoInfo.Split(new string[] { "&*&" }, StringSplitOptions.RemoveEmptyEntries) : new string[4];
         }
