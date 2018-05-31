@@ -104,7 +104,7 @@
             @foreach (var article in recArticle)
             {
                 <div class="hjc_news_content">
-                    @if (article.ThumbList.Count < 1 || article.ThumbStyle == 0)
+                    @if (article.ThumbList==null || article.ThumbList.Count < 1 || article.ThumbStyle == 0)
                     {
                         //无图
                         <a href="/News/NewsDetail/@article.Id">
