@@ -19,6 +19,7 @@
     });
 });
 
+
 function getChildLotteryType(pId) {
     if ($.trim($("#mainUl2" + pId).html()).length != 0) return;
     $("#kongbaiDiv").show();
