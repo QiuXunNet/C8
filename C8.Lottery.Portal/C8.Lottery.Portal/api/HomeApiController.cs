@@ -74,7 +74,7 @@ namespace C8.Lottery.Portal.api
                 }
                 else
                 {
-                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 3);
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 10*60);
                 }
             }
             else
