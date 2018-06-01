@@ -1243,6 +1243,7 @@ where b.UserId=" + bettingRecord.UserId + " and a.[Type]=" + (int)TransactionTyp
         public ActionResult ExpertSearch(int id)
         {
             int MyUserId = UserHelper.GetByUserId();
+            //TODO:// 缓存2小时
             string strsql = @"select top 5 UserId,lType,isnull(u.Name, '') as Name,(select top 1 PlayName from [dbo].[IntegralRule] where lType=e.lType) as PlayName,isnull(r.RPath, '') as Avater,(select count(1)  from [dbo].[Follow] where UserId=@MyUserId and [Followed_UserId]=e.UserId and Status=1) isFollow 
 from ExpertHotSearch e
 left join UserInfo u    on e.UserId = u.Id
