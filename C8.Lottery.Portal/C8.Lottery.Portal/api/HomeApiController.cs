@@ -16,7 +16,7 @@ namespace C8.Lottery.Portal.api
         /// </summary>
         /// <param name="pId"></param>
         /// <returns></returns>
-        public string  GetChildLotteryType(int pId)
+        public string GetChildLotteryType(int pId)
         {
             string sql = "";
 
@@ -47,15 +47,7 @@ namespace C8.Lottery.Portal.api
             var newList = new List<LotteryRecordToJson>();
             List<LotteryRecordToJson> rmcList = null;
 
-            //如果是热门彩
-            if (pId == 1)
-            {
-                rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite");
-            }
-            else
-            {
-                rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInGpcToWebSite"+ pId);
-            }
+            rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId);
 
             if (rmcList == null)
             {
@@ -78,11 +70,11 @@ namespace C8.Lottery.Portal.api
                 //如果是热门彩，则写入缓存
                 if (pId == 1)
                 {
-                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInRmcToWebSite", newList, 24 * 60);
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 24 * 60);
                 }
                 else
                 {
-                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetChildLotteryTypeInGpcToWebSite" + pId, newList,3);
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 3);
                 }
             }
             else
