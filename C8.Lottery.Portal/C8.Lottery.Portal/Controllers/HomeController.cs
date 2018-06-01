@@ -1041,7 +1041,9 @@ namespace C8.Lottery.Portal.Controllers
                     string msgcode = ValidateSmsCode(mobile, 1, vcode);
                     if (msgcode == "200")
                     {
-                        Session["Mobile"] = mobile;
+                        //Session["Mobile"] = mobile;
+                        Response.Cookies["Mobile"].Value = mobile;
+                        Response.Cookies["Mobile"].Expires = DateTime.Now.AddMinutes(10);
                         jsonmsg.Success = true;
                         jsonmsg.Msg = "ok";
                     }
@@ -1071,8 +1073,16 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetPassword()
         {
-            string Mobile =Convert.ToString(Session["Mobile"]);
-            if (string.IsNullOrEmpty(Mobile))
+            //string Mobile =Convert.ToString(Session["Mobile"]);
+            HttpCookie cookies = Request.Cookies["Mobile"];
+            string Mobile = string.Empty;
+            if (cookies != null)
+            {
+                 Mobile = Request.Cookies["Mobile"].Value;
+            }
+            
+
+            if (string.IsNullOrEmpty(Mobile) || cookies==null)
             {
                 return RedirectToAction("Forget");
             }
@@ -1090,7 +1100,8 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult SetPw(string password)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
-            string Mobile = Convert.ToString(Session["Mobile"]);
+            //string Mobile = Convert.ToString(Session["Mobile"]);
+            string Mobile = Request.Cookies["Mobile"].Value;
             if (!string.IsNullOrEmpty(Mobile))
             {
                 try
@@ -1123,8 +1134,13 @@ namespace C8.Lottery.Portal.Controllers
                                 jsonmsg.Msg = "fail";
 
                             }
-                            Session.Remove("Mobile");
-
+                            HttpCookie cookies = Request.Cookies["Mobile"];
+                            if (cookies != null)
+                            {
+                                cookies.Expires = DateTime.Now.AddDays(-1);
+                                Response.Cookies.Add(cookies);
+                            }
+                            //Session.Remove("Mobile");
                             //CacheHelper.DeleteCache("Mobile");
 
                         }
