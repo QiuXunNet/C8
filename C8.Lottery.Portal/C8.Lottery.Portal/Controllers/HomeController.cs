@@ -1078,7 +1078,7 @@ namespace C8.Lottery.Portal.Controllers
             string Mobile = string.Empty;
             if (cookies != null)
             {
-                 Mobile = Request.Cookies["Mobile"].Value;
+                 Mobile = cookies.Value;
             }
             
 
