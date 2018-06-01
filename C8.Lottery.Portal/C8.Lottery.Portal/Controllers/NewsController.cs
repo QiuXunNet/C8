@@ -607,10 +607,11 @@ ORDER BY SortCode desc,Id DESC";
             var ids = CacheHelper.GetCache<string>("SavePageViewNewsIdsWebSite");
             if (string.IsNullOrEmpty(ids))
                 ids = ",";
-            ids += id + ",";
-            CacheHelper.SetCache<string>("SavePageViewNewsIdsWebSite", ids,DateTime.Now.AddDays(30));
+            if (ids.IndexOf("," + id + ",") == -1)
+                ids += id + ",";
+            CacheHelper.SetCache<string>("SavePageViewNewsIdsWebSite", ids, DateTime.Now.AddDays(30));
 
-            var pageView = CacheHelper.GetCache<PageView>("SavePageViewWebSite_1_"+ id);
+            var pageView = CacheHelper.GetCache<PageView>("SavePageViewWebSite_1_" + id);
 
             if (pageView == null)
             {
@@ -623,10 +624,10 @@ ORDER BY SortCode desc,Id DESC";
             }
             else
             {
-                pageView.ViewTotal = pageView.ViewTotal +1;
+                pageView.ViewTotal = pageView.ViewTotal + 1;
             }
 
-            CacheHelper.SetCache<PageView>("SavePageViewWebSite_1_"+ id, pageView, DateTime.Now.AddDays(10));
+            CacheHelper.SetCache<PageView>("SavePageViewWebSite_1_" + id, pageView, DateTime.Now.AddDays(10));
         }
 
         /// <summary>
