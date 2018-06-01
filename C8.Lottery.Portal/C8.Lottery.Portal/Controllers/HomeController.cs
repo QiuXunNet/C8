@@ -1042,8 +1042,9 @@ namespace C8.Lottery.Portal.Controllers
                     if (msgcode == "200")
                     {
                         //Session["Mobile"] = mobile;
-                        Response.Cookies["Mobile"].Value = mobile;
-                        Response.Cookies["Mobile"].Expires = DateTime.Now.AddMinutes(10);
+                        HttpCookie cookies = Response.Cookies["Mobile"];
+                        cookies.Value = mobile;
+                        cookies.Expires = DateTime.Now.AddMinutes(10);
                         jsonmsg.Success = true;
                         jsonmsg.Msg = "ok";
                     }
@@ -1075,14 +1076,14 @@ namespace C8.Lottery.Portal.Controllers
         {
             //string Mobile =Convert.ToString(Session["Mobile"]);
             HttpCookie cookies = Request.Cookies["Mobile"];
-            string Mobile = string.Empty;
+            string mobile = string.Empty;
             if (cookies != null)
             {
-                 Mobile = cookies.Value;
+                mobile = cookies.Value;
             }
             
 
-            if (string.IsNullOrEmpty(Mobile) || cookies==null)
+            if (string.IsNullOrEmpty(mobile) || cookies==null)
             {
                 return RedirectToAction("Forget");
             }
@@ -1101,8 +1102,8 @@ namespace C8.Lottery.Portal.Controllers
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
             //string Mobile = Convert.ToString(Session["Mobile"]);
-            string Mobile = Request.Cookies["Mobile"].Value;
-            if (!string.IsNullOrEmpty(Mobile))
+            string mobile = Request.Cookies["Mobile"].Value;
+            if (!string.IsNullOrEmpty(mobile))
             {
                 try
                 {
@@ -1119,7 +1120,7 @@ namespace C8.Lottery.Portal.Controllers
                             password = Tool.GetMD5(password);
                             string usersql = "update UserInfo set[Password] = @Password where Mobile=@Mobile";
                             SqlParameter[] sp = new SqlParameter[] {
-                    new SqlParameter("@Mobile",Mobile),
+                    new SqlParameter("@Mobile",mobile),
                     new SqlParameter("@Password",password)
                 };
                             int data = SqlHelper.ExecuteNonQuery(usersql, sp);
