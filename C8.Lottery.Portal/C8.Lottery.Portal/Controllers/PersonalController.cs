@@ -297,7 +297,16 @@ namespace C8.Lottery.Portal.Controllers
             HttpCookie cookies = Request.Cookies["UserId"];
             if (cookies != null)
             {
-                HttpContext.Response.Cookies["UserId"].Expires = DateTime.Now.AddDays(-1);
+                string webdomain = ConfigurationManager.AppSettings["WebDomain"];
+                string debug = ConfigurationManager.AppSettings["debug"];
+                if (debug == "0")
+                {
+
+                    cookies.Domain  = webdomain;
+                }
+                cookies.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(cookies);
+
 
             }
 
@@ -665,12 +674,14 @@ where RowNumber BETWEEN @Start AND @End ";
             }
             else
             {
+                string countsql = string.Format("select count(1) from Follow where Followed_UserId={0}  {1} and Status=1 ", userId, Tool.GetTimeWhere("FollowTime", type));
+                int number = Convert.ToInt32(SqlHelper.ExecuteScalar(countsql));
                 my = new FansBangListModel();
 
                 my.HeadPath = u.Headpath;
                 my.Name = u.Name;
                 my.Rank = 0;
-                my.Number = 0;
+                my.Number =number;
                 my.Followed_UserId = userId;
             }
 
