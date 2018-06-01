@@ -760,7 +760,7 @@ from (
                     GetLastBettingRecord(x, 10);
                 });
 
-                CacheHelper.AddCache(memcacheKey, list, 120);
+                CacheHelper.AddCache(memcacheKey, list, 240);
             }
 
 

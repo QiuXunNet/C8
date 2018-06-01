@@ -80,6 +80,7 @@
     <Compile Include="Plan.cs" />
     <Compile Include="Play.cs" />
     <Compile Include="RankingList.cs" />
+    <Compile Include="SmsSendLog.cs" />
     <Compile Include="Talk\BlackListView.cs" />
     <Compile Include="Talk\ChatRoom.cs" />
     <Compile Include="Talk\ProcessingRecords.cs" />

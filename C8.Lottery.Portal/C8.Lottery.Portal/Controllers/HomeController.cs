@@ -261,12 +261,28 @@ namespace C8.Lottery.Portal.Controllers
                 //随机生成短信验证码    
                 string code = SmsSender.GetVCode();
                 // 短信验证码存入session(session的默认失效时间30分钟) 
-                Session.Add("code", code);
-                Session["CodeTime"] = DateTime.Now;//存入时间一起存到Session里
+                //Session.Add("code", code);
+                //Session["CodeTime"] = DateTime.Now;//存入时间一起存到Session里
                 // 短信内容+随机生成的6位短信验证码              
                 // 单个手机号发送短信  去掉注释可开启短信功能
-                if (SmsSender.SendMsgByTXY("", mobile, code) == 0)
+                int sendResult = SmsSender.SendMsgByTXY("", mobile, code);
+                if (sendResult == 0)
                 {
+                    var sendLog = new SmsSendLog()
+                    {
+                        UserId = 0,
+                        Type = 1,
+                        Code = code,
+                        Count = 1,
+                        Receiver =mobile,
+                        Sender = "",
+                        SendPort = 0,
+                        SendTime = DateTime.Now,
+                        UpdateTime = DateTime.Now,
+                        Status = 1,
+                        SendResult = sendResult
+                    };
+                    AddCode(sendLog);
                     result = true;// 成功    
                 }
                 else
@@ -280,6 +296,88 @@ namespace C8.Lottery.Portal.Controllers
             {
                 throw ex;
             }
+        }
+
+
+
+        /// <summary>
+        /// 插入验证码日志
+        /// </summary>
+        /// <param name="sendlog"></param>
+        public void AddCode(SmsSendLog sendLog)
+        {
+           
+          string sql = string.Format(@"INSERT INTO [dbo].[SmsSendLog]
+          ([UserId],[Sender],[Receiver],[Type],[Code],[Status],[Count],[SendTime],[SendPort],[SendResult],[UpdateTime])
+          VALUES({0},'{1}','{2}',{3},'{4}',{5},{6},GETDATE(),{7},{8},GETDATE())",
+          sendLog.UserId, sendLog.Sender, sendLog.Receiver, sendLog.Type, sendLog.Code,
+          sendLog.Status, sendLog.Status, sendLog.SendPort, sendLog.SendResult);
+            try
+            {
+                SqlHelper.ExecuteNonQuery(sql);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+           
+
+
+        }
+        /// <summary>
+        /// 更新消息日志
+        /// </summary>
+        /// <param name="dto"></param>
+        public void UpdateMsgLog(SmsSendLog dto)
+        {
+            string sql = @"UPDATE dbo.SmsSendLog SET Count=@Count,[Status]=@Status,UpdateTime=GETDATE()
+    WHERE Id=@Id";
+            var paramters = new[]
+             {
+                new SqlParameter("@Count",dto.Count),
+                new SqlParameter("@Status",dto.Status),
+                new SqlParameter("@Id",dto.Id),
+            };
+
+            SqlHelper.ExecuteNonQuery(sql, paramters);
+        }
+
+        public string ValidateSmsCode(string Phone,int Type,string Code)
+        {
+            string msgcode = "200";
+            //查询十分钟内未使用的验证码
+            string sql = @"SELECT Id,UserId,Receiver,Type,Code,Count,[Status] FROM dbo.SmsSendLog
+    WHERE [Status]=1 AND SendTime > @SendTime AND Receiver=@Receiver AND Type=@Type ORDER BY Id DESC";
+
+            var sinceTime = DateTime.Now.AddMinutes(-10);
+            var paramters = new[]
+            {
+                new SqlParameter("@SendTime",sinceTime),
+                new SqlParameter("@Receiver",Phone),
+                new SqlParameter("@Type",Type),
+            };
+
+            var list = Util.ReaderToList<SmsSendLog>(sql, paramters);
+
+            var valid = list.Any(x => x.Code == Code);
+            if (valid)
+            {
+                list.ForEach(x =>
+                {
+                    x.Count++;
+                    x.Status = (!valid && x.Count < 5) ? 2 : 3;
+                    UpdateMsgLog(x);
+                });
+            }
+            
+
+            if (!valid)
+            {
+                msgcode = "验证码错误，请重新输入";
+            }
+            return msgcode;
+
         }
 
 
@@ -351,25 +449,16 @@ namespace C8.Lottery.Portal.Controllers
                         }
                         else
                         {
-                            if (Session["code"] != null && Session["CodeTime"] != null)
+                            string msgcode = ValidateSmsCode(mobile, 1, vcode);
+
+                            if (msgcode == "200")
                             {
-                                string code = Session["code"].ToString();
-                                DateTime time = (DateTime)Session["CodeTime"];
-
-                                if (vcode != code || time.AddSeconds(60) < DateTime.Now)
-                                {
-                                    jsonmsg.Success = false;
-                                    jsonmsg.Msg = "短信验证码输入不正确";
-
-                                }
-                                else
-                                {
-                                    password = Tool.GetMD5(password);
-                                    string ip = Tool.GetIP();
-                                    string regsql = @"
+                                password = Tool.GetMD5(password);
+                                string ip = Tool.GetIP();
+                                string regsql = @"
   insert into UserInfo(UserName, Name, Password, Mobile, Coin, Money, Integral, SubTime, LastLoginTime, State,Pid,RegisterIP)
   values(@UserName, @Name, @Password, @Mobile, 0,0, 0, getdate(), getdate(), 0,@Pid,@RegisterIP);select @@identity ";
-                                    SqlParameter[] regsp = new SqlParameter[] {
+                                SqlParameter[] regsp = new SqlParameter[] {
                     new SqlParameter("@UserName",mobile),
                      new SqlParameter("@Name",name),
                     new SqlParameter("@Password",password),
@@ -378,125 +467,121 @@ namespace C8.Lottery.Portal.Controllers
                     new SqlParameter("@RegisterIP",ip)
 
                  };
-                                    int data = Convert.ToInt32(SqlHelper.ExecuteScalar(regsql, regsp));
-                                    if (data > 0)
+                                int data = Convert.ToInt32(SqlHelper.ExecuteScalar(regsql, regsp));
+                                if (data > 0)
+                                {
+                                    #region 如果是外链过来的，则增加注册数
+                                    var linkCode = Session["LinkCode"];
+                                    if (linkCode != null)
                                     {
-                                        #region 如果是外链过来的，则增加注册数
-                                        var linkCode = Session["LinkCode"];
-                                        if (linkCode != null)
-                                        {
-                                            var friendLinkList = Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 and Code=@Code", new SqlParameter("@Code", linkCode.ToString()));
-                                            var friendLink = friendLinkList.FirstOrDefault();
+                                        var friendLinkList = Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 and Code=@Code", new SqlParameter("@Code", linkCode.ToString()));
+                                        var friendLink = friendLinkList.FirstOrDefault();
 
-                                            string visitRecordSql = "select count(*) from dbo.LinkVisitRecord where RefId=@RefId and SubTime=@Date and [Type]=1";
-                                            //添加
-                                            var sqlParameter = new[]
-                                            {
+                                        string visitRecordSql = "select count(*) from dbo.LinkVisitRecord where RefId=@RefId and SubTime=@Date and [Type]=1";
+                                        //添加
+                                        var sqlParameter = new[]
+                                        {
                                                 new SqlParameter("@RefId",friendLink.Id),
                                                 new SqlParameter("@Date",DateTime.Today),
                                             };
-                                            var count = Convert.ToInt32(SqlHelper.ExecuteScalar(visitRecordSql, sqlParameter));
+                                        var count = Convert.ToInt32(SqlHelper.ExecuteScalar(visitRecordSql, sqlParameter));
 
-                                            if (count == 0)
-                                            {
-                                                //新增
-                                                string insertRecordSql = string.Format(
-                                                        @"insert into dbo.LinkVisitRecord (RefId,ClickCount,UV,IP,PV,RegCount,Type,SubTime)
+                                        if (count == 0)
+                                        {
+                                            //新增
+                                            string insertRecordSql = string.Format(
+                                                    @"insert into dbo.LinkVisitRecord (RefId,ClickCount,UV,IP,PV,RegCount,Type,SubTime)
                                                         values({0},0,0,0,0,1,1,'{1}')", friendLink.Id, DateTime.Today);
 
-                                                SqlHelper.ExecuteScalar(insertRecordSql);
-                                            }
-                                            else
-                                            {
-                                                //修改
-                                                string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set RegCount+=1 where RefId={0} and SubTime = '{1}' and [Type]=1 ", friendLink.Id, DateTime.Today);
-                                                SqlHelper.ExecuteScalar(updateRecordSql);
-                                            }
-
+                                            SqlHelper.ExecuteScalar(insertRecordSql);
                                         }
-                                        #endregion
-
-                                        jsonmsg.Success = true;
-                                        jsonmsg.Msg = "ok";
-                                        string guid = Guid.NewGuid().ToString();
-                                        Response.Cookies["UserId"].Value = guid;
-                                        Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
-                                        //CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
-                                        CacheHelper.AddCache(guid, data, 30 * 24 * 60);
-                                        Coupon cou = GetCoupon("A0001");//查看劵
-                                        DateTime BeginTime = DateTime.Now;
-                                        DateTime EndTime = DateTime.Now.AddDays(cou.ExpiryDate);
-                                        UserCoupon uc = new UserCoupon();
-                                        uc.UserId = data;
-                                        uc.CouponCode = "A0001";
-                                        uc.PlanId = 0;
-                                        uc.BeginTime = BeginTime;
-                                        uc.EndTime = EndTime;
-                                        uc.FromType = 1;
-                                        uc.State = 1;
-                                        AddUserCoupon(uc);
-                                        if (inviteid > 0)
+                                        else
                                         {
-                                            UserInfo invite = GetByid(inviteid);
-                                            if (invite != null)
-                                            {
-                                                hufen(data, inviteid);//邀请注册默认互粉
-                                                int mynum = GetNum(3);
-                                                AddCoin(data, mynum);//受邀自己得3级奖励
-                                                                     //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
-                                                AddComeOutRecord(data, inviteid.ToString(), 6, mynum, 1);//受邀得奖记录
-                                                int upnum = GetNum(1);
-                                                AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
-                                                UserCoupon uc1 = new UserCoupon();
-                                                uc1.UserId = invite.Id;
-                                                uc1.CouponCode = "A0001";
-                                                uc1.PlanId = 0;
-                                                uc1.BeginTime = BeginTime;
-                                                uc1.EndTime = EndTime;
-                                                uc1.FromType = 2;
-                                                uc1.State = 1;
-                                                AddUserCoupon(uc1);//上级得卡劵
-
-                                                //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
-                                                AddComeOutRecord(inviteid, data.ToString(), 7, upnum, 1);//上级得奖记录
-                                                AddUserTask(inviteid, 105);//上级完成邀请任务额外奖励
-                                                //int CompletedCount = GetCompletedCount(105, inviteid);
-                                                //MakeMoneyTask mt = GetMakeMoneyTaskCount(105);
-
-                                                //if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
-                                                //{
-                                                //    AddComeOutRecord(inviteid, Convert.ToString(105), 8, mt.Coin, 1);
-                                                //}
-
-
-
-                                                UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
-                                                if (super != null)
-                                                {
-                                                    int supernum = GetNum(2);
-                                                    AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
-                                                    AddComeOutRecord(Convert.ToInt32(super.Id), Convert.ToString(inviteid), 7, supernum, data);
-                                                }
-
-                                            }
+                                            //修改
+                                            string updateRecordSql = string.Format(@"update dbo.LinkVisitRecord set RegCount+=1 where RefId={0} and SubTime = '{1}' and [Type]=1 ", friendLink.Id, DateTime.Today);
+                                            SqlHelper.ExecuteScalar(updateRecordSql);
                                         }
 
                                     }
-                                    else
-                                    {
-                                        jsonmsg.Success = false;
-                                        jsonmsg.Msg = "fail";
+                                    #endregion
 
+                                    jsonmsg.Success = true;
+                                    jsonmsg.Msg = "ok";
+                                    string guid = Guid.NewGuid().ToString();
+                                    Response.Cookies["UserId"].Value = guid;
+                                    Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
+                                    //CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
+                                    CacheHelper.AddCache(guid, data, 30 * 24 * 60);
+                                    Coupon cou = GetCoupon("A0001");//查看劵
+                                    DateTime BeginTime = DateTime.Now;
+                                    DateTime EndTime = DateTime.Now.AddDays(cou.ExpiryDate);
+                                    UserCoupon uc = new UserCoupon();
+                                    uc.UserId = data;
+                                    uc.CouponCode = "A0001";
+                                    uc.PlanId = 0;
+                                    uc.BeginTime = BeginTime;
+                                    uc.EndTime = EndTime;
+                                    uc.FromType = 1;
+                                    uc.State = 1;
+                                    AddUserCoupon(uc);
+                                    if (inviteid > 0)
+                                    {
+                                        UserInfo invite = GetByid(inviteid);
+                                        if (invite != null)
+                                        {
+                                            hufen(data, inviteid);//邀请注册默认互粉
+                                            int mynum = GetNum(3);
+                                            AddCoin(data, mynum);//受邀自己得3级奖励
+                                                                 //AddCoinRecord(2, data, inviteid, mynum);//受邀得奖记录
+                                            AddComeOutRecord(data, inviteid.ToString(), 6, mynum, 1);//受邀得奖记录
+                                            int upnum = GetNum(1);
+                                            AddCoin(Convert.ToInt32(invite.Id), upnum);//上级得奖
+                                            UserCoupon uc1 = new UserCoupon();
+                                            uc1.UserId = invite.Id;
+                                            uc1.CouponCode = "A0001";
+                                            uc1.PlanId = 0;
+                                            uc1.BeginTime = BeginTime;
+                                            uc1.EndTime = EndTime;
+                                            uc1.FromType = 2;
+                                            uc1.State = 1;
+                                            AddUserCoupon(uc1);//上级得卡劵
+
+                                            //AddCoinRecord(1, inviteid, data, upnum);//上级得奖记录
+                                            AddComeOutRecord(inviteid, data.ToString(), 7, upnum, 1);//上级得奖记录
+                                            AddUserTask(inviteid, 105);//上级完成邀请任务额外奖励
+                                                                       //int CompletedCount = GetCompletedCount(105, inviteid);
+                                                                       //MakeMoneyTask mt = GetMakeMoneyTaskCount(105);
+
+                                            //if (CompletedCount == mt.Count)//上级完成邀请任务额外奖励
+                                            //{
+                                            //    AddComeOutRecord(inviteid, Convert.ToString(105), 8, mt.Coin, 1);
+                                            //}
+
+
+
+                                            UserInfo super = GetByid(Convert.ToInt32(invite.Pid));//上上级
+                                            if (super != null)
+                                            {
+                                                int supernum = GetNum(2);
+                                                AddCoin(Convert.ToInt32(super.Id), supernum);//上上级得奖
+                                                AddComeOutRecord(Convert.ToInt32(super.Id), Convert.ToString(inviteid), 7, supernum, data);
+                                            }
+
+                                        }
                                     }
 
                                 }
-                            }
-                            else
+                                else
+                                {
+                                    jsonmsg.Success = false;
+                                    jsonmsg.Msg = "fail";
+
+                                }
+                            }else
                             {
                                 jsonmsg.Success = false;
-                                jsonmsg.Msg = "请重新获取验证码";
-
-                            }
+                                jsonmsg.Msg = msgcode;
+                            }                           
                         }
                     }
 
@@ -888,9 +973,6 @@ namespace C8.Lottery.Portal.Controllers
                             CacheHelper.AddCache(guid, user.Id, 30 * 24 * 60);
 
 
-
-
-
                             jsonmsg.Success = true;
                             jsonmsg.Msg = "ok";
                             string ip = Tool.GetIP();
@@ -955,32 +1037,20 @@ namespace C8.Lottery.Portal.Controllers
                 }
                 else
                 {
-                    if (Session["code"] != null && Session["CodeTime"] != null)
+
+                    string msgcode = ValidateSmsCode(mobile, 1, vcode);
+                    if (msgcode == "200")
                     {
-                        string code = Session["code"].ToString();
-                        DateTime time = (DateTime)Session["CodeTime"];
-
-
-                        if (vcode != code || time.AddSeconds(60) < DateTime.Now)
-                        {
-                            jsonmsg.Success = false;
-                            jsonmsg.Msg = "短信验证码输入不正确";
-
-                        }
-                        else
-                        {
-                            //Session["Mobile"] = mobile;
-                           
-                            CacheHelper.AddCache("Mobile", mobile, 5);
-                            jsonmsg.Success = true;
-                            jsonmsg.Msg = "ok";
-                        }
+                        Session["Mobile"] = mobile;
+                        jsonmsg.Success = true;
+                        jsonmsg.Msg = "ok";
                     }
                     else
                     {
                         jsonmsg.Success = false;
-                        jsonmsg.Msg = "请重新获取验证码";
+                        jsonmsg.Msg = msgcode;
                     }
+                   
                 }
             }
             catch (Exception e)
@@ -1001,7 +1071,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult SetPassword()
         {
-            string Mobile = CacheHelper.GetCache<string>("Mobile");
+            string Mobile =Convert.ToString(Session["Mobile"]);
             if (string.IsNullOrEmpty(Mobile))
             {
                 return RedirectToAction("Forget");
@@ -1020,7 +1090,7 @@ namespace C8.Lottery.Portal.Controllers
         public ActionResult SetPw(string password)
         {
             ReturnMessageJson jsonmsg = new ReturnMessageJson();
-            string Mobile = CacheHelper.GetCache<string>("Mobile");
+            string Mobile = Convert.ToString(Session["Mobile"]);
             if (!string.IsNullOrEmpty(Mobile))
             {
                 try
@@ -1053,9 +1123,9 @@ namespace C8.Lottery.Portal.Controllers
                                 jsonmsg.Msg = "fail";
 
                             }
-                            //Session.Remove("Mobile");
+                            Session.Remove("Mobile");
 
-                            CacheHelper.DeleteCache("Mobile");
+                            //CacheHelper.DeleteCache("Mobile");
 
                         }
                     }
