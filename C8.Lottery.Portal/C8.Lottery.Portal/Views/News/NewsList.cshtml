@@ -405,7 +405,7 @@
         }
 
         <div class="hjc_news_content">
-            @if (newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
+            @if (newse.ThumbList==null || newse.ThumbList.Count < 1 || newse.ThumbStyle == 0)
             {
                 //无图
                 <a href="/News/NewsDetail/@newse.Id">
