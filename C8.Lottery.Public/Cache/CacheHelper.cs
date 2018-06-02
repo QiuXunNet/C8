@@ -143,6 +143,18 @@ namespace C8.Lottery.Public
         }
 
         /// <summary>
+        /// 判断key是否存在
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        public static bool IsSet(string cacheKey)
+        {
+            lock (lockHelper)
+            {
+                return cs.IsSet(GetCacheKey(cacheKey));
+            }
+        }
+
+        /// <summary>
         /// 清除所有缓存
         /// </summary>
         public static void FlushAll()
