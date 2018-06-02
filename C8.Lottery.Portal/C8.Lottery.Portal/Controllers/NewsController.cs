@@ -576,7 +576,7 @@ ORDER BY SortCode desc,Id DESC";
             };
 
             //查询新闻栏目信息
-            var newstype = base.GetNewsTypeList(model.TypeId);  // Util.GetEntityById<NewsType>((int)model.TypeId);
+            var newstype = Util.GetEntityById<NewsType>((int)model.TypeId);
             ViewBag.NewsType = newstype;
             //查询当前图库所有期信息
             var galleryList = GetGalleries(news.Id, news.FullHead, (int)model.TypeId);
