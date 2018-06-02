@@ -258,9 +258,9 @@ namespace C8.Lottery.Portal.Business
 
         internal List<Advertisement> GetAdvertisementList(int typeId, int adType)
         {
-            LogHelper.WriteInfoLog(string.Format("资讯列表广告走缓存开始:newsadlist_{0}_{1}", typeId, 0));
+            LogHelper.WriteInfoLog(string.Format("广告走缓存开始:newsadlist_{0}_{1}", typeId, 0));
             List<Advertisement> list= CacheHelper.GetCache<List<Advertisement>>("z_adlistpc");
-            LogHelper.WriteInfoLog(string.Format("资讯列表广告走缓存结束:newsadlist_{0}_{1}，是否有数据：{2}", typeId, 0, list != null));
+            LogHelper.WriteInfoLog(string.Format("广告走缓存结束:newsadlist_{0}_{1}，是否有数据：{2}", typeId, 0, list != null));
             if (list == null)
             {
                 string sql = @"SELECT  * ,

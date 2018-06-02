@@ -320,12 +320,13 @@ namespace C8.Lottery.Portal.Controllers
 
             try
             {
-                List<Advertisement> list = GetAdvertisementList(location, adtype);
-                int adimgtype = (int)ResourceTypeEnum.广告图;
-                list.ForEach(j =>
-                {
-                    j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
-                });
+                //List<Advertisement> list = GetAdvertisementList(location, adtype);
+                //int adimgtype = (int)ResourceTypeEnum.广告图;
+                //list.ForEach(j =>
+                //{
+                //    j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
+                //});
+                List<Advertisement> list = _newsservice.GetAdvertisementList(location, adtype);
                 msg.Success = true;
                 msg.data = list;
             }
