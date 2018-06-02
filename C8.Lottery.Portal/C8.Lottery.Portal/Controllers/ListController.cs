@@ -348,6 +348,7 @@ order by Money desc,NickName asc
 
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@ResourceType", (int)ResourceTypeEnum.用户头像) };
                 list = Util.ReaderToList<RankIntegralModel>(strsql, sp);
+           
                 CacheHelper.SetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType, list, DateTime.Parse("23:59:59"));
             }
 
