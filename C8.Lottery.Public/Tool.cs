@@ -78,7 +78,6 @@ namespace C8.Lottery.Public
         /// <returns></returns>
         public static string GetCityId()
         {
-            return "0";
             string ishttps = ConfigurationManager.AppSettings["ishttps"];
             string city = GetByIPCity(ishttps);
             string i = "0";

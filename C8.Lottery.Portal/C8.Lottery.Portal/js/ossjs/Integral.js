@@ -7,6 +7,13 @@
     });
 });
 
+function praseStrEmpty(str){
+    if(!str || str=="undefined" || str=="null"){
+        return "";
+    }
+    return str;
+}
+
 function getlist(queryType) {
     $.get("/List/GetIntegralList", {
         queryType: queryType
@@ -35,10 +42,10 @@ function buildHtml(data, queryType) {
     $.each(data, function (index, value) {
         if (queryType == "all") {
             if (value.Rank <= 3) {
-                tr2 = "" + '<td class="' + sortByRank(value.Rank) + '" width="33%" align="center" valign="middle">' + ' <div class="Ranking_Blogotu2">' + ' <div class="Ranking_B2tu"> ' + '<a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? "/images/default_avater.png" : value.Avater) + '"></a>' + " </div>" + ' <img src="' + gettop3img(value.Rank) + '" class="Ranking_PHtu">' + " </div>" + ' <h3 class="Ranking_name"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + "</a></h3>" + '<span class="Ds_money Jf_money">' + value.Score + "</span>" + "</td>";
+                tr2 = "" + '<td class="' + sortByRank(value.Rank) + '" width="33%" align="center" valign="middle">' + ' <div class="Ranking_Blogotu2">' + ' <div class="Ranking_B2tu"> ' + '<a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (praseStrEmpty(value.Avater)==''  ? "/images/default_avater.png" : value.Avater) + '"></a>' + " </div>" + ' <img src="' + gettop3img(value.Rank) + '" class="Ranking_PHtu">' + " </div>" + ' <h3 class="Ranking_name"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + "</a></h3>" + '<span class="Ds_money Jf_money">' + value.Score + "</span>" + "</td>";
                 html2.push(tr2);
             } else {
-                tr = '<tr><td align="center" valign="middle"> <p>' + value.Rank + "</p></td>" + '<td width="15%" align="center" valign="middle">' + ' <div class="Ranking_Blogotu">' + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? "/images/default_avater.png" : value.Avater) + '"></a>  </div>' + '   </td> <td align="left" valign="middle">' + '   <p class="' + GetYsfont(value.Rank) + '"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + "</a></p>" + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + "</span></td>" + " </tr> ";
+                tr = '<tr><td align="center" valign="middle"> <p>' + value.Rank + "</p></td>" + '<td width="15%" align="center" valign="middle">' + ' <div class="Ranking_Blogotu">' + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (praseStrEmpty(value.Avater)== '' ? "/images/default_avater.png" : value.Avater) + '"></a>  </div>' + '   </td> <td align="left" valign="middle">' + '   <p class="' + GetYsfont(value.Rank) + '"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + "</a></p>" + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + "</span></td>" + " </tr> ";
             }
         } else {
             var tdrank = '<td align="center" valign="middle"> <p>' + value.Rank + "</p></td>";
