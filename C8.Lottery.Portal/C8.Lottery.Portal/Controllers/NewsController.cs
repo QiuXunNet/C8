@@ -272,8 +272,9 @@ namespace C8.Lottery.Portal.Controllers
 
             ViewBag.AdList = _newsservice.GetAdvertisementList(typeId, 1);
             ViewBag.PageIndex = pageIndex;
+            LogHelper.WriteInfoLog(string.Format("资讯列表广告IP查询开始"));
             ViewBag.CityId = Tool.GetCityId();
-
+            LogHelper.WriteInfoLog(string.Format("资讯列表广告IP查询结束，结果:{0}", ViewBag.CityId));
             ViewBag.SiteSetting = GetSiteSetting();
 
             return PartialView("NewsList");

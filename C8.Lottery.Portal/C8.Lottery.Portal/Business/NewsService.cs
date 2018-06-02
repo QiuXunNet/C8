@@ -205,7 +205,7 @@ namespace C8.Lottery.Portal.Business
         {
             LogHelper.WriteInfoLog(string.Format("资讯列表走缓存开始:newslist_{0}_{1}", typeId, pageIndex));
             List<NewNews> list = CacheHelper.GetCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex));
-            LogHelper.WriteInfoLog(string.Format("资讯列表走缓存结束:newslist_{0}_{1}", typeId, pageIndex));
+            LogHelper.WriteInfoLog(string.Format("资讯列表走缓存结束:newslist_{0}_{1}，是否有数据：{2}", typeId, pageIndex, list != null));
             if (list == null || list.Count <= 0)
             {
                 string sql = @"SELECT  * ,
@@ -258,8 +258,10 @@ namespace C8.Lottery.Portal.Business
 
         internal List<Advertisement> GetAdvertisementList(int typeId, int adType)
         {
+            LogHelper.WriteInfoLog(string.Format("资讯列表广告走缓存开始:newsadlist_{0}_{1}", typeId, 0));
             List<Advertisement> list= CacheHelper.GetCache<List<Advertisement>>("z_adlistpc");
-            if (list == null || list.Count <= 0)
+            LogHelper.WriteInfoLog(string.Format("资讯列表广告走缓存结束:newsadlist_{0}_{1}，是否有数据：{2}", typeId, 0, list != null));
+            if (list == null)
             {
                 string sql = @"SELECT  * ,
                                     STUFF((SELECT  ',' + RPath
