@@ -52,7 +52,7 @@ function buildHtml(data, queryType) {
             if (value.Rank <= 3) {
                 tdrank = '<td width="10%" align="center" valign="middle"><img src="' + gettop3img(value.Rank) + '" class="Ranking_Btu"></td>';
             }
-            tr = "<tr>" + tdrank + '<td width="15%" align="center" valign="middle">' + ' <div class="Ranking_Blogotu">' + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (value.Avater == null ? "/images/default_avater.png" : value.Avater) + '"></a>  </div>' + '   </td> <td align="left" valign="middle">' + '   <p class="' + GetYsfont(value.Rank) + '"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + "</a></p>" + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + "</span></td>" + " </tr> ";
+            tr = "<tr>" + tdrank + '<td width="15%" align="center" valign="middle">' + ' <div class="Ranking_Blogotu">' + '  <a href="/Personal/UserCenter/' + value.UserId + '"><img src="' + (praseStrEmpty(value.Avater) == '' ? "/images/default_avater.png" : value.Avater) + '"></a>  </div>' + '   </td> <td align="left" valign="middle">' + '   <p class="' + GetYsfont(value.Rank) + '"><a href="/Personal/UserCenter/' + value.UserId + '">' + value.NickName + "</a></p>" + ' </td> <td width="25%" align="center" valign="middle"><span class="Ds_money Jf_money">' + value.Score + "</span></td>" + " </tr> ";
         }
         html.push(tr);
     });
