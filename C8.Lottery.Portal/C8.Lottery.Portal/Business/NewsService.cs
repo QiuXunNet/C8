@@ -248,13 +248,13 @@ namespace C8.Lottery.Portal.Business
                 parameters[2].Value = pageSize * pageIndex;
                 list = Util.ReaderToList<Business.BusinessData.NewNews>(sql, parameters) ?? new List<Business.BusinessData.NewNews>();
 
-                list.ForEach(x =>
-                            {
-                                x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
-                            });
+                
                 CacheHelper.AddCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex), list, (24 * 90));
             }
-
+            list.ForEach(x =>
+            {
+                x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
+            });
             return list;
         }
 
