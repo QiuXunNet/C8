@@ -24,7 +24,7 @@ namespace C8.Lottery.Portal.Business
         {
             string seoInfo = CacheHelper.GetCache<string>(string.Format("SEOINFO_{0}_{1}", id, ntype));
             if (string.IsNullOrWhiteSpace(seoInfo))
-            { 
+            {
                 string sql = "";
                 if (ntype != 0) sql = "SELECT a.SeoSubject+'&*&'+a.SeoKeyword+'&*&'+a.SeoDescription+'&*&'+b.TypeName FROM dbo.NewsType AS a LEFT JOIN dbo.LotteryType AS b ON a.lType=b.Id WHERE a.lType=@id AND a.Id=@ntype";
                 else sql = "SELECT SeoSubject+'&*&'+SeoKeyword+'&*&'+SeoDescription+'&*&'+TypeName FROM dbo.LotteryType WHERE Id=@id";
@@ -59,7 +59,7 @@ namespace C8.Lottery.Portal.Business
             return list;
         }
 
-        internal Dictionary<string,string> GetLastBetInfo(int lType)
+        internal Dictionary<string, string> GetLastBetInfo(int lType)
         {
             string sql = "";
             if (lType == 5) //如果是六合彩，则查询六合彩专用表
@@ -247,12 +247,14 @@ namespace C8.Lottery.Portal.Business
                 parameters[1].Value = (pageIndex - 1) * pageSize + 1;
                 parameters[2].Value = pageSize * pageIndex;
                 list = Util.ReaderToList<Business.BusinessData.NewNews>(sql, parameters) ?? new List<Business.BusinessData.NewNews>();
-                //CacheHelper.AddCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex), list, (24 * 90));
+
+                list.ForEach(x =>
+                            {
+                                x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
+                            });
+                CacheHelper.AddCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex), list, (24 * 90));
             }
-            list.ForEach(x =>
-            {
-                x.ThumbList = !(string.IsNullOrWhiteSpace(x.ThumbListStr)) ? x.ThumbListStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
-            });
+
             return list;
         }
 
@@ -280,6 +282,8 @@ namespace C8.Lottery.Portal.Business
                                     )
                                     AND CHARINDEX(',1,', ',' + [Where] + ',') > 0";
                 list = Util.ReaderToList<Advertisement>(sql) ?? new List<Advertisement>();
+
+
                 CacheHelper.AddCache<List<Advertisement>>("z_adlistpc", list, (24 * 60 * 3));
             }
             var searchList = list.Where(p => ("," + p.Location + ",").Contains(("," + typeId + ","))).ToList();
