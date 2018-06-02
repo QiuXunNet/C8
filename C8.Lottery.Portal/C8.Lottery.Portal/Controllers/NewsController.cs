@@ -325,6 +325,8 @@ namespace C8.Lottery.Portal.Controllers
                 {
                     j.ThumbList = GetResources(adimgtype, j.Id).Select(z => z.RPath).ToList();
                 });
+
+
                 msg.Success = true;
                 msg.data = list;
             }
