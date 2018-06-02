@@ -87,5 +87,10 @@ namespace QX.Common.Cache.WebCache
                 _cache.Remove(p);
             });
         }
+
+        public List<string> GetKeysByPattern(string pattern)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
