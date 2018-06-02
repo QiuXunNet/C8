@@ -332,7 +332,7 @@ order by Money desc,NickName asc
         {
             List<RankIntegralModel> list;
             list = CacheHelper.GetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType);
-
+            list = null;
             if (list == null)
             {
                 string strsql = string.Format(@"
