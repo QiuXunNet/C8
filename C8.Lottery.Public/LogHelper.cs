@@ -22,5 +22,10 @@ namespace C8.Lottery.Public
         {
             Loger.Error(message);
         }
+
+        public static void WriteInfoLog(string message)
+        {
+            Loger.Info(message);
+        }
     }
 }

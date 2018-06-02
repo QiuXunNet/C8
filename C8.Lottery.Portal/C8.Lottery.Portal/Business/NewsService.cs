@@ -203,7 +203,9 @@ namespace C8.Lottery.Portal.Business
 
         internal List<NewNews> GetNewList(int typeId, int pageIndex, int pageSize)
         {
+            LogHelper.WriteInfoLog(string.Format("资讯列表走缓存开始:newslist_{0}_{1}", typeId, pageIndex));
             List<NewNews> list = CacheHelper.GetCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex));
+            LogHelper.WriteInfoLog(string.Format("资讯列表走缓存结束:newslist_{0}_{1}", typeId, pageIndex));
             if (list == null || list.Count <= 0)
             {
                 string sql = @"SELECT  * ,
