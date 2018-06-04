@@ -26,14 +26,14 @@ namespace C8.Lottery.Portal.Controllers
 
             if (bo == "true")
             {
-
-                List<FriendLink> list = CacheHelper.GetCache<List<FriendLink>>("FriendshipLinksControllerFriendLinkList");
+                string cachekey = "friendshipLinks:list:all";
+                List<FriendLink> list = CacheHelper.GetCache<List<FriendLink>>(cachekey);
 
                 if (list == null)
                 {
                     list = Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 ");
 
-                    CacheHelper.AddCache("FriendshipLinksControllerFriendLinkList", list, 2*60);
+                    CacheHelper.AddCache(cachekey, list, 2*60);
                 }
 
                 var friendLink = list.FirstOrDefault();
@@ -49,16 +49,16 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         url = "https://" + url;
                     }
-
-                    var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerLink" + id);
+                    string cachekeys = "friendshipLinks:link:" + id;
+                    var obj = CacheHelper.GetCache<int>(cachekeys);
                     if (obj == default(int))
                     {
-                        CacheHelper.AddCache("FriendshipLinksControllerLink" + id, 1);
+                        CacheHelper.AddCache(cachekeys, 1);
                     }
                     else
                     {
-                        var uvNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerLink" + id));
-                        CacheHelper.SetCache("FriendshipLinksControllerLink" + id, uvNum + 1);
+                        var uvNum = Convert.ToInt32(CacheHelper.GetCache<int>(cachekeys));
+                        CacheHelper.SetCache(cachekeys, uvNum + 1);
                     }
                 }
             }

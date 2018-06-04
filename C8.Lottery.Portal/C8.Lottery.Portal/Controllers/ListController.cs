@@ -193,8 +193,9 @@ namespace C8.Lottery.Portal.Controllers
         public JsonResult GetRankMoneyList(string queryType, int RType, int lType)
         {
             List<RankMonyModel> list;
-            list = CacheHelper.GetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType);
-
+            string cachekey = "rank:moneylist:website:" + lType + ":" + queryType + "_" + RType;
+            //list = CacheHelper.GetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType);
+            list = CacheHelper.GetCache<List<RankMonyModel>>(cachekey);
             if (list == null)
             {
                 string strsql = string.Format(@"select top 100  row_number() over(order by sum(Money) desc  )as Rank,sum(Money)as Money,lType,UserId,NickName,Avater from
@@ -218,7 +219,8 @@ namespace C8.Lottery.Portal.Controllers
 
                 list = Util.ReaderToList<RankMonyModel>(strsql, sp);
 
-                CacheHelper.SetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType, list, DateTime.Parse("23:59:59"));
+                //CacheHelper.SetCache<List<RankMonyModel>>("GetRankMoneyListWebSite" + queryType + RType + lType, list, DateTime.Parse("23:59:59"));
+                CacheHelper.SetCache<List<RankMonyModel>>(cachekey, list, DateTime.Parse("23:59:59"));
             }
 
             int UserId = UserHelper.GetByUserId();
@@ -331,7 +333,9 @@ order by Money desc,NickName asc
         public JsonResult GetIntegralList(string queryType)
         {
             List<RankIntegralModel> list;
-            list = CacheHelper.GetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType);
+            string cachekey = "rank:integrallist:website:" + queryType;
+            //list = CacheHelper.GetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType);
+            list = CacheHelper.GetCache<List<RankIntegralModel>>(cachekey);
             list = null;
             if (list == null)
             {
@@ -349,7 +353,8 @@ order by Money desc,NickName asc
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@ResourceType", (int)ResourceTypeEnum.用户头像) };
                 list = Util.ReaderToList<RankIntegralModel>(strsql, sp);
            
-                CacheHelper.SetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType, list, DateTime.Parse("23:59:59"));
+                //CacheHelper.SetCache<List<RankIntegralModel>>("GetIntegralListWebSite" + queryType, list, DateTime.Parse("23:59:59"));
+                CacheHelper.SetCache<List<RankIntegralModel>>(cachekey, list, DateTime.Parse("23:59:59"));
             }
 
             ReturnMessageJson msgjson = new ReturnMessageJson();
@@ -408,7 +413,8 @@ order by Money desc,NickName asc
         {
 
             DateTime today = DateTime.Today;
-            string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
+            //string memberKey = "superior_" + lType + "_total_" + today.ToString("yyyyMMdd");
+            string memberKey = "rank:superior:" + lType + ":total:" + today.ToString("yyyyMMdd");
 
             // var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
@@ -447,7 +453,8 @@ order by Money desc,NickName asc
             DateTime endTime = today.GetMonthStart();
             DateTime beginTime = endTime.AddMonths(-1);
 
-            string memberKey = "superior_" + lType + "_month_" + beginTime.Month;
+            //string memberKey = "superior_" + lType + "_month_" + beginTime.Month;
+            string memberKey = "rank:superior:" + lType + ":month:" + beginTime.Month;
 
             //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
@@ -489,7 +496,8 @@ order by Money desc,NickName asc
             DateTime beginTime = today.GetWeekStart().AddDays(-7);
             DateTime endTime = beginTime.AddDays(7);
 
-            string memberKey = "superior_" + lType + "_week_" + beginTime.GetWeekOfYear();
+            //string memberKey = "superior_" + lType + "_week_" + beginTime.GetWeekOfYear();
+            string memberKey = "rank:superior:" + lType + ":week:" + beginTime.GetWeekOfYear();
 
             //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
@@ -528,7 +536,7 @@ order by Money desc,NickName asc
         private List<RankingList> GetSuperiorListDay(int lType, DateTime nowDate)
         {
             string date = nowDate.AddDays(-1).ToString("yyyy-MM-dd");
-            string memberKey = "superior_" + lType + "_day_" + nowDate.ToString("yyyyMMdd");
+            string memberKey = "rank:superior:" + lType + ":day:" + nowDate.ToString("yyyyMMdd");
 
             //var list = MemClientFactory.GetCache<List<RankingList>>(memberKey);
             var list = CacheHelper.GetCache<List<RankingList>>(memberKey);
