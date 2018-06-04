@@ -38,7 +38,8 @@ namespace C8.Lottery.Portal.Controllers
         protected SiteSetting GetSiteSetting()
         {
             //var setting = MemClientFactory.GetCache<SiteSetting>("base_site_setting");
-            var setting = CacheHelper.GetCache<SiteSetting>("base_site_setting");
+            string cachekey = "base:site_setting:site";
+            var setting = CacheHelper.GetCache<SiteSetting>(cachekey);
 
             if (setting == null)
             {
@@ -46,7 +47,7 @@ namespace C8.Lottery.Portal.Controllers
                 setting = Util.ReaderToList<SiteSetting>(sql).FirstOrDefault();
                 if (setting != null)
                     // MemClientFactory.WriteCache("base_site_setting", setting, 60 * 24);
-                    CacheHelper.AddCache("base_site_setting", setting, 60 * 24 * 1000);
+                    CacheHelper.AddCache(cachekey, setting, 60 * 24 * 1000);
             }
             return setting ?? new SiteSetting();
         }
@@ -59,12 +60,13 @@ namespace C8.Lottery.Portal.Controllers
         {
 
             // IList<LotteryType> list = MemClientFactory.GetCache<IList<LotteryType>>("base_lottery_type");
-            IList<LotteryType> list = CacheHelper.GetCache<IList<LotteryType>>("base_lottery_type");
+            string cachekey = "base:lottery_type:type";
+            IList<LotteryType> list = CacheHelper.GetCache<IList<LotteryType>>(cachekey);
             if (list == null)
             {
                 list = Util.GetEntityAll<LotteryType>().OrderBy(x => x.SortCode).ToList();
                 //MemClientFactory.WriteCache("base_lottery_type", list);
-                CacheHelper.AddCache("base_lottery_type", list);
+                CacheHelper.AddCache(cachekey, list);
                 return list;
             }
             else
@@ -81,7 +83,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         protected IList<NewsType> GetNewsTypeList(long ltype, int layer = 1)
         {
-            string memKey = "base_news_type_" + ltype;
+            string memKey = "base:news_type:" + ltype;
             // IList<NewsType> list = MemClientFactory.GetCache<IList<NewsType>>(memKey);
             IList<NewsType> list = CacheHelper.GetCache<IList<NewsType>>(memKey);
 
@@ -124,7 +126,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         protected IList<Gallery> GetGalleries(long newsId, string newsTitle, int lType)
         {
-            string memKey = "base_gallery_id_" + newsId;
+            string memKey = "base:gallery_id:" + newsId;
             //var list = MemClientFactory.GetCache<IList<Gallery>>(memKey);
             var list = CacheHelper.GetCache<IList<Gallery>>(memKey);
 
@@ -158,7 +160,7 @@ order by a.LotteryNumber desc";
         /// <returns></returns>
         protected IList<Play> GetPlayNames(int ltype)
         {
-            string memKey = "base_play_name_" + ltype;
+            string memKey = "base:play_name:" + ltype;
 
             //var list = MemClientFactory.GetCache<IList<Play>>(memKey);
             var list = CacheHelper.GetCache<IList<Play>>(memKey);
@@ -182,7 +184,7 @@ order by a.LotteryNumber desc";
         /// <returns></returns>
         protected IList<LotteryCharge> GetLotteryCharge()
         {
-            string memKey = "base_lottery_charge_settings";
+            string memKey = "base:lottery_charge_settings:set";
             //var list = MemClientFactory.GetCache<IList<LotteryCharge>>(memKey);
             var list = CacheHelper.GetCache<IList<LotteryCharge>>(memKey);
             if (list != null && list.Any()) return list;
@@ -206,7 +208,7 @@ order by a.LotteryNumber desc";
         /// <returns></returns>
         protected IList<CommissionSetting> GetCommissionSetting()
         {
-            string memKey = "base_commission_settings";
+            string memKey = "base:commission_settings:set";
             // var list = MemClientFactory.GetCache<IList<CommissionSetting>>(memKey);
             var list = CacheHelper.GetCache<IList<CommissionSetting>>(memKey);
             if (list == null || list.Count < 1)
