@@ -116,7 +116,7 @@ namespace C8.Lottery.Portal.Controllers
             int totalSize = (pageSize + 1) * count;
 
             //低频彩
-            string memcacheKey = string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
+            string memcacheKey = string.Format("plan:recommend:list:{0}:{1}", lType, pageIndex); //string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
             
             if (planList == null)
@@ -135,7 +135,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //2.取最新10期开奖号
-            string memcacheKey2 = string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
+            string memcacheKey2 = string.Format("plan:recommend:lotteryRecord:{0}:{1}", lType, pageIndex); //string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
             var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
             
             if (lotteryRecordList == null)
@@ -699,7 +699,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
             pager.PageIndex = pageIndex;
             pager.PageSize = pageSize;
 
-            string memcacheKey = string.Format("expertList_{0}_{1}_{2}", lType, playNameId, type);
+            string memcacheKey = string.Format("plan:expert:list:{0}:{1}:{2}", type, lType, playNameId); //string.Format("expertList_{0}_{1}_{2}", lType, playNameId, type);
             var list = CacheHelper.GetCache<List<Expert>>(memcacheKey);
 
             if (list == null)
@@ -1258,7 +1258,7 @@ order by e.Count desc";
             List<ExpertSearchModel> list = Util.ReaderToList<ExpertSearchModel>(strsql, sp);
             ViewBag.HotList = list;
             ViewBag.lType = id;
-            string memberKey = "history_" + MyUserId + "_" + id;
+            string memberKey = "plan:expert:history:" + id + ":" + MyUserId; //"history_" + MyUserId + "_" + id;
             //ViewBag.historyList = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
             ViewBag.historyList = CacheHelper.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
             return View();
@@ -1299,7 +1299,7 @@ order by e.Count desc";
                     List<ExpertSearchModel> list = new List<ExpertSearchModel>();
 
                     int MyUserId = UserHelper.GetByUserId();
-                    string memberKey = "history_" + MyUserId + "_" + lType;
+                    string memberKey = "plan:expert:history:" + lType + ":" + MyUserId;//"history_" + MyUserId + "_" + lType;
                     // list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
                     list = CacheHelper.GetCache<List<ExpertSearchModel>>(memberKey) ?? new List<ExpertSearchModel>();
 
@@ -1359,7 +1359,7 @@ order by e.Count desc";
             try
             {
                 int MyUserId = UserHelper.GetByUserId();
-                string memberKey = "history_" + MyUserId + "_" + lType;
+                string memberKey = "plan:expert:history:" + lType + ":" + MyUserId; //"history_" + MyUserId + "_" + lType;
                 //List<ExpertSearchModel> list = MemClientFactory.GetCache<List<ExpertSearchModel>>(memberKey);
                 List<ExpertSearchModel> list = CacheHelper.GetCache<List<ExpertSearchModel>>(memberKey);
                 if (uid > 0)

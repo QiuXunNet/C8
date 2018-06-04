@@ -645,8 +645,9 @@ where RowNumber BETWEEN @Start AND @End ";
         public ActionResult FansBangList(string type)
         {
             List<FansBangListModel> list;
-            list = CacheHelper.GetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type);
-
+            string cachekey = "rank:fans:" + type;
+            //list = CacheHelper.GetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type);
+            list = CacheHelper.GetCache<List<FansBangListModel>>(cachekey);
             if (list == null)
             {
                 string strsql = string.Format(@"select top 100 row_number() over(order by count(1) desc) as Rank, count(1)as Number,Followed_UserId,Name,RPath as HeadPath
@@ -660,7 +661,8 @@ where RowNumber BETWEEN @Start AND @End ";
                 SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@ResourceType", (int)ResourceTypeEnum.用户头像) };
                 list = Util.ReaderToList<FansBangListModel>(strsql, sp);
 
-                CacheHelper.SetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type, list, DateTime.Parse("23:59:59"));
+                //CacheHelper.SetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type, list, DateTime.Parse("23:59:59"));
+                CacheHelper.SetCache<List<FansBangListModel>>(cachekey, list, DateTime.Parse("23:59:59"));
             }
 
             int userId = UserHelper.GetByUserId();
