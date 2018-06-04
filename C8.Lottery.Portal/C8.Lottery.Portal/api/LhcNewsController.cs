@@ -17,13 +17,16 @@ namespace C8.Lottery.Portal.api
         /// <returns></returns>
         public string GetLhcLotteryRecord()
         {
-            LotteryRecrdToLhc model = CacheHelper.GetCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1");
+            string cachekey = "home:child_lottery_type:5:lhc";
+            //LotteryRecrdToLhc model = CacheHelper.GetCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1");
+            LotteryRecrdToLhc model = CacheHelper.GetCache<LotteryRecrdToLhc>(cachekey);
             if (model == null)
             {
                 string sql = "select top(1) Issue,Num from LotteryRecordToLhc";
                 model = Util.ReaderToModel<LotteryRecrdToLhc>(sql);
 
-                CacheHelper.AddCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1", model,24*60);
+                //CacheHelper.AddCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1", model,24*60);
+                CacheHelper.AddCache<LotteryRecrdToLhc>(cachekey, model, 24 * 60);
             }
 
             string time = LotteryTime.GetTime("5");
