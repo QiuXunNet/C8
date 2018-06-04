@@ -11,7 +11,7 @@ namespace C8.Lottery.Portal.Controllers
 {
     public class PvUvIpController : BaseController
     {
-        
+
         string interfaceUrl = ConfigurationManager.AppSettings["InterfaceUrl"];
         /// <summary>
         /// 部分页
@@ -29,7 +29,7 @@ namespace C8.Lottery.Portal.Controllers
             Add(type, linkCode);
         }
 
-        public void AddIp(string linkCode, string type,string ip)
+        public void AddIp(string linkCode, string type, string ip)
         {
             Add(type, linkCode, ip);
         }
@@ -48,11 +48,12 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == "ip")
                 {
                     var endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-
-                   // var ipsObj = CacheHelper.GetCache<string>("FriendshipLinksControllerIpList" + linkCode);
+                    string cachekeyip = "friendshipLinks:IP: " + linkCode + ":" + ip;
+                    // var ipsObj = CacheHelper.GetCache<string>("FriendshipLinksControllerIpList" + linkCode);
                     //var ips = ipsObj == null ? "" : ipsObj.ToString();
                     //if (string.IsNullOrEmpty(ips) || ips.IndexOf("," + ip + ",") == -1)
-                    if (!CacheHelper.IsSet("IP:" + linkCode + ":FriendshipLinksControllerIp" + ip))
+                    //if (!CacheHelper.IsSet("IP:" + linkCode + ":FriendshipLinksControllerIp" + ip))
+                    if (!CacheHelper.IsSet(cachekeyip))
                     {
                         //if (string.IsNullOrEmpty(ips))
                         //{
@@ -62,18 +63,23 @@ namespace C8.Lottery.Portal.Controllers
                         //{
                         //    CacheHelper.SetCache("FriendshipLinksControllerIpList" + linkCode, ips + ip + ",", endDate);
                         //}
-                        CacheHelper.SetCache("IP:" + linkCode + ":FriendshipLinksControllerIp" + ip, "1", endDate);
+                        CacheHelper.SetCache(cachekeyip, "1", endDate);
 
                         #region 向缓存中增加IP数
-                        var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerIp" + linkCode);
+                        string cacheklinkcode = "friendshipLinks:link_ip:" + linkCode;
+                        //var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerIp" + linkCode);
+                        var obj = CacheHelper.GetCache<int>(cacheklinkcode);
                         if (obj == default(int))
                         {
-                            CacheHelper.AddCache("FriendshipLinksControllerIp" + linkCode, 1);
+                            //CacheHelper.AddCache("FriendshipLinksControllerIp" + linkCode, 1);
+                            CacheHelper.AddCache(cacheklinkcode, 1);
                         }
                         else
                         {
-                            var ipNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerIp" + linkCode));
-                            CacheHelper.SetCache("FriendshipLinksControllerIp" + linkCode, ipNum + 1);
+                            //var ipNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerIp" + linkCode));
+                            //CacheHelper.SetCache("FriendshipLinksControllerIp" + linkCode, ipNum + 1);
+                            var ipNum = Convert.ToInt32(CacheHelper.GetCache<int>(cacheklinkcode));
+                            CacheHelper.SetCache(cacheklinkcode, ipNum + 1);
                         }
                         #endregion
                     }
