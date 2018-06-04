@@ -52,7 +52,7 @@ namespace C8.Lottery.Portal.Controllers
                    // var ipsObj = CacheHelper.GetCache<string>("FriendshipLinksControllerIpList" + linkCode);
                     //var ips = ipsObj == null ? "" : ipsObj.ToString();
                     //if (string.IsNullOrEmpty(ips) || ips.IndexOf("," + ip + ",") == -1)
-                    if (!CacheHelper.IsSet("IP:FriendshipLinksControllerIp" + linkCode+ip))
+                    if (!CacheHelper.IsSet("IP:" + linkCode + ":FriendshipLinksControllerIp" + ip))
                     {
                         //if (string.IsNullOrEmpty(ips))
                         //{
@@ -62,7 +62,7 @@ namespace C8.Lottery.Portal.Controllers
                         //{
                         //    CacheHelper.SetCache("FriendshipLinksControllerIpList" + linkCode, ips + ip + ",", endDate);
                         //}
-                        CacheHelper.SetCache("IP:FriendshipLinksControllerIp" + linkCode+ip, "1", endDate);
+                        CacheHelper.SetCache("IP:" + linkCode + ":FriendshipLinksControllerIp" + ip, "1", endDate);
 
                         #region 向缓存中增加IP数
                         var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerIp" + linkCode);
