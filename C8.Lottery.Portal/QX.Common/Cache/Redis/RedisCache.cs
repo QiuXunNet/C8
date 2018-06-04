@@ -170,7 +170,7 @@ namespace QX.Common.Cache.Redis
                                 select key).ToList();
 
                 client.RemoveAll(keysToRemove);
-               
+
             }
         }
         /// <summary>
@@ -192,6 +192,24 @@ namespace QX.Common.Cache.Redis
             using (var client = RedisClient)
             {
                 client.RemoveAll(keys);
+            }
+        }
+
+        /// <summary>
+        /// 根据正则表达式匹配所有缓存
+        /// </summary>
+        /// <param name="pattern"></param>
+        public List<string> GetKeysByPattern(string pattern)
+        {
+            using (var client = RedisClient)
+            {
+                var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+                return (from key in client.GetAllKeys()
+                        where regex.IsMatch(key)
+                        select key).ToList();
+
+
             }
         }
     }

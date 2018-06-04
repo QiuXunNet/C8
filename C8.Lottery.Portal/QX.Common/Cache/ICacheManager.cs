@@ -72,5 +72,12 @@ namespace QX.Common.Cache
         /// </summary>
         /// <param name="keys"></param>
         void RemoveList(IEnumerable<string> keys);
+
+        /// <summary>
+        /// 正则匹配Keys
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        List<string> GetKeysByPattern(string pattern);
     }
 }

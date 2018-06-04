@@ -272,9 +272,7 @@ namespace C8.Lottery.Portal.Controllers
 
             ViewBag.AdList = _newsservice.GetAdvertisementList(typeId, 1);
             ViewBag.PageIndex = pageIndex;
-            LogHelper.WriteInfoLog(string.Format("资讯列表广告IP查询开始"));
             ViewBag.CityId = Tool.GetCityId();
-            LogHelper.WriteInfoLog(string.Format("资讯列表广告IP查询结束，结果:{0}", ViewBag.CityId));
             ViewBag.SiteSetting = GetSiteSetting();
 
             return PartialView("NewsList");
@@ -606,12 +604,12 @@ ORDER BY SortCode desc,Id DESC";
 
         public void AddPv(int id)
         {
-            var ids = CacheHelper.GetCache<string>("SavePageViewNewsIdsWebSite");
-            if (string.IsNullOrEmpty(ids))
-                ids = ",";
-            if (ids.IndexOf("," + id + ",") == -1)
-                ids += id + ",";
-            CacheHelper.SetCache<string>("SavePageViewNewsIdsWebSite", ids, DateTime.Now.AddDays(30));
+            //var ids = CacheHelper.GetCache<string>("SavePageViewNewsIdsWebSite");
+            //if (string.IsNullOrEmpty(ids))
+            //    ids = ",";
+            //if (ids.IndexOf("," + id + ",") == -1)
+            //    ids += id + ",";
+            //CacheHelper.SetCache<string>("SavePageViewNewsIdsWebSite", ids, DateTime.Now.AddDays(30));
 
             var pageView = CacheHelper.GetCache<PageView>("SavePageViewWebSite_1_" + id);
 
