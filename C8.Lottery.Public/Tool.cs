@@ -401,7 +401,7 @@ namespace C8.Lottery.Public
         /// <returns></returns>
        public static bool CheckSensitiveWords(string str)
         {
-            string cachekey = "base:sensitive_words:all";
+            string cachekey = RedisKeyConst.Base_SensitiveWords; //"base:sensitive_words:all";
             //string words = CacheHelper.GetCache<string>("SWords");
             string words = CacheHelper.GetCache<string>(cachekey);
             if (string.IsNullOrEmpty(words))

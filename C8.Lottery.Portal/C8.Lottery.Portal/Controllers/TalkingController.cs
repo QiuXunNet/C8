@@ -645,7 +645,7 @@ namespace C8.Lottery.Portal.Controllers
         private string[] GetSensitiveWordsList()
         {
             //屏蔽字一般不会变动，为减少数据库操作，加入2小时缓存
-            string cachekey = "base:sensitive_words:all";
+            string cachekey = RedisKeyConst.Base_SensitiveWords; //"base:sensitive_words:all";
             var str = "";
             //if (CacheHelper.GetCache<string>("GetSensitiveWordsList") == default(string))
             if (CacheHelper.GetCache<string>(cachekey) == default(string))

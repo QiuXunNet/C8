@@ -645,7 +645,7 @@ where RowNumber BETWEEN @Start AND @End ";
         public ActionResult FansBangList(string type)
         {
             List<FansBangListModel> list;
-            string cachekey = "rank:fans:" + type;
+            string cachekey = string.Format(RedisKeyConst.Rank_Fans, type); //"rank:fans:" + type;
             //list = CacheHelper.GetCache<List<FansBangListModel>>("GetFansBangListWebSite" + type);
             list = CacheHelper.GetCache<List<FansBangListModel>>(cachekey);
             if (list == null)

@@ -67,6 +67,26 @@ namespace C8.Lottery.Public
         public const string News_GalleryList = "news:gallery_list:{0}:{1}";
 
         /// <summary>
+        /// 新闻详情推荐阅读
+        /// </summary>
+        public const string News_Recommend = "news:recommend:{0}";
+
+        /// <summary>
+        /// 新闻详情竞猜红人
+        /// </summary>
+        public const string News_GuessGood = "news:guess_good:{0}";
+
+        /// <summary>
+        /// 新闻图库推荐图
+        /// </summary>
+        public const string News_RecommendGallery = "news:gallery_list:recommend:{0}";
+
+        /// <summary>
+        /// 新闻PV
+        /// </summary>
+        public const string News_NewsPV = "news:news_pv:{0}";
+
+        /// <summary>
         /// 网站信息
         /// </summary>
         public const string Base_SiteSetting = "base:site_setting:site";
@@ -102,6 +122,11 @@ namespace C8.Lottery.Public
         public const string Base_CommissionSettings = "base:commission_settings:set";
 
         /// <summary>
+        /// 敏感词
+        /// </summary>
+        public const string Base_SensitiveWords = "base:sensitive_words:all";
+
+        /// <summary>
         /// 安装包,{0}客户端来源
         /// </summary>
         public const string Installationpackage_Sourceversion = "installationpackage:sourceversion:{0}";
@@ -120,5 +145,120 @@ namespace C8.Lottery.Public
         /// 首页新闻
         /// </summary>
         public const string Home_NewsList = "home:news_list:website";
+
+        /// <summary>
+        /// 友链总列表
+        /// </summary>
+        public const string FriendshipLinks_List = "friendshipLinks:list:all";
+
+        /// <summary>
+        /// 友链链接
+        /// </summary>
+        public const string FriendshipLinks_Link = "friendshipLinks:link:{0}";
+
+        /// <summary>
+        /// 友链链接IP
+        /// </summary>
+        public const string FriendshipLinks_LinkIP = "friendshipLinks:IP:{0}:{1}";
+
+        /// <summary>
+        /// 友链链接总IP
+        /// </summary>
+        public const string FriendshipLinks_LinkIPs = "friendshipLinks:link_ip:{0}";
+
+        /// <summary>
+        /// 友链链接总UV
+        /// </summary>
+        public const string FriendshipLinks_LinkUVs = "friendshipLinks:link_uv:{0}";
+
+        /// <summary>
+        /// 友链链接总PV
+        /// </summary>
+        public const string FriendshipLinks_LinkPVs = "friendshipLinks:link_pv:{0}";
+
+        /// <summary>
+        /// 佣金榜
+        /// </summary>
+        public const string Rank_MoneyList = "rank:moneylist:website:{0}:{1}_{2}";
+
+        /// <summary>
+        /// 积分榜
+        /// </summary>
+        public const string Rank_IntegralList = "rank:integrallist:website:{0}";
+
+        /// <summary>
+        /// 高手总榜
+        /// </summary>
+        public const string Rank_SuperiorTotal = "rank:superior:{0}:total:{1}";
+
+        /// <summary>
+        /// 高手月榜
+        /// </summary>
+        public const string Rank_SuperiorMonth = "rank:superior:{0}:month:{1}";
+
+        /// <summary>
+        /// 高手周榜
+        /// </summary>
+        public const string Rank_SuperiorWeek = "rank:superior:{0}:week:{1}";
+
+        /// <summary>
+        /// 高手日榜
+        /// </summary>
+        public const string Rank_SuperiorDay = "rank:superior:{0}:day:{1}";
+
+        /// <summary>
+        /// 粉丝榜
+        /// </summary>
+        public const string Rank_Fans = "rank:fans:{0}";
+
+        /// <summary>
+        /// 精彩评论
+        /// </summary>
+        public const string Comment_Wonderful = "comment:wonderful:{0}:{1}:{2}";
+
+        /// <summary>
+        /// 最新评论
+        /// </summary>
+        public const string Comment_Newest = "comment:newest:{0}:{1}:{2}:{3}";
+
+        /// <summary>
+        /// 评论详情
+        /// </summary>
+        public const string Comment_Detail = "comment:detail:{0}:{1}";
+
+        /// <summary>
+        /// 计划官方推荐列表
+        /// </summary>
+        public const string Plan_RecommendList = "plan:recommend:list:{0}:{1}";
+
+        /// <summary>
+        /// 计划官方推荐十期中奖
+        /// </summary>
+        public const string Plan_RecommendLotteryRecord = "plan:recommend:lotteryRecord:{0}:{1}";
+
+        /// <summary>
+        /// 计划专家列表
+        /// </summary>
+        public const string Plan_ExpertList = "plan:expert:list:{0}:{1}:{2}";
+
+        /// <summary>
+        /// 计划专家热搜
+        /// </summary>
+        public const string Plan_ExpertHistory = "plan:expert:history:{0}:{1}";
+
+        /// <summary>
+        /// 开奖记录
+        /// </summary>
+        public const string Record_List = "record:list:{0}";
+
+        /// <summary>
+        /// 开奖时间
+        /// </summary>
+        public const string LotteryTime_List = "lotteryTime:list:all";
+
+        /// <summary>
+        /// 开奖时间
+        /// </summary>
+        public const string LotteryTime_Type = "lotteryTime:type:{0}";
     }
 }
