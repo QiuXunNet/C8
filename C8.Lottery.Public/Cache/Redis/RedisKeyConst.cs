@@ -114,12 +114,12 @@ namespace C8.Lottery.Public
         /// <summary>
         /// 贴子点阅扣费配置表
         /// </summary>
-        public const string Base_LotteryChargeSettings = "base:lottery_charge_settings:set";
+        public const string Base_LotteryChargeSettings = "base:setting:lottery_charge_settings";
 
         /// <summary>
         /// 分佣配置
         /// </summary>
-        public const string Base_CommissionSettings = "base:commission_settings:set";
+        public const string Base_CommissionSettings = "base:setting:commission_settings";
 
         /// <summary>
         /// 敏感词
