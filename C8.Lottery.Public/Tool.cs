@@ -436,12 +436,14 @@ namespace C8.Lottery.Public
         /// <returns></returns>
        public static bool CheckSensitiveWords(string str)
         {
-
-            string words = CacheHelper.GetCache<string>("SWords");
+            string cachekey = RedisKeyConst.Base_SensitiveWords; //"base:sensitive_words:all";
+            //string words = CacheHelper.GetCache<string>("SWords");
+            string words = CacheHelper.GetCache<string>(cachekey);
             if (string.IsNullOrEmpty(words))
             {
                 words = WebHelper.GetSensitiveWords();
-                CacheHelper.AddCache("SWords", words);
+                //CacheHelper.AddCache("SWords", words);
+                CacheHelper.AddCache(cachekey, words, 24 * 60 * 30);
             }
             //string[] zang = words.Remove(words.Length-1,1).Split(',');
             string[] zang = words.Split(new[] { ',', '，' }, StringSplitOptions.RemoveEmptyEntries);

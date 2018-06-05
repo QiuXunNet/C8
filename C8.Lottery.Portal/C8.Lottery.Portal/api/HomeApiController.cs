@@ -19,15 +19,17 @@ namespace C8.Lottery.Portal.api
         public string GetChildLotteryType(int pId)
         {
             string sql = "";
-
-            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId);
+            string cachekey = string.Format(RedisKeyConst.Home_ChildLotteryType, pId);  //"home:child_lottery_type:" + pId + ":website";
+            //List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId);
+            List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>(cachekey);
             if (list == null)
             {
                 sql = "select * from LotteryType2 where PId = " + pId + " order by Position";
 
                 list = Util.ReaderToList<LotteryType2>(sql);
 
-                CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId, list, 30 * 24 * 60);
+                //CacheHelper.AddCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId, list, 30 * 24 * 60);
+                CacheHelper.AddCache<List<LotteryType2>>(cachekey, list, 30 * 24 * 60);
             }
 
             string lTypes = "";
@@ -47,8 +49,9 @@ namespace C8.Lottery.Portal.api
             var newList = new List<LotteryRecordToJson>();
             List<LotteryRecordToJson> rmcList = null;
 
-            rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId);
-
+            string rmccachekey = string.Format(RedisKeyConst.Home_IndexLotteryList, pId); //"home:index_Lottery_List:" + pId;
+            //rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId);
+            rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>(rmccachekey);
             if (rmcList == null)
             {
                 Util.ReaderToList<LotteryRecord>(sql).ForEach(e =>
@@ -70,11 +73,13 @@ namespace C8.Lottery.Portal.api
                 //如果是热门彩，则写入缓存
                 if (pId == 1)
                 {
-                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 24 * 60);
+                    //CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 24 * 60);
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>(rmccachekey, newList, 24 * 60);
                 }
                 else
                 {
-                    CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 10*60);
+                    //CacheHelper.AddCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId, newList, 10*60);
+                    CacheHelper.AddCache<List<LotteryRecordToJson>>(rmccachekey, newList, 10 * 60);
                 }
             }
             else

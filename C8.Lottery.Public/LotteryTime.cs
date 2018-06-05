@@ -11,9 +11,9 @@ namespace C8.Lottery.Public
     {
         public static List<LotteryTimeModel> GetLotteryTimeList()
         {
-
-            var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
-            
+            string cachekey = RedisKeyConst.LotteryTime_List; //"lotteryTime:list:all";
+            //var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
+            var list = CacheHelper.GetCache<List<LotteryTimeModel>>(cachekey);
             if (list == null || list.Count == 0)
             {
                 list = new List<LotteryTimeModel>();
@@ -41,7 +41,8 @@ namespace C8.Lottery.Public
                     });
                 }
 
-                CacheHelper.AddCache("GetLotteryTimeListss", list, 8 * 60);
+                //CacheHelper.AddCache("GetLotteryTimeListss", list, 8 * 60);
+                CacheHelper.AddCache(cachekey, list, 8 * 60);
             }
 
             return list;
@@ -61,14 +62,16 @@ namespace C8.Lottery.Public
             if (int.Parse(lType) < 9)
             {
                 #region 全国彩
-
-                DateTime target = CacheHelper.GetCache<DateTime>("LotteryTypeLotteryTimeCache"+lType);
+                string cachekey = string.Format(RedisKeyConst.LotteryTime_Type, lType); //"lotteryTime:type:" + lType;
+                //DateTime target = CacheHelper.GetCache<DateTime>("LotteryTypeLotteryTimeCache"+lType);
+                DateTime target = CacheHelper.GetCache<DateTime>(cachekey);
                 if (target == null || target == default(DateTime))
                 {
                     string sql = "select OpenLine from DateLine where lType = " + lType;
                     target = (DateTime)SqlHelper.ExecuteScalar(sql);
 
-                    CacheHelper.AddCache<DateTime>("LotteryTypeLotteryTimeCache" + lType,target, 7*24*60);
+                    //CacheHelper.AddCache<DateTime>("LotteryTypeLotteryTimeCache" + lType,target, 7*24*60);
+                    CacheHelper.AddCache<DateTime>(cachekey, target, 7 * 24 * 60);
                 }                
 
                 if (nowTime > target) return "正在开奖";

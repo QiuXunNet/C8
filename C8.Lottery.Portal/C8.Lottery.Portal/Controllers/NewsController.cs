@@ -466,7 +466,9 @@ ORDER BY SortCode desc,Id DESC";
 
             #region 查询推荐阅读
             //查询推荐阅读
-            List<News> list = CacheHelper.GetCache<List<News>>(("z_newstop3list_" + model.TypeId));
+            string cachekey = string.Format(RedisKeyConst.News_Recommend, model.TypeId); //"news:recommend:" + model.TypeId;
+            //List<News> list = CacheHelper.GetCache<List<News>>(("z_newstop3list_" + model.TypeId));
+            List<News> list = CacheHelper.GetCache<List<News>>(cachekey);
             if (list == null || list.Count <= 0)
             {
                 string recommendArticlesql = @"SELECT TOP 3 [Id],[FullHead],[SortCode],[Thumb],[ReleaseTime],[ThumbStyle],
@@ -488,13 +490,16 @@ ORDER BY SortCode desc,Id DESC";
                     x.ThumbList = GetResources(sourceType, x.Id)
                                     .Select(n => n.RPath).ToList();
                 });
-                CacheHelper.AddCache<List<News>>(("z_newstop3list_" + model.TypeId), list, 120);
+                //CacheHelper.AddCache<List<News>>(("z_newstop3list_" + model.TypeId), list, 120);
+                CacheHelper.AddCache<List<News>>(cachekey, list, 120);
             }
             ViewBag.RecommendArticle = list;
             #endregion
 
             #region 竞猜红人
-            List<RankIntegralModel> ListRankIntegral = CacheHelper.GetCache<List<RankIntegralModel>>(("z_ListRankIntegral_" + newstype.LType));
+            cachekey = string.Format(RedisKeyConst.News_GuessGood, newstype.LType); //"news:guess_good:" + newstype.LType;
+            //List<RankIntegralModel> ListRankIntegral = CacheHelper.GetCache<List<RankIntegralModel>>(("z_ListRankIntegral_" + newstype.LType));
+            List<RankIntegralModel> ListRankIntegral = CacheHelper.GetCache<List<RankIntegralModel>>(cachekey);
             if (ListRankIntegral == null || ListRankIntegral.Count <= 0)
             {
                 string strsql = @"	select  top 10 row_number() over(order by Score DESC ) as [Rank],  * from (
@@ -511,7 +516,8 @@ ORDER BY SortCode desc,Id DESC";
                  new SqlParameter("@ltype",newstype.LType)
                 };
                 ListRankIntegral = Util.ReaderToList<RankIntegralModel>(strsql, sp);
-                CacheHelper.AddCache<List<RankIntegralModel>>(("z_ListRankIntegral_" + newstype.LType), ListRankIntegral, 120);
+                //CacheHelper.AddCache<List<RankIntegralModel>>(("z_ListRankIntegral_" + newstype.LType), ListRankIntegral, 120);
+                CacheHelper.AddCache<List<RankIntegralModel>>(cachekey, ListRankIntegral, 120);
             }
             ViewBag.ListRankIntegral = ListRankIntegral;
 
@@ -583,7 +589,9 @@ ORDER BY SortCode desc,Id DESC";
             ViewBag.GalleryList = galleryList;
 
             //查询推荐图
-            List<Gallery> recGalleryList = CacheHelper.GetCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId));
+            string cachekey = string.Format(RedisKeyConst.News_RecommendGallery, model.TypeId); //"news:gallery_list:recommend:" + model.TypeId;
+            //List<Gallery> recGalleryList = CacheHelper.GetCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId));
+            List<Gallery> recGalleryList = CacheHelper.GetCache<List<Gallery>>(cachekey);
             if (recGalleryList == null || recGalleryList.Count <= 0)
             {
                 string recGallerySql = @" SELECT TOP 10   FullHead as Name, Id,LotteryNumber as Issue 
@@ -593,7 +601,8 @@ ORDER BY SortCode desc,Id DESC";
                                          and DeleteMark=0 and EnabledMark=1 
                                          order by RecommendMark DESC,LotteryNumber DESC,ModifyDate DESC";
                 recGalleryList = Util.ReaderToList<Gallery>(recGallerySql);
-                CacheHelper.AddCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId), recGalleryList, 120);
+                //CacheHelper.AddCache<List<Gallery>>(("z_recGalleryList_" + model.TypeId), recGalleryList, 120);
+                CacheHelper.AddCache<List<Gallery>>(cachekey, recGalleryList, 120);
             }
             ViewBag.RecommendGalleryList = recGalleryList;
 
@@ -610,9 +619,9 @@ ORDER BY SortCode desc,Id DESC";
             //if (ids.IndexOf("," + id + ",") == -1)
             //    ids += id + ",";
             //CacheHelper.SetCache<string>("SavePageViewNewsIdsWebSite", ids, DateTime.Now.AddDays(30));
-
-            var pageView = CacheHelper.GetCache<PageView>("SavePageViewWebSite_1_" + id);
-
+            string cachekey = string.Format(RedisKeyConst.News_NewsPV, id); //"news:news_pv:" + id;
+            //var pageView = CacheHelper.GetCache<PageView>("SavePageViewWebSite_1_" + id);
+            var pageView = CacheHelper.GetCache<PageView>(cachekey);
             if (pageView == null)
             {
                 pageView = new PageView()
@@ -627,7 +636,8 @@ ORDER BY SortCode desc,Id DESC";
                 pageView.ViewTotal = pageView.ViewTotal + 1;
             }
 
-            CacheHelper.SetCache<PageView>("SavePageViewWebSite_1_" + id, pageView, DateTime.Now.AddDays(10));
+            //CacheHelper.SetCache<PageView>("SavePageViewWebSite_1_" + id, pageView, DateTime.Now.AddDays(10));
+            CacheHelper.SetCache<PageView>(cachekey, pageView, DateTime.Now.AddDays(10));
         }
 
         /// <summary>
@@ -640,7 +650,7 @@ ORDER BY SortCode desc,Id DESC";
         [ChildActionOnly]
         public PartialViewResult WonderfulComment(int id, int type = 2, int refUid = 0)
         {
-            string cachekey = string.Format("z_WonderfulComment_{0}_{1}_{2}", id, type, refUid);
+            string cachekey = string.Format(RedisKeyConst.Comment_Wonderful, type, id, refUid);  //string.Format("z_WonderfulComment_{0}_{1}_{2}", id, type, refUid);
             List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
             if (list == null)
             {
@@ -718,7 +728,7 @@ ORDER BY SortCode desc,Id DESC";
         /// <returns></returns>
         public ActionResult CommentList(int id, int type = 2, int refUid = 0)
         {
-            string cachekey = string.Format("z_WonderfulComment_{0}_{1}_{2}", id, type, refUid);
+            string cachekey = string.Format(RedisKeyConst.Comment_Wonderful, type, id, refUid);  //string.Format("z_WonderfulComment_{0}_{1}_{2}", id, type, refUid);
             List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
             if (list == null)
             {
@@ -798,7 +808,7 @@ ORDER BY SortCode desc,Id DESC";
         {
 
             var result = new AjaxResult<PagedList<Comment>>();
-            string cachekey = string.Format("z_LastComment_{0}_{1}_{2}_{3}", id, type, refUid, pageIndex);
+            string cachekey = string.Format(RedisKeyConst.Comment_Newest, type, id, refUid, pageIndex);  //string.Format("z_LastComment_{0}_{1}_{2}_{3}", id, type, refUid, pageIndex);
             List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
             if (list == null)
             {
@@ -850,7 +860,7 @@ ORDER BY SortCode desc,Id DESC";
         /// <returns></returns>
         public ActionResult CommentDetail(int id, int type = 2)
         {
-            string cachekey = string.Format("z_CommentDetail_{0}_{1}", id, type);
+            string cachekey = string.Format(RedisKeyConst.Comment_Detail, type, id);//string.Format("z_CommentDetail_{0}_{1}", id, type);
             List<Comment> list = CacheHelper.GetCache<List<Comment>>(cachekey);
             if (list == null)
             {
