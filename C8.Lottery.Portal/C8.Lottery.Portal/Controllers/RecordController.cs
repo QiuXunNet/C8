@@ -96,15 +96,18 @@ namespace C8.Lottery.Portal.Controllers
 
             if (lType == 5)
             {
-                list = CacheHelper.GetCache<List<LotteryRecord>>("6cairecords");
-                
+                string cachekey = "record:list:5";
+                //list = CacheHelper.GetCache<List<LotteryRecord>>("6cairecords");
+                list = CacheHelper.GetCache<List<LotteryRecord>>(cachekey);
+
                 if (list==null)
                 {
                     sql = "select Id, lType, Issue, Num, SubTime from [dbo].[LotteryRecord] where lType=5";
                     list = Util.ReaderToList<LotteryRecord>(sql);
                     
                    
-                    CacheHelper.AddCache("6cairecords", list, 1440);
+                    //CacheHelper.AddCache("6cairecords", list, 1440);
+                    CacheHelper.AddCache(cachekey, list, 1440);
                 }
 
                list = list.Where(x => x.SubTime > Convert.ToDateTime(time1) && x.SubTime < Convert.ToDateTime(time2)).OrderByDescending(x=>x.SubTime).ToList();
@@ -115,24 +118,27 @@ namespace C8.Lottery.Portal.Controllers
             {
                 if (string.IsNullOrEmpty(Iddate))
                 {
+                    string cachekey = "record:list:" + lType;
                     if (lType < 9 && lType!=5)
                     {
-                        list = CacheHelper.GetCache<List<LotteryRecord>>("HotLotteryRecords"+lType);
+                        //list = CacheHelper.GetCache<List<LotteryRecord>>("HotLotteryRecords"+lType);
+                        list = CacheHelper.GetCache<List<LotteryRecord>>(cachekey);
                         if (list == null)
                         {
                             list = Util.ReaderToList<LotteryRecord>(sql);
-                            CacheHelper.AddCache<List<LotteryRecord>>("HotLotteryRecords"+lType, list, 1440);
-
+                            //CacheHelper.AddCache<List<LotteryRecord>>("HotLotteryRecords"+lType, list, 1440);
+                            CacheHelper.AddCache<List<LotteryRecord>>(cachekey, list, 1440);
                         }
 
                     }else if (lType >= 9)
                     {
-                        list = CacheHelper.GetCache<List<LotteryRecord>>("HighLotteryRecords"+lType);
+                        //list = CacheHelper.GetCache<List<LotteryRecord>>("HighLotteryRecords"+lType);
+                        list = CacheHelper.GetCache<List<LotteryRecord>>(cachekey);
                         if (list == null)
                         {
                             list = Util.ReaderToList<LotteryRecord>(sql);
-                            CacheHelper.AddCache<List<LotteryRecord>>("HighLotteryRecords"+lType, list, 4);
-
+                            //CacheHelper.AddCache<List<LotteryRecord>>("HighLotteryRecords"+lType, list, 4);
+                            CacheHelper.AddCache<List<LotteryRecord>>(cachekey, list, 4);
                         }
                     }
                 }else

@@ -645,17 +645,21 @@ namespace C8.Lottery.Portal.Controllers
         private string[] GetSensitiveWordsList()
         {
             //屏蔽字一般不会变动，为减少数据库操作，加入2小时缓存
+            string cachekey = "base:sensitive_words:all";
             var str = "";
-            if (CacheHelper.GetCache<string>("GetSensitiveWordsList") == default(string))
+            //if (CacheHelper.GetCache<string>("GetSensitiveWordsList") == default(string))
+            if (CacheHelper.GetCache<string>(cachekey) == default(string))
             {
                 string sql = " select content from SensitiveWords ";
                 str = Convert.ToString(SqlHelper.ExecuteScalar(sql));
 
-                CacheHelper.AddCache("GetSensitiveWordsList", str, 2*60);
+                //CacheHelper.AddCache("GetSensitiveWordsList", str, 2*60);
+                CacheHelper.AddCache(cachekey, str, 2 * 60);
             }
             else
             {
-                str = CacheHelper.GetCache<string>("GetSensitiveWordsList");
+                //str = CacheHelper.GetCache<string>("GetSensitiveWordsList");
+                str = CacheHelper.GetCache<string>(cachekey);
             }
 
             if (!string.IsNullOrEmpty(str))
