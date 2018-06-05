@@ -41,6 +41,41 @@ namespace C8.Lottery.Public
             return byte2String;
         }
 
+        public static string GetWidth(int i,int numArrCount)
+        {
+            string witdh = "";
+            if (i == 0)
+            {
+                if (numArrCount == 1)
+                {
+                    witdh = "80%";
+                }
+                else if (numArrCount == 2 || numArrCount == 3)
+                {
+                    witdh = "40%";
+                }
+                
+               
+
+
+            }
+            else if (i == 1 || i == 2)
+            {
+                 if (numArrCount == 2)
+                {
+                    witdh = "40%";
+                }
+                else if (numArrCount == 3)
+                {
+                    witdh = "20%";
+                }
+                
+
+
+            }
+            return witdh;
+        }
+
 
 
 

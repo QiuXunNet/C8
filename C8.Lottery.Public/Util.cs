@@ -343,7 +343,209 @@ namespace C8.Lottery.Public
             return result.TrimEnd();
         }
 
+
+
+        public static string HandWinNumColorS(int lType,string num, string openNum, int index,DateTime ?dt)
+        {
+            string[] numArr = num.Split(' ');
+            string[] openArr = openNum.Split(',');
+            int idx = index;
+            if (lType == 2)
+            {
+                if(index==7 || index == 8)
+                {
+                    idx = 6;
+                }
+            }          
+            //重新组装
+            string result = "";
+
+            for (int i = 0; i < numArr.Length; i++)
+            {
+                if (lType == 8)//七乐彩
+                {
+                    if (index == 7 || index == 8 || index == 9)
+                    {
+                        if (Array.IndexOf(openArr, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else
+                    {
+                        result += numArr[i] + " ";
+                    }
+                }else if (lType == 5)//六合彩
+                {
+                    if(index==6 || index == 7)
+                    {
+                        string temp = Util.GetShengxiaoByDigit(Convert.ToInt32(openArr[6]),Convert.ToDateTime(dt));
+                        if (temp == numArr[i])
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else if(index==8 || index == 9)
+                    {
+                        string temp = openArr[6];
+                        if (temp == numArr[i])
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else if (index == 10)
+                    {
+                        if (Array.IndexOf(openArr, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else
+                    {
+                        result += numArr[i] + " ";
+                    }
+
+                }else if(lType==1 || lType == 6)//福彩3D 排列3
+                {
+                    if (index == 5 || index == 6 || index == 7)
+                    {
+                        if (Array.IndexOf(openArr, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    } else if (index == 0 || index == 1 || index == 2)
+                    {
+                        string temp = openArr[idx];
+                        if (temp == numArr[i])
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }
+                    else
+                    {
+                        result += numArr[i] + " ";
+                    }
+                }else if (lType == 4)//超级大乐透
+                {
+                   
+                 
+                    if (index == 0)
+                    {
+                        string[] temp = new string[5];
+                        if (Array.IndexOf(temp, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else if(index== 4)
+                    {
+                        string[] temp = new string[2];
+                        Array.ConstrainedCopy(openArr, 5, temp, 0, 2);
+                       if(Array.IndexOf(temp, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }
+                    else
+                    {
+                        result += numArr[i] + " ";
+                    }
+
+                }else if(lType >= 38 && lType <= 50)
+                {
+                    if(index== 1 || index == 2)
+                    {
+                        if (Array.IndexOf(openArr, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else
+                    {
+                        result += numArr[i] + " ";
+                    }
+                }else if((lType >= 15 && lType <= 37)|| (lType >= 9 && lType <= 14) || (lType >= 60 && lType <= 62)|| (lType >= 51 && lType <= 59))
+                {
+                    if (index < 5)
+                    {
+                        string temp = openArr[idx];
+                        if (temp == numArr[i])
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }else
+                    {
+                        result += numArr[i] + " ";
+                    }
+
+                }else if(lType >= 63 && lType <= 64)
+                {
+                    string temp = openArr[idx];
+                    if (temp == numArr[i])
+                    {
+                        result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                    }
+                    else
+                    {
+                        result += numArr[i] + " ";
+                    }
+                }
+                else 
+                {
+                    string temp = openArr[idx];
+                    if (temp == numArr[i])
+                    {
+                        result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                    }
+                    else
+                    {
+                        result += numArr[i] + " ";
+                    }
+                }
+
+               
+            }
+
+            return result.TrimEnd();
+        }
         //2017-8-29
+
+
+
+
         public static string GetPK10Issue(int lType)            //期号依次递增的彩种
         {
             string sql = "select top(1)Issue from LotteryRecord where lType = " + lType + " order by Issue desc";

@@ -118,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             //低频彩
             string memcacheKey = string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-            
+            planList = null;
             if (planList == null)
             {
                 string sql = "select top " + totalSize +
@@ -137,7 +137,7 @@ namespace C8.Lottery.Portal.Controllers
             //2.取最新10期开奖号
             string memcacheKey2 = string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
             var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
-            
+            lotteryRecordList = null;
             if (lotteryRecordList == null)
             {
                 string pageSql = "select top " + pageSize +

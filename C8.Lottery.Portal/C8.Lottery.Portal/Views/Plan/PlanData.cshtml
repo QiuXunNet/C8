@@ -351,6 +351,8 @@
                                 <td width="40%" align="left">
                                     @if (resultArr[0] == "中")
                                     {
+
+
                                         @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
                                         <font class="Mif_red">(中)</font>
                                     }
@@ -426,7 +428,15 @@
                                     <td width="40%" align="left">
                                         @if (resultArr[0] == "中")
                                         {
-                                            @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
+                                            if (numArr.Count() > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColor(numArr[0], record.Num, count2))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[0]</font>
+                                            }
+
                                             <font class="Mif_red">(中)</font>
                                         }
                                         else
