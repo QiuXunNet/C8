@@ -22,7 +22,7 @@ namespace C8.Lottery.Portal.Business
     {
         internal string[] GetSEOInfo(int id, int ntype)
         {
-            string cachekey = "news:seoinfo:" + id + ":" + ntype;
+            string cachekey = string.Format(RedisKeyConst.News_SeoInfo, id, ntype); //"news:seoinfo:" + id + ":" + ntype;
             //string seoInfo = CacheHelper.GetCache<string>(string.Format("SEOINFO_{0}_{1}", id, ntype));
             string seoInfo = CacheHelper.GetCache<string>(cachekey);
             if (string.IsNullOrWhiteSpace(seoInfo))
@@ -42,7 +42,7 @@ namespace C8.Lottery.Portal.Business
 
         internal List<BusinessData.LotteryType> GetLotteryTypeList()
         {
-            string cachekey = "base:news_ltype_list:all";
+            string cachekey = RedisKeyConst.Base_NewslTypeList; //"base:news_ltype_list:all";
             //List<BusinessData.LotteryType> list = CacheHelper.GetCache<List<BusinessData.LotteryType>>("NEWSLTYPELIST");
             List<BusinessData.LotteryType> list = CacheHelper.GetCache<List<BusinessData.LotteryType>>(cachekey);
             if (list != null && list.Count >= 0) return list;
@@ -55,7 +55,7 @@ namespace C8.Lottery.Portal.Business
 
         internal List<LotteryNewsChannel> GetLotteryNewsChannelList(int lType)
         {
-            string cachekey = "news:channel_list:" + lType;
+            string cachekey = string.Format(RedisKeyConst.News_ChannelList, lType); //"news:channel_list:" + lType;
             //List<LotteryNewsChannel> list = CacheHelper.GetCache<List<LotteryNewsChannel>>(string.Format("NEWSCHANNELLIST_{0}", lType));
             List<LotteryNewsChannel> list = CacheHelper.GetCache<List<LotteryNewsChannel>>(cachekey);
             if (list != null && list.Count >= 0) return list;
@@ -196,7 +196,7 @@ namespace C8.Lottery.Portal.Business
 
         internal NewsType GetNewTypeById(int typeId)
         {
-            string cachekey = "news:channel_list:all";
+            string cachekey = RedisKeyConst.News_ChannelListALL; //"news:channel_list:all";
             //List<NewsType> list = CacheHelper.GetCache<List<NewsType>>("z_allnewstype");
             List<NewsType> list = CacheHelper.GetCache<List<NewsType>>(cachekey);
             NewsType temp = null;
@@ -214,7 +214,7 @@ namespace C8.Lottery.Portal.Business
 
         internal List<NewNews> GetNewList(int typeId, int pageIndex, int pageSize)
         {
-            string cachekey = "news:news_list:" + typeId + ":" + pageIndex;
+            string cachekey = string.Format(RedisKeyConst.News_NewsList, typeId, pageIndex); //"news:news_list:" + typeId + ":" + pageIndex;
             //List<NewNews> list = CacheHelper.GetCache<List<NewNews>>(string.Format("z_newslist_{0}_{1}", typeId, pageIndex));
             List<NewNews> list = CacheHelper.GetCache<List<NewNews>>(cachekey);
             if (list == null || list.Count <= 0)
@@ -272,7 +272,7 @@ namespace C8.Lottery.Portal.Business
 
         internal List<Advertisement> GetAdvertisementList(int typeId, int adType)
         {
-            string cachekey = "news:advertisement:all";
+            string cachekey = RedisKeyConst.News_AdvertisementAll; //"news:advertisement:all";
             //List<Advertisement> list= CacheHelper.GetCache<List<Advertisement>>("z_adlistpc");
             List<Advertisement> list = CacheHelper.GetCache<List<Advertisement>>(cachekey);
             if (list == null)
@@ -313,9 +313,9 @@ namespace C8.Lottery.Portal.Business
 
         internal List<GalleryType> GetGalleryTypeList(long ltype, int newsTypeId)
         {
-            string cachekey = "news:gallery_type_list:" + ltype + ":" + newsTypeId;
+            string cachekey = string.Format(RedisKeyConst.News_GalleryTypeList, ltype, newsTypeId); //"news:gallery_type_list:" + ltype + ":" + newsTypeId;
             //List<GalleryType> list = CacheHelper.GetCache<List<GalleryType>>(string.Format("z_GalleryTypeList_{0}_{1}", ltype, newsTypeId));
-            List<GalleryType> list = CacheHelper.GetCache<List<GalleryType>>(cachekey);
+            List <GalleryType> list = CacheHelper.GetCache<List<GalleryType>>(cachekey);
             if (list == null || list.Count <= 0)
             {
                 string sql = @" SELECT Max(a.Id) as Id, FullHead as Name, right(Max(a.LotteryNumber),3) as LastIssue,isnull(a.QuickQuery,'#') as QuickQuery
@@ -339,7 +339,7 @@ namespace C8.Lottery.Portal.Business
 
         internal List<Gallery> GetGalleryList(long ltype, int newsTypeId)
         {
-            string cachekey = "news:gallery_list:" + ltype + ":" + newsTypeId;
+            string cachekey = string.Format(RedisKeyConst.News_GalleryList, ltype, newsTypeId); //"news:gallery_list:" + ltype + ":" + newsTypeId;
             //List<Gallery> list = CacheHelper.GetCache<List<Gallery>>(string.Format("z_GalleryList_{0}_{1}", ltype, newsTypeId));
             List<Gallery> list = CacheHelper.GetCache<List<Gallery>>(cachekey);
             if (list == null || list.Count <= 0)

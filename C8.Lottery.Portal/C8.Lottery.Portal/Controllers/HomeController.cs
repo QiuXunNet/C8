@@ -36,7 +36,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public ActionResult GetFatherLotteryType()
         {
-            string cachekey = "home:father_lottery_type:website";
+            string cachekey = RedisKeyConst.Home_FatherLotteryType; //"home:father_lottery_type:website";
             List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>(cachekey);
             if (list == null)
             {
@@ -55,7 +55,7 @@ namespace C8.Lottery.Portal.Controllers
         /// <returns></returns>
         public List<News> GetNewList()
         {
-            string cachekey = "home:news_list:website";
+            string cachekey = RedisKeyConst.Home_NewsList;//"home:news_list:website";
             List<News> list = CacheHelper.GetCache<List<News>>(cachekey);
             if (list == null)
             {
@@ -217,7 +217,7 @@ namespace C8.Lottery.Portal.Controllers
         public JsonResult GetDown(int ClientSource)
         {
             ReturnMessageJson msg = new ReturnMessageJson();
-            string cachekey = "installationpackage:sourceversion:" + ClientSource;
+            string cachekey = string.Format(RedisKeyConst.Installationpackage_Sourceversion, ClientSource); //"installationpackage:sourceversion:" + ClientSource;
             List<ClientSourceVersion> list = CacheHelper.GetCache<List<ClientSourceVersion>>(cachekey);
             if (list == null)
             {
@@ -510,7 +510,7 @@ namespace C8.Lottery.Portal.Controllers
 
                                     jsonmsg.Success = true;
                                     jsonmsg.Msg = "ok";
-                                    string guid = Guid.NewGuid().ToString();
+                                    string guid = string.Format(RedisKeyConst.Login_LoginGuid, Guid.NewGuid().ToString());
                                     Response.Cookies["UserId"].Value = guid;
                                     Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
                                     //CacheHelper.SetCache(guid, data, DateTime.Now.AddMonths(1));
@@ -960,7 +960,7 @@ namespace C8.Lottery.Portal.Controllers
                         else
                         {
 
-                            string guid = "login:logon_guid:" + Guid.NewGuid().ToString();
+                            string guid = string.Format(RedisKeyConst.Login_LoginGuid, Guid.NewGuid().ToString()); //"login:logon_guid:" + Guid.NewGuid().ToString();
                             string webdomain = ConfigurationManager.AppSettings["WebDomain"];
                             string debug = ConfigurationManager.AppSettings["debug"];
                             if (debug == "0")

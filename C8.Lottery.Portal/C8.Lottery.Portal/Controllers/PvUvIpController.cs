@@ -48,7 +48,7 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == "ip")
                 {
                     var endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-                    string cachekeyip = "friendshipLinks:IP: " + linkCode + ":" + ip;
+                    string cachekeyip = string.Format(RedisKeyConst.FriendshipLinks_LinkIP, linkCode, ip); //"friendshipLinks:IP: " + linkCode + ":" + ip;
                     // var ipsObj = CacheHelper.GetCache<string>("FriendshipLinksControllerIpList" + linkCode);
                     //var ips = ipsObj == null ? "" : ipsObj.ToString();
                     //if (string.IsNullOrEmpty(ips) || ips.IndexOf("," + ip + ",") == -1)
@@ -66,7 +66,7 @@ namespace C8.Lottery.Portal.Controllers
                         CacheHelper.SetCache(cachekeyip, "1", endDate);
 
                         #region 向缓存中增加IP数
-                        string cacheklinkcode = "friendshipLinks:link_ip:" + linkCode;
+                        string cacheklinkcode = string.Format(RedisKeyConst.FriendshipLinks_LinkIPs, linkCode); //"friendshipLinks:link_ip:" + linkCode;
                         //var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerIp" + linkCode);
                         var obj = CacheHelper.GetCache<int>(cacheklinkcode);
                         if (obj == default(int))
@@ -87,30 +87,40 @@ namespace C8.Lottery.Portal.Controllers
                 if (type == "uv")
                 {
                     #region 向缓存中增加PV数
-                    var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerUv" + linkCode);
+                    string cacheklinkcode = string.Format(RedisKeyConst.FriendshipLinks_LinkUVs, linkCode); //"friendshipLinks:link_uv:" + linkCode;
+                    //var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerUv" + linkCode);
+                    var obj = CacheHelper.GetCache<int>(cacheklinkcode);
                     if (obj == default(int))
                     {
-                        CacheHelper.AddCache("FriendshipLinksControllerUv" + linkCode, 1);
+                        //CacheHelper.AddCache("FriendshipLinksControllerUv" + linkCode, 1);
+                        CacheHelper.AddCache(cacheklinkcode, 1);
                     }
                     else
                     {
-                        var uvNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerUv" + linkCode));
-                        CacheHelper.SetCache("FriendshipLinksControllerUv" + linkCode, uvNum + 1);
+                        //var uvNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerUv" + linkCode));
+                        //CacheHelper.SetCache("FriendshipLinksControllerUv" + linkCode, uvNum + 1);
+                        var uvNum = Convert.ToInt32(CacheHelper.GetCache<int>(cacheklinkcode));
+                        CacheHelper.SetCache(cacheklinkcode, uvNum + 1);
                     }
                     #endregion
                 }
                 if (type == "pv")
                 {
                     #region 向缓存中增加PV数
-                    var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerPv" + linkCode);
+                    string cacheklinkcode = string.Format(RedisKeyConst.FriendshipLinks_LinkPVs, linkCode); //"friendshipLinks:link_pv:" + linkCode;
+                    //var obj = CacheHelper.GetCache<int>("FriendshipLinksControllerPv" + linkCode);
+                    var obj = CacheHelper.GetCache<int>(cacheklinkcode);
                     if (obj == default(int))
                     {
-                        CacheHelper.AddCache("FriendshipLinksControllerPv" + linkCode, 1);
+                        //CacheHelper.AddCache("FriendshipLinksControllerPv" + linkCode, 1);
+                        CacheHelper.AddCache(cacheklinkcode, 1);
                     }
                     else
                     {
-                        var pvNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerPv" + linkCode));
-                        CacheHelper.SetCache("FriendshipLinksControllerPv" + linkCode, pvNum + 1);
+                        //var pvNum = Convert.ToInt32(CacheHelper.GetCache<int>("FriendshipLinksControllerPv" + linkCode));
+                        //CacheHelper.SetCache("FriendshipLinksControllerPv" + linkCode, pvNum + 1);
+                        var pvNum = Convert.ToInt32(CacheHelper.GetCache<int>(cacheklinkcode));
+                        CacheHelper.SetCache(cacheklinkcode, pvNum + 1);
                     }
                     #endregion
                 }
@@ -125,12 +135,15 @@ namespace C8.Lottery.Portal.Controllers
         private FriendLink GetFriendLink(string linkCode)
         {
             List<FriendLink> list = null;
-            var friendLinkList = CacheHelper.GetCache<List<FriendLink>>("FriendshipLinksControllerFriendLinkList");
+            string cachekey = RedisKeyConst.FriendshipLinks_List; //"friendshipLinks:list:all";
+            //var friendLinkList = CacheHelper.GetCache<List<FriendLink>>("FriendshipLinksControllerFriendLinkList");
+            var friendLinkList = CacheHelper.GetCache<List<FriendLink>>(cachekey);
             if (friendLinkList == null)
             {
                 list = Util.ReaderToList<FriendLink>("select * from dbo.FriendLink where [Type]=1 and state = 0 ");
 
-                CacheHelper.SetCache("FriendshipLinksControllerFriendLinkList", list, DateTime.Now.AddHours(2));
+                //CacheHelper.SetCache("FriendshipLinksControllerFriendLinkList", list, DateTime.Now.AddHours(2));
+                CacheHelper.SetCache(cachekey, list, DateTime.Now.AddHours(2));
             }
             else
             {
