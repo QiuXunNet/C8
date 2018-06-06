@@ -65,7 +65,11 @@ function getChildLotteryType(pId) {
             lis += "          <a href='/Record/OpenRecord/?lType=" + this.LType + "' class='UL2_baif3a'>历史</a>";
             lis += "          <a href='/Plan/Post/" + this.LType + "' class='UL2_baif3a'>发帖</a>";
             lis += "          <a href='/Plan/Index/" + this.LType + "?cur=2' class='UL2_baif3a'>排行</a>";
-            lis += "          <a href='/News/NewIndex/" + this.BigLType + "' class='UL2_baif3a'>资讯</a>";
+            if (this.LType == 5) {
+                lis += "          <a href='/lhcNews.html' class='UL2_baif3a'>资讯</a>";
+            } else {
+                lis += "          <a href='/News/NewIndex/" + this.BigLType + "' class='UL2_baif3a'>资讯</a>";
+            }
             lis += "             <div style='clear: both;'></div>";
             lis += "         </div>";
             lis += "     </div>";
