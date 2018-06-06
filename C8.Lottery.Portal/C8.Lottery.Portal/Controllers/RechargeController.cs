@@ -25,6 +25,7 @@ namespace C8.Lottery.Portal.Controllers
     {
         // private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static object _lock = new object();
+        private static string webUrl = ConfigurationManager.AppSettings["WebUrl"];
         [Authentication]
         public ActionResult Index()
         {
@@ -46,13 +47,10 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult GetWxUrl(int amount)
         {
-            var no = GetRandom();// Guid.NewGuid().ToString("N");
-            var redirect_url = HttpUtility.UrlEncode("https://" + HttpContext.Request.Url.Host + "/Personal/TransactionRecord");
+
+            var no = GetRandom();
+            var redirect_url = HttpUtility.UrlEncode(webUrl + "/Personal/TransactionRecord");
             var total = (amount * 100).ToString();
-
-            //LogHelper.WriteLog("微信： redirect_url="+redirect_url);
-            //LogHelper.WriteLog("微信： Ip=" + Tool.GetIP());
-
 
             Senparc.Weixin.MP.TenPayLibV3.RequestHandler packageReqHandler = new Senparc.Weixin.MP.TenPayLibV3.RequestHandler(null);
             packageReqHandler.SetParameter("appid", appid);//APPID
@@ -62,7 +60,7 @@ namespace C8.Lottery.Portal.Controllers
             packageReqHandler.SetParameter("out_trade_no", no);//订单号
             packageReqHandler.SetParameter("total_fee", total); //金额,以分为单位
             packageReqHandler.SetParameter("spbill_create_ip",Tool.GetIP());//IP
-            packageReqHandler.SetParameter("notify_url", "https://" + HttpContext.Request.Url.Host + "/Recharge/WxNotify"); //回调地址
+            packageReqHandler.SetParameter("notify_url", webUrl + "/Recharge/WxNotify"); //回调地址
             packageReqHandler.SetParameter("trade_type", "MWEB");//这个不可以改。固定为Mweb
             packageReqHandler.SetParameter("sign", packageReqHandler.CreateMd5Sign("key", key));
             string data = packageReqHandler.ParseXML();
@@ -106,13 +104,14 @@ namespace C8.Lottery.Portal.Controllers
 
             string out_trade_no = payNotifyRepHandler.GetParameter("out_trade_no");
 
-            //log.Info("微信回调订单号：-" + out_trade_no);
+            LogHelper.WriteLog("微信回调订单号：-" + out_trade_no);
             //微信服务器可能会多次推送到本接口，这里需要根据out_trade_no去查询订单是否处理，如果处理直接返回：return Content(xml, "text/xml"); 不跑下面代码
             //if (false)
             //{
             //验证请求是否从微信发过来（安全）
             if (payNotifyRepHandler.IsTenpaySign())
             {
+                LogHelper.WriteLog("微信回调验证成功；订单号：-" + out_trade_no);
                 if (AlertComeOutRecord(out_trade_no, 1))
                 {
                     return Content(xml, "text/xml");
@@ -157,7 +156,7 @@ namespace C8.Lottery.Portal.Controllers
             var no = GetRandom();// Guid.NewGuid().ToString("N");
             IAopClient client = new DefaultAopClient(serverUrl, app_id, merchant_private_key, format, version, sign_type, alipay_public_key, charset, false);
             AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
-            string address = "https://" + HttpContext.Request.Url.Host; //获取访问域名
+            string address = webUrl; //获取访问域名
                                                                        // log.Info("address:" + address);
             request.SetReturnUrl(address + "/Personal/TransactionRecord");//同步请求
             request.SetNotifyUrl(address + "/Recharge/AsyncPay");//异步请求
@@ -226,15 +225,16 @@ namespace C8.Lottery.Portal.Controllers
         /// </summary>
         public void AsyncPay()
         {
-            LogHelper.WriteLog("支付宝异步回调页面");
             SortedDictionary<string, string> sPara = GetRequestPost();//将post请求过来的参数传化为SortedDictionary
                                                                       // log.Info("sPara.Count:" + sPara.Count);
             if (sPara.Count > 0)
             {
                 bool bo = Verify(sPara);
-                LogHelper.WriteLog("Verify(sPara):" + bo);
+               
                 if (bo)//验签if (VerifyResult)
                 {
+                    LogHelper.WriteLog("支付宝验签成功");
+
                     try
                     {
                         //商户订单号
@@ -259,7 +259,7 @@ namespace C8.Lottery.Portal.Controllers
                         string appid = Request.Form["app_id"];
                         // WriteError("验证参数开始");
 
-                        //log.Info("商户订单号:" + out_trade_no);
+                        LogHelper.WriteLog("支付宝订单号:" + out_trade_no);
                         //log.Info("支付宝交易号:" + trade_no);
                         //log.Info("支付金额:" + total_amount);
                         //log.Info("实收金额:" + receipt_amount);
@@ -268,7 +268,7 @@ namespace C8.Lottery.Portal.Controllers
                         //log.Info("商品描述:" + body);
                         //log.Info("交易创建时间:" + gmt_create);
                         //log.Info("交易付款时间:" + gmt_payment);
-                        LogHelper.WriteLog("trade_status--" + trade_status);
+                       // LogHelper.WriteLog("trade_status--" + trade_status);
                         if (trade_status == "TRADE_FINISHED") //支持退款订单，如果超过可退款日期，支付宝发送一条请求并走这个代码
                         {
                             //  log.Info("该订单不可退款");
@@ -353,6 +353,7 @@ namespace C8.Lottery.Portal.Controllers
         {
             try
             {
+                LogHelper.WriteLog("订单交易计算开始：" + no);
                 //判断支付中的订单是否存在,如果不存在.则说明已经改变状态了
                 string sql = "select * from ComeOutRecord where OrderId=@OrderId and PayType=@PayType and State=1";
                 var list = Util.ReaderToList<ComeOutRecord>(sql, new SqlParameter[] { new SqlParameter("@OrderId", no), new SqlParameter("@PayType", payType) });
@@ -406,11 +407,13 @@ namespace C8.Lottery.Portal.Controllers
                  };
 
                 SqlHelper.ExecuteTransaction(sql, regsp);
+                LogHelper.WriteLog("订单交易成功："+no);
+
                 return true;
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog("错误 -- " + ex.Message);
+                LogHelper.WriteLog("错误 -- " + ex.Message +"///订单号："+ no);
                 return false;
             }
         }
