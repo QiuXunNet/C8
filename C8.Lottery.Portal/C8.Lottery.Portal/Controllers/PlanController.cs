@@ -812,8 +812,9 @@ from (
 	  group by l.Issue,Num,l.SubTime
 	  )t
 	  where   rowNumber BETWEEN {2} AND {3}  ", uid, lType, pager.StartIndex, pager.EndIndex);
+                //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 order by SubTime desc", uid, lType);
+                 and lType={1} and WinState=1 order by Issue", uid, lType);
             }
             else
             {
@@ -826,8 +827,10 @@ from (
 	  group by l.Issue,Num,l.SubTime
 	  )t
 	  where   rowNumber BETWEEN {2} AND {3} ", uid, lType, pager.StartIndex, pager.EndIndex);
+
+                //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 and PlayName=@PlayName order by SubTime desc", uid, lType);
+                 and lType={1} and WinState=1 and PlayName=@PlayName order by Issue", uid, lType);
 
                 sp = new SqlParameter[]{
                     new SqlParameter("@PlayName",playName)
