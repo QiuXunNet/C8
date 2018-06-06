@@ -475,7 +475,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             //step2.查询最新发帖
             string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
-                 and lType=@lType and WinState=1 and PlayName=@PlayName order by SubTime desc";
+                 and lType=@lType and WinState=1 and PlayName=@PlayName order by Issue";
             var lastBettingParameter = new[]
             {
                     new SqlParameter("@UserId", uid),
