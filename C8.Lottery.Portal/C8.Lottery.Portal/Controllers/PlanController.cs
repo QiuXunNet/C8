@@ -118,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             //低频彩
             string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex); //string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-         
+
             if (planList == null)
             {
                 string sql = "select top " + totalSize +
@@ -137,7 +137,7 @@ namespace C8.Lottery.Portal.Controllers
             //2.取最新10期开奖号
             string memcacheKey2 = string.Format(RedisKeyConst.Plan_RecommendLotteryRecord, lType, pageIndex); //string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
             var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
-       
+
             if (lotteryRecordList == null)
             {
                 string pageSql = "select top " + pageSize +
@@ -473,14 +473,17 @@ namespace C8.Lottery.Portal.Controllers
             {
                 Response.Redirect(redirectUrl, true);
             }
+
+
             //step2.查询最新发帖
             string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
-                 and lType=@lType and WinState=1 and PlayName=@PlayName order by Issue";
+                 and lType=@lType and WinState=1 and PlayName=@PlayName and Issue >= @CurrentIssue order by Issue";
             var lastBettingParameter = new[]
             {
                     new SqlParameter("@UserId", uid),
                     new SqlParameter("@lType", id),
                     new SqlParameter("@PlayName", playName),
+                    new SqlParameter("@CurrentIssue", LuoUtil.GetCurrentIssue(id)),
                 };
             var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
             var lastBettingRecord = records.FirstOrDefault();
@@ -814,7 +817,7 @@ from (
 	  where   rowNumber BETWEEN {2} AND {3}  ", uid, lType, pager.StartIndex, pager.EndIndex);
                 //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 order by Issue", uid, lType);
+                 and lType={1} and WinState=1 and Issue >= @CurrentIssue  order by Issue", uid, lType);
             }
             else
             {
@@ -830,10 +833,11 @@ from (
 
                 //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 and PlayName=@PlayName order by Issue", uid, lType);
+                 and lType={1} and WinState=1 and PlayName=@PlayName and Issue >= @CurrentIssue  order by Issue", uid, lType);
 
                 sp = new SqlParameter[]{
-                    new SqlParameter("@PlayName",playName)
+                    new SqlParameter("@PlayName",playName),
+                    new SqlParameter("@CurrentIssue",LuoUtil.GetCurrentIssue(lType))
                 };
 
             }
