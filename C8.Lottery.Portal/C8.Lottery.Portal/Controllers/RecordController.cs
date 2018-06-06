@@ -96,7 +96,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (lType == 5)
             {
-                string cachekey = "record:list:5";
+                string cachekey = string.Format(RedisKeyConst.Record_List, 5); //"record:list:5";
                 //list = CacheHelper.GetCache<List<LotteryRecord>>("6cairecords");
                 list = CacheHelper.GetCache<List<LotteryRecord>>(cachekey);
 
@@ -118,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             {
                 if (string.IsNullOrEmpty(Iddate))
                 {
-                    string cachekey = "record:list:" + lType;
+                    string cachekey = string.Format(RedisKeyConst.Record_List, lType);//"record:list:" + lType;
                     if (lType < 9 && lType!=5)
                     {
                         //list = CacheHelper.GetCache<List<LotteryRecord>>("HotLotteryRecords"+lType);

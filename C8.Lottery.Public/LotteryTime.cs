@@ -11,7 +11,7 @@ namespace C8.Lottery.Public
     {
         public static List<LotteryTimeModel> GetLotteryTimeList()
         {
-            string cachekey = "lotteryTime:list:all";
+            string cachekey = RedisKeyConst.LotteryTime_List; //"lotteryTime:list:all";
             //var list = CacheHelper.GetCache<List<LotteryTimeModel>>("GetLotteryTimeListss");
             var list = CacheHelper.GetCache<List<LotteryTimeModel>>(cachekey);
             if (list == null || list.Count == 0)
@@ -62,7 +62,7 @@ namespace C8.Lottery.Public
             if (int.Parse(lType) < 9)
             {
                 #region 全国彩
-                string cachekey = "lotteryTime:type:" + lType;
+                string cachekey = string.Format(RedisKeyConst.LotteryTime_Type, lType); //"lotteryTime:type:" + lType;
                 //DateTime target = CacheHelper.GetCache<DateTime>("LotteryTypeLotteryTimeCache"+lType);
                 DateTime target = CacheHelper.GetCache<DateTime>(cachekey);
                 if (target == null || target == default(DateTime))

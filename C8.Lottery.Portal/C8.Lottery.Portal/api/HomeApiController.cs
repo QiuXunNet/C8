@@ -19,7 +19,7 @@ namespace C8.Lottery.Portal.api
         public string GetChildLotteryType(int pId)
         {
             string sql = "";
-            string cachekey = "home:child_lottery_type:" + pId + ":website";
+            string cachekey = string.Format(RedisKeyConst.Home_ChildLotteryType, pId);  //"home:child_lottery_type:" + pId + ":website";
             //List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>("GetChildLotteryTypeToWebSite" + pId);
             List<LotteryType2> list = CacheHelper.GetCache<List<LotteryType2>>(cachekey);
             if (list == null)
@@ -49,7 +49,7 @@ namespace C8.Lottery.Portal.api
             var newList = new List<LotteryRecordToJson>();
             List<LotteryRecordToJson> rmcList = null;
 
-            string rmccachekey = "home:index_Lottery_List:" + pId;
+            string rmccachekey = string.Format(RedisKeyConst.Home_IndexLotteryList, pId); //"home:index_Lottery_List:" + pId;
             //rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>("GetIndexLotteryList_" + pId);
             rmcList = CacheHelper.GetCache<List<LotteryRecordToJson>>(rmccachekey);
             if (rmcList == null)

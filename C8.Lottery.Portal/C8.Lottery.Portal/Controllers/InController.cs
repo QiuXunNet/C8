@@ -26,7 +26,7 @@ namespace C8.Lottery.Portal.Controllers
 
             if (bo == "true")
             {
-                string cachekey = "friendshipLinks:list:all";
+                string cachekey = RedisKeyConst.FriendshipLinks_List; //"friendshipLinks:list:all";
                 List<FriendLink> list = CacheHelper.GetCache<List<FriendLink>>(cachekey);
 
                 if (list == null)
@@ -49,7 +49,7 @@ namespace C8.Lottery.Portal.Controllers
                     {
                         url = "https://" + url;
                     }
-                    string cachekeys = "friendshipLinks:link:" + id;
+                    string cachekeys = string.Format(RedisKeyConst.FriendshipLinks_Link, id); //"friendshipLinks:link:" + id;
                     var obj = CacheHelper.GetCache<int>(cachekeys);
                     if (obj == default(int))
                     {

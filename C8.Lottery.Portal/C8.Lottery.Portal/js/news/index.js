@@ -310,5 +310,36 @@ var newsManager = {
 
 
         return html;
+    },
+    searchList: function () {
+        var enter = $("#searchinput").val();
+        var obj = $(".gallery-list  p");
+        localStorage.searchkey = enter;
+        if (!enter) {
+            for (var i = 0; i < obj.length; i++) {
+                var item = $(obj[i]),
+                    text = item.attr("data-name");
+                item.find(".gallery-name").html(text);
+            }
+            $(".gallery-list p").show();
+            $(".gallery-list").show();
+
+            return;
+        }
+
+        $(".gallery-list").hide();
+        $(".gallery-list p").hide();
+
+        for (var i = 0; i < obj.length; i++) {
+            var item = $(obj[i]),
+                text = item.attr("data-name");
+            if (text.indexOf(enter) >= 0) {
+                var html = text.replace(new RegExp(enter), '<font color="red">' + enter + '</font>');
+
+                item.find(".gallery-name").html(html);
+                item.show();
+                item.parents('.gallery-list').show();
+            }
+        }
     }
 };

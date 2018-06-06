@@ -17,7 +17,7 @@ namespace C8.Lottery.Portal.api
         /// <returns></returns>
         public string GetLhcLotteryRecord()
         {
-            string cachekey = "home:child_lottery_type:5:lhc";
+            string cachekey = RedisKeyConst.Home_ChildLotteryTypeLHC; //"home:child_lottery_type:5:lhc";
             //LotteryRecrdToLhc model = CacheHelper.GetCache<LotteryRecrdToLhc>("GetLhcLotteryRecordWebSite1");
             LotteryRecrdToLhc model = CacheHelper.GetCache<LotteryRecrdToLhc>(cachekey);
             if (model == null)
