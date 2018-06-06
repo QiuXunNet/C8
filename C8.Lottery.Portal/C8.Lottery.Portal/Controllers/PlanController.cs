@@ -30,7 +30,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //1.获取数据
-            int count = Util.GetGFTJCount(lType);
+            int count = Util.GetGFTJCountS(lType);
             int totalSize = (size + 1) * count;
             string sql = "select top(" + totalSize + ") * from [Plan] where lType = " + lType + " order by Issue desc";
             ViewBag.list2 = Util.ReaderToList<Plan>(sql);        //计划列表
@@ -112,13 +112,13 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //1.获取数据
-            int count = Util.GetGFTJCount(lType);
+            int count = Util.GetGFTJCountS(lType);
             int totalSize = (pageSize + 1) * count;
 
             //低频彩
             string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex); //string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-            planList = null;
+         
             if (planList == null)
             {
                 string sql = "select top " + totalSize +
@@ -137,7 +137,7 @@ namespace C8.Lottery.Portal.Controllers
             //2.取最新10期开奖号
             string memcacheKey2 = string.Format(RedisKeyConst.Plan_RecommendLotteryRecord, lType, pageIndex); //string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
             var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
-            lotteryRecordList = null;
+       
             if (lotteryRecordList == null)
             {
                 string pageSql = "select top " + pageSize +
@@ -1081,7 +1081,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
             //4.1获取数据
-            sql = "select top(" + Util.GetGFTJCount(lType) + ")* from [Plan] where lType = " + lType + " order by Issue desc";
+            sql = "select top(" + Util.GetGFTJCountS(lType) + ")* from [Plan] where lType = " + lType + " order by Issue desc,Sort ";
             ViewBag.list = Util.ReaderToList<Plan>(sql);
 
             //彩种图标

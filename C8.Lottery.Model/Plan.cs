@@ -17,7 +17,7 @@ namespace C8.Lottery.Model
 
         //---------------------
 
-        public string ShowSort
+        public string ShowSort1
         {
             get
             {
@@ -191,7 +191,7 @@ namespace C8.Lottery.Model
 
 
 
-        public string ShowSort1
+        public string ShowSort
         {
             get
             {

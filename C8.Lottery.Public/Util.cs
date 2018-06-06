@@ -350,13 +350,7 @@ namespace C8.Lottery.Public
             string[] numArr = num.Split(' ');
             string[] openArr = openNum.Split(',');
             int idx = index;
-            if (lType == 2)
-            {
-                if(index==7 || index == 8)
-                {
-                    idx = 6;
-                }
-            }          
+                  
             //重新组装
             string result = "";
 
@@ -374,15 +368,18 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    }else
+                    }
+                    else
                     {
                         result += numArr[i] + " ";
                     }
-                }else if (lType == 5)//六合彩
+                }
+                else if (lType == 2)
                 {
-                    if(index==6 || index == 7)
+                    if (index == 7 || index == 8)
                     {
-                        string temp = Util.GetShengxiaoByDigit(Convert.ToInt32(openArr[6]),Convert.ToDateTime(dt));
+                        idx = 6;
+                        string temp = openArr[idx];
                         if (temp == numArr[i])
                         {
                             result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
@@ -391,7 +388,36 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    }else if(index==8 || index == 9)
+                    }else if(index==0 || index == 1)
+                    {
+                        string[] temp = new string[6];
+                        Array.ConstrainedCopy(openArr, 0, temp, 0, 6);
+                        if (Array.IndexOf(temp, numArr[i]) != -1)
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }
+
+                }
+                else if (lType == 5)//六合彩
+                {
+                    if (index == 6 || index == 7)
+                    {
+                        string temp = Util.GetShengxiaoByDigit(Convert.ToInt32(openArr[6]), Convert.ToDateTime(dt));
+                        if (temp == numArr[i])
+                        {
+                            result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
+                        }
+                        else
+                        {
+                            result += numArr[i] + " ";
+                        }
+                    }
+                    else if (index == 8 || index == 9)
                     {
                         string temp = openArr[6];
                         if (temp == numArr[i])
@@ -402,7 +428,8 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    }else if (index == 10)
+                    }
+                    else if (index == 10)
                     {
                         if (Array.IndexOf(openArr, numArr[i]) != -1)
                         {
@@ -412,12 +439,14 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    }else
+                    }
+                    else
                     {
                         result += numArr[i] + " ";
                     }
 
-                }else if(lType==1 || lType == 6)//福彩3D 排列3
+                }
+                else if (lType == 1 || lType == 6)//福彩3D 排列3
                 {
                     if (index == 5 || index == 6 || index == 7)
                     {
@@ -429,7 +458,8 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    } else if (index == 0 || index == 1 || index == 2)
+                    }
+                    else if (index == 0 || index == 1 || index == 2)
                     {
                         string temp = openArr[idx];
                         if (temp == numArr[i])
@@ -445,25 +475,28 @@ namespace C8.Lottery.Public
                     {
                         result += numArr[i] + " ";
                     }
-                }else if (lType == 4)//超级大乐透
+                }
+                else if (lType == 4)//超级大乐透
                 {
-                   
-                 
+
+
                     if (index == 0)
                     {
                         string[] temp = new string[5];
                         if (Array.IndexOf(temp, numArr[i]) != -1)
                         {
                             result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
-                        }else
+                        }
+                        else
                         {
                             result += numArr[i] + " ";
                         }
-                    }else if(index== 4)
+                    }
+                    else if (index == 4)
                     {
                         string[] temp = new string[2];
                         Array.ConstrainedCopy(openArr, 5, temp, 0, 2);
-                       if(Array.IndexOf(temp, numArr[i]) != -1)
+                        if (Array.IndexOf(temp, numArr[i]) != -1)
                         {
                             result += "<font class='Mif_titred'>" + numArr[i] + "</font> ";
                         }
@@ -477,9 +510,10 @@ namespace C8.Lottery.Public
                         result += numArr[i] + " ";
                     }
 
-                }else if(lType >= 38 && lType <= 50)
+                }
+                else if (lType >= 38 && lType <= 50)
                 {
-                    if(index== 1 || index == 2)
+                    if (index == 1 || index == 2)
                     {
                         if (Array.IndexOf(openArr, numArr[i]) != -1)
                         {
@@ -489,11 +523,13 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    }else
+                    }
+                    else
                     {
                         result += numArr[i] + " ";
                     }
-                }else if((lType >= 15 && lType <= 37)|| (lType >= 9 && lType <= 14) || (lType >= 60 && lType <= 62)|| (lType >= 51 && lType <= 59))
+                }
+                else if ((lType >= 15 && lType <= 37) || (lType >= 9 && lType <= 14) || (lType >= 60 && lType <= 62))
                 {
                     if (index < 5)
                     {
@@ -506,12 +542,14 @@ namespace C8.Lottery.Public
                         {
                             result += numArr[i] + " ";
                         }
-                    }else
+                    }
+                    else
                     {
                         result += numArr[i] + " ";
                     }
 
-                }else if(lType >= 63 && lType <= 64)
+                }
+                else if (lType >= 63 && lType <= 64)
                 {
                     string temp = openArr[idx];
                     if (temp == numArr[i])
@@ -523,7 +561,11 @@ namespace C8.Lottery.Public
                         result += numArr[i] + " ";
                     }
                 }
-                else 
+                //else if (lType >= 51 && lType <= 59)
+                //{
+                //    result += numArr[i] + " ";
+                //}
+                else
                 {
                     string temp = openArr[idx];
                     if (temp == numArr[i])
@@ -22280,6 +22322,46 @@ namespace C8.Lottery.Public
             else if (lType == 2 || lType == 4 || lType == 8)
             {
                 count = 7;
+            }
+
+            return count;
+        }
+
+
+
+        public static int GetGFTJCountS(int lType)
+        {
+            //TODO:官方推荐需要核查每个彩种推荐玩法得个数
+            int count = 0;
+            if (lType == 1 || lType == 6 || lType==4 || (lType >= 51 && lType < 60))
+            {
+                count = 8;
+            } else if (lType == 2)
+            {
+                count = 9;
+            } else if (lType == 3 || (lType>=15 && lType<=37) ||(lType>=60 && lType<=62))
+            {
+                count = 7;
+            }
+            else if (lType == 5)
+            {
+                count = 13;
+            }else if (lType == 7)
+            {
+                count = 5;
+            }else if (lType == 8)
+            {
+                count = 12;
+            }
+            else if ((lType >= 38 && lType < 51) || lType == 65 )
+            {
+                count = 3;
+            }else if(lType>=9 && lType <= 14)
+            {
+                count = 6;
+            }else if(lType>=63 && lType <= 64)
+            {
+                count =10;
             }
 
             return count;
