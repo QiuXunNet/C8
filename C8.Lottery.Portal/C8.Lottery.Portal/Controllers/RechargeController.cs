@@ -89,6 +89,7 @@ namespace C8.Lottery.Portal.Controllers
 
         public ActionResult WxNotify()
         {
+            LogHelper.WriteLog("微信回调订单号：开始回调");
             Senparc.Weixin.MP.TenPayLibV3.ResponseHandler payNotifyRepHandler = new Senparc.Weixin.MP.TenPayLibV3.ResponseHandler(null);
             payNotifyRepHandler.SetKey(key);
 
@@ -102,6 +103,7 @@ namespace C8.Lottery.Portal.Controllers
                 return Content(xml, "text/xml");
             }
 
+            LogHelper.WriteLog("微信回调XML信息："+ xml);
             string out_trade_no = payNotifyRepHandler.GetParameter("out_trade_no");
 
             LogHelper.WriteLog("微信回调订单号：-" + out_trade_no);
