@@ -818,6 +818,11 @@ from (
                 //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
                  and lType={1} and WinState=1 and Issue >= @CurrentIssue  order by Issue", uid, lType);
+
+                sp = new SqlParameter[]{
+                    new SqlParameter("@PlayName",playName),
+                    new SqlParameter("@CurrentIssue",LuoUtil.GetCurrentIssue(lType))
+                };
             }
             else
             {
