@@ -195,23 +195,24 @@
             </thead>
 
             @*预测号码*@
-            <tbody>
+          
+                <tbody>
 
-                @if (lType == 1 || lType == 6)//福彩3D 排列3
-                {
-                    foreach (Plan plan in data)
+                    @if (lType == 1 || lType == 6)//福彩3D 排列3
                     {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
+                        foreach (Plan plan in data)
                         {
-                            string[] resultArr = result.Split('|');
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
 
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
                                 {
                                     string FCwitdh = Tool.GetWidth(i, numArrCount);
 
@@ -244,475 +245,475 @@
                                             <font>@numArr[i]</font>
                                         }
                                     </td>
-                                }
-                            </tr>
-                        }                      
-                    }
-                }
-                else if (lType == 2)//双色球
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string FCwitdh = "80%";
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
                                     }
-
-                                    <td colspan="@hebing" width="@FCwitdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-                                            int numcount = numArr[i].Split(' ').Count();
-                                            if (numcount > 1)
-                                            {
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                  
-
-                    }
-                }
-                else if (lType == 3)//七星彩
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-                                            int numcount = numArr[i].Split(' ').Count();
-                                            if (numcount > 1)
-                                            {
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                       
-
-                    }
-                }
-                else if (lType == 5)//6合彩
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string FCwitdh = "80%";
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-
-                                    <td colspan="@hebing" width="@FCwitdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-                                            int numcount = numArr[i].Split(' ').Count();
-                                            if (numcount > 1)
-                                            {
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                    }
-                }
-                else if (lType == 7)//排列5
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-                                            int numcount = numArr[i].Split(' ').Count();
-                                            if (numcount > 1)
-                                            {
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                        
-                    }
-                }
-                else if (lType == 8)//七乐彩
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-                                            int numcount = numArr[i].Split(' ').Count();
-                                            if (numcount > 1)
-                                            {
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                        
-
-                    }
-                }
-                else if (lType == 4)//大乐透
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-                                            int numcount = numArr[i].Split(' ').Count();
-                                            if (numcount > 1)
-                                            {
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                        
-                    }
-                }
-                else if (lType >= 38 && lType <= 50)//快三
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-
-                                            @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }
-                        
-
-                    }
-                }
-                else if (lType >= 15 && lType <= 37)//11选5
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-                                    else if (numArrCount == 2)
-                                    {
-                                        hebing = 2;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-
-                                            @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }                       
-                    }
-                }
-                else if (lType >= 9 && lType <= 14)//时时彩
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
-                                {
-                                    string witdh = Tool.GetWidth(i, numArrCount);
-
-                                    int hebing = 0;
-                                    if (numArrCount == 1)
-                                    {
-                                        hebing = 3;
-                                    }
-                                    else if (numArrCount == 2)
-                                    {
-                                        hebing = 2;
-                                    }
-
-                                    <td colspan="@hebing" width="@witdh" align="left">
-
-                                        @if (resultArr[i] == "中")
-                                        {
-
-                                            @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                            <font class="Mif_red">(中)</font>
-                                        }
-                                        else
-                                        {
-                                            <font>@numArr[i]</font>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        }                       
-
-                    }
-                }
-                else if (lType >= 63 && lType <= 64)//PK10
-                {
-                    foreach (Plan plan in data)
-                    {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            string[] resultArr = result.Split('|');
-                            int trhebing = -1;
-                            int nA = numArrCount;
-                            if (numArrCount > 3)
-                            {
-                                nA = numArrCount - 3;
-                                trhebing = 2;
+                                </tr>
                             }
-                            <tr>
-                                <td rowspan="@trhebing" width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < nA; i++)
+                        }
+                    }
+                    else if (lType == 2)//双色球
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string FCwitdh = "80%";
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@FCwitdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+                                            int numcount = numArr[i].Split(' ').Count();
+                                            if (numcount > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[i]</font>
+                                            }
+
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+
+                        }
+                    }
+                    else if (lType == 3)//七星彩
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+                                            int numcount = numArr[i].Split(' ').Count();
+                                            if (numcount > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[i]</font>
+                                            }
+
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+
+                        }
+                    }
+                    else if (lType == 5)//6合彩
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string FCwitdh = "80%";
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@FCwitdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+                                            int numcount = numArr[i].Split(' ').Count();
+                                            if (numcount > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[i]</font>
+                                            }
+
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (lType == 7)//排列5
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+                                            int numcount = numArr[i].Split(' ').Count();
+                                            if (numcount > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[i]</font>
+                                            }
+
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+                        }
+                    }
+                    else if (lType == 8)//七乐彩
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+                                            int numcount = numArr[i].Split(' ').Count();
+                                            if (numcount > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[i]</font>
+                                            }
+
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+
+                        }
+                    }
+                    else if (lType == 4)//大乐透
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+                                            int numcount = numArr[i].Split(' ').Count();
+                                            if (numcount > 1)
+                                            {
+                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            }
+                                            else
+                                            {
+                                                <font>@numArr[i]</font>
+                                            }
+
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+                        }
+                    }
+                    else if (lType >= 38 && lType <= 50)//快三
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+
+                                            @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+
+                        }
+                    }
+                    else if (lType >= 15 && lType <= 37)//11选5
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+                                    else if (numArrCount == 2)
+                                    {
+                                        hebing = 2;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+
+                                            @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (lType >= 9 && lType <= 14)//时时彩
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
+                                {
+                                    string witdh = Tool.GetWidth(i, numArrCount);
+
+                                    int hebing = 0;
+                                    if (numArrCount == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+                                    else if (numArrCount == 2)
+                                    {
+                                        hebing = 2;
+                                    }
+
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                        @if (resultArr[i] == "中")
+                                        {
+
+                                            @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                            <font class="Mif_red">(中)</font>
+                                        }
+                                        else
+                                        {
+                                            <font>@numArr[i]</font>
+                                        }
+                                    </td>
+                                    }
+                                </tr>
+                            }
+
+                        }
+                    }
+                    else if (lType >= 63 && lType <= 64)//PK10
+                    {
+                        foreach (Plan plan in data)
+                        {
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
+                                int trhebing = -1;
+                                int nA = numArrCount;
+                                if (numArrCount > 3)
+                                {
+                                    nA = numArrCount - 3;
+                                    trhebing = 2;
+                                }
+                                <tr>
+                                    <td rowspan="@trhebing" width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < nA; i++)
                                 {
                                     string witdh = Tool.GetWidth(i, numArrCount);
 
@@ -736,51 +737,51 @@
                                             <font>@numArr[i]</font>
                                         }
                                     </td>
-                                }
-                            </tr>
-                            if (numArrCount > 3)
-                            {
-                                <tr>
-                                    @for (int i = 1; i < numArrCount; i++)
-                                    {
-                                        <td>
-
-                                            @if (resultArr[i] == "中")
-                                    {
-
-                                                @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
-                                                <font class="Mif_red">(中)</font>
-                                            }
-                                            else
-                                            {
-                                                <font>@numArr[i]</font>
-                                            }
-
-                                        </td>
                                     }
-
-
                                 </tr>
+                                if (numArrCount > 3)
+                                {
+                                    <tr>
+                                        @for (int i = 1; i < numArrCount; i++)
+                                    {
+                                            <td>
+
+                                                @if (resultArr[i] == "中")
+                                                {
+
+                                                    @Html.Raw(Util.HandWinNumColorS(lType, numArr[i], record.Num, count2, record.SubTime))
+                                                    <font class="Mif_red">(中)</font>
+                                                }
+                                                else
+                                                {
+                                                    <font>@numArr[i]</font>
+                                                }
+
+                                            </td>
+                                        }
+
+
+                                    </tr>
+                                }
                             }
-                        }                       
 
+                        }
                     }
-                }
-                else if (lType >= 60 && lType <= 62)
-                {
-                    foreach (Plan plan in data)
+                    else if (lType >= 60 && lType <= 62)
                     {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                        if (!string.IsNullOrEmpty(result))
+                        foreach (Plan plan in data)
                         {
-                            string[] resultArr = result.Split('|');
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                string[] resultArr = result.Split('|');
 
-                            <tr>
-                                <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < numArrCount; i++)
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < numArrCount; i++)
                                 {
                                     string witdh = Tool.GetWidth(i, numArrCount);
 
@@ -807,41 +808,41 @@
                                             <font>@numArr[i]</font>
                                         }
                                     </td>
-                                }
-                            </tr>
-                        }
+                                    }
+                                </tr>
+                            }
 
+                        }
                     }
-                }
-                else if (lType >= 51 && lType <= 59)//快乐10分
-                {
-                    foreach (Plan plan in data)
+                    else if (lType >= 51 && lType <= 59)//快乐10分
                     {
-                        count2++;
-                        numArr = plan.Num.Split('|');
-                        string result = plan.Result;
-                        int numArrCount = numArr.Count();
-                      
-                        if (!string.IsNullOrEmpty(result))
+                        foreach (Plan plan in data)
                         {
-                            string[] resultArr = result.Split('|');
-                            int trhebing = -1;
-                            int nA = numArrCount;
-                            int idx = numArrCount;
-                            if (numArrCount > 6)
+                            count2++;
+                            numArr = plan.Num.Split('|');
+                            string result = plan.Result;
+                            int numArrCount = numArr.Count();
+
+                            if (!string.IsNullOrEmpty(result))
                             {
-                                nA = numArrCount - 4;
-                                trhebing = 3;
-                                idx = idx - 1;
-                            }
-                            else
-                            {
-                                nA = numArrCount - 3;
-                                trhebing = 2;
-                            }
-                            <tr>
-                                <td rowspan="@trhebing" width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                @for (int i = 0; i < nA; i++)
+                                string[] resultArr = result.Split('|');
+                                int trhebing = -1;
+                                int nA = numArrCount;
+                                int idx = numArrCount;
+                                if (numArrCount > 6)
+                                {
+                                    nA = numArrCount - 4;
+                                    trhebing = 3;
+                                    idx = idx - 1;
+                                }
+                                else
+                                {
+                                    nA = numArrCount - 3;
+                                    trhebing = 2;
+                                }
+                                <tr>
+                                    <td rowspan="@trhebing" width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int i = 0; i < nA; i++)
                                 {
                                     string witdh = Tool.GetWidth(i, nA);
 
@@ -870,16 +871,16 @@
                                             <font>@prefix@numArr[i]</font>
                                         }
                                     </td>
-                                }
-                            </tr>
-                           
+                                    }
+                                </tr>
+
                                 <tr>
-                                   
+
                                     @for (int i = 3; i < idx; i++)
                                     {
                                         string prefix = "";
-                                       
-                                         if (i == 3)
+
+                                        if (i == 3)
                                         {
                                             prefix = "尾";
                                         }
@@ -907,9 +908,9 @@
 
                                             <font>@numArr[6] </font>
                                             @if (resultArr[6] == "中")
-                                                {
-                                                    <font class="Mif_red">(中)</font>
-                                                }
+                                            {
+                                                <font class="Mif_red">(中)</font>
+                                            }
                                         </td>
 
                                     </tr>
@@ -918,13 +919,15 @@
 
 
 
+                            }
+
+
                         }
-
-
                     }
-                }
 
-            </tbody>
+                </tbody>
+            
+       
 
         </table>
     </div>
