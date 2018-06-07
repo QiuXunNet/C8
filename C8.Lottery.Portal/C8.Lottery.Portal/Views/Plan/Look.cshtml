@@ -5,9 +5,10 @@
     Layout = null;
 
     int count = 0;
-
+    int count2 = -1;
     int lType = ViewBag.lType;
     string title = "计划-" + ViewBag.lotteryName;
+    List<Plan> data = ViewBag.list;
 
 }
 
@@ -178,123 +179,565 @@
                     <thead>
                         <tr>
                             @*<th scope="col" width="20%">
-                                <div>
-                                    <span class="Mif_titred"><font>@ViewBag.currentIssue.Substring(4)</font>期</span>
-                                </div>
-                                <div>
+                                    <div>
+                                        <span class="Mif_titred"><font>@ViewBag.currentIssue.Substring(4)</font>期</span>
+                                    </div>
+                                    <div>
 
-                                </div>
-                            </th>
-                            <th colspan="3" scope="col" align="left">
-                                <div class="Mif_Hao">
-
-
-
-                                </div>
-                                <div class="Mif_Hao" style="margin-top: 5px;">
+                                    </div>
+                                </th>
+                                <th colspan="3" scope="col" align="left">
+                                    <div class="Mif_Hao">
 
 
-                                </div>
-                            </th>*@
+
+                                    </div>
+                                    <div class="Mif_Hao" style="margin-top: 5px;">
+
+
+                                    </div>
+                                </th>*@
                         </tr>
                     </thead>
 
 
                     @*预测号码*@
+       
+
                     <tbody>
-
-
-                        @foreach (Plan plan in ViewBag.list)
+                          
+                        @if (lType == 1 || lType == 6)//福彩3D 排列3
                         {
-                            count++;
-
-                            if (plan.Sort==5 && ((lType >= 9 && lType < 38) || (lType >= 60 && lType < 63)))
+                            foreach (Plan plan in data)
                             {
-                                <tr>
-                                    <td align="center"><font>@plan.ShowSort</font></td>
-
-                                    <td colspan="3" align="center">
-                                        <font>@plan.Num</font>
-
-                                    </td>
-
-                                </tr>
-                            }
-                            else if (lType == 2 || lType == 4 || lType == 8)
-                            {
+                                count2++;
                                 numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string FCwitdh = Tool.GetWidth(j, numArrCount);
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+                                            <td colspan="@hebing" width="@FCwitdh" align="left">  
+                                          
+                                                <font>@numArr[j]</font>
+                                              
+                                                                                       
+                                            </td>
+                                        }
+                                    </tr>
+                            }
+                        }
+                        else if (lType == 2)//双色球
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string FCwitdh = "80%";
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+
+                                            <td colspan="@hebing" width="@FCwitdh" align="left">
+   
+                                             
+                                                    <font>@numArr[j]</font>
+                                                
+                                                
+                                            </td>
+                                        }
+                                    </tr>
+
+                            }
+                        }
+                        else if (lType == 3)//七星彩
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string witdh = Tool.GetWidth(j, numArrCount);
+
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+
+                                            <td colspan="@hebing" width="@witdh" align="left">  
+                                          
+                                                    <font>@numArr[j]</font>
+                                                
+                                                
+                                            </td>
+                                        }
+                                    </tr>
+
+                            }
+                        }
+                        else if (lType == 5)//6合彩
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string FCwitdh = "80%";
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+
+                                            <td colspan="@hebing" width="@FCwitdh" align="left">
+
+                                             
+                                                    <font>@numArr[j]</font>
+                                                
+                                                
+                                            </td>
+                                        }
+                                    </tr>
+
+                            }
+                        }
+                        else if (lType == 7)//排列5
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string witdh = Tool.GetWidth(j, numArrCount);
+
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+
+                                            <td colspan="@hebing" width="@witdh" align="left">
+
+                                               
+                                            
+                                                    <font>@numArr[j]</font>
+                                                
+
+                                            </td>
+                                        }
+                                    </tr>
+
+
+                            }
+                        }
+                        else if (lType == 8)//七乐彩
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string witdh = Tool.GetWidth(j, numArrCount);
+
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+
+                                            <td colspan="@hebing" width="@witdh" align="left">
+
+                                              
+                                          
+                                                    <font>@numArr[j]</font>
+                                                
+                                                
+                                            </td>
+                                        }
+                                    </tr>                               
+                            }
+                        }
+                        else if (lType == 4)//大乐透
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+                                    <tr>
+                                        <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                        @for (int j = 0; j < numArrCount; j++)
+                                        {
+                                            string witdh = Tool.GetWidth(j, numArrCount);
+
+                                            int hebing = 0;
+                                            if (numArrCount == 1)
+                                            {
+                                                hebing = 3;
+                                            }
+
+                                            <td colspan="@hebing" width="@witdh" align="left">
+
+                                             
+                                            
+                                                    <font>@numArr[j]</font>
+                                                
+                                                
+                                            </td>
+                                        }
+                                    </tr>
+
+                            }
+                        }
+                        else if (lType >= 38 && lType <= 50)//快三
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
 
                                 <tr>
                                     <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                    <td width="40%" align="left">
+                                    @for (int j = 0; j < numArrCount; j++)
+                                    {
+                                        string witdh = Tool.GetWidth(j, numArrCount);
 
-                                        <font class="Mif_red">@numArr[0]</font>
+                                        int hebing = 0;
+                                        if (numArrCount == 1)
+                                        {
+                                            hebing = 3;
+                                        }
 
+                                        <td colspan="@hebing" width="@witdh" align="left">
 
-                                    </td>
-                                    <td width="40%" align="left">
+                                         
+                                                <font>@numArr[j]</font>
+                                            
 
-                                        <font>@numArr[1]</font>
-
-
-                                    </td>
-
-
+                                        </td>
+                                    }
                                 </tr>
                             }
-                            else if (lType == 5)
+                        }
+                        else if (lType >= 15 && lType <= 37)//11选5
+                        {
+                            foreach (Plan plan in data)
                             {
-
-                                <tr>
-                                    <td width="30%" align="center"><font>@plan.ShowSort</font></td>
-                                    <td width="70%" align="left">
-
-                                        <font class="Mif_red">@plan.Num</font>
-                                    </td>
-
-
-                                </tr>
-                            }
-                            else
-                            {
+                                count2++;
                                 numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
 
                                 <tr>
                                     <td width="20%" align="center"><font>@plan.ShowSort</font></td>
-                                    <td width="40%" align="left">
+                                    @for (int j = 0; j < numArrCount; j++)
+                                    {
+                                        string witdh = Tool.GetWidth(j, numArrCount);
 
-                                        <font class="Mif_red">@numArr[0]</font>
+                                        int hebing = 0;
+                                        if (numArrCount == 1)
+                                        {
+                                            hebing = 3;
+                                        }
+                                        else if (numArrCount == 2)
+                                        {
+                                            if (j == 1)
+                                            {
+                                                hebing = 2;
+                                            }
+
+                                        }
+
+                                        <td colspan="@hebing" width="@witdh" align="left">
 
 
-                                    </td>
-                                    <td width="20%" align="left">
+                                       
+                                                <font>@numArr[j]</font>
+                                            
 
-                                        <font>@numArr[1]</font>
+
+                                        </td>
+                                    }
+                                </tr>
+
+                            }
+                        }
+                        else if (lType >= 9 && lType <= 14)//时时彩
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
 
 
-                                    </td>
-                                    <td width="20%" align="left">
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int j = 0; j < numArrCount; j++)
+                                    {
+                                        string witdh = Tool.GetWidth(j, numArrCount);
 
-                                        <font>@numArr[2]</font>
-                                    </td>
+                                        int hebing = 0;
+                                        if (numArrCount == 1)
+                                        {
+                                            hebing = 3;
+                                        }
+                                        else if (numArrCount == 2)
+                                        {
+                                            if (j == 1)
+                                            {
+                                                hebing = 2;
+                                            }
+                                        }
 
+                                        <td colspan="@hebing" width="@witdh" align="left">
+
+                                       
+                                                <font>@numArr[j]</font>
+                                            
+                                        </td>
+                                    }
                                 </tr>
                             }
+                        }
+                        else if (lType >= 63 && lType <= 64)//PK10
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
 
+                                int numArrCount = numArr.Count();
+
+                                int trhebing = -1;
+                                int nA = numArrCount;
+                                if (numArrCount > 3)
+                                {
+                                    nA = numArrCount - 3;
+                                    trhebing = 2;
+                                }
+                                <tr>
+                                    <td rowspan="@trhebing" width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int j = 0; j < nA; j++)
+                                    {
+                                        string witdh = Tool.GetWidth(j, numArrCount);
+
+                                        int hebing = 0;
+                                        if (nA == 1)
+                                        {
+                                            hebing = 3;
+                                        }
+
+
+                                        <td colspan="@hebing" width="@witdh" align="left">
+                                       
+                                                <font>@numArr[j]</font>
+                                            
+
+                                        </td>
+                                    }
+                                </tr>
+                                if (numArrCount > 3)
+                                {
+                                    <tr>
+                                        @for (int j = 1; j < numArrCount; j++)
+                                        {
+                                            <td>
+
+                                           
+                                                    <font>@numArr[j]</font>
+                                                
+
+                                            </td>
+                                        }
+
+
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (lType >= 60 && lType <= 62)//其他
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+
+
+                                <tr>
+                                    <td width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                    @for (int j = 0; j < numArrCount; j++)
+                                    {
+                                        string witdh = Tool.GetWidth(j, numArrCount);
+
+                                        int hebing = 0;
+                                        if (numArrCount == 1)
+                                        {
+                                            hebing = 3;
+                                        }
+                                        else if (numArrCount == 2)
+                                        {
+                                            if (j == 1)
+                                            {
+                                                hebing = 2;
+                                            }
+                                        }
+
+                                        <td colspan="@hebing" width="@witdh" align="left">
+                                        
+                                                <font>@numArr[j]</font>
+                                            
+
+                                        </td>
+                                    }
+                                </tr>
+
+                            }
+                        }
+                        else if (lType >= 51 && lType <= 59)//快乐10分
+                        {
+                            foreach (Plan plan in data)
+                            {
+                                count2++;
+                                numArr = plan.Num.Split('|');
+
+                                int numArrCount = numArr.Count();
+                                int trhebing = -1;
+                                int nA = numArrCount;
+                                int idx = numArrCount;
+                                if (numArrCount > 6)
+                                {
+                                    nA = numArrCount - 4;
+                                    trhebing = 3;
+                                    idx = idx - 1;
+                                }
+                                else
+                                {
+                                    nA = numArrCount - 3;
+                                    trhebing = 2;
+                                }
+                                <tr>
+                                    <td rowspan="@trhebing" width="20%" align="center"><font>@plan.ShowSort</font></td>
+                                @for (int j = 0; j < nA; j++)
+                                {
+                                    string witdh = Tool.GetWidth(j, nA);
+
+                                    int hebing = 0;
+                                    if (nA == 1)
+                                    {
+                                        hebing = 3;
+                                    }
+                                    string prefix = "";
+                                    if (j == 2)
+                                    {
+                                        prefix = "合";
+                                    }
+                                    <td colspan="@hebing" width="@witdh" align="left">
+
+                                   
+                                            <font>@prefix@numArr[j]</font>
+                                        
+
+
+                                    </td>
+                                }
+
+                                </tr>
+                                <tr>
+                                @for (int j = 3; j < idx; j++)
+                                {
+                                    string prefix = "";
+
+                                    if (j == 3)
+                                    {
+                                        prefix = "尾";
+                                    }
+                                    <td>
+                                   
+                                            <font>@prefix@numArr[j]</font>
+                                        
+
+                                    </td>
+                                }
+                                </tr>
+                                if (numArrCount > 6)
+                                {
+                                    <tr>
+                                        <td colspan="3">
+
+
+                                            <font>@numArr[6] </font>
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
                         }
 
-
-
-                    </tbody>
+</tbody>           
                 </table>
-
-
-
-
             </div>
-
-
-
         </div>
     </div>
 

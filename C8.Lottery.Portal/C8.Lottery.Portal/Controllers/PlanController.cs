@@ -30,7 +30,7 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //1.获取数据
-            int count = Util.GetGFTJCount(lType);
+            int count = Util.GetGFTJCountS(lType);
             int totalSize = (size + 1) * count;
             string sql = "select top(" + totalSize + ") * from [Plan] where lType = " + lType + " order by Issue desc";
             ViewBag.list2 = Util.ReaderToList<Plan>(sql);        //计划列表
@@ -112,13 +112,13 @@ namespace C8.Lottery.Portal.Controllers
 
 
             //1.获取数据
-            int count = Util.GetGFTJCount(lType);
+            int count = Util.GetGFTJCountS(lType);
             int totalSize = (pageSize + 1) * count;
 
             //低频彩
             string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex); //string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-            
+
             if (planList == null)
             {
                 string sql = "select top " + totalSize +
@@ -137,7 +137,7 @@ namespace C8.Lottery.Portal.Controllers
             //2.取最新10期开奖号
             string memcacheKey2 = string.Format(RedisKeyConst.Plan_RecommendLotteryRecord, lType, pageIndex); //string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
             var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
-            
+
             if (lotteryRecordList == null)
             {
                 string pageSql = "select top " + pageSize +
@@ -473,14 +473,17 @@ namespace C8.Lottery.Portal.Controllers
             {
                 Response.Redirect(redirectUrl, true);
             }
+
+
             //step2.查询最新发帖
             string lastBettingSql = @" select top 1 * from BettingRecord where UserId=@UserId 
-                 and lType=@lType and WinState=1 and PlayName=@PlayName order by SubTime desc";
+                 and lType=@lType and WinState=1 and PlayName=@PlayName and Issue >= @CurrentIssue order by Issue";
             var lastBettingParameter = new[]
             {
                     new SqlParameter("@UserId", uid),
                     new SqlParameter("@lType", id),
                     new SqlParameter("@PlayName", playName),
+                    new SqlParameter("@CurrentIssue", LuoUtil.GetCurrentIssue(id)),
                 };
             var records = Util.ReaderToList<BettingRecord>(lastBettingSql, lastBettingParameter);
             var lastBettingRecord = records.FirstOrDefault();
@@ -814,7 +817,7 @@ from (
 	  where   rowNumber BETWEEN {2} AND {3}  ", uid, lType, pager.StartIndex, pager.EndIndex);
                 //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 order by Issue", uid, lType);
+                 and lType={1} and WinState=1 and Issue >= @CurrentIssue  order by Issue", uid, lType);
             }
             else
             {
@@ -830,10 +833,11 @@ from (
 
                 //按期号顺序查询最近一期的未开奖投注记录
                 playSql = string.Format(@" select top 1 * from BettingRecord where UserId={0} 
-                 and lType={1} and WinState=1 and PlayName=@PlayName order by Issue", uid, lType);
+                 and lType={1} and WinState=1 and PlayName=@PlayName and Issue >= @CurrentIssue  order by Issue", uid, lType);
 
                 sp = new SqlParameter[]{
-                    new SqlParameter("@PlayName",playName)
+                    new SqlParameter("@PlayName",playName),
+                    new SqlParameter("@CurrentIssue",LuoUtil.GetCurrentIssue(lType))
                 };
 
             }
@@ -1084,7 +1088,7 @@ where [Type]=@Type and UserId=@UserId and OrderId=@Id";
 
 
             //4.1获取数据
-            sql = "select top(" + Util.GetGFTJCount(lType) + ")* from [Plan] where lType = " + lType + " order by Issue desc";
+            sql = "select top(" + Util.GetGFTJCountS(lType) + ")* from [Plan] where lType = " + lType + " order by Issue desc,Sort ";
             ViewBag.list = Util.ReaderToList<Plan>(sql);
 
             //彩种图标

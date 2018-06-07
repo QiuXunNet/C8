@@ -121,6 +121,7 @@ namespace C8.Lottery.Portal.Controllers
                 }
             }
             ViewBag.UserTotalInfo = userTotalInfo;
+            
 
             return View();
         }
