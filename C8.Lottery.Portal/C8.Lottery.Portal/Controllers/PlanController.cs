@@ -169,7 +169,7 @@ namespace C8.Lottery.Portal.Controllers
             }
             string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-            planList = null;
+          
             if(planList == null)
             {
                 //1.获取数据
