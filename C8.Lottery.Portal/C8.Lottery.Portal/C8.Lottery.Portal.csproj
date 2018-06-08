@@ -933,7 +933,7 @@
     <Content Include="Views\List\Index.cshtml" />
     <Content Include="Views\List\New.cshtml" />
     <Content Include="Views\List\Expert.cshtml" />
-    <Content Include="Views\Plan\PlanData.cshtml" />
+    <Content Include="Views\Plan\PlanData2.cshtml" />
     <Content Include="Views\List\ExpertData.cshtml" />
     <Content Include="Views\List\Gratuity.cshtml" />
     <Content Include="Views\List\Profit.cshtml" />
@@ -953,6 +953,7 @@
     <Content Include="Views\Shared\Sidebar.cshtml" />
     <Content Include="Views\Plan\PlanData1.cshtml" />
     <Content Include="Views\Plan\Look1.cshtml" />
+    <Content Include="Views\Plan\PlanData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\kcp\src\" />
