@@ -96,8 +96,8 @@ namespace C8.Lottery.Portal.Controllers
         }
 
 
-        //官方推荐数据
-        public ActionResult PlanData(int id, int pageIndex = 1, int pageSize = 10)
+        //官方推荐数据 作废
+        public ActionResult PlanData2(int id, int pageIndex = 1, int pageSize = 10)
         {
 
             int lType = id;
@@ -118,7 +118,7 @@ namespace C8.Lottery.Portal.Controllers
             //低频彩
             string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex); //string.Format("recommendPlanData_{0}_{1}", lType, pageIndex);
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-
+        
             if (planList == null)
             {
                 string sql = "select top " + totalSize +
@@ -137,7 +137,7 @@ namespace C8.Lottery.Portal.Controllers
             //2.取最新10期开奖号
             string memcacheKey2 = string.Format(RedisKeyConst.Plan_RecommendLotteryRecord, lType, pageIndex); //string.Format("recommendPlan_LotteryRecord_{0}_{1}", lType, pageIndex);
             var lotteryRecordList = CacheHelper.GetCache<List<LotteryRecord>>(memcacheKey2);
-
+         
             if (lotteryRecordList == null)
             {
                 string pageSql = "select top " + pageSize +
@@ -154,6 +154,47 @@ namespace C8.Lottery.Portal.Controllers
 
 
             return View();
+        }
+
+        //官方推荐数据
+        public ActionResult PlanData(int id, int pageIndex = 1, int pageSize = 10)
+        {
+            int lType = id;
+            ViewBag.lType = lType;
+            //0.设置缓存时长（分）
+            int cacheTimeout = 4;
+            if (lType < 9)
+            {
+                cacheTimeout = 1440;//12小时
+            }
+            string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex);
+            var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
+            planList = null;
+            if(planList == null)
+            {
+                //1.获取数据
+                int count = Util.GetGFTJCountS(lType);
+                int totalSize = (pageSize + 1) * count;
+        
+                string sql = string.Format(@"select top {0} temp.* from ( 
+       select row_number() over(order by a.Issue desc,a.Sort) as rownumber,a.*,b.Num as OpenNum,b.SubTime as OpenTime 
+	    from [Plan] a 
+	    left join LotteryRecord b on b.Issue=a.Issue and b.lType=a.lType
+        where a.lType = {1}
+    )as temp where rownumber>{2} 
+	order by temp.Issue desc,temp.Sort", totalSize, lType, (pageIndex - 1) * totalSize);
+                planList = Util.ReaderToList<Plan>(sql);
+                if (planList != null && planList.Any())
+                {
+                    CacheHelper.AddCache(memcacheKey, planList, cacheTimeout);
+                }
+
+            }
+            ViewBag.list = planList; //计划列表
+            ViewBag.Recordlist = planList.GroupBy(x => x.Issue).Select(x=>new OpenRecord {Issue=x.Key,Num=x.ElementAt(0).OpenNum,SubTime=x.ElementAt(0).OpenTime, lType= x.ElementAt(0).lType }).ToList(); 
+
+            return View();
+
         }
 
 
