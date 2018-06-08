@@ -168,8 +168,9 @@ namespace C8.Lottery.Portal.Controllers
                 cacheTimeout = 1440;//12小时
             }
             string memcacheKey = string.Format(RedisKeyConst.Plan_RecommendList, lType, pageIndex);
+          
             var planList = CacheHelper.GetCache<List<Plan>>(memcacheKey);
-           
+
             if (planList == null)
             {
                 //1.获取数据
@@ -179,7 +180,7 @@ namespace C8.Lottery.Portal.Controllers
                 string sql = string.Format(@"select top {0} temp.* from ( 
        select row_number() over(order by a.Issue desc,a.Sort) as rownumber,a.*,b.Num as OpenNum,b.SubTime as OpenTime 
 	    from [Plan] a 
-	    left join LotteryRecord b on b.Issue=a.Issue and b.lType=a.lType
+	    inner join LotteryRecord b on b.Issue=a.Issue and b.lType=a.lType
         where a.lType = {1}
     )as temp where rownumber>{2} 
 	order by temp.Issue desc,temp.Sort", totalSize, lType, (pageIndex - 1) * totalSize);
